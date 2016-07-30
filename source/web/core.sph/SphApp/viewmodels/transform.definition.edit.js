@@ -49,80 +49,76 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             sourceSchema = ko.observable(),
             destinationSchema = ko.observable(),
             activate = function (id) {
-                id = id || "0";
-                if (id === "0") {
-                    td(new bespoke.sph.domain.TransformDefinition({
-                        Name: "New Mapping Definition",
-                        WebId: system.guid()
-                    }));
-                    return true;
-                }
+            id = id || "0";
+            if (id === "0") {
+                td(new bespoke.sph.domain.TransformDefinition({
+                    Name: "New Mapping Definition",
+                    WebId: system.guid()
+                }));
+                return true;
+            }
 
 
-                var query = String.format("Id eq '{0}'", id);
-                return $.getJSON("/api/transform-definitions/" + id + "/designer")
-                    .then(function (settingPage) {
-                        if (settingPage) {
-                            var items = _(settingPage).map(function (v) {
-                                return ko.mapping.fromJS(v);
-                            });
-                            pages(items);
-                        }
-                        return $.get("/api/transform-definitions/functoids");
-                    })
-                    .then(function (list) {
-                        functoidToolboxItems(list.$values);
-                        return context.loadOneAsync("TransformDefinition", query);
-                    })
-                    .then(function (b) {
+            var query = String.format("Id eq '{0}'", id);
+            return $.getJSON("/api/transform-definitions/" + id + "/designer")
+                .then(function (settingPage) {
+                    if (settingPage) {
+                        const items = settingPage.map(v => ko.mapping.fromJS(v));
+                        pages(items);
+                    }
+                    return $.get("/api/transform-definitions/functoids");
+                })
+                .then(function (list) {
+                    functoidToolboxItems(list.$values);
+                    return context.loadOneAsync("TransformDefinition", query);
+                })
+                .then(function (b) {
 
-                        _(b.FunctoidCollection()).each(function (v) {
-                            v.designer = ko.observable({
-                                FontAwesomeIcon: "",
-                                "BootstrapIcon": "",
-                                "PngIcon": "",
-                                Category: ""
-                            });
+                    _(b.FunctoidCollection()).each(function (v) {
+                        v.designer = ko.observable({
+                            FontAwesomeIcon: "",
+                            "BootstrapIcon": "",
+                            "PngIcon": "",
+                            Category: ""
                         });
-                        td(b);
-                        if (pages().length === 0) {
-
-                            var pg = new bespoke.sph.domain.TransformDefinitionPage(1, "Page 1");
-                            pg.functoids(_(b.FunctoidCollection()).map(function (v) {
-                                return ko.unwrap(v.WebId);
-                            }));
-                            pg.mappings(_(b.MapCollection()).map(function (v) {
-                                return ko.unwrap(v.WebId);
-                            }));
-                            pages.push(pg);
-                        }
-
-                        originalEntity = ko.toJSON(td);
-                        return context.get("/api/assemblies/" + b.OutputTypeName() + "/json-schema");
-
-                    })
-                    .then(function (s) {
-                        destinationSchema(s);
-                        if (td().InputTypeName()) {
-                            return context.get("/api/assemblies/" + td().InputTypeName() + "/json-schema");
-                        }
-                        return context.post(ko.toJSON(td), "/api/transform-definitions/json-schema");
-
-                    })
-                    .then(sourceSchema)
-                    .fail(function (a, b, text) {
-                        console.error(a);
-                        // console.error(b);
-                        logger.error(text);
                     });
+                    td(b);
+                    if (pages().length === 0) {
 
-            },
-            isJsPlumbReady,
+                        const pg = new bespoke.sph.domain.TransformDefinitionPage(1, "Page 1");
+                        pg.functoids(_(b.FunctoidCollection()).map(function (v) {
+                            return ko.unwrap(v.WebId);
+                        }));
+                        pg.mappings(_(b.MapCollection()).map(v => ko.unwrap(v.WebId)));
+                        pages.push(pg);
+                    }
+
+                    originalEntity = ko.toJSON(td);
+                    return context.get(`/api/assemblies/${b.OutputTypeName()}/json-schema`);
+
+                })
+                .then(function (s) {
+                    destinationSchema(s);
+                    if (td().InputTypeName()) {
+                        return context.get(`/api/assemblies/${td().InputTypeName()}/json-schema`);
+                    }
+                    return context.post(ko.toJSON(td), "/api/transform-definitions/json-schema");
+
+                })
+                .then(sourceSchema)
+                .fail(function (a, b, text) {
+                    console.error(a);
+                    // console.error(b);
+                    logger.error(text);
+                });
+
+        };
+        var isJsPlumbReady,
             jsPlumbInstance = null,
             changingPage = false,
             connectorStyle = {strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4},
             initializeFunctoid = function (fnc) {
-                var element = $("#" + fnc.WebId());
+                const element = $(`#${fnc.WebId()}`);
                 jsPlumbInstance.makeSource(element, {
                     filter: ".fep",
                     endPoint: ["Rectangle", {width: 10, height: 10}],
@@ -395,29 +391,29 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 buildTree("source-field-", root, "", sources);
 
                 $("#source-panel").jstree({
-                    'core': {
-                        'data': sources
-                    },
-                    "contextmenu": {
-                        items: [
-                            {
-                                label: "Hide",
-                                action: function () {
-                                    var parent = $(element).jstree("get_selected", true),
-                                        mb = parent[0].data;
-                                    console.log(mb);
+                        'core': {
+                            'data': sources
+                        },
+                        "contextmenu": {
+                            items: [
+                                {
+                                    label: "Hide",
+                                    action: function () {
+                                        var parent = $(element).jstree("get_selected", true),
+                                            mb = parent[0].data;
+                                        console.log(mb);
+                                    }
                                 }
-                            }
-                        ]
-                    },
-                    "search": {
-                        "case_insensitive": true,
-                        "show_only_matches": true,
-                        "show_only_matches_children": true
-                    },
-                    "plugins": ["search", "contextmenu"]
+                            ]
+                        },
+                        "search": {
+                            "case_insensitive": true,
+                            "show_only_matches": true,
+                            "show_only_matches_children": true
+                        },
+                        "plugins": ["search", "contextmenu"]
 
-                })
+                    })
                     .jstree("open_all")
                     .bind("after_open.jstree after_close.jstree", function () {
                         currentPage(currentPage());
@@ -427,31 +423,31 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 var destinations = [];
                 buildTree("destination-field-", destinationSchema(), "", destinations);
                 $("#destination-panel").jstree({
-                    'core': {
-                        'data': destinations
-                    },
-                    "contextmenu": {
-                        items: [
-                            {
-                                label: "Hide",
-                                action: function () {
-                                    var parent = $(element).jstree("get_selected", true),
-                                        mb = parent[0].data;
+                        'core': {
+                            'data': destinations
+                        },
+                        "contextmenu": {
+                            items: [
+                                {
+                                    label: "Hide",
+                                    action: function () {
+                                        var parent = $(element).jstree("get_selected", true),
+                                            mb = parent[0].data;
 
-                                    console.log(mb);
+                                        console.log(mb);
 
+                                    }
                                 }
-                            }
-                        ]
-                    },
-                    "search": {
-                        "case_insensitive": true,
-                        "show_only_matches": true
-                    },
-                    "plugins": ["search", "contextmenu"]
+                            ]
+                        },
+                        "search": {
+                            "case_insensitive": true,
+                            "show_only_matches": true
+                        },
+                        "plugins": ["search", "contextmenu"]
 
 
-                })
+                    })
                     .jstree("open_all")
                     .bind("after_open.jstree after_close.jstree", function () {
                         currentPage(currentPage());
@@ -683,11 +679,11 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 return tcs.promise();
             },
             viewFile = function (e) {
-                var file = e.FileName || e,
+                let file = e.FileName || e,
                     line = e.Line || 1;
-                var params = [
-                        "height=" + screen.height,
-                        "width=" + screen.width,
+                const params = [
+                        `height=${screen.height}`,
+                        `width=${screen.width}`,
                         "toolbar=0",
                         "location=0",
                         "fullscreen=yes"
@@ -705,12 +701,12 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                             errors.removeAll();
                         } else {
                             logger.error("There are errors in your map, !!!");
-                            var uniqueList = _.uniq(result.Errors, function (item) {
+                            const uniqueList = _.uniq(result.Errors, function (item) {
                                 return item.ItemWebId;
                             });
                             errors(uniqueList);
                             _(uniqueList).each(function (v) {
-                                $("#" + v.ItemWebId + " div.toolbox-item").append("<i class=\"fa fa-exclamation-circle error\"></i>");
+                                $(`#${v.ItemWebId} div.toolbox-item`).append("<i class=\"fa fa-exclamation-circle error\"></i>");
                             });
                         }
                         tcs.resolve(true);
@@ -732,28 +728,28 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                             logger.error("There are errors in your map, !!!");
 
                             _(result.Errors).each(function (v) {
-                                $("#" + v.ItemWebId + " div.toolbox-item").append("<i class=\"fa fa-exclamation-circle error\"></i>");
+                                $(`#${v.ItemWebId} div.toolbox-item`).append("<i class=\"fa fa-exclamation-circle error\"></i>");
                             });
                         }
                     });
 
             },
             generatePartialAsync = function () {
-                return context.post(ko.mapping.toJSON(td), "/api/transform-definitions/" + td().Id() + "/generate-partial")
+                return context.post(ko.mapping.toJSON(td), `/api/transform-definitions/${td().Id()}/generate-partial`)
                     .done(function (result) {
                         if (result.success) {
                             logger.info(result.message);
                         } else {
-                            logger.error("You already have the partial code define, in " + result.message);
+                            logger.error(`You already have the partial code define, in ${result.message}`);
                         }
                         viewFile(result.file);
                     });
             },
             testTransform = function () {
-                var uri = "/api/transform-definitions/" + td().Id() + "/execute-test";
+                const uri = `/api/transform-definitions/${td().Id()}/execute-test`;
                 return context.post(ko.toJSON(td), uri)
                     .done(function (result) {
-                        var w = window.open("/sph/editor/ace?mode=javascript", "_blank", "height=" + screen.height + ",width=" + screen.width + ",toolbar=0,location=0,fullscreen=yes");
+                        var w = window.open("/sph/editor/ace?mode=javascript", "_blank", `height=${screen.height},width=${screen.width},toolbar=0,location=0,fullscreen=yes`);
                         if (typeof input === "string") {
                             w.window.code = result;
                         } else {
@@ -767,10 +763,10 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             editTestInput = function () {
 
                 var tcs = new $.Deferred(),
-                    uri = "/api/transform-definitions/" + td().Id() + "/test-input";
+                    uri = `/api/transform-definitions/${td().Id()}/test-input`;
                 $.get(uri)
                     .done(function (input) {
-                        var w = window.open("/sph/editor/ace?mode=javascript", "_blank", "height=" + screen.height + ",width=" + screen.width + ",toolbar=0,location=0,fullscreen=yes");
+                        var w = window.open("/sph/editor/ace?mode=javascript", "_blank", `height=${screen.height},width=${screen.width},toolbar=0,location=0,fullscreen=yes`);
                         if (typeof input === "string") {
                             w.window.code = input;
                         } else {
@@ -802,7 +798,6 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 console.log(ko.toJS(page));
                 currentPage(page);
             };
-
         currentPage.subscribe(function (page) {
             if (!page) {
                 return;
@@ -817,8 +812,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
             instance.deleteEveryEndpoint();
             // redraw everything here
-            var sourceWindows = jsPlumb.getSelector("#source-panel li.jstree-leaf");
-            var targetWindows = jsPlumb.getSelector("#destination-panel li.jstree-leaf");
+            const sourceWindows = jsPlumb.getSelector("#source-panel li.jstree-leaf");
+            const targetWindows = jsPlumb.getSelector("#destination-panel li.jstree-leaf");
 
 
             instance.makeSource(sourceWindows, {
@@ -837,7 +832,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 }
             });
 
-            var currentPageFunctoids = _(td().FunctoidCollection()).filter(function (v) {
+            const currentPageFunctoids = _(td().FunctoidCollection()).filter(function (v) {
                 return page.functoids().indexOf(ko.unwrap(v.WebId)) > -1;
             });
             functoids(currentPageFunctoids);
@@ -847,7 +842,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 if (!item) {
                     return;
                 }
-                var tool = _(functoidToolboxItems()).find(function (v) {
+                const tool = _(functoidToolboxItems()).find(function (v) {
                     return ko.unwrap(item.$type) === ko.unwrap(ko.unwrap(v.functoid).$type);
                 });
                 if (typeof item.designer === "function") {
@@ -857,7 +852,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                     item.designer = ko.observable(tool.designer);
                 }
 
-                var element = document.getElementById(ko.unwrap(item.WebId));
+                const element = document.getElementById(ko.unwrap(item.WebId));
                 instance.makeSource(element, {
                     filter: ".fep",
                     endPoint: ["Rectangle", {width: 10, height: 10}],

@@ -10,24 +10,22 @@
  * @param{{Errors:function}} result
  */
 
-define(['services/datacontext', 'services/logger', objectbuilders.system, "knockout", "jquery", "string", "bespoke"],
-    function (context, logger, system, ko, $, String, bespoke) {
+define(["services/datacontext", "services/logger", objectbuilders.system, "knockout", "jquery"],
+    function (context, logger, system, ko) {
 
         var template = ko.observable(new bespoke.sph.domain.EmailTemplate(system.guid())),
             entityOptions = ko.observableArray(),
             errors = ko.observableArray(),
             isBusy = ko.observable(false),
             activate = function (id) {
-                var query = String.format("IsPublished eq true"),
+                const query = String.format("IsPublished eq true"),
                     query1 = String.format("Id eq '{0}'", id),
                     entityTask = context.loadAsync("EntityDefinition", query),
                     templateTask = context.loadOneAsync("EmailTemplate", query1),
                     tcs = new $.Deferred();
 
                 $.when(entityTask, templateTask).then(function (lo, b) {
-                    var types = _(lo.itemCollection).map(function (v) {
-                        return v.Name();
-                    });
+                    const  types = lo.itemCollection.map(v =>  v.Name());
                     entityOptions(types);
                     if (b) {
                         template(b);
@@ -36,25 +34,25 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, "knock
                 });
                 return tcs.promise();
             },
-            attached = function (view) {
+            attached = function () {
 
             },
             save = function () {
-                var tcs = new $.Deferred(),
+                const  tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(template);
                 isBusy(true);
 
                 context.post(data, "email-template")
-                    .then(function (result) {
+                    .then(function ({id}) {
                         isBusy(false);
-                        template().Id(result.id);
-                        tcs.resolve(result);
+                        template().Id(id);
+                        tcs.resolve(id);
                     });
                 return tcs.promise();
             },
             publishAsync = function () {
 
-                var tcs = new $.Deferred(),
+                const  tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(template);
                 isBusy(true);
 
@@ -76,7 +74,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, "knock
             },
             testAsync = function () {
 
-                var tcs = new $.Deferred(),
+                const  tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(template);
                 isBusy(true);
 
@@ -110,7 +108,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, "knock
                 commands: ko.observableArray([
                     {
                         command: publishAsync,
-                        caption: 'Publish',
+                        caption: "Publish",
                         icon: "fa fa-sign-out",
                         enable: ko.computed(function () {
                             return template().Id() && template().Id() !=="0";
@@ -118,7 +116,7 @@ define(['services/datacontext', 'services/logger', objectbuilders.system, "knock
                     },
                     {
                         command: testAsync,
-                        caption: 'Test',
+                        caption: "Test",
                         icon: "fa fa-cog",
                         enable: ko.computed(function () {
                             return template().SubjectTemplate() && template().BodyTemplate() && template().Entity();

@@ -7,16 +7,19 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
 
-
-define(["services/datacontext", "services/logger", objectbuilders.system, "knockout", "string", "jquery", "bespoke"],
-    function (context, logger, system, ko, String, $, bespoke) {
+/*
+* params {}
+*/
+define(["services/datacontext", "services/logger", objectbuilders.system, "knockout", "jquery"],
+    function (context, logger, system, ko, $) {
+        "use strict";
 
         var template = ko.observable(new bespoke.sph.domain.DocumentTemplate(system.guid())),
             entityOptions = ko.observableArray(),
             errors = ko.observableArray(),
             isBusy = ko.observable(false),
             activate = function (id) {
-                var query = String.format("IsPublished eq true"),
+                const query = String.format("IsPublished eq true"),
                     query1 = String.format("Id eq '{0}'", id),
                     entityTask = context.loadAsync("EntityDefinition", query),
                     templateTask = context.loadOneAsync("DocumentTemplate", query1),
@@ -24,9 +27,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "knock
 
 
                 $.when(entityTask, templateTask).then(function (lo, b) {
-                    var types = _(lo.itemCollection).map(function (v) {
-                        return v.Name();
-                    });
+
+                    const types = lo.itemCollection.map(v => v.Name());
                     entityOptions(types);
                     if (b) {
                         template(b);
@@ -37,11 +39,11 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "knock
                 });
                 return tcs.promise();
             },
-            attached = function (view) {
+            attached = function () {
 
             },
             save = function () {
-                var data = ko.mapping.toJSON(template);
+                const data = ko.mapping.toJSON(template);
                 isBusy(true);
 
                 return context.post(data, "/document-template")
@@ -89,10 +91,10 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "knock
                         }
                     });
             },
-            removeAsync = function() {
+            removeAsync = function () {
                 return context.send("{}", "/document-template/" + template().Id(), "DELETE");
             },
-            canRemove = ko.computed(function() {
+            canRemove = ko.computed(function () {
                 return template().Id() && template().Id() !== "0";
             });
 
@@ -109,8 +111,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "knock
                 canExecuteSaveCommand: ko.computed(function () {
                     return template().Name() && template().Entity();
                 }),
-                removeCommand : removeAsync,
-                canExecuteRemoveCommand : canRemove,
+                removeCommand: removeAsync,
+                canExecuteRemoveCommand: canRemove,
                 commands: ko.observableArray([
                     {
                         command: publishAsync,
