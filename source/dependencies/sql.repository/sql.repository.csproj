@@ -62,6 +62,7 @@
       <HintPath>..\..\..\packages\System.Spatial.5.6.2\lib\net40\System.Spatial.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -75,6 +76,7 @@
     <Compile Include="Column.cs" />
     <Compile Include="ISqlServerMetadata.cs" />
     <Compile Include="SqlBinaryStore.cs" />
+    <Compile Include="FileStreamBinaryStore.cs" />
     <Compile Include="SqlPersistence.bulk.cs" />
     <Compile Include="SqlRepository.aggregate.expression.cs">
       <DependentUpon>SqlRepository.cs</DependentUpon>
