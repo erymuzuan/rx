@@ -57,7 +57,7 @@ namespace Bespoke.Sph.Domain
         public virtual async Task SaveAsync(string activityId, ActivityExecutionResult result)
         {
             if (this.IsNewItem)
-                this.Id = Guid.NewGuid().ToString();
+                this.Id = SequentialGuid.NewSequentialGuid().ToString();
 
             const string OPERATION = "Execute";
             var act = this.GetActivity<Activity>(activityId);

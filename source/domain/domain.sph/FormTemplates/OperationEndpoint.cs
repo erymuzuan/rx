@@ -247,7 +247,7 @@ namespace Bespoke.Sph.Domain
             var repos = ObjectBuilder.GetObject<IReadonlyRepository<{ed.Name}>>();
             var lo = await repos.LoadOneAsync(id);
             var baru = null == lo.Source;
-            item.Id = id ?? System.Guid.NewGuid().ToString();
+            item.Id = id ?? Strings.GenerateId();
             ");
 
             if (this.IsConflictDetectionEnabled)

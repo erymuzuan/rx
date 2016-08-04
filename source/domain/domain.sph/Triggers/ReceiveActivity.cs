@@ -134,7 +134,7 @@ namespace Bespoke.Sph.Domain
                 code.AppendLine($"      [Route(\"{this.Operation}\")]");
                 code.AppendLine($"      public async Task<IHttpActionResult> {this.MethodName}([SourceEntity(\"{wd.Id}\")]WorkflowDefinition wd,[FromBody]{messageType} @message)");
                 code.AppendLine("       {");
-                code.AppendLine($"           var wf = new {wd.WorkflowTypeName}{{Id = Guid.NewGuid().ToString()}};");
+                code.AppendLine($"           var wf = new {wd.WorkflowTypeName}{{Id = Strings.GenerateId()}};");
                 code.AppendLine("            await wf.LoadWorkflowDefinitionAsync();");
             }
             else

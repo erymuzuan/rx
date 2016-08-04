@@ -181,13 +181,13 @@ namespace subscriber.entities
         {
 
             var sql = new StringBuilder();
-            sql.AppendFormat("CREATE TABLE [{0}].[{1}]", applicationName, item.Name);
+            sql.Append($"CREATE TABLE [{applicationName}].[{item.Name}]");
             sql.AppendLine("(");
-            sql.AppendLinf("  [Id] VARCHAR(50) PRIMARY KEY NOT NULL", item.Name);
+            sql.AppendLine("  [Id] VARCHAR(50) PRIMARY KEY NOT NULL");
             var members = this.GetFilterableMembers("", item.MemberCollection);
             foreach (var member in members.OfType<SimpleMember>())
             {
-                sql.AppendFormat(",[{0}] {1} {2} NULL", member.FullName, GetSqlType(member.TypeName), member.IsNullable ? "" : "NOT");
+                sql.Append($",[{member.FullName}] {GetSqlType(member.TypeName)} {(member.IsNullable ? "" : "NOT")} NULL");
                 sql.AppendLine("");
             }
             sql.AppendLine(",[Json] VARCHAR(MAX)");

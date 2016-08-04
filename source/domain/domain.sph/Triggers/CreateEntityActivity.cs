@@ -45,7 +45,7 @@ namespace Bespoke.Sph.Domain
                 : $"        var item = this.{itemMapping.Source};");
 
 
-            code.AppendLine("           item.Id = Guid.NewGuid().ToString();");
+            code.AppendLine("           item.Id = Strings.GenerateId();");
             foreach (var mapping in this.PropertyMappingCollection.Where(x => x.Destination != "."))
             {
                 code.AppendLinf("           item.{0} = this.{1};", mapping.Destination, mapping.Source);

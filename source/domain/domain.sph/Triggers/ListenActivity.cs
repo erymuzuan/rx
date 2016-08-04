@@ -82,7 +82,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("           session.Attach(tracker);");
             code.AppendLine("           await session.SubmitChanges(\"ListenActivityChildInitiation\");");
             code.AppendLine("       }");
-            code.AppendLine("       return new InitiateActivityResult{Correlation = Guid.NewGuid().ToString() };");
+            code.AppendLine("       return new InitiateActivityResult{Correlation = Strings.GenerateId() };");
             code.AppendLine("   }");
 
 

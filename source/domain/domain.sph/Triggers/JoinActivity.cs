@@ -60,7 +60,7 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine($"   public Task<InitiateActivityResult> InitiateAsync{MethodName}()");
             code.AppendLine("   {");
-            code.AppendLine("       var result = new InitiateActivityResult{Correlation = Guid.NewGuid().ToString() };");
+            code.AppendLine("       var result = new InitiateActivityResult{Correlation = Strings.GenerateId() };");
             code.AppendLine("       return Task.FromResult(result);");
             code.AppendLine("   }");
 

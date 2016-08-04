@@ -57,8 +57,6 @@ namespace Bespoke.Sph.Domain
             if (Directory.Exists(path)) Directory.Delete(path, true);
             Directory.CreateDirectory(path);
             var zip = path + ".zip";
-            var context = new SphDataContext();
-
             var store = ObjectBuilder.GetObject<IBinaryStore>();
 
             var schema = await store.GetContentAsync(wd.SchemaStoreId);
@@ -71,7 +69,7 @@ namespace Bespoke.Sph.Domain
             ZipFile.CreateFromDirectory(path, zip);
             var zd = new BinaryStore
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = SequentialGuid.NewSequentialGuid().ToString(),
                 Content = File.ReadAllBytes(zip),
                 Extension = ".zip",
                 FileName = $"wd_{wd.Id}_{wd.Version}.zip",

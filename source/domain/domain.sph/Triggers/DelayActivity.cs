@@ -43,7 +43,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   {");
             code.AppendLinf("       var self = this.GetActivity<DelayActivity>(\"{0}\");", this.WebId);
             code.AppendLine("       await self.CreateTaskSchedulerAsync(this);");
-            code.AppendLine("       var result = new InitiateActivityResult{ Correlation = Guid.NewGuid().ToString() };");
+            code.AppendLine("       var result = new InitiateActivityResult{ Correlation = Strings.GenerateId() };");
             code.AppendLine("       return result;");
             code.AppendLine("   }");
 
