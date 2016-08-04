@@ -81,7 +81,7 @@
   "Visibilty": "",
   "TileColour": "bblue",
   "CountMessage": "",
-  "Entity": "patient",
+  "Entity": "Patient",
   "Partial": "",
   "Template": null,
   "DisplayOnDashboard": false,

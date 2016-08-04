@@ -115,7 +115,7 @@
   "Visibilty": null,
   "TileColour": "bblue",
   "CountMessage": null,
-  "Entity": "employee",
+  "Entity": "Employee",
   "Partial": null,
   "Template": null,
   "DisplayOnDashboard": false,

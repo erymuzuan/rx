@@ -103,7 +103,6 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("{id}/publish")]
         public async Task<IHttpActionResult> Publish([JsonBody]EntityView view, string id)
         {
-            view.Entity = view.EntityDefinitionId;
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == view.EntityDefinitionId);
 

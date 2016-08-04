@@ -152,7 +152,7 @@
   "Visibilty": "",
   "TileColour": "bblue",
   "CountMessage": "",
-  "Entity": "appointment",
+  "Entity": "Appointment",
   "Partial": "partial/appointment-for-patients",
   "Template": null,
   "DisplayOnDashboard": false,

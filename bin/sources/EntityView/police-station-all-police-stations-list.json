@@ -98,7 +98,7 @@
   "Visibilty": "",
   "TileColour": "bblue",
   "CountMessage": "",
-  "Entity": "police-station",
+  "Entity": "PoliceStation",
   "Partial": "",
   "Template": null,
   "DisplayOnDashboard": false,

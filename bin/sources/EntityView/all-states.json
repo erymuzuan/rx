@@ -117,7 +117,7 @@
   "Visibilty": "",
   "TileColour": "bblue",
   "CountMessage": "",
-  "Entity": "state",
+  "Entity": "State",
   "Partial": "partial/all-states",
   "Template": null,
   "DisplayOnDashboard": true,

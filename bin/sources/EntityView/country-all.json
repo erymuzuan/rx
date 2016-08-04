@@ -106,7 +106,7 @@
     "$values": []
   },
   "IconClass": "fa fa-wpforms",
-  "IconStoreId": "23ecbcb1-5af7-4090-9418-863bf3978d2c",
+  "IconStoreId": "df550a92-c3b3-4aa0-b6d7-20f8db6d2a1f",
   "EntityDefinitionId": "country",
   "Name": "All Countries",
   "Route": "country-all",
@@ -115,7 +115,7 @@
   "Visibilty": null,
   "TileColour": "bblue",
   "CountMessage": null,
-  "Entity": "country",
+  "Entity": "Country",
   "Partial": null,
   "Template": null,
   "DisplayOnDashboard": false,
@@ -124,6 +124,6 @@
   "Id": "country-all",
   "CreatedDate": "2016-05-05T20:46:29.3973003+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-07-23T08:47:47.1859632+08:00",
+  "ChangedDate": "2016-08-05T07:51:48.5538683+08:00",
   "WebId": "3a62ceb5-09a3-4066-82dc-51de85f7607b"
 }

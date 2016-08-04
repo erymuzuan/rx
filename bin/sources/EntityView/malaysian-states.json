@@ -105,7 +105,7 @@
   "Visibilty": "",
   "TileColour": "bgreen",
   "CountMessage": "",
-  "Entity": "",
+  "Entity": "State",
   "Partial": "partial/malaysian-states",
   "CreatedBy": "admin",
   "Id": "malaysian-states",

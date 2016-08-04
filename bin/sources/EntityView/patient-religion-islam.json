@@ -112,7 +112,7 @@
   "Visibilty": "",
   "TileColour": "blightblue",
   "CountMessage": "",
-  "Entity": null,
+  "Entity": "Patient",
   "Partial": null,
   "Template": "Dashboard Standard",
   "DisplayOnDashboard": true,

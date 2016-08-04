@@ -257,7 +257,7 @@
   "Visibilty": "",
   "TileColour": "blightblue",
   "CountMessage": null,
-  "Entity": null,
+  "Entity": "Patient",
   "Partial": "partial/all-patients",
   "Template": null,
   "DisplayOnDashboard": true,
