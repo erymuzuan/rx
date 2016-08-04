@@ -38,8 +38,8 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("<!--ko if:$data[\'$type\']() === \"Bespoke.Sph.Domain.CheckBox, domain.sph\" -->\r\n<di" +
-"v");
+WriteLiteral("<!--ko if:ko.unwrap($data[\'$type\']) === \"Bespoke.Sph.Domain.CheckBox, domain.sph\"" +
+" -->\r\n<div");
 
 WriteLiteral(" class=\"form-group\"");
 

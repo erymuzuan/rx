@@ -2,7 +2,7 @@
 @model Bespoke.Sph.Domain.DateTimePicker
 
 
-<!--ko if:$data['$type']() === "Bespoke.Sph.Domain.DateTimePicker, domain.sph" -->
+<!--ko if:ko.unwrap($data['$type']) === "Bespoke.Sph.Domain.DateTimePicker, domain.sph" -->
 <div class="form-group" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
     @Html.Partial("_DesignerContextAction")
     <label data-bind="text: Label" class="control-label col-lg-2"></label>

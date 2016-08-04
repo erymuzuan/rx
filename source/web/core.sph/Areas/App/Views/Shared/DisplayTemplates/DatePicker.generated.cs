@@ -43,8 +43,8 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("\r\n<!--ko if:$data[\'$type\']() === \"Bespoke.Sph.Domain.DatePicker, domain.sph\" -->\r" +
-"\n<div");
+WriteLiteral("\r\n<!--ko if:ko.unwrap($data[\'$type\']) === \"Bespoke.Sph.Domain.DatePicker, domain." +
+"sph\" -->\r\n<div");
 
 WriteLiteral(" class=\"form-group\"");
 

@@ -38,8 +38,8 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("<!--ko if: $data[\'$type\']() === \"Bespoke.Sph.Domain.CurrencyElement, domain.sph\" " +
-"-->\r\n<div");
+WriteLiteral("<!--ko if: ko.unwrap($data[\'$type\']) === \"Bespoke.Sph.Domain.CurrencyElement, dom" +
+"ain.sph\" -->\r\n<div");
 
 WriteLiteral(" class=\"form-group\"");
 

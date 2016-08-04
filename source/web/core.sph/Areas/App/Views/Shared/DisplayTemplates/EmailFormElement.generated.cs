@@ -38,8 +38,8 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("<!--ko if: $data[\'$type\']() === \"Bespoke.Sph.Domain.EmailFormElement, domain.sph\"" +
-" -->\r\n");
+WriteLiteral("<!--ko if: ko.unwrap($data[\'$type\']) === \"Bespoke.Sph.Domain.EmailFormElement, do" +
+"main.sph\" -->\r\n");
 
 WriteLiteral("  ");
 

@@ -43,8 +43,8 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("<!--ko if: $data[\'$type\']() === \"Bespoke.Sph.Domain.TextBox, domain.sph\" -->\r\n<di" +
-"v");
+WriteLiteral("<!--ko if: ko.unwrap($data[\'$type\']) === \"Bespoke.Sph.Domain.TextBox, domain.sph\"" +
+" -->\r\n<div");
 
 WriteLiteral(" data-bind=\"css: { \'selected-form-element\': isSelected }, click: $root.selectForm" +
 "Element\"");

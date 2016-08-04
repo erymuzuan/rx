@@ -1,7 +1,7 @@
 ﻿@using System.Web.Mvc.Html
 @model Bespoke.Sph.Domain.ImageElement
 
-<!--ko if: $data['$type']() === "Bespoke.Sph.Domain.ImageElement, domain.sph" -->
+<!--ko if: ko.unwrap($data['$type']) === "Bespoke.Sph.Domain.ImageElement, domain.sph" -->
 <div class="form-group" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
     <label data-bind="text: Label" class="control-label col-lg-2"></label>
     <div class="col-lg-4" style="position: relative">
