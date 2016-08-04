@@ -43,8 +43,8 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("<!--ko if: $data[\'$type\']() === \"Bespoke.Sph.Domain.LineChartItem, domain.sph\" --" +
-">\r\n<div");
+WriteLiteral("<!--ko if: ko.unwrap($data[\'$type\']) === \"Bespoke.Sph.Domain.LineChartItem, domai" +
+"n.sph\" -->\r\n<div");
 
 WriteLiteral("  class=\"report-item\"");
 

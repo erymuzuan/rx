@@ -1,7 +1,7 @@
 ﻿@using System.Web.Mvc.Html
 @model Bespoke.Sph.Domain.BarChartItem
 
-<!--ko if: $data['$type']() === "Bespoke.Sph.Domain.BarChartItem, domain.sph" -->
+<!--ko if: ko.unwrap($data['$type']) === "Bespoke.Sph.Domain.BarChartItem, domain.sph" -->
 <div  class="report-item" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectedReportItem">
     @Html.Partial("_BarLineChartDesignerContextAction")
     <i class="fa fa-bar-chart-o fa-4x"></i>

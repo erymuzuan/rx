@@ -38,8 +38,8 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("<!--ko if: $data[\'$type\']() === \"Bespoke.Sph.Domain.LabelItem, domain.sph\" -->\r\n<" +
-"div");
+WriteLiteral("<!--ko if: ko.unwrap($data[\'$type\']) === \"Bespoke.Sph.Domain.LabelItem, domain.sp" +
+"h\" -->\r\n<div");
 
 WriteLiteral(" data-bind=\"css: {\r\n     \'selected-form-element\': isSelected,\r\n     \'report-item\'" +
 " : true },\r\n     click: $root.selectedReportItem\"");

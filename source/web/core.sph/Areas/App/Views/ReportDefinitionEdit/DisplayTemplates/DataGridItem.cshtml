@@ -1,8 +1,8 @@
 ﻿@using System.Web.Mvc.Html
 @model Bespoke.Sph.Domain.DataGridItem
 
-<!--ko if: $data['$type']() === "Bespoke.Sph.Domain.DataGridItem, domain.sph" -->
-<div class="report-item" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectedReportItem" class="control-group">
+<!--ko if: ko.unwrap($data['$type']) === "Bespoke.Sph.Domain.DataGridItem, domain.sph" -->
+<div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectedReportItem" class="report-item control-group">
     @Html.Partial("_DataGridDesignerContextAction")
     <table class="table table-striped">
         <thead>

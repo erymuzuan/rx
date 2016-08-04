@@ -43,15 +43,13 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("<!--ko if: $data[\'$type\']() === \"Bespoke.Sph.Domain.DataGridItem, domain.sph\" -->" +
-"\r\n<div");
-
-WriteLiteral(" class=\"report-item\"");
+WriteLiteral("<!--ko if: ko.unwrap($data[\'$type\']) === \"Bespoke.Sph.Domain.DataGridItem, domain" +
+".sph\" -->\r\n<div");
 
 WriteLiteral(" data-bind=\"css: { \'selected-form-element\': isSelected }, click: $root.selectedRe" +
 "portItem\"");
 
-WriteLiteral(" class=\"control-group\"");
+WriteLiteral(" class=\"report-item control-group\"");
 
 WriteLiteral(">\r\n");
 
