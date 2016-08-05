@@ -180,6 +180,21 @@ namespace subscriber.entities
         private string CreateTableSql(EntityDefinition item, string applicationName)
         {
 
+            return sql.ToArray();
+
+
+        }
+
+        private async Task<string> CreateTableSqlAsync(EntityDefinition item, string applicationName)
+        {
+            int? version;
+            using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
+            using (var cmd = new SqlCommand("SELECT SERVERPROPERTY('ProductVersion')", conn))
+            {
+                await conn.OpenAsync();
+                var pv = await cmd.ExecuteScalarAsync();
+                version = Strings.RegexInt32Value($"{pv}", @"(?<version>[0-9]{1,2})..*", "version");
+            }
             var sql = new StringBuilder();
             sql.Append($"CREATE TABLE [{applicationName}].[{item.Name}]");
             sql.AppendLine("(");
@@ -187,8 +202,9 @@ namespace subscriber.entities
             var members = this.GetFilterableMembers("", item.MemberCollection);
             foreach (var member in members.OfType<SimpleMember>())
             {
-                sql.Append($",[{member.FullName}] {GetSqlType(member.TypeName)} {(member.IsNullable ? "" : "NOT")} NULL");
-                sql.AppendLine("");
+                // TODO : #4510 If SQL server 2013 version 13 and above is used Filtered member should be computed column
+                Console.WriteLine($"SQL Server version {version} ");
+                sql.AppendLine($",[{member.FullName}] {GetSqlType(member.TypeName)} {(member.IsNullable ? "" : "NOT")} NULL");
             }
             sql.AppendLine(",[Json] VARCHAR(MAX)");
             sql.AppendLine(",[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()");
