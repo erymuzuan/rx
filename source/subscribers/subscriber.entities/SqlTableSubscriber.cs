@@ -61,7 +61,8 @@ namespace subscriber.entities
             var applicationName = ConfigurationManager.ApplicationName;
             var tableExistSql =
                 $"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{applicationName}'  AND  TABLE_NAME = '{item.Name}'";
-            var createTable = this.CreateTableSql(item, applicationName);
+            var createTable = await this.CreateTableSqlAsync(item, applicationName);
+            var createIndex = this.CreateIndexSql(item, applicationName);
             var oldTable = $"{item.Name}_{DateTime.Now:yyyyMMdd_HHmmss}";
             using (var conn = new SqlConnection(connectionString))
             {
@@ -94,6 +95,13 @@ namespace subscriber.entities
                 {
                     await createTableCommand.ExecuteNonQueryAsync();
                 }
+                foreach (var s in createIndex)
+                {
+                    using (var createIndexCommand = new SqlCommand(s, conn))
+                    {
+                        await createIndexCommand.ExecuteNonQueryAsync();
+                    }
+                }
                 if (existingTableCount == 0) return;
 
                 this.WriteMessage("Migrating data for {0}", item.Name);
@@ -120,12 +128,8 @@ namespace subscriber.entities
                             //
                             await builder.InsertAsync(ent);
                         }
-
                     }
                 }
-
-
-
             }
 
         }
@@ -177,8 +181,14 @@ namespace subscriber.entities
         }
 
 
-        private string CreateTableSql(EntityDefinition item, string applicationName)
+        private string[] CreateIndexSql(EntityDefinition item, string applicationName)
         {
+            var members = this.GetFilterableMembers("", item.MemberCollection);
+            var sql = from member in members.OfType<SimpleMember>()
+                      select
+                          $@"
+CREATE NONCLUSTERED INDEX [{member.Name}_index]
+ON [{applicationName}].[{item.Name}] ([{member.Name}]) ";
 
             return sql.ToArray();
 
