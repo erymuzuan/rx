@@ -92,7 +92,7 @@ function (logger, system, ko2) {
             }
 
             if (bespoke.sph.domain[type + "Partial"]) {
-                partial = new bespoke.sph.domain[type + "Partial"](observableObject);
+                partial = new bespoke.sph.domain[type + "Partial"](observableObject, item);
             }
             if (partial) {
                 // NOTE :copy all the partial, DO NOT use _extend as it will override the original value 

@@ -40,8 +40,8 @@
               if (optionOrWebid &amp;&amp; typeof optionOrWebid === "object") {
               for (var n in optionOrWebid) {
                 if (optionOrWebid.hasOwnProperty(n)) {
-                    if (typeof v[n] === "function") {
-                    v[n](optionOrWebid[n]);
+                    if (ko.isObservable(v[n])) {
+                      v[n](optionOrWebid[n]);
                     }
                   }
                 }
@@ -52,7 +52,7 @@
 
 
               if(bespoke.sph.domain.<xsl:value-of select="@name"/>Partial){
-              return _(v).extend(new bespoke.sph.domain.<xsl:value-of select="@name"/>Partial(v));
+              return _(v).extend(new bespoke.sph.domain.<xsl:value-of select="@name"/>Partial(v, optionOrWebid));
               }
               return v;
             </xsl:when>
@@ -86,7 +86,7 @@
 
 
               if(bespoke.sph.domain.<xsl:value-of select="@name"/>Partial){
-              return _(model).extend(new bespoke.sph.domain.<xsl:value-of select="@name"/>Partial(model));
+              return _(model).extend(new bespoke.sph.domain.<xsl:value-of select="@name"/>Partial(model, optionOrWebid));
               }
               return model;
             </xsl:otherwise>
@@ -121,7 +121,7 @@
       }
 
       if(bespoke.sph.domain.<xsl:value-of select="@name"/>Partial){
-      return _(model).extend(new bespoke.sph.domain.<xsl:value-of select="@name"/>Partial(model));
+      return _(model).extend(new bespoke.sph.domain.<xsl:value-of select="@name"/>Partial(model, optionOrWebid));
       }
       return model;
       };
