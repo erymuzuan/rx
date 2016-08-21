@@ -51,10 +51,10 @@ define(["plugins/dialog", objectbuilders.datacontext],
                     return;
                 }
                
-                var table = _(tableOptions()).find(function (v) { return v.Name === model().Table(); }),
+                var table = _(tableOptions()).find(v => v.Name === model().Table()),
                     thead = "<tr>";
-                _(ko.unwrap(table.MemberCollection)).each(function (v) {
-                    thead += "<th>" + v.Name + "</th>";
+                _(ko.unwrap(table.ColumnCollection)).each(function (v) {
+                    thead += `<th>${v.Name}</th>`;
                 });
                 thead += "</tr>";
                 $("#thead").html(thead);
@@ -62,8 +62,8 @@ define(["plugins/dialog", objectbuilders.datacontext],
                 var tbody = "";
                 _(ko.unwrap(previewResult).ItemCollection).each(function (m) {
                     tbody += "<tr>";
-                    _(ko.unwrap(table.MemberCollection)).each(function (v) {
-                        tbody += "  <td>" + m[v.Name] + "</td>\r";
+                    _(ko.unwrap(table.ColumnCollection)).each(function (v) {
+                        tbody += `  <td>${m[v.Name]}</td>\r`;
                     });
                     tbody += "</tr>\r";
                 });

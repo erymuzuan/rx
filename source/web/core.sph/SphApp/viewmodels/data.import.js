@@ -15,9 +15,9 @@
  */
 
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app,
-    "knockout", "bespoke", "underscore", "jquery", "Task"],
-    function (context, logger, router, app, ko, bespoke, _, $, Task) {
-
+    "knockout", "bespoke", "underscore", "jquery"],
+    function (context, logger, router, app, ko, bespoke, _, $) {
+        "use strict";
         var model = ko.observable(new bespoke.sph.domain.DataTransferDefinition()),
             connection = null,
             hub = null,
@@ -59,13 +59,13 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     !progress().busy();
             }),
             filterMapOptions = function (list) {
-                var filtered = _(list).filter(function (v) {
+                const filtered = _(list).filter(function (v) {
                     return v.InputTypeName.indexOf(model().Table()) > -1 && v.OutputTypeName.indexOf(model().Entity()) > -1;
                 });
                 mapOptions(filtered);
             },
             loadMappings = function (lo) {
-                var tuples = _(lo.itemCollection).map(function (v) {
+                const tuples = _(lo.itemCollection).map(function (v) {
                     return {
                         Id: ko.unwrap(v.Id),
                         Name: ko.unwrap(v.Name),
