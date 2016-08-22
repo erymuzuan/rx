@@ -199,6 +199,8 @@
     <Compile Include="Business\Designation.cs" />
     <Compile Include="Business\EmailTemplate.cs" />
     <Compile Include="Business\Photo.cs" />
+    <Compile Include="diagnostics\FormDeleteOperationDiagnostics.cs" />
+    <Compile Include="diagnostics\FormOperationDiagnostics.cs" />
     <Compile Include="SequentialGuid.cs" />
     <Compile Include="Codes\Class.cs" />
     <Compile Include="Codes\CodeExpression.cs" />

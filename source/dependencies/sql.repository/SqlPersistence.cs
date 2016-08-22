@@ -94,8 +94,10 @@ namespace Bespoke.Sph.SqlRepository
                     {
                         var parameterName = $"@{c.Name.Replace(".", "_")}{count1}";
                         var parameterValue = this.GetParameterValue(c, item, user);
-
-                        cmd.Parameters.AddWithValue(parameterName, parameterValue);
+                        if (cmd.Parameters.Contains(parameterName))
+                            cmd.Parameters[parameterName].Value = parameterValue;
+                        else
+                            cmd.Parameters.AddWithValue(parameterName, parameterValue);
                     }
 
                 }
@@ -161,12 +163,15 @@ namespace Bespoke.Sph.SqlRepository
                 .Where(p => p.Name != "CreatedBy")
                 .Select(p => $"[{p.Name}]=@{p.Name.Replace(".", "_")}{count1}");
             sql.AppendLine();
-            sql.AppendFormat("SET {0}", string.Join(",\r\n", updates));
+            sql.AppendLine($"SET {string.Join(",\r\n", updates)}");
 
             sql.AppendLine();
-            sql.AppendFormat("WHERE [Id] = @{0}Id{1}", entityType.Name, count1);
+            sql.Append($"WHERE [Id] = @Id{count1}");
             sql.AppendLine();
-            cmd.Parameters.AddWithValue($"@{entityType.Name}Id{count1}", id);
+            if (cmd.Parameters.Contains($"@Id{count1}"))
+                cmd.Parameters[$"@Id{count1}"].Value = id;
+            else
+                cmd.Parameters.AddWithValue($"@Id{count1}", id);
         }
 
         private void AppendInsertStatement(StringBuilder sql, Type entityType, Column[] columns, int count1)
