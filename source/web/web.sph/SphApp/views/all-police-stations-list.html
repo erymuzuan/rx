@@ -4,6 +4,7 @@
         <table class="table table-striped" data-bind="queryPaging :{ query: query, map : map, list:list}">
             <thead>
                 <tr>
+                    <th>Bil</th>
                     <th>No</th>
                     <th>Name</th>
                     <th>Category</th>
@@ -12,6 +13,7 @@
             </thead>
             <tbody data-bind="foreach :list">
                 <tr data-bind="">
+                    <td data-bind="text:Bil"></td>
                     <td>
                         <a data-bind="attr : {href:'#police-station-edit-details' + '/' + Id, title:'No' }">
                             <i class="fa fa-eyedropper"></i>
