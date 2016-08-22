@@ -205,7 +205,7 @@ namespace Bespoke.Sph.Domain
             if (!route.StartsWith("~/"))
             {
                 if (!route.Contains("{id"))
-                    route = $"{{id}}{(string.IsNullOrWhiteSpace(this.Route)?"":"/")}{route}";
+                    route = $"{{id}}{(string.IsNullOrWhiteSpace(this.Route) ? "" : "/")}{route}";
             }
             return route;
         }
@@ -341,6 +341,7 @@ namespace Bespoke.Sph.Domain
         public string GetDeleteRoute()
         {
             var route = !string.IsNullOrWhiteSpace(this.Route) ? $"{this.Route.ToLowerInvariant()}/" : "";
+            if (route.Contains("{id}")) return route;
             return route + "{id}";
         }
 
