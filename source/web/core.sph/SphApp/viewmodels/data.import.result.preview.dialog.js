@@ -13,7 +13,7 @@
 define(["plugins/dialog", objectbuilders.datacontext],
     function (dialog, context) {
 
-        var model = ko.observable(),
+        const model = ko.observable(),
             connection = $.connection.hub,
             hub = $.connection.dataImportHub,
             tableOptions = ko.observableArray(),
@@ -71,7 +71,7 @@ define(["plugins/dialog", objectbuilders.datacontext],
 
             };
 
-        var vm = {
+        return {
             activate: activate,
             error: error,
             attached: attached,
@@ -80,8 +80,5 @@ define(["plugins/dialog", objectbuilders.datacontext],
             okClick: okClick,
             cancelClick: cancelClick
         };
-
-
-        return vm;
 
     });
