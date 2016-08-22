@@ -15,12 +15,28 @@ namespace Bespoke.Sph.SqlRepository
 
         public FileStreamBinaryStore()
         {
-            m_connectionString = ConfigurationManager.SqlConnectionString;
+            m_connectionString = ConfigurationManager.GetEnvironmentVariable("SqlFileStreamBinaryStoreConnectionString");
         }
 
-        public FileStreamBinaryStore(string connectionString)
+        public FileStreamBinaryStore(string connectionString, string mode)
         {
-            m_connectionString = connectionString;
+            switch (mode)
+            {
+                case "Environment":
+                    m_connectionString = ConfigurationManager.GetEnvironmentVariable(connectionString);
+                    break;
+                case "ConfigAppSetting":
+                    m_connectionString = ConfigurationManager.AppSettings[connectionString];
+                    break;
+                case "ConfigConnectionStringName":
+                    m_connectionString = ConfigurationManager.ConnectionStrings[connectionString].ConnectionString;
+                    break;
+                case "Plain":
+                    m_connectionString = connectionString;
+                    break;
+                default:
+                    throw new ArgumentException($"Must specify either Environment, ConfigConnectionStringName, ConfigAppSetting or Plain", nameof(mode));
+            }
         }
         public void Add(BinaryStore document)
         {
@@ -57,12 +73,12 @@ namespace Bespoke.Sph.SqlRepository
                         {
                             if (await rdr.ReadAsync())
                             {
-                            doc.Extension = rdr.GetString(0);
-                            doc.FileName = rdr.GetString(1);
-                            serverPathName = rdr.GetSqlString(3).Value;
-                            serverTxnContext = rdr.GetSqlBinary(4).Value;
-                            rdr.Close();
-                                
+                                doc.Extension = rdr.GetString(0);
+                                doc.FileName = rdr.GetString(1);
+                                serverPathName = rdr.GetSqlString(3).Value;
+                                serverTxnContext = rdr.GetSqlBinary(4).Value;
+                                rdr.Close();
+
                             }
                             else
                             {
