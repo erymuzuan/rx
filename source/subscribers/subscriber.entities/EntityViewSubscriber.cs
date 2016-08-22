@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,7 +32,6 @@ namespace subscriber.entities
             var vm = new
             {
                 Definition = ed,
-
                 View = view,
                 Form = form,
                 Query = query,
@@ -41,7 +39,6 @@ namespace subscriber.entities
                 PartialArg = string.IsNullOrWhiteSpace(view.Partial) ? "" : ", partial",
                 PartialPath = string.IsNullOrWhiteSpace(view.Partial) ? "" : ", \"" + view.Partial + "\""
             };
-
             var template = context.LoadOneFromSources<ViewTemplate>(t => t.Name == view.Template) ??
                            this.GetDefaultHtmlTemplate();
             var beau = new Beautifier();
@@ -62,16 +59,19 @@ namespace subscriber.entities
 
         private string GenerateDefaultViewModelTemplate()
         {
-
             var code = new StringBuilder();
             code.Append(
                 @"
 @{
         var query = Model.Query;
         var route = query.GetLocation();
+        var partial = !string.IsNullOrWhiteSpace(Model.View.Partial);
+        var partialArg = partial ? "", partial"" : string.Empty;
+        var partialPath = partial ? (@"", """""" + Model.View.Partial + @"""""""") : string.Empty;
+    
 }
-define([""services/datacontext"", ""services/logger"", ""plugins/router"", ""services/chart"", objectbuilders.config ,""services/_ko.list""],
-    function (context, logger, router, chart,config ) {
+define([""services/datacontext"", ""services/logger"", ""plugins/router"", ""services/chart"", objectbuilders.config ,""services/_ko.list"" @Raw(partialPath)],
+    function (context, logger, router, chart, config, koList @partialArg ) {
 
         var isBusy = ko.observable(false),
             query = ""@route"",
