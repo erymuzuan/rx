@@ -1,0 +1,87 @@
+{
+  "$type": "Bespoke.Sph.Domain.Trigger, domain.sph",
+  "RuleCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Rule, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.Rule, domain.sph",
+        "Left": {
+          "$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
+          "XPath": "",
+          "NamespacePrefix": "",
+          "TypeName": "",
+          "Path": "Area",
+          "Name": "Area",
+          "Note": "",
+          "WebId": "1bbe4aa6-b918-4a2c-deb3-cdde4e6c5aa9"
+        },
+        "Right": {
+          "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+          "TypeName": "System.Decimal",
+          "Value": 0.0,
+          "Name": "0",
+          "Note": "",
+          "WebId": "e45c6f32-b227-41b7-9749-0e8accef107b"
+        },
+        "Operator": "Eq",
+        "WebId": "568a1e3a-7d56-4caf-b904-c24282c791dd"
+      }
+    ]
+  },
+  "ActionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CustomAction, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.SetterAction, domain.sph",
+        "SetterActionChildCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.SetterActionChild, domain.sph",
+              "Path": "Area",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
+                "CodeNamespace": "ffca7b5bcf",
+                "Script": "var districts = await context.GetListAsync<Bespoke.DevV1.Districts.Domain.District, string>(x => x.Region == item.Name, x => x.Name);\r\nreturn districts.Count();",
+                "Name": "sample remote",
+                "Note": "",
+                "WebId": "ca7b5bcf-47f7-43ac-8133-7c6a37c7b998"
+              },
+              "WebId": "aa779d31-754e-4c56-c2f2-9020d54d4d1f"
+            }
+          ]
+        },
+        "Title": "Area",
+        "IsActive": true,
+        "TriggerId": null,
+        "Note": null,
+        "WebId": "11621aae-e3f5-4990-e8c2-5bb318ab6095"
+      }
+    ]
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "RequeueFilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ExceptionFilter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "Get actual size",
+  "Entity": "Country",
+  "TypeOf": "Bespoke.DevV1.Countries.Domain.Country, DevV1.Country",
+  "Note": "",
+  "IsActive": true,
+  "IsFiredOnAdded": true,
+  "IsFiredOnDeleted": false,
+  "IsFiredOnChanged": false,
+  "FiredOnOperations": "",
+  "ClassName": "CountryGetActualSizeTriggerSubscriber",
+  "CodeNamespace": "Bespoke.DevV1.TriggerSubscribers",
+  "CreatedBy": "admin",
+  "Id": "country-get-actual-size",
+  "CreatedDate": "2016-07-21T12:22:55.6055823+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-07-23T13:51:42.7515819+08:00",
+  "WebId": "d7045b49-a896-4922-ab24-bd205dc73570"
+}

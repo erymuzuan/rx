@@ -30,7 +30,13 @@
   },
   "MemberCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-    "$values": []
+    "$values": [
+      "No",
+      "Name",
+      "Id",
+      "Category",
+      "Size"
+    ]
   },
   "CacheProfile": "",
   "Name": "All police stations",
@@ -45,6 +51,6 @@
   "Id": "all-police-stations",
   "CreatedDate": "2016-04-25T17:24:28.9753064+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-07-24T08:27:36.8590137+08:00",
+  "ChangedDate": "2016-08-22T07:52:16.1518459+08:00",
   "WebId": "fa022936-b532-46f7-ce51-c6de6f7761a2"
 }

@@ -1,0 +1,15 @@
+{
+  "$type": "Bespoke.Sph.Domain.EmailTemplate, domain.sph",
+  "Entity": "Customer",
+  "Name": "General email template",
+  "Note": "Customer email template",
+  "SubjectTemplate": "Details about @Model.FullName",
+  "BodyTemplate": "Please go here @(ViewBag.BaseUrl)/sph#customer-detail/@(Model.CustomerId)",
+  "IsPublished": true,
+  "CreatedBy": "admin",
+  "Id": "1",
+  "CreatedDate": "2016-07-29T19:37:55.2511884+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-07-29T19:37:55.2511884+08:00",
+  "WebId": "1f73bb55-9b01-4f0d-be59-9ce28dcedba9"
+}

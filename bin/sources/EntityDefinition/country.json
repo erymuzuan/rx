@@ -48,14 +48,7 @@
         },
         "Name": "Abbreviation",
         "AllowMultiple": false,
-        "DefaultValue": {
-          "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
-          "TypeName": "System.String, mscorlib",
-          "Value": "89",
-          "Name": "89",
-          "Note": "",
-          "WebId": "90af7478-8ce8-451f-fcb8-d30eeada7135"
-        },
+        "DefaultValue": null,
         "WebId": "d4b33a1e-e6dc-408a-94d4-9784e87c53db"
       },
       {
@@ -112,7 +105,7 @@
         "IsNullable": true,
         "IsNotIndexed": false,
         "IsAnalyzed": false,
-        "IsFilterable": false,
+        "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 0,
         "FullName": null,
@@ -237,14 +230,7 @@
         },
         "Name": "EthnicGroups",
         "AllowMultiple": true,
-        "DefaultValue": {
-          "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
-          "CodeNamespace": "ffa9684aa4",
-          "Script": "new ObjectCollection<string>(){\"Malay\", \"Chinese\",\"Indian\", \"Javanese\"}",
-          "Name": "ethincs",
-          "Note": "",
-          "WebId": "a9684aa4-975e-493c-966a-9eeeb8743252"
-        },
+        "DefaultValue": null,
         "WebId": "8efe484a-c4de-43e4-add6-80eb730ecc10"
       },
       {
@@ -319,14 +305,7 @@
         },
         "Name": "Teritorries",
         "AllowMultiple": true,
-        "DefaultValue": {
-          "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
-          "CodeNamespace": "ffa7a7d40c",
-          "Script": "new ObjectCollection<Teritorry>(){\n    new Teritorry{ Name = \"Kelantan\"}\n    };",
-          "Name": "teritorries",
-          "Note": "",
-          "WebId": "a7a7d40c-db0b-4dad-e7ea-fe27bad89ccc"
-        },
+        "DefaultValue": null,
         "WebId": "19db231f-5f05-4eec-96d6-46bbed34b5d4"
       },
       {
@@ -392,6 +371,6 @@
   "Id": "country",
   "CreatedDate": "2014-04-19T10:07:12.2060219+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-07-21T09:03:30.427275+08:00",
+  "ChangedDate": "2016-08-05T10:18:34.6704892+08:00",
   "WebId": "5d31c43-852d-4a9d-b3be-1fc94d5cea05"
 }

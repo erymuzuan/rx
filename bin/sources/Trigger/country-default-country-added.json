@@ -1,0 +1,61 @@
+{
+  "$type": "Bespoke.Sph.Domain.Trigger, domain.sph",
+  "RuleCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Rule, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ActionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CustomAction, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.SetterAction, domain.sph",
+        "SetterActionChildCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.SetterActionChild, domain.sph",
+              "Path": "Greeting",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.Field, domain.sph",
+                "Name": "+ Field",
+                "Note": null,
+                "WebId": null
+              },
+              "WebId": "59d5c863-426e-4187-836c-23c5ca20f2d6"
+            }
+          ]
+        },
+        "Title": "Set default values",
+        "IsActive": true,
+        "TriggerId": null,
+        "Note": null,
+        "WebId": "2cfec45d-a597-44a2-ddbd-f894c6f17755"
+      }
+    ]
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "RequeueFilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ExceptionFilter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "Default country added",
+  "Entity": "Country",
+  "TypeOf": "Bespoke.DevV1.Countries.Domain.Country, DevV1.Country",
+  "Note": "",
+  "IsActive": true,
+  "IsFiredOnAdded": true,
+  "IsFiredOnDeleted": false,
+  "IsFiredOnChanged": false,
+  "FiredOnOperations": "",
+  "ClassName": "CountryDefaultCountryAddedTriggerSubscriber",
+  "CodeNamespace": "Bespoke.DevV1.TriggerSubscribers",
+  "CreatedBy": "admin",
+  "Id": "country-default-country-added",
+  "CreatedDate": "2016-07-21T08:39:57.7262409+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-07-21T08:57:42.832669+08:00",
+  "WebId": "0e2e1eff-9ccc-42b0-9db9-dd68ea17eb65"
+}

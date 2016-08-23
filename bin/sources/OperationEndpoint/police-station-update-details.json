@@ -10,7 +10,21 @@
   },
   "SetterActionChildCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.SetterActionChild, domain.sph",
+        "Path": "ChangedDate",
+        "Field": {
+          "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
+          "CodeNamespace": "ff79df0ea5",
+          "Script": "DateTime.Now",
+          "Name": "Now",
+          "Note": "",
+          "WebId": "79df0ea5-257a-4213-af6a-4935c8680e25"
+        },
+        "WebId": "41242097-d835-4fbf-bf7c-52d8a5f71533"
+      }
+    ]
   },
   "PatchPathCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PatchSetter, domain.sph]], domain.sph",
@@ -45,6 +59,10 @@
       }
     ]
   },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
   "Name": "UpdateDetails",
   "Route": "{id}/update-details",
   "IsHttpPut": false,
@@ -60,6 +78,6 @@
   "Id": "police-station-update-details",
   "CreatedDate": "2016-04-28T14:01:51.5368382+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-04-28T16:35:46.0135713+08:00",
+  "ChangedDate": "2016-07-30T10:10:20.0215108+08:00",
   "WebId": "ed32af77-001b-45ef-ca70-47eac9cc1e81"
 }

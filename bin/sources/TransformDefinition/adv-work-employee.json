@@ -1,0 +1,58 @@
+{
+  "$type": "Bespoke.Sph.Domain.TransformDefinition, domain.sph",
+  "MapCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Map, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "FirstName",
+        "TypeName": "",
+        "Destination": "FirstName",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "297aef34-2ae0-479f-e2d9-39fc899997a4"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "LastName",
+        "TypeName": "",
+        "Destination": "LastName",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "97ec2f69-a2c9-4f95-e82d-25d35fe4584f"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "BusinessEntityID",
+        "TypeName": "",
+        "Destination": "No",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "872f6a5a-ee2c-45c1-d7b4-1442a443c2d7"
+      }
+    ]
+  },
+  "FunctoidCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Functoid, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "InputCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "AdvWorkEmployee",
+  "Description": "",
+  "InputTypeName": "Bespoke.DevV1.Adapters.AdventureWorks.Person, DevV1.AdventureWorks",
+  "OutputTypeName": "Bespoke.DevV1.Employees.Domain.Employee, DevV1.Employee",
+  "IsPublished": true,
+  "CreatedBy": "admin",
+  "Id": "adv-work-employee",
+  "CreatedDate": "2016-08-05T10:54:23.3383707+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-08-05T10:55:50.0382683+08:00",
+  "WebId": "0c6a3518-6fc3-4193-a49a-0db8fb6d4073 (2016-08-05 10:54:23.338)"
+}

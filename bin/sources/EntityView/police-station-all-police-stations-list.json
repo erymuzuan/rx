@@ -9,6 +9,23 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
           "$values": []
         },
+        "Path": "Bil",
+        "Header": "Bil",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "RouteValueField": "",
+        "WebId": "0c4e7cff-d586-432c-d166-e08627ee7a83"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
         "Path": "No",
         "Header": "No",
         "Sort": "",
@@ -89,7 +106,7 @@
     "$values": []
   },
   "IconClass": "fa fa-building",
-  "IconStoreId": "76eeb166-6355-412f-8254-5b9922e81e2d",
+  "IconStoreId": "e6b9a83c-9d04-4f05-93c7-e5556d929230",
   "EntityDefinitionId": "police-station",
   "Name": "All police stations list",
   "Route": "all-police-stations-list",
@@ -99,7 +116,7 @@
   "TileColour": "bblue",
   "CountMessage": "",
   "Entity": "PoliceStation",
-  "Partial": "",
+  "Partial": "partial/all-police-stations-list",
   "Template": null,
   "DisplayOnDashboard": false,
   "Endpoint": "all-police-stations",
@@ -107,6 +124,6 @@
   "Id": "police-station-all-police-stations-list",
   "CreatedDate": "2016-04-28T13:42:51.355907+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-04-28T14:12:17.8864137+08:00",
+  "ChangedDate": "2016-08-22T08:51:00.0565118+08:00",
   "WebId": "552f4918-8551-4d99-abbf-e5de840cab04"
 }

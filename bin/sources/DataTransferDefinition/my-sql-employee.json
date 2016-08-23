@@ -9,10 +9,10 @@
     "$values": []
   },
   "Name": "MySql Employee",
-  "InboundAdapter": "my-sql-employee",
-  "InboundMap": "my-sql-employees-to-employee",
-  "SelectStatement": "select * from employees ",
-  "Table": "employees",
+  "InboundAdapter": "adventure-works",
+  "InboundMap": "adv-work-employee",
+  "SelectStatement": "select * from Person.Person ",
+  "Table": "Person",
   "Entity": "Employee",
   "BatchSize": 40,
   "IgnoreMessaging": true,
@@ -25,6 +25,6 @@
   "Id": "my-sql-employee",
   "CreatedDate": "2016-06-12T08:28:52.8751361+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-06-12T08:32:13.1764016+08:00",
+  "ChangedDate": "2016-08-05T10:57:37.6230822+08:00",
   "WebId": "edeb3218-2ad4-4c7e-dfa5-0ddaea9d3ba2"
 }

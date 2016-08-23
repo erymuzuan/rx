@@ -180,3 +180,4 @@ bin/sources/BinaryStores/wd.paralleljoinnotify.1/wd.paralleljoinnotify.1.json
 bin/.vscode/
 source/web/core.sph/bower_components/
 /bin/rabbitmq_server*
+/bin/database
