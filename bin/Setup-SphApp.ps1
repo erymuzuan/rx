@@ -3,6 +3,7 @@
        [string]$ApplicationName = "",
        [string]$Port = 0,
        [string]$SqlServer = "Projects",
+       [string]$DatabaseName = $ApplicationName,
        [string]$RabbitMqUserName = "guest",
        [string]$RabbitMqPassword = "guest",
        [string]$RabbitMqBase = "",
@@ -100,26 +101,44 @@ if((Test-Path("$WorkingCopy\StartAspnetAdminWeb.bat")) -eq $false)
 
 
 #creates databases
-Write-Debug "Creating database $ApplicationName"
+Write-Debug "Creating database $DatabaseName"
+if((Test-Path("$WorkingCopy\data")) -eq $false){
+    mkdir "$WorkingCopy\data"
+}
+$ndf2 = $DatabaseName + "_2";
+$ldf = $DatabaseName + "_log";
+
 Invoke-SqlCmdRx -S "(localdb)\$SqlServer" -E -d master -Q "IF  EXISTS (
 	SELECT name 
 		FROM sys.databases 
-		WHERE name = N'$ApplicationName'
+		WHERE name = N'$DatabaseName'
 )
-DROP DATABASE [$ApplicationName]"
+DROP DATABASE [$DatabaseName]"
+Invoke-SqlCmdRx -S "(localdb)\$SqlServer" -E -d master `
+-Q "CREATE DATABASE [$DatabaseName]  ON  PRIMARY
+( NAME = N'jpaod',
+FILENAME = N'$WorkingCopy\data\$ApplicationName.mdf' ,
+SIZE = 3072KB , FILEGROWTH = 1024KB ),
+FILEGROUP [Secondary] ( NAME = N'$ndf2',
+FILENAME = N'$WorkingCopy\DATA\$ndf2.ndf' ,
+SIZE = 3072KB , FILEGROWTH = 1024KB )
+LOG ON
+( NAME = N'$ldf',
+FILENAME = N'$WorkingCopy\data\$ldf.ldf' ,
+SIZE = 1024KB , FILEGROWTH = 10%)"
 
-Invoke-SqlCmdRx -S "(localdb)\$SqlServer" -E -d master -Q "CREATE DATABASE [$ApplicationName]"
-Write-Debug "Created database $ApplicationName"
+
+Write-Debug "Created database $DatabaseName"
 #Start-Sleep -Seconds 10
-Invoke-SqlCmdRx -S "(localdb)\$SqlServer" -E -d "$ApplicationName" -Q "CREATE SCHEMA [Sph] AUTHORIZATION [dbo]"
-Invoke-SqlCmdRx -S "(localdb)\$SqlServer" -E -d "$ApplicationName" -Q "CREATE SCHEMA [$ApplicationName] AUTHORIZATION [dbo]"
+Invoke-SqlCmdRx -S "(localdb)\$SqlServer" -E -d "$DatabaseName" -Q "CREATE SCHEMA [Sph] AUTHORIZATION [dbo]"
+Invoke-SqlCmdRx -S "(localdb)\$SqlServer" -E -d "$DatabaseName" -Q "CREATE SCHEMA [$ApplicationName] AUTHORIZATION [dbo]"
 Write-Debug "Created schema [SPH]"
 
 Get-ChildItem -Filter *.sql -Path $WorkingCopy\database\Table `
 | %{
     Write-Debug "Creating table $_"
     $sqlFileName = $_.FullName    
-    Invoke-SqlCmdRx -S "(localdb)\$SqlServer" -E -d "$ApplicationName" -i "$sqlFileName"
+    Invoke-SqlCmdRx -S "(localdb)\$SqlServer" -E -d "$DatabaseName" -i "$sqlFileName"
 }
 
 
@@ -167,7 +186,7 @@ $allConfigs = @("$WorkingCopy\web\web.config"
 [Environment]::SetEnvironmentVariable("RX_$ApplicationName" + "_HOME", "$WorkingCopy", "User")
 [Environment]::SetEnvironmentVariable("RX_$ApplicationName" + "_ApplicationFullName", "$ApplicationName", "User")
     
-$connectionString = "Data Source=(localdb)\$SqlServer;Initial Catalog=$ApplicationName;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False"
+$connectionString = "Data Source=(localdb)\$SqlServer;Initial Catalog=$DatabaseName;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False"
 [Environment]::SetEnvironmentVariable("RX_$ApplicationName" + "_SqlConnectionString", "$connectionString", "User")
 
 [Environment]::SetEnvironmentVariable("RX_$ApplicationName" + "_RabbitMqVirtualHost", "$ApplicationName", "User")
