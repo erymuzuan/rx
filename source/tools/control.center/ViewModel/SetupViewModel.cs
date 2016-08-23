@@ -230,6 +230,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 ps.AddScript(ps1);
                 ps.AddParameter("WorkingCopy", wc);
                 ps.AddParameter("ApplicationName", settings.ApplicationName);
+                ps.AddParameter("DatabaseName", settings.DatabaseName);
                 ps.AddParameter("Port", settings.WebsitePort ?? 50230);
                 ps.AddParameter("SqlServer", settings.SqlLocalDbName);
                 ps.AddParameter("RabbitMqUserName", settings.RabbitMqUserName);

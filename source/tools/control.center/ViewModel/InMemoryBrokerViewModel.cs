@@ -65,8 +65,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
         public async Task LoadAsync()
         {
             this.IsBusy = true;
-
-
             this.Settings = SphSettings.Load();
             if (null == this.Settings)
             {

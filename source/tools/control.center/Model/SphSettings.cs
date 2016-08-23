@@ -14,6 +14,7 @@ namespace Bespoke.Sph.ControlCenter.Model
     public class SphSettings : DomainObject
     {
         private string m_applicationName;
+        private string m_databaseName;
         private string m_elasticsearchClusterName;
         private string m_elasticsearchNodeName;
         private int m_elasticsearchIndexNumberOfShards;
@@ -44,7 +45,7 @@ namespace Bespoke.Sph.ControlCenter.Model
             SetEnvironmentVariable(nameof(ElasticsearchIndexNumberOfReplicas), this.ElasticsearchIndexNumberOfReplicas);
             SetEnvironmentVariable(nameof(ElasticsearchIndexNumberOfShards), this.ElasticsearchIndexNumberOfShards);
 
-            SetEnvironmentVariable(nameof(ElasticsearchHttpPort), this.ElasticsearchHttpPort,9200);
+            SetEnvironmentVariable(nameof(ElasticsearchHttpPort), this.ElasticsearchHttpPort, 9200);
             SetEnvironmentVariable(nameof(LoggerWebSocketPort), this.LoggerWebSocketPort, 50238);
             SetEnvironmentVariable(nameof(WebsitePort), this.WebsitePort, 50230);
             SetEnvironmentVariable(nameof(RabbitMqBase), this.RabbitMqBase);
@@ -60,9 +61,11 @@ namespace Bespoke.Sph.ControlCenter.Model
             var variables = Environment.GetEnvironmentVariables();
             foreach (var key in variables.Keys)
             {
-                if (!$"{key}".StartsWith("RX_")) continue;
+                if (!$"{key}".StartsWith("RX_" + ApplicationName, StringComparison.InvariantCultureIgnoreCase)) continue;
                 sb.AppendLine($"SET {key}={variables[key]}");
             }
+            var rabbitmqBase = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rabbitmq_base");
+            sb.AppendLine($"SET RABBITMQ_BASE={rabbitmqBase}");
 
             var bat = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../env.bat");
             File.WriteAllText(bat, sb.ToString(), Encoding.UTF8);
@@ -77,7 +80,6 @@ namespace Bespoke.Sph.ControlCenter.Model
 
             try
             {
-
                 var settings = File.ReadAllText(path).DeserializeFromJson<SphSettings>();
                 return settings;
             }
@@ -147,6 +149,27 @@ namespace Bespoke.Sph.ControlCenter.Model
             set
             {
                 m_applicationName = value;
+                OnPropertyChanged();
+                if (string.IsNullOrWhiteSpace(this.DatabaseName))
+                    this.DatabaseName = value;
+            }
+        }
+
+
+        [Required]
+        [MinLength(3, ErrorMessage = "You'll need at least 3 chars")]
+        [RegularExpression("[a-zA-z]{3,9}", ErrorMessage = "must be alpahnumeric only")]
+        public string DatabaseName
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(m_databaseName) && !string.IsNullOrWhiteSpace(this.ApplicationName))
+                    m_databaseName = this.ApplicationName;
+                return m_databaseName;
+            }
+            set
+            {
+                m_databaseName = value;
                 OnPropertyChanged();
             }
         }
