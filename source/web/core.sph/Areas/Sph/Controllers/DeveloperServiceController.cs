@@ -15,7 +15,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         [Route("environment-variables")]
         public ActionResult GetEnvironmentVariables()
         {
-            var json = JsonConvert.SerializeObject(Environment.GetEnvironmentVariables(EnvironmentVariableTarget.User));
+            var json = JsonConvert.SerializeObject(Environment.GetEnvironmentVariables());
             return Content(json, APPLICATION_JSON, Encoding.UTF8);
         }
 

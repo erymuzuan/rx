@@ -163,7 +163,7 @@ Get-ChildItem -Filter *.template -Path .\database\mapping `
     $templateName = $_.Name.ToLowerInvariant().Replace(".template", "")
     $templateUri = "$ElasticSearchHost/_template/$templateName"
     $templateContent = Get-Content $_.FullName
-    $templateJson = $templateContent.Replace("<<application_name>>", $esindex);
+    $templateJson = $templateContent.Replace("<<application_name>>", $ApplicationName.ToLowerInvariant());
 
     Write-Debug "Creating elasticsearch index template for $templateName"
     Invoke-WebRequest -Method PUT -Uri $templateUri -ContentType "application/javascript" -Body $templateJson
@@ -240,7 +240,7 @@ if((Test-Path(".\sources\EndpointPermissionSetting")) -eq $false)
 #asp.net memberships
 Write-Debug "Executing Aspnet membership provider"
 Start-Process -RedirectStandardOutput "v1.log" -Wait -WindowStyle Hidden -FilePath "C:\Windows\Microsoft.NET\Framework\v4.0.30319\aspnet_regsql.exe" `
--ArgumentList  @("-E","-S",'"(localdb)\' + $SqlServer+ '"',"-d " + $ApplicationName,"-A mr")
+-ArgumentList  @("-E","-S",'"(localdb)\' + $SqlServer+ '"',"-d " + $DatabaseName,"-A mr")
 
 
 Write-Debug "Aspnet membership has been added"

@@ -97,8 +97,15 @@ namespace Bespoke.Sph.ControlCenter
 
         private void ToSetupPanelClick(object sender, RoutedEventArgs e)
         {
-            var vm = (SetupViewModel) this.DataContext;
+            var vm = (SetupViewModel)this.DataContext;
             logTextBox.Text = vm.Settings.ToString();
+            //get the environment variables
+            var variables = Environment.GetEnvironmentVariables();
+            foreach (var @v in variables.Keys)
+            {
+                if ($"{@v}".StartsWith("RX_"))
+                    logTextBox.Text += $"\r\n{@v}={variables[@v]}";
+            }
 
         }
 

@@ -341,7 +341,7 @@ namespace Bespoke.Sph.ControlCenter.Model
             }
         }
 
-        public string IncidentUri { set; get; } = "http://alpha.reactivedeveloper.com/";
+        public string IncidentUri { set; get; } = "http:alpha.reactivedeveloper.com/";
         public string UpdateUri
         {
             get { return m_updateUri; }
@@ -355,10 +355,12 @@ namespace Bespoke.Sph.ControlCenter.Model
         [JsonIgnore]
         public string RabbitMqBase
         {
-            get { return GetEnvironmentVariable(nameof(RabbitMqBase)) ?? "rabbitmq_base"; }
+            get { return GetEnvironmentVariable(nameof(RabbitMqBase)) ?? "..\\rabbitmq_base".TranslatePath(); }
             set
             {
-                SetEnvironmentVariable(nameof(RabbitMqBase), value);
+                var rabbitMqBase = value.TranslatePath();
+                SetEnvironmentVariable(nameof(RabbitMqBase), rabbitMqBase);
+                Environment.SetEnvironmentVariable("RABBITMQ_BASE", rabbitMqBase, EnvironmentVariableTarget.Process);
                 OnPropertyChanged();
             }
         }
@@ -371,6 +373,7 @@ namespace Bespoke.Sph.ControlCenter.Model
             this.RabbitMqHost = "localhost";
             this.RabbitMqPort = 5672;
             this.RabbitMqDirectory = ".\\rabbitmq_server";
+            this.RabbitMqBase = ".\\rabbitmq_base".TranslatePath();
             this.RabbitMqPassword = "guest";
             this.RabbitMqUserName = "guest";
             this.LoggerWebSocketPort = 50230;
@@ -427,9 +430,7 @@ namespace Bespoke.Sph.ControlCenter.Model
                 throw new InvalidOperationException($"You cannot set \"RX_{ApplicationNameToUpper}_{setting}\" variable to \"{value}\"");
 
             if (null != defaultValue && defaultValue == value) return;
-
             Environment.SetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", $"{value}", EnvironmentVariableTarget.Process);
-            Environment.SetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", $"{value}", EnvironmentVariableTarget.User);
         }
         private int? GetEnvironmentVariableInt32(string setting)
         {

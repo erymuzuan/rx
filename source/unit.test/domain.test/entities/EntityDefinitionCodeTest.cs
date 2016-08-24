@@ -32,6 +32,13 @@ namespace domain.test.entities
             });
             ent.MemberCollection.Add(new SimpleMember
             {
+                Name = "IsApproved",
+                Type = typeof(bool),
+                IsFilterable = true,
+                DefaultValue = new ConstantField { Type = typeof(bool), Name = "True", Value = "true" }
+            });
+            ent.MemberCollection.Add(new SimpleMember
+            {
                 Name = "Rating",
                 Type = typeof(int),
                 IsFilterable = true,

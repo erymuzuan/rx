@@ -86,7 +86,7 @@ namespace Bespoke.Sph.Domain
 
         public static string GetEnvironmentVariable(string setting)
         {
-            var process = Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}");
+            var process = Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", EnvironmentVariableTarget.Process);
             if (!string.IsNullOrWhiteSpace(process)) return process;
 
             var user = Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", EnvironmentVariableTarget.User);

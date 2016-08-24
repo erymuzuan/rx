@@ -142,10 +142,12 @@ namespace Bespoke.Sph.Domain
 
         public override string GenerateCode()
         {
-            if (this.Type == typeof (string))
+            if (this.Type == typeof(string))
                 return $"\"{this.Value}\"";
-            if (this.Type == typeof (DateTime))
+            if (this.Type == typeof(DateTime))
                 return $"DateTime.Parse(\"{this.Value}\")";
+            if (Type == typeof(bool) && this.Value is bool)
+                return (bool)this.Value ? "true" : "false";
 
             return $"{this.Value}";
         }
