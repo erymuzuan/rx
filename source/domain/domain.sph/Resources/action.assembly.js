@@ -12,7 +12,7 @@
 define(["services/datacontext", "services/logger", "plugins/dialog", objectbuilders.system],
     function (context, logger, dialog, system) {
 
-        var action = ko.observable(new bespoke.sph.domain.AssemblyAction(system.guid())),
+        const action = ko.observable(new bespoke.sph.domain.AssemblyAction(system.guid())),
             assemblyOptions = ko.observableArray(),
             typeOptions = ko.observableArray(),
             methodOptions = ko.observableArray(),
@@ -24,8 +24,8 @@ define(["services/datacontext", "services/logger", "plugins/dialog", objectbuild
 
                         if (action().Assembly()) {
 
-                            var loadTypesTask = $.get("/api/assemblies/" + action().Assembly() + "/types"),
-                                loadMethodTask = $.get("/api/assemblies/" + action().Assembly() + "/types/" + action().TypeName() + "/methods");
+                            const loadTypesTask = $.get(`/api/assemblies/${action().Assembly()}/types`),
+                                loadMethodTask = $.get(`/api/assemblies/${action().Assembly()}/types/${action().TypeName()}/methods`);
                             $.when(loadTypesTask, loadMethodTask)
                                 .done(function (t1, m1) {
                                     typeOptions(t1[0]);
@@ -46,7 +46,7 @@ define(["services/datacontext", "services/logger", "plugins/dialog", objectbuild
                     if (!dll) {
                         return;
                     }
-                    $.get("/api/assemblies/" + dll + "/types")
+                    $.get(`/api/assemblies/${dll}/types`)
                    .done(function (classes) {
                        typeOptions(classes);
                    });
@@ -56,14 +56,15 @@ define(["services/datacontext", "services/logger", "plugins/dialog", objectbuild
                         methodOptions.removeAll();
                         return;
                     }
-                    $.get("/api/assemblies/" + action().Assembly() + "/types/" + type + "/methods")
+                    $.get(`/api/assemblies/${action().Assembly()}/types/${type}/methods`)
                    .done(function (methods) {
                        methodOptions(methods);
                    });
                 });
+
                 action().Method.subscribe(function (method) {
                     if (!method) return;
-                    var m = _(methodOptions()).find(function (v) { return v.Name === method; }),
+                    const m = _(methodOptions()).find(function (v) { return v.Name === method; }),
                         args = _(m.Parameters).map(function (v) {
                             return new bespoke.sph.domain.MethodArg({
                                 WebId: system.guid(),
@@ -82,7 +83,11 @@ define(["services/datacontext", "services/logger", "plugins/dialog", objectbuild
                     }
                 });
 
-                action().MethodArgCollection([]);
+                const method = ko.unwrap(action().Method);
+                if (!method) {
+                    action().MethodArgCollection([]);
+                }
+
                 setTimeout(function () {
                     $(view).find("#assembly-action-title").focus();
                 }, 500);
@@ -97,7 +102,7 @@ define(["services/datacontext", "services/logger", "plugins/dialog", objectbuild
                 dialog.close(this, "Cancel");
             };
 
-        var vm = {
+        const vm = {
             action: action,
             activate: activate,
             attached: attached,
