@@ -74,7 +74,7 @@ namespace Bespoke.Sph.Domain
 
                 }
                 code.AppendLine($"   var response = {identifier}.{this.Method}({args});");
-                code.AppendLine("   return response");
+                code.AppendLine("   return response;");
             }
             return code.ToString();
         }
