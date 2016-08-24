@@ -68,7 +68,7 @@ define(["services/datacontext", "services/logger", "plugins/dialog", objectbuild
                             return new bespoke.sph.domain.MethodArg({
                                 WebId: system.guid(),
                                 Name: v.Name,
-                                TypeName: v.Type
+                                TypeName: v.TypeName
                             });
                         });
                     action().IsAsyncMethod(m.RetVal.indexOf("System.Threading.Tasks.Task") > -1);

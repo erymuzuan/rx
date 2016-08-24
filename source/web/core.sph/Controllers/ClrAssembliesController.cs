@@ -253,9 +253,13 @@ namespace Bespoke.Sph.Web.Controllers
         public IHttpActionResult GetMethods(string dll, string type)
         {
             var clrType = FindType(dll, type);
+            if (null == clrType)
+                return NotFound($"Cannot load type '{type}' in {dll}");
             var methods = clrType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static)
                             .Where(x => null != x)
+                            .ToList()
                             .Where(x => !string.IsNullOrWhiteSpace(x.Name))
+                            .ToList()
                             .Where(x => !x.Name.StartsWith("get_"))
                             .Where(x => !x.Name.StartsWith("set_"))
                             .Where(x => !x.Name.StartsWith("add_"))
@@ -278,6 +282,7 @@ namespace Bespoke.Sph.Web.Controllers
                            {
                                p.Name,
                                Type = $"{p.ParameterType}",//?.GetShortAssemblyQualifiedName(),
+                               TypeName =p.ParameterType.GetShortAssemblyQualifiedName(),
                                p.IsOut,
                                p.IsRetval,
                                p.IsIn
