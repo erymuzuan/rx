@@ -24,7 +24,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 return
                     $@"Data Source={this.Server};Initial Catalog={this.Database
                         };Integrated Security=True;MultipleActiveResultSets=True";
-                return $"Server={this.Server};Database={this.Database};User Id={this.UserId};Password={this.Password};";
+                return $"Server={this.Server};Database={this.Database};User Id={this.UserId};Password={this.Password};;MultipleActiveResultSets=True";
             }
         }
 
