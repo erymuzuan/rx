@@ -175,6 +175,20 @@
                                 router.navigate("#entity.form.designer/" + ko.unwrap(ed.EntityDefinitionId) + "/" + ko.unwrap(ed.Id));
                         });
             },
+            addReceivePort= function (entityDefinition) {
+                return app.showDialog("new.receive.port.dialog", function (dialog) {
+                    dialog.entity(entityDefinition);
+                })
+                        .then(function (dialog, result) {
+                            if (result === "OK") {
+                                return checkSource("ReceivePort", "Id eq '" + ko.unwrap(dialog.id) + "'");
+                            }
+                            return Task.fromResult(0);
+                        }).then(function (ed) {
+                            if (ed)
+                                router.navigate("#receive.port.designer/" + ko.unwrap(ed.EntityDefinitionId) + "/" + ko.unwrap(ed.Id));
+                        });
+            },
             addOperationEndpoint = function (entityDefinition) {
 
                 return app.showDialog("new.operation.endpoint.dialog", function (dialog) {
@@ -251,6 +265,7 @@
             };
 
         var vm = {
+            addReceivePort: addReceivePort,
             addCustomFormAsync: customForm.addNew,
             addDataTransferDefinition: addDataTransferDefinition,
             addCustomDialogAsync: customDialog.addNewDialog,

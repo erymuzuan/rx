@@ -1163,16 +1163,6 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="ReceivePortDefinition">
-		<xs:complexType>
-			<xs:attribute name="Name" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="ReceivePort">
-		<xs:complexType>
-			<xs:attribute name="Name" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
 	<xs:element name="SendPort">
 		<xs:complexType>
 			<xs:attribute name="Name" type="xs:string" use="required"/>

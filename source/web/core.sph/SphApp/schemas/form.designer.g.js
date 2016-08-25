@@ -841,6 +841,7 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
         RecordName: ko.observable(""),
         IsPublished: ko.observable(false),
         TreatDataAsSource: ko.observable(false),
+        Transient: ko.observable(false),
         MemberCollection: ko.observableArray([]),
         BusinessRuleCollection: ko.observableArray([]),
         StoreInDatabase: ko.observable(),
@@ -850,7 +851,7 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
         WebId: ko.observable()
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
-        for (var n in optionOrWebid) {
+        for (let n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (typeof model[n] === "function") {
                     model[n](optionOrWebid[n]);

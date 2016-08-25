@@ -12,7 +12,7 @@ $env:RX_DEVV1_RabbitMqBase="$PWD\bin\rabbitmq_base"
 $env:RX_DEVV1_WebPath="$PWD\source\web\web.sph"
 $env:RABBITMQ_BASE="$PWD\bin\rabbitmq_base"
 
-
+& .\env.devv1.ps1
 
 #copy some dependencies
 copy .\source\web\web.sph\bin\Common.Logging.dll .\bin\subscribers

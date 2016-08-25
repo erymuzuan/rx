@@ -14,7 +14,7 @@
 define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
     function (dialog, context, system) {
 
-        var entities = ko.observableArray(),
+        const entities = ko.observableArray(),
             form = ko.observable(new bespoke.sph.domain.EntityForm(system.guid())),
             entity = ko.observable(),
             id = ko.observable(),
@@ -34,7 +34,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                     return Task.fromResult(0);
                 }
 
-                var json = ko.toJSON(form);
+                const json = ko.toJSON(form);
                 return context.put(json, "/api/entity-forms")
                     .then(function (result) {
                         if (result) {
@@ -48,7 +48,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                 dialog.close(this, "Cancel");
             };
 
-        var vm = {
+        const vm = {
             form: form,
             activate: activate,
             okClick: okClick,

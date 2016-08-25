@@ -294,13 +294,23 @@
                         </div>
 
 
-                        <h4>Source for reference data</h4>
+                        <h3>Data treatment</h3>
                         <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
+                            <div class="col-md-offset-1 col-md-11">
                                 <div class="checkbox">
-                                    <label>
-                                        <input data-bind="checked: TreatDataAsSource" id="treat-data-as-source" type="checkbox" name="TreatDataAsSource" />
+                                    <label data-bind="tooltip : 'Create data as source will save the data in your source folder and can be used as referenced/lookup data that is part of your application'">
+                                        <input data-bind="checked: TreatDataAsSource, disable: Transient" id="treat-data-as-source" type="checkbox" name="TreatDataAsSource" />
                                         Treat data as source
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-1 col-md-11">
+                                <div class="checkbox">
+                                    <label data-bind="tooltip : 'Use for pure messaging infrastructure, no data will be persisted'">
+                                        <input data-bind="checked: Transient, disable : TreatDataAsSource" id="transient-data" type="checkbox" name="Transient" />
+                                        Transient data 
                                     </label>
                                 </div>
                             </div>

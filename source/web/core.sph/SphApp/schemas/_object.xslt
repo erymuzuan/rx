@@ -74,7 +74,7 @@
               if (optionOrWebid &amp;&amp; typeof optionOrWebid === "object") {
               for (var n in optionOrWebid) {
                 if (optionOrWebid.hasOwnProperty(n)) {
-                    if (typeof model[n] === "function") {
+                    if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                     }
                   }

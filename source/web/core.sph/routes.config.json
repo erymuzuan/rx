@@ -614,6 +614,20 @@
     "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
+  },
+  {
+    "role": "developers",
+    "groupName": "Entity",
+    "route": "receive.port.designer/:entityid/:formid",
+    "moduleId": "viewmodels/receive.port.designer",
+    "title": "Entity Receive Location Designer",
+    "nav": false,
+    "icon": "fa fa-bug",
+    "caption": "Entity Receive Port Designer",
+    "settings": null,
+    "isAdminPage": false,
+    "showWhenLoggedIn": false,
+    "error": ""
   }, 
   {
     "role": "developers",

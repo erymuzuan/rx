@@ -2089,6 +2089,11 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_transient;
+        public const string PropertyNameTransient = "Transient";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool? m_storeInDatabase;
         public const string PropertyNameStoreInDatabase = "StoreInDatabase";
 
@@ -2280,6 +2285,31 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_treatDataAsSource;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public bool Transient
+        {
+            set
+            {
+                if (m_transient == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTransient, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_transient = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_transient;
             }
         }
 

@@ -348,6 +348,28 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="ReceivePortDefinition">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="ReceiveLocationCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ReceiveLocation" type="ReceiveLocation" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Entity" type="xs:string" use="required"/>
+			<xs:attribute name="EntityId" type="xs:string" use="required"/>
+			<xs:attribute name="Formatter" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReceivePort">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="EntityDefinition" bspk:entity="true">
 		<xs:complexType>
 			<xs:all>
@@ -375,6 +397,7 @@
 			<xs:attribute name="RecordName" type="xs:string" use="required"/>
 			<xs:attribute name="IsPublished" type="xs:boolean" use="required"/>
 			<xs:attribute name="TreatDataAsSource" type="xs:boolean" use="optional"/>
+			<xs:attribute name="Transient" type="xs:boolean" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ValueObjectDefinition" bspk:entity="true">
@@ -1069,5 +1092,39 @@
 		<xs:annotation>
 			<xs:documentation>Placeholder</xs:documentation>
 		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="ReceiveLocation"/>
+	<xs:element name="FolderReceiveLocation" type="ReceiveLocation"/>
+	<xs:element name="TextFormatter">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="IsFixLength" type="xs:boolean" use="required"/>
+			<xs:attribute name="Delimiter" type="xs:string" use="optional"/>
+			<xs:attribute name="HeaderTag" type="xs:string" use="optional"/>
+			<xs:attribute name="DetailsTag" type="xs:string" use="optional"/>
+			<xs:attribute name="IgnoreTag" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DelimitedTextFieldMapping">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Order" type="xs:int" nillable="true"/>
+			</xs:all>
+			<xs:attribute name="Column" type="xs:int" use="required"/>
+			<xs:attribute name="Path" type="xs:string" use="required"/>
+			<xs:attribute name="TypeName" type="xs:string" use="required"/>
+			<xs:attribute name="Converter" type="xs:string" use="optional"/>
+			<xs:attribute name="AllowMissing" type="xs:boolean" use="required"/>
+			<xs:attribute name="Order" type="xs:int" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FixedLengthTextFieldMapping">
+		<xs:complexType>
+			<xs:attribute name="Column" type="xs:int" use="required"/>
+			<xs:attribute name="Path" type="xs:string" use="required"/>
+			<xs:attribute name="TypeName" type="xs:string" use="required"/>
+			<xs:attribute name="Converter" type="xs:string" use="optional"/>
+			<xs:attribute name="AllowMissing" type="xs:boolean" use="required"/>
+		</xs:complexType>
 	</xs:element>
 </xs:schema>
