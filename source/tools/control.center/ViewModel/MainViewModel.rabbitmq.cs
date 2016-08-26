@@ -9,7 +9,7 @@ using RabbitMQ.Client.Exceptions;
 
 namespace Bespoke.Sph.ControlCenter.ViewModel
 {
-    public partial class MainViewModel 
+    public partial class MainViewModel
     {
         private Process m_rabbitMqServer;
         public RelayCommand StartRabbitMqCommand { get; set; }
@@ -24,12 +24,9 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                 && !SphWorkerServiceStarted
                 && !IisServiceStarted));
 
-          
-
-
         }
 
-        
+
 
         public bool CheckRabbitMqHostConnection(string username, string password, string host)
         {
@@ -61,6 +58,14 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         public async void StartRabbitMqService()
         {
+
+            var rabbitMqBase = Environment.GetEnvironmentVariable("RABBITMQ_BASE", EnvironmentVariableTarget.Process);
+            if (string.IsNullOrWhiteSpace(rabbitMqBase) || !Directory.Exists(rabbitMqBase))
+            {
+                Log("Environment variable for RABBITMQ_BASE was not properly set");
+                Log($"The value {rabbitMqBase} is not valid or does not exist");
+                return;
+            }
             this.RabbitMqServiceStarting = true;
             this.StartBusy("Starting RabbitMq broker ...");
             Log("RabbitMQ...[STARTING]");
@@ -85,15 +90,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     WindowStyle = ProcessWindowStyle.Normal,
 
                 };
-                var rabbitMqBase = this.Settings?.RabbitMqBase?.Trim();
-                if (!string.IsNullOrWhiteSpace(rabbitMqBase))
-                {
-                    if (!Directory.Exists(rabbitMqBase))
-                        Directory.CreateDirectory(rabbitMqBase);
-
-                    if (!startInfo.EnvironmentVariables.ContainsKey("RABBITMQ_BASE"))
-                        startInfo.EnvironmentVariables.Add("RABBITMQ_BASE", rabbitMqBase);
-                }
 
                 m_rabbitMqServer = Process.Start(startInfo);
 
@@ -183,8 +179,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         }
 
-  
 
-        
+
+
     }
 }

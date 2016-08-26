@@ -31,7 +31,7 @@ bespoke.sph.domain.FormDesign = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -399,7 +399,7 @@ bespoke.sph.domain.ComboBoxItem = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -501,7 +501,7 @@ bespoke.sph.domain.DefaultValue = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -538,7 +538,7 @@ bespoke.sph.domain.FieldValidation = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -574,7 +574,7 @@ bespoke.sph.domain.BusinessRule = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -640,7 +640,7 @@ bespoke.sph.domain.ComboBoxLookup = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -750,7 +750,7 @@ bespoke.sph.domain.ListViewColumn = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -830,6 +830,40 @@ bespoke.sph.domain.Button = function (optionOrWebid) {
 
 
 
+bespoke.sph.domain.ReceivePort = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.ReceivePort, domain.sph",
+        Name: ko.observable(""),
+        Entity: ko.observable(""),
+        EntityId: ko.observable(""),
+        Formatter: ko.observable(""),
+        ReceiveLocationCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (ko.isObservable(model[n])) {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ReceivePortPartial) {
+        return _(model).extend(new bespoke.sph.domain.ReceivePortPartial(model, optionOrWebid));
+    }
+    return model;
+};
+
+
+
 bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
 
     var model = {
@@ -851,9 +885,9 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
         WebId: ko.observable()
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
-        for (let n in optionOrWebid) {
+        for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -886,7 +920,7 @@ bespoke.sph.domain.ValueObjectDefinition = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1056,7 +1090,7 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1106,7 +1140,7 @@ bespoke.sph.domain.WorkflowForm = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1144,7 +1178,7 @@ bespoke.sph.domain.FormLayout = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1193,7 +1227,7 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1225,7 +1259,7 @@ bespoke.sph.domain.Filter = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1264,7 +1298,7 @@ bespoke.sph.domain.ViewColumn = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1295,7 +1329,7 @@ bespoke.sph.domain.Sort = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1397,7 +1431,7 @@ bespoke.sph.domain.FieldPermission = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1429,7 +1463,7 @@ bespoke.sph.domain.EntityPermission = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1474,7 +1508,7 @@ bespoke.sph.domain.OperationEndpoint = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1518,7 +1552,7 @@ bespoke.sph.domain.EntityChart = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1554,7 +1588,7 @@ bespoke.sph.domain.Series = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1585,7 +1619,7 @@ bespoke.sph.domain.ConditionalFormatting = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1687,7 +1721,7 @@ bespoke.sph.domain.RouteParameter = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1717,7 +1751,7 @@ bespoke.sph.domain.PartialJs = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1749,7 +1783,7 @@ bespoke.sph.domain.ViewTemplate = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1781,7 +1815,7 @@ bespoke.sph.domain.PatchSetter = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1821,7 +1855,7 @@ bespoke.sph.domain.FormDialog = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1853,7 +1887,7 @@ bespoke.sph.domain.DialogButton = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1890,7 +1924,7 @@ bespoke.sph.domain.PartialView = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1920,7 +1954,7 @@ bespoke.sph.domain.ChildView = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1951,7 +1985,7 @@ bespoke.sph.domain.TabControl = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1983,7 +2017,7 @@ bespoke.sph.domain.TabPanel = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2025,7 +2059,7 @@ bespoke.sph.domain.QueryEndpoint = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2057,7 +2091,7 @@ bespoke.sph.domain.ServiceContract = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2092,7 +2126,7 @@ bespoke.sph.domain.QueryEndpointSetting = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2123,7 +2157,7 @@ bespoke.sph.domain.EntityResourceEndpoint = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2153,7 +2187,7 @@ bespoke.sph.domain.FullSearchEndpoint = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2183,7 +2217,7 @@ bespoke.sph.domain.OdataEndpoint = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2214,7 +2248,7 @@ bespoke.sph.domain.BusinessRuleEndpoint = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2246,7 +2280,7 @@ bespoke.sph.domain.ServiceContractSetting = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2276,7 +2310,7 @@ bespoke.sph.domain.ResourceEndpointSetting = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2306,7 +2340,7 @@ bespoke.sph.domain.SearchEndpointSetting = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2336,7 +2370,7 @@ bespoke.sph.domain.OdataEndpointSetting = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2368,7 +2402,7 @@ bespoke.sph.domain.CachingSetting = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2387,6 +2421,112 @@ bespoke.sph.domain.CachingSetting = function (optionOrWebid) {
 
 
 // placeholder for ReferencedAssembly
+
+bespoke.sph.domain.TextFormatter = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.TextFormatter, domain.sph",
+        Name: ko.observable(""),
+        IsFixLength: ko.observable(false),
+        Delimiter: ko.observable(""),
+        HeaderTag: ko.observable(""),
+        DetailsTag: ko.observable(""),
+        IgnoreTag: ko.observable(""),
+        DelimitedTextFieldMappingCollection: ko.observableArray([]),
+        FixedLengthTextFieldMappingCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (ko.isObservable(model[n])) {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.TextFormatterPartial) {
+        return _(model).extend(new bespoke.sph.domain.TextFormatterPartial(model, optionOrWebid));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.DelimitedTextFieldMapping = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.DelimitedTextFieldMapping, domain.sph",
+        Column: ko.observable(0),
+        Path: ko.observable(""),
+        TypeName: ko.observable(""),
+        Converter: ko.observable(""),
+        AllowMissing: ko.observable(false),
+        Order: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (ko.isObservable(model[n])) {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.DelimitedTextFieldMappingPartial) {
+        return _(model).extend(new bespoke.sph.domain.DelimitedTextFieldMappingPartial(model, optionOrWebid));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.FixedLengthTextFieldMapping = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.FixedLengthTextFieldMapping, domain.sph",
+        Column: ko.observable(0),
+        Path: ko.observable(""),
+        TypeName: ko.observable(""),
+        Converter: ko.observable(""),
+        AllowMissing: ko.observable(false),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (ko.isObservable(model[n])) {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.FixedLengthTextFieldMappingPartial) {
+        return _(model).extend(new bespoke.sph.domain.FixedLengthTextFieldMappingPartial(model, optionOrWebid));
+    }
+    return model;
+};
+
+
 bespoke.sph.domain.FormElement = function (optionOrWebid) {
 
     var model = {
@@ -2491,6 +2631,35 @@ bespoke.sph.domain.Field = function (optionOrWebid) {
 
     if (bespoke.sph.domain.FieldPartial) {
         return _(model).extend(new bespoke.sph.domain.FieldPartial(model, optionOrWebid));
+    }
+    return model;
+};
+
+
+bespoke.sph.domain.ReceiveLocation = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.ReceiveLocation, domain.sph",
+        Name: ko.observable(""),
+        TextFormatter: ko.observable(new bespoke.sph.domain.TextFormatter()),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+    if (bespoke.sph.domain.ReceiveLocationPartial) {
+        return _(model).extend(new bespoke.sph.domain.ReceiveLocationPartial(model, optionOrWebid));
     }
     return model;
 };

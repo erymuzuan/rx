@@ -618,9 +618,9 @@
   {
     "role": "developers",
     "groupName": "Entity",
-    "route": "receive.port.designer/:entityid/:formid",
+    "route": "receive.port.designer/:id",
     "moduleId": "viewmodels/receive.port.designer",
-    "title": "Entity Receive Location Designer",
+    "title": "Entity Receive Port Designer",
     "nav": false,
     "icon": "fa fa-bug",
     "caption": "Entity Receive Port Designer",

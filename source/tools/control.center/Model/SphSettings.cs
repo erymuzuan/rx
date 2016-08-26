@@ -355,7 +355,7 @@ namespace Bespoke.Sph.ControlCenter.Model
         [JsonIgnore]
         public string RabbitMqBase
         {
-            get { return GetEnvironmentVariable(nameof(RabbitMqBase)) ?? "..\\rabbitmq_base".TranslatePath(); }
+            get { return GetEnvironmentVariable(nameof(RabbitMqBase)) ?? this.Home + "\\rabbitmq_base"; }
             set
             {
                 var rabbitMqBase = value.TranslatePath();
@@ -364,34 +364,7 @@ namespace Bespoke.Sph.ControlCenter.Model
                 OnPropertyChanged();
             }
         }
-
-        public void LoadDefault()
-        {
-
-            this.WebsitePort = 4436;
-            this.RabbitMqManagementPort = 15672;
-            this.RabbitMqHost = "localhost";
-            this.RabbitMqPort = 5672;
-            this.RabbitMqDirectory = ".\\rabbitmq_server";
-            this.RabbitMqBase = ".\\rabbitmq_base".TranslatePath();
-            this.RabbitMqPassword = "guest";
-            this.RabbitMqUserName = "guest";
-            this.LoggerWebSocketPort = 50230;
-            this.ApplicationName = "";
-            this.IisExpressExecutable = ".\\IIS Express\\iisexpress.exe";
-
-            if (!File.Exists(this.IisExpressExecutable.TranslatePath()))
-                this.IisExpressExecutable = null;
-
-            if (Directory.Exists(".\\elasticsearch".TranslatePath()))
-            {
-                var es = Directory.GetFiles(".\\elasticsearch\\lib\\".TranslatePath(), "elasticsearch-*.jar")
-                    .SingleOrDefault();
-                this.ElasticSearchJar = es;
-            }
-
-
-        }
+        
 
         public void SetElasticsearchConfig()
         {

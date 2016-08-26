@@ -32,7 +32,7 @@ bespoke.sph.domain.Trigger = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -310,7 +310,7 @@ bespoke.sph.domain.Rule = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -412,7 +412,7 @@ bespoke.sph.domain.SetterActionChild = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -444,7 +444,7 @@ bespoke.sph.domain.MethodArg = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -511,7 +511,7 @@ bespoke.sph.domain.WorkflowTriggerMap = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -596,7 +596,7 @@ bespoke.sph.domain.WorkflowDefinition = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -632,7 +632,7 @@ bespoke.sph.domain.Workflow = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -832,7 +832,7 @@ bespoke.sph.domain.VariableValue = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -895,7 +895,7 @@ bespoke.sph.domain.Performer = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -926,7 +926,7 @@ bespoke.sph.domain.WorkflowDesigner = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1182,7 +1182,7 @@ bespoke.sph.domain.ConfirmationOptions = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1620,7 +1620,7 @@ bespoke.sph.domain.Tracker = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1658,7 +1658,7 @@ bespoke.sph.domain.ExecutedActivity = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1696,7 +1696,7 @@ bespoke.sph.domain.Breakpoint = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1732,7 +1732,7 @@ bespoke.sph.domain.ReferencedAssembly = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1799,7 +1799,7 @@ bespoke.sph.domain.MappingSource = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -1838,7 +1838,7 @@ bespoke.sph.domain.TransformDefinition = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2163,7 +2163,7 @@ bespoke.sph.domain.FunctoidArg = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2260,7 +2260,7 @@ bespoke.sph.domain.ExceptionFilter = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2291,7 +2291,7 @@ bespoke.sph.domain.CorrelationType = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2322,7 +2322,7 @@ bespoke.sph.domain.CorrelationSet = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2354,7 +2354,7 @@ bespoke.sph.domain.CorrelationProperty = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2473,66 +2473,6 @@ bespoke.sph.domain.CatchScope = function (optionOrWebid) {
 
 
 
-bespoke.sph.domain.ReceivePortDefinition = function (optionOrWebid) {
-
-    var model = {
-        "$type": "Bespoke.Sph.Domain.ReceivePortDefinition, domain.sph",
-        Name: ko.observable(""),
-        isBusy: ko.observable(false),
-        WebId: ko.observable()
-    };
-    if (optionOrWebid && typeof optionOrWebid === "object") {
-        for (var n in optionOrWebid) {
-            if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
-                    model[n](optionOrWebid[n]);
-                }
-            }
-        }
-    }
-    if (optionOrWebid && typeof optionOrWebid === "string") {
-        model.WebId(optionOrWebid);
-    }
-
-
-    if (bespoke.sph.domain.ReceivePortDefinitionPartial) {
-        return _(model).extend(new bespoke.sph.domain.ReceivePortDefinitionPartial(model, optionOrWebid));
-    }
-    return model;
-};
-
-
-
-bespoke.sph.domain.ReceivePort = function (optionOrWebid) {
-
-    var model = {
-        "$type": "Bespoke.Sph.Domain.ReceivePort, domain.sph",
-        Name: ko.observable(""),
-        isBusy: ko.observable(false),
-        WebId: ko.observable()
-    };
-    if (optionOrWebid && typeof optionOrWebid === "object") {
-        for (var n in optionOrWebid) {
-            if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
-                    model[n](optionOrWebid[n]);
-                }
-            }
-        }
-    }
-    if (optionOrWebid && typeof optionOrWebid === "string") {
-        model.WebId(optionOrWebid);
-    }
-
-
-    if (bespoke.sph.domain.ReceivePortPartial) {
-        return _(model).extend(new bespoke.sph.domain.ReceivePortPartial(model, optionOrWebid));
-    }
-    return model;
-};
-
-
-
 bespoke.sph.domain.SendPort = function (optionOrWebid) {
 
     var model = {
@@ -2544,7 +2484,7 @@ bespoke.sph.domain.SendPort = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2574,7 +2514,7 @@ bespoke.sph.domain.SendPortDefinition = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2618,7 +2558,7 @@ bespoke.sph.domain.DataTransferDefinition = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }
@@ -2651,7 +2591,7 @@ bespoke.sph.domain.ScheduledDataTransfer = function (optionOrWebid) {
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (typeof model[n] === "function") {
+                if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                 }
             }

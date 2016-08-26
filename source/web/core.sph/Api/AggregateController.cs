@@ -26,6 +26,7 @@ namespace Bespoke.Sph.Web.Api
             var type = table.ToLowerInvariant();
             switch (type)
             {
+                case "receiveport": return GetSystemObjectScalar<ReceivePort>(column, filter);
                 case "workflowdefinition": return GetSystemObjectScalar<WorkflowDefinition>(column, filter);
                 case "workflowform": return GetSystemObjectScalar<WorkflowForm>(column, filter);
                 case "designation": return GetSystemObjectScalar<Designation>(column, filter);

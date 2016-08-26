@@ -42,6 +42,7 @@ namespace Bespoke.Sph.Domain.Codes
             }
             set { m_fileName = value; }
         }
+        
 
         public bool IsPartial { get; set; }
 
@@ -55,17 +56,17 @@ namespace Bespoke.Sph.Domain.Codes
         }
         public void AddNamespaceImport<T, T2>()
         {
-            var types = new[] {typeof(T), typeof(T2)};
+            var types = new[] { typeof(T), typeof(T2) };
             AddNamespaceImport(types);
         }
         public void AddNamespaceImport<T, T2, T3>()
         {
-            var types = new[] {typeof(T), typeof(T2), typeof(T3)};
+            var types = new[] { typeof(T), typeof(T2), typeof(T3) };
             AddNamespaceImport(types);
         }
         public void AddNamespaceImport<T, T2, T3, T4>()
         {
-            var types = new[] {typeof(T), typeof(T2), typeof(T3), typeof(T4)};
+            var types = new[] { typeof(T), typeof(T2), typeof(T3), typeof(T4) };
             AddNamespaceImport(types);
         }
         public void AddNamespaceImport<T>()
@@ -155,8 +156,9 @@ namespace Bespoke.Sph.Domain.Codes
             var dir = $"{ConfigurationManager.GeneratedSourceDirectory}\\{folder}\\";
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
-            var file = $"{dir}{FileName}.cs";
+            var file = $"{dir.Replace(@"\\", @"\")}{FileName}{ (FileName.EndsWith(".cs") ? "" : ".cs")}";
             File.WriteAllText(file, this.GetCode());
+
 
             return file;
         }

@@ -184,9 +184,9 @@
                                 return checkSource("ReceivePort", "Id eq '" + ko.unwrap(dialog.id) + "'");
                             }
                             return Task.fromResult(0);
-                        }).then(function (ed) {
-                            if (ed)
-                                router.navigate("#receive.port.designer/" + ko.unwrap(ed.EntityDefinitionId) + "/" + ko.unwrap(ed.Id));
+                        }).then(function (port) {
+                            if (port)
+                                router.navigate("#receive.port.designer/" + ko.unwrap(port.Id));
                         });
             },
             addOperationEndpoint = function (entityDefinition) {

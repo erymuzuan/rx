@@ -2055,6 +2055,153 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
+    public partial class ReceivePort
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_entity;
+        public const string PropertyNameEntity = "Entity";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_entityId;
+        public const string PropertyNameEntityId = "EntityId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_formatter;
+        public const string PropertyNameFormatter = "Formatter";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<ReceiveLocation> ReceiveLocationCollection { get; } = new ObjectCollection<ReceiveLocation>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection { get; } = new ObjectCollection<ReferencedAssembly>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Entity
+        {
+            set
+            {
+                if (String.Equals(m_entity, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEntity, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_entity = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_entity;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string EntityId
+        {
+            set
+            {
+                if (String.Equals(m_entityId, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEntityId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_entityId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_entityId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Formatter
+        {
+            set
+            {
+                if (String.Equals(m_formatter, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFormatter, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_formatter = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_formatter;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
     public partial class EntityDefinition
     {
 
@@ -8984,6 +9131,610 @@ namespace Bespoke.Sph.Domain
     }
 
     // placeholder for ReferencedAssembly
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class FolderReceiveLocation
+    {
+
+        private string m_Path;
+        public string Path
+        {
+            get
+            {
+                return m_Path;
+            }
+            set
+            {
+                m_Path = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Credential;
+        public string Credential
+        {
+            get
+            {
+                return m_Credential;
+            }
+            set
+            {
+                m_Credential = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class TextFormatter
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isFixLength;
+        public const string PropertyNameIsFixLength = "IsFixLength";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_delimiter;
+        public const string PropertyNameDelimiter = "Delimiter";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_headerTag;
+        public const string PropertyNameHeaderTag = "HeaderTag";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_detailsTag;
+        public const string PropertyNameDetailsTag = "DetailsTag";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_ignoreTag;
+        public const string PropertyNameIgnoreTag = "IgnoreTag";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<DelimitedTextFieldMapping> DelimitedTextFieldMappingCollection { get; } = new ObjectCollection<DelimitedTextFieldMapping>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<FixedLengthTextFieldMapping> FixedLengthTextFieldMappingCollection { get; } = new ObjectCollection<FixedLengthTextFieldMapping>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsFixLength
+        {
+            set
+            {
+                if (m_isFixLength == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsFixLength, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isFixLength = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isFixLength;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string Delimiter
+        {
+            set
+            {
+                if (String.Equals(m_delimiter, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDelimiter, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_delimiter = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_delimiter;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string HeaderTag
+        {
+            set
+            {
+                if (String.Equals(m_headerTag, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameHeaderTag, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_headerTag = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_headerTag;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string DetailsTag
+        {
+            set
+            {
+                if (String.Equals(m_detailsTag, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDetailsTag, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_detailsTag = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_detailsTag;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string IgnoreTag
+        {
+            set
+            {
+                if (String.Equals(m_ignoreTag, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIgnoreTag, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_ignoreTag = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_ignoreTag;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class DelimitedTextFieldMapping
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_column;
+        public const string PropertyNameColumn = "Column";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_path;
+        public const string PropertyNamePath = "Path";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_typeName;
+        public const string PropertyNameTypeName = "TypeName";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_converter;
+        public const string PropertyNameConverter = "Converter";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_allowMissing;
+        public const string PropertyNameAllowMissing = "AllowMissing";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_order;
+        public const string PropertyNameOrder = "Order";
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public int Column
+        {
+            set
+            {
+                if (m_column == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameColumn, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_column = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_column;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Path
+        {
+            set
+            {
+                if (String.Equals(m_path, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePath, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_path = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_path;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string TypeName
+        {
+            set
+            {
+                if (String.Equals(m_typeName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_typeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_typeName;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string Converter
+        {
+            set
+            {
+                if (String.Equals(m_converter, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameConverter, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_converter = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_converter;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool AllowMissing
+        {
+            set
+            {
+                if (m_allowMissing == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameAllowMissing, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_allowMissing = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_allowMissing;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? Order
+        {
+            set
+            {
+                if (m_order == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOrder, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_order = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_order; }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class FixedLengthTextFieldMapping
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_column;
+        public const string PropertyNameColumn = "Column";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_path;
+        public const string PropertyNamePath = "Path";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_typeName;
+        public const string PropertyNameTypeName = "TypeName";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_converter;
+        public const string PropertyNameConverter = "Converter";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_allowMissing;
+        public const string PropertyNameAllowMissing = "AllowMissing";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public int Column
+        {
+            set
+            {
+                if (m_column == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameColumn, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_column = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_column;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Path
+        {
+            set
+            {
+                if (String.Equals(m_path, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePath, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_path = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_path;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string TypeName
+        {
+            set
+            {
+                if (String.Equals(m_typeName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_typeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_typeName;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string Converter
+        {
+            set
+            {
+                if (String.Equals(m_converter, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameConverter, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_converter = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_converter;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool AllowMissing
+        {
+            set
+            {
+                if (m_allowMissing == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameAllowMissing, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_allowMissing = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_allowMissing;
+            }
+        }
+
+
+
+    }
+
 
     public partial class FormElement
     {
@@ -9681,6 +10432,62 @@ namespace Bespoke.Sph.Domain
 
 
     // placeholder for Field complext type
+
+
+    public partial class ReceiveLocation
+    {
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private TextFormatter m_textFormatter
+                = new TextFormatter();
+
+        public const string PropertyNameTextFormatter = "TextFormatter";
+        [DebuggerHidden]
+
+        public TextFormatter TextFormatter
+        {
+            get { return m_textFormatter; }
+            set
+            {
+                m_textFormatter = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        // public properties members
+
+
+
+        public string Name
+        {
+            set
+            {
+                if (m_name == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+
+    }
+
 
     // placeholder for Operator enum
 

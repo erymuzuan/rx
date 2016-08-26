@@ -48,6 +48,15 @@ namespace Bespoke.Sph.Web.Controllers
         {
             return ReadFromSource<DataTransferDefinition>(filter, page, size, orderby: orderby);
         }
+        [Route("ReceivePort")]
+        [HttpGet]
+        public IHttpActionResult ReceivePort(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
+        {
+            return ReadFromSource<ReceivePort>(filter, page, size, orderby: orderby);
+        }
+
+
         [Route("Designation")]
         [HttpGet]
         public IHttpActionResult Designation(string filter = null, int page = 1, int size = 40, bool includeTotal = false,

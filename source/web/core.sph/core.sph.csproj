@@ -2691,6 +2691,7 @@
     <EmbeddedResource Include="SphApp\services\_ko.list.js" />
     <EmbeddedResource Include="SphApp\viewmodels\data.import.result.preview.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\curl.command.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\receive.port.designer.js" />
     <Content Include="SphApp\viewmodels\environment.variables.js" />
     <EmbeddedResource Include="SphApp\viewmodels\new.entity.definition.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\new.workflow.definition.dialog.js" />
@@ -3239,6 +3240,7 @@
     <EmbeddedResource Include="SphApp\views\value.object.details.html" />
     <EmbeddedResource Include="SphApp\views\value.object.list.html" />
     <EmbeddedResource Include="SphApp\views\workflow.schema.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\receive.port.designer.html" />
     <Content Include="SphApp\views\environment.variables.html" />
     <EmbeddedResource Include="SphApp\views\new.entity.definition.dialog.html" />
     <EmbeddedResource Include="SphApp\views\new.workflow.definition.dialog.html" />
