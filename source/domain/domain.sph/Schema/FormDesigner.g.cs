@@ -2090,6 +2090,23 @@ namespace Bespoke.Sph.Domain
         public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection { get; } = new ObjectCollection<ReferencedAssembly>();
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private TextFormatter m_textFormatter
+                = new TextFormatter();
+
+        public const string PropertyNameTextFormatter = "TextFormatter";
+        [DebuggerHidden]
+
+        public TextFormatter TextFormatter
+        {
+            get { return m_textFormatter; }
+            set
+            {
+                m_textFormatter = value;
+                OnPropertyChanged();
+            }
+        }
+
         ///<summary>
         /// 
         ///</summary>
@@ -9186,8 +9203,13 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isFixLength;
-        public const string PropertyNameIsFixLength = "IsFixLength";
+        private bool m_isFixedLength;
+        public const string PropertyNameIsFixedLength = "IsFixedLength";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isDelimited;
+        public const string PropertyNameIsDelimited = "IsDelimited";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -9196,18 +9218,23 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_headerTag;
-        public const string PropertyNameHeaderTag = "HeaderTag";
+        private string m_recordTag;
+        public const string PropertyNameRecordTag = "RecordTag";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_detailsTag;
-        public const string PropertyNameDetailsTag = "DetailsTag";
+        private string m_escapeCharacter;
+        public const string PropertyNameEscapeCharacter = "EscapeCharacter";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_ignoreTag;
-        public const string PropertyNameIgnoreTag = "IgnoreTag";
+        private bool m_hasTagIdentifier;
+        public const string PropertyNameHasTagIdentifier = "HasTagIdentifier";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_sampleStoreId;
+        public const string PropertyNameSampleStoreId = "SampleStoreId";
 
 
         ///<summary>
@@ -9220,6 +9247,18 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         public ObjectCollection<FixedLengthTextFieldMapping> FixedLengthTextFieldMappingCollection { get; } = new ObjectCollection<FixedLengthTextFieldMapping>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<FlatFileDetailTag> FlatFileDetailTagCollection { get; } = new ObjectCollection<FlatFileDetailTag>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<string> IgnoreTagsCollection { get; } = new ObjectCollection<string>();
 
 
         ///<summary>
@@ -9254,22 +9293,48 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
-        public bool IsFixLength
+        public bool IsFixedLength
         {
             set
             {
-                if (m_isFixLength == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsFixLength, value);
+                if (m_isFixedLength == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsFixedLength, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_isFixLength = value;
+                    m_isFixedLength = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_isFixLength;
+                return m_isFixedLength;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsDelimited
+        {
+            set
+            {
+                if (m_isDelimited == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsDelimited, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isDelimited = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isDelimited;
             }
         }
 
@@ -9304,22 +9369,22 @@ namespace Bespoke.Sph.Domain
         ///</summary>
         [DebuggerHidden]
 
-        public string HeaderTag
+        public string RecordTag
         {
             set
             {
-                if (String.Equals(m_headerTag, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameHeaderTag, value);
+                if (String.Equals(m_recordTag, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRecordTag, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_headerTag = value;
+                    m_recordTag = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_headerTag;
+                return m_recordTag;
             }
         }
 
@@ -9329,22 +9394,22 @@ namespace Bespoke.Sph.Domain
         ///</summary>
         [DebuggerHidden]
 
-        public string DetailsTag
+        public string EscapeCharacter
         {
             set
             {
-                if (String.Equals(m_detailsTag, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameDetailsTag, value);
+                if (String.Equals(m_escapeCharacter, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEscapeCharacter, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_detailsTag = value;
+                    m_escapeCharacter = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_detailsTag;
+                return m_escapeCharacter;
             }
         }
 
@@ -9354,22 +9419,49 @@ namespace Bespoke.Sph.Domain
         ///</summary>
         [DebuggerHidden]
 
-        public string IgnoreTag
+        [Required]
+        public bool HasTagIdentifier
         {
             set
             {
-                if (String.Equals(m_ignoreTag, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIgnoreTag, value);
+                if (m_hasTagIdentifier == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameHasTagIdentifier, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_ignoreTag = value;
+                    m_hasTagIdentifier = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_ignoreTag;
+                return m_hasTagIdentifier;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string SampleStoreId
+        {
+            set
+            {
+                if (String.Equals(m_sampleStoreId, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSampleStoreId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_sampleStoreId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_sampleStoreId;
             }
         }
 
@@ -9728,6 +9820,79 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_allowMissing;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class FlatFileDetailTag
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_rowTag;
+        public const string PropertyNameRowTag = "RowTag";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_parentTag;
+        public const string PropertyNameParentTag = "ParentTag";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string RowTag
+        {
+            set
+            {
+                if (String.Equals(m_rowTag, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRowTag, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_rowTag = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_rowTag;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string ParentTag
+        {
+            set
+            {
+                if (String.Equals(m_parentTag, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameParentTag, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_parentTag = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_parentTag;
             }
         }
 
@@ -10444,21 +10609,9 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameName = "Name";
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private TextFormatter m_textFormatter
-                = new TextFormatter();
 
-        public const string PropertyNameTextFormatter = "TextFormatter";
-        [DebuggerHidden]
-
-        public TextFormatter TextFormatter
-        {
-            get { return m_textFormatter; }
-            set
-            {
-                m_textFormatter = value;
-                OnPropertyChanged();
-            }
-        }
+        private bool m_isActive;
+        public const string PropertyNameIsActive = "IsActive";
 
 
         // public properties members
@@ -10481,6 +10634,27 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_name;
+            }
+        }
+
+
+
+        public bool IsActive
+        {
+            set
+            {
+                if (m_isActive == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsActive, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isActive = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isActive;
             }
         }
 

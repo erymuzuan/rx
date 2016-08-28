@@ -365,6 +365,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element ref="TextFormatter"/>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Entity" type="xs:string" use="required"/>
@@ -1096,10 +1097,9 @@
 		</xs:annotation>
 	</xs:element>
 	<xs:complexType name="ReceiveLocation">
-		<xs:all>
-			<xs:element ref="TextFormatter"/>
-		</xs:all>
+		<xs:all/>
 		<xs:attribute name="Name" type="xs:string" use="required"/>
+		<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
 	</xs:complexType>
 	<xs:element name="FolderReceiveLocation">
 		<xs:complexType>
@@ -1128,13 +1128,29 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="FlatFileDetailTagCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="FlatFileDetailTag" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="IgnoreTagsCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="IgnoreTag" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="IsFixLength" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsFixedLength" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsDelimited" type="xs:boolean" use="required"/>
 			<xs:attribute name="Delimiter" type="xs:string" use="optional"/>
-			<xs:attribute name="HeaderTag" type="xs:string" use="optional"/>
-			<xs:attribute name="DetailsTag" type="xs:string" use="optional"/>
-			<xs:attribute name="IgnoreTag" type="xs:string" use="optional"/>
+			<xs:attribute name="RecordTag" type="xs:string" use="optional"/>
+			<xs:attribute name="EscapeCharacter" type="xs:string" use="optional"/>
+			<xs:attribute name="HasTagIdentifier" type="xs:boolean" use="required"/>
+			<xs:attribute name="SampleStoreId" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="DelimitedTextFieldMapping">
@@ -1156,6 +1172,12 @@
 			<xs:attribute name="TypeName" type="xs:string" use="required"/>
 			<xs:attribute name="Converter" type="xs:string" use="optional"/>
 			<xs:attribute name="AllowMissing" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FlatFileDetailTag">
+		<xs:complexType>
+			<xs:attribute name="RowTag" type="xs:string" use="required"/>
+			<xs:attribute name="ParentTag" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

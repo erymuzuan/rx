@@ -839,6 +839,8 @@ bespoke.sph.domain.ReceivePort = function (optionOrWebid) {
         EntityId: ko.observable(""),
         Formatter: ko.observable(""),
         ReceiveLocationCollection: ko.observableArray([]),
+        ReferencedAssemblyCollection: ko.observableArray([]),
+        TextFormatter: ko.observable(new bespoke.sph.domain.TextFormatter()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -2422,18 +2424,55 @@ bespoke.sph.domain.CachingSetting = function (optionOrWebid) {
 
 // placeholder for ReferencedAssembly
 
+bespoke.sph.domain.FolderReceiveLocation = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.ReceiveLocation(optionOrWebid);
+
+    v.Path = ko.observable("");
+
+    v.Credential = ko.observable("");
+
+    v["$type"] = "Bespoke.Sph.Domain.FolderReceiveLocation, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (ko.isObservable(v[n])) {
+                    v[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.FolderReceiveLocationPartial) {
+        return _(v).extend(new bespoke.sph.domain.FolderReceiveLocationPartial(v, optionOrWebid));
+    }
+    return v;
+};
+
+
+
 bespoke.sph.domain.TextFormatter = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.TextFormatter, domain.sph",
         Name: ko.observable(""),
-        IsFixLength: ko.observable(false),
+        IsFixedLength: ko.observable(false),
+        IsDelimited: ko.observable(false),
         Delimiter: ko.observable(""),
-        HeaderTag: ko.observable(""),
-        DetailsTag: ko.observable(""),
-        IgnoreTag: ko.observable(""),
+        RecordTag: ko.observable(""),
+        EscapeCharacter: ko.observable(""),
+        HasTagIdentifier: ko.observable(false),
+        SampleStoreId: ko.observable(""),
         DelimitedTextFieldMappingCollection: ko.observableArray([]),
         FixedLengthTextFieldMappingCollection: ko.observableArray([]),
+        FlatFileDetailTagCollection: ko.observableArray([]),
+        IgnoreTagsCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -2522,6 +2561,37 @@ bespoke.sph.domain.FixedLengthTextFieldMapping = function (optionOrWebid) {
 
     if (bespoke.sph.domain.FixedLengthTextFieldMappingPartial) {
         return _(model).extend(new bespoke.sph.domain.FixedLengthTextFieldMappingPartial(model, optionOrWebid));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.FlatFileDetailTag = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.FlatFileDetailTag, domain.sph",
+        RowTag: ko.observable(""),
+        ParentTag: ko.observable(""),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (ko.isObservable(model[n])) {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.FlatFileDetailTagPartial) {
+        return _(model).extend(new bespoke.sph.domain.FlatFileDetailTagPartial(model, optionOrWebid));
     }
     return model;
 };
@@ -2641,7 +2711,7 @@ bespoke.sph.domain.ReceiveLocation = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.ReceiveLocation, domain.sph",
         Name: ko.observable(""),
-        TextFormatter: ko.observable(new bespoke.sph.domain.TextFormatter()),
+        IsActive: ko.observable(false),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

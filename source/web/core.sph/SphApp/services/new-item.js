@@ -172,13 +172,11 @@
                             return Task.fromResult(0);
                         }).then(function (ed) {
                             if (ed)
-                                router.navigate("#entity.form.designer/" + ko.unwrap(ed.EntityDefinitionId) + "/" + ko.unwrap(ed.Id));
+                                router.navigate(`#entity.form.designer/${ko.unwrap(ed.EntityDefinitionId)}/${ko.unwrap(ed.Id)}`);
                         });
             },
-            addReceivePort= function (entityDefinition) {
-                return app.showDialog("new.receive.port.dialog", function (dialog) {
-                    dialog.entity(entityDefinition);
-                })
+            addReceivePort = function () {
+                return app.showDialog("new.receive.port.dialog")
                         .then(function (dialog, result) {
                             if (result === "OK") {
                                 return checkSource("ReceivePort", "Id eq '" + ko.unwrap(dialog.id) + "'");
@@ -249,10 +247,10 @@
                                 router.navigate("#form.dialog.designer/" + ko.unwrap(ed.Entity) + "/" + ko.unwrap(ed.Id));
                         });
             },
-            addDataTransferDefinition = function(dtd){
+            addDataTransferDefinition = function (dtd) {
                 return app.showDialog("new.data.transfer.definition.dialog", function (dialog) {
-                        dialog.dtd(dtd);
-                    })
+                    dialog.dtd(dtd);
+                })
                     .then(function (dialog, result) {
                         if (result === "OK") {
                             return checkSource("DataTransferDefinition", "Id eq '" + ko.unwrap(dialog.id) + "'");
