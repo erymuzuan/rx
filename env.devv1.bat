@@ -1,4 +1,5 @@
-﻿SET RX_DEVV1_HOME=E:\project\work\rx\bin
+@echo off
+SET RX_DEVV1_HOME=%~dp0%bin
 SET RX_DEVV1_RabbitMqPassword=guest
 SET RX_DEVV1_RabbitMqBase=%RX_DEVV1_HOME%\rabbitmq_base
 SET RX_DEVV1_ElasticsearchIndexNumberOfShards=1
@@ -17,3 +18,5 @@ SET RX_DEVV1_RabbitMqUserName=guest
 SET RX_DEVV1_ElasticsearchNodeName=node_WS28_DevV1
 SET RABBITMQ_BASE=%RX_DEVV1_HOME%\rabbitmq_base
 SET PATH=%PATH%;%RX_DEVV1_HOME%\rabbitmq_server\bin;
+@echo on
+echo Your environment has been set to %RX_DEVV1_HOME%
