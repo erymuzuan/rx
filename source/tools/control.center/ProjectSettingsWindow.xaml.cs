@@ -1,7 +1,6 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Threading;
 using Bespoke.Sph.ControlCenter.ViewModel;
 
 namespace Bespoke.Sph.ControlCenter
@@ -13,11 +12,11 @@ namespace Bespoke.Sph.ControlCenter
             InitializeComponent();
             this.Loaded += ProjectSettingsUserControlLoaded;
         }
-
+        private readonly IList<string> m_sqlLocaldbInstances = new List<string>();
         void ProjectSettingsUserControlLoaded(object sender, RoutedEventArgs e)
         {
-            if (sqlIntancesCombobox.Items.Count > 0)
-                sqlIntancesCombobox.Items.Clear();
+            if (m_sqlLocaldbInstances.Count > 0)
+                m_sqlLocaldbInstances.Clear();
             this.QueueUserWorkItem(() =>
             {
 
@@ -53,7 +52,7 @@ namespace Bespoke.Sph.ControlCenter
         {
             if (!string.IsNullOrWhiteSpace(e.Data))
             {
-                this.Post(s => sqlIntancesCombobox.Items.Add(s), e.Data);
+                this.Post(s => m_sqlLocaldbInstances.Add(s), e.Data);
             }
         }
 

@@ -57,19 +57,6 @@
                     <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding WebsitePort, Mode=TwoWay}"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="SQL LocalDB">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30*"/>
-                        <ColumnDefinition Width="80*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Content="LocalDB Instance Name"/>
-                    <ComboBox IsEditable="True" x:Name="sqlIntancesCombobox" Grid.Row="0" Grid.Column="1" Text="{Binding SqlLocalDbName}"/>
-                </Grid>
-            </TabItem>
             <TabItem Header="RabbitMQ">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -121,6 +108,27 @@
                 </Grid>
             </TabItem>
 
+            <TabItem Header="Environment Variable">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="1" Grid.Column="0">Application Name</Label>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ApplicationName}"></TextBox>
+                </Grid>
+            </TabItem>
         </TabControl>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
@@ -129,3 +137,18 @@
         </StackPanel>
     </Grid>
 </Window>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
