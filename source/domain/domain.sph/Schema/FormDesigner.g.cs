@@ -2055,170 +2055,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    public partial class ReceivePort
-    {
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_name;
-        public const string PropertyNameName = "Name";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_entity;
-        public const string PropertyNameEntity = "Entity";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_entityId;
-        public const string PropertyNameEntityId = "EntityId";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_formatter;
-        public const string PropertyNameFormatter = "Formatter";
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        public ObjectCollection<ReceiveLocation> ReceiveLocationCollection { get; } = new ObjectCollection<ReceiveLocation>();
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection { get; } = new ObjectCollection<ReferencedAssembly>();
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private TextFormatter m_textFormatter
-                = new TextFormatter();
-
-        public const string PropertyNameTextFormatter = "TextFormatter";
-        [DebuggerHidden]
-
-        public TextFormatter TextFormatter
-        {
-            get { return m_textFormatter; }
-            set
-            {
-                m_textFormatter = value;
-                OnPropertyChanged();
-            }
-        }
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        [Required]
-        public string Name
-        {
-            set
-            {
-                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_name = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_name;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        [Required]
-        public string Entity
-        {
-            set
-            {
-                if (String.Equals(m_entity, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameEntity, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_entity = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_entity;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        [Required]
-        public string EntityId
-        {
-            set
-            {
-                if (String.Equals(m_entityId, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameEntityId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_entityId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_entityId;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        [Required]
-        public string Formatter
-        {
-            set
-            {
-                if (String.Equals(m_formatter, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameFormatter, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_formatter = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_formatter;
-            }
-        }
-
-
-
-    }
-
-    ///<summary>
-    /// 
-    ///</summary>
-    [DataObject(true)]
-    [Serializable]
     public partial class EntityDefinition
     {
 
@@ -9153,6 +8989,181 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
+    public partial class ReceivePort
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_entity;
+        public const string PropertyNameEntity = "Entity";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_entityId;
+        public const string PropertyNameEntityId = "EntityId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_formatter;
+        public const string PropertyNameFormatter = "Formatter";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private TextFormatter m_textFormatter;
+        public const string PropertyNameTextFormatter = "TextFormatter";
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<ReceiveLocation> ReceiveLocationCollection { get; } = new ObjectCollection<ReceiveLocation>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection { get; } = new ObjectCollection<ReferencedAssembly>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Entity
+        {
+            set
+            {
+                if (String.Equals(m_entity, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEntity, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_entity = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_entity;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string EntityId
+        {
+            set
+            {
+                if (String.Equals(m_entityId, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEntityId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_entityId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_entityId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string Formatter
+        {
+            set
+            {
+                if (String.Equals(m_formatter, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFormatter, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_formatter = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_formatter;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public TextFormatter TextFormatter
+        {
+            set
+            {
+                if (m_textFormatter == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTextFormatter, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_textFormatter = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_textFormatter; }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
     public partial class FolderReceiveLocation
     {
 
@@ -9194,248 +9205,106 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    public partial class TextFormatter
+    public partial class FixedLengthTextFormatter
     {
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_name;
-        public const string PropertyNameName = "Name";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isFixedLength;
-        public const string PropertyNameIsFixedLength = "IsFixedLength";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isDelimited;
-        public const string PropertyNameIsDelimited = "IsDelimited";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_delimiter;
-        public const string PropertyNameDelimiter = "Delimiter";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_recordTag;
-        public const string PropertyNameRecordTag = "RecordTag";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_escapeCharacter;
-        public const string PropertyNameEscapeCharacter = "EscapeCharacter";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_hasTagIdentifier;
-        public const string PropertyNameHasTagIdentifier = "HasTagIdentifier";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_sampleStoreId;
-        public const string PropertyNameSampleStoreId = "SampleStoreId";
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        public ObjectCollection<DelimitedTextFieldMapping> DelimitedTextFieldMappingCollection { get; } = new ObjectCollection<DelimitedTextFieldMapping>();
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        public ObjectCollection<FixedLengthTextFieldMapping> FixedLengthTextFieldMappingCollection { get; } = new ObjectCollection<FixedLengthTextFieldMapping>();
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        public ObjectCollection<FlatFileDetailTag> FlatFileDetailTagCollection { get; } = new ObjectCollection<FlatFileDetailTag>();
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        public ObjectCollection<string> IgnoreTagsCollection { get; } = new ObjectCollection<string>();
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        [Required]
-        public string Name
-        {
-            set
-            {
-                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_name = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_name;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        [Required]
-        public bool IsFixedLength
-        {
-            set
-            {
-                if (m_isFixedLength == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsFixedLength, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isFixedLength = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isFixedLength;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        [Required]
-        public bool IsDelimited
-        {
-            set
-            {
-                if (m_isDelimited == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsDelimited, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isDelimited = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isDelimited;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        public string Delimiter
-        {
-            set
-            {
-                if (String.Equals(m_delimiter, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameDelimiter, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_delimiter = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_delimiter;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
+        private string m_RecordTag;
         public string RecordTag
         {
-            set
-            {
-                if (String.Equals(m_recordTag, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameRecordTag, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_recordTag = value;
-                    OnPropertyChanged();
-                }
-            }
             get
             {
-                return m_recordTag;
+                return m_RecordTag;
+            }
+            set
+            {
+                m_RecordTag = value;
+                RaisePropertyChanged();
             }
         }
 
 
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        public string EscapeCharacter
-        {
-            set
-            {
-                if (String.Equals(m_escapeCharacter, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameEscapeCharacter, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_escapeCharacter = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_escapeCharacter;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        [Required]
+        private bool m_HasTagIdentifier;
         public bool HasTagIdentifier
         {
-            set
-            {
-                if (m_hasTagIdentifier == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameHasTagIdentifier, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_hasTagIdentifier = value;
-                    OnPropertyChanged();
-                }
-            }
             get
             {
-                return m_hasTagIdentifier;
+                return m_HasTagIdentifier;
+            }
+            set
+            {
+                m_HasTagIdentifier = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class DelimitedTextFormatter
+    {
+
+        private string m_Delimiter;
+        public string Delimiter
+        {
+            get
+            {
+                return m_Delimiter;
+            }
+            set
+            {
+                m_Delimiter = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_HasTagIdentifier;
+        public bool HasTagIdentifier
+        {
+            get
+            {
+                return m_HasTagIdentifier;
+            }
+            set
+            {
+                m_HasTagIdentifier = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_RecordTag;
+        public string RecordTag
+        {
+            get
+            {
+                return m_RecordTag;
+            }
+            set
+            {
+                m_RecordTag = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_EscapeCharacter;
+        public string EscapeCharacter
+        {
+            get
+            {
+                return m_EscapeCharacter;
+            }
+            set
+            {
+                m_EscapeCharacter = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -9443,25 +9312,78 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        [DebuggerHidden]
+        public ObjectCollection<DelimitedTextFieldMapping> FieldMappingCollection { get; } = new ObjectCollection<DelimitedTextFieldMapping>();
 
-        [Required]
-        public string SampleStoreId
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<FlatFileDetailTag> DetailRowCollection { get; } = new ObjectCollection<FlatFileDetailTag>();
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class JsonTextFormatter
+    {
+
+        private string m_SchemaStoreId;
+        public string SchemaStoreId
         {
-            set
-            {
-                if (String.Equals(m_sampleStoreId, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameSampleStoreId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_sampleStoreId = value;
-                    OnPropertyChanged();
-                }
-            }
             get
             {
-                return m_sampleStoreId;
+                return m_SchemaStoreId;
+            }
+            set
+            {
+                m_SchemaStoreId = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class XmlTextFormatter
+    {
+
+        private string m_Namespace;
+        public string Namespace
+        {
+            get
+            {
+                return m_Namespace;
+            }
+            set
+            {
+                m_Namespace = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_XmlSchemaStoreId;
+        public string XmlSchemaStoreId
+        {
+            get
+            {
+                return m_XmlSchemaStoreId;
+            }
+            set
+            {
+                m_XmlSchemaStoreId = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -9843,6 +9765,12 @@ namespace Bespoke.Sph.Domain
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_parentTag;
         public const string PropertyNameParentTag = "ParentTag";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<FlatFileDetailTag> DetailRowCollection { get; } = new ObjectCollection<FlatFileDetailTag>();
 
 
         ///<summary>
@@ -10655,6 +10583,71 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_isActive;
+            }
+        }
+
+
+
+    }
+
+
+
+    public partial class TextFormatter
+    {
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_sampleStoreId;
+        public const string PropertyNameSampleStoreId = "SampleStoreId";
+
+
+        // public properties members
+
+
+
+        public string Name
+        {
+            set
+            {
+                if (m_name == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+
+        public string SampleStoreId
+        {
+            set
+            {
+                if (m_sampleStoreId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSampleStoreId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_sampleStoreId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_sampleStoreId;
             }
         }
 

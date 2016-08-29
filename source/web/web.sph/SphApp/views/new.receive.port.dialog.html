@@ -1,6 +1,6 @@
 ﻿
 <section class="view-model-modal" id="receive-port-dialog">
-        <div class="modal-dialog">
+    <div class="modal-dialog">
         <div class="modal-content">
 
             <div class="modal-header">
@@ -11,17 +11,14 @@
 
                 <form class="form-horizontal" id="flat-file-receive-port-wizard-dialog-form">
 
-
-                    <!-- ko with : TextFormatter -->
-
                     <div data-bind="visible: $root.page() === 1">
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-6">
                                 <div class="checkbox">
                                     <label>
-                                        <input data-bind="checked: IsFixedLength.ForEditing" id="positional" type="radio" name="IsPositional"/>
-                                        By relative position
+                                        <input data-bind="checked: Formatter" value="FixedLengthTextFormatter" id="positional" type="radio" name="Formatter" />
+                                        By relative position or fixed lengt text
                                     </label>
                                 </div>
                             </div>
@@ -30,25 +27,71 @@
                             <div class="col-md-offset-2 col-md-6">
                                 <div class="checkbox">
                                     <label>
-                                        <input data-bind="checked: IsDelimited.ForEditing" id="is-delimiter" type="radio" name="IsPositional"/>
-                                        By delimiter symbol
+                                        <input data-bind="checked: Formatter" value="DelimitedTextFormatter" id="is-delimiter" type="radio" name="Formatter" />
+                                        By delimiter symbol e.g csv, tab delimited etc
                                     </label>
                                 </div>
                             </div>
                         </div>
-                        
-                    </div>
-
-                    <div data-bind="visible: $root.page() === 2 && ko.unwrap(IsDelimited)">
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input data-bind="checked: Formatter" value="XmlTextFormatter" id="xml-formatter" type="radio" name="Formatter" />
+                                        XML file
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input data-bind="checked: Formatter" value="JsonTextFormatter" id="json-formatter" type="radio" name="Formatter" />
+                                        JSON file
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input data-bind="checked: Formatter" value="HtmlTextFormatter" id="html-formatter" type="radio" name="Formatter" />
+                                        HTML file
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="form-group">
-                            <label for="sample-store-id" class="col-lg-2 control-label">Upload sample file</label>
+                            <label for="record-name" class="col-lg-2 control-label">Record Name</label>
+                            <div class="col-lg-6">
+                                <input type="text" data-bind="value: Entity"
+                                       required pattern="^[A-Z][A-Za-z0-9_]*$"
+                                       placeholder="Record name, an EntityDefinition for the record"
+                                       class="form-control" id="record-name">
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- ko if : ko.unwrap(Formatter) === 'DelimitedTextFormatter' -->
+
+                    <div data-bind="visible: $root.page() === 2">
+                        <!-- ko with : TextFormatter -->
+
+                        <div class="form-group">
+                            <label for="sample-file" class="col-lg-2 control-label">Updload sample file</label>
                             <div class="col-lg-6">
                                 <input type="file" data-bind="kendoUpload: SampleStoreId"
                                        required
-                                       class="form-control" id="sample-store-id">
+                                       class="form-control" id="sample-file">
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label for="delimiter" class="col-sm-2 control-label">Delimiter</label>
 
@@ -74,20 +117,17 @@
                                        class="form-control" id="escape-char">
                             </div>
                         </div>
-
-
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-6">
                                 <div class="checkbox">
                                     <label>
                                         <input data-bind="checked: HasTagIdentifier" id="login-operation" type="checkbox"
-                                               name="IsTagIdentifier"/>
+                                               name="IsTagIdentifier" />
                                         Record has a tag identitfier
                                     </label>
                                 </div>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label for="tag" class="col-sm-2 control-label">Tag</label>
 
@@ -97,11 +137,65 @@
                             </div>
                         </div>
 
+
+                        <!-- /ko -->
                     </div>
-                    
+
+                    <div data-bind="visible:$root.page() === 3, with: TextFormatter">
+                        <h3>Details row</h3>
+                        <span>Your text file must have Record tag in order to have details row</span>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Field Name</th>
+                                    <th>Row Tag</th>
+                                    <th>Parent Tag</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach : DetailRowCollection">
+                                <tr>
+                                    <td>
+                                        <input type="text" required data-bind="value:Name, uniqueName: true" pattern="^[A-Z][A-Za-z0-9_]*$"
+                                               placeholder="Detail row name, the type identifier for the detail row"
+                                               class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input type="text" required data-bind="value:FieldName, uniqueName: true" pattern="^[A-Z][A-Za-z0-9_]*$"
+                                               placeholder="Field's name for the parent, normally the plural of the details name"
+                                               class="form-control" />
+                                    </td>
+                                    <td>
+
+                                        <input type="text" required data-bind="value:RowTag, uniqueName: true"
+                                               placeholder="Tag to identify the row, must not be the same as the parent row"
+                                               class="form-control" />
+                                    </td>
+                                    <td>
+                                        <select required data-bind="value:Parent,options : $parent.parentOptions, optionsCaption : '[Select a parent for this details row]', uniqueName: true"
+                                                class="form-control">
+                                            
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:;" data-bind="click : $parent.removeDetailsRow">
+                                            <i class="fa fa-times">Remove</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a href="javascript:;" data-bind="click : addDetailsRow">
+                            <i class="fa fa-plus-circle">Add new details row</i>
+                        </a>
+
+                    </div>
+
                     <!-- /ko -->
 
-                    <div data-bind="visible: $root.page() === 3 && TextFormatter().IsDelimited">
+
+                    <div data-bind="visible: $root.page() === 3 && Formatter() === 'DelimitedTextFormatter'">
                         <textarea readonly="readonly" data-bind="value:$root.sampleText"></textarea>
                     </div>
                     <div data-bind="visible: $root.page() === 4"></div>
@@ -111,9 +205,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <input data-dismiss="modal" type="submit" class="btn btn-default" value="&lt; Back" data-bind="click: backClick, enable : backEnable"/>
-                <input data-dismiss="modal" type="submit" class="btn btn-default" value="Next &gt;" data-bind="click: nextClick, enable : nextEnable"/>
-                <input form="flat-file-receive-port-wizard-dialog-form" data-dismiss="modal" type="submit" class="btn btn-default" value="OK" data-bind="click: okClick, enable : okEnable"/>
+                <input data-dismiss="modal" type="submit" class="btn btn-default" value="&lt; Back" data-bind="click: backClick, enable : backEnable" />
+                <input data-dismiss="modal" type="submit" class="btn btn-default" value="Next &gt;" data-bind="click: nextClick, enable : nextEnable" />
+                <input form="flat-file-receive-port-wizard-dialog-form" data-dismiss="modal" type="submit" class="btn btn-default" value="OK" data-bind="click: okClick, enable : okEnable" />
                 <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
             </div>
         </div>

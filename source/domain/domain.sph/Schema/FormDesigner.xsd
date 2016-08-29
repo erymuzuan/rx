@@ -348,31 +348,6 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="ReceivePort">
-		<xs:complexType>
-			<xs:all>
-				<xs:element name="ReceiveLocationCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="ReceiveLocation" type="ReceiveLocation" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="ReferencedAssemblyCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="ReferencedAssembly" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element ref="TextFormatter"/>
-			</xs:all>
-			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="Entity" type="xs:string" use="required"/>
-			<xs:attribute name="EntityId" type="xs:string" use="required"/>
-			<xs:attribute name="Formatter" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
 	<xs:element name="EntityDefinition" bspk:entity="true">
 		<xs:complexType>
 			<xs:all>
@@ -1096,6 +1071,31 @@
 			<xs:documentation>Placeholder</xs:documentation>
 		</xs:annotation>
 	</xs:element>
+	<xs:element name="ReceivePort">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="ReceiveLocationCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ReceiveLocation" type="ReceiveLocation" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ReferencedAssemblyCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ReferencedAssembly" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="TextFormatter" type="TextFormatter"/>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Entity" type="xs:string" use="required"/>
+			<xs:attribute name="EntityId" type="xs:string" use="required"/>
+			<xs:attribute name="Formatter" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
 	<xs:complexType name="ReceiveLocation">
 		<xs:all/>
 		<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -1111,46 +1111,65 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="TextFormatter">
+	<xs:complexType name="TextFormatter">
+		<xs:attribute name="Name" type="xs:string" use="required"/>
+		<xs:attribute name="SampleStoreId" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:element name="FixedLengthTextFormatter">
 		<xs:complexType>
-			<xs:all>
-				<xs:element name="DelimitedTextFieldMappingCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="DelimitedTextFieldMapping" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="FixedLengthTextFieldMappingCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="FixedLengthTextFieldMapping" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="FlatFileDetailTagCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="FlatFileDetailTag" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="IgnoreTagsCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="IgnoreTag" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:all>
-			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="IsFixedLength" type="xs:boolean" use="required"/>
-			<xs:attribute name="IsDelimited" type="xs:boolean" use="required"/>
-			<xs:attribute name="Delimiter" type="xs:string" use="optional"/>
-			<xs:attribute name="RecordTag" type="xs:string" use="optional"/>
-			<xs:attribute name="EscapeCharacter" type="xs:string" use="optional"/>
-			<xs:attribute name="HasTagIdentifier" type="xs:boolean" use="required"/>
-			<xs:attribute name="SampleStoreId" type="xs:string" use="required"/>
+			<xs:complexContent>
+				<xs:extension base="TextFormatter">
+					<xs:attribute name="RecordTag" type="xs:string" use="optional"/>
+					<xs:attribute name="HasTagIdentifier" type="xs:boolean" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DelimitedTextFormatter">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="TextFormatter">
+					<xs:all>
+						<xs:element name="FieldMappingCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="DelimitedTextFieldMapping" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="DetailRowCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="FlatFileDetailTag" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+					<xs:attribute name="Delimiter" type="xs:string" use="optional"/>
+					<xs:attribute name="HasTagIdentifier" type="xs:boolean" use="required"/>
+					<xs:attribute name="RecordTag" type="xs:string" use="optional"/>
+					<xs:attribute name="EscapeCharacter" type="xs:string" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="JsonTextFormatter">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="TextFormatter">
+					<xs:attribute name="SchemaStoreId" type="xs:string" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="XmlTextFormatter">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="TextFormatter">
+					<xs:attribute name="Namespace" type="xs:string" use="required"/>
+					<xs:attribute name="XmlSchemaStoreId" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="DelimitedTextFieldMapping">
@@ -1176,8 +1195,19 @@
 	</xs:element>
 	<xs:element name="FlatFileDetailTag">
 		<xs:complexType>
+			<xs:all>
+				<xs:element name="DetailRowCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="FlatFileDetailTag" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="FieldName" type="xs:string" use="required"/>
+			<xs:attribute name="Parent" type="xs:string" use="required"/>
 			<xs:attribute name="RowTag" type="xs:string" use="required"/>
-			<xs:attribute name="ParentTag" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

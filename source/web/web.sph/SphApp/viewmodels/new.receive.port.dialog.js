@@ -14,34 +14,18 @@
 define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
     function (dialog, context, system) {
 
-        const port = ko.observable(new bespoke.sph.domain.ReceivePort(system.guid())),
+        const port = ko.observable(new bespoke.sph.domain.ReceivePort({
+            TextFormatter: {
+                Name: ko.observable(),
+                SampleStoreId: ko.observable()
+            }
+        })),
+            sampleText = ko.observable(),
             page = ko.observable(1),
             isDelimiter = ko.observable(false),
             isPositional = ko.observable(false),
             activate = function () {
-                const formatter = port().TextFormatter();
-                formatter.IsFixedLength.ForEditing = ko.computed({
-                    read: function () {
-                        return formatter.IsFixedLength().toString();
-                    },
-                    write: function (newValue) {
-                        const ok = newValue === "true" || newValue === "on";
-                        formatter.IsDelimited(!ok);
-                        formatter.IsFixedLength(ok);
-                    },
-                    owner: this
-                });
-                formatter.IsDelimited.ForEditing = ko.computed({
-                    read: function () {
-                        return formatter.IsDelimited().toString();
-                    },
-                    write: function (newValue) {
-                        const ok = newValue === "true" || newValue === "on";
-                        formatter.IsDelimited(ok);
-                        formatter.IsFixedLength(!ok);
-                    },
-                    owner: this
-                });
+                return true;
             },
             backEnable = ko.computed(function () {
                 return ko.unwrap(page) > 1;
@@ -65,7 +49,14 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                 dialog.close(this, "Cancel");
             };
 
-        var vm = {
+        port().Formatter.subscribe(function (f) {
+            if (!f) {
+                return;
+            }
+            port().TextFormatter(new bespoke.sph.domain[f](system.guid()));
+        });
+
+        const vm = {
             activate: activate,
             port: port,
             backClick: backClick,
@@ -77,7 +68,8 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
             isDelimiter: isDelimiter,
             isPositional: isPositional,
             page: page,
-            cancelClick: cancelClick
+            cancelClick: cancelClick,
+            sampleText: sampleText
         };
 
 
