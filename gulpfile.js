@@ -1,20 +1,20 @@
 
 watchList = [];
-var gulp = require('gulp');
-var requireDir = require('require-dir');
-var dir = requireDir('./tasks');
+var gulp = require("gulp");
+var requireDir = require("require-dir");
+var dir = requireDir("./gulp-tasks");
 
 
 
-gulp.task('default', function() {
+gulp.task("default", function() {
   console.log("Starting all the watchers...");
   var callback = function(event) {
-    console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
+    console.log(`File ${event.path} was ${event.type}, running tasks...`);
   };
 
   watchList.forEach(function(w){
-    console.log("Starting " + w.name);
-    gulp.watch(w.sources, w.tasks).on('change', callback);
+    console.log(`Starting ${w.name}`);
+    gulp.watch(w.sources, w.tasks).on("change", callback);
   });
 
 

@@ -17,7 +17,7 @@ var sources = [
 "./source/web/core.sph/kendo/js/kendo.custom.min.js"
 ];
 
-watchList.push({name:"rx.js",sources: sources, tasks : ["rx.js"]});
+//watchList.push({name:"rx.js",sources: sources, tasks : ["rx.js"]});
 
 gulp.task("rx.min.js", function(){
 
