@@ -1,12 +1,12 @@
 ﻿$RxHome = "$PWD\bin"
-
+$machine = ($env:COMPUTERNAME).Replace("-","_")
 [System.Environment]::SetEnvironmentVariable("RX_DEVV1_RabbitMqPassword","guest", "Process")
 [System.Environment]::SetEnvironmentVariable("RX_DEVV1_RabbitMqBase","$RxHome\rabbitmq_base", "Process")
 [System.Environment]::SetEnvironmentVariable("RX_DEVV1_ElasticsearchIndexNumberOfShards","1", "Process")
 [System.Environment]::SetEnvironmentVariable("RX_DEVV1_IisExpressExecutable","$RxHome\IIS Express\iisexpress.exe", "Process")
 [System.Environment]::SetEnvironmentVariable("RX_DEVV1_ElasticsearchHttpPort","9200", "Process")
 [System.Environment]::SetEnvironmentVariable("RX_DEVV1_ElasticSearchJar","$RxHome\elasticsearch\lib\elasticsearch-1.7.5.jar", "Process")
-[System.Environment]::SetEnvironmentVariable("RX_DEVV1_ElasticsearchClusterName","cluster_WS28_DevV1", "Process")
+[System.Environment]::SetEnvironmentVariable("RX_DEVV1_ElasticsearchClusterName","cluster_$machine""_DevV1", "Process")
 [System.Environment]::SetEnvironmentVariable("RX_DEVV1_HOME","$RxHome", "Process")
 [System.Environment]::SetEnvironmentVariable("RX_DEVV1_WebPath","$PWD\source\web\web.sph", "Process")
 [System.Environment]::SetEnvironmentVariable("RX_DEVV1_RabbitMqManagementPort","15672", "Process")
@@ -17,6 +17,6 @@
 [System.Environment]::SetEnvironmentVariable("RX_DEVV1_SqlLocalDbName","ProjectsV13", "Process")
 [System.Environment]::SetEnvironmentVariable("RX_DEVV1_SqlConnectionString", "Data Source=(localdb)\ProjectsV13;Initial Catalog=DevV1;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False", "Process")
 [System.Environment]::SetEnvironmentVariable("RX_DEVV1_RabbitMqUserName","guest", "Process")
-[System.Environment]::SetEnvironmentVariable("RX_DEVV1_ElasticsearchNodeName","node_WS28_DevV1", "Process")
+[System.Environment]::SetEnvironmentVariable("RX_DEVV1_ElasticsearchNodeName","node_$machine" + "_DevV1", "Process")
 [System.Environment]::SetEnvironmentVariable("RABBITMQ_BASE","$RxHome\rabbitmq_base", "Process")
 [System.Environment]::SetEnvironmentVariable("PATH","$env:Path;$RxHome\rabbitmq_server\sbin", "Process")

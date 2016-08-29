@@ -6,9 +6,14 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/form.designer.g.js" />
+/// <reference path="../../core.../schemas/form.designer.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../../Scripts/_task.js" />
 /// <reference path="../objectbuilders.js" />
+/// <reference path="../../../core.sph/SphApp/schemas/form.designer.g.js" />
+/// <reference path="../../../core.sph/SphApp/objectbuilders.js" />
+/// <reference path="../../../core.sph/Scripts/_task.js" />
+/// <reference path="../../../core.sph/Scripts/require.js" />
 
 
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, objectbuilders.app, "services/app", "services/new-item"],
@@ -17,9 +22,15 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
         let originalEntity = "";
 
         const port = ko.observable(new bespoke.sph.domain.ReceivePort()),
-           activate = function (id) {
+            errors = ko.observableArray(),
+            isBusy = ko.observable(false),
+            selected = ko.observable({
+                Path: ko.observable(),
+                TypeName: ko.observable()
+            }),
+            activate = function (id) {
 
-               const query = `Id eq '{ ${id}}'`;
+               const query = `Id eq '${id}'`;
                return context.loadOneAsync("ReceivePort", query)
                    .then(function (b) {
                        if (!b) {
@@ -115,7 +126,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
 
-                            context.send(data, "/receive-ports/" + port().Id(), "DELETE")
+                            context.send(data, `/receive-ports/${port().Id()}`, "DELETE")
                                 .then(function (result) {
                                     isBusy(false);
                                     if (result.success) {
@@ -148,13 +159,14 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     "location=0",
                     "fullscreen=yes"
                 ].join(",");
-                var editor = window.open("/sph/editor/file?id=" + file.replace(/\\/g, "/") + "&line=" + line, "_blank", params);
+                const editor = window.open(`/sph/editor/file?id=${file.replace(/\\/g, "/")}&line=${line}`, "_blank", params);
                 editor.moveTo(0, 0);
             };
 
 
         const vm = {
             viewFile: viewFile,
+            selected : selected,
             errors: errors,
             isBusy: isBusy,
             activate: activate,
@@ -167,16 +179,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 canExecuteRemoveCommand: function () {
                     return false;
                 },
-                commands: ko.observableArray([,
+                commands: ko.observableArray([
                     {
                         command: publishAsync,
                         caption: "Publish",
-                        icon: "fa fa-sign-in",
-                        enable: ko.computed(function () {
-                            const prt = ko.unwrap(port);
-                            if (!prt) return false;
-                            return ko.unwrap(prt.Id);
-                        })
+                        icon: "fa fa-sign-in"
                     }])
             }
         };

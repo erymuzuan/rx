@@ -1296,6 +1296,7 @@
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\_references.js" />
     <EmbeddedResource Include="SphApp\viewmodels\new.receive.port.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\receive.port.designer.js" />
     <Content Include="SphApp\views\adapter.sqlserver.sproc.html" />
     <Content Include="SphApp\viewmodels\adapter.sqlserver.sproc.js" />
     <Content Include="SphApp\ko\_ko.adapter.sqlserver.js" />
@@ -1319,6 +1320,7 @@
     <Content Include="SphApp\viewmodels\_api.management.request.list.js" />
     <Content Include="SphApp\viewmodels\_api.management.request.charts.js" />
     <EmbeddedResource Include="SphApp\views\new.receive.port.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\receive.port.designer.html" />
     <Content Include="SphApp\views\_adapter.sqlserver.add.operation.dialog.html" />
     <Content Include="SphApp\views\_adapter.sqlserver.add.table.dialog.html" />
     <Content Include="SphApp\views\_adapter.sqlserver.table.dialog.html" />

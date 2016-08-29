@@ -1,0 +1,68 @@
+{
+  "$type": "Bespoke.Sph.Domain.ReceivePort, domain.sph",
+  "ReceiveLocationCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReceiveLocation, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "FieldMappingCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.DelimitedTextFieldMapping, domain.sph",
+        "Column": 0,
+        "Converter": null,
+        "AllowMissing": false,
+        "FieldMappingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Path": "Field_0",
+        "MembersPath": null,
+        "TypeName": null,
+        "IsNullable": false,
+        "WebId": "37c40bcb-3e80-40f4-b632-06dc4d0fe723"
+      }
+    ]
+  },
+  "Name": "Pos OSC",
+  "Entity": "SalesOrder",
+  "EntityId": "",
+  "Formatter": "DelimitedTextFormatter",
+  "TextFormatter": {
+    "$type": "Bespoke.Sph.Domain.DelimitedTextFormatter, domain.sph",
+    "Delimiter": "\\t",
+    "HasTagIdentifier": true,
+    "RecordTag": "9",
+    "EscapeCharacter": "",
+    "DetailRowCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FlatFileDetailTag, domain.sph]], domain.sph",
+      "$values": [
+        {
+          "$type": "Bespoke.Sph.Domain.FlatFileDetailTag, domain.sph",
+          "DetailRowCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FlatFileDetailTag, domain.sph]], domain.sph",
+            "$values": []
+          },
+          "Name": "Item",
+          "FieldName": "Items",
+          "Parent": "[Root Record]",
+          "RowTag": "1",
+          "WebId": "124ef0c0-923e-450e-bdf6-e359ab575b39"
+        }
+      ]
+    },
+    "Name": "",
+    "SampleStoreId": "e64a3d7e-c463-4b52-b72e-d221a5f900a4",
+    "WebId": "08c6120b-d3cb-42ab-9ce3-6213d5b904b9"
+  },
+  "CreatedBy": "admin",
+  "Id": "pos-soc",
+  "CreatedDate": "2016-08-29T12:22:55.3498706+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-08-29T12:22:55.3498706+08:00",
+  "WebId": "8fac7a94-a59b-4f29-83b6-0de9f88089f7 (2016-08-29 12:22:55.349)"
+}

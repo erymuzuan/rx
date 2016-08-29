@@ -2399,6 +2399,7 @@ bespoke.sph.domain.ReceivePort = function (optionOrWebid) {
         ReceiveLocationCollection: ko.observableArray([]),
         ReferencedAssemblyCollection: ko.observableArray([]),
         TextFormatter: ko.observable(),
+        FieldMappingCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -2504,8 +2505,6 @@ bespoke.sph.domain.DelimitedTextFormatter = function (optionOrWebid) {
 
     v["$type"] = "Bespoke.Sph.Domain.DelimitedTextFormatter, domain.sph";
 
-    v.FieldMappingCollection = ko.observableArray([]);
-    v.DetailRowCollection = ko.observableArray([]);
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
@@ -2595,69 +2594,76 @@ bespoke.sph.domain.XmlTextFormatter = function (optionOrWebid) {
 
 bespoke.sph.domain.DelimitedTextFieldMapping = function (optionOrWebid) {
 
-    var model = {
-        "$type": "Bespoke.Sph.Domain.DelimitedTextFieldMapping, domain.sph",
-        Column: ko.observable(0),
-        Path: ko.observable(""),
-        TypeName: ko.observable(""),
-        Converter: ko.observable(""),
-        AllowMissing: ko.observable(false),
-        Order: ko.observable(),
-        isBusy: ko.observable(false),
-        WebId: ko.observable()
-    };
+    var v = new bespoke.sph.domain.TextFieldMapping(optionOrWebid);
+
+    v.Column = ko.observable(0);
+
+    v.Converter = ko.observable("");
+
+    v.AllowMissing = ko.observable(false);
+
+    v["$type"] = "Bespoke.Sph.Domain.DelimitedTextFieldMapping, domain.sph";
+
+
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (ko.isObservable(model[n])) {
-                    model[n](optionOrWebid[n]);
+                if (ko.isObservable(v[n])) {
+                    v[n](optionOrWebid[n]);
                 }
             }
         }
     }
     if (optionOrWebid && typeof optionOrWebid === "string") {
-        model.WebId(optionOrWebid);
+        v.WebId(optionOrWebid);
     }
 
 
     if (bespoke.sph.domain.DelimitedTextFieldMappingPartial) {
-        return _(model).extend(new bespoke.sph.domain.DelimitedTextFieldMappingPartial(model, optionOrWebid));
+        return _(v).extend(new bespoke.sph.domain.DelimitedTextFieldMappingPartial(v, optionOrWebid));
     }
-    return model;
+    return v;
 };
 
 
 
 bespoke.sph.domain.FixedLengthTextFieldMapping = function (optionOrWebid) {
 
-    var model = {
-        "$type": "Bespoke.Sph.Domain.FixedLengthTextFieldMapping, domain.sph",
-        Column: ko.observable(0),
-        Path: ko.observable(""),
-        TypeName: ko.observable(""),
-        Converter: ko.observable(""),
-        AllowMissing: ko.observable(false),
-        isBusy: ko.observable(false),
-        WebId: ko.observable()
-    };
+    var v = new bespoke.sph.domain.TextFieldMapping(optionOrWebid);
+
+    v.Column = ko.observable(0);
+
+    v.Converter = ko.observable("");
+
+    v.AllowMissing = ko.observable(false);
+
+    v.Start = ko.observable(0);
+
+    v.Length = ko.observable(0);
+
+    v.Trim = ko.observable(false);
+
+    v["$type"] = "Bespoke.Sph.Domain.FixedLengthTextFieldMapping, domain.sph";
+
+
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
-                if (ko.isObservable(model[n])) {
-                    model[n](optionOrWebid[n]);
+                if (ko.isObservable(v[n])) {
+                    v[n](optionOrWebid[n]);
                 }
             }
         }
     }
     if (optionOrWebid && typeof optionOrWebid === "string") {
-        model.WebId(optionOrWebid);
+        v.WebId(optionOrWebid);
     }
 
 
     if (bespoke.sph.domain.FixedLengthTextFieldMappingPartial) {
-        return _(model).extend(new bespoke.sph.domain.FixedLengthTextFieldMappingPartial(model, optionOrWebid));
+        return _(v).extend(new bespoke.sph.domain.FixedLengthTextFieldMappingPartial(v, optionOrWebid));
     }
-    return model;
+    return v;
 };
 
 
@@ -2839,6 +2845,7 @@ bespoke.sph.domain.TextFormatter = function (optionOrWebid) {
         "$type": "Bespoke.Sph.Domain.TextFormatter, domain.sph",
         Name: ko.observable(""),
         SampleStoreId: ko.observable(""),
+        DetailRowCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -2857,6 +2864,38 @@ bespoke.sph.domain.TextFormatter = function (optionOrWebid) {
 
     if (bespoke.sph.domain.TextFormatterPartial) {
         return _(model).extend(new bespoke.sph.domain.TextFormatterPartial(model, optionOrWebid));
+    }
+    return model;
+};
+
+
+bespoke.sph.domain.TextFieldMapping = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.TextFieldMapping, domain.sph",
+        Path: ko.observable(""),
+        MembersPath: ko.observable(""),
+        TypeName: ko.observable(""),
+        IsNullable: ko.observable(false),
+        FieldMappingCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (typeof model[n] === "function") {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+    if (bespoke.sph.domain.TextFieldMappingPartial) {
+        return _(model).extend(new bespoke.sph.domain.TextFieldMappingPartial(model, optionOrWebid));
     }
     return model;
 };

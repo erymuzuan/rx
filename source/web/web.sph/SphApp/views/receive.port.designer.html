@@ -1,0 +1,145 @@
+﻿
+<i class="fa fa-file-archive-o" style="color: #00cc66"></i>
+<h1>Receive Port</h1>
+
+<div id="error-list" class="row" data-bind="visible:errors().length">
+    <!-- ko foreach : errors -->
+    <div class="col-md-8 col-md-offset-2 alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+        <!-- ko if : Code -->
+        <strong class="icon-read-more" data-bind="bootstrapPopover : Code"> ..more</strong>
+        <!-- /ko-->
+        <!-- ko if : FileName -->
+        <br/>
+        <a href="javascript:;" data-bind="click : $root.viewFile">
+            <span class="small" data-bind="text:FileName"></span>(<span class="small" data-bind="text:Line"></span>)
+        </a>
+        <!-- /ko-->
+
+
+    </div>
+    <div class="col-md-2"></div>
+    <!-- /ko-->
+</div>
+
+<div class="row">
+
+    <div class="row col-lg-9 col-md9">
+
+        <div class="col-lg-8 col-md-7 col-sm-6">
+            <div class="form-group">
+                <label class="control-label" for="search-textbox-sqladapter"></label>
+                <input type="search" placeholder="Search...." id="search-textbox-sqladapter" class="form-control" />
+
+            </div>
+            <div id="table-tree" style="overflow-y: scroll; min-height: 400px"
+                 data-bind="adapterTree :{ adapter:adapter, selected: $root.selected, connected :$root.connected, addTable :$root.addTable, addOperation:$root.addOperation, searchTextBox :'#search-textbox-sqladapter'}">
+                <h3>This is where the tree view goes</h3>
+            </div>
+        </div>
+
+
+        <div class="col-lg-4 col-md-5 col-sm-6" data-bind="with:selected ">
+
+            <!-- ko if :  typeof WebId === "function" -->
+            <div class="form-group">
+                <small data-bind="text:WebId"></small>
+            </div>
+            <!-- /ko -->
+            <!-- ko if : ko.unwrap($data["$type"]) === "Bespoke.Sph.Domain.DelimitedTextFieldMapping, domain.sph" -->
+            <h3>Field Property</h3>
+            <form>
+                
+
+
+                <div class="form-group">
+                    <label class="control-label">Path</label>
+                    <input type="text" disabled class="form-control"
+                           data-bind="value:Path, tooltip: 'The property name used internally by C# compiler'" />
+                </div>
+
+                <div class="form-group">
+                    <label for="member-type2">Type</label>
+                    <select required class="form-control" id="member-type2"
+                            data-bind="value:TypeName,enable:IsEnabled, tooltip:'The data type of the return value'">
+                        <option value="">[Please Select]</option>
+                        <option value="System.String, mscorlib">String</option>
+                        <option value="System.Boolean, mscorlib">Boolean</option>
+                        <option value="System.Byte, mscorlib">Byte</option>
+                        <option value="System.Int16, mscorlib">Short</option>
+                        <option value="System.Int32, mscorlib">Integer</option>
+                        <option value="System.Int64, mscorlib">Long</option>
+                        <option value="System.Decimal, mscorlib">Decimal</option>
+                        <option value="System.Double, mscorlib">Double</option>
+                        <option value="System.DateTime, mscorlib">DateTime</option>
+                        <option value="System.DateTimeOffset, mscorlib">DateTimeOffset</option>
+                        <option value="System.TimeSpan, mscorlib">TimeSpan</option>
+                        <option value="System.Guid, mscorlib">Guid</option>
+                        <option value="System.Byte[], mscorlib">Byte Array</option>
+                        <option value="System.Xml.XmlDocument, System.Xml">Xml</option>
+                    </select>
+                </div>
+                
+
+                <div class="form-group">
+                    <label class="control-label">Converter</label>
+                    <input type="text" disabled class="form-control"
+                           data-bind="value:Converter, tooltip: 'Converter expression'" />
+                </div>
+
+                
+            </form>
+            <!-- /ko -->
+
+        </div>
+
+    </div>
+    <div class="col-sm-3">
+
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#general-properties" data-toggle="tab">General Properties</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="general-properties" class="tab-pane active">
+                    <form name="entity-form" id="entity-form" class="form-horizontal" role="form" data-bind="with : port">
+                        <div class="form-group">
+                            <label for="ent-name" class="col-md-3">Name</label>
+                            <div class="col-md-9">
+                                <input type="text" data-bind="value: Name, readonly : ko.unwrap(Id) !== '0'"
+                                       required="" pattern="^[A-Za-z][A-Za-z0-9]*$"
+                                       placeholder="Custom Entity Name"
+                                       class="form-control" id="ent-name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="record-name" class="col-md-3">Record Name</label>
+                            <div class="col-md-9">
+                                <input type="text" data-bind="value: Entity, tooltip:'The Record Name appears in page layouts, key lists, related lists, lookups, and search results.For example, the Record Name for Account is &quot;AccountName&quot; and for Case it is &quot;CaseNumber&quot;.Note that the Record Name field is always called &quot;Name&quot; when referenced via the API.The field must exist as a first level member in your schema'"
+                                       required="required" pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                                       placeholder="Identifying member"
+                                       class="form-control" id="record-name">
+
+
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+

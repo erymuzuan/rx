@@ -1089,6 +1089,13 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element name="TextFormatter" type="TextFormatter"/>
+				<xs:element name="FieldMappingCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FieldMapping" type="TextFieldMapping" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Entity" type="xs:string" use="required"/>
@@ -1112,6 +1119,15 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:complexType name="TextFormatter">
+		<xs:all>
+			<xs:element name="DetailRowCollection">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="FlatFileDetailTag" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
 		<xs:attribute name="Name" type="xs:string" use="required"/>
 		<xs:attribute name="SampleStoreId" type="xs:string" use="required"/>
 	</xs:complexType>
@@ -1129,22 +1145,6 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="TextFormatter">
-					<xs:all>
-						<xs:element name="FieldMappingCollection">
-							<xs:complexType>
-								<xs:sequence>
-									<xs:element ref="DelimitedTextFieldMapping" minOccurs="0" maxOccurs="unbounded"/>
-								</xs:sequence>
-							</xs:complexType>
-						</xs:element>
-						<xs:element name="DetailRowCollection">
-							<xs:complexType>
-								<xs:sequence>
-									<xs:element ref="FlatFileDetailTag" minOccurs="0" maxOccurs="unbounded"/>
-								</xs:sequence>
-							</xs:complexType>
-						</xs:element>
-					</xs:all>
 					<xs:attribute name="Delimiter" type="xs:string" use="optional"/>
 					<xs:attribute name="HasTagIdentifier" type="xs:boolean" use="required"/>
 					<xs:attribute name="RecordTag" type="xs:string" use="optional"/>
@@ -1172,25 +1172,44 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:complexType name="TextFieldMapping">
+		<xs:all>
+			<xs:element name="FieldMappingCollection">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TextFieldMapping" type="TextFieldMapping" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+		<xs:attribute name="Path" type="xs:string" use="required"/>
+		<xs:attribute name="MembersPath" type="xs:string" use="required"/>
+		<xs:attribute name="TypeName" type="xs:string" use="required"/>
+		<xs:attribute name="IsNullable" type="xs:boolean" use="required"/>
+	</xs:complexType>
 	<xs:element name="DelimitedTextFieldMapping">
 		<xs:complexType>
-			<xs:all>
-				<xs:element name="Order" type="xs:int" nillable="true"/>
-			</xs:all>
-			<xs:attribute name="Column" type="xs:int" use="required"/>
-			<xs:attribute name="Path" type="xs:string" use="required"/>
-			<xs:attribute name="TypeName" type="xs:string" use="required"/>
-			<xs:attribute name="Converter" type="xs:string" use="optional"/>
-			<xs:attribute name="AllowMissing" type="xs:boolean" use="required"/>
+			<xs:complexContent>
+				<xs:extension base="TextFieldMapping">
+					<xs:attribute name="Column" type="xs:int" use="required"/>
+					<xs:attribute name="Converter" type="xs:string" use="optional"/>
+					<xs:attribute name="AllowMissing" type="xs:boolean" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="FixedLengthTextFieldMapping">
 		<xs:complexType>
-			<xs:attribute name="Column" type="xs:int" use="required"/>
-			<xs:attribute name="Path" type="xs:string" use="required"/>
-			<xs:attribute name="TypeName" type="xs:string" use="required"/>
-			<xs:attribute name="Converter" type="xs:string" use="optional"/>
-			<xs:attribute name="AllowMissing" type="xs:boolean" use="required"/>
+			<xs:complexContent>
+				<xs:extension base="TextFieldMapping">
+					<xs:attribute name="Column" type="xs:int" use="required"/>
+					<xs:attribute name="Converter" type="xs:string" use="optional"/>
+					<xs:attribute name="AllowMissing" type="xs:boolean" use="required"/>
+					<xs:attribute name="Start" type="xs:int" use="required"/>
+					<xs:attribute name="Length" type="xs:int" use="required"/>
+					<xs:attribute name="Trim" type="xs:boolean" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="FlatFileDetailTag">

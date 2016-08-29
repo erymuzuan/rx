@@ -1,9 +1,17 @@
-﻿namespace Bespoke.Sph.Domain
+﻿using System.Threading.Tasks;
+
+namespace Bespoke.Sph.Domain
 {
-    public partial class TextFormatter : DomainObject{}
-    public partial class FixedLengthTextFormatter : TextFormatter{}
-    public partial class DelimitedTextFormatter : TextFormatter{}
-    public partial class JsonTextFormatter : TextFormatter{}
-    public partial class XmlTextFormatter : TextFormatter{}
-    public partial class FlatFileDetailTag : DomainObject{}
+    public partial class TextFormatter : DomainObject
+    {
+        public virtual Task<TextFieldMapping[]> PopulateMappingsAsync()
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+
+    public partial class TextFieldMapping : DomainObject { }
+    public partial class HtmlTextFormatter : TextFormatter { }
+    public partial class JsonTextFormatter : TextFormatter { }
+    public partial class XmlTextFormatter : TextFormatter { }
 }

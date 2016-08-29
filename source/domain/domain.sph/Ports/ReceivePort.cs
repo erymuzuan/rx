@@ -145,17 +145,5 @@ namespace Bespoke.Sph.Domain
             }
 
         }
-        private IEnumerable<BuildError> GetCompileErrors(CompilerResults result, string code)
-        {
-            var temp = Path.GetTempFileName() + ".cs";
-            File.WriteAllText(temp, code);
-            var sources = File.ReadAllLines(temp);
-            var list = (from object er in result.Errors.OfType<CompilerError>()
-                        select GetSourceError(er as CompilerError, sources));
-            File.Delete(temp);
-
-            return list;
-        }
-
     }
 }

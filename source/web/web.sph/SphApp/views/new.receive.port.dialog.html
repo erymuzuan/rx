@@ -131,7 +131,7 @@
                                 <div class="checkbox">
                                     <label>
                                         <input data-bind="checked: HasTagIdentifier" id="login-operation" type="checkbox"
-                                               name="IsTagIdentifier" />
+                                               name="HasTagIdentifier" />
                                         Record has a tag identitfier
                                     </label>
                                 </div>
@@ -141,7 +141,7 @@
                             <label for="tag" class="col-sm-2 control-label">Tag</label>
 
                             <div class="col-sm-6">
-                                <input type="text" data-bind="value: RecordTag, enable: HasTagIdentifier"
+                                <input type="text" data-bind="value: RecordTag, enable: HasTagIdentifier, attr :{required: HasTagIdentifier}"
                                        class="form-control" id="tag">
                             </div>
                         </div>

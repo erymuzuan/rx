@@ -1,4 +1,4 @@
 namespace Bespoke.Sph.Domain
 {
-    public partial class DelimitedTextFieldMapping : DomainObject{}
+    public partial class DelimitedTextFieldMapping : TextFieldMapping{}
 }

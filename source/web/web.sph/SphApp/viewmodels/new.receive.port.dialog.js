@@ -46,15 +46,15 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                 page(ko.unwrap(page) + 1);
             },
             okClick = function (data, ev) {
-                if (bespoke.utils.form.checkValidity(ev.target)) {
-                    const self = this;
-                    context.post( ko.mapping.toJSON(port), "/receive-ports/")
-                        .done(function (r) {
-                            port.Id(r.Id);
-                            dialog.close(self, "OK");
-                        });
+                console.log(ev);
+                const self = this;
+                context.post(ko.mapping.toJSON(port), "/receive-ports/")
+                    .done(function (r) {
+                        port().Id(r.id);
+                        dialog.close(self, "OK");
+                    });
 
-                }
+
             },
             cancelClick = function () {
                 dialog.close(this, "Cancel");

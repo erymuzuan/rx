@@ -206,7 +206,10 @@
     <Compile Include="diagnostics\FormDeleteOperationDiagnostics.cs" />
     <Compile Include="diagnostics\FormOperationDiagnostics.cs" />
     <Compile Include="Ports\DelimitedTextFieldMapping.cs" />
+    <Compile Include="Ports\DelimitedTextFormatter.cs" />
     <Compile Include="Ports\FixedLengthTextFieldMapping.cs" />
+    <Compile Include="Ports\FixedLengthTextFormatter.cs" />
+    <Compile Include="Ports\FlatFileDetailTag.cs" />
     <Compile Include="Ports\FolderReceiveLocation.cs" />
     <Compile Include="Ports\ReceiveLocation.cs" />
     <Compile Include="SequentialGuid.cs" />

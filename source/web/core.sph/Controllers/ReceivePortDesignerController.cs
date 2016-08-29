@@ -16,6 +16,13 @@ namespace Bespoke.Sph.Web.Controllers
             var portIsNewItem = port.IsNewItem;
             if (portIsNewItem)
                 port.Id = port.Name.ToIdFormat();
+
+            if (portIsNewItem)
+            {
+                // generate the mapping
+                var fields = await port.TextFormatter.PopulateMappingsAsync();
+                port.FieldMappingCollection.ClearAndAddRange(fields);
+            }
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
