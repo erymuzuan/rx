@@ -20,6 +20,20 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                 SampleStoreId: ko.observable()
             }
         })),
+            delimiterOptions = ko.observableArray([
+            {
+                text: "csv(,)",
+                value:","
+            }, {
+                text: "[TAB]",
+                value:"\t"
+            }, {
+                text: "|",
+                value:"|"
+            }, {
+                text: ":",
+                value : ":"
+            }]),
             sampleText = ko.observable(),
             page = ko.observable(1),
             isDelimiter = ko.observable(false),
@@ -68,6 +82,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
         });
 
         const vm = {
+            delimiterOptions : delimiterOptions,
             activate: activate,
             port: port,
             backClick: backClick,

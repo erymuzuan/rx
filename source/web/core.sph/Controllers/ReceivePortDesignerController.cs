@@ -32,7 +32,7 @@ namespace Bespoke.Sph.Web.Controllers
             }
             if (portIsNewItem)
                 return Created("/receive-ports/" + port.Id, new { success = true, id = port.Id });
-            return Ok(new { sucess = true });
+            return Ok(new { success = true });
         }
 
         [HttpPost]

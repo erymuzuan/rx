@@ -37,6 +37,12 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                     if (type.indexOf(",") < 0) {
                         type = ko.unwrap(v.$type);
                     }
+
+                    // complex
+                    if (v.FieldMappingCollection().length > 0) {
+                        return "complex";
+                    }
+
                     return type;
                 },
                 fieldPathSubscription = null,
@@ -104,8 +110,8 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                             console.log(node, "node");
                         })
                         .on("rename_node.jstree", function (ev, node) {
-                            const mb = node.node.data;
-                            mb.Name(node.text);
+                            const field = node.node.data;
+                            field.Path(node.text);
                         })
                         .jstree({
                             "core": {
@@ -153,9 +159,11 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                 }
                             },
                             "types": {
-
                                 "default": {
                                     "icon": "fa fa-clipboard"
+                                },
+                                "complex": {
+                                    "icon": "fa fa-object-group"
                                 },
                                 "System.String, mscorlib": {
                                     "icon": "glyphicon glyphicon-bold",
@@ -176,12 +184,6 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                 "System.Boolean, mscorlib": {
                                     "icon": "glyphicon glyphicon-ok",
                                     "valid_children": []
-                                },
-                                "Bespoke.Sph.Domain.ValueObjectMember, domain.sph": {
-                                    "icon": "fa fa-object-ungroup"
-                                },
-                                "Bespoke.Sph.Domain.ComplexMember, domain.sph": {
-                                    "icon": "fa fa-object-group"
                                 }
                             },
                             "plugins": ["contextmenu", "types", "search"]

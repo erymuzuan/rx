@@ -48,10 +48,9 @@
             <form>
                 <div class="form-group">
                     <label class="control-label">Path</label>
-                    <input type="text" disabled class="form-control"
+                    <input type="text" required pattern="^[A-Za-z_][A-Za-z0-9_]*$" class="form-control"
                            data-bind="value:Path, tooltip: 'The property name used internally by C# compiler'" />
                 </div>
-
                 <div class="form-group">
                     <label for="member-type2">Type</label>
                     <select required class="form-control" id="member-type2"

@@ -42,9 +42,20 @@ namespace domain.test.receive.ports
                 RecordTag = "9",
                 Name = "SalesOrder"
             };
+            var detail = new FlatFileDetailTag
+            {
 
+                RowTag = "1",
+                Name = "OrderItem",
+                WebId = Guid.NewGuid().ToString(),
+                FieldName = "OrderItems",
+                Parent = "$root"
+            };
+           
+                 
+            formatter.DetailRowCollection.AddRange(detail);
             var list = await formatter.GetFieldMappingsAsync();
-            Assert.Equal(35, list.Length);
+            Assert.Equal(36, list.Length);
 
         }
         [Fact]

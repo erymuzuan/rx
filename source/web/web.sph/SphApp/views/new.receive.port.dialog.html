@@ -105,15 +105,9 @@
                             <label for="delimiter" class="col-sm-2 control-label">Delimiter</label>
 
                             <div class="col-sm-6">
-                                <select type="text" data-bind="value: Delimiter"
+                                <select type="text" data-bind="value: Delimiter, options:$root.delimiterOptions, optionsCaption: '', optionsText : 'text', optionsValue:'value'"
                                         required="" readonly="readonly"
                                         class="form-control" id="delimiter">
-                                    <option>[SELECT A DELIMITER]</option>
-                                    <option value=",">Comma seperated (,)</option>
-                                    <option value="\t">[TAB]</option>
-                                    <option value="|">|</option>
-                                    <option value=":">:</option>
-                                    <option value=";">;</option>
                                 </select>
                             </div>
                         </div>

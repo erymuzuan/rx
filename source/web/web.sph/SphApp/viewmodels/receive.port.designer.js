@@ -51,7 +51,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 originalEntity = ko.toJSON(port);
             },
             save = function () {
-
                 const data = ko.mapping.toJSON(port);
                 isBusy(true);
 

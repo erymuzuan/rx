@@ -14,28 +14,57 @@ namespace Bespoke.Sph.Domain
             var file = await bs.GetContentAsync(this.SampleStoreId);
             var temp = Path.GetTempFileName();
             File.WriteAllBytes(temp, file.Content);
-            var list = new List<TextFieldMapping>();
+            var root = new List<TextFieldMapping>();
 
             var lines = File.ReadAllLines(temp);
-            foreach (var line in lines)
-            {
-                if (this.HasTagIdentifier && line.StartsWith(this.RecordTag))
-                {
-                    var columns = line.Split(new[] { this.Delimiter }, StringSplitOptions.None);
-                    var fields = columns.Select((col, i) => new DelimitedTextFieldMapping
-                    {
-                        Column = i,
-                        Path = $"Field_{i}",
-                        SampleValue = col,
-                        WebId = Guid.NewGuid().ToString()
-                    });
-                    list.AddRange(fields);
 
-                    return list.ToArray();
+            // details
+            foreach (var row in this.DetailRowCollection)
+            {
+                var line = lines.FirstOrDefault(x => x.StartsWith(row.RowTag));
+                if (string.IsNullOrEmpty(line)) continue;
+
+                var columns = line.Split(new[] { this.Delimiter }, StringSplitOptions.None);
+                var fields = columns.Select((col, i) => new DelimitedTextFieldMapping
+                {
+                    Column = i,
+                    Path = $"DetailField_{i + 1}",
+                    TypeName = typeof(string).GetShortAssemblyQualifiedName(),
+                    SampleValue = col,
+                    WebId = Guid.NewGuid().ToString()
+                });
+                var dr = new DelimitedTextFieldMapping
+                {
+                    Path = row.FieldName,
+                    TypeName = row.Name
+                };
+                dr.FieldMappingCollection.AddRange(fields);
+                if (row.Parent == "$root")
+                {
+                    root.Add(dr);
+                    continue;
                 }
+
+                var parent = root.SingleOrDefault(x => x.Path == row.Parent);
+                parent?.FieldMappingCollection.AddRange(dr);
             }
 
-            return Array.Empty<TextFieldMapping>();
+            var rootLine = lines.First(x => !this.HasTagIdentifier || (x.StartsWith(this.RecordTag)));
+            var rootColumns = rootLine.Split(new[] { this.Delimiter }, StringSplitOptions.None);
+            var rootFields = rootColumns.Select((col, i) => new DelimitedTextFieldMapping
+            {
+                Column = i,
+                Path = $"Field_{i + 1}",
+                TypeName = typeof(string).GetShortAssemblyQualifiedName(),
+                SampleValue = col,
+                WebId = Guid.NewGuid().ToString()
+            });
+            root.AddRange(rootFields);
+
+
+
+
+            return root.ToArray();
         }
     }
 }

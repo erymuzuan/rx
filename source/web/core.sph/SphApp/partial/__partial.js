@@ -558,7 +558,7 @@ bespoke.sph.domain.DelayActivityPartial = function () {
 bespoke.sph.domain.DelimitedTextFormatterPartial = function () {
 
     const system = require("durandal/system"),
-        parentOptions = ko.observableArray(["[Root Record]"]),
+        parentOptions = ko.observableArray(["$root"]),
         childNameChanged = function (name) {
             if (name) {
                 parentOptions.push(name);
@@ -1782,7 +1782,7 @@ bespoke.sph.domain.ReceiveActivityPartial = function () {
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 
 bespoke.sph.domain.ReceivePortPartial = function (port) {
