@@ -16,7 +16,7 @@
 /// <reference path="../../../core.sph/Scripts/require.js" />
 
 
-define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, objectbuilders.app, "services/app", "services/new-item"],
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, objectbuilders.app, "services/app", "services/new-item", "ko/_ko.receive.port"],
     function (context, logger, router, system, app, servicesApp, nis) {
 
         let originalEntity = "";

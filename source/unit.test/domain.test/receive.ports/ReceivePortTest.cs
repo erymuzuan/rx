@@ -43,7 +43,7 @@ namespace domain.test.receive.ports
                 Name = "SalesOrder"
             };
 
-            var list = await formatter.PopulateMappingsAsync();
+            var list = await formatter.GetFieldMappingsAsync();
             Assert.Equal(35, list.Length);
 
         }

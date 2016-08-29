@@ -8,7 +8,7 @@ namespace Bespoke.Sph.Domain
 {
     public partial class DelimitedTextFormatter : TextFormatter
     {
-        public override async Task<TextFieldMapping[]> PopulateMappingsAsync()
+        public override async Task<TextFieldMapping[]> GetFieldMappingsAsync()
         {
             var bs = ObjectBuilder.GetObject<IBinaryStore>();
             var file = await bs.GetContentAsync(this.SampleStoreId);
@@ -26,6 +26,7 @@ namespace Bespoke.Sph.Domain
                     {
                         Column = i,
                         Path = $"Field_{i}",
+                        SampleValue = col,
                         WebId = Guid.NewGuid().ToString()
                     });
                     list.AddRange(fields);

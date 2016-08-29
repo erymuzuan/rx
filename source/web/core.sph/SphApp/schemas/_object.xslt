@@ -40,6 +40,14 @@
               if (optionOrWebid &amp;&amp; typeof optionOrWebid === "object") {
               for (var n in optionOrWebid) {
                 if (optionOrWebid.hasOwnProperty(n)) {
+                    // array
+                    if (ko.isObservable(v[n]) &amp;&amp; 'push' in v[n]) {
+                      var values = optionOrWebid[n].$values || optionOrWebid[n];
+                      if(_(values).isArray()){
+                        v[n](values);
+                        continue;
+                      }
+                    }
                     if (ko.isObservable(v[n])) {
                       v[n](optionOrWebid[n]);
                     }
@@ -74,6 +82,14 @@
               if (optionOrWebid &amp;&amp; typeof optionOrWebid === "object") {
               for (var n in optionOrWebid) {
                 if (optionOrWebid.hasOwnProperty(n)) {
+                    if (ko.isObservable(model[n]) &amp;&amp; 'push' in model[n]) {
+                        var values = optionOrWebid[n].$values || optionOrWebid[n];
+                        if(_(values).isArray()){
+                          model[n](values);
+                          continue;
+                        }
+                    }
+                    
                     if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                     }

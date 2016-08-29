@@ -1071,7 +1071,7 @@
 			<xs:documentation>Placeholder</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-	<xs:element name="ReceivePort">
+	<xs:element name="ReceivePort" bspk:entity="true">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="ReceiveLocationCollection">
@@ -1186,6 +1186,7 @@
 		<xs:attribute name="MembersPath" type="xs:string" use="required"/>
 		<xs:attribute name="TypeName" type="xs:string" use="required"/>
 		<xs:attribute name="IsNullable" type="xs:boolean" use="required"/>
+		<xs:attribute name="SampleValue" type="xs:string" use="optional"/>
 	</xs:complexType>
 	<xs:element name="DelimitedTextFieldMapping">
 		<xs:complexType>

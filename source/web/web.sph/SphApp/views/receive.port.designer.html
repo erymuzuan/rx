@@ -35,7 +35,7 @@
 
             </div>
             <div id="table-tree" style="overflow-y: scroll; min-height: 400px"
-                 data-bind="adapterTree :{ adapter:adapter, selected: $root.selected, connected :$root.connected, addTable :$root.addTable, addOperation:$root.addOperation, searchTextBox :'#search-textbox-sqladapter'}">
+                 data-bind="portTree :{ port:port, selected: $root.selected, searchTextBox :'#search-textbox-sqladapter'}">
                 <h3>This is where the tree view goes</h3>
             </div>
         </div>
@@ -43,17 +43,9 @@
 
         <div class="col-lg-4 col-md-5 col-sm-6" data-bind="with:selected ">
 
-            <!-- ko if :  typeof WebId === "function" -->
-            <div class="form-group">
-                <small data-bind="text:WebId"></small>
-            </div>
-            <!-- /ko -->
-            <!-- ko if : ko.unwrap($data["$type"]) === "Bespoke.Sph.Domain.DelimitedTextFieldMapping, domain.sph" -->
+            <!-- ko if : $type === "Bespoke.Sph.Domain.DelimitedTextFieldMapping, domain.sph" -->
             <h3>Field Property</h3>
             <form>
-                
-
-
                 <div class="form-group">
                     <label class="control-label">Path</label>
                     <input type="text" disabled class="form-control"
@@ -63,7 +55,7 @@
                 <div class="form-group">
                     <label for="member-type2">Type</label>
                     <select required class="form-control" id="member-type2"
-                            data-bind="value:TypeName,enable:IsEnabled, tooltip:'The data type of the return value'">
+                            data-bind="value:TypeName, tooltip:'The data type of the return value'">
                         <option value="">[Please Select]</option>
                         <option value="System.String, mscorlib">String</option>
                         <option value="System.Boolean, mscorlib">Boolean</option>
@@ -85,9 +77,16 @@
 
                 <div class="form-group">
                     <label class="control-label">Converter</label>
-                    <input type="text" disabled class="form-control"
+                    <input type="text" class="form-control"
                            data-bind="value:Converter, tooltip: 'Converter expression'" />
                 </div>
+
+                <div class="form-group">
+                    <label class="control-label">Sample Value</label>
+                    <input type="text" readonly="readonly" class="form-control"
+                           data-bind="value:SampleValue, tooltip: 'Converter expression'" />
+                </div>
+
 
                 
             </form>

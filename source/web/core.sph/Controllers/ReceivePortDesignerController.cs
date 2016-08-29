@@ -20,7 +20,7 @@ namespace Bespoke.Sph.Web.Controllers
             if (portIsNewItem)
             {
                 // generate the mapping
-                var fields = await port.TextFormatter.PopulateMappingsAsync();
+                var fields = await port.TextFormatter.GetFieldMappingsAsync();
                 port.FieldMappingCollection.ClearAndAddRange(fields);
             }
             var context = new SphDataContext();

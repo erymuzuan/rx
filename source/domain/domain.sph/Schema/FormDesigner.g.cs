@@ -10542,6 +10542,11 @@ namespace Bespoke.Sph.Domain
         private bool m_isNullable;
         public const string PropertyNameIsNullable = "IsNullable";
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_sampleValue;
+        public const string PropertyNameSampleValue = "SampleValue";
+
         ///<summary>
         /// 
         ///</summary>
@@ -10632,6 +10637,27 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_isNullable;
+            }
+        }
+
+
+
+        public string SampleValue
+        {
+            set
+            {
+                if (m_sampleValue == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSampleValue, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_sampleValue = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_sampleValue;
             }
         }
 

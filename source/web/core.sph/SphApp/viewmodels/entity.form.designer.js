@@ -235,7 +235,12 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 initDesigner();
 
                 $.get("form-designer/toolbox-items", function (elements) {
-                    formElements(elements);
+                    const list = _(elements).map(function (v) {
+                        
+                        v.element = context.toObservable(v.element);
+                        return v;
+                    });
+                    formElements(list);
                     $("#add-field>ul>li").draggable({
                         helper: "clone",
                         connectToSortable: "#template-form-designer>form"

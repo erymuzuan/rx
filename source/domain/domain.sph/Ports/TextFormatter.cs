@@ -4,7 +4,7 @@ namespace Bespoke.Sph.Domain
 {
     public partial class TextFormatter : DomainObject
     {
-        public virtual Task<TextFieldMapping[]> PopulateMappingsAsync()
+        public virtual Task<TextFieldMapping[]> GetFieldMappingsAsync()
         {
             throw new System.NotImplementedException();
         }
