@@ -34,6 +34,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                 text: ":",
                 value : ":"
             }]),
+            id = ko.observable(),
             sampleText = ko.observable(),
             page = ko.observable(1),
             isDelimiter = ko.observable(false),
@@ -65,6 +66,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                 context.post(ko.mapping.toJSON(port), "/receive-ports/")
                     .done(function (r) {
                         port().Id(r.id);
+                        id(r.id);
                         dialog.close(self, "OK");
                     });
 
@@ -85,6 +87,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
             delimiterOptions : delimiterOptions,
             activate: activate,
             port: port,
+            id: id,
             backClick: backClick,
             nextClick: nextClick,
             okClick: okClick,
