@@ -1005,6 +1005,7 @@
     <Compile Include="Controllers\FormDialogController.cs" />
     <Compile Include="Controllers\PartialViewController.cs" />
     <Compile Include="Controllers\QuotaPolicyManagementController.cs" />
+    <Compile Include="Controllers\ReceivePortDesignerController.cs" />
     <Compile Include="Controllers\RxSystemApiController.cs" />
     <Compile Include="Controllers\ValueObjectDefinitionController.cs" />
     <Compile Include="Controllers\EntityDefinition2Controller.cs" />
@@ -2224,6 +2225,7 @@
     <Content Include="ScriptTests\_test-data-entity-defintions.js" />
     <Content Include="SphApp\partial\ComplexMemberPartial.js" />
     <Content Include="SphApp\partial\ChildWorkflowActivity.js" />
+    <Content Include="SphApp\partial\ReceivePortPartial.js" />
     <Content Include="SphApp\partial\RouteParameter.js" />
     <Content Include="SphApp\partial\RouteParameterFieldPartial.js" />
     <Content Include="SphApp\partial\DelimitedTextFormatter.js" />

@@ -15,7 +15,7 @@ bespoke.sph.domain.DelimitedTextFormatterPartial = function () {
     const system = require("durandal/system"),
         parentOptions = ko.observableArray(["[Root Record]"]),
         childNameChanged = function (name) {
-            if (!name) {
+            if (name) {
                 parentOptions.push(name);
             }
         },

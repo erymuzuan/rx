@@ -33,7 +33,12 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
             nextEnable = ko.computed(function () {
                 return ko.unwrap(page) < 5;
             }),
-            okEnable = ko.observable(false),
+            okEnable = ko.computed(function () {
+                if (ko.isObservable(port().isWizardOk)) {
+                    return port().isWizardOk;
+                }
+                return true;
+            }),
             backClick = function () {
                 page(ko.unwrap(page) - 1);
             },
@@ -42,7 +47,13 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
             },
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
-                    dialog.close(this, "OK");
+                    const self = this;
+                    context.post( ko.mapping.toJSON(port), "/receive-ports/")
+                        .done(function (r) {
+                            port.Id(r.Id);
+                            dialog.close(self, "OK");
+                        });
+
                 }
             },
             cancelClick = function () {

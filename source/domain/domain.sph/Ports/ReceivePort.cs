@@ -2,6 +2,7 @@
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -11,7 +12,8 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    [EntityType(typeof(ReceivePort))]
+    [DebuggerDisplay("Name = {Name}, Formatter={Formatter}")]
+    [StoreAsSource(HasDerivedTypes = true)]
     public partial class ReceivePort : Entity
     {
         private EntityDefinition m_testEntityDefinition;

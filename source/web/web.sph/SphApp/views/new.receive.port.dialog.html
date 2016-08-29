@@ -14,6 +14,15 @@
                     <div data-bind="visible: $root.page() === 1">
 
                         <div class="form-group">
+                            <label for="port-name" class="col-lg-2 control-label">Name</label>
+                            <div class="col-lg-6">
+                                <input type="text" data-bind="value: Name"
+                                       required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                                       placeholder="Name identifier"
+                                       class="form-control" id="port-name">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <div class="col-md-offset-2 col-md-6">
                                 <div class="checkbox">
                                     <label>
@@ -179,7 +188,7 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <a href="javascript:;" data-bind="click : $parent.removeDetailsRow">
+                                        <a href="javascript:;" data-bind="click : $parent.removeDetailsRow.call($parent, $data)">
                                             <i class="fa fa-times">Remove</i>
                                         </a>
                                     </td>
@@ -195,9 +204,7 @@
                     <!-- /ko -->
 
 
-                    <div data-bind="visible: $root.page() === 3 && Formatter() === 'DelimitedTextFormatter'">
-                        <textarea readonly="readonly" data-bind="value:$root.sampleText"></textarea>
-                    </div>
+                   
                     <div data-bind="visible: $root.page() === 4"></div>
                     <div data-bind="visible: $root.page() === 5"></div>
 
