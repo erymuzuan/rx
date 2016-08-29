@@ -561,7 +561,9 @@ bespoke.sph.domain.DelimitedTextFormatterPartial = function () {
         parentOptions = ko.observableArray(["$root"]),
         childNameChanged = function (name) {
             if (name) {
-                parentOptions.push(name);
+                if (parentOptions().indexOf(name) < 0) {
+                    parentOptions.push(name);
+                }
             }
         },
         removeDetailsRow = function (child) {

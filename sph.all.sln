@@ -181,6 +181,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scheduler.data.import", "so
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "subscriber.data.transfer", "source\subscribers\subscriber.data.transfer\subscriber.data.transfer.csproj", "{C3AB0560-8E6C-4465-A02C-0CDFBEAC80C9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gulp-tasks", "gulp-tasks", "{4B32C80D-BAEE-4719-A5E5-3F0A51A8492E}"
+	ProjectSection(SolutionItems) = preProject
+		gulp-tasks\corejs.js = gulp-tasks\corejs.js
+		gulp-tasks\css.bundle.dev.js = gulp-tasks\css.bundle.dev.js
+		gulp-tasks\css.bundle.js = gulp-tasks\css.bundle.js
+		gulp-tasks\domainjs.js = gulp-tasks\domainjs.js
+		gulpfile.js = gulpfile.js
+		gulp-tasks\js.bundle.js = gulp-tasks\js.bundle.js
+		gulp-tasks\jsplumb.css.bundle.js = gulp-tasks\jsplumb.css.bundle.js
+		gulp-tasks\less.js = gulp-tasks\less.js
+		gulp-tasks\md.js = gulp-tasks\md.js
+		gulp-tasks\partialjs.js = gulp-tasks\partialjs.js
+		gulp-tasks\r.js = gulp-tasks\r.js
+		gulp-tasks\vendor.js.dev.js = gulp-tasks\vendor.js.dev.js
+		gulp-tasks\vendorjs.js = gulp-tasks\vendorjs.js
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
