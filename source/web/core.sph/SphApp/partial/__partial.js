@@ -545,7 +545,7 @@ bespoke.sph.domain.DelayActivityPartial = function () {
 };
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../schemas/trigger.workflow.g.js" />
+/// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -558,6 +558,7 @@ bespoke.sph.domain.DelayActivityPartial = function () {
 bespoke.sph.domain.DelimitedTextFormatterPartial = function () {
 
     const system = require("durandal/system"),
+        selectedRow = ko.observable(new bespoke.sph.domain.FlatFileDetailTag()),
         parentOptions = ko.observableArray(["$root"]),
         childNameChanged = function (name) {
             if (name) {
@@ -579,9 +580,15 @@ bespoke.sph.domain.DelimitedTextFormatterPartial = function () {
             const child = new bespoke.sph.domain.FlatFileDetailTag(system.guid());
             child.nameChangedSubscription = child.Name.subscribe(childNameChanged);
             this.DetailRowCollection.push(child);
+            selectedRow(child);
+        },
+        selectRow = function(row) {
+            selectedRow(row);
         };
 
     const vm = {
+        selectedRow: selectedRow,
+        selectRow : selectRow,
         addDetailsRow: addDetailsRow,
         removeDetailsRow: removeDetailsRow,
         parentOptions: parentOptions
@@ -1846,7 +1853,7 @@ bespoke.sph.domain.ReceivePortPartial = function (port) {
             });
         },
         editReferencedAssembly = function (dll) {
-            console.warn("Not implemented" + dll);
+            console.warn(`Not implemented ${dll}`);
         },
         removeReferencedAssembly = function (dll) {
             var self = this;

@@ -2694,6 +2694,13 @@
     <EmbeddedResource Include="SphApp\services\_ko.list.js" />
     <EmbeddedResource Include="SphApp\viewmodels\data.import.result.preview.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\curl.command.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\endpoint.quota.policy.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\endpoints.caching.policy.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\endpoints.details.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\endpoints.management.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\endpoints.permissions.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\endpoints.quota.api.selections.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\endpoints.quota.policy.js" />
     <Content Include="SphApp\viewmodels\environment.variables.js" />
     <EmbeddedResource Include="SphApp\viewmodels\new.entity.definition.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\new.workflow.definition.dialog.js" />
@@ -2721,6 +2728,10 @@
     <EmbeddedResource Include="SphApp\viewmodels\_data.import.schedule.js" />
     <EmbeddedResource Include="SphApp\viewmodels\transform.definition.edit.js" />
     <Content Include="SphApp\viewmodels\folder.receive.location.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\new.receive.port.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\receive.port.designer.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\_api.management.request.charts.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\_api.management.request.list.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -3242,6 +3253,13 @@
     <EmbeddedResource Include="SphApp\views\value.object.details.html" />
     <EmbeddedResource Include="SphApp\views\value.object.list.html" />
     <EmbeddedResource Include="SphApp\views\workflow.schema.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\endpoint.quota.policy.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\endpoints.caching.policy.html" />
+    <EmbeddedResource Include="SphApp\views\endpoints.details.html" />
+    <EmbeddedResource Include="SphApp\views\endpoints.management.html" />
+    <EmbeddedResource Include="SphApp\views\endpoints.permissions.html" />
+    <EmbeddedResource Include="SphApp\views\endpoints.quota.api.selections.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\endpoints.quota.policy.html" />
     <Content Include="SphApp\views\environment.variables.html" />
     <EmbeddedResource Include="SphApp\views\new.entity.definition.dialog.html" />
     <EmbeddedResource Include="SphApp\views\new.workflow.definition.dialog.html" />
@@ -3266,6 +3284,10 @@
     <EmbeddedResource Include="SphApp\views\_data.import.history.html" />
     <EmbeddedResource Include="SphApp\views\_data.import.schedule.html" />
     <Content Include="SphApp\views\folder.receive.location.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\new.receive.port.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\receive.port.designer.html" />
+    <EmbeddedResource Include="SphApp\views\_api.management.request.charts.html" />
+    <EmbeddedResource Include="SphApp\views\_api.management.request.list.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>
