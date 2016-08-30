@@ -1,8 +1,9 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 
 namespace Bespoke.Sph.Domain
 {
-
+    [DebuggerDisplay("Path = {Path}({SampleValue}), TypeName= {TypeName}")]
     public partial class TextFieldMapping : DomainObject
     {
         public virtual Member GenerateMember()

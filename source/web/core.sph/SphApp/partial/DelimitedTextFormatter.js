@@ -10,7 +10,7 @@
 
 
 
-bespoke.sph.domain.DelimitedTextFormatterPartial = function () {
+bespoke.sph.domain.DelimitedTextFormatterPartial = function (model) {
 
     const system = require("durandal/system"),
         selectedRow = ko.observable(new bespoke.sph.domain.FlatFileDetailTag()),
@@ -39,9 +39,13 @@ bespoke.sph.domain.DelimitedTextFormatterPartial = function () {
         },
         selectRow = function(row) {
             selectedRow(row);
-        };
+        },
+        isWizardOk = ko.computed(function() {
+            return ko.unwrap(model.SampleStoreId) && ko.unwrap(model.Delimiter);
+        });
 
     const vm = {
+        isWizardOk : isWizardOk,
         selectedRow: selectedRow,
         selectRow : selectRow,
         addDetailsRow: addDetailsRow,

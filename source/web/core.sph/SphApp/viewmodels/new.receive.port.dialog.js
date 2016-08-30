@@ -49,7 +49,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                 return ko.unwrap(page) < 5;
             }),
             okEnable = ko.computed(function () {
-                if (ko.isObservable(port().isWizardOk)) {
+                if (ko.isComputed(port().isWizardOk)) {
                     return port().isWizardOk;
                 }
                 return true;

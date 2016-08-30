@@ -51,7 +51,7 @@ namespace Bespoke.Sph.Domain
                     continue;
                 }
 
-                var parent = root.SingleOrDefault(x => x.Path == row.Parent);
+                var parent = root.SingleOrDefault(x => x.TypeName == row.Parent);
                 parent?.FieldMappingCollection.AddRange(dr);
             }
 

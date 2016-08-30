@@ -12,7 +12,10 @@ bespoke.sph.domain.ReceivePortPartial = function (port) {
 
     const system = require("durandal/system"),
         isWizardOk = ko.computed(function () {
-            return ko.unwrap(port.Name) && ko.unwrap(port.Formatter) && ko.unwrap(port.Entity);
+            const ok = ko.unwrap(port.Name) && ko.unwrap(port.Formatter) && ko.unwrap(port.Entity);
+            if ( port.TextFormatter() && ko.isComputed(port.TextFormatter().isWizardOk))
+                return ok && port.TextFormatter().isWizardOk();
+            return ok;
         }),
         removeReceiveLocation = function (child) {
             var self = this;

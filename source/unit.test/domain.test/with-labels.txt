@@ -1,6 +1,8 @@
 indicator    	Order Type   	Sales Org   	Distribution Channel   	Division    	Sold-to-Party(Acc No)   	iPOS Number   	iPOS User ID  	iPOS Document Time Stamp 	Branch Code   	iPOS Number   	Ship-to-Party (Postcode)   	Product Code (Material)  	Order Qty   	Branch Code   	Agent    	Con Note Number - Parent	Con Note Number - Child	Weight    	Customer Declared Weight  	Volumetric Dimension   	Volumetric Weight   	Value Added   	Surcharge Code   	Sum Insured   	Sub-account Ref   	Recepient ref number  	zone    	countrycode    	item category - type 	MPS indicator   	odd item amount  	odd item description  	Pl9no    	Mhl Indicator   
 9	01	1000	20	10	8700000355	98728321	ZAHID	03112015212406	5009	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	R025318	0
 1	-	-	-	-	8700000355	-	-	-	-	98728321	05600	80000000	1	5009	01	EF385082920MY	-	0.300	0.000	-	0.000	1101	0101	0.00	8700000355	-	02	MY	01	01	0.00	-	-	-
+x	-	-	-	-	8700000355	-	-	-	-	98728321	05600	80000000	1	5009	01	EF385082920MY	-	0.300	0.000	-	0.000	1101	0101	0.00	8700000355	-	02	MY	01	01	0.00	-	-	-
+x1	-	-	-	-	8700000355	-	-	-	-	98728321	05600	80000000	1	5009	01	EF385082920MY	-	0.300	0.000	-	0.000	1101	0101	0.00	8700000355	-	02	MY	01	01	0.00	-	-	-
 1	-	-	-	-	8700000355	-	-	-	-	98728321	20600	80000000	1	5009	01	EF385082933MY	-	0.300	0.000	-	0.000	1101	0101	0.00	8700000355	-	02	MY	01	01	0.00	-	-	-
 9	01	1000	20	10	8700000363	98728171	ZAHID	02112015210025	5009	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	M423326	0
 1	-	-	-	-	8700000363	-	-	-	-	98728171	40670	80000000	1	5009	01	EF734261358MY	-	0.300	0.000	-	0.000	1101	0101	0.00	8700000363	-	02	MY	01	01	0.00	-	-	-

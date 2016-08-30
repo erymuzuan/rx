@@ -555,7 +555,7 @@ bespoke.sph.domain.DelayActivityPartial = function () {
 
 
 
-bespoke.sph.domain.DelimitedTextFormatterPartial = function () {
+bespoke.sph.domain.DelimitedTextFormatterPartial = function (model) {
 
     const system = require("durandal/system"),
         selectedRow = ko.observable(new bespoke.sph.domain.FlatFileDetailTag()),
@@ -584,9 +584,13 @@ bespoke.sph.domain.DelimitedTextFormatterPartial = function () {
         },
         selectRow = function(row) {
             selectedRow(row);
-        };
+        },
+        isWizardOk = ko.computed(function() {
+            return ko.unwrap(model.SampleStoreId) && ko.unwrap(model.Delimiter);
+        });
 
     const vm = {
+        isWizardOk : isWizardOk,
         selectedRow: selectedRow,
         selectRow : selectRow,
         addDetailsRow: addDetailsRow,
@@ -1798,7 +1802,10 @@ bespoke.sph.domain.ReceivePortPartial = function (port) {
 
     const system = require("durandal/system"),
         isWizardOk = ko.computed(function () {
-            return ko.unwrap(port.Name) && ko.unwrap(port.Formatter) && ko.unwrap(port.Entity);
+            const ok = ko.unwrap(port.Name) && ko.unwrap(port.Formatter) && ko.unwrap(port.Entity);
+            if ( port.TextFormatter() && ko.isComputed(port.TextFormatter().isWizardOk))
+                return ok && port.TextFormatter().isWizardOk();
+            return ok;
         }),
         removeReceiveLocation = function (child) {
             var self = this;
