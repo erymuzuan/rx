@@ -2,7 +2,28 @@
   "$type": "Bespoke.Sph.Domain.ReceivePort, domain.sph",
   "ReceiveLocationCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReceiveLocation, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.FolderReceiveLocation, domain.sph",
+        "Path": "\\\\WIN2012-RX10323\\Shared\\snb",
+        "CredentialUserName": "",
+        "ChangeExtension": true,
+        "CredentialPassword": "",
+        "Name": "SNB WIN2012",
+        "IsActive": true,
+        "WebId": "bea2a1b5-e183-4ccc-9170-fc8571398324"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.FolderReceiveLocation, domain.sph",
+        "Path": "\\\\WIN2012-RX10323\\Shared\\snb",
+        "CredentialUserName": "",
+        "ChangeExtension": true,
+        "CredentialPassword": "",
+        "Name": "Shared SNB on WIN2012",
+        "IsActive": true,
+        "WebId": "bea2a1b5-e183-4ccc-9170-fc8571398324"
+      }
+    ]
   },
   "ReferencedAssemblyCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
@@ -1185,6 +1206,6 @@
   "Id": "pos-soc",
   "CreatedDate": "2016-08-29T15:34:00.0488207+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-08-29T15:51:39.857215+08:00",
+  "ChangedDate": "2016-08-30T09:22:24.0334335+08:00",
   "WebId": "0a572523-2ccc-4b12-9890-0dea3da9c246 (2016-08-29 15:34:00.049)"
 }

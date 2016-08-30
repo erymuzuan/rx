@@ -9188,16 +9188,46 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private string m_Credential;
-        public string Credential
+        private string m_CredentialUserName;
+        public string CredentialUserName
         {
             get
             {
-                return m_Credential;
+                return m_CredentialUserName;
             }
             set
             {
-                m_Credential = value;
+                m_CredentialUserName = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_ChangeExtension;
+        public bool ChangeExtension
+        {
+            get
+            {
+                return m_ChangeExtension;
+            }
+            set
+            {
+                m_ChangeExtension = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_CredentialPassword;
+        public string CredentialPassword
+        {
+            get
+            {
+                return m_CredentialPassword;
+            }
+            set
+            {
+                m_CredentialPassword = value;
                 RaisePropertyChanged();
             }
         }

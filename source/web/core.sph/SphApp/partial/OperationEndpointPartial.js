@@ -13,7 +13,7 @@
 
 bespoke.sph.domain.OperationEndpointPartial = function () {
 
-    var system = require("durandal/system"),
+    const system = require("durandal/system"),
         removeChildAction = function (child) {
             var self = this;
             return function() {

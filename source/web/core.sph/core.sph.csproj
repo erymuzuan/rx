@@ -2720,6 +2720,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\_data.import.history.js" />
     <EmbeddedResource Include="SphApp\viewmodels\_data.import.schedule.js" />
     <EmbeddedResource Include="SphApp\viewmodels\transform.definition.edit.js" />
+    <Content Include="SphApp\viewmodels\folder.receive.location.dialog.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -3264,6 +3265,7 @@
     <EmbeddedResource Include="SphApp\views\_data.import.errors.html" />
     <EmbeddedResource Include="SphApp\views\_data.import.history.html" />
     <EmbeddedResource Include="SphApp\views\_data.import.schedule.html" />
+    <Content Include="SphApp\views\folder.receive.location.dialog.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>

@@ -1,0 +1,81 @@
+﻿
+<section class="view-model-modal" id="folder-receive-location">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Folder receive location</h3>
+            </div>
+            <div class="modal-body" data-bind="with: location">
+
+                <form class="form-horizontal" id="folder-receive-location-form">
+                    <div class="form-group">
+                        <label for="location-name" class="col-lg-2 control-label">Name</label>
+                        <div class="col-lg-9">
+                            <input type="text" data-bind="value: Name"
+                                   required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                                   placeholder="Location name"
+                                   class="form-control" id="location-name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="path" class="col-lg-2 control-label">Path</label>
+                        <div class="col-lg-9">
+                            <input type="text" data-bind="value: Path"
+                                   required
+                                   placeholder="Folder"
+                                   class="form-control" id="path">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input data-bind="checked: IsActive" id="location-active" type="checkbox" name="IsActive" />
+                                    Active
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input data-bind="checked: ChangeExtension" id="location-change-extension" type="checkbox" name="ChangeExtension" />
+                                    Change extension to .wip
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location-cred-user-name" class="col-lg-2 control-label">Credential</label>
+                        <div class="col-lg-6">
+                            <input type="text" data-bind="value: CredentialUserName"
+                                   pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                                   placeholder="Credential user name with permission on the folder"
+                                   class="form-control" id="location-cred-user-name">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location-cred-password" class="col-lg-2 control-label">Password</label>
+                        <div class="col-lg-6">
+                            <input type="password" data-bind="value: CredentialPassword"
+                                   placeholder="Password for the network credential"
+                                   class="form-control" id="location-cred-password">
+                        </div>
+                    </div>
+
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="folder-receive-location-form" data-dismiss="modal" type="submit" class="btn btn-default" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

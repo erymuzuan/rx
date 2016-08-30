@@ -135,7 +135,7 @@
                     </form>
                 </div>
 
-                <div class="tab-pane" id="receove-locations">
+                <div class="tab-pane" id="receove-locations" data-bind="with : port">
                     <table class="table table-striped table-condensed">
                         <thead>
                             <tr>
@@ -144,37 +144,51 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody data-bind="foreach : ReceiveLocationCollection">
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>
+                                    <a href="javascript:;" data-bind="click : $parent.editReceiveLocation.call($parent, $data), text:Name"></a>
+                                </td>
+                                <td>
+                                    <i class="fa fa-check" data-bind="value:IsActive"></i>
+                                </td>
+                                <td>
+                                    <a href="javascript:;" data-bind="click : $parent.removeReceiveLocation.call($parent,$data)">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
-                    <a href="javascript:;">
+                    <a href="javascript:;" data-bind="click : addReceiveLocation" class="btn btn-link">
                         <i class="fa fa-plus-circle"></i>Add new receive location
                     </a>
                 </div>
-                <div class="tab-pane" id="reference-assemblies">
+                <div class="tab-pane" id="reference-assemblies" data-bind="with : port">
                     <table class="table table-striped table-condensed">
                         <thead>
                             <tr>
-                                <th>Type</th>
+                                <th>Name</th>
                                 <th>Version</th>
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody data-bind="foreach : ReferencedAssemblyCollection">
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td data-bind="text:Name"></td>
+                                <td data-bind="text:Version"></td>
+                                <td>
+                                    <a href="#" data-bind="click : $parent.removeReferencedAssembly.call($parent,$data)">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </td>
                             </tr>
                         </tbody>
+
                     </table>
-                    <a href="javascript:;">
-                        <i class="fa fa-plus-circle"></i>Add new referenced assembly
+                    <a href="#" data-bind="click : addReferencedAssembly" class="btn btn-link">
+                        <i class="fa fa-plus-circle"></i>
+                        Add an assembly
                     </a>
                 </div>
             </div>

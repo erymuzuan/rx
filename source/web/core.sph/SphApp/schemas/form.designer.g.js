@@ -2984,7 +2984,11 @@ bespoke.sph.domain.FolderReceiveLocation = function (optionOrWebid) {
 
     v.Path = ko.observable("");
 
-    v.Credential = ko.observable("");
+    v.CredentialUserName = ko.observable("");
+
+    v.ChangeExtension = ko.observable(false);
+
+    v.CredentialPassword = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.FolderReceiveLocation, domain.sph";
 
