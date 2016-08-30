@@ -10577,6 +10577,16 @@ namespace Bespoke.Sph.Domain
         private string m_sampleValue;
         public const string PropertyNameSampleValue = "SampleValue";
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private bool m_isComplex;
+        public const string PropertyNameIsComplex = "IsComplex";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private bool m_allowMultiple;
+        public const string PropertyNameAllowMultiple = "AllowMultiple";
+
         ///<summary>
         /// 
         ///</summary>
@@ -10688,6 +10698,48 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_sampleValue;
+            }
+        }
+
+
+
+        public bool IsComplex
+        {
+            set
+            {
+                if (m_isComplex == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsComplex, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isComplex = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isComplex;
+            }
+        }
+
+
+
+        public bool AllowMultiple
+        {
+            set
+            {
+                if (m_allowMultiple == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameAllowMultiple, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_allowMultiple = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_allowMultiple;
             }
         }
 

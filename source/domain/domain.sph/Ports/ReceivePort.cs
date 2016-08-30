@@ -92,9 +92,13 @@ namespace Bespoke.Sph.Domain
         private Task<IEnumerable<Class>> GenerateCodeAsync()
         {
             var classes = new List<Class>();
-            var port = new Class { Name = Name.ToPascalCase(), Namespace = this.CodeNamespace };
-            port.AddNamespaceImport<DateTime, FileInfo, FileHelpers.FieldAlignAttribute>();
-            classes.Add(port);
+            var record = new Class { Name = this.Entity.ToPascalCase(), Namespace = this.CodeNamespace };
+            record.AddNamespaceImport<DateTime, FileInfo, FileHelpers.FieldAlignAttribute>();
+            classes.Add(record);
+
+            var recordMembers = this.FieldMappingCollection.Select(x => x.GenerateMember())
+                .Select(x => new Property { Code = x.GeneratedCode() });
+            record.PropertyCollection.ClearAndAddRange(recordMembers);
 
             var ed = m_testEntityDefinition;
             if (null == ed)

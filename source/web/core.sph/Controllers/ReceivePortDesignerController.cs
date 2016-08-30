@@ -55,7 +55,7 @@ namespace Bespoke.Sph.Web.Controllers
 
             if (portIsNewItem)
                 return Created($"/receive-ports/{port.Id}/publish", new { success = true });
-            return Ok(new { sucess = true });
+            return Ok(new { success = true });
         }
     }
 }

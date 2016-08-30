@@ -10,7 +10,6 @@ namespace Bespoke.Sph.Domain
         }
     }
 
-    public partial class TextFieldMapping : DomainObject { }
     public partial class HtmlTextFormatter : TextFormatter { }
     public partial class JsonTextFormatter : TextFormatter { }
     public partial class XmlTextFormatter : TextFormatter { }

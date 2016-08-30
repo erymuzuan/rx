@@ -18,10 +18,10 @@ namespace domain.test.receive.ports
             var store = new Mock<IBinaryStore>(MockBehavior.Strict);
             var doc = new BinaryStore
             {
-                Content = File.ReadAllBytes(@"C:\project\work\entt.ipos\docs\sample_ipos_soc\20151104105551_0_ipos_soc_0805_20151104-105236_1246_36.txt.log"),
+                Content = File.ReadAllBytes(@"soc.txt"),
                 Id = m_sampleStore,
                 Extension = ".txt",
-                FileName = @"20151104105551_0_ipos_soc_0805_20151104-105236_1246_36.txt.log"
+                FileName = @"soc.text"
             };
             store.Setup(x => x.GetContentAsync(m_sampleStore))
                 .Returns(Task.FromResult(doc));
@@ -51,8 +51,8 @@ namespace domain.test.receive.ports
                 FieldName = "OrderItems",
                 Parent = "$root"
             };
-           
-                 
+
+
             formatter.DetailRowCollection.AddRange(detail);
             var list = await formatter.GetFieldMappingsAsync();
             Assert.Equal(36, list.Length);
@@ -61,6 +61,7 @@ namespace domain.test.receive.ports
         [Fact]
         public async Task Start()
         {
+            var patient = new EntityDefinition { Name = "Patient", Id = "patient", Plural = "Patients" };
             await Task.Delay(100);
             var port = new ReceivePort
             {
@@ -75,8 +76,9 @@ namespace domain.test.receive.ports
             {
                 Path = @"c:\temp\rx-flat-port",
                 Name = "TempFlat",
-                Credential = null
+                CredentialUserName = null
             });
+            port.InitTest(patient);
 
 
             var cr = await port.CompileAsync();

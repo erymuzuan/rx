@@ -1189,6 +1189,8 @@
 		<xs:attribute name="TypeName" type="xs:string" use="required"/>
 		<xs:attribute name="IsNullable" type="xs:boolean" use="required"/>
 		<xs:attribute name="SampleValue" type="xs:string" use="optional"/>
+		<xs:attribute name="IsComplex" type="xs:boolean" use="required"/>
+		<xs:attribute name="AllowMultiple" type="xs:boolean" use="required"/>
 	</xs:complexType>
 	<xs:element name="DelimitedTextFieldMapping">
 		<xs:complexType>

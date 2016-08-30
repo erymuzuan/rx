@@ -36,7 +36,9 @@ namespace Bespoke.Sph.Domain
                 var dr = new DelimitedTextFieldMapping
                 {
                     Path = row.FieldName,
-                    TypeName = row.Name
+                    TypeName = row.Name,
+                    IsComplex = true,
+                    AllowMultiple = true
                 };
                 dr.FieldMappingCollection.AddRange(fields);
                 if (row.Parent == "$root")

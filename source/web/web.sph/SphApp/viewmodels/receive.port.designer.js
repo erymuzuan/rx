@@ -101,7 +101,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 const data = ko.mapping.toJSON(port);
                 isBusy(true);
 
-                return context.post(data, "/receive-port/publish")
+                return context.post(data, `/receive-ports/${ ko.unwrap(port().Id)}/publish`)
                     .then(function (result) {
 
                         originalEntity = ko.toJSON(port);
