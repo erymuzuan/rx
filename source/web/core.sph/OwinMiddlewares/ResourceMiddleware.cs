@@ -45,6 +45,8 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
             if (!string.IsNullOrWhiteSpace(fileName)) contentType = MimeMapping.GetMimeMapping(Path.GetExtension(fileName));
 
             var file = $"{ConfigurationManager.WebPath}\\{m_namespace}{folder}\\{fileName}";
+            // for development core.sph, so we don't need to compile
+            if (!File.Exists(file)) file = file.Replace("web.sph", "core.sph");
             if (File.Exists(file))
             {
                 SetStaticFileCacheability(ctx, file, "images\\form.element");
