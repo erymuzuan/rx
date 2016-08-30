@@ -51,6 +51,22 @@
                     <input type="text" required pattern="^[A-Za-z_][A-Za-z0-9_]*$" class="form-control"
                            data-bind="value:Path, tooltip: 'The property name used internally by C# compiler'" />
                 </div>
+
+                <!-- ko if : IsComplex -->
+
+                <div class="form-group">
+                    <label for="field-complex-type" class="control-label">Type Name</label>
+                    <input type="text" data-bind="value: TypeName"
+                           required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                           placeholder="C# type name for field items"
+                           class="form-control" id="field-complex-type">
+                </div>
+
+
+                <!-- /ko -->
+                <!-- ko ifnot : IsComplex -->
+
+
                 <div class="form-group">
                     <label for="member-type2">Type</label>
                     <select required class="form-control" id="member-type2"
@@ -85,6 +101,9 @@
                     <input type="text" readonly="readonly" class="form-control"
                            data-bind="value:SampleValue, tooltip: 'Converter expression'" />
                 </div>
+
+                <!-- /ko -->
+
 
 
 

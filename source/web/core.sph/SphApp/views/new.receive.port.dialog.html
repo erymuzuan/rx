@@ -90,8 +90,7 @@
                 <!-- ko if : ko.unwrap(Formatter) === 'DelimitedTextFormatter' -->
 
                 <div data-bind="visible: $root.page() === 2">
-                    <!-- ko with : TextFormatter -->
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" data-bind="with : TextFormatter">
                         <div class="form-group">
                             <label for="sample-file" class="col-lg-2 control-label">Updload sample file</label>
                             <div class="col-lg-6">
@@ -139,8 +138,19 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input data-bind="checked: HasLabel" id="column-label" type="checkbox" name="HasLabel"/>
+                                        Has Row Label
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+
                     </form>
-                    <!-- /ko -->
                 </div>
 
                 <div data-bind="visible:$root.page() === 3, with: TextFormatter">

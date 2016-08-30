@@ -9274,6 +9274,21 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private bool m_HasLabel;
+        public bool HasLabel
+        {
+            get
+            {
+                return m_HasLabel;
+            }
+            set
+            {
+                m_HasLabel = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
 
     }
 
@@ -9340,6 +9355,21 @@ namespace Bespoke.Sph.Domain
             set
             {
                 m_EscapeCharacter = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_HasLabel;
+        public bool HasLabel
+        {
+            get
+            {
+                return m_HasLabel;
+            }
+            set
+            {
+                m_HasLabel = value;
                 RaisePropertyChanged();
             }
         }

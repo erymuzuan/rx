@@ -17,6 +17,10 @@ namespace Bespoke.Sph.Domain
             var root = new List<TextFieldMapping>();
 
             var lines = File.ReadAllLines(temp);
+            var labels = lines.First().Split(new[] { this.Delimiter }, StringSplitOptions.None)
+                .Select(x => x.ToPascalCase()).ToArray();
+            if (!this.HasLabel)
+                labels = Enumerable.Range(1, labels.Length).Select(i => $"Field_{i}").ToArray();
 
             // details
             foreach (var row in this.DetailRowCollection)
@@ -28,7 +32,7 @@ namespace Bespoke.Sph.Domain
                 var fields = columns.Select((col, i) => new DelimitedTextFieldMapping
                 {
                     Column = i,
-                    Path = $"DetailField_{i + 1}",
+                    Path = labels[i],
                     TypeName = typeof(string).GetShortAssemblyQualifiedName(),
                     SampleValue = col,
                     WebId = Guid.NewGuid().ToString()
@@ -51,12 +55,13 @@ namespace Bespoke.Sph.Domain
                 parent?.FieldMappingCollection.AddRange(dr);
             }
 
+
             var rootLine = lines.First(x => !this.HasTagIdentifier || (x.StartsWith(this.RecordTag)));
             var rootColumns = rootLine.Split(new[] { this.Delimiter }, StringSplitOptions.None);
             var rootFields = rootColumns.Select((col, i) => new DelimitedTextFieldMapping
             {
                 Column = i,
-                Path = $"Field_{i + 1}",
+                Path = labels[i],
                 TypeName = typeof(string).GetShortAssemblyQualifiedName(),
                 SampleValue = col,
                 WebId = Guid.NewGuid().ToString()

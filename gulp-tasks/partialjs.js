@@ -16,7 +16,7 @@ var sources = ["./source/web/core.sph/SphApp/partial/*.js",
 
 watchList.push({name:"partial.js",sources: sources, tasks : ["partial.js"]});
 
-gulp.task("partial.min.js", function(){
+gulp.task("partial.min.js",["partial.js"], function(){
 
     return gulp.src(sources)
         .pipe(sourcemaps.init())
@@ -27,7 +27,7 @@ gulp.task("partial.min.js", function(){
         .pipe(gulp.dest("./source/web/core.sph/SphApp/partial"));
 });
 
-gulp.task("partial.js",["partial.min.js"], function(){
+gulp.task("partial.js", function(){
     return gulp.src(sources)
         .pipe(concat("__partial.js"))
         .pipe(gulp.dest("./source/web/core.sph/SphApp/partial"));

@@ -3031,6 +3031,8 @@ bespoke.sph.domain.FixedLengthTextFormatter = function (optionOrWebid) {
 
     v.HasTagIdentifier = ko.observable(false);
 
+    v.HasLabel = ko.observable(false);
+
     v["$type"] = "Bespoke.Sph.Domain.FixedLengthTextFormatter, domain.sph";
 
 
@@ -3075,6 +3077,8 @@ bespoke.sph.domain.DelimitedTextFormatter = function (optionOrWebid) {
     v.RecordTag = ko.observable("");
 
     v.EscapeCharacter = ko.observable("");
+
+    v.HasLabel = ko.observable(false);
 
     v["$type"] = "Bespoke.Sph.Domain.DelimitedTextFormatter, domain.sph";
 
@@ -3499,6 +3503,8 @@ bespoke.sph.domain.TextFieldMapping = function (optionOrWebid) {
         TypeName: ko.observable(""),
         IsNullable: ko.observable(false),
         SampleValue: ko.observable(""),
+        IsComplex: ko.observable(false),
+        AllowMultiple: ko.observable(false),
         FieldMappingCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
