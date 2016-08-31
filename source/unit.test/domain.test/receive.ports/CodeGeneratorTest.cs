@@ -95,9 +95,9 @@ namespace domain.test.receive.ports
 
             csv.DetailRowCollection.Add(new FlatFileDetailTag
             {
-                Name = "Item",
-                FieldName = "Items",
-                Parent = "$root",
+                TypeName = "Item",
+                Name = "Items",
+                Parent = "$record",
                 RowTag = "I",
                 WebId = "items-row"
             });
@@ -107,25 +107,25 @@ namespace domain.test.receive.ports
 
             var customerNameField = fields[2];
             Assert.Equal("Ahmad, sons and friends", customerNameField.SampleValue);
-            customerNameField.Path = "CustomerName";
+            customerNameField.Name = "CustomerName";
 
             var orderNoField = fields[3];
-            orderNoField.Path = "OrderNo";
+            orderNoField.Name = "OrderNo";
 
             var shippingNoField = fields[4];
-            shippingNoField.Path = "ShippingNo";
+            shippingNoField.Name = "ShippingNo";
 
             var dateField = (DelimitedTextFieldMapping) fields[5];
 
-            dateField.Path = "Date";
+            dateField.Name = "Date";
             dateField.TypeName = typeof(DateTime).GetShortAssemblyQualifiedName();
             dateField.Converter = "yyyy-MM-dd";
 
-            fields[0].FieldMappingCollection[0].Path = "Tag";
-            fields[0].FieldMappingCollection[1].Path = "Description";
-            fields[0].FieldMappingCollection[2].Path = "Quantity";
+            fields[0].FieldMappingCollection[0].Name = "Tag";
+            fields[0].FieldMappingCollection[1].Name = "Description";
+            fields[0].FieldMappingCollection[2].Name = "Quantity";
             fields[0].FieldMappingCollection[2].TypeName = typeof(int).GetShortAssemblyQualifiedName();
-            fields[0].FieldMappingCollection[3].Path = "Amount";
+            fields[0].FieldMappingCollection[3].Name = "Amount";
             fields[0].FieldMappingCollection[3].TypeName = typeof(decimal).GetShortAssemblyQualifiedName();
             return port;
         }

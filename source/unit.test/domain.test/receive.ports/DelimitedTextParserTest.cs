@@ -50,27 +50,27 @@ namespace domain.test.receive.ports
             {
 
                 RowTag = "1",
-                Name = "OrderItem",
+                TypeName = "OrderItem",
                 WebId = Guid.NewGuid().ToString(),
-                FieldName = "OrderItems",
-                Parent = "$root"
+                Name = "OrderItems",
+                Parent = "$record"
             };
             var child = new FlatFileDetailTag
             {
 
                 RowTag = "x",
-                Name = "Child",
+                TypeName = "Child",
                 WebId = Guid.NewGuid().ToString(),
-                FieldName = "Children",
-                Parent = "$root"
+                Name = "Children",
+                Parent = "$record"
             };
             var grandChild = new FlatFileDetailTag
             {
 
                 RowTag = "x1",
-                Name = "GrandChild",
+                TypeName = "GrandChild",
                 WebId = Guid.NewGuid().ToString(),
-                FieldName = "GrandChildren",
+                Name = "GrandChildren",
                 Parent = "Child"
             };
 
@@ -78,10 +78,12 @@ namespace domain.test.receive.ports
             formatter.DetailRowCollection.AddRange(item, child, grandChild);
             var list = await formatter.GetFieldMappingsAsync();
             Assert.Equal(37, list.Length);
-            Assert.Equal("OrderItems", list[0].Path);
-            Assert.Equal("Children", list[1].Path);
-            Assert.Equal(36, list.First().FieldMappingCollection.Count);
-            Assert.Equal(1, list.First().FieldMappingCollection.Count(x => x.Path == "GrandChildren"));
+            Assert.Equal("OrderItems", list[0].Name);
+
+            var children = list[1];
+            Assert.Equal("Children", children.Name);
+            Assert.Equal(36, children.FieldMappingCollection.Count);
+            Assert.Equal(1, children.FieldMappingCollection.Count(x => x.Name == "GrandChildren"));
 
         }
         [Fact]
@@ -101,18 +103,18 @@ namespace domain.test.receive.ports
             {
 
                 RowTag = "1",
-                Name = "OrderItem",
+                TypeName = "OrderItem",
                 WebId = Guid.NewGuid().ToString(),
-                FieldName = "OrderItems",
-                Parent = "$root"
+                Name = "OrderItems",
+                Parent = "$record"
             };
 
 
             formatter.DetailRowCollection.AddRange(detail);
             var list = await formatter.GetFieldMappingsAsync();
             Assert.Equal(36, list.Length);
-            Assert.Equal("OrderItems", list[0].Path);
-            Assert.Equal("OrderType", list[2].Path);
+            Assert.Equal("OrderItems", list[0].Name);
+            Assert.Equal("OrderType", list[2].Name);
 
         }
         [Fact]
@@ -131,10 +133,10 @@ namespace domain.test.receive.ports
             {
 
                 RowTag = "1",
-                Name = "OrderItem",
+                TypeName = "OrderItem",
                 WebId = Guid.NewGuid().ToString(),
-                FieldName = "OrderItems",
-                Parent = "$root"
+                Name = "OrderItems",
+                Parent = "$record"
             };
 
 
@@ -159,16 +161,16 @@ namespace domain.test.receive.ports
             {
 
                 RowTag = "I",
-                Name = "OrderItem",
+                TypeName = "OrderItem",
                 WebId = Guid.NewGuid().ToString(),
-                FieldName = "OrderItems",
-                Parent = "$root"
+                Name = "OrderItems",
+                Parent = "$record"
             };
 
 
             formatter.DetailRowCollection.AddRange(detail);
             var list = await formatter.GetFieldMappingsAsync();
-            Assert.Equal(1, list.Count(x => x.Path == "OrderItems"));
+            Assert.Equal(1, list.Count(x => x.Name == "OrderItems"));
 
         }
         [Fact]
@@ -187,10 +189,10 @@ namespace domain.test.receive.ports
             {
 
                 RowTag = "I",
-                Name = "OrderItem",
+                TypeName = "OrderItem",
                 WebId = Guid.NewGuid().ToString(),
-                FieldName = "OrderItems",
-                Parent = "$root"
+                Name = "OrderItems",
+                Parent = "$record"
             };
 
             formatter.DetailRowCollection.AddRange(detail);

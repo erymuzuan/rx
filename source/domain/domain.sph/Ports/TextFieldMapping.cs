@@ -3,22 +3,25 @@ using System.Linq;
 
 namespace Bespoke.Sph.Domain
 {
-    [DebuggerDisplay("Path = {Path}({SampleValue}), TypeName= {TypeName}")]
+    [DebuggerDisplay("Path = {Name}({SampleValue}), TypeName= {TypeName}")]
     public partial class TextFieldMapping : DomainObject
     {
         public virtual Member GenerateMember()
         {
             var simple = new SimpleMember
             {
-                Name = this.Path,
+                Name = this.Name,
                 TypeName = this.TypeName,
-                AllowMultiple = false
+                AllowMultiple = false,
+                IsNullable =  this.IsNullable,
+                IsNotIndexed = true
+                
             };
             if (!this.IsComplex) return simple;
 
             var complex = new ComplexMember
             {
-                Name = this.Path,
+                Name = this.Name,
                 TypeName = this.TypeName,
                 AllowMultiple = this.AllowMultiple
             };

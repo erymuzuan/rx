@@ -52,7 +52,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
 
                         const type = getNodeMemberType(v);
                         return {
-                            text: `${ko.unwrap(v.Path)} (${ko.unwrap(v.SampleValue)})`,
+                            text: `${ko.unwrap(v.Name)} (${ko.unwrap(v.SampleValue)})`,
                             state: "open",
                             type: type,
                             data: v
@@ -64,7 +64,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                     jsTreeData.children = _(port.FieldMappingCollection()).map(function (v) {
 
                         return {
-                            text: `${ko.unwrap(v.Path)} (${ko.unwrap(v.SampleValue)})`,
+                            text: `${ko.unwrap(v.Name)} (${ko.unwrap(v.SampleValue)})`,
                             state: "open",
                             type: getNodeMemberType(v),
                             data: v
@@ -91,7 +91,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
 
                                 selectedField(field);
                                 // subscribe to Name change
-                                fieldPathSubscription = selectedField().Path.subscribe(function (path) {
+                                fieldPathSubscription = selectedField().Name.subscribe(function (path) {
                                     $(element).jstree(true)
                                         .rename_node(selected.node, path);
                                     console.log("rename " + path);
@@ -111,7 +111,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                         })
                         .on("rename_node.jstree", function (ev, node) {
                             const field = node.node.data;
-                            field.Path(node.text);
+                            field.Name(node.text);
                         })
                         .jstree({
                             "core": {

@@ -14,7 +14,7 @@ bespoke.sph.domain.DelimitedTextFormatterPartial = function (model) {
 
     const system = require("durandal/system"),
         selectedRow = ko.observable(new bespoke.sph.domain.FlatFileDetailTag()),
-        parentOptions = ko.observableArray(["$root"]),
+        parentOptions = ko.observableArray(["$record"]),
         childNameChanged = function (name) {
             if (name) {
                 if (parentOptions().indexOf(name) < 0) {

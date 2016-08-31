@@ -9611,12 +9611,12 @@ namespace Bespoke.Sph.Domain
     {
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_name;
+        private string m_typeName;
         public const string PropertyNameName = "Name";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_fieldName;
+        private string m_name;
         public const string PropertyNameFieldName = "FieldName";
 
 
@@ -9642,22 +9642,22 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
-        public string Name
+        public string TypeName
         {
             set
             {
-                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                if (String.Equals(m_typeName, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameName, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_name = value;
+                    m_typeName = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_name;
+                return m_typeName;
             }
         }
 
@@ -9668,22 +9668,22 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
-        public string FieldName
+        public string Name
         {
             set
             {
-                if (String.Equals(m_fieldName, value, StringComparison.Ordinal)) return;
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameFieldName, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_fieldName = value;
+                    m_name = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_fieldName;
+                return m_name;
             }
         }
 
@@ -10584,13 +10584,9 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 
-        private string m_path;
-        public const string PropertyNamePath = "Path";
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-
-        private string m_membersPath;
-        public const string PropertyNameMembersPath = "MembersPath";
+        private string m_name;
+        public const string PropertyNameName = "Name";
+        
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 
@@ -10617,6 +10613,11 @@ namespace Bespoke.Sph.Domain
         private bool m_allowMultiple;
         public const string PropertyNameAllowMultiple = "AllowMultiple";
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_nullPlaceholder;
+        public const string PropertyNameNullPlaceholder = "NullPlaceholder";
+
         ///<summary>
         /// 
         ///</summary>
@@ -10628,48 +10629,26 @@ namespace Bespoke.Sph.Domain
 
 
 
-        public string Path
+        public string Name
         {
             set
             {
-                if (m_path == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNamePath, value);
+                if (m_name == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_path = value;
+                    m_name = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_path;
+                return m_name;
             }
         }
 
-
-
-        public string MembersPath
-        {
-            set
-            {
-                if (m_membersPath == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameMembersPath, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_membersPath = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_membersPath;
-            }
-        }
-
-
-
+        
         public string TypeName
         {
             set
@@ -10770,6 +10749,27 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_allowMultiple;
+            }
+        }
+
+
+
+        public string NullPlaceholder
+        {
+            set
+            {
+                if (m_nullPlaceholder == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNullPlaceholder, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_nullPlaceholder = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_nullPlaceholder;
             }
         }
 

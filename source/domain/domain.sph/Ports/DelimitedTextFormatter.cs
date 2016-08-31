@@ -32,19 +32,19 @@ namespace Bespoke.Sph.Domain
 
             foreach (var row in this.DetailRowCollection)
             {
-                var itemName = row.Name.ToCamelCase();
-                code.AppendLine($@"var {itemName}Engine = new FileHelperEngine<{row.Name}>();");
+                var itemName = row.TypeName.ToCamelCase();
+                code.AppendLine($@"var {itemName}Engine = new FileHelperEngine<{row.TypeName}>();");
             }
 
             var childRecordCode = new StringBuilder();
             foreach (var row in this.DetailRowCollection)
             {
-                var itemName = row.Name.ToCamelCase();
+                var itemName = row.TypeName.ToCamelCase();
                 childRecordCode.Append($@"
                     if(line.StartsWith({row.RowTag.ToVerbatim()}))
                     {{
                         var {itemName} = {itemName}Engine.ReadString(normalized)[0];
-                        record.{row.FieldName}.Add({itemName});
+                        record.{row.Name}.Add({itemName});
                     }}
                 ");
             }
@@ -101,19 +101,19 @@ namespace Bespoke.Sph.Domain
                 var fields = await GetFieldsFromLineAsync(line);
                 var dr = new DelimitedTextFieldMapping
                 {
-                    Path = row.FieldName,
-                    TypeName = row.Name,
+                    Name = row.Name,
+                    TypeName = row.TypeName,
                     IsComplex = true,
                     AllowMultiple = true
                 };
                 dr.FieldMappingCollection.AddRange(fields);
-                if (row.Parent == "$root")
+                if (row.Parent == "$record")
                 {
                     root.Add(dr);
                     continue;
                 }
-                //TODO : the order of the details do matter, when grand children
-                var parent = root.SingleOrDefault(x => x.TypeName == row.Parent);
+                //TODO : the order of the details do matter for grand children
+                var parent = root.SingleOrDefault(x => x.Name == row.Parent);
                 parent?.FieldMappingCollection.AddRange(dr);
             }
             var rootLine = lines.First(x => !this.HasTagIdentifier || (x.StartsWith(this.RecordTag)));
@@ -151,13 +151,13 @@ namespace Bespoke.Sph.Domain
             var labels = await GetFieldLabelsAsync();
             var placeHolder = new string('x', 15);
             var columns = line.Split(new[] { this.Delimiter }, StringSplitOptions.None);
-            var hasEscape = line.Contains(this.EscapeCharacter);
+            var hasEscape = !string.IsNullOrWhiteSpace(this.EscapeCharacter) && line.Contains(this.EscapeCharacter);
             if (hasEscape)
                 columns = Normalize(line, placeHolder).Split(new[] { this.Delimiter }, StringSplitOptions.None);
             var fields = columns.Select((col, i) => new DelimitedTextFieldMapping
             {
                 Column = i,
-                Path = labels[i],
+                Name = labels[i],
                 TypeName = typeof(string).GetShortAssemblyQualifiedName(),
                 SampleValue = hasEscape ? col.Replace(placeHolder, this.Delimiter).Trim() : col,
                 WebId = Guid.NewGuid().ToString()

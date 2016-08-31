@@ -3498,13 +3498,14 @@ bespoke.sph.domain.TextFieldMapping = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.TextFieldMapping, domain.sph",
-        Path: ko.observable(""),
+        Name: ko.observable(""),
         MembersPath: ko.observable(""),
         TypeName: ko.observable(""),
         IsNullable: ko.observable(false),
         SampleValue: ko.observable(""),
         IsComplex: ko.observable(false),
         AllowMultiple: ko.observable(false),
+        NullPlaceholder: ko.observable(""),
         FieldMappingCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()

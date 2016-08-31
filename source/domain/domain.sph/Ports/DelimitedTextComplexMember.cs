@@ -9,8 +9,10 @@ namespace Bespoke.Sph.Domain
         public DelimitedTextComplexMember(DelimitedTextFieldMapping fieldMapping)
         {
             m_fieldMapping = fieldMapping;
-            this.Name = fieldMapping.Path;
+            this.Name = fieldMapping.Name;
             this.TypeName = fieldMapping.TypeName;
+            this.AllowMultiple = true;
+            this.WebId = fieldMapping.WebId;
         }
 
         public override string GeneratedCode(string padding = "      ")

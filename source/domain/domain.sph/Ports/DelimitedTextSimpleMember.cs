@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace Bespoke.Sph.Domain
 {
     public class DelimitedTextSimpleMember : SimpleMember
@@ -7,12 +9,14 @@ namespace Bespoke.Sph.Domain
         public DelimitedTextSimpleMember(DelimitedTextFieldMapping fieldMapping)
         {
             m_fieldMapping = fieldMapping;
-            this.Name = fieldMapping.Path;
+            this.Name = fieldMapping.Name;
             this.TypeName = fieldMapping.TypeName;
+            this.AllowMultiple = false;
+            this.IsNullable = this.IsNullable;
         }
         public override string GeneratedCode(string padding = "      ")
         {
-            var kind = "";
+            string kind;
             /*
     None,
     Date,
@@ -46,15 +50,34 @@ namespace Bespoke.Sph.Domain
                     kind = "None";
                     break;
             }
-            var converter = string.IsNullOrWhiteSpace(this.m_fieldMapping.Converter)
-                ? ""
-                : $@"[FieldConverter(ConverterKind.{kind}, ""{m_fieldMapping.Converter}"")]";
 
-            return $@"
-{padding}{converter}
-{padding}[JsonIgnore]
-{padding}public {Type.ToCSharp()} {Name}Raw; 
-{padding}public {Type.ToCSharp()} {Name} => {Name}Raw;";
+            var type = this.Type.ToCSharp() + this.GetNullable();
+
+            var code = new StringBuilder();
+            if (!string.IsNullOrWhiteSpace(m_fieldMapping.Converter))
+                code.AppendLine($@"[FieldConverter(ConverterKind.{kind}, ""{m_fieldMapping.Converter}"")]");
+            code.AppendLine($@"{padding}[JsonIgnore]");
+            code.AppendLine($@"{padding}public {Type.ToCSharp()} {Name}Raw;");
+            code.Append($@"{padding}public {type} {Name}");
+            if (this.IsNullable)
+            {
+                code.AppendLine("{");
+                code.AppendLine("    get{");
+                code.AppendLine($@"        if({Name}Raw) == {m_fieldMapping.NullPlaceholder.ToVerbatim()})");
+                code.AppendLine($@"             return null;");
+                code.AppendLine($@"        return {Name}Raw;");
+                code.AppendLine("       }");
+                code.AppendLine("}");
+            }
+            else
+            {
+                code.AppendLine($@" => {Name}Raw;");
+            }
+
+            return code.ToString();
+
+
+
         }
     }
 }
