@@ -199,10 +199,11 @@
     <Compile Include="entities\ServiceContractTest.cs" />
     <Compile Include="entities\ValueObjectDefinitionCodeTest.cs" />
     <Compile Include="entities\QuerySortTest.cs" />
+    <Compile Include="receive.ports\CodeGeneratorTest.cs" />
     <Compile Include="receive.ports\CsvOrderItem.cs" />
     <Compile Include="receive.ports\CsvSalesOrder.cs" />
     <Compile Include="receive.ports\MockExtensions.cs" />
-    <Compile Include="receive.ports\ReceivePortTest.cs" />
+    <Compile Include="receive.ports\DelimitedTextParserTest.cs" />
     <Compile Include="WebApiControllerHelper.cs" />
     <Compile Include="MvcControllerHelper.cs" />
     <Compile Include="razor\RazorEngineTestFixture.cs" />

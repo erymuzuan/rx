@@ -11,13 +11,13 @@ using Xunit.Abstractions;
 
 namespace domain.test.receive.ports
 {
-    public class ReceivePortTest
+    public class DelimitedTextParserTest
     {
         private const string Soc = "soc.txt";
         private const string WithLabel = "with-labels.txt";
 
-         private readonly ITestOutputHelper m_outputHelper;
-        public ReceivePortTest(ITestOutputHelper outputHelper)
+        private readonly ITestOutputHelper m_outputHelper;
+        public DelimitedTextParserTest(ITestOutputHelper outputHelper)
         {
             Environment.SetEnvironmentVariable($"RX_{ConfigurationManager.ApplicationName}_HOME", @"c:\temp\rx", EnvironmentVariableTarget.Process);
             var store = new Mock<IBinaryStore>(MockBehavior.Strict);
@@ -32,8 +32,7 @@ namespace domain.test.receive.ports
 
             m_outputHelper = outputHelper;
         }
-
-
+        
         [Fact]
         public async Task GenerateFieldWithMultipeChildren()
         {
@@ -194,12 +193,12 @@ namespace domain.test.receive.ports
                 Parent = "$root"
             };
 
-
             formatter.DetailRowCollection.AddRange(detail);
             var list = await formatter.GetFieldMappingsAsync();
-            Assert.Equal(1, list.Count(x => x.SampleValue == "Ahmad, sons and friends"));
-
+            Assert.Equal("Ahmad, sons and friends", list[2].SampleValue);
+            Assert.Equal("3,999.99", list[0].FieldMappingCollection.Last().SampleValue);
         }
+
         [Fact]
         public void FileHelperCsvEscape()
         {
@@ -223,7 +222,7 @@ I,LG G5, 1, 3099";
             var line2 = Regex.Replace(lines[1], pattern, matchEvaluator, OPTIONS);
             Assert.Equal($@"I,Samsung Note 7,2,3{placeHolder}999.99", line2);
 
-            var line3 = Regex.Replace(lines[2], pattern,matchEvaluator,OPTIONS);
+            var line3 = Regex.Replace(lines[2], pattern, matchEvaluator, OPTIONS);
             Assert.Equal($@"I,Samsung Note 7,2,3{placeHolder}299.99", line3);
 
             var engine = new FileHelperEngine<CsvSalesOrder>();
@@ -239,36 +238,7 @@ I,LG G5, 1, 3099";
 
         }
 
-
-
-        [Fact]
-        public async Task Start()
-        {
-            var patient = new EntityDefinition { Name = "Patient", Id = "patient", Plural = "Patients" };
-            await Task.Delay(100);
-            var port = new ReceivePort
-            {
-                Name = "Test 123",
-                Entity = "Customer",
-                EntityId = "customer",
-                Formatter = "Text",
-
-            };
-
-            port.ReceiveLocationCollection.Add(new FolderReceiveLocation
-            {
-                Path = @"c:\temp\rx-flat-port",
-                Name = "TempFlat",
-                CredentialUserName = null
-            });
-            port.InitTest(patient);
-
-
-            var cr = await port.CompileAsync();
-            Assert.True(cr.Result);
-            Console.WriteLine(cr.Output);
-
-        }
+        
     }
 
 }

@@ -16,8 +16,6 @@ namespace Bespoke.Sph.Domain
     [StoreAsSource(HasDerivedTypes = true)]
     public partial class ReceivePort : Entity
     {
-        private EntityDefinition m_testEntityDefinition;
-
         public async Task<WorkflowCompilerResult> CompileAsync()
         {
             var options = new CompilerOptions
@@ -89,65 +87,39 @@ namespace Bespoke.Sph.Domain
         public string TypeName => Name.ToPascalCase();
         [JsonIgnore]
         public string TypeFullName => $"{CodeNamespace}.{TypeName}, {AssemblyName.Replace(".dll", "")}";
-        private Task<IEnumerable<Class>> GenerateCodeAsync()
+
+        private void ExtractClasses(ICollection<Class> list, TextFieldMapping field)
+        {
+            var item = new Class { Name = field.TypeName.ToPascalCase(),Namespace = this.CodeNamespace};
+            item.AddNamespaceImport<DateTime, FileInfo, FileHelpers.FieldAlignAttribute, JsonIgnoreAttribute>();
+            var fieldMembers = field.FieldMappingCollection.Select(x => x.GenerateMember())
+            .Select(x => new Property { Code = x.GeneratedCode() });
+            item.PropertyCollection.AddRange(fieldMembers);
+            list.Add(item);
+            foreach (var f in field.FieldMappingCollection.Where(x => x.IsComplex))
+            {
+                ExtractClasses(list, f);
+            }
+        }
+
+        public Task<IEnumerable<Class>> GenerateCodeAsync()
         {
             var classes = new List<Class>();
             var record = new Class { Name = this.Entity.ToPascalCase(), Namespace = this.CodeNamespace };
-            record.AddNamespaceImport<DateTime, FileInfo, FileHelpers.FieldAlignAttribute>();
+            record.AddNamespaceImport<DateTime, FileInfo, FileHelpers.FieldAlignAttribute, JsonIgnoreAttribute>();
             classes.Add(record);
 
             var recordMembers = this.FieldMappingCollection.Select(x => x.GenerateMember())
                 .Select(x => new Property { Code = x.GeneratedCode() });
             record.PropertyCollection.ClearAndAddRange(recordMembers);
 
-            var ed = m_testEntityDefinition;
-            if (null == ed)
+            foreach (var complexField in this.FieldMappingCollection.Where(x => x.IsComplex))
             {
-                var context = new SphDataContext();
-                ed = context.LoadOneFromSources<EntityDefinition>(x => x.Name == this.Entity);
+                ExtractClasses(classes, complexField);
             }
 
-            var edType = new Class { Name = ed.TypeName, Namespace = this.CodeNamespace };
-            foreach (var member in ed.MemberCollection)
-            {
-                edType.AddProperty(member.GeneratedCode());
-            }
 
             return Task.FromResult(classes.AsEnumerable());
-        }
-
-        public void InitTest(EntityDefinition entityDefinition)
-        {
-            this.m_testEntityDefinition = entityDefinition;
-        }
-
-        private static BuildError GetSourceError(CompilerError er, IList<string> sources)
-        {
-            var member = string.Empty;
-            for (var i = 0; i < er.Line; i++)
-            {
-                if (sources[i].StartsWith("//exec:"))
-                    member = sources[i].Replace("//exec:", string.Empty);
-            }
-            var message = er.ErrorText;
-
-            try
-            {
-                return new BuildError(member, message)
-                {
-                    Code = sources[er.Line - 1],
-                    Line = er.Line
-                };
-            }
-            catch (Exception)
-            {
-                return new BuildError(member, message)
-                {
-                    Code = "",
-                    Line = er.Line
-                };
-            }
-
         }
     }
 }
