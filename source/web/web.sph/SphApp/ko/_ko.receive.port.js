@@ -26,7 +26,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                 searchbox = ko.unwrap(value.searchbox),
                 selectedField = value.selected,
                 jsTreeData = {
-                    text: port.Name(),
+                    text: port.Entity(),
                     state: {
                         opened: true,
                         selected: true

@@ -33,15 +33,13 @@ namespace domain.test.receive.ports
         public async Task RecordClass()
         {
             var port = await GenerateReceivePort();
-            var @classes = (await port.GenerateCodeAsync()).ToArray();
-            var salesOrder = @classes.SingleOrDefault(x => x.Name == "SalesOrder");
+            var classes = (await port.GenerateCodeAsync()).ToArray();
+            var salesOrder = classes.SingleOrDefault(x => x.Name == "SalesOrder");
             Assert.NotNull(salesOrder);
             Assert.Equal(6, salesOrder.PropertyCollection.Count);
             Console.WriteLine(salesOrder.GetCode());
-
-
-
-            var itemClass = @classes.SingleOrDefault(x => x.Name == "Item");
+            
+            var itemClass = classes.SingleOrDefault(x => x.Name == "Item");
             Assert.NotNull(itemClass);
             Assert.Equal(4, itemClass.PropertyCollection.Count);
             Console.WriteLine(itemClass.GetCode());
@@ -53,8 +51,8 @@ namespace domain.test.receive.ports
         {
             var port = await GenerateReceivePort();
 
-            var @classes = (await port.GenerateCodeAsync()).ToArray();
-            var portType = @classes.SingleOrDefault(x => x.Name == port.Name.ToPascalCase());
+            var classes = (await port.GenerateCodeAsync()).ToArray();
+            var portType = classes.SingleOrDefault(x => x.Name == port.Name.ToPascalCase());
             Assert.NotNull(portType);
             Console.WriteLine(portType.GetCode());
 

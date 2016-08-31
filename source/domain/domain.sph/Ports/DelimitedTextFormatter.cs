@@ -78,7 +78,7 @@ namespace Bespoke.Sph.Domain
             var normalize = $@"
         private string Normalize(string text, string placeHolder)
         {{
-            if (!text.Contains({EscapeCharacter.ToVerbatim()}))
+            if (string.IsNullOrWhiteSpace({EscapeCharacter.ToVerbatim()}) || !text.Contains({EscapeCharacter.ToVerbatim()}))
                 return text;
             const RegexOptions OPTIONS = RegexOptions.IgnoreCase | RegexOptions.Multiline;
             var pattern = $@""(?<a>{EscapeCharacter.EscapeVerbatim()}(.*?){EscapeCharacter.EscapeVerbatim()})(?<b>\s?({Delimiter.EscapeVerbatim()}|$))"";
@@ -167,7 +167,7 @@ namespace Bespoke.Sph.Domain
 
         private string Normalize(string text, string placeHolder)
         {
-            if (!text.Contains(this.EscapeCharacter))
+            if (string.IsNullOrWhiteSpace(this.EscapeCharacter) || !text.Contains(this.EscapeCharacter))
                 return text;
             const RegexOptions OPTIONS = RegexOptions.IgnoreCase | RegexOptions.Multiline;
             var pattern = $@"(?<a>{this.EscapeCharacter}(.*?){this.EscapeCharacter})(?<b>\s?({this.Delimiter}|$))";
