@@ -32,6 +32,50 @@ namespace domain.test.receive.ports
         [Fact]
         public async Task RecordClass()
         {
+            var port = await GenerateReceivePort();
+            var @classes = (await port.GenerateCodeAsync()).ToArray();
+            var salesOrder = @classes.SingleOrDefault(x => x.Name == "SalesOrder");
+            Assert.NotNull(salesOrder);
+            Assert.Equal(6, salesOrder.PropertyCollection.Count);
+            Console.WriteLine(salesOrder.GetCode());
+
+
+
+            var itemClass = @classes.SingleOrDefault(x => x.Name == "Item");
+            Assert.NotNull(itemClass);
+            Assert.Equal(4, itemClass.PropertyCollection.Count);
+            Console.WriteLine(itemClass.GetCode());
+
+        }
+
+        [Fact]
+        public async Task PortClass()
+        {
+            var port = await GenerateReceivePort();
+
+            var @classes = (await port.GenerateCodeAsync()).ToArray();
+            var portType = @classes.SingleOrDefault(x => x.Name == port.Name.ToPascalCase());
+            Assert.NotNull(portType);
+            Console.WriteLine(portType.GetCode());
+
+        }
+        [Fact]
+        public async Task CompilePort()
+        {
+            var port = await GenerateReceivePort();
+
+            var cr = await port.CompileAsync();
+            foreach (var eror in cr.Errors)
+            {
+                Console.WriteLine(eror.ToString());
+            }
+            Assert.True(cr.Result, cr.ToString());
+            Console.WriteLine(cr.Output);
+
+        }
+
+        private static async Task<ReceivePort> GenerateReceivePort()
+        {
             var csv = new DelimitedTextFormatter
             {
                 Name = "csv",
@@ -73,7 +117,7 @@ namespace domain.test.receive.ports
             var shippingNoField = fields[4];
             shippingNoField.Path = "ShippingNo";
 
-            var dateField = (DelimitedTextFieldMapping)fields[5];
+            var dateField = (DelimitedTextFieldMapping) fields[5];
 
             dateField.Path = "Date";
             dateField.TypeName = typeof(DateTime).GetShortAssemblyQualifiedName();
@@ -85,20 +129,8 @@ namespace domain.test.receive.ports
             fields[0].FieldMappingCollection[2].TypeName = typeof(int).GetShortAssemblyQualifiedName();
             fields[0].FieldMappingCollection[3].Path = "Amount";
             fields[0].FieldMappingCollection[3].TypeName = typeof(decimal).GetShortAssemblyQualifiedName();
-
-            var @classes = (await port.GenerateCodeAsync()).ToArray();
-            var salesOrder = @classes.SingleOrDefault(x => x.Name == "SalesOrder");
-            Assert.NotNull(salesOrder);
-            Assert.Equal(6, salesOrder.PropertyCollection.Count);
-            Console.WriteLine(salesOrder.GetCode());
-
-
-
-            var itemClass = @classes.SingleOrDefault(x => x.Name == "Item");
-            Assert.NotNull(itemClass);
-            Assert.Equal(4, itemClass.PropertyCollection.Count);
-            Console.WriteLine(itemClass.GetCode());
-
+            return port;
         }
+
     }
 }
