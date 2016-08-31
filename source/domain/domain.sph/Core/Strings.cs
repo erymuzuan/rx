@@ -46,6 +46,15 @@ namespace Bespoke.Sph.Domain
             return elementType.Namespace.StartsWith(typeof(Entity).Namespace);
             // ReSharper restore AssignNullToNotNullAttribute
         }
+
+        public static string EscapeVerbatim(this string text)
+        {
+            return text.Replace("\"", "\"\"");
+        }
+        public static string ToVerbatim(this string text)
+        {
+            return $@"@""{ text.Replace("\"", "\"\"")}""";
+        }
         public static string ToCsharpIdentitfier(this string text)
         {
 

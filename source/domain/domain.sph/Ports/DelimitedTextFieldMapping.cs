@@ -12,7 +12,6 @@ namespace Bespoke.Sph.Domain
         }
         public override string GeneratedCode(string padding = "      ")
         {
-            var code = base.GeneratedCode(padding);
             var kind = "";
             /*
     None,

@@ -18,13 +18,7 @@ namespace Bespoke.Sph.Domain
     {
         public async Task<WorkflowCompilerResult> CompileAsync()
         {
-            var options = new CompilerOptions
-            {
-                IsDebug = true,
-                SourceCodeDirectory = $"{ConfigurationManager.GeneratedSourceDirectory}\\ReceivePort.{this.Name}"
-            };
-            if (!Directory.Exists(options.SourceCodeDirectory))
-                Directory.CreateDirectory(options.SourceCodeDirectory);
+            var options = new CompilerOptions { IsDebug = true };
             return await this.CompileAsync(options);
         }
         private async Task<WorkflowCompilerResult> CompileAsync(CompilerOptions options)
@@ -42,14 +36,14 @@ namespace Bespoke.Sph.Domain
                     IncludeDebugInformation = true
 
                 };
-                var edDll = $"{ConfigurationManager.ApplicationName}.{this.Entity}.dll";
-                options.ReferencedAssembliesLocation.Add(Path.Combine(ConfigurationManager.CompilerOutputPath, edDll));
-
                 parameters.ReferencedAssemblies.Add(typeof(Entity).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(int).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(Trigger).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(INotifyPropertyChanged).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(FileHelpers.DelimitedField).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(JsonIgnoreAttribute).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(DomainObject).Assembly.Location);
 
                 foreach (var ass in options.ReferencedAssembliesLocation)
                 {
@@ -63,7 +57,7 @@ namespace Bespoke.Sph.Domain
                 var result = provider.CompileAssemblyFromFile(parameters, sources);
                 var cr = new WorkflowCompilerResult
                 {
-                    Result = true,
+                    Result = result.Errors.Count == 0,
                     Output = Path.GetFullPath(parameters.OutputAssembly)
                 };
                 var errors = from CompilerError x in result.Errors
@@ -90,8 +84,10 @@ namespace Bespoke.Sph.Domain
 
         private void ExtractClasses(ICollection<Class> list, TextFieldMapping field)
         {
-            var item = new Class { Name = field.TypeName.ToPascalCase(),Namespace = this.CodeNamespace};
+            var item = new Class { Name = field.TypeName.ToPascalCase(), Namespace = this.CodeNamespace };
+            item.AttributeCollection.Add(TextFormatter.GetRecordAttribute());
             item.AddNamespaceImport<DateTime, FileInfo, FileHelpers.FieldAlignAttribute, JsonIgnoreAttribute>();
+            item.AddNamespaceImport<DomainObject, IEnumerable<object>>();
             var fieldMembers = field.FieldMappingCollection.Select(x => x.GenerateMember())
             .Select(x => new Property { Code = x.GeneratedCode() });
             item.PropertyCollection.AddRange(fieldMembers);
@@ -102,11 +98,13 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        public Task<IEnumerable<Class>> GenerateCodeAsync()
+        public async Task<IEnumerable<Class>> GenerateCodeAsync()
         {
             var classes = new List<Class>();
             var record = new Class { Name = this.Entity.ToPascalCase(), Namespace = this.CodeNamespace };
             record.AddNamespaceImport<DateTime, FileInfo, FileHelpers.FieldAlignAttribute, JsonIgnoreAttribute>();
+            record.AddNamespaceImport<DomainObject, IEnumerable<object>>();
+            record.AttributeCollection.Add(TextFormatter.GetRecordAttribute());
             classes.Add(record);
 
             var recordMembers = this.FieldMappingCollection.Select(x => x.GenerateMember())
@@ -118,8 +116,12 @@ namespace Bespoke.Sph.Domain
                 ExtractClasses(classes, complexField);
             }
 
+            // Port class
+            var portClass = await TextFormatter.GetPortClassAsync(this);
+            classes.Add(portClass);
 
-            return Task.FromResult(classes.AsEnumerable());
+
+            return classes;
         }
     }
 }

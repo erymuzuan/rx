@@ -2,13 +2,92 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Bespoke.Sph.Domain.Codes;
 
 namespace Bespoke.Sph.Domain
 {
     public partial class DelimitedTextFormatter : TextFormatter
     {
+        public override string GetRecordAttribute()
+        {
+            return $@"[DelimitedRecord(""{Delimiter}"")]";
+        }
+
+        public override async Task<Class> GetPortClassAsync(ReceivePort port)
+        {
+            var type = await base.GetPortClassAsync(port);
+            type.AddNamespaceImport<FileHelpers.DelimitedRecordAttribute, List<string>>();
+            type.AddNamespaceImport<Match>();
+
+            var code = new StringBuilder();
+            code.Append($"public async Task<IEnumerable<{port.Entity}>> ProcessAsync(string[] lines)");
+            code.AppendLine($@"
+                    {{
+                         await Task.Delay(100);
+                         var engine = new FileHelperEngine<{port.Entity}>();
+                         var records = new List<{port.Entity}>();");
+
+            foreach (var row in this.DetailRowCollection)
+            {
+                var itemName = row.Name.ToCamelCase();
+                code.AppendLine($@"var {itemName}Engine = new FileHelperEngine<{row.Name}>();");
+            }
+
+            var childRecordCode = new StringBuilder();
+            foreach (var row in this.DetailRowCollection)
+            {
+                var itemName = row.Name.ToCamelCase();
+                childRecordCode.Append($@"
+                    if(line.StartsWith({row.RowTag.ToVerbatim()}))
+                    {{
+                        var {itemName} = {itemName}Engine.ReadString(normalized)[0];
+                        record.{row.FieldName}.Add({itemName});
+                    }}
+                ");
+            }
+
+            if (this.HasTagIdentifier)
+            {
+                code.AppendLine($@"
+                var placeHolder = new string('x', 15);
+                {port.Entity} record = null;
+                foreach(var line in lines)
+                {{
+                    var normalized = line;
+                    var hasEscape = line.Contains({EscapeCharacter.ToVerbatim()});
+                    if (hasEscape)
+                        normalized = Normalize(line, placeHolder);
+                    // see which 
+                    if(line.StartsWith({RecordTag.ToVerbatim()}))
+                    {{
+                         record = engine.ReadString(normalized)[0];  
+                         records.Add(record);                   
+                    }}
+                    {childRecordCode}         
+                }}");
+            }
+
+            code.AppendLine("            return records; ");
+            code.AppendLine("        } ");
+
+
+            type.AddMethod(new Method { Code = code.ToString() });
+            var normalize = $@"
+        private string Normalize(string text, string placeHolder)
+        {{
+            if (!text.Contains({EscapeCharacter.ToVerbatim()}))
+                return text;
+            const RegexOptions OPTIONS = RegexOptions.IgnoreCase | RegexOptions.Multiline;
+            var pattern = $@""(?<a>{EscapeCharacter.EscapeVerbatim()}(.*?){EscapeCharacter.EscapeVerbatim()})(?<b>\s?({Delimiter.EscapeVerbatim()}|$))"";
+            MatchEvaluator matchEvaluator = m => (m.Groups[""a""].Value.Replace({Delimiter.ToVerbatim()}, placeHolder) + m.Groups[""b""]).Replace({EscapeCharacter.ToVerbatim()}, """");
+            return Regex.Replace(text, pattern, matchEvaluator, OPTIONS);
+        }}";
+            type.AddMethod(new Method { Code = normalize });
+            return type;
+        }
 
         public override async Task<TextFieldMapping[]> GetFieldMappingsAsync()
         {
@@ -37,8 +116,6 @@ namespace Bespoke.Sph.Domain
                 var parent = root.SingleOrDefault(x => x.TypeName == row.Parent);
                 parent?.FieldMappingCollection.AddRange(dr);
             }
-
-
             var rootLine = lines.First(x => !this.HasTagIdentifier || (x.StartsWith(this.RecordTag)));
             var rootFields = await GetFieldsFromLineAsync(rootLine);
             root.AddRange(rootFields);
