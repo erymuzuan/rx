@@ -2,6 +2,7 @@
 /// <reference path="~/scripts/knockout-3.4.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
+/// <reference path="~/Scripts/require.js" />
 
 var bespoke = bespoke || {};
 bespoke.sph = bespoke.sph || {};
@@ -27,14 +28,15 @@ bespoke.sph.domain.FormDesign = function (optionOrWebid) {
         InputColXs: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -73,6 +75,7 @@ bespoke.sph.domain.TextBox = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.TextBox, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -80,7 +83,7 @@ bespoke.sph.domain.TextBox = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -110,6 +113,7 @@ bespoke.sph.domain.CheckBox = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.CheckBox, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -117,7 +121,7 @@ bespoke.sph.domain.CheckBox = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -147,6 +151,7 @@ bespoke.sph.domain.DatePicker = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.DatePicker, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -154,7 +159,7 @@ bespoke.sph.domain.DatePicker = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -184,6 +189,7 @@ bespoke.sph.domain.DateTimePicker = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.DateTimePicker, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -191,7 +197,7 @@ bespoke.sph.domain.DateTimePicker = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -223,6 +229,7 @@ bespoke.sph.domain.ComboBox = function (optionOrWebid) {
     v.ComboBoxItemCollection = ko.observableArray([]);
     v.ComboBoxLookup = ko.observable(new bespoke.sph.domain.ComboBoxLookup());
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -230,7 +237,7 @@ bespoke.sph.domain.ComboBox = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -264,6 +271,7 @@ bespoke.sph.domain.TextAreaElement = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.TextAreaElement, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -271,7 +279,7 @@ bespoke.sph.domain.TextAreaElement = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -301,6 +309,7 @@ bespoke.sph.domain.WebsiteFormElement = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.WebsiteFormElement, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -308,7 +317,7 @@ bespoke.sph.domain.WebsiteFormElement = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -338,6 +347,7 @@ bespoke.sph.domain.EmailFormElement = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.EmailFormElement, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -345,7 +355,7 @@ bespoke.sph.domain.EmailFormElement = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -377,6 +387,7 @@ bespoke.sph.domain.NumberTextBox = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.NumberTextBox, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -384,7 +395,7 @@ bespoke.sph.domain.NumberTextBox = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -416,6 +427,7 @@ bespoke.sph.domain.MapElement = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.MapElement, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -423,7 +435,7 @@ bespoke.sph.domain.MapElement = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -453,6 +465,7 @@ bespoke.sph.domain.SectionFormElement = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.SectionFormElement, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -460,7 +473,7 @@ bespoke.sph.domain.SectionFormElement = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -491,14 +504,15 @@ bespoke.sph.domain.ComboBoxItem = function (optionOrWebid) {
         Value: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -539,6 +553,7 @@ bespoke.sph.domain.AddressElement = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.AddressElement, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -546,7 +561,7 @@ bespoke.sph.domain.AddressElement = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -577,6 +592,7 @@ bespoke.sph.domain.HtmlElement = function (optionOrWebid) {
 
     v.Text = ko.observable();//type but not nillable
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -584,7 +600,7 @@ bespoke.sph.domain.HtmlElement = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -617,14 +633,15 @@ bespoke.sph.domain.DefaultValue = function (optionOrWebid) {
         Value: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -662,14 +679,15 @@ bespoke.sph.domain.FieldValidation = function (optionOrWebid) {
         MaxLength: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -706,14 +724,15 @@ bespoke.sph.domain.BusinessRule = function (optionOrWebid) {
         FilterCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -747,6 +766,7 @@ bespoke.sph.domain.FileUploadElement = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.FileUploadElement, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -754,7 +774,7 @@ bespoke.sph.domain.FileUploadElement = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -788,14 +808,15 @@ bespoke.sph.domain.ComboBoxLookup = function (optionOrWebid) {
         IsComputedQuery: ko.observable(false),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -841,6 +862,7 @@ bespoke.sph.domain.ChildEntityListView = function (optionOrWebid) {
     v.SortCollection = ko.observableArray([]);
     v.ConditionalFormattingCollection = ko.observableArray([]);
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -848,7 +870,7 @@ bespoke.sph.domain.ChildEntityListView = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -883,6 +905,7 @@ bespoke.sph.domain.ListView = function (optionOrWebid) {
 
     v.ListViewColumnCollection = ko.observableArray([]);
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -890,7 +913,7 @@ bespoke.sph.domain.ListView = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -922,14 +945,15 @@ bespoke.sph.domain.ListViewColumn = function (optionOrWebid) {
         Input: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -992,6 +1016,7 @@ bespoke.sph.domain.Button = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.Button, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -999,7 +1024,7 @@ bespoke.sph.domain.Button = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -1041,14 +1066,15 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
         ServiceContract: ko.observable(new bespoke.sph.domain.ServiceContract()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -1082,14 +1108,15 @@ bespoke.sph.domain.ValueObjectDefinition = function (optionOrWebid) {
         BusinessRuleCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -1134,6 +1161,7 @@ bespoke.sph.domain.SimpleMember = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.SimpleMember, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -1141,7 +1169,7 @@ bespoke.sph.domain.SimpleMember = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -1175,6 +1203,7 @@ bespoke.sph.domain.ComplexMember = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.ComplexMember, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -1182,7 +1211,7 @@ bespoke.sph.domain.ComplexMember = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -1214,6 +1243,7 @@ bespoke.sph.domain.ValueObjectMember = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.ValueObjectMember, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -1221,7 +1251,7 @@ bespoke.sph.domain.ValueObjectMember = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -1284,14 +1314,15 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
         FormLayoutCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -1342,14 +1373,15 @@ bespoke.sph.domain.WorkflowForm = function (optionOrWebid) {
         Rules: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -1388,14 +1420,15 @@ bespoke.sph.domain.FormLayout = function (optionOrWebid) {
         LargeCol: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -1445,14 +1478,15 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
         RouteParameterCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -1485,14 +1519,15 @@ bespoke.sph.domain.Filter = function (optionOrWebid) {
         Field: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -1532,14 +1567,15 @@ bespoke.sph.domain.ViewColumn = function (optionOrWebid) {
         ConditionalFormattingCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -1571,14 +1607,15 @@ bespoke.sph.domain.Sort = function (optionOrWebid) {
         Direction: ko.observable('SortDirection'),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -1613,6 +1650,7 @@ bespoke.sph.domain.ImageElement = function (optionOrWebid) {
     v.Width = ko.observable();//nillable
     v.Height = ko.observable();//nillable
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -1620,7 +1658,7 @@ bespoke.sph.domain.ImageElement = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -1658,6 +1696,7 @@ bespoke.sph.domain.DownloadLink = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.DownloadLink, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -1665,7 +1704,7 @@ bespoke.sph.domain.DownloadLink = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -1697,14 +1736,15 @@ bespoke.sph.domain.FieldPermission = function (optionOrWebid) {
         IsReadOnly: ko.observable(false),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -1737,14 +1777,15 @@ bespoke.sph.domain.EntityPermission = function (optionOrWebid) {
         IsReadOnly: ko.observable(false),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -1790,14 +1831,15 @@ bespoke.sph.domain.OperationEndpoint = function (optionOrWebid) {
         ReferencedAssemblyCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -1842,14 +1884,15 @@ bespoke.sph.domain.EntityChart = function (optionOrWebid) {
         SeriesCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -1886,14 +1929,15 @@ bespoke.sph.domain.Series = function (optionOrWebid) {
         DateInterval: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -1925,14 +1969,15 @@ bespoke.sph.domain.ConditionalFormatting = function (optionOrWebid) {
         Condition: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -1973,6 +2018,7 @@ bespoke.sph.domain.EntityLookupElement = function (optionOrWebid) {
     v.LookupColumnCollection = ko.observableArray([]);
     v.FilterCollection = ko.observableArray([]);
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -1980,7 +2026,7 @@ bespoke.sph.domain.EntityLookupElement = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2012,6 +2058,7 @@ bespoke.sph.domain.CurrencyElement = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.CurrencyElement, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2019,7 +2066,7 @@ bespoke.sph.domain.CurrencyElement = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2051,14 +2098,15 @@ bespoke.sph.domain.RouteParameter = function (optionOrWebid) {
         DefaultValue: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2089,14 +2137,15 @@ bespoke.sph.domain.PartialJs = function (optionOrWebid) {
         Path: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2129,14 +2178,15 @@ bespoke.sph.domain.ViewTemplate = function (optionOrWebid) {
         ViewModelType: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2169,14 +2219,15 @@ bespoke.sph.domain.PatchSetter = function (optionOrWebid) {
         DefaultValue: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2217,14 +2268,15 @@ bespoke.sph.domain.FormDialog = function (optionOrWebid) {
         Rules: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2257,14 +2309,15 @@ bespoke.sph.domain.DialogButton = function (optionOrWebid) {
         IsCancel: ko.observable(false),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2302,14 +2355,15 @@ bespoke.sph.domain.PartialView = function (optionOrWebid) {
         FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2340,14 +2394,15 @@ bespoke.sph.domain.ChildView = function (optionOrWebid) {
         PartialView: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2379,14 +2434,15 @@ bespoke.sph.domain.TabControl = function (optionOrWebid) {
         TabPanelCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2419,14 +2475,15 @@ bespoke.sph.domain.TabPanel = function (optionOrWebid) {
         Path: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2469,14 +2526,15 @@ bespoke.sph.domain.QueryEndpoint = function (optionOrWebid) {
         CacheFilter: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2509,14 +2567,15 @@ bespoke.sph.domain.ServiceContract = function (optionOrWebid) {
         EntityResourceEndpoint: ko.observable(new bespoke.sph.domain.EntityResourceEndpoint()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2552,14 +2611,15 @@ bespoke.sph.domain.QueryEndpointSetting = function (optionOrWebid) {
         CachingSetting: ko.observable(new bespoke.sph.domain.CachingSetting()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2591,14 +2651,15 @@ bespoke.sph.domain.EntityResourceEndpoint = function (optionOrWebid) {
         FilterExpression: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2629,14 +2690,15 @@ bespoke.sph.domain.FullSearchEndpoint = function (optionOrWebid) {
         IsAllowed: ko.observable(false),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2667,14 +2729,15 @@ bespoke.sph.domain.OdataEndpoint = function (optionOrWebid) {
         IsAllowed: ko.observable(false),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2706,14 +2769,15 @@ bespoke.sph.domain.BusinessRuleEndpoint = function (optionOrWebid) {
         Performer: ko.observable(new bespoke.sph.domain.Performer()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2746,14 +2810,15 @@ bespoke.sph.domain.ServiceContractSetting = function (optionOrWebid) {
         SearchEndpointSetting: ko.observable(new bespoke.sph.domain.SearchEndpointSetting()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2784,14 +2849,15 @@ bespoke.sph.domain.ResourceEndpointSetting = function (optionOrWebid) {
         CachingSetting: ko.observable(new bespoke.sph.domain.CachingSetting()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2822,14 +2888,15 @@ bespoke.sph.domain.SearchEndpointSetting = function (optionOrWebid) {
         CachingSetting: ko.observable(new bespoke.sph.domain.CachingSetting()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2860,14 +2927,15 @@ bespoke.sph.domain.OdataEndpointSetting = function (optionOrWebid) {
         CachingSetting: ko.observable(new bespoke.sph.domain.CachingSetting()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2900,14 +2968,15 @@ bespoke.sph.domain.CachingSetting = function (optionOrWebid) {
         Expires: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2947,14 +3016,15 @@ bespoke.sph.domain.ReceivePort = function (optionOrWebid) {
         FieldMappingCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -2995,6 +3065,7 @@ bespoke.sph.domain.FolderReceiveLocation = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.FolderReceiveLocation, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -3002,7 +3073,7 @@ bespoke.sph.domain.FolderReceiveLocation = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -3038,6 +3109,7 @@ bespoke.sph.domain.FixedLengthTextFormatter = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.FixedLengthTextFormatter, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -3045,7 +3117,7 @@ bespoke.sph.domain.FixedLengthTextFormatter = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -3085,6 +3157,7 @@ bespoke.sph.domain.DelimitedTextFormatter = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.DelimitedTextFormatter, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -3092,7 +3165,7 @@ bespoke.sph.domain.DelimitedTextFormatter = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -3124,6 +3197,7 @@ bespoke.sph.domain.JsonTextFormatter = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.JsonTextFormatter, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -3131,7 +3205,7 @@ bespoke.sph.domain.JsonTextFormatter = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -3165,6 +3239,7 @@ bespoke.sph.domain.XmlTextFormatter = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.XmlTextFormatter, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -3172,7 +3247,7 @@ bespoke.sph.domain.XmlTextFormatter = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -3208,6 +3283,7 @@ bespoke.sph.domain.DelimitedTextFieldMapping = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.DelimitedTextFieldMapping, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -3215,7 +3291,7 @@ bespoke.sph.domain.DelimitedTextFieldMapping = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -3257,6 +3333,7 @@ bespoke.sph.domain.FixedLengthTextFieldMapping = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.FixedLengthTextFieldMapping, domain.sph";
 
 
+    var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -3264,7 +3341,7 @@ bespoke.sph.domain.FixedLengthTextFieldMapping = function (optionOrWebid) {
                 if (ko.isObservable(v[n]) && 'push' in v[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        v[n](values);
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
@@ -3298,14 +3375,15 @@ bespoke.sph.domain.FlatFileDetailTag = function (optionOrWebid) {
         DetailRowCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
-    };
+    },
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
                     var values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
-                        model[n](values);
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
                         continue;
                     }
                 }
