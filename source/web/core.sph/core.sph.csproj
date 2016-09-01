@@ -1193,6 +1193,7 @@
     <Compile Include="Solutions\PartialViewNodeProvider.cs" />
     <Compile Include="Solutions\PartialViewProvider.cs" />
     <Compile Include="Solutions\QueryEndpointProvider.cs" />
+    <Compile Include="Solutions\ReceivePortProvider.cs" />
     <Compile Include="Solutions\ReportDefinitionProviders.cs" />
     <Compile Include="Solutions\Solution.cs" />
     <Compile Include="Solutions\SolutionItem.cs" />
