@@ -28,24 +28,30 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 Path: ko.observable(),
                 TypeName: ko.observable()
             }),
-            activate = function (id) {
+            canActivate = function (id) {
+                const query = `Id eq '${id}'`,
+                    tcs = new $.Deferred();
+                context.loadOneAsync("ReceivePort", query)
+                    .then(function (b) {
+                        if (!b) {
+                            originalEntity = null;
+                            app.showMessage(`Cannot find any ReceivePort with id = ${id}`, "Not Found", ["OK"])
+                            .done(function () {
+                                tcs.resolve(false);
+                                return router.navigate("#dev.home");
+                            });
+                            return;
+                        }
+                        port(b);
+                        tcs.resolve(true);
+                    });
 
-               const query = `Id eq '${id}'`;
-               return context.loadOneAsync("ReceivePort", query)
-                   .then(function (b) {
-                       if (!b) {
-                           originalEntity = null;
-                           return app.showMessage(`Cannot find any ReceivePort with id = ${id}`, "Not Found", ["OK"])
-                           .done(function () {
-                               return router.navigate("#dev.home");
-                           });
-                       }
-                       port(b);
-                       window.typeaheadEntity = b.Name();
-                       return Task.fromResult(true);
-                   });
+                return tcs.promise();
+            },
+            activate = function () {
 
-           },
+
+            },
             attached = function () {
 
                 originalEntity = ko.toJSON(port);
@@ -135,7 +141,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 const data = ko.mapping.toJSON(port);
                 isBusy(true);
 
-                return context.post(data, `/receive-ports/${ ko.unwrap(port().Id)}/publish`)
+                return context.post(data, `/receive-ports/${ko.unwrap(port().Id)}/publish`)
                     .then(function (result) {
 
                         originalEntity = ko.toJSON(port);
@@ -199,11 +205,12 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         const vm = {
             viewFile: viewFile,
-            selected : selected,
+            selected: selected,
             errors: errors,
             isBusy: isBusy,
             activate: activate,
             canDeactivate: canDeactivate,
+            canActivate: canActivate,
             attached: attached,
             port: port,
             toolbar: {

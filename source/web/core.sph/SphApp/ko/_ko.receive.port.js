@@ -1,9 +1,9 @@
-﻿///<reference path="../../web/core.sph/Scripts/jstree.min.js"/>
-///<reference path="../../web/core.sph/Scripts/require.js"/>
-///<reference path="../../web/core.sph/Scripts/underscore.js"/>
-///<reference path="../../web/core.sph/SphApp/objectbuilders.js"/>
-///<reference path="../../web/core.sph/SphApp/schemas/form.designer.g.js"/>
-///<reference path="../../web/core.sph/Scripts/jquery-2.2.0.intellisense.js"/>
+﻿///<reference path="../../Scripts/jstree.min.js"/>
+///<reference path="../../Scripts/require.js"/>
+///<reference path="../../Scripts/underscore.js"/>
+///<reference path="../../SphApp/objectbuilders.js"/>
+///<reference path="../../SphApp/schemas/form.designer.g.js"/>
+///<reference path="../../Scripts/jquery-2.2.0.intellisense.js"/>
 /**
  * @param {{Id,TableDefinitionCollection:function, ControllerActionCollection:function, OperationDefinitionCollection:function,ColumnCollection:function,ChildRelationCollection,Table, Schema, Name}} adapter
  * @param{{create_node:function, get_node:function, jstree:function, rename_node, set_type: function, delete_node:function, get_type:function, get_selected:function, set_selected:function}} jstree
@@ -45,7 +45,9 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
 
                     return type;
                 },
-                fieldPathSubscription = null,
+                nullableSubscription = null,
+                ignoreSubscription = null,
+                nameSubscription = null,
                 fieldTypeNameSubscription = null,
                 recurseChildMember = function (node) {
                     node.children = _(node.data.FieldMappingCollection()).map(function (v) {
@@ -59,6 +61,27 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                         };
                     });
                     _(node.children).each(recurseChildMember);
+                },
+
+                computeNodeText = function (fieldMapping) {
+                    const field = ko.toJS(fieldMapping),
+                        nullable = field.IsNullable
+                            ? " <i class='fa fa-question column-icon' style='margin-left:5px;color:darkgreen' title='Nullable'></i>"
+                            : "",
+                        ignore = field.Ignore
+                            ? " <i class='fa fa-eye-slash column-icon' style='margin-left:5px;color:grey' title='Ignored : will not serialized into Json object for submitting to API'></i>"
+                            : "",
+                        sample = field.SampleValue;
+
+                    return `${field.Name}${nullable}${ignore} (${sample})`;
+                },
+                disposeSubscriptions = function(...subs) {
+                    subs.forEach(v => {
+                        if (v) {
+                            v.dispose();
+                            v = null;
+                        }
+                    });
                 },
                 loadJsTree = function () {
                     jsTreeData.children = _(port.FieldMappingCollection()).map(function (v) {
@@ -76,26 +99,20 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                             if (typeof selectedField !== "function") {
                                 return;
                             }
-                            if (fieldPathSubscription) {
-                                fieldPathSubscription.dispose();
-                                fieldPathSubscription = null;
-                            }
-
-                            if (fieldTypeNameSubscription) {
-                                fieldTypeNameSubscription.dispose();
-                                fieldTypeNameSubscription = null;
-                            }
-
+                            disposeSubscriptions(nameSubscription, nullableSubscription, ignoreSubscription, fieldTypeNameSubscription);
+                          
                             const field = selected.node.data;
                             if (field) {
 
                                 selectedField(field);
                                 // subscribe to Name change
-                                fieldPathSubscription = selectedField().Name.subscribe(function (path) {
+                                const nodeTextChanged = function () {
                                     $(element).jstree(true)
-                                        .rename_node(selected.node, path);
-                                    console.log("rename " + path);
-                                });
+                                        .rename_node(selected.node, computeNodeText(selected.node.data));
+                                };
+                                nameSubscription = selectedField().Name.subscribe(nodeTextChanged);
+                                ignoreSubscription = selectedField().Ignore.subscribe(nodeTextChanged);
+                                nullableSubscription = selectedField().IsNullable.subscribe(nodeTextChanged);
                                 // type
                                 if (typeof selectedField().TypeName === "function") {
                                     fieldTypeNameSubscription = selectedField().TypeName.subscribe(function (name) {
@@ -108,10 +125,6 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                         })
                         .on("create_node.jstree", function (event, node) {
                             console.log(node, "node");
-                        })
-                        .on("rename_node.jstree", function (ev, node) {
-                            const field = node.node.data;
-                            field.Name(node.text);
                         })
                         .jstree({
                             "core": {
@@ -127,15 +140,6 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                         if (!target) {
                                             return false;
                                         }
-                                        if (!ko.isObservable(mbr.childOfValueMember)) {
-                                            setNodePropertyForChildOfValueObject(node, mbr);
-                                        }
-                                        if (ko.unwrap(mbr.childOfValueMember)) {
-                                            return false;
-                                        }
-                                        if (target.type === "Bespoke.Sph.Domain.ValueObjectMember, domain.sph") {
-                                            return false;
-                                        }
 
                                         return true;
                                     }
@@ -146,14 +150,65 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                             },
                             "contextmenu": {
                                 "items": function ($node) {
-
-                                    var ref = $(element).jstree(true),
+                                    if ($node.type === "default") {
+                                        return [];
+                                    }
+                                    var field = $node.data,
+                                        ref = $(element).jstree(true),
                                         parents = _($node.parents).map(function (n) { return ref.get_node(n); }),
-                                        sel = ref.get_selected();
-                                   
+                                        sel = ref.get_selected(),
+                                        setNodeText = function (col) {
+                                            const text = computeNodeText(col);
+                                            $(`#${$node.id}`).find(`>a.jstree-anchor>i.column-icon`).remove();
+                                            ref.rename_node($node, text);
+                                        };
+
+                                    const ignore = {
+                                        label: "Ignore",
+                                        action: function () {
+                                            field.Ignore(true);
+                                            setNodeText($node.data);
+
+                                        }
+                                    }, include = {
+                                        label: "Include",
+                                        action: function () {
+                                            field.Ignore(false);
+                                            setNodeText($node.data);
+                                        }
+                                    },
+                                    makeNullable = {
+                                        label: "Nullable",
+                                        action: function () {
+                                            field.IsNullable(true);
+                                            setNodeText($node.data);
+
+                                        }
+                                    },
+                                    makeNonNullable = {
+                                        label: "Make non nullable",
+                                        action: function () {
+                                            field.IsNullable(false);
+                                            setNodeText($node.data);
+                                        }
+                                    };
 
 
-                                    let items = [];
+                                    const items = [];
+                                    if ($node.type !== "complex") {
+                                        if (ko.unwrap(field.Ignore)) {
+                                            items.push(include);
+                                        }
+                                        else {
+                                            items.push(ignore);
+                                        }
+                                        if (ko.unwrap(field.IsNullable)) {
+                                            items.push(makeNonNullable);
+                                        }
+                                        else {
+                                            items.push(makeNullable);
+                                        }
+                                    }
 
                                     return items;
                                 }

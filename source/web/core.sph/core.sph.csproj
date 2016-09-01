@@ -2223,6 +2223,7 @@
     <Content Include="ScriptTests\index.html" />
     <Content Include="ScriptTests\_test-data-sql-adapter.js" />
     <Content Include="ScriptTests\_test-data-entity-defintions.js" />
+    <Content Include="SphApp\ko\_ko.receive.port.js" />
     <Content Include="SphApp\partial\ComplexMemberPartial.js" />
     <Content Include="SphApp\partial\ChildWorkflowActivity.js" />
     <Content Include="SphApp\partial\ReceivePortPartial.js" />
