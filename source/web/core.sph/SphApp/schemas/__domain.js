@@ -3515,6 +3515,7 @@ bespoke.sph.domain.TextFieldMapping = function (optionOrWebid) {
         IsComplex: ko.observable(false),
         AllowMultiple: ko.observable(false),
         NullPlaceholder: ko.observable(""),
+        Ignore: ko.observable(false),
         FieldMappingCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()

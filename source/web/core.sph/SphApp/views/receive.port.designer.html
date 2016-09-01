@@ -34,7 +34,7 @@
                 <input type="search" placeholder="Search...." id="search-textbox-sqladapter" class="form-control" />
 
             </div>
-            <div id="table-tree" style="overflow-y: scroll; min-height: 400px"
+            <div id="schema-tree-panel" style="overflow-y: scroll; min-height: 400px"
                  data-bind="portTree :{ port:port, selected: $root.selected, searchTextBox :'#search-textbox-sqladapter'}">
                 <h3>This is where the tree view goes</h3>
             </div>
@@ -66,11 +66,17 @@
                 <!-- /ko -->
                 <!-- ko ifnot : IsComplex -->
 
+                <div class="form-group">
+                    <label class="checkbox">
+                        <input data-bind="checked: Ignore" id="field-ignore" type="checkbox" name="ignore" />
+                        Ignore
+                    </label>
+                </div>
 
                 <div class="form-group">
                     <label for="member-type2">Type</label>
                     <select required class="form-control" id="member-type2"
-                            data-bind="value:TypeName, tooltip:'The data type of the return value'">
+                            data-bind="value:TypeName, tooltip:'The data type of the return value', disable :Ignore">
                         <option value="">[Please Select]</option>
                         <option value="System.String, mscorlib">String</option>
                         <option value="System.Int32, mscorlib">Integer</option>
@@ -84,7 +90,7 @@
                 <div class="form-group">
                     <label class="control-label">Converter</label>
                     <input type="text" class="form-control"
-                           data-bind="value:Converter, tooltip: 'Converter expression'" />
+                           data-bind="value:Converter, tooltip: 'Converter expression', disable:Ignore" />
                 </div>
 
                 <div class="form-group">
@@ -95,7 +101,7 @@
 
                 <div class="form-group">
                     <label class="checkbox">
-                        <input data-bind="checked: IsNullable" id="field-nullable" type="checkbox" name="IsNullable" />
+                        <input data-bind="checked: IsNullable, disable:Ignore" id="field-nullable" type="checkbox" name="IsNullable" />
                         Nullable
                     </label>
                 </div>
@@ -103,7 +109,6 @@
                 <div class="form-group">
                     <label for="field-nullable-placeholder" class="control-label">Null placeholder</label>
                     <input type="text" data-bind="value: NullPlaceholder, enable: IsNullable"
-                           pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
                            placeholder="Special string used to denote a null value"
                            class="form-control" id="field-nullable-placeholder">
                 </div>
@@ -220,11 +225,3 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-

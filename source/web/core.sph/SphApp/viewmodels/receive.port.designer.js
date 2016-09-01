@@ -49,6 +49,20 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             attached = function () {
 
                 originalEntity = ko.toJSON(port);
+
+                const setDesignerHeight = function () {
+                    if ($("#schema-tree-panel").length === 0) {
+                        return;
+                    }
+
+                    const dev = $("#developers-log-panel").height(),
+                        top = $("#schema-tree-panel").offset().top,
+                        height = dev + top;
+                    $("#schema-tree-panel").css("max-height", $(window).height() - height);
+
+                };
+                $("#developers-log-panel-collapse,#developers-log-panel-expand").on("click", setDesignerHeight);
+                setDesignerHeight();
             },
             save = function () {
                 const data = ko.mapping.toJSON(port);
