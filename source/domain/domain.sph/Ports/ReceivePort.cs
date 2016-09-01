@@ -44,6 +44,7 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(FileHelpers.DelimitedField).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(JsonIgnoreAttribute).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(DomainObject).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(System.Net.Http.HttpClient).Assembly.Location);
 
                 foreach (var ass in options.ReferencedAssembliesLocation)
                 {
@@ -121,7 +122,18 @@ namespace Bespoke.Sph.Domain
             classes.Add(portClass);
 
 
+            // locations
+            var locationsTasks = this.ReceiveLocationCollection.Select(x => x.GenerateClassesAsync(this));
+            var locationClasses = (await Task.WhenAll(locationsTasks)).SelectMany(x => x);
+            classes.AddRange(locationClasses);
+
             return classes;
+        }
+
+        public Task<EntityDefinition> GenerateEntityDefinitionAsync()
+        {
+            var ed = new EntityDefinition { Name = this.Entity };
+            return Task.FromResult(ed);
         }
     }
 }

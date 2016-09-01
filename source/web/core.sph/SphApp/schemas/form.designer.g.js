@@ -2990,6 +2990,8 @@ bespoke.sph.domain.FolderReceiveLocation = function (optionOrWebid) {
 
     v.CredentialPassword = ko.observable("");
 
+    v.Filter = ko.observable("");
+
     v["$type"] = "Bespoke.Sph.Domain.FolderReceiveLocation, domain.sph";
 
 
@@ -3290,7 +3292,7 @@ bespoke.sph.domain.FlatFileDetailTag = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.FlatFileDetailTag, domain.sph",
         Name: ko.observable(""),
-        FieldName: ko.observable(""),
+        TypeName: ko.observable(""),
         Parent: ko.observable(""),
         RowTag: ko.observable(""),
         DetailRowCollection: ko.observableArray([]),
@@ -3441,6 +3443,14 @@ bespoke.sph.domain.ReceiveLocation = function (optionOrWebid) {
         "$type": "Bespoke.Sph.Domain.ReceiveLocation, domain.sph",
         Name: ko.observable(""),
         IsActive: ko.observable(false),
+        ValidationEndpoint: ko.observable(""),
+        ValidationMethod: ko.observable(""),
+        SubmitEndpoint: ko.observable(""),
+        SubmitMethod: ko.observable(""),
+        InvalidEndpoint: ko.observable(""),
+        InvalidMethod: ko.observable(""),
+        ErrorEndpoint: ko.observable(""),
+        ErrorMethod: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -3499,7 +3509,6 @@ bespoke.sph.domain.TextFieldMapping = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.TextFieldMapping, domain.sph",
         Name: ko.observable(""),
-        MembersPath: ko.observable(""),
         TypeName: ko.observable(""),
         IsNullable: ko.observable(false),
         SampleValue: ko.observable(""),

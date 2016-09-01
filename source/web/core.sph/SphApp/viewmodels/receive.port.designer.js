@@ -96,6 +96,26 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 }
                 return tcs.promise();
             },
+            generateEntityDefinitionAsync = function () {
+
+                const data = ko.mapping.toJSON(port);
+                isBusy(true);
+
+                return context.post(data, `/receive-ports/${ko.unwrap(port().Id)}/generate-entity-definition`)
+                    .then(function (result) {
+
+                        originalEntity = ko.toJSON(port);
+                        isBusy(false);
+                        if (result.success) {
+                            logger.info(result.message);
+                            errors.removeAll();
+                        } else {
+
+                            errors(result.Errors);
+                            logger.error("There are errors in your schema, !!!");
+                        }
+                    });
+            },
             publishAsync = function () {
 
                 const data = ko.mapping.toJSON(port);
@@ -179,6 +199,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     return false;
                 },
                 commands: ko.observableArray([
+                    {
+                        command: generateEntityDefinitionAsync,
+                        caption: "Generate EntityDefinition",
+                        icon: "fa fa-database"
+                    },
                     {
                         command: publishAsync,
                         caption: "Publish",

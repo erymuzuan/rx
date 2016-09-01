@@ -57,5 +57,27 @@ namespace Bespoke.Sph.Web.Controllers
                 return Created($"/receive-ports/{port.Id}/publish", new { success = true });
             return Ok(new { success = true });
         }
+        [HttpPost]
+        [PostRoute("{id}/generate-entity-defintion")]
+        public async Task<IHttpActionResult> GenerateEntityDefinitionAsync([JsonBody]ReceivePort port, string id)
+        {
+            var portIsNewItem = port.IsNewItem;
+            if (portIsNewItem)
+                port.Id = port.Name.ToIdFormat();
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Attach(port);
+                await session.SubmitChanges();
+            }
+
+            var cr = await port.GenerateEntityDefinitionAsync();
+            if (!cr.Result)
+                return Invalid(HttpStatusCode.BadRequest, cr);
+
+            if (portIsNewItem)
+                return Created($"/receive-ports/{port.Id}/publish", new { success = true });
+            return Ok(new { success = true });
+        }
     }
 }

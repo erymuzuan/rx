@@ -9233,6 +9233,21 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_Filter;
+        public string Filter
+        {
+            get
+            {
+                return m_Filter;
+            }
+            set
+            {
+                m_Filter = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
 
     }
 
@@ -9611,13 +9626,13 @@ namespace Bespoke.Sph.Domain
     {
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_typeName;
+        private string m_name;
         public const string PropertyNameName = "Name";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_name;
-        public const string PropertyNameFieldName = "FieldName";
+        private string m_typeName;
+        public const string PropertyNameTypeName = "TypeName";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -9642,38 +9657,12 @@ namespace Bespoke.Sph.Domain
         [DebuggerHidden]
 
         [Required]
-        public string TypeName
-        {
-            set
-            {
-                if (String.Equals(m_typeName, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_typeName = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_typeName;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        [Required]
         public string Name
         {
             set
             {
                 if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameFieldName, value);
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
@@ -9684,6 +9673,32 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string TypeName
+        {
+            set
+            {
+                if (String.Equals(m_typeName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_typeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_typeName;
             }
         }
 
@@ -10456,6 +10471,46 @@ namespace Bespoke.Sph.Domain
         private bool m_isActive;
         public const string PropertyNameIsActive = "IsActive";
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_validationEndpoint;
+        public const string PropertyNameValidationEndpoint = "ValidationEndpoint";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_validationMethod;
+        public const string PropertyNameValidationMethod = "ValidationMethod";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_submitEndpoint;
+        public const string PropertyNameSubmitEndpoint = "SubmitEndpoint";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_submitMethod;
+        public const string PropertyNameSubmitMethod = "SubmitMethod";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_invalidEndpoint;
+        public const string PropertyNameInvalidEndpoint = "InvalidEndpoint";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_invalidMethod;
+        public const string PropertyNameInvalidMethod = "InvalidMethod";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_errorEndpoint;
+        public const string PropertyNameErrorEndpoint = "ErrorEndpoint";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_errorMethod;
+        public const string PropertyNameErrorMethod = "ErrorMethod";
+
 
         // public properties members
 
@@ -10498,6 +10553,174 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_isActive;
+            }
+        }
+
+
+
+        public string ValidationEndpoint
+        {
+            set
+            {
+                if (m_validationEndpoint == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameValidationEndpoint, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_validationEndpoint = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_validationEndpoint;
+            }
+        }
+
+
+
+        public string ValidationMethod
+        {
+            set
+            {
+                if (m_validationMethod == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameValidationMethod, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_validationMethod = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_validationMethod;
+            }
+        }
+
+
+
+        public string SubmitEndpoint
+        {
+            set
+            {
+                if (m_submitEndpoint == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSubmitEndpoint, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_submitEndpoint = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_submitEndpoint;
+            }
+        }
+
+
+
+        public string SubmitMethod
+        {
+            set
+            {
+                if (m_submitMethod == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSubmitMethod, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_submitMethod = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_submitMethod;
+            }
+        }
+
+
+
+        public string InvalidEndpoint
+        {
+            set
+            {
+                if (m_invalidEndpoint == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameInvalidEndpoint, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_invalidEndpoint = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_invalidEndpoint;
+            }
+        }
+
+
+
+        public string InvalidMethod
+        {
+            set
+            {
+                if (m_invalidMethod == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameInvalidMethod, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_invalidMethod = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_invalidMethod;
+            }
+        }
+
+
+
+        public string ErrorEndpoint
+        {
+            set
+            {
+                if (m_errorEndpoint == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameErrorEndpoint, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_errorEndpoint = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_errorEndpoint;
+            }
+        }
+
+
+
+        public string ErrorMethod
+        {
+            set
+            {
+                if (m_errorMethod == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameErrorMethod, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_errorMethod = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_errorMethod;
             }
         }
 
@@ -10586,7 +10809,6 @@ namespace Bespoke.Sph.Domain
 
         private string m_name;
         public const string PropertyNameName = "Name";
-        
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 
@@ -10648,7 +10870,8 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        
+
+
         public string TypeName
         {
             set

@@ -1106,6 +1106,14 @@
 		<xs:all/>
 		<xs:attribute name="Name" type="xs:string" use="required"/>
 		<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
+		<xs:attribute name="ValidationEndpoint" type="xs:string" use="required"/>
+		<xs:attribute name="ValidationMethod" type="xs:string" use="required"/>
+		<xs:attribute name="SubmitEndpoint" type="xs:string" use="required"/>
+		<xs:attribute name="SubmitMethod" type="xs:string" use="required"/>
+		<xs:attribute name="InvalidEndpoint" type="xs:string" use="required"/>
+		<xs:attribute name="InvalidMethod" type="xs:string" use="required"/>
+		<xs:attribute name="ErrorEndpoint" type="xs:string" use="required"/>
+		<xs:attribute name="ErrorMethod" type="xs:string" use="required"/>
 	</xs:complexType>
 	<xs:element name="FolderReceiveLocation">
 		<xs:complexType>
@@ -1115,6 +1123,7 @@
 					<xs:attribute name="CredentialUserName" type="xs:string" use="required"/>
 					<xs:attribute name="ChangeExtension" type="xs:boolean" use="required"/>
 					<xs:attribute name="CredentialPassword" type="xs:string" use="required"/>
+					<xs:attribute name="Filter" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -1230,7 +1239,7 @@
 				</xs:element>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="FieldName" type="xs:string" use="required"/>
+			<xs:attribute name="TypeName" type="xs:string" use="required"/>
 			<xs:attribute name="Parent" type="xs:string" use="required"/>
 			<xs:attribute name="RowTag" type="xs:string" use="required"/>
 		</xs:complexType>
