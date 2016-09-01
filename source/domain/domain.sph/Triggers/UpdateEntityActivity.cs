@@ -15,9 +15,7 @@ namespace Bespoke.Sph.Domain
                 result.Errors.Add(new BuildError(this.WebId,$"[UpdateEntityActivity] -\"{this.Name}\" EntityIdPath is missing"));
             if (string.IsNullOrWhiteSpace(this.Entity))
                 result.Errors.Add(new BuildError(this.WebId,$"[UpdateEntityActivity] -\"{this.Name}\" EntityType is missing"));
-
-            if (!string.IsNullOrWhiteSpace(this.Entity))
-                result.Errors.Add(new BuildError(this.WebId, $"[UpdateEntityActivity] -\"{this.Name}\" Cannot load {this.Entity}"));
+            
 
             return result;
         }
@@ -35,7 +33,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       var context = new Bespoke.Sph.Domain.SphDataContext();");
             code.AppendLine(this.IsUsingVariable
                 ? $"       var item = this.{UseVariable};"
-                : $"       var item = await context.LoadOneAsync<{ed.FullTypeName}>(e => e.Id == this.{EntityIdPath});");
+                : $"       var item = await context.LoadOneAsync<{ed.TypeName}>(e => e.Id == this.{EntityIdPath});");
 
 
             code.AppendLine("if(string.IsNullOrWhiteSpace(item.Id))throw new InvalidOperationException(\"Id cannot be null or empty\");");
