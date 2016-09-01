@@ -8,6 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Codes;
+using Humanizer;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
@@ -132,8 +133,49 @@ namespace Bespoke.Sph.Domain
 
         public Task<EntityDefinition> GenerateEntityDefinitionAsync()
         {
-            var ed = new EntityDefinition { Name = this.Entity };
+            var ed = new EntityDefinition
+            {
+                Name = Entity,
+                Plural = Entity.Pluralize(),
+                RecordName = "",
+                Transient = true,
+                IconClass = "fa fa-database",
+                WebId = this.WebId,
+                Id = Entity.ToIdFormat()
+            };
+
+            var members = this.FieldMappingCollection.Select(SuggestEntityDefinitionMembers);
+            ed.MemberCollection.AddRange(members);
+
             return Task.FromResult(ed);
+        }
+
+        private static Member SuggestEntityDefinitionMembers(TextFieldMapping field)
+        {
+            if (!field.IsComplex)
+                return new SimpleMember
+                {
+                    Name = field.Name,
+                    TypeName = field.TypeName,
+                    IsNullable = field.IsNullable,
+                    WebId = field.WebId,
+                    AllowMultiple = false,
+                    Boost = 1,
+                    DefaultValue = null
+                };
+
+            var member = new ComplexMember
+            {
+                Name = field.Name,
+                TypeName = field.TypeName,
+                WebId = field.WebId,
+                AllowMultiple = true,
+                DefaultValue = null
+            };
+            var childres = from f in field.FieldMappingCollection
+                           select SuggestEntityDefinitionMembers(f);
+            member.MemberCollection.AddRange(childres);
+            return member;
         }
     }
 }

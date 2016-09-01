@@ -58,26 +58,18 @@ namespace Bespoke.Sph.Web.Controllers
             return Ok(new { success = true });
         }
         [HttpPost]
-        [PostRoute("{id}/generate-entity-defintion")]
+        [PostRoute("{id}/generate-entity-definition")]
         public async Task<IHttpActionResult> GenerateEntityDefinitionAsync([JsonBody]ReceivePort port, string id)
         {
-            var portIsNewItem = port.IsNewItem;
-            if (portIsNewItem)
-                port.Id = port.Name.ToIdFormat();
+            var ed = await port.GenerateEntityDefinitionAsync();
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
-                session.Attach(port);
+                session.Attach(ed);
                 await session.SubmitChanges();
             }
 
-            var cr = await port.GenerateEntityDefinitionAsync();
-            if (!cr.Result)
-                return Invalid(HttpStatusCode.BadRequest, cr);
-
-            if (portIsNewItem)
-                return Created($"/receive-ports/{port.Id}/publish", new { success = true });
-            return Ok(new { success = true });
+            return Created($"/entity-definitions/{ed.Id}", new { success = true });
         }
     }
 }

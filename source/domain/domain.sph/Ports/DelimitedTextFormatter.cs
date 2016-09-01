@@ -174,5 +174,6 @@ namespace Bespoke.Sph.Domain
             MatchEvaluator matchEvaluator = m => (m.Groups["a"].Value.Replace(this.Delimiter, placeHolder) + m.Groups["b"]).Replace(this.EscapeCharacter, "");
             return Regex.Replace(text, pattern, matchEvaluator, OPTIONS);
         }
+        
     }
 }

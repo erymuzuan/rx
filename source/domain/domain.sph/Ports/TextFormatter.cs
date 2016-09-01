@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Codes;
 using Newtonsoft.Json;
@@ -24,6 +25,7 @@ namespace Bespoke.Sph.Domain
 
             return Task.FromResult(type);
         }
+        
     }
 
     public partial class HtmlTextFormatter : TextFormatter { }
