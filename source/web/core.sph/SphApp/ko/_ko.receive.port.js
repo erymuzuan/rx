@@ -37,7 +37,6 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                     if (type.indexOf(",") < 0) {
                         type = ko.unwrap(v.$type);
                     }
-
                     // complex
                     if (v.FieldMappingCollection().length > 0) {
                         return "complex";
@@ -45,7 +44,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
 
                     return type;
                 },
-                computeNodeText = function (fieldMapping) {
+                computeNodeText = function (fieldMapping, $index) {
                     const field = ko.toJS(fieldMapping),
                         nullable = field.IsNullable
                             ? " <i class='fa fa-question column-icon' style='margin-left:5px;color:darkgreen' title='Nullable'></i>"
@@ -54,28 +53,36 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                             ? " <i class='fa fa-eye-slash column-icon' style='margin-left:5px;color:grey' title='Ignored : will not serialized into Json object for submitting to API'></i>"
                             : "",
                         sample = field.SampleValue;
-
+                    if ($index)
+                        return `${$index}. ${field.Name}${nullable}${ignore} (${sample})`;
                     return `${field.Name}${nullable}${ignore} (${sample})`;
                 },
                 nullableSubscription = null,
                 ignoreSubscription = null,
                 nameSubscription = null,
-                fieldTypeNameSubscription = null,
-                recurseChildMember = function (node) {
-                    node.children = _(node.data.FieldMappingCollection()).map(function (v) {
-
+                typeNameSubscription = null,
+                mapFieldsToNodes = function (fields) {
+                    let $index = 0;
+                    return ko.unwrap(fields).map(function (v) {
                         const type = getNodeMemberType(v);
+                        if (type !== "complex") {
+                            $index++;
+                        }
                         return {
-                            text: computeNodeText(v),
+                            text: computeNodeText(v, $index),
                             state: "open",
                             type: type,
-                            data: v
+                            data: v,
+                            $index: $index,
+                            webid : ko.unwrap(v.WebId)
                         };
                     });
+                },
+                recurseChildMember = function (node) {
+                    node.children = mapFieldsToNodes(node.data.FieldMappingCollection);
                     _(node.children).each(recurseChildMember);
                 },
-
-                disposeSubscriptions = function(...subs) {
+                disposeSubscriptions = function (...subs) {
                     subs.forEach(v => {
                         if (v) {
                             v.dispose();
@@ -84,42 +91,33 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                     });
                 },
                 loadJsTree = function () {
-                    jsTreeData.children = _(port.FieldMappingCollection()).map(function (v) {
-
-                        return {
-                            text: computeNodeText(v),
-                            state: "open",
-                            type: getNodeMemberType(v),
-                            data: v
-                        };
-                    });
+                    jsTreeData.children = mapFieldsToNodes(port.FieldMappingCollection);
                     _(jsTreeData.children).each(recurseChildMember);
                     $(element)
                         .on("select_node.jstree", function (node, selected) {
                             if (typeof selectedField !== "function") {
                                 return;
                             }
-                            disposeSubscriptions(nameSubscription, nullableSubscription, ignoreSubscription, fieldTypeNameSubscription);
-                          
-                            const field = selected.node.data;
+                            disposeSubscriptions(nameSubscription, nullableSubscription, ignoreSubscription, typeNameSubscription);
+
+                            const $node = selected.node,
+                                 field = $node.data,
+                                 ref = $(element).jstree(true),
+                                 $index =$node.original.$index;
                             if (field) {
-
                                 selectedField(field);
-                                // subscribe to Name change
-                                const nodeTextChanged = function () {
-                                    $(element).jstree(true)
-                                        .rename_node(selected.node, computeNodeText(selected.node.data));
-                                };
-                                nameSubscription = selectedField().Name.subscribe(nodeTextChanged);
-                                ignoreSubscription = selectedField().Ignore.subscribe(nodeTextChanged);
-                                nullableSubscription = selectedField().IsNullable.subscribe(nodeTextChanged);
-                                // type
-                                if (typeof selectedField().TypeName === "function") {
-                                    fieldTypeNameSubscription = selectedField().TypeName.subscribe(function (name) {
-                                        $(element).jstree(true)
-                                            .set_type(selected.node, name);
-                                    });
 
+                                const nodeTextChanged = function () {
+                                    const text = computeNodeText(field, $index);
+                                    $(`#${$node.id}`).find(`>a.jstree-anchor>i.column-icon`).remove();
+                                    ref.rename_node($node, text);
+                                };
+                                nameSubscription = field.Name.subscribe(nodeTextChanged);
+                                ignoreSubscription = field.Ignore.subscribe(nodeTextChanged);
+                                nullableSubscription = field.IsNullable.subscribe(nodeTextChanged);
+                                // type
+                                if (ko.isObservable(field.TypeName)) {
+                                    typeNameSubscription = field.TypeName.subscribe( t => ref.set_type($node, t));
                                 }
                             }
                         })
@@ -153,12 +151,11 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                     if ($node.type === "default") {
                                         return [];
                                     }
-                                    var field = $node.data,
+                                    const field = $node.data,
+                                        $index = $node.original.$index,
                                         ref = $(element).jstree(true),
-                                        parents = _($node.parents).map(function (n) { return ref.get_node(n); }),
-                                        sel = ref.get_selected(),
                                         setNodeText = function (col) {
-                                            const text = computeNodeText(col);
+                                            const text = computeNodeText(col, $index);
                                             $(`#${$node.id}`).find(`>a.jstree-anchor>i.column-icon`).remove();
                                             ref.rename_node($node, text);
                                         };
