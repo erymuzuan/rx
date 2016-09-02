@@ -32,7 +32,7 @@ namespace domain.test.receive.ports
 
             m_outputHelper = outputHelper;
         }
-        
+
         [Fact]
         public async Task GenerateFieldWithMultipeChildren()
         {
@@ -61,7 +61,7 @@ namespace domain.test.receive.ports
                 RowTag = "x",
                 TypeName = "Child",
                 WebId = Guid.NewGuid().ToString(),
-                Name = "Children",
+                Name = "Children", // #1 parent's name
                 Parent = "$record"
             };
             var grandChild = new FlatFileDetailTag
@@ -71,10 +71,8 @@ namespace domain.test.receive.ports
                 TypeName = "GrandChild",
                 WebId = Guid.NewGuid().ToString(),
                 Name = "GrandChildren",
-                Parent = "Child"
+                Parent = "Children" // the parent should be the Name of the parent, see #1
             };
-
-
             formatter.DetailRowCollection.AddRange(item, child, grandChild);
             var list = await formatter.GetFieldMappingsAsync();
             Assert.Equal(37, list.Length);
@@ -82,7 +80,7 @@ namespace domain.test.receive.ports
 
             var children = list[1];
             Assert.Equal("Children", children.Name);
-            Assert.Equal(36, children.FieldMappingCollection.Count);
+            //Assert.Equal("Indicator\tOrderType\tSalesOrg\tDistributionChannel\tDivision\tSold-to-Party(Acc No)\tiPOS Number   	iPOS User ID  	iPOS Document Time Stamp 	Branch Code   	iPOS Number   	Ship-to-Party (Postcode)   	Product Code (Material)  	Order Qty   	Branch Code   	Agent    	Con Note Number - Parent	Con Note Number - Child	Weight    	Customer Declared Weight  	Volumetric Dimension   	Volumetric Weight   	Value Added   	Surcharge Code   	Sum Insured   	Sub-account Ref   	Recepient ref number  	zone    	countrycode    	item category - type 	MPS indicator   	odd item amount  	odd item description  	Pl9no    	Mhl Indicator   ", children.FieldMappingCollection.JoinString("\t", x => x.Name));
             Assert.Equal(1, children.FieldMappingCollection.Count(x => x.Name == "GrandChildren"));
 
         }
@@ -240,7 +238,7 @@ I,LG G5, 1, 3099";
 
         }
 
-        
+
     }
 
 }

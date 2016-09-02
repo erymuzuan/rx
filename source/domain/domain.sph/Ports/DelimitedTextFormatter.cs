@@ -22,13 +22,42 @@ namespace Bespoke.Sph.Domain
             type.AddNamespaceImport<FileHelpers.DelimitedRecordAttribute, List<string>>();
             type.AddNamespaceImport<Match>();
 
+            var processCode = GenerateProcessCode(port);
+            type.AddMethod(new Method { Code = processCode });
+
+            if (!string.IsNullOrWhiteSpace(this.EscapeCharacter))
+            {
+                var normalize = GenerateNormalizeMethod();
+                type.AddMethod(new Method { Code = normalize });
+            }
+            return type;
+        }
+
+        private string GenerateNormalizeMethod()
+        {
+            var normalize = $@"
+        private string Normalize(string text, string placeHolder)
+        {{
+            if (string.IsNullOrWhiteSpace({EscapeCharacter.ToVerbatim()}) || !text.Contains({EscapeCharacter.ToVerbatim()}))
+                return text;
+            const RegexOptions OPTIONS = RegexOptions.IgnoreCase | RegexOptions.Multiline;
+            var pattern = $@""(?<a>{EscapeCharacter.EscapeVerbatim()}(.*?){EscapeCharacter.EscapeVerbatim()})(?<b>\s?({Delimiter
+                .EscapeVerbatim()}|$))"";
+            MatchEvaluator matchEvaluator = m => (m.Groups[""a""].Value.Replace({Delimiter.ToVerbatim()}, placeHolder) + m.Groups[""b""]).Replace({EscapeCharacter
+                .ToVerbatim()}, """");
+            return Regex.Replace(text, pattern, matchEvaluator, OPTIONS);
+        }}";
+            return normalize;
+        }
+
+        private string GenerateProcessCode(ReceivePort port)
+        {
             var code = new StringBuilder();
-            code.Append($"public async Task<IEnumerable<{port.Entity}>> ProcessAsync(string[] lines)");
+            code.Append($"public IEnumerable<{port.Entity}> Process(IEnumerable<string> lines)");
             code.AppendLine($@"
                     {{
-                         await Task.Delay(100);
                          var engine = new FileHelperEngine<{port.Entity}>();
-                         var records = new List<{port.Entity}>();");
+                ");
 
             foreach (var row in this.DetailRowCollection)
             {
@@ -49,44 +78,42 @@ namespace Bespoke.Sph.Domain
                 ");
             }
 
-            if (this.HasTagIdentifier)
-            {
-                code.AppendLine($@"
+            code.AppendLine($@"
                 var placeHolder = new string('x', 15);
-                {port.Entity} record = null;
-                foreach(var line in lines)
-                {{
+                {port.Entity} record = null;");
+            var normalized = "var normalized = line";
+            if (!string.IsNullOrWhiteSpace(this.EscapeCharacter))
+                normalized = $@"
                     var normalized = line;
                     var hasEscape = line.Contains({EscapeCharacter.ToVerbatim()});
                     if (hasEscape)
-                        normalized = Normalize(line, placeHolder);
-                    // see which 
+                        normalized = Normalize(line, placeHolder);";
+            if (this.HasTagIdentifier && this.DetailRowCollection.Count > 0)
+            {
+                code.AppendLine($@"
+                foreach(var line in lines)
+                {{
+                    {normalized}
+                    if(line.StartsWith({RecordTag.ToVerbatim()}) && null != record)
+                         yield return record;                 
                     if(line.StartsWith({RecordTag.ToVerbatim()}))
-                    {{
                          record = engine.ReadString(normalized)[0];  
-                         records.Add(record);                   
-                    }}
                     {childRecordCode}         
                 }}");
             }
+            else
+            {
+                code.AppendLine($@"
+                {{
+                    {normalized}
+                    yield return engine.ReadString(normalized)[0];  
+                }}
 
-            code.AppendLine("            return records; ");
+");
+            }
+
             code.AppendLine("        } ");
-
-
-            type.AddMethod(new Method { Code = code.ToString() });
-            var normalize = $@"
-        private string Normalize(string text, string placeHolder)
-        {{
-            if (string.IsNullOrWhiteSpace({EscapeCharacter.ToVerbatim()}) || !text.Contains({EscapeCharacter.ToVerbatim()}))
-                return text;
-            const RegexOptions OPTIONS = RegexOptions.IgnoreCase | RegexOptions.Multiline;
-            var pattern = $@""(?<a>{EscapeCharacter.EscapeVerbatim()}(.*?){EscapeCharacter.EscapeVerbatim()})(?<b>\s?({Delimiter.EscapeVerbatim()}|$))"";
-            MatchEvaluator matchEvaluator = m => (m.Groups[""a""].Value.Replace({Delimiter.ToVerbatim()}, placeHolder) + m.Groups[""b""]).Replace({EscapeCharacter.ToVerbatim()}, """");
-            return Regex.Replace(text, pattern, matchEvaluator, OPTIONS);
-        }}";
-            type.AddMethod(new Method { Code = normalize });
-            return type;
+            return code.ToString();
         }
 
         public override async Task<TextFieldMapping[]> GetFieldMappingsAsync()
@@ -174,6 +201,6 @@ namespace Bespoke.Sph.Domain
             MatchEvaluator matchEvaluator = m => (m.Groups["a"].Value.Replace(this.Delimiter, placeHolder) + m.Groups["b"]).Replace(this.EscapeCharacter, "");
             return Regex.Replace(text, pattern, matchEvaluator, OPTIONS);
         }
-        
+
     }
 }

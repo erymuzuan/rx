@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Codes;
-using Humanizer;
 
 namespace Bespoke.Sph.Domain
 {
@@ -15,55 +14,82 @@ namespace Bespoke.Sph.Domain
         public override Task<IEnumerable<Class>> GenerateClassesAsync(ReceivePort port)
         {
             var list = new List<Class>();
-            var watcher = new Class { Name = Name.ToPascalCase(), Namespace = port.CodeNamespace };
+            var watcher = new Class { Name = Name.ToPascalCase(), Namespace = port.CodeNamespace, BaseClass = "IDisposable" };
             watcher.AddNamespaceImport<FileSystemWatcher, HttpClient, Uri, DomainObject>();
             watcher.AddNamespaceImport<List<object>, Task>();
             list.Add(watcher);
+            watcher.AddProperty("private FileSystemWatcher m_watcher; ");
+            watcher.AddProperty("private HttpClient m_client; ");
 
             var start = new StringBuilder();
             start.AppendLine("public void Start()");
             start.AppendLine("{");
-            start.AppendLine($"       var watcher = new FileSystemWatcher({Path.ToVerbatim()}, {Filter.ToVerbatim()});");
-            start.AppendLine("       watcher.EnableRaisingEvents = true;");
-            start.AppendLine("       watcher.Created += FswChanged;");
+            start.AppendLine($@"       
+                        var m_watcher = new FileSystemWatcher({Path.ToVerbatim()}, {Filter.ToVerbatim()});
+                        m_watcher.EnableRaisingEvents = true;
+                        m_watcher.Created += FswChanged;
+                        
+                        var m_client = new HttpClient();                        
+                        m_client.BaseAddress = new Uri(ConfigurationManager.BaseUrl);
+");
             start.AppendLine("}");
             watcher.AddMethod(new Method { Code = start.ToString() });
 
 
             var created = GenerateFileCreatedMethod(port);
-            watcher.AddMethod(new Method { Code = created.ToString() });
+            watcher.AddMethod(new Method { Code = created });
             watcher.AddMethod(WaitForReadyCode());
+            watcher.AddMethod(DisposeCode());
 
             return Task.FromResult(list.AsEnumerable());
         }
 
-        private static StringBuilder GenerateFileCreatedMethod(ReceivePort port)
+        private static string DisposeCode()
         {
+            var code = new StringBuilder();
+            code.AppendLine(@"
+            public void Dispose()
+            {
+                m_watcher?.Dispose();
+                m_watcher = null;
+                m_client?.Dispose();
+                m_client = null;
+            }
+            ");
+            return code.ToString();
+        }
+
+        private string GenerateFileCreatedMethod(ReceivePort port)
+        {
+            var context = new SphDataContext();
+            var endpoint = context.LoadOneFromSources<OperationEndpoint>(x => x.Id == this.SubmitEndpoint);
             var created = new StringBuilder();
+            // TODO : options to archive the file once done
+            // TODO : use stream to read those lines, or use ReadLines to read untill the next record, and POST the current record
+            // TODO : Polly retry when POST to endpoint
             created.AppendLine($@" 
         private async void FswChanged(object sender, FileSystemEventArgs e)
         {{  
             var file = e.FullPath;
             var wip = file + "".wip"" ;
             await WaitReadyAsync(file);
-            System.IO.File.Move(file, wip );
+            File.Move(file, wip );
             var port = new {port.CodeNamespace}.{port.TypeName}();
-            var lines = File.ReadAllLines(wip);
-            var records = await port.ProcessAsync(lines);
-             // now post it to the server
-            using(var client  = new HttpClient())
+            // TODO : just read to the next record
+            var lines = File.ReadLines(wip);
+            var records = port.Process(lines); 
+             // now post it to the server            
+            foreach(var r in records)
             {{
-                client.BaseAddress = new Uri(ConfigurationManager.BaseUrl);
-                foreach(var r in records)
-                {{
-                    var request = new StringContent(r.ToJson());
-                    var response = await client.PostAsync(""api/{port.Entity.Pluralize().ToIdFormat()}"", request);
-                    Console.WriteLine("" "" + response.StatusCode);
-                }}
+                // polly policy goes here
+                var request = new StringContent(r.ToJson());
+                var response = await m_client.PostAsync(""/{endpoint.Route}"", request);
+                Console.WriteLine("" "" + response.StatusCode);
             }}
-            System.IO.File.Delete(wip);
+            // TODO : options to archive the file
+            File.Delete(wip);
         }}");
-            return created;
+            return created.ToString();
         }
 
         private Method WaitForReadyCode()
@@ -77,26 +103,26 @@ public async Task WaitReadyAsync(string fileName)
     {{
         try
         {{
-            using (Stream stream = System.IO.File.Open(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
+            using (Stream stream = File.Open(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
             {{
                 if (stream != null)
                 {{
-                    Console.WriteLine(string.Format(""Output file {{0}} ready."", fileName));
+                    Console.WriteLine($""Output file {{fileName}} ready."");
                     break;
                 }}
             }}
         }}
         catch (FileNotFoundException ex)
         {{
-            Console.WriteLine(string.Format(""Output file {{0}} not yet ready ({{1}})"", fileName, ex.Message));
+            Console.WriteLine($""Output file {{fileName}} not yet ready ({{ex.Message}})"");
         }}
         catch (IOException ex)
         {{
-            Console.WriteLine(string.Format(""Output file {{0}} not yet ready ({{1}})"", fileName, ex.Message));
+            Console.WriteLine($""Output file {{fileName}} not yet ready ({{ex.Message}})"");
         }}
         catch (UnauthorizedAccessException ex)
         {{
-            Console.WriteLine(string.Format(""Output file {{0}} not yet ready ({{1}})"", fileName, ex.Message));
+            Console.WriteLine($""Output file {{fileName}} not yet ready ({{ex.Message}})"");
         }}
         await Task.Delay(500);
     }}
