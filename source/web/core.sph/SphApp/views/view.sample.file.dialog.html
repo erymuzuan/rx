@@ -1,0 +1,22 @@
+﻿
+<section class="view-model-modal" id="receive-port-sample-text-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Sample Text</h3>
+            </div>
+            <div class="modal-body" data-bind="with: port">
+
+                <form class="form-horizontal" id="receive-port-sample-text-dialog-form">
+                    <pre data-bind="text:$root.text" style="max-width: 800px; max-height: 400px"></pre>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Close</a>
+            </div>
+        </div>
+    </div>
+</section>

@@ -2734,6 +2734,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\receive.port.designer.js" />
     <EmbeddedResource Include="SphApp\viewmodels\_api.management.request.charts.js" />
     <EmbeddedResource Include="SphApp\viewmodels\_api.management.request.list.js" />
+    <Content Include="SphApp\viewmodels\view.sample.file.dialog.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
     <EmbeddedResource Include="SphApp\views\email.entity.dialog.html" />
@@ -3290,6 +3291,7 @@
     <EmbeddedResource Include="SphApp\views\receive.port.designer.html" />
     <EmbeddedResource Include="SphApp\views\_api.management.request.charts.html" />
     <EmbeddedResource Include="SphApp\views\_api.management.request.list.html" />
+    <Content Include="SphApp\views\view.sample.file.dialog.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>

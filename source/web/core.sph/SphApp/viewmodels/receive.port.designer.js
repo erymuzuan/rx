@@ -64,7 +64,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     const dev = $("#developers-log-panel").height(),
                         top = $("#schema-tree-panel").offset().top,
                         height = dev + top;
-                    $("#schema-tree-panel").css("max-height", $(window).height() - height);
+                    $("#schema-tree-panel").css("height", ($(window).height() - height) + "px");
 
                 };
                 $("#developers-log-panel-collapse,#developers-log-panel-expand").on("click", setDesignerHeight);
@@ -92,8 +92,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 if (!originalEntity) {
                     return true;
                 }
-
-
 
                 if (originalEntity !== ko.toJSON(port)) {
                     app.showMessage("Save change to the item", "Rx Developer", ["Yes", "No", "Cancel"])
@@ -200,6 +198,41 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 ].join(",");
                 const editor = window.open(`/sph/editor/file?id=${file.replace(/\\/g, "/")}&line=${line}`, "_blank", params);
                 editor.moveTo(0, 0);
+            },
+            viewSampleFile = function () {
+                var tcs = new $.Deferred();
+                require(["viewmodels/view.sample.file.dialog", "durandal/app"],
+                    function (dialog, app2) {
+                        dialog.port(port());
+                        app2.showDialog(dialog)
+                            .done(function (result) {
+                                tcs.resolve(true);
+                                if (!result) return;
+                                if (result === "OK") {
+
+
+                                }
+                            });
+                    });
+                return tcs.promise();
+            },
+            validateAsync = function () {
+                const data = ko.mapping.toJSON(port);
+                isBusy(true);
+
+                return context.post(data, `/receive-ports/${ko.unwrap(port().Id)}/validate`)
+                    .then(function (result) {
+
+                        originalEntity = ko.toJSON(port);
+                        isBusy(false);
+                        if (result.success) {
+                            logger.info(result.message);
+                            errors.removeAll();
+                        } else {
+                            errors(result.Errors);
+                            logger.error("There are errors in your schema, !!!");
+                        }
+                    });
             };
 
 
@@ -223,12 +256,22 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     {
                         command: generateEntityDefinitionAsync,
                         caption: "Generate EntityDefinition",
-                        icon: "fa fa-database"
+                        icon: "fa fa-gears"
                     },
                     {
                         command: publishAsync,
                         caption: "Publish",
                         icon: "fa fa-sign-in"
+                    },
+                    {
+                        command: validateAsync,
+                        caption: "Validate",
+                        icon: "fa fa-check"
+                    },
+                    {
+                        command: viewSampleFile,
+                        caption: "View sample",
+                        icon: "fa fa-file-text-o"
                     }])
             }
         };

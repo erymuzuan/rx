@@ -10840,6 +10840,16 @@ namespace Bespoke.Sph.Domain
         private string m_nullPlaceholder;
         public const string PropertyNameNullPlaceholder = "NullPlaceholder";
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private bool m_ignore;
+        public const string PropertyNameIgnore = "Ignore";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_comment;
+        public const string PropertyNameComment = "Comment";
+
         ///<summary>
         /// 
         ///</summary>
@@ -10993,6 +11003,48 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_nullPlaceholder;
+            }
+        }
+
+
+
+        public bool Ignore
+        {
+            set
+            {
+                if (m_ignore == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIgnore, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_ignore = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_ignore;
+            }
+        }
+
+
+
+        public string Comment
+        {
+            set
+            {
+                if (m_comment == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameComment, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_comment = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_comment;
             }
         }
 

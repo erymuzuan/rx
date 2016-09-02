@@ -45,24 +45,6 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
 
                     return type;
                 },
-                nullableSubscription = null,
-                ignoreSubscription = null,
-                nameSubscription = null,
-                fieldTypeNameSubscription = null,
-                recurseChildMember = function (node) {
-                    node.children = _(node.data.FieldMappingCollection()).map(function (v) {
-
-                        const type = getNodeMemberType(v);
-                        return {
-                            text: `${ko.unwrap(v.Name)} (${ko.unwrap(v.SampleValue)})`,
-                            state: "open",
-                            type: type,
-                            data: v
-                        };
-                    });
-                    _(node.children).each(recurseChildMember);
-                },
-
                 computeNodeText = function (fieldMapping) {
                     const field = ko.toJS(fieldMapping),
                         nullable = field.IsNullable
@@ -75,6 +57,24 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
 
                     return `${field.Name}${nullable}${ignore} (${sample})`;
                 },
+                nullableSubscription = null,
+                ignoreSubscription = null,
+                nameSubscription = null,
+                fieldTypeNameSubscription = null,
+                recurseChildMember = function (node) {
+                    node.children = _(node.data.FieldMappingCollection()).map(function (v) {
+
+                        const type = getNodeMemberType(v);
+                        return {
+                            text: computeNodeText(v),
+                            state: "open",
+                            type: type,
+                            data: v
+                        };
+                    });
+                    _(node.children).each(recurseChildMember);
+                },
+
                 disposeSubscriptions = function(...subs) {
                     subs.forEach(v => {
                         if (v) {
@@ -87,7 +87,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                     jsTreeData.children = _(port.FieldMappingCollection()).map(function (v) {
 
                         return {
-                            text: `${ko.unwrap(v.Name)} (${ko.unwrap(v.SampleValue)})`,
+                            text: computeNodeText(v),
                             state: "open",
                             type: getNodeMemberType(v),
                             data: v

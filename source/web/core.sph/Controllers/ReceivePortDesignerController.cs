@@ -71,5 +71,23 @@ namespace Bespoke.Sph.Web.Controllers
 
             return Created($"/entity-definitions/{ed.Id}", new { success = true });
         }
+
+        [HttpGet]
+        [Route("{id}/text")]
+        public async Task<IHttpActionResult> GetSampleTextAsync(string id)
+        {
+            var context = new SphDataContext();
+            var port = context.LoadOneFromSources<ReceivePort>(x => x.Id == id);
+            if (null == port) return NotFound($"Cannot find port with id '{id}'");
+            var storeId = port.TextFormatter.SampleStoreId;
+
+            var store = ObjectBuilder.GetObject<IBinaryStore>();
+            var doc = await store.GetContentAsync(storeId);
+            if (null == doc) return NotFound($"Cannot load any sample for port '{port.Name}'");
+            var text = System.Text.Encoding.UTF8.GetString(doc.Content);
+
+            return Ok(text, "text/plain");
+
+        }
     }
 }
