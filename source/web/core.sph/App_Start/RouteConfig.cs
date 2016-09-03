@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.WebApi;
 
 namespace Bespoke.Sph.Web.App_Start
 {
@@ -26,7 +27,7 @@ namespace Bespoke.Sph.Web.App_Start
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-                namespaces:new []{ "Bespoke.Sph.Web.Controllers" }
+                namespaces: new[] { "Bespoke.Sph.Web.Controllers" }
             );
 
         }
@@ -41,19 +42,19 @@ namespace Bespoke.Sph.Web.App_Start
             var context = new SphDataContext();
             var reportDefinitions = context.LoadFromSources<ReportDefinition>(rdl => rdl.IsActive || (rdl.IsPrivate && rdl.CreatedBy == user));
             var views = context.LoadFromSources<EntityView>(x => x.IsPublished);
-            var forms = context.LoadFromSources<EntityForm>(x => x.IsPublished) ;
-            var wfForms = context.LoadFromSources<WorkflowForm>(x => x.IsPublished) ;
+            var forms = context.LoadFromSources<EntityForm>(x => x.IsPublished);
+            var wfForms = context.LoadFromSources<WorkflowForm>(x => x.IsPublished);
 
             var wfFormsRoutes = from t in wfForms
-                             select new JsRoute
-                             {
-                                 Title = t.Name,
-                                 Route = $"{t.Route.ToLowerInvariant()}/:id",
-                                 Caption = t.Name,
-                                 Icon = t.IconClass,
-                                 ModuleId = $"viewmodels/{t.Route.ToLowerInvariant()}",
-                                 Nav = false
-                             };
+                                select new JsRoute
+                                {
+                                    Title = t.Name,
+                                    Route = $"{t.Route.ToLowerInvariant()}/:id",
+                                    Caption = t.Name,
+                                    Icon = t.IconClass,
+                                    ModuleId = $"viewmodels/{t.Route.ToLowerInvariant()}",
+                                    Nav = false
+                                };
             var formRoutes = from t in forms
                              select new JsRoute
                              {
@@ -93,6 +94,22 @@ namespace Bespoke.Sph.Web.App_Start
             }
             var adapterRoutes = AdapterDesigner.GetRoutes();
             routes.AddRange(adapterRoutes);
+
+            var developerService = ObjectBuilder.GetObject<IDeveloperService>();
+            ObjectBuilder.ComposeMefCatalog(developerService);
+            var locationsRoutes = from loc in developerService.ReceiveLocationOptions
+                                  select new JsRoute
+                                  {
+                                      Route = loc.Metadata.Route,
+                                      Title = loc.Metadata.Name,
+                                      IsAdminPage = false,
+                                      Icon = "fa fa-" + loc.Metadata.FontAwesomeIcon,
+                                      GroupName = "Adapters",
+                                      ShowWhenLoggedIn = true,
+                                      Nav = false,
+                                      ModuleId = "viewmodels/" + loc.Metadata.Route.Replace("/:id","")
+                                  };
+            routes.AddRange(locationsRoutes);
 
             routes.AddRange(viewRoutes);
             routes.AddRange(formRoutes);

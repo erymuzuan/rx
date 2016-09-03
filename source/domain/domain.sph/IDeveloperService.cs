@@ -11,6 +11,7 @@ namespace Bespoke.Sph.Domain
         Lazy<Functoid, IDesignerMetadata>[] Functoids { get; set; }
         Lazy<CustomAction, IDesignerMetadata>[] ActionOptions { get; set; }
         Lazy<Adapter, IDesignerMetadata>[] Adapters { get; set; }
+        Lazy<ReceiveLocation, IDesignerMetadata>[] ReceiveLocationOptions { get; set; }
         ControllerAction[] ActionCodeGenerators { get; set; }
     }
 }

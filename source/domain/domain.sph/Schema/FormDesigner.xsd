@@ -1074,13 +1074,6 @@
 	<xs:element name="ReceivePort" bspk:entity="true">
 		<xs:complexType>
 			<xs:all>
-				<xs:element name="ReceiveLocationCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="ReceiveLocation" type="ReceiveLocation" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
 				<xs:element name="ReferencedAssemblyCollection">
 					<xs:complexType>
 						<xs:sequence>
@@ -1104,7 +1097,15 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:complexType name="ReceiveLocation" bspk:entity="true">
-		<xs:all/>
+		<xs:all>
+			<xs:element name="ReferencedAssemblyCollection">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="ReferencedAssembly" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
 		<xs:attribute name="Name" type="xs:string" use="required"/>
 		<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
 		<xs:attribute name="ValidationEndpoint" type="xs:string" use="required"/>
@@ -1116,6 +1117,7 @@
 		<xs:attribute name="ErrorEndpoint" type="xs:string" use="required"/>
 		<xs:attribute name="ErrorMethod" type="xs:string" use="required"/>
 		<xs:attribute name="JwtToken" type="xs:string" use="required"/>
+		<xs:attribute name="ReceivePort" type="xs:string" use="required"/>
 	</xs:complexType>
 	<xs:element name="FolderReceiveLocation" bspk:entity="true">
 		<xs:complexType>

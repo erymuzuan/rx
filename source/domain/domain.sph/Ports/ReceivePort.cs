@@ -32,7 +32,7 @@ namespace Bespoke.Sph.Domain
                 var outputPath = ConfigurationManager.CompilerOutputPath;
                 var parameters = new CompilerParameters
                 {
-                    OutputAssembly = Path.Combine(outputPath, $"receive.port.{this.Id}.dll"),
+                    OutputAssembly = Path.Combine(outputPath, this.AssemblyName),
                     GenerateExecutable = false,
                     IncludeDebugInformation = true
 
@@ -76,9 +76,9 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         public string CodeNamespace => $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.ReceivePorts";
         [JsonIgnore]
-        public string AssemblyName => $"{ConfigurationManager.ApplicationName}.ReceivePort.{Entity}.{Id}.dll";
+        public string AssemblyName => $"{ConfigurationManager.ApplicationName}.ReceivePort.{TypeName}.dll";
         [JsonIgnore]
-        public string PdbName => $"{ConfigurationManager.ApplicationName}.ReceivePort.{Entity}.{Id}.pdb";
+        public string PdbName => $"{ConfigurationManager.ApplicationName}.ReceivePort.{TypeName}.pdb";
         [JsonIgnore]
         public string TypeName => Name.ToPascalCase();
         [JsonIgnore]
@@ -119,15 +119,9 @@ namespace Bespoke.Sph.Domain
                 ExtractClasses(classes, complexField);
             }
 
-            // Port class
+            // port class
             var portClass = await TextFormatter.GetPortClassAsync(this);
             classes.Add(portClass);
-
-
-            // locations
-            var locationsTasks = this.ReceiveLocationCollection.Select(x => x.GenerateClassesAsync(this));
-            var locationClasses = (await Task.WhenAll(locationsTasks)).SelectMany(x => x);
-            classes.AddRange(locationClasses);
 
             return classes;
         }

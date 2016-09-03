@@ -38,6 +38,9 @@ namespace Bespoke.Sph.WebApi
         [ImportMany("AdapterDesigner", typeof(Adapter), AllowRecomposition = true)]
         public Lazy<Adapter, IDesignerMetadata>[] Adapters { get; set; }
 
+        [ImportMany("ReceiveLocationDesigner", typeof(ReceiveLocation), AllowRecomposition = true)]
+        public Lazy<ReceiveLocation, IDesignerMetadata>[] ReceiveLocationOptions { get; set; }
+
 
         [ImportMany(typeof(ControllerAction))]
         public ControllerAction[] ActionCodeGenerators { get; set; }

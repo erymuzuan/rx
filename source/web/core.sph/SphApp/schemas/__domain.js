@@ -3010,7 +3010,6 @@ bespoke.sph.domain.ReceivePort = function (optionOrWebid) {
         Entity: ko.observable(""),
         EntityId: ko.observable(""),
         Formatter: ko.observable(""),
-        ReceiveLocationCollection: ko.observableArray([]),
         ReferencedAssemblyCollection: ko.observableArray([]),
         TextFormatter: ko.observable(),
         FieldMappingCollection: ko.observableArray([]),
@@ -3519,6 +3518,8 @@ bespoke.sph.domain.ReceiveLocation = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ReceiveLocation, domain.sph",
+
+        Id: ko.observable("0"),
         Name: ko.observable(""),
         IsActive: ko.observable(false),
         ValidationEndpoint: ko.observable(""),
@@ -3529,6 +3530,9 @@ bespoke.sph.domain.ReceiveLocation = function (optionOrWebid) {
         InvalidMethod: ko.observable(""),
         ErrorEndpoint: ko.observable(""),
         ErrorMethod: ko.observable(""),
+        JwtToken: ko.observable(""),
+        ReceivePort: ko.observable(""),
+        ReferencedAssemblyCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

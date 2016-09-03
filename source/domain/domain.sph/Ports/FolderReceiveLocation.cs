@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -9,12 +10,15 @@ using Bespoke.Sph.Domain.Codes;
 
 namespace Bespoke.Sph.Domain
 {
+    [EntityType(typeof(ReceiveLocation))]
+    [Export("ReceiveLocationDesigner", typeof(ReceiveLocation))]
+    [DesignerMetadata(Name = "File drop", FontAwesomeIcon = "folder-open-o", Route = "receive.location.folder/:id")]
     public partial class FolderReceiveLocation : ReceiveLocation
     {
         public override Task<IEnumerable<Class>> GenerateClassesAsync(ReceivePort port)
         {
             var list = new List<Class>();
-            var watcher = new Class { Name = Name.ToPascalCase(), Namespace = port.CodeNamespace, BaseClass = "IDisposable" };
+            var watcher = new Class { Name = Name.ToPascalCase(), Namespace = CodeNamespace, BaseClass = "IDisposable" };
             watcher.AddNamespaceImport<FileSystemWatcher, HttpClient, Uri, DomainObject>();
             watcher.AddNamespaceImport<List<object>, Task>();
             list.Add(watcher);

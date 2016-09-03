@@ -9021,12 +9021,6 @@ namespace Bespoke.Sph.Domain
         ///<summary>
         /// 
         ///</summary>
-        public ObjectCollection<ReceiveLocation> ReceiveLocationCollection { get; } = new ObjectCollection<ReceiveLocation>();
-
-
-        ///<summary>
-        /// 
-        ///</summary>
         public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection { get; } = new ObjectCollection<ReferencedAssembly>();
 
 
@@ -10516,6 +10510,17 @@ namespace Bespoke.Sph.Domain
         private string m_jwtToken;
         public const string PropertyNameJwtToken = "JwtToken";
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_receivePort;
+        public const string PropertyNameReceivePort = "ReceivePort";
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<ReferencedAssembly> ReferencedAssemblyCollection { get; } = new ObjectCollection<ReferencedAssembly>();
+
+
 
         // public properties members
 
@@ -10747,6 +10752,27 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_jwtToken;
+            }
+        }
+
+
+
+        public string ReceivePort
+        {
+            set
+            {
+                if (m_receivePort == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameReceivePort, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_receivePort = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_receivePort;
             }
         }
 

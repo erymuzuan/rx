@@ -1005,6 +1005,7 @@
     <Compile Include="Controllers\FormDialogController.cs" />
     <Compile Include="Controllers\PartialViewController.cs" />
     <Compile Include="Controllers\QuotaPolicyManagementController.cs" />
+    <Compile Include="Controllers\ReceiveLocationController.cs" />
     <Compile Include="Controllers\ReceivePortDesignerController.cs" />
     <Compile Include="Controllers\RxSystemApiController.cs" />
     <Compile Include="Controllers\ValueObjectDefinitionController.cs" />
@@ -2734,6 +2735,8 @@
     <EmbeddedResource Include="SphApp\viewmodels\receive.port.designer.js" />
     <EmbeddedResource Include="SphApp\viewmodels\_api.management.request.charts.js" />
     <EmbeddedResource Include="SphApp\viewmodels\_api.management.request.list.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\new.receive.location.dialog.js" />
+    <Content Include="SphApp\viewmodels\receive.location.folder.js" />
     <Content Include="SphApp\viewmodels\view.sample.file.dialog.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
@@ -3291,6 +3294,8 @@
     <EmbeddedResource Include="SphApp\views\receive.port.designer.html" />
     <EmbeddedResource Include="SphApp\views\_api.management.request.charts.html" />
     <EmbeddedResource Include="SphApp\views\_api.management.request.list.html" />
+    <EmbeddedResource Include="SphApp\views\new.receive.location.dialog.html" />
+    <Content Include="SphApp\views\receive.location.folder.html" />
     <Content Include="SphApp\views\view.sample.file.dialog.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>

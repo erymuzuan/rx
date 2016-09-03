@@ -45,6 +45,8 @@ namespace Bespoke.Sph.Web.Api
                 case "trigger": return SelectSystemObjectProperty<Trigger>(column, filter);
                 case "adapter": return SelectSystemObjectProperty<Adapter>(column, filter);
                 case "viewtemplate": return SelectSystemObjectProperty<ViewTemplate>(column, filter);
+                case "receiveport": return SelectSystemObjectProperty<ReceivePort>(column, filter);
+                case "receivelocation": return SelectSystemObjectProperty<ReceiveLocation>(column, filter);
             }
             var translator = new OdataSqlTranslator(column, table);
             var sql = translator.Scalar(filter);
@@ -110,6 +112,8 @@ namespace Bespoke.Sph.Web.Api
                 case "valueobjectdefinition": return SelectTupleFromSource<ValueObjectDefinition>(filter, column, column2, column3, column4, column5);
                 case "workflowdefinition": return SelectTupleFromSource<WorkflowDefinition>(filter, column, column2, column3, column4, column5);
                 case "workflowform": return SelectTupleFromSource<WorkflowForm>(filter, column, column2, column3, column4, column5);
+                case "receiveport": return SelectTupleFromSource<ReceivePort>(filter, column, column2, column3, column4, column5);
+                case "receivelocation": return SelectTupleFromSource<ReceiveLocation>(filter, column, column2, column3, column4, column5);
             }
 
             var entity = ObjectBuilder.GetObject<ICacheManager>().Get<EntityDefinition>(table.ToIdFormat());

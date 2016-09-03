@@ -40,6 +40,13 @@ namespace Bespoke.Sph.Web.Controllers
         {
             return ReadFromSource<Adapter>(filter, page, size, orderby);
         }
+        [Route("receivelocation")]
+        [HttpGet]
+        public IHttpActionResult ReceiveLocation(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
+            [FromUri(Name = "$orderby")]string orderby = null)
+        {
+            return ReadFromSource<ReceiveLocation>(filter, page, size, orderby);
+        }
 
         [Route("DataTransferDefinition")]
         [HttpGet]

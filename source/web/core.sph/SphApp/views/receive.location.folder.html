@@ -1,0 +1,189 @@
+﻿<div class="row" data-bind="with : location">
+    <i class="fa fa-folder-o fa-2x"></i>
+    <h1 data-bind="text:Name"></h1>
+    
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#folder-general" data-toggle="tab">General</a>
+            </li>
+            <li>
+                <a href="#location-endpoints" data-toggle="tab">Endpoints</a>
+            </li>
+            <li>
+                <a href="#location-security" data-toggle="tab">Security</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="folder-general" class="tab-pane active">
+
+                <form class="form-horizontal" id="folder-receive-location-form">
+                    <div class="form-group">
+                        <label for="location-name" class="col-lg-3 control-label">Name</label>
+                        <div class="col-lg-9">
+                            <input type="text" data-bind="value: Name"
+                                   required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                                   placeholder="Location name"
+                                   class="form-control" id="location-name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="path" class="col-lg-3 control-label">Path</label>
+                        <div class="col-lg-9">
+                            <input type="text" data-bind="value: Path"
+                                   required
+                                   placeholder="Folder"
+                                   class="form-control" id="path">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="location-filter" class="col-lg-3 control-label">Filter</label>
+                        <div class="col-lg-6">
+                            <input type="text" data-bind="value: Filter"
+                                   required
+                                   placeholder="File filters, e.g. *.txt"
+                                   class="form-control" id="location-filter">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input data-bind="checked: IsActive" id="location-active" type="checkbox" name="IsActive" />
+                                    Active
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input data-bind="checked: ChangeExtension" id="location-change-extension" type="checkbox" name="ChangeExtension" />
+                                    Change extension to .wip
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div id="location-endpoints" class="tab-pane">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="validation-endpoint" class="col-lg-3 control-label">Validation endpoint</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" id="validation-endpoint" data-bind="value:ValidationEndpoint, options: $root.endpointOptions, optionsCaption : '', optionsText : 'Name', optionsValue :'Id'"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="validation-method" class="col-lg-3 control-label">Validation Method</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" id="validation-method" data-bind="value:ValidationMethod">
+                                <option value=""></option>
+                                <option value="POST">POST</option>
+                                <option value="PUT">PUT</option>
+                                <option value="PATCH">PATCH</option>
+                                <option value="OPTIONS">OPTIONS</option>
+                                <option value="HEAD">HEAD</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="submit-endpoint" class="col-lg-3 control-label">Submit endpoint</label>
+                        <div class="col-lg-6">
+                            <select required class="form-control" id="submit-endpoint" data-bind="value:SubmitEndpoint, options: $root.endpointOptions, optionsCaption : '', optionsText : 'Name', optionsValue :'Id'"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="submit-method" class="col-lg-3 control-label">Submit Method</label>
+                        <div class="col-lg-6">
+                            <select required class="form-control" id="submit-method" data-bind="value:SubmitMethod">
+                                <option value=""></option>
+                                <option value="POST">POST</option>
+                                <option value="PUT">PUT</option>
+                                <option value="PATCH">PATCH</option>
+                                <option value="OPTIONS">OPTIONS</option>
+                                <option value="HEAD">HEAD</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="invalid-endpoint" class="col-lg-3 control-label">Invalid endpoint</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" id="invalid-endpoint" data-bind="value:InvalidEndpoint, options: $root.endpointOptions, optionsCaption : '', optionsText : 'Name', optionsValue :'Id'"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="invalid-method" class="col-lg-3 control-label">Invalid Method</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" id="invalid-method" data-bind="value:InvalidMethod">
+                                <option value=""></option>
+                                <option value="POST">POST</option>
+                                <option value="PUT">PUT</option>
+                                <option value="PATCH">PATCH</option>
+                                <option value="OPTIONS">OPTIONS</option>
+                                <option value="HEAD">HEAD</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="error-endpoint" class="col-lg-3 control-label">Error endpoint</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" id="error-endpoint" data-bind="value:ErrorEndpoint, options: $root.endpointOptions, optionsCaption : '', optionsText : 'Name', optionsValue :'Id'"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="error-method" class="col-lg-3 control-label">Error Method</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" id="error-method" data-bind="value:ErrorMethod">
+                                <option value=""></option>
+                                <option value="POST">POST</option>
+                                <option value="PUT">PUT</option>
+                                <option value="PATCH">PATCH</option>
+                                <option value="OPTIONS">OPTIONS</option>
+                                <option value="HEAD">HEAD</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div id="location-security" class="tab-pane">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="location-cred-user-name" class="col-lg-3 control-label">Credential</label>
+                        <div class="col-lg-6">
+                            <input type="text" data-bind="value: CredentialUserName"
+                                   pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                                   placeholder="Credential user name with permission on the folder"
+                                   class="form-control" id="location-cred-user-name">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location-cred-password" class="col-lg-3 control-label">Password</label>
+                        <div class="col-lg-6">
+                            <input type="password" data-bind="value: CredentialPassword"
+                                   placeholder="Password for the network credential"
+                                   class="form-control" id="location-cred-password">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location-jwt-token" class="col-lg-3 control-label">API Token</label>
+                        <div class="col-lg-9">
+                            <input type="text" data-bind="value: JwtToken"
+                                   required
+                                   placeholder="API token to call the submit API"
+                                   class="form-control" id="location-jwt-token">
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
