@@ -29,6 +29,7 @@ bespoke.sph.domain.ReceivePortPartial = function (port) {
 
             require(["viewmodels/folder.receive.location.dialog", "durandal/app"], function (dialog, app) {
                 dialog.location(br);
+                dialog.port(self);
                 app.showDialog(dialog)
                     .done(function (result) {
                         if (!result) return;
@@ -44,6 +45,7 @@ bespoke.sph.domain.ReceivePortPartial = function (port) {
                 require(["viewmodels/folder.receive.location.dialog", "durandal/app"], function (dialog, app) {
                     var clone = ko.mapping.fromJS(ko.mapping.toJS(br));
                     dialog.location(clone);
+                    dialog.port(self);
                     app.showDialog(dialog)
                         .done(function (result) {
                             if (!result) return;

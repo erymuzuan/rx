@@ -79,7 +79,7 @@
                                 <div class="form-group">
                                     <label for="validation-endpoint" class="col-lg-3 control-label">Validation endpoint</label>
                                     <div class="col-lg-6">
-                                        <select class="form-control" id="validation-endpoint" data-bind="value:ValidationEndpoint, options: $root.endpointOptions, optionsCaption : ''">
+                                        <select class="form-control" id="validation-endpoint" data-bind="value:ValidationEndpoint, options: $root.endpointOptions, optionsCaption : '', optionsText : 'Name', optionsValue :'Id'">
                                         </select>
                                     </div>
                                 </div>
@@ -99,7 +99,7 @@
                                 <div class="form-group">
                                     <label for="submit-endpoint" class="col-lg-3 control-label">Submit endpoint</label>
                                     <div class="col-lg-6">
-                                        <select required class="form-control" id="submit-endpoint" data-bind="value:SubmitEndpoint, options: $root.endpointOptions, optionsCaption : ''">
+                                        <select required class="form-control" id="submit-endpoint" data-bind="value:SubmitEndpoint, options: $root.endpointOptions, optionsCaption : '', optionsText : 'Name', optionsValue :'Id'">
                                         </select>
                                     </div>
                                 </div>
@@ -119,7 +119,7 @@
                                 <div class="form-group">
                                     <label for="invalid-endpoint" class="col-lg-3 control-label">Invalid endpoint</label>
                                     <div class="col-lg-6">
-                                        <select class="form-control" id="invalid-endpoint" data-bind="value:InvalidEndpoint, options: $root.endpointOptions, optionsCaption : ''">
+                                        <select class="form-control" id="invalid-endpoint" data-bind="value:InvalidEndpoint, options: $root.endpointOptions, optionsCaption : '', optionsText : 'Name', optionsValue :'Id'">
                                         </select>
                                     </div>
                                 </div>
@@ -139,7 +139,7 @@
                                 <div class="form-group">
                                     <label for="error-endpoint" class="col-lg-3 control-label">Error endpoint</label>
                                     <div class="col-lg-6">
-                                        <select class="form-control" id="error-endpoint" data-bind="value:ErrorEndpoint, options: $root.endpointOptions, optionsCaption : ''">
+                                        <select class="form-control" id="error-endpoint" data-bind="value:ErrorEndpoint, options: $root.endpointOptions, optionsCaption : '', optionsText : 'Name', optionsValue :'Id'">
                                         </select>
                                     </div>
                                 </div>
@@ -177,6 +177,16 @@
                                         <input type="password" data-bind="value: CredentialPassword"
                                                placeholder="Password for the network credential"
                                                class="form-control" id="location-cred-password">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="location-jwt-token" class="col-lg-3 control-label">API Token</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" data-bind="value: JwtToken"
+                                               required 
+                                               placeholder="API token to call the submit API"
+                                               class="form-control" id="location-jwt-token">
                                     </div>
                                 </div>
 

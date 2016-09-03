@@ -10511,6 +10511,11 @@ namespace Bespoke.Sph.Domain
         private string m_errorMethod;
         public const string PropertyNameErrorMethod = "ErrorMethod";
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_jwtToken;
+        public const string PropertyNameJwtToken = "JwtToken";
+
 
         // public properties members
 
@@ -10721,6 +10726,27 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_errorMethod;
+            }
+        }
+
+
+
+        public string JwtToken
+        {
+            set
+            {
+                if (m_jwtToken == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameJwtToken, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_jwtToken = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_jwtToken;
             }
         }
 

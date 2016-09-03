@@ -8,10 +8,16 @@
 /// <reference path="../schemas/form.designer.g.js" />
 
 
-define(["plugins/dialog"],
-    function(dialog) {
+define(["plugins/dialog", "services/datacontext"],
+    function(dialog, context) {
 
         const location = ko.observable(new bespoke.sph.domain.FolderReceiveLocation()),
+            port = ko.observable(new bespoke.sph.domain.ReceivePort()),
+            endpointOptions = ko.observableArray(),
+            activate = function() {
+                return context.loadAsync("OperationEndpoint", `Entity eq '${ko.unwrap(port().Entity)}'`)
+                    .done(lo => endpointOptions(lo.itemCollection));
+            },
             okClick = function(data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
                     dialog.close(this, "OK");
@@ -23,7 +29,10 @@ define(["plugins/dialog"],
             };
 
         const vm = {
+            port : port,
+            activate :activate,
             location: location,
+            endpointOptions : endpointOptions,
             okClick: okClick,
             cancelClick: cancelClick
         };

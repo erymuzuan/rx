@@ -25,7 +25,7 @@ namespace Bespoke.Sph.Domain
         private async Task<WorkflowCompilerResult> CompileAsync(CompilerOptions options)
         {
             var classes = (await this.GenerateCodeAsync()).ToArray();
-            var sources = classes.Select(x => x.Save($"ReceivePort{TypeName}")).ToArray();
+            var sources = classes.Select(x => x.Save($"ReceivePort.{TypeName}")).ToArray();
 
             using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
             {
@@ -89,7 +89,7 @@ namespace Bespoke.Sph.Domain
             var item = new Class { Name = field.TypeName.ToPascalCase(), Namespace = this.CodeNamespace };
             item.AttributeCollection.Add(TextFormatter.GetRecordAttribute());
             item.AddNamespaceImport<DateTime, FileInfo, FileHelpers.FieldAlignAttribute, JsonIgnoreAttribute>();
-            item.AddNamespaceImport<DomainObject, IEnumerable<object>>();
+            item.AddNamespaceImport<DomainObject, IEnumerable<object>, System.Globalization.CultureInfo>();
             var fieldMembers = field.FieldMappingCollection.Select(x => x.GenerateMember())
             .Select(x => new Property { Code = x.GeneratedCode() });
             item.PropertyCollection.AddRange(fieldMembers);
@@ -105,7 +105,8 @@ namespace Bespoke.Sph.Domain
             var classes = new List<Class>();
             var record = new Class { Name = this.Entity.ToPascalCase(), Namespace = this.CodeNamespace };
             record.AddNamespaceImport<DateTime, FileInfo, FileHelpers.FieldAlignAttribute, JsonIgnoreAttribute>();
-            record.AddNamespaceImport<DomainObject, IEnumerable<object>>();
+            record.AddNamespaceImport<DomainObject, IEnumerable<object>, System.Globalization.CultureInfo>();
+            
             record.AttributeCollection.Add(TextFormatter.GetRecordAttribute());
             classes.Add(record);
 

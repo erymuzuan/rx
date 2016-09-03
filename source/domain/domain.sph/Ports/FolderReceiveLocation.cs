@@ -25,12 +25,14 @@ namespace Bespoke.Sph.Domain
             start.AppendLine("public void Start()");
             start.AppendLine("{");
             start.AppendLine($@"       
+                        m_client = new HttpClient();                        
+                        m_client.BaseAddress = new Uri(ConfigurationManager.BaseUrl);
+                        m_client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(""Bearer"", ""{JwtToken}"");
+
                         var m_watcher = new FileSystemWatcher({Path.ToVerbatim()}, {Filter.ToVerbatim()});
                         m_watcher.EnableRaisingEvents = true;
                         m_watcher.Created += FswChanged;
                         
-                        var m_client = new HttpClient();                        
-                        m_client.BaseAddress = new Uri(ConfigurationManager.BaseUrl);
 ");
             start.AppendLine("}");
             watcher.AddMethod(new Method { Code = start.ToString() });
@@ -83,7 +85,8 @@ namespace Bespoke.Sph.Domain
             {{
                 // polly policy goes here
                 var request = new StringContent(r.ToJson());
-                var response = await m_client.PostAsync(""/{endpoint.Route}"", request);
+                request.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(""application/json"");
+                var response = await m_client.PostAsync(""/api/{endpoint.Resource}/{endpoint.Route}"", request);
                 Console.WriteLine("" "" + response.StatusCode);
             }}
             // TODO : options to archive the file

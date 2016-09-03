@@ -3529,6 +3529,7 @@ bespoke.sph.domain.ReceiveLocation = function (optionOrWebid) {
         InvalidMethod: ko.observable(""),
         ErrorEndpoint: ko.observable(""),
         ErrorMethod: ko.observable(""),
+        JwtToken: ko.observable(""),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

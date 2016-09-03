@@ -1103,7 +1103,7 @@
 			<xs:attribute name="Formatter" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:complexType name="ReceiveLocation">
+	<xs:complexType name="ReceiveLocation" bspk:entity="true">
 		<xs:all/>
 		<xs:attribute name="Name" type="xs:string" use="required"/>
 		<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
@@ -1115,8 +1115,9 @@
 		<xs:attribute name="InvalidMethod" type="xs:string" use="required"/>
 		<xs:attribute name="ErrorEndpoint" type="xs:string" use="required"/>
 		<xs:attribute name="ErrorMethod" type="xs:string" use="required"/>
+		<xs:attribute name="JwtToken" type="xs:string" use="required"/>
 	</xs:complexType>
-	<xs:element name="FolderReceiveLocation">
+	<xs:element name="FolderReceiveLocation" bspk:entity="true">
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="ReceiveLocation">

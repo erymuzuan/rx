@@ -81,7 +81,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine($@"
                 var placeHolder = new string('x', 15);
                 {port.Entity} record = null;");
-            var normalized = "var normalized = line";
+            var normalized = "var normalized = line;";
             if (!string.IsNullOrWhiteSpace(this.EscapeCharacter))
                 normalized = $@"
                     var normalized = line;
