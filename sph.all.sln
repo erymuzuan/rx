@@ -198,6 +198,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gulp-tasks", "gulp-tasks", 
 		gulp-tasks\vendorjs.js = gulp-tasks\vendorjs.js
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "receive.locations.host", "source\tools\receive.locations.host\receive.locations.host.csproj", "{E5F299B4-7352-46A3-9714-8CFD2FAC9923}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -444,6 +446,10 @@ Global
 		{C3AB0560-8E6C-4465-A02C-0CDFBEAC80C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3AB0560-8E6C-4465-A02C-0CDFBEAC80C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3AB0560-8E6C-4465-A02C-0CDFBEAC80C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5F299B4-7352-46A3-9714-8CFD2FAC9923}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5F299B4-7352-46A3-9714-8CFD2FAC9923}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5F299B4-7352-46A3-9714-8CFD2FAC9923}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5F299B4-7352-46A3-9714-8CFD2FAC9923}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -511,5 +517,6 @@ Global
 		{4EC2F6A7-6936-4EB1-8A8E-EF3B0B157997} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{77023784-B68A-4FC4-A5B7-0A27488AB5BF} = {3AE34720-8DD6-4332-9DF7-9E16A79B94A1}
 		{C3AB0560-8E6C-4465-A02C-0CDFBEAC80C9} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
+		{E5F299B4-7352-46A3-9714-8CFD2FAC9923} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 	EndGlobalSection
 EndGlobal
