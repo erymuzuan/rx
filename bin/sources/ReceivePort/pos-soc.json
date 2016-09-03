@@ -1,9 +1,5 @@
 {
   "$type": "Bespoke.Sph.Domain.ReceivePort, domain.sph",
-  "ReceiveLocationCollection": {
-    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReceiveLocation, domain.sph]], domain.sph",
-    "$values": []
-  },
   "ReferencedAssemblyCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
     "$values": []
@@ -1470,6 +1466,6 @@
   "Id": "pos-soc",
   "CreatedDate": "2016-09-01T10:29:01.7284826+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-02T17:51:53.3325097+08:00",
+  "ChangedDate": "2016-09-03T18:02:42.5515095+08:00",
   "WebId": "35581d1d-2048-456a-a1d5-0defeae82fde (2016-09-01 10:29:01.728)"
 }
