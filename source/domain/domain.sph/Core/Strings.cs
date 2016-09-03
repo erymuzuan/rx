@@ -141,7 +141,7 @@ namespace Bespoke.Sph.Domain
 
         public static string GenerateId()
         {
-            return SequentialGuid.NewSequentialGuid().ToString();
+            return Guid.NewGuid().ToString();
         }
 
         public static string SplitCamelCase(this string str)
