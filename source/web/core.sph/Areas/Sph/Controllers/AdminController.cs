@@ -81,6 +81,25 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         }
 
+        public async Task<ActionResult> RemoveUser(string id)
+        {
+            var context = new SphDataContext();
+            var em = Membership.DeleteUser(id);
+
+            if (em)
+            {
+                var profile = await context.LoadOneAsync<UserProfile>(x => x.UserName == id);
+                using (var session = context.OpenSession())
+                {
+                    session.Delete(profile);
+                    await session.SubmitChanges("RemoveUser");
+                }
+            }
+
+            ObjectBuilder.GetObject<ILogger>().Log(new LogEntry { Severity = Severity.Log, Message = $"User {id} was succesfully deleted" });
+            return Json(new { success = true, status = "Deleted" });
+        }
+
         public async Task<ActionResult> AddUser(Profile profile)
         {
             var context = new SphDataContext();
@@ -132,7 +151,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         /// <returns>true if the password meets the req. complexity</returns>
         public ActionResult CheckPasswordComplexity(string password)
         {
-            var result =  CheckPasswordComplexity(Membership.Provider, password);
+            var result = CheckPasswordComplexity(Membership.Provider, password);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

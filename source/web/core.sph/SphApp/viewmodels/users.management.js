@@ -1,11 +1,11 @@
 ﻿
-define([objectbuilders.datacontext, 'services/logger', objectbuilders.dialog], function (context, logger) {
-    var isBusy = ko.observable(false),
+define([objectbuilders.datacontext, "services/logger", objectbuilders.dialog, objectbuilders.app], function (context, logger, app) {
+    const isBusy = ko.observable(false),
         printprofile = ko.observable(new bespoke.sph.domain.Profile()),
         profiles = ko.observableArray(),
         importedSecuritySettingStoreId = ko.observable(""),
         map = function (item) {
-            var p = new bespoke.sph.domain.Profile();
+            const p = new bespoke.sph.domain.Profile();
             p.IsNew(false);
             p.FullName(item.FullName());
             p.UserName(item.UserName());
@@ -16,7 +16,7 @@ define([objectbuilders.datacontext, 'services/logger', objectbuilders.dialog], f
             return p;
         },
         activate = function () {
-            var query = String.format("Id ne '0'");
+            const query = String.format("Id ne '0'");
             return context.loadAsync("UserProfile", query)
                 .then(function (p) {
                     isBusy(false);
@@ -27,7 +27,7 @@ define([objectbuilders.datacontext, 'services/logger', objectbuilders.dialog], f
                 });
         },
         save = function (profile) {
-            var data = ko.mapping.toJSON({ profile: profile });
+            const data = ko.mapping.toJSON({ profile: profile });
             isBusy(true);
 
             return context.post(data, "/sph/Admin/AddUser")
@@ -82,8 +82,7 @@ define([objectbuilders.datacontext, 'services/logger', objectbuilders.dialog], f
 
         },
         savePassword = function (profile, password1, password2) {
-
-            var data = ko.mapping.toJSON({ userName: profile.UserName(), password: password1 });
+            const data = ko.mapping.toJSON({ userName: profile.UserName(), password: password1 });
             isBusy(true);
 
             return context.post(data, "/sph/Admin/ResetPassword")
@@ -104,6 +103,7 @@ define([objectbuilders.datacontext, 'services/logger', objectbuilders.dialog], f
                         if (result === "OK") {
                             return savePassword(user, dialog.password1, dialog.password2);
                         }
+                        return Task.fromResult(0);
                     });
             });
         },
@@ -111,6 +111,19 @@ define([objectbuilders.datacontext, 'services/logger', objectbuilders.dialog], f
             window.open("/sph/admin/ExportSecuritySettings");
             return Task.fromResult(true);
 
+        },
+        removeUser = function(profile) {
+            app.showMessage(`Are you sure you want to remove ${profile.UserName()}, this action cannot be undone`, "Rx Developer", ["Yes", "No"])
+                .done(function(dialogResult) {
+                    if (dialogResult === "Yes") {
+                        context.sendDelete(`/admin/RemoveUser/${ko.unwrap(profile.UserName)}`).done(function(result) {
+                            if (result.success) {
+                                logger.info(`${profile.UserName()} has been successfully removed`);
+                                profiles.remove(profile);
+                            }
+                        });
+                    }
+                });
         };
 
     importedSecuritySettingStoreId.subscribe(function (id) {
@@ -121,12 +134,13 @@ define([objectbuilders.datacontext, 'services/logger', objectbuilders.dialog], f
         });
     });
 
-    var vm = {
+    const vm = {
         importedSecuritySettingStoreId: importedSecuritySettingStoreId,
         activate: activate,
         profiles: profiles,
         printprofile: printprofile,
         editCommand: edit,
+        removeUser: removeUser,
         add: add,
         resetPasswordCommand: resetPassword,
         map: map,
@@ -142,7 +156,7 @@ define([objectbuilders.datacontext, 'services/logger', objectbuilders.dialog], f
             printCommand: ko.observable({
                 entity: ko.observable("UserProfile"),
                 id: ko.observable(0),
-                item: printprofile,
+                item: printprofile
             })
         })
     };
