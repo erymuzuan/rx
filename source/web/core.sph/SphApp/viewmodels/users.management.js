@@ -1,19 +1,20 @@
-﻿
+﻿/// <reference path="~\Scripts/jquery-2.2.0.intellisense.js" />
+/// <reference path="~\Scripts/knockout-3.4.0.debug.js" />
+/// <reference path="~\Scripts/r.js" />
+/// <reference path="~\Scripts/require.js" />
+/// <reference path="~\Scripts/_task.js" />
+/// <reference path="~\SphApp\schemas/sph.domain.g.js" />
+/// <reference path="~/SphApp/objectbuilders.js" />
+
 define([objectbuilders.datacontext, "services/logger", objectbuilders.dialog, objectbuilders.app], function (context, logger, app) {
     const isBusy = ko.observable(false),
         printprofile = ko.observable(new bespoke.sph.domain.Profile()),
         profiles = ko.observableArray(),
+        selectedUsers = ko.observableArray(),
         importedSecuritySettingStoreId = ko.observable(""),
         map = function (item) {
-            const p = new bespoke.sph.domain.Profile();
-            p.IsNew(false);
-            p.FullName(item.FullName());
-            p.UserName(item.UserName());
-            p.Email(item.Email());
-            p.Designation(item.Designation());
-            p.Department(item.Department());
-            p.Telephone(item.Telephone());
-            return p;
+            item.IsNew = ko.observable(false);
+            return item;
         },
         activate = function () {
             const query = String.format("Id ne '0'");
@@ -112,18 +113,58 @@ define([objectbuilders.datacontext, "services/logger", objectbuilders.dialog, ob
             return Task.fromResult(true);
 
         },
-        removeUser = function(profile) {
-            app.showMessage(`Are you sure you want to remove ${profile.UserName()}, this action cannot be undone`, "Rx Developer", ["Yes", "No"])
-                .done(function(dialogResult) {
+        lockUsers = function() {
+            const tcs = $.Deferred();
+            app.showMessage(`Are you sure you want to lock  ${selectedUsers().length} user(s), this action cannot be undone`, "Rx Developer", ["Yes", "No"])
+                .done(function (dialogResult) {
                     if (dialogResult === "Yes") {
-                        context.sendDelete(`/admin/RemoveUser/${ko.unwrap(profile.UserName)}`).done(function(result) {
+
+                        const tasks = selectedUsers().map(v => context.sendDelete(`/admin/lock/${ko.unwrap(v.UserName)}`));
+                        $.when(tasks).done(function (result) {
                             if (result.success) {
-                                logger.info(`${profile.UserName()} has been successfully removed`);
-                                profiles.remove(profile);
+                                logger.info(`Selected users has been successfully locked`);
+                                selectedUsers.forEach(v => profiles.remove(v));
                             }
                         });
                     }
                 });
+
+            return tcs.promise();
+        },
+        unlockUsers = function() {
+            const tcs = $.Deferred();
+            app.showMessage(`Are you sure you want to unlock ${selectedUsers().length} user(s), this action cannot be undone`, "Rx Developer", ["Yes", "No"])
+                .done(function (dialogResult) {
+                    if (dialogResult === "Yes") {
+
+                        const tasks = selectedUsers().map(v => context.sendDelete(`/admin/unlock/${ko.unwrap(v.UserName)}`));
+                        $.when(tasks).done(function (result) {
+                            if (result.success) {
+                                logger.info(`Selected users has been successfully unlocked`);
+                            }
+                        });
+                    }
+                });
+
+            return tcs.promise();
+        },
+        removeUsers = function () {
+            const tcs = $.Deferred();
+            app.showMessage(`Are you sure you want to remove ${selectedUsers().length} user(s), this action cannot be undone`, "Rx Developer", ["Yes", "No"])
+                .done(function(dialogResult) {
+                    if (dialogResult === "Yes") {
+
+                        const tasks = selectedUsers().map(v => context.sendDelete(`/admin/RemoveUser/${ko.unwrap(v.UserName)}`));
+                        $.when(tasks).done(function(result) {
+                            if (result.success) {
+                                logger.info(`Selected users has been successfully removed`);
+                                selectedUsers.forEach(v => profiles.remove(v));
+                            }
+                        });
+                    }
+                });
+
+            return tcs.promise();
         };
 
     importedSecuritySettingStoreId.subscribe(function (id) {
@@ -138,9 +179,12 @@ define([objectbuilders.datacontext, "services/logger", objectbuilders.dialog, ob
         importedSecuritySettingStoreId: importedSecuritySettingStoreId,
         activate: activate,
         profiles: profiles,
+        selectedUsers: selectedUsers,
         printprofile: printprofile,
         editCommand: edit,
-        removeUser: removeUser,
+        lockUsers: lockUsers,
+        unlockUsers: unlockUsers,
+        removeUsers: removeUsers,
         add: add,
         resetPasswordCommand: resetPassword,
         map: map,
