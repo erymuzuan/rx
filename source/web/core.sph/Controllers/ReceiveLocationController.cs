@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Management;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -231,7 +232,36 @@ namespace Bespoke.Sph.Web.Controllers
         [HttpGet]
         public IHttpActionResult GetStatusAsync(string id)
         {
-            return Json(id.Contains("2"));
+            var context = new SphDataContext();
+            var location = context.LoadOneFromSources<ReceiveLocation>(x => x.Id == id);
+            var op = new ConnectionOptions
+            {
+                Username = "",
+                Password = ""
+            };
+            var running = false;
+            var svClocation =Environment.GetEnvironmentVariable("COMPUTERNANE");
+            var scope = new ManagementScope(svClocation + @"\root\cimv2", op);
+            scope.Connect();
+            var path = new ManagementPath("Win32_Service");
+            var services = new ManagementClass(scope, path, null);
+            foreach (var o in services.GetInstances())
+            {
+                var service = (ManagementObject) o;
+                if (service.GetPropertyValue("Name").ToString().ToLower().Equals($"RxLocation{location.Name}"))
+                {
+                    if (service.GetPropertyValue("State").ToString().ToLower().Equals("running"))
+                    {
+                        //do something
+                        running = true;
+                    }
+                    else
+                    {
+                        //do something
+                    }
+                }
+            }
+            return Json(running);
         }
 
 

@@ -16,6 +16,14 @@ using Polly;
 
 namespace Bespoke.Sph.Domain
 {
+    public interface IReceiveLocation
+    {
+        bool Start();
+        bool Stop();
+        void Pause();
+        void Resume();
+    }
+
     [DebuggerDisplay("Name = {Name}")]
     [StoreAsSource(HasDerivedTypes = true)]
     public partial class ReceiveLocation : Entity
@@ -58,7 +66,7 @@ namespace Bespoke.Sph.Domain
 
             result.Errors.AddRange(errors);
             result.Warnings.AddRange(warnings);
-            
+
             result.Result = result.Errors.Count == 0;
 
             return result;
@@ -144,10 +152,39 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         public string TypeFullName => $"{CodeNamespace}.{TypeName}, {AssemblyName.Replace(".dll", "")}";
 
-
-        public virtual Task<IEnumerable<Class>> GenerateClassesAsync(ReceivePort port)
+        public async Task<IEnumerable<Class>> GenerateClassesAsync(ReceivePort port)
         {
-            throw new System.NotImplementedException();
+            var list = new List<Class>();
+            var watcher = new Class { Name = Name.ToPascalCase(), Namespace = CodeNamespace, BaseClass = "IReceiveLocation, IDisposable" };
+            list.Add(watcher);
+            await InitializeServiceClassAsync(watcher, port);
+            watcher.AddMethod(GenerateStartMethod(port).Result);
+            watcher.AddMethod(GenerateStopMethod(port).Result);
+            watcher.AddMethod(GeneratePauseMethod(port).Result);
+            watcher.AddMethod(GenerateResumeMethod(port).Result);
+
+            return list;
+        }
+
+        protected virtual Task InitializeServiceClassAsync(Class watcher, ReceivePort port)
+        {
+            return Task.FromResult(new Method { Code = "public bool Stop(){ return true;}" });
+        }
+        protected virtual Task<Method> GenerateStopMethod(ReceivePort port)
+        {
+            return Task.FromResult(new Method { Code = "public bool Stop(){ return true;}" });
+        }
+        protected virtual Task<Method> GenerateStartMethod(ReceivePort port)
+        {
+            return Task.FromResult(new Method { Code = "public bool Start(){ return true;}" });
+        }
+        protected virtual Task<Method> GeneratePauseMethod(ReceivePort port)
+        {
+            return Task.FromResult(new Method { Code = "public void Pause(){}" });
+        }
+        protected virtual Task<Method> GenerateResumeMethod(ReceivePort port)
+        {
+            return Task.FromResult(new Method { Code = "public void Resume(){}" });
         }
     }
 }

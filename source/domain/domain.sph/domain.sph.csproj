@@ -215,6 +215,7 @@
     <Compile Include="Ports\FlatFileDetailTag.cs" />
     <Compile Include="Ports\FolderReceiveLocation.cs" />
     <Compile Include="Ports\ReceiveLocation.cs" />
+    <Compile Include="Ports\SqlServerReceiveLocation.cs" />
     <Compile Include="Ports\TextFieldMapping.cs" />
     <Compile Include="SequentialGuid.cs" />
     <Compile Include="Codes\Class.cs" />

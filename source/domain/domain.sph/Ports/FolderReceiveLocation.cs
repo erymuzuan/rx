@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,24 +9,34 @@ using Bespoke.Sph.Domain.Codes;
 
 namespace Bespoke.Sph.Domain
 {
+
+   
     [EntityType(typeof(ReceiveLocation))]
     [Export("ReceiveLocationDesigner", typeof(ReceiveLocation))]
     [DesignerMetadata(FriendlyName = "File drop", FontAwesomeIcon = "folder-open-o", Route = "receive.location.folder/:id", Name = "folder")]
     public partial class FolderReceiveLocation : ReceiveLocation
     {
-
-        public override Task<IEnumerable<Class>> GenerateClassesAsync(ReceivePort port)
+        protected override Task InitializeServiceClassAsync(Class watcher, ReceivePort port)
         {
-            var list = new List<Class>();
-            var watcher = new Class { Name = Name.ToPascalCase(), Namespace = CodeNamespace, BaseClass = "IDisposable" };
             watcher.AddNamespaceImport<FileSystemWatcher, HttpClient, Uri, DomainObject>();
             watcher.AddNamespaceImport<List<object>, Task>();
-            list.Add(watcher);
             watcher.AddProperty("private FileSystemWatcher m_watcher; ");
             watcher.AddProperty("private HttpClient m_client; ");
+            watcher.AddProperty("private bool m_paused = false; ");
 
+            var created = GenerateFileCreatedMethod(port);
+            watcher.AddMethod(new Method { Code = created });
+            watcher.AddMethod(WaitForReadyCode());
+            watcher.AddMethod(DisposeCode());
+
+            return Task.FromResult(0);
+
+        }
+
+        protected override Task<Method> GenerateStartMethod(ReceivePort port)
+        {
             var start = new StringBuilder();
-            start.AppendLine("public void Start()");
+            start.AppendLine("public bool Start()");
             start.AppendLine("{");
             start.AppendLine($@"       
                         m_client = new HttpClient();                        
@@ -37,18 +46,35 @@ namespace Bespoke.Sph.Domain
                         var m_watcher = new FileSystemWatcher({Path.ToVerbatim()}, {Filter.ToVerbatim()});
                         m_watcher.EnableRaisingEvents = true;
                         m_watcher.Created += FswChanged;
+
+                        return true;
                         
 ");
             start.AppendLine("}");
-            watcher.AddMethod(new Method { Code = start.ToString() });
+            return Task.FromResult(new Method { Code = start.ToString() });
 
+        }
 
-            var created = GenerateFileCreatedMethod(port);
-            watcher.AddMethod(new Method { Code = created });
-            watcher.AddMethod(WaitForReadyCode());
-            watcher.AddMethod(DisposeCode());
+        protected override Task<Method> GenerateStopMethod(ReceivePort port)
+        {
+            return Task.FromResult(new Method {Code = "public bool Stop(){ this.Dispose(); return true;}"});
+        }
 
-            return Task.FromResult(list.AsEnumerable());
+        protected override Task<Method> GeneratePauseMethod(ReceivePort port)
+        {
+            var code = new StringBuilder();
+            code.AppendLine("public void Pause(){");
+            code.AppendLine("m_paused = true;");
+            code.AppendLine("}");
+            return Task.FromResult(new Method {Code = code.ToString()});
+        }
+        protected override Task<Method> GenerateResumeMethod(ReceivePort port)
+        {
+            var code = new StringBuilder();
+            code.AppendLine("public void Resume(){");
+            code.AppendLine("m_paused = false;");
+            code.AppendLine("}");
+            return Task.FromResult(new Method {Code = code.ToString()});
         }
 
         private static string DisposeCode()
@@ -83,18 +109,23 @@ namespace Bespoke.Sph.Domain
             File.Move(file, wip );
             var port = new {port.CodeNamespace}.{port.TypeName}();
             // TODO : just read to the next record
+            var number = 0;
             var lines = File.ReadLines(wip);
             var records = port.Process(lines); 
-             // now post it to the server            
+             // now post it to the server
+            Console.WriteLine($""Reading file {{file}}"");            
             foreach(var r in records)
             {{
+                number ++;
                 // polly policy goes here
                 var request = new StringContent(r.ToJson());
                 request.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(""application/json"");
                 var response = await m_client.PostAsync(""/api/{endpoint.Resource}/{endpoint.Route}"", request);
-                Console.WriteLine("" "" + response.StatusCode);
+                Console.Write($""\r{{number}} : "" + response.StatusCode);
             }}
             // TODO : options to archive the file
+            Console.WriteLine();
+            Console.WriteLine($""Done processing {{file}}""); 
             File.Delete(wip);
         }}");
             return created.ToString();

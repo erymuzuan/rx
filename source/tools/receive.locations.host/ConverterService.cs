@@ -1,15 +1,9 @@
 ﻿using System.IO;
+using Bespoke.Sph.Domain;
 
 namespace receive.locations.host
 {
-    public interface IReceiveLocation
-    {
-        bool Start();
-        bool Stop();
-        void Pause();
-        void Resume();
-    }
-
+    
     public class ConverterService : IReceiveLocation
     {
         private FileSystemWatcher m_watcher;
