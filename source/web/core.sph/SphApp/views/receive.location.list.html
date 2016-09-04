@@ -1,0 +1,113 @@
+﻿<style>
+    div.btn-group button {
+        margin-left: 10px;
+        border-width: 0px;
+    }
+</style>
+<h1><i class="fa fa-bullhorn" style="margin-right: 10px"></i>Receive Locations<i class="fa fa-spin fa-cog" style="margin-left: 15px" data-bind="visible:isBusy"></i></h1>
+<div id="error-list" class="row" data-bind="visible:errors().length">
+    <!-- ko foreach : errors -->
+    <div class="col-md-8 col-md-offset-2 alert alert-dismissable alert-danger" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+        <!-- ko if : Code -->
+        <strong class="icon-read-more" data-bind="bootstrapPopover : Code"> ..more</strong>
+        <!-- /ko-->
+        <!-- ko if : FileName -->
+        <br />
+        <a href="javascript:;" data-bind="click : $root.viewFile">
+            <span class="small" data-bind="text:FileName"></span>(<span class="small" data-bind="text:Line"></span>)
+        </a>
+        <!-- /ko-->
+
+    </div>
+    <div class="col-md-2"></div>
+    <!-- /ko-->
+</div>
+<table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'ReceiveLocation', list: list, map :map}">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Port</th>
+            <th>Entity</th>
+            <th>Active</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach :list">
+        <tr>
+            <td>
+
+
+
+                <div class="btn-group">
+                    <a title="Click to specify your value" class="btn btn-link dropdown dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+
+                        <!-- ko with : designer -->
+                        <!-- ko if : FontAwesomeIcon -->
+                        <i data-bind="attr : {'class':'fa fa-' + FontAwesomeIcon}"></i>
+                        <!--/ko -->
+                        <!-- ko if : BootstrapIcon -->
+                        <i data-bind="attr : {'class':'glyphicon glyphicon-' + BootstrapIcon}"></i>
+                        <!--/ko -->
+                        <!-- ko if : PngIcon -->
+                        <img data-bind="attr : {'src': PngIcon, 'alt': Name}" alt="#" />
+                        <!--/ko -->
+                        <!-- /ko -->
+                        <!-- ko text: Name-->
+                        <!--/ko -->
+
+                        <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a data-bind="click :$root.publish" href="javascript:;">
+                                <i class="fa fa-cog"></i>
+                                Compile
+                            </a>
+                        </li>
+                        <li>
+                            <button class="btn btn-default" data-bind="click :$root.start, disable: started" href="javascript:;">
+                                <i class="fa fa-play"></i>
+                                Start
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn btn-default" data-bind="click :$root.stop,enable: started" href="javascript:;">
+                                <i class="fa fa-stop"></i>
+                                Stop
+                            </button>
+                        </li>
+                        <li>
+                            <a data-bind="click :$root.edit" href="javascript:;">
+                                <i class="fa fa-edit"></i>
+                                Properties
+                            </a>
+                        </li>
+                        <li class="seperator">
+                            <hr />
+                        </li>
+                        <li>
+                            <button class="btn btn-default" data-bind="click :$root.edit, disable: IsActive" href="javascript:;">
+                                <i class="fa fa-times"></i>
+                                Remove
+                            </button>
+                        </li>
+
+                    </ul>
+                </div>
+            </td>
+
+            <td data-bind="text:portName"></td>
+            <td data-bind="text:entity"></td>
+            <td>
+                <i class="fa fa-check" data-bind="visible:IsActive"></i>
+            </td>
+            <td>
+                <i class="fa fa-play" style="color:green" data-bind="visible:started"></i>
+                <i class="fa fa-circle" style="color: red" data-bind="visible:!ko.unwrap(started)"></i>
+            </td>
+        </tr>
+    </tbody>
+</table>

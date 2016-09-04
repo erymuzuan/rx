@@ -16,6 +16,7 @@ namespace Bespoke.Sph.Domain
         public string Description { get;  set; }
         public string Category { get; set; }
         public string Name { get; set; }
+        public string FriendlyName { get; set; }
         public string TypeName { get; set; }
         public string Route { get; set; }
         public Type Type { get;  set; }

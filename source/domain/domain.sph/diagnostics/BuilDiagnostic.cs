@@ -59,6 +59,22 @@ namespace Bespoke.Sph.Domain.diagnostics
         {
             return Task.FromResult(new BuildError[] { });
         }
+        public virtual Task<BuildError[]> ValidateErrorsAsync(ReceiveLocation location)
+        {
+            return Task.FromResult(new BuildError[] { });
+        }
+
+        public virtual Task<BuildError[]> ValidateErrorsAsync(ReceivePort port)
+        {
+            return Task.FromResult(new BuildError[] { });
+        }
+
+        public virtual Task<BuildError[]> ValidateErrorsAsync(ReportColumn port)
+        {
+            return Task.FromResult(new BuildError[] { });
+        }
+
+
 
         public virtual Task<BuildError[]> ValidateWarningsAsync(WorkflowForm form, WorkflowDefinition wd)
         {
@@ -112,6 +128,14 @@ namespace Bespoke.Sph.Domain.diagnostics
         }
 
         public virtual Task<BuildError[]> ValidateWarningsAsync(Adapter adapter)
+        {
+            return Task.FromResult(new BuildError[] { });
+        }
+        public virtual Task<BuildError[]> ValidateWarningsAsync(ReceiveLocation location)
+        {
+            return Task.FromResult(new BuildError[] { });
+        }
+        public virtual Task<BuildError[]> ValidateWarningsAsync(ReceivePort port)
         {
             return Task.FromResult(new BuildError[] { });
         }

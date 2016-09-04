@@ -2737,6 +2737,7 @@
     <EmbeddedResource Include="SphApp\viewmodels\_api.management.request.list.js" />
     <EmbeddedResource Include="SphApp\viewmodels\new.receive.location.dialog.js" />
     <Content Include="SphApp\viewmodels\receive.location.folder.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\receive.location.list.js" />
     <Content Include="SphApp\viewmodels\view.sample.file.dialog.js" />
     <Content Include="SphApp\views\business.rule.dialog.html" />
     <EmbeddedResource Include="SphApp\views\workflow.kpi.html" />
@@ -3296,6 +3297,7 @@
     <EmbeddedResource Include="SphApp\views\_api.management.request.list.html" />
     <EmbeddedResource Include="SphApp\views\new.receive.location.dialog.html" />
     <Content Include="SphApp\views\receive.location.folder.html" />
+    <EmbeddedResource Include="SphApp\views\receive.location.list.html" />
     <Content Include="SphApp\views\view.sample.file.dialog.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>

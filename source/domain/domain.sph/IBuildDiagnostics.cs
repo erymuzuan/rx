@@ -17,6 +17,8 @@ namespace Bespoke.Sph.Domain
         Task<BuildError[]> ValidateErrorsAsync(Trigger trigger);
         Task<BuildError[]> ValidateErrorsAsync(TransformDefinition map);
         Task<BuildError[]> ValidateErrorsAsync(Adapter adapter);
+        Task<BuildError[]> ValidateErrorsAsync(ReceivePort port);
+        Task<BuildError[]> ValidateErrorsAsync(ReceiveLocation location);
 
 
         Task<BuildError[]> ValidateWarningsAsync(WorkflowForm form, WorkflowDefinition wd);
@@ -31,5 +33,7 @@ namespace Bespoke.Sph.Domain
         Task<BuildError[]> ValidateWarningsAsync(Trigger trigger);
         Task<BuildError[]> ValidateWarningsAsync(TransformDefinition map);
         Task<BuildError[]> ValidateWarningsAsync(Adapter adapter);
+        Task<BuildError[]> ValidateWarningsAsync(ReceivePort port);
+        Task<BuildError[]> ValidateWarningsAsync(ReceiveLocation adapter);
     }
 }

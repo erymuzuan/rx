@@ -189,17 +189,15 @@
             },
             addReceiveLocation = function () {
 
-                var url = "";
                 return app.showDialog("new.receive.location.dialog")
                         .then(function (dialog, result) {
                             if (result === "OK") {
-                                url = ko.unwrap(dialog.url);
-                                return checkSource("ReceiveLocation", "Id eq '" + ko.unwrap(dialog.id) + "'");
+                                return checkSource("ReceiveLocation", `Id eq '${ko.unwrap(dialog.id)}'`);
                             }
                             return Task.fromResult(0);
                         }).then(function (ed) {
                             if (ed)
-                                router.navigate(`#${url}`);
+                                router.navigate("#receive.location.list");
                         });
             },
             addOperationEndpoint = function (entityDefinition) {

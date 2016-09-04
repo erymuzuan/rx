@@ -1,13 +1,18 @@
-﻿using System.CodeDom.Compiler;
+﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Codes;
 using Newtonsoft.Json;
+using Polly;
 
 namespace Bespoke.Sph.Domain
 {
@@ -15,6 +20,61 @@ namespace Bespoke.Sph.Domain
     [StoreAsSource(HasDerivedTypes = true)]
     public partial class ReceiveLocation : Entity
     {
+        [ImportMany(typeof(IBuildDiagnostics))]
+        [JsonIgnore]
+        [XmlIgnore]
+        public IBuildDiagnostics[] BuildDiagnostics { get; set; }
+
+        public virtual async Task<BuildValidationResult> ValidateBuildAsync()
+        {
+            if (null == this.BuildDiagnostics)
+                ObjectBuilder.ComposeMefCatalog(this);
+            if (null == this.BuildDiagnostics)
+                throw new InvalidOperationException($"Fail to initialize MEF for {nameof(ReceiveLocation)}.{nameof(BuildDiagnostics)}");
+
+            var result = this.CanSave();
+            var policy = Policy.Handle<Exception>()
+                .WaitAndRetry(3, c => TimeSpan.FromMilliseconds(500),
+                    (ex, ts) =>
+                    {
+                        ObjectBuilder.GetObject<ILogger>().Log(new LogEntry(ex));
+                    });
+
+            var errorTasks = this.BuildDiagnostics
+                .Select(d => policy.ExecuteAndCapture(() => d.ValidateErrorsAsync(this)))
+                .Where(x => null != x)
+                .Where(x => x.FinalException == null)
+                .Select(x => x.Result)
+                .ToArray();
+            var errors = (await Task.WhenAll(errorTasks)).Where(x => null != x).SelectMany(x => x);
+
+            var warningTasks = this.BuildDiagnostics
+                .Select(d => policy.ExecuteAndCapture(() => d.ValidateWarningsAsync(this)))
+                .Where(x => null != x)
+                .Where(x => x.FinalException == null)
+                .Select(x => x.Result)
+                .ToArray();
+            var warnings = (await Task.WhenAll(warningTasks)).SelectMany(x => x);
+
+            result.Errors.AddRange(errors);
+            result.Warnings.AddRange(warnings);
+            
+            result.Result = result.Errors.Count == 0;
+
+            return result;
+        }
+        public BuildValidationResult CanSave()
+        {
+            var result = new BuildValidationResult();
+            var validName = new Regex(@"^[A-Za-z][A-Za-z0-9]*$");
+            if (!validName.Match(this.Name).Success)
+                result.Errors.Add(new BuildError(this.WebId) { Message = "Name must start with letter.You cannot use symbol or number as first character" });
+            if (string.IsNullOrWhiteSpace(this.Name))
+                result.Errors.Add(new BuildError(this.WebId, "Name is missing"));
+
+            result.Result = !result.Errors.Any();
+            return result;
+        }
 
         public async Task<WorkflowCompilerResult> CompileAsync(ReceivePort port)
         {

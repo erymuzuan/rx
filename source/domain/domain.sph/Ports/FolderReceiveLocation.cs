@@ -12,9 +12,10 @@ namespace Bespoke.Sph.Domain
 {
     [EntityType(typeof(ReceiveLocation))]
     [Export("ReceiveLocationDesigner", typeof(ReceiveLocation))]
-    [DesignerMetadata(Name = "File drop", FontAwesomeIcon = "folder-open-o", Route = "receive.location.folder/:id")]
+    [DesignerMetadata(FriendlyName = "File drop", FontAwesomeIcon = "folder-open-o", Route = "receive.location.folder/:id", Name = "folder")]
     public partial class FolderReceiveLocation : ReceiveLocation
     {
+
         public override Task<IEnumerable<Class>> GenerateClassesAsync(ReceivePort port)
         {
             var list = new List<Class>();

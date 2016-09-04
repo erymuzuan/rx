@@ -20,13 +20,13 @@ namespace Bespoke.Sph.Web.Controllers
         public IHttpActionResult GetInstalledReceiveLocations()
         {
             var actions = from a in this.DeveloperService.ReceiveLocationOptions
-                select
-                $@"
+                          select
+                          $@"
 {{
     ""designer"" : {JsonConvert.SerializeObject(a.Metadata)},
     ""location"" : {a.Value.ToJsonString()}
 }}";
-           
+
 
             return Json("[" + string.Join(",", actions) + "]");
 
@@ -40,6 +40,70 @@ namespace Bespoke.Sph.Web.Controllers
             var portIsNewItem = loc.IsNewItem;
             if (portIsNewItem)
                 loc.Id = loc.Name.ToIdFormat();
+
+            loc.BuildDiagnostics = ObjectBuilder.GetObject<IDeveloperService>().BuildDiagnostics;
+            var buildValidation = await loc.ValidateBuildAsync();
+            if (!buildValidation.Result)
+                return Json(buildValidation);
+
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Attach(loc);
+                await session.SubmitChanges();
+            }
+            var port = context.LoadOneFromSources<ReceivePort>(x => x.Id == loc.ReceivePort);
+            var cr = await loc.CompileAsync(port);
+            if (!cr.Result)
+                return Invalid(HttpStatusCode.BadRequest, cr);
+
+            if (portIsNewItem)
+                return Created($"/receive-locations/{loc.Id}/publish", new { success = true });
+            return Ok(new { success = true });
+        }
+
+        [HttpPost]
+        [PostRoute("{id}/start")]
+        public async Task<IHttpActionResult> StartAsnc([JsonBody]ReceiveLocation loc, string id)
+        {
+            var portIsNewItem = loc.IsNewItem;
+            if (portIsNewItem)
+                loc.Id = loc.Name.ToIdFormat();
+
+            loc.BuildDiagnostics = ObjectBuilder.GetObject<IDeveloperService>().BuildDiagnostics;
+            var buildValidation = await loc.ValidateBuildAsync();
+            if (!buildValidation.Result)
+                return Json(buildValidation);
+
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Attach(loc);
+                await session.SubmitChanges();
+            }
+            var port = context.LoadOneFromSources<ReceivePort>(x => x.Id == loc.ReceivePort);
+            var cr = await loc.CompileAsync(port);
+            if (!cr.Result)
+                return Invalid(HttpStatusCode.BadRequest, cr);
+
+            if (portIsNewItem)
+                return Created($"/receive-locations/{loc.Id}/publish", new { success = true });
+            return Ok(new { success = true });
+        }
+
+        [HttpPost]
+        [PostRoute("{id}/stop")]
+        public async Task<IHttpActionResult> StopAsnc([JsonBody]ReceiveLocation loc, string id)
+        {
+            var portIsNewItem = loc.IsNewItem;
+            if (portIsNewItem)
+                loc.Id = loc.Name.ToIdFormat();
+
+            loc.BuildDiagnostics = ObjectBuilder.GetObject<IDeveloperService>().BuildDiagnostics;
+            var buildValidation = await loc.ValidateBuildAsync();
+            if (!buildValidation.Result)
+                return Json(buildValidation);
+
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
@@ -74,84 +138,52 @@ namespace Bespoke.Sph.Web.Controllers
         }
         [Route("")]
         [HttpDelete]
-        public async Task<IHttpActionResult> DeleteAsync([JsonBody]ReceiveLocation  location)
+        public async Task<IHttpActionResult> DeleteAsync([JsonBody]ReceiveLocation location)
         {
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
-                session.Delete( location);
+                session.Delete(location);
                 await session.SubmitChanges("Delete");
             }
-            return Ok(new { success = true, status = "OK", id =  location.Id });}
-
-        [Route("")]
-        [HttpPost]
-        public async Task<IHttpActionResult> Create([JsonBody]ReceiveLocation  location)
-        {
-            if (null ==  location)
-                return BadRequest("Cannot deserialize receive location");
-
-            var context = new SphDataContext();
-             location.Id =  location.Name.ToIdFormat();
-
-            using (var session = context.OpenSession())
-            {
-                session.Attach( location);
-                await session.SubmitChanges("Save");
-            }
-
-
-            var result = new
-            {
-                success = true,
-                status = "OK",
-                id =  location.Id,
-                link = new
-                {
-                    rel = "self",
-                    href = "receive location/" +  location.Id
-                }
-            };
-            return Created($"/api/receive locations/{ location.Id}", result);
+            return Ok(new { success = true, status = "OK", id = location.Id });
         }
-
 
 
         [PostRoute("")]
         [HttpPost]
-        public async Task<IHttpActionResult> Save([JsonBody]ReceiveLocation  location, string id)
+        public async Task<IHttpActionResult> Save([JsonBody]ReceiveLocation location)
         {
-            if (null ==  location)
+            if (null == location)
                 return NotFound("Cannot deserialize receive location");
 
-             location.Id = id;
-            var vr = (await  location.ValidateAsync()).ToArray();
+            var vr = (await location.ValidateAsync()).ToArray();
             if (vr.Any())
             {
                 return Json(new { success = false, status = "Not Valid", errors = vr });
             }
 
             var context = new SphDataContext();
-            var baru =  location.IsNewItem;
+            var baru = location.IsNewItem;
             if (baru)
             {
-                 location.Id =  location.Name.ToIdFormat();
+                location.Id = location.Name.ToIdFormat();
             }
 
             using (var session = context.OpenSession())
             {
-                session.Attach( location);
+                session.Attach(location);
                 await session.SubmitChanges("Save");
             }
             var result = new
             {
                 success = true,
                 status = "OK",
-                id =  location.Id,
+                id = location.Id,
                 link = new
                 {
                     rel = "self",
-                    href = "receive location/" +  location.Id
+                    href = "receive location/" + location.Id
                 }
             };
             if (baru) return Created($"/api/receive locations/{ location.Id}", result);
@@ -164,7 +196,7 @@ namespace Bespoke.Sph.Web.Controllers
         public IHttpActionResult GetDialog(string extension, string jsroute)
         {
             var lowered = jsroute.ToLowerInvariant();
-            
+
             if (null == this.DeveloperService.ReceiveLocationOptions)
                 return InternalServerError(new Exception("MEF Cannot load receive locations metadata"));
 
@@ -193,6 +225,13 @@ namespace Bespoke.Sph.Web.Controllers
             }
             var html = provider.GetEditorView(route);
             return Html(html);
+        }
+
+        [GetRoute("{id}/status")]
+        [HttpGet]
+        public IHttpActionResult GetStatusAsync(string id)
+        {
+            return Json(id.Contains("2"));
         }
 
 

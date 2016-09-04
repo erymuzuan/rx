@@ -205,6 +205,7 @@
     <Compile Include="Business\Photo.cs" />
     <Compile Include="diagnostics\FormDeleteOperationDiagnostics.cs" />
     <Compile Include="diagnostics\FormOperationDiagnostics.cs" />
+    <Compile Include="diagnostics\LocationEndpointDiagnostics.cs" />
     <Compile Include="Ports\DelimitedTextComplexMember.cs" />
     <Compile Include="Ports\DelimitedTextFieldMapping.cs" />
     <Compile Include="Ports\DelimitedTextFormatter.cs" />

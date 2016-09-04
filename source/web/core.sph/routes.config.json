@@ -231,6 +231,21 @@
   {
     "role": "developers",
     "groupName": "Workflow",
+    "route": "receive.location.list",
+    "moduleId": "viewmodels/receive.location.list",
+    "title": "Receive Locations",
+    "nav": true,
+    "icon": "fa fa-bullhorn",
+    "caption": "Receive Locations",
+    "settings": null,
+    "isAdminPage": true,
+    "showWhenLoggedIn": false,
+    "error": "",
+    "startPageRoute": "receive.location.list"
+  },
+  {
+    "role": "developers",
+    "groupName": "Workflow",
     "route": "integration.adapter.definition.list",
     "moduleId": "viewmodels/integration.adapter.definition.list",
     "title": "Adapters",
