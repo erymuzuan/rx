@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using Bespoke.Sph.ControlCenter.ViewModel;
 
@@ -13,13 +16,21 @@ namespace Bespoke.Sph.ControlCenter
             this.Loaded += ProjectSettingsUserControlLoaded;
         }
         private readonly IList<string> m_sqlLocaldbInstances = new List<string>();
-        void ProjectSettingsUserControlLoaded(object sender, RoutedEventArgs e)
+        async void ProjectSettingsUserControlLoaded(object sender, RoutedEventArgs e)
+        {
+            var list = await LoadSqlLocaldbInstances();
+            m_sqlLocaldbInstances.Clear();
+            list.ToList().ForEach(x => m_sqlLocaldbInstances.Add(x));
+        }
+
+        private Task<string[]> LoadSqlLocaldbInstances()
         {
             if (m_sqlLocaldbInstances.Count > 0)
                 m_sqlLocaldbInstances.Clear();
+
+            var tcs = new TaskCompletionSource<string[]>();
             this.QueueUserWorkItem(() =>
             {
-
                 var workerInfo = new ProcessStartInfo
                 {
                     FileName = "SqlLocalDB.exe",
@@ -39,22 +50,20 @@ namespace Bespoke.Sph.ControlCenter
                     }
                     p.BeginOutputReadLine();
                     p.BeginErrorReadLine();
-                    p.OutputDataReceived += OnDataReceived;
+                    var list = new ConcurrentBag<string>();
+                    p.OutputDataReceived += (s, e) =>
+                    {
+                        if (!string.IsNullOrWhiteSpace(e.Data))
+                            list.Add(e.Data);
+                    };
                     p.WaitForExit();
+                    tcs.SetResult(list.ToArray());
                 }
-
             });
 
-
+            return tcs.Task;
         }
 
-        private void OnDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(e.Data))
-            {
-                this.Post(s => m_sqlLocaldbInstances.Add(s), e.Data);
-            }
-        }
 
         private void SaveSetting(object sender, RoutedEventArgs e)
         {
