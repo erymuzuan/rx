@@ -5,15 +5,24 @@
 
 
 bespoke.sph.domain.Adapters = bespoke.sph.domain.Adapters || {};
+bespoke.sph.domain.Adapters.Polling = function(model) {
+    model = model || {};
+    return {
+        Interval: ko.observable( model.Interval || 5 * 60 * 1000), // 5 minutes
+        Query : ko.observable(model.Query || "")
+    }
+}
 bespoke.sph.domain.Adapters.SqlServerReceiveLocation = function (model) {
     const v = new bespoke.sph.domain.ReceiveLocation(model);
-    v.Id = ko.observable();
-    v.Server = ko.observable();
-    v.Database = ko.observable();
-    v.Trusted = ko.observable();
-    v.UserId = ko.observable();
-    v.Password = ko.observable();
-    v.Query = ko.observable();
+    v.Id = ko.observable(null);
+    v.Server = ko.observable("(localdb)\\Projects");
+    v.Database = ko.observable(null);
+    v.Trusted = ko.observable(true);
+    v.UseQueryNotification = ko.observable(true);
+    v.UserId = ko.observable(null);
+    v.Password = ko.observable(null);
+    v.Query = ko.observable("");
+    v.Polling = ko.observable(new bespoke.sph.domain.Adapters.Polling()),
     v["$type"] = "Bespoke.Sph.Integrations.Adapters.SqlServerReceiveLocation, sqlserver.adapter";
 
     var context = require("services/datacontext");

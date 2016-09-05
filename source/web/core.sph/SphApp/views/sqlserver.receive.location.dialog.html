@@ -14,6 +14,15 @@
                             <a href="#sqlserver-general" data-toggle="tab">General</a>
                         </li>
                         <li>
+                            <a href="#sqlserver-connection" data-toggle="tab">Connection</a>
+                        </li>
+                        <li data-bind="visible:UseQueryNotification">
+                            <a href="#location-query" data-toggle="tab">Query</a>
+                        </li>
+                        <li data-bind="visible: !ko.unwrap(UseQueryNotification)">
+                            <a href="#location-polling" data-toggle="tab">Polling</a>
+                        </li>
+                        <li>
                             <a href="#location-endpoints" data-toggle="tab">Endpoints</a>
                         </li>
                         <li>
@@ -34,23 +43,56 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <div class="col-md-offset-3 col-md-6">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input data-bind="checked: UseQueryNotification" id="query-notification" type="checkbox" name="UseQueryNotification" />
+                                                Use SQL Server query notification
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-3 col-md-6">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input data-bind="checked: IsActive" id="location-active" type="checkbox" name="IsActive" />
+                                                Active
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+
+                        <div id="sqlserver-connection" class="tab-pane">
+                            <form class="form-horizontal">
+
+                                <div class="form-group">
                                     <label for="path" class="col-lg-3 control-label">Server</label>
-                                    <div class="col-lg-9">
-                                        <input type="text" data-bind="value: Server"
+                                    <div class="col-lg-8">
+                                        <input type="text" data-bind="kendoComboBox: Server, source : $root.serverOptions"
                                                required
                                                placeholder="Server name and instant name, e.g SERVER001\MYINST"
                                                class="form-control" id="path">
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="location-filter" class="col-lg-3 control-label">Database</label>
-                                    <div class="col-lg-6">
-                                        <input type="text" data-bind="value: Database"
-                                               required
-                                               placeholder="Database name"
-                                               class="form-control" id="location-filter">
+                                    <div class="col-lg-1">
+                                        <i class="fa fa-spin fa-circle-o-notch" data-bind="visible:$root.isBusy"></i>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-3 col-md-6">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input data-bind="checked: Trusted" id="trusted-connection" type="checkbox" name="Trusted" />
+                                                Trusted connection
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <label for="location-userid" class="col-lg-3 control-label">User Name</label>
                                     <div class="col-lg-6">
@@ -67,19 +109,66 @@
                                                class="form-control" id="location-password">
                                     </div>
                                 </div>
-
-
                                 <div class="form-group">
-                                    <div class="col-md-offset-2 col-md-6">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input data-bind="checked: IsActive" id="location-active" type="checkbox" name="IsActive" />
-                                                Active
-                                            </label>
-                                        </div>
+                                    <label for="location-filter" class="col-lg-3 control-label">Database</label>
+                                    <div class="col-lg-6">
+                                        <input type="text" data-bind="value: Database"
+                                               required
+                                               placeholder="Database name"
+                                               class="form-control" id="location-filter">
                                     </div>
                                 </div>
 
+                            </form>
+                        </div>
+
+                        <div id="location-polling" class="tab-pane">
+                            <form class="form-horizontal" data-bind="with : Polling">
+                                <div class="form-group">
+                                    <label for="location-polling-interval" class="col-lg-2 control-label">Interval</label>
+                                    <div class="col-lg-6">
+                                        <input type="number" data-bind="value: Interval"
+                                               required
+                                               placeholder="Polling interval in ms"
+                                               class="form-control" id="location-polling-interval">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="polling-query" class="col-lg-2 control-label">Query</label>
+                                    <div class="col-lg-9">
+                                        <textarea class="form-control" id="polling-query" rows="4" data-bind="value :Query" placeholder="Query wathers"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="test-query" class="col-lg-2 control-label">Test Query</label>
+                                    <div class="col-lg-6">
+                                        <a href="javascript:;" id="polling-test-query" class="btn btn-default">
+                                            <i class="fa fa-exclamation"></i>
+                                            Execute
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div id="location-query" class="tab-pane">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="query" class="col-lg-2 control-label">Query</label>
+                                    <div class="col-lg-9">
+                                        <textarea class="form-control" id="query" rows="4" data-bind="value :Query" placeholder="Query wathers"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="test-query" class="col-lg-2 control-label">Test Query</label>
+                                    <div class="col-lg-6">
+                                        <a href="javascript:;" id="test-query" class="btn btn-default">
+                                            <i class="fa fa-exclamation"></i>
+                                            Execute
+                                        </a>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                         <div id="location-endpoints" class="tab-pane">
@@ -87,8 +176,7 @@
                                 <div class="form-group">
                                     <label for="validation-endpoint" class="col-lg-3 control-label">Validation endpoint</label>
                                     <div class="col-lg-6">
-                                        <select class="form-control" id="validation-endpoint" data-bind="value:ValidationEndpoint, options: $root.endpointOptions, optionsCaption : '', optionsText : 'Name', optionsValue :'Id'">
-                                        </select>
+                                        <select class="form-control" id="validation-endpoint" data-bind="value:ValidationEndpoint, options: $root.endpointOptions, optionsCaption : '', optionsText : 'Name', optionsValue :'Id'"></select>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -107,8 +195,7 @@
                                 <div class="form-group">
                                     <label for="submit-endpoint" class="col-lg-3 control-label">Submit endpoint</label>
                                     <div class="col-lg-6">
-                                        <select required class="form-control" id="submit-endpoint" data-bind="value:SubmitEndpoint, options: $root.endpointOptions, optionsCaption : '', optionsText : 'Name', optionsValue :'Id'">
-                                        </select>
+                                        <select required class="form-control" id="submit-endpoint" data-bind="value:SubmitEndpoint, options: $root.endpointOptions, optionsCaption : '', optionsText : 'Name', optionsValue :'Id'"></select>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -127,8 +214,7 @@
                                 <div class="form-group">
                                     <label for="invalid-endpoint" class="col-lg-3 control-label">Invalid endpoint</label>
                                     <div class="col-lg-6">
-                                        <select class="form-control" id="invalid-endpoint" data-bind="value:InvalidEndpoint, options: $root.endpointOptions, optionsCaption : '', optionsText : 'Name', optionsValue :'Id'">
-                                        </select>
+                                        <select class="form-control" id="invalid-endpoint" data-bind="value:InvalidEndpoint, options: $root.endpointOptions, optionsCaption : '', optionsText : 'Name', optionsValue :'Id'"></select>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -147,8 +233,7 @@
                                 <div class="form-group">
                                     <label for="error-endpoint" class="col-lg-3 control-label">Error endpoint</label>
                                     <div class="col-lg-6">
-                                        <select class="form-control" id="error-endpoint" data-bind="value:ErrorEndpoint, options: $root.endpointOptions, optionsCaption : '', optionsText : 'Name', optionsValue :'Id'">
-                                        </select>
+                                        <select class="form-control" id="error-endpoint" data-bind="value:ErrorEndpoint, options: $root.endpointOptions, optionsCaption : '', optionsText : 'Name', optionsValue :'Id'"></select>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -174,7 +259,7 @@
                                     <label for="location-jwt-token" class="col-lg-3 control-label">API Token</label>
                                     <div class="col-lg-9">
                                         <input type="text" data-bind="value: JwtToken"
-                                               required 
+                                               required
                                                placeholder="API token to call the submit API"
                                                class="form-control" id="location-jwt-token">
                                     </div>

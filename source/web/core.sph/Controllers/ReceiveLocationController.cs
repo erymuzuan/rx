@@ -232,6 +232,7 @@ namespace Bespoke.Sph.Web.Controllers
         [HttpGet]
         public IHttpActionResult GetStatusAsync(string id)
         {
+            var running = false;
             var context = new SphDataContext();
             var location = context.LoadOneFromSources<ReceiveLocation>(x => x.Id == id);
             var op = new ConnectionOptions
@@ -239,27 +240,35 @@ namespace Bespoke.Sph.Web.Controllers
                 Username = "",
                 Password = ""
             };
-            var running = false;
-            var svClocation =Environment.GetEnvironmentVariable("COMPUTERNAME");
+            var svClocation = Environment.GetEnvironmentVariable("COMPUTERNAME");
             var scope = new ManagementScope(svClocation + @"\root\cimv2", op);
-            scope.Connect();
-            var path = new ManagementPath("Win32_Service");
-            var services = new ManagementClass(scope, path, null);
-            foreach (var o in services.GetInstances())
+            try
             {
-                var service = (ManagementObject) o;
-                if (service.GetPropertyValue("Name").ToString().ToLower().Equals($"RxLocation{location.Name}"))
+                scope.Connect();
+                var path = new ManagementPath("Win32_Service");
+                var services = new ManagementClass(scope, path, null);
+                foreach (var o in services.GetInstances())
                 {
-                    if (service.GetPropertyValue("State").ToString().ToLower().Equals("running"))
+                    var service = (ManagementObject)o;
+                    var name = service.GetPropertyValue("Name").ToEmptyString();
+                    var state = service.GetPropertyValue("State").ToEmptyString();
+                    if (name.Equals($"RxLocation{location.Name}", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        //do something
-                        running = true;
-                    }
-                    else
-                    {
-                        //do something
+                        if (state.Equals("running", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            //do something
+                            running = true;
+                        }
+                        else
+                        {
+                            //do something
+                        }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                ObjectBuilder.GetObject<ILogger>().Log(new LogEntry(e));
             }
             return Json(running);
         }
