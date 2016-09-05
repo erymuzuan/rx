@@ -117,16 +117,11 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Label Grid.Row="1" Grid.Column="0">Application Name</Label>
-                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ApplicationName}"></TextBox>
+                    <TextBox Grid.Row="1" Grid.Column="1" x:Name="environmentValues"  IsReadOnly="True"></TextBox>
                 </Grid>
             </TabItem>
         </TabControl>

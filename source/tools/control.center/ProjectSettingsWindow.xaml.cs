@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Bespoke.Sph.ControlCenter.ViewModel;
@@ -21,6 +22,22 @@ namespace Bespoke.Sph.ControlCenter
             var list = await LoadSqlLocaldbInstances();
             m_sqlLocaldbInstances.Clear();
             list.ToList().ForEach(x => m_sqlLocaldbInstances.Add(x));
+            LoadEnvironments();
+        }
+
+        private void LoadEnvironments()
+        {
+            var variables = System.Environment.GetEnvironmentVariables();
+
+            var sb = new StringBuilder();
+            foreach (var v in variables.Keys)
+            {
+                var key = $"{v}";
+                if (key.StartsWith("RX_"))
+                    sb.AppendLine($"{v} = {variables[v]}");
+            }
+
+            environmentValues.Text = sb.ToString();
         }
 
         private Task<string[]> LoadSqlLocaldbInstances()
