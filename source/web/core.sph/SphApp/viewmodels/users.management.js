@@ -119,13 +119,16 @@ define([objectbuilders.datacontext, "services/logger", objectbuilders.dialog, ob
                 .done(function (dialogResult) {
                     if (dialogResult === "Yes") {
 
-                        const tasks = selectedUsers().map(v => context.sendDelete(`/admin/lock/${ko.unwrap(v.UserName)}`));
+                        const tasks = selectedUsers().map(v => context.post(ko.mapping.toJSON(v), `/admin/lock/${ko.unwrap(v.UserName)}`));
                         $.when(tasks).done(function (result) {
                             if (result.success) {
                                 logger.info(`Selected users has been successfully locked`);
                                 selectedUsers.forEach(v => profiles.remove(v));
+                                tcs.resolve(true);
                             }
                         });
+                    } else {
+                        tcs.resolve(false);
                     }
                 });
 
@@ -137,12 +140,16 @@ define([objectbuilders.datacontext, "services/logger", objectbuilders.dialog, ob
                 .done(function (dialogResult) {
                     if (dialogResult === "Yes") {
 
-                        const tasks = selectedUsers().map(v => context.sendDelete(`/admin/unlock/${ko.unwrap(v.UserName)}`));
-                        $.when(tasks).done(function (result) {
-                            if (result.success) {
-                                logger.info(`Selected users has been successfully unlocked`);
-                            }
-                        });
+                        const tasks = selectedUsers().map(v => context.post(ko.mapping.toJSON(v),`/admin/unlock/${ko.unwrap(v.UserName)}`));
+                        $.when(tasks)
+                            .done(function(result) {
+                                if (result.success) {
+                                    logger.info(`Selected users has been successfully unlocked`);
+                                    tcs.resolve(true);
+                                }
+                            });
+                    } else {
+                        tcs.resolve(false);
                     }
                 });
 
@@ -154,13 +161,18 @@ define([objectbuilders.datacontext, "services/logger", objectbuilders.dialog, ob
                 .done(function(dialogResult) {
                     if (dialogResult === "Yes") {
 
-                        const tasks = selectedUsers().map(v => context.sendDelete(`/admin/RemoveUser/${ko.unwrap(v.UserName)}`));
-                        $.when(tasks).done(function(result) {
-                            if (result.success) {
-                                logger.info(`Selected users has been successfully removed`);
-                                selectedUsers.forEach(v => profiles.remove(v));
-                            }
-                        });
+                        const tasks = selectedUsers()
+                            .map(v => context.sendDelete(`/admin/RemoveUser/${ko.unwrap(v.UserName)}`));
+                        $.when(tasks)
+                            .done(function(result) {
+                                if (result.success) {
+                                    logger.info(`Selected users has been successfully removed`);
+                                    selectedUsers.forEach(v => profiles.remove(v));
+                                    tcs.resolve(true);
+                                }
+                            });
+                    } else {
+                        tcs.resolve(false);
                     }
                 });
 

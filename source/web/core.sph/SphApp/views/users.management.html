@@ -64,15 +64,15 @@
                         <i class="fa fa-plus-circle"></i>
                         Add a user
                     </a>
-                    <button class="btn btn-default" data-bind="enable : $root.selectedUsers().length">
+                    <button class="btn btn-default" data-bind="command : $root.lockUsers, enable : $root.selectedUsers().length">
                         <i class="fa fa-lock"></i>
                         Lock
                     </button>
-                    <button class="btn btn-default" data-bind="enable : $root.selectedUsers().length">
+                    <button class="btn btn-default" data-bind="command : $root.unlockUsers, enable : $root.selectedUsers().length">
                         <i class="fa fa-unlock"></i>
                         Unlock
                     </button>
-                    <button class="btn btn-danger" data-bind="enable : $root.selectedUsers().length, click : removeUsers">
+                    <button class="btn btn-danger" data-bind="enable : $root.selectedUsers().length, command : removeUsers">
                         <i class="fa fa-minus-circle" style="margin-right: 5px"></i>
                         Remove
                     </button>
