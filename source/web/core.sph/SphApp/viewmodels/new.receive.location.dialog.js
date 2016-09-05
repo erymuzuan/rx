@@ -32,7 +32,8 @@ define(["plugins/dialog", objectbuilders.datacontext],
                         Name: ko.observable("Select your receive location type"),
                         BootstrapIcon: ko.observable(),
                         PngIcon: ko.observable(),
-                        FontAwesomeIcon: ko.observable("plus")
+                        FontAwesomeIcon: ko.observable("plus"),
+                        FriendlyName : ko.observable("Select your receive location type")
                     }
                 });
                 var tcs = new $.Deferred();
@@ -81,7 +82,16 @@ define(["plugins/dialog", objectbuilders.datacontext],
             },
             selectLocation = function (item) {
                 selectedItem(item);
-            };
+            },
+            dialogOk = ko.computed(function () {
+                const t = ko.unwrap(selectedItem);
+                if (!t) return false;
+                if (!ko.unwrap(t.designer)) return false;
+                if (ko.unwrap(t.designer.FriendlyName) === "Select your receive location type") return false;
+                if (!ko.unwrap(name)) return false;
+                if (!ko.unwrap(port)) return false;
+                return true;
+            });
 
         const vm = {
             name: name,
@@ -97,6 +107,7 @@ define(["plugins/dialog", objectbuilders.datacontext],
             attached: attached,
             activate: activate,
             okClick: okClick,
+            dialogOk : dialogOk,
             cancelClick: cancelClick,
             selectedItem: selectedItem,
             selectLocation : selectLocation
