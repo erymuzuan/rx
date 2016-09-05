@@ -20,16 +20,21 @@
                 <table class="table table-striped" data-bind="serverPaging: { entity: 'UserProfile', list: profiles, map: map },filter : {path:'tbody>tr'}">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>UserName</th>
                             <th>Full name</th>
                             <th>Department</th>
                             <th>Designation</th>
                             <th>Email</th>
+                            <th>Locked</th>
                             <th>Password</th>
                         </tr>
                     </thead>
                     <tbody data-bind="foreach: profiles">
                         <tr>
+                            <td>
+                                <input type="checkbox" data-bind="checked : $root.selectedUsers, value:$data" />
+                            </td>
                             <td>
                                 <a href="javascript:;" data-bind="click: $root.editCommand">
                                     <i class="fa fa-user"></i>
@@ -43,15 +48,35 @@
                             <td data-bind="text: Designation"></td>
                             <td data-bind="text: Email"></td>
                             <td>
+                                <i class="fa fa-lock" data-bind="visible:IsLockedOut"></i>
+                            </td>
+                            <td>
                                 <a href="javascript:;" data-bind="click: $root.resetPasswordCommand">Reset</a>
                             </td>
+
                         </tr>
                     </tbody>
                 </table>
-                <a href="#" class="btn btn-link" data-bind="click : add">
-                    <i class="fa fa-plus-circle"></i>
-                    Add a user
-                </a>
+                <div style="height: 40px"></div>
+                <div class="row">
+
+                    <a href="#" class="btn btn-link" data-bind="click : add">
+                        <i class="fa fa-plus-circle"></i>
+                        Add a user
+                    </a>
+                    <button class="btn btn-default" data-bind="command : $root.lockUsers, enable : $root.selectedUsers().length">
+                        <i class="fa fa-lock"></i>
+                        Lock
+                    </button>
+                    <button class="btn btn-default" data-bind="command : $root.unlockUsers, enable : $root.selectedUsers().length">
+                        <i class="fa fa-unlock"></i>
+                        Unlock
+                    </button>
+                    <button class="btn btn-danger" data-bind="enable : $root.selectedUsers().length, command : removeUsers">
+                        <i class="fa fa-minus-circle" style="margin-right: 5px"></i>
+                        Remove
+                    </button>
+                </div>
             </div>
         </div>
         <div id="designation-tab" class="tab-pane ">
