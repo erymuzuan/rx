@@ -92,6 +92,7 @@
     <Compile Include="SqlOperationDefinition.cs" />
     <Compile Include="SqlOperationFactory.cs" />
     <Compile Include="SqlServerAdapter.metadata.cs" />
+    <Compile Include="SqlServerReceiveLocation.cs" />
     <Compile Include="TableValuedFunction.cs" />
     <Compile Include="ThreeWayBoolean.cs" />
     <EmbeddedResource Include="OdataSqlTranslator.cs" />

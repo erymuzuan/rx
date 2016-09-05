@@ -3518,7 +3518,6 @@ bespoke.sph.domain.ReceiveLocation = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ReceiveLocation, domain.sph",
-
         Id: ko.observable("0"),
         Name: ko.observable(""),
         IsActive: ko.observable(false),

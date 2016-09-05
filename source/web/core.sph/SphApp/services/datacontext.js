@@ -23,7 +23,7 @@ function (logger, system, ko2) {
 
             var $typeFieldValue = ko.unwrap(item.$type),
                 observableObject = {
-                    "$type" : $typeFieldValue
+                    "$type": $typeFieldValue
                 },
                 pattern = /Bespoke\..*?\..*?\.(.*?),/,
                 type = "",
@@ -37,11 +37,22 @@ function (logger, system, ko2) {
                     return item;
                 }
             }
-            if(typeof bespoke.sph.domain[type] === "function"){
-                observableObject = new bespoke.sph.domain[type](item);
-            }else{
-                observableObject = {};
+
+            var typeNames = type.split("."),
+                root = bespoke.sph.domain,
+                Ctor = function(){};
+
+            while (typeNames.length > 0) {
+                root = root[typeNames.splice(0, 1)];
+                if (typeof root === "undefined") {
+                    Ctor = function (){};
+                    break;
+                }
+                Ctor = root;
             }
+            observableObject = new Ctor(item);
+
+
             for (var name in item) {
                 (function (prop) {
 
@@ -59,7 +70,7 @@ function (logger, system, ko2) {
 
                     if (_propertyValue.isNumber() || _propertyValue.isNull() || _propertyValue.isNaN() ||
                         _propertyValue.isDate() || _propertyValue.isBoolean() || _propertyValue.isString()) {
-                        if(!observableObject[prop]){
+                        if (!observableObject[prop]) {
                             observableObject[prop] = ko.observable(item[prop]);
                         }
                         return;
@@ -172,7 +183,7 @@ function (logger, system, ko2) {
         return tcs.promise();
     }
 
-    function sendDelete( url) {
+    function sendDelete(url) {
 
         var tcs = new $.Deferred();
         $.ajax({

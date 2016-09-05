@@ -240,7 +240,7 @@ namespace Bespoke.Sph.Web.Controllers
                 Password = ""
             };
             var running = false;
-            var svClocation =Environment.GetEnvironmentVariable("COMPUTERNANE");
+            var svClocation =Environment.GetEnvironmentVariable("COMPUTERNAME");
             var scope = new ManagementScope(svClocation + @"\root\cimv2", op);
             scope.Connect();
             var path = new ManagementPath("Win32_Service");
