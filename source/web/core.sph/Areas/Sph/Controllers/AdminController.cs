@@ -80,6 +80,59 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Content(JsonConvert.SerializeObject(true));
 
         }
+        [HttpPost]
+        public async Task<ActionResult> Unlock(UserProfile profile)
+        {
+            var id = profile.Id;
+            var em = Membership.GetUser(id);
+            if (null == em) return HttpNotFound($"User '{id}' does not exist");
+            if (em.IsLockedOut)
+            {
+                em.UnlockUser();
+            }
+            em.IsApproved = true;
+            Membership.UpdateUser(em);
+
+
+            await ObjectBuilder.GetObject<ILogger>().LogAsync(new LogEntry { Severity = Severity.Log, Message = $"User {id} was succesfully unlocked" });
+            return Json(new { success = true, status = "Deleted" });
+        }
+        [HttpPost]
+        public async Task<ActionResult> Lock(UserProfile profile)
+        {
+            var id = profile.Id;
+            var user = Membership.GetUser(id);
+            if (null == user) return HttpNotFound($"User '{id}' does not exist");
+            for (var i = 0; i < Membership.MaxInvalidPasswordAttempts; i++)
+            {
+                Membership.ValidateUser(user.UserName, Guid.NewGuid().ToString());
+            }
+
+            user.IsApproved = false;
+            Membership.UpdateUser(user);
+
+
+            await ObjectBuilder.GetObject<ILogger>().LogAsync(new LogEntry { Severity = Severity.Log, Message = $"User {id} was succesfully locked" });
+            return Json(new { success = true, status = "Locked" });
+        }
+        [HttpDelete]
+        public async Task<ActionResult> RemoveUser(string id)
+        {
+            var context = new SphDataContext();
+            var em = Membership.DeleteUser(id);
+            if (!em) return HttpNotFound($"User '{id}' does not exist");
+
+            var profile = await context.LoadOneAsync<UserProfile>(x => x.UserName == id);
+            using (var session = context.OpenSession())
+            {
+                session.Delete(profile);
+                await session.SubmitChanges("RemoveUser");
+            }
+
+            await ObjectBuilder.GetObject<ILogger>()
+                  .LogAsync(new LogEntry { Severity = Severity.Log, Message = $"User '{id}' was succesfully deleted" });
+            return Json(new { success = true, status = "Deleted" });
+        }
 
         public async Task<ActionResult> AddUser(Profile profile)
         {
@@ -132,7 +185,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         /// <returns>true if the password meets the req. complexity</returns>
         public ActionResult CheckPasswordComplexity(string password)
         {
-            var result =  CheckPasswordComplexity(Membership.Provider, password);
+            var result = CheckPasswordComplexity(Membership.Provider, password);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
