@@ -108,7 +108,7 @@ namespace Bespoke.Sph.ControlCenter
             Console.WriteLine(Properties.Resources.ControlPanelIsReady);
             outputTextBox.TextChanged += OutputTextBoxTextChanged;
 
-            this.Title += " : " + vm.Settings.ApplicationName;
+            this.Title += $" : {vm.Settings.ApplicationName}({vm.Settings.Home})";
             this.KeyDown += MainWindow_KeyDown;
 
         }
