@@ -78,9 +78,9 @@ namespace Bespoke.Sph.Domain
                 ");
             }
 
-            code.AppendLine($@"
-                var placeHolder = new string('x', 15);
-                {port.Entity} record = null;");
+            if(!string.IsNullOrWhiteSpace(this.EscapeCharacter))
+                code.AppendLine("var placeHolder = new string('x', 15);");
+            code.AppendLine($@"{port.Entity} record = null;");
             var normalized = "var normalized = line;";
             if (!string.IsNullOrWhiteSpace(this.EscapeCharacter))
                 normalized = $@"
@@ -104,6 +104,7 @@ namespace Bespoke.Sph.Domain
             else
             {
                 code.AppendLine($@"
+                foreach(var line in lines)
                 {{
                     {normalized}
                     yield return engine.ReadString(normalized)[0];  

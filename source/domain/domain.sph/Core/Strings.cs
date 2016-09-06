@@ -53,6 +53,8 @@ namespace Bespoke.Sph.Domain
         }
         public static string ToVerbatim(this string text)
         {
+            if (string.IsNullOrEmpty(text))
+                return "string.Empty";
             return $@"@""{ text.Replace("\"", "\"\"")}""";
         }
         public static string ToCsharpIdentitfier(this string text)

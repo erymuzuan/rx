@@ -70,7 +70,7 @@ namespace Bespoke.Sph.Domain
                 if (this.Type == typeof(string))
                     code.AppendLine($@"        return {Name}Raw;");
                 if (this.Type == typeof(DateTime))
-                    code.AppendLine($@"        return DateTime.ParseExact({Name}Raw,{m_fieldMapping.Converter.ToVerbatim()}  System.Globalization.CultureInfo.InvariantCulture)");
+                    code.AppendLine($@"        return DateTime.ParseExact({Name}Raw,{m_fieldMapping.Converter.ToVerbatim()}, System.Globalization.CultureInfo.InvariantCulture);");
 
                 // TODO : parse according to format
                 if (this.Type == typeof(int))
