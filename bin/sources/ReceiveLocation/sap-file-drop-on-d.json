@@ -1,0 +1,30 @@
+{
+  "$type": "Bespoke.Sph.Domain.FolderReceiveLocation, domain.sph",
+  "Path": "d:\\temp\\sap-drop",
+  "CredentialUserName": null,
+  "ChangeExtension": true,
+  "CredentialPassword": null,
+  "Filter": "*.txt",
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "SapFileDropOnD",
+  "IsActive": true,
+  "ValidationEndpoint": null,
+  "ValidationMethod": "",
+  "SubmitEndpoint": "sap-fi-account-default",
+  "SubmitMethod": "POST",
+  "InvalidEndpoint": null,
+  "InvalidMethod": "",
+  "ErrorEndpoint": null,
+  "ErrorMethod": "",
+  "JwtToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYWRtaW4iLCJyb2xlcyI6WyJhZG1pbmlzdHJhdG9ycyIsImRldmVsb3BlcnMiXSwiZW1haWwiOjE0NzU4ODQ4MDAsInN1YiI6IjllY2U5YTZmLTc0MzAtNGIwYi04NjRmLWM0OWZiYjY4ODhjMyIsIm5iZiI6MTQ4ODc4NDEwNSwiaWF0IjoxNDczMTQ1NzA1LCJleHAiOjE0NzU4ODQ4MDAsImF1ZCI6IkRldlYxIn0.yDvJIdE35EjCYyB03zDFGcA8SAVYet6WkDCutXrafzg",
+  "ReceivePort": "sap-financial-account-update",
+  "CreatedBy": "admin",
+  "Id": "sap-file-drop-on-d",
+  "CreatedDate": "2016-09-06T15:07:34.2113742+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-09-06T15:20:24.1251245+08:00",
+  "WebId": "2ec9e7fb-274a-47c0-993e-f419015468f0"
+}

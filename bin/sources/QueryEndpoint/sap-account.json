@@ -1,0 +1,31 @@
+{
+  "$type": "Bespoke.Sph.Domain.QueryEndpoint, domain.sph",
+  "ControllerName": "SapFiAccountSapAccountQueryEndpoint",
+  "FilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "SortCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "MemberCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": []
+  },
+  "CacheProfile": "",
+  "Name": "sap account",
+  "Route": "",
+  "IsReturnSource": "",
+  "Entity": "SapFiAccount",
+  "Note": "",
+  "IsPublished": true,
+  "Resource": "sap-fi-accounts",
+  "CacheFilter": null,
+  "CreatedBy": "admin",
+  "Id": "sap-account",
+  "CreatedDate": "2016-09-06T15:22:08.7905143+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-09-06T15:22:46.0081631+08:00",
+  "WebId": "275e0fa9-a97a-457f-97d3-c89a0bf54928"
+}

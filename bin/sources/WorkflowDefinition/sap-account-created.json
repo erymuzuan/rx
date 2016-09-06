@@ -1,0 +1,254 @@
+{
+  "$type": "Bespoke.Sph.Domain.WorkflowDefinition, domain.sph",
+  "ActivityCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Activity, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ReceiveActivity, domain.sph",
+        "PortType": null,
+        "Operation": null,
+        "MessagePath": null,
+        "CancelMessageBody": null,
+        "CancelMessageSubject": null,
+        "InitializingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": []
+        },
+        "FollowingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": []
+        },
+        "CorrelationPropertyCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationProperty, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Performer": {
+          "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+          "UserProperty": null,
+          "Value": null,
+          "IsPublic": false,
+          "WebId": null
+        },
+        "IsAsync": true,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Receive",
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 387,
+          "Y": 113,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "999ce9bf-b3d5-4476-87c9-5622a057492f",
+        "Name": "Receive_0",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "ee042235-9aec-40d1-e2fd-1afb0465640a"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SendActivity, domain.sph",
+        "PortType": null,
+        "Adapter": "Bespoke.DevV1.Adapters.EnttSnbAccountAdapter.AccountAdapter",
+        "Method": "InsertAsync",
+        "AdapterAssembly": "DevV1.EnttSnbAccountAdapter",
+        "IsSynchronous": false,
+        "ArgumentPath": "SnbAccount",
+        "ReturnValuePath": "AccountId",
+        "ExceptionFilterCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ExceptionFilter, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "InitializingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": []
+        },
+        "FollowingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": []
+        },
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Send",
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 595,
+          "Y": 466,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "a10bbe97-74f7-43ed-f9c8-a6e65c632c8a",
+        "Name": "AddAccount",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "6226428b-d049-46cc-edf0-da9e3638a399"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.EndActivity, domain.sph",
+        "IsTerminating": false,
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "End",
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 311,
+          "Y": 706,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": null,
+        "Name": "End_2",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "739e3a93-3304-41f7-f689-17a3fd8c16df"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.MappingActivity, domain.sph",
+        "MappingDefinition": "DevV1.Integrations.Transforms.SnbRegistrationToAccount",
+        "DestinationType": null,
+        "OutputPath": "SnbAccount",
+        "MappingSourceCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MappingSource, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.MappingSource, domain.sph",
+              "TypeName": "",
+              "Variable": "SnbRegistration",
+              "WebId": "Input Path"
+            }
+          ]
+        },
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Mapping",
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 332,
+          "Y": 357,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "6226428b-d049-46cc-edf0-da9e3638a399",
+        "Name": "RegistrationToAccount",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "999ce9bf-b3d5-4476-87c9-5622a057492f"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SendActivity, domain.sph",
+        "PortType": null,
+        "Adapter": "Bespoke.DevV1.Adapters.EnttSnbAccountAdapter.AccountPickupLocationAdapter",
+        "Method": "InsertAsync",
+        "AdapterAssembly": "DevV1.EnttSnbAccountAdapter",
+        "IsSynchronous": false,
+        "ArgumentPath": "SnbAccount",
+        "ReturnValuePath": null,
+        "ExceptionFilterCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ExceptionFilter, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "InitializingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": []
+        },
+        "FollowingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": []
+        },
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Send",
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 775,
+          "Y": 682,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "739e3a93-3304-41f7-f689-17a3fd8c16df",
+        "Name": "AddPickupLocation",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "a10bbe97-74f7-43ed-f9c8-a6e65c632c8a"
+      }
+    ]
+  },
+  "VariableDefinitionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Variable, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ClrTypeVariable, domain.sph",
+        "Assembly": "",
+        "CanInitiateWithDefaultConstructor": true,
+        "Name": "SnbRegistration",
+        "TypeName": "Bespoke.DevV1.Adapters.EnttSnbAccountAdapter.Registration, DevV1.EnttSnbAccountAdapter",
+        "DefaultValue": "",
+        "WebId": "fb009134-5b84-4c02-c2f0-bed61e0d171b"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ClrTypeVariable, domain.sph",
+        "Assembly": "",
+        "CanInitiateWithDefaultConstructor": true,
+        "Name": "SnbAccount",
+        "TypeName": "Bespoke.DevV1.Adapters.EnttSnbAccountAdapter.Account, DevV1.EnttSnbAccountAdapter",
+        "DefaultValue": "",
+        "WebId": "3feb6dff-03f6-47e3-c88c-1e16bd411c77"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ClrTypeVariable, domain.sph",
+        "Assembly": "",
+        "CanInitiateWithDefaultConstructor": true,
+        "Name": "Account",
+        "TypeName": "Bespoke.DevV1.SapFiAccounts.Domain.SapFiAccount, DevV1.SapFiAccount",
+        "DefaultValue": "",
+        "WebId": "287ce389-9ac7-4141-ae80-6239c3549fb9"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleVariable, domain.sph",
+        "Name": "RegistrationId",
+        "TypeName": "System.String, mscorlib",
+        "DefaultValue": "",
+        "WebId": "071d961f-36a7-41ba-9584-b92fd67cccc3"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleVariable, domain.sph",
+        "Name": "AccountId",
+        "TypeName": "System.String, mscorlib",
+        "DefaultValue": "",
+        "WebId": "2a9c43f2-1b31-4ff2-e2ac-1b9c9a1d7f09"
+      }
+    ]
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "CorrelationSetCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationSet, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "CorrelationTypeCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationType, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "TryScopeCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TryScope, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "Sap Account created",
+  "Note": "",
+  "IsActive": false,
+  "SchemaStoreId": "03a2b709-0454-45ad-ae27-5ecc839470f2",
+  "Version": 1,
+  "WorkflowTypeName": "SapAccountCreatedWorkflow",
+  "CreatedBy": "admin",
+  "Id": "sap-account-created",
+  "CreatedDate": "2016-09-06T15:23:58.9984359+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-09-06T15:44:18.8874097+08:00",
+  "WebId": "61d9f0b7-cf66-474a-8ef5-fbed4f46774c"
+}
