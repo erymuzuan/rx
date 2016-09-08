@@ -78,7 +78,7 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         public string AssemblyName => $"{ConfigurationManager.ApplicationName}.ReceivePort.{TypeName}.dll";
         [JsonIgnore]
-        public string PdbName => $"{ConfigurationManager.ApplicationName}.ReceivePort.{TypeName}.pdb";
+        public string PdbName =>      $"{ConfigurationManager.ApplicationName}.ReceivePort.{TypeName}.pdb";
         [JsonIgnore]
         public string TypeName => Name.ToPascalCase();
         [JsonIgnore]

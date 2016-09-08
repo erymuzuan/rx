@@ -6,7 +6,7 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 
-define(["services/new-item", "services/datacontext", objectbuilders.logger], function (addItemService, context, logger) {
+define(["services/new-item", "services/datacontext", objectbuilders.logger, objectbuilders.app], function (addItemService, context, logger, app) {
 
     const list = ko.observableArray(),
         errors = ko.observableArray(),
@@ -128,14 +128,49 @@ define(["services/new-item", "services/datacontext", objectbuilders.logger], fun
                 });
         },
         removeLocations = function () {
-            
+            const tcs = new $.Deferred();
+
+            app.showMessage("Are you sure you want to remove these Receive Locations", "Rx Developer", ["Yes", "No"])
+                .done(function(dialogResult) {
+                    if (dialogResult === "Yes") {
+
+                        const tasks = selectedLocations()
+                            .map(v => context.sendDelete(`/receive-locations/${ko.unwrap(v.Id)}`));
+
+                        $.when.apply($, tasks)
+                            .done(function() {
+                                selectedLocations().forEach(v => list.remove(v));
+                                tcs.resolve(true);
+                            });
+                    } else {
+                        tcs.resolve(false);
+                    }
+                });
+
+            return tcs.promise();
         },
-        pacakge = function() {
-            
+        package = function (location) {
+            isBusy(true);
+            return context.get( `/receive-locations/${ko.unwrap(location.Id)}/package`)
+                .then(function (result) {
+                    isBusy(false);
+                    if (result.success) {
+                        logger.info(result.message);
+                        errors.removeAll();
+                    } else {
+
+                        errors(result.Errors);
+                        logger.error("There are errors in your receive location, !!!");
+                    }
+                });
         },
         packageLocations = function () {
+            const tcs = new $.Deferred(),
+                tasks = selectedLocations().map(package);
 
-            
+            $.when(tasks).done(function () { tcs.resolve(true) });
+
+            return tcs.promise();
         },
         compileLocations = function () {
             const tcs = new $.Deferred(),
@@ -154,7 +189,7 @@ define(["services/new-item", "services/datacontext", objectbuilders.logger], fun
         edit: edit,
         start: start,
         stop: stop,
-        pacakge: pacakge,
+        package: package,
         publish: publish,
         map: map,
         selectedLocations: selectedLocations,

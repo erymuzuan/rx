@@ -42,9 +42,6 @@
                 <input type="checkbox" data-bind="checked : $root.selectedLocations, value:$data" />
             </td>
             <td>
-
-
-
                 <div class="btn-group">
                     <a title="Click to specify your value" class="btn btn-link dropdown dropdown-toggle" href="javascript:;" data-toggle="dropdown">
 
@@ -89,6 +86,12 @@
                                 Properties
                             </a>
                         </li>
+                        <li>
+                            <a data-bind="attr :{href :'/receive-locations/' + ko.unwrap(Id) + '/package', download: ko.unwrap(Name) + '.zip'}" href="javascript:;">
+                                <i class="fa fa-download"></i>
+                                Download package
+                            </a>
+                        </li>
                         <li class="seperator">
                             <hr />
                         </li>
@@ -119,20 +122,10 @@
             </td>
         </tr>
     </tbody>
-
-
 </table>
 <div style="height: 40px"></div>
 <div class="row">
 
-    <button class="btn btn-default" data-bind="command : $root.packageLocations, enable : $root.selectedLocations().length">
-        <i class="fa fa-file-archive-o"></i>
-        Package
-    </button>
-    <button class="btn btn-default" data-bind="command : $root.compileLocations, enable : $root.selectedLocations().length">
-        <i class="fa fa-gear"></i>
-        Compile
-    </button>
     <button class="btn btn-danger" data-bind="enable : $root.selectedLocations().length, command : removeLocations">
         <i class="fa fa-minus-circle" style="margin-right: 5px"></i>
         Remove

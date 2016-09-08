@@ -160,7 +160,7 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         public string AssemblyName => $"{ConfigurationManager.ApplicationName}.ReceiveLocation.{TypeName}{AssemblyExtension}";
         [JsonIgnore]
-        public string PdbName => $"{ConfigurationManager.ApplicationName}.ReceiveLocation.{TypeName}.{Id}.pdb";
+        public string PdbName =>      $"{ConfigurationManager.ApplicationName}.ReceiveLocation.{TypeName}.pdb";
         [JsonIgnore]
         public string TypeName => Name.ToPascalCase();
         [JsonIgnore]
