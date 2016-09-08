@@ -17,47 +17,10 @@ namespace Bespoke.Sph.Domain
         }
         public override string GeneratedCode(string padding = "      ")
         {
-            string kind;
-            /*
-    None,
-    Date,
-    Boolean,
-    Byte,
-    Int16,
-    Int32,
-    Int64,
-    Decimal,
-    Double,
-    PercentDouble,
-    Single,
-    SByte,
-    UInt16,
-    UInt32,
-    UInt64,
-    DateMultiFormat,
-    Char,
-    Guid,*/
-            switch (this.TypeName)
-            {
-                case "System.DateTime, mscorlib":
-                    kind = "Date"; break;
-                case "System.Int32, mscorlib":
-                    kind = "Int"; break;
-                case "System.Decimal, mscorlib":
-                    kind = "Decimal"; break;
-                case "System.Boolean, mscorlib":
-                    kind = "Boolean"; break;
-                default:
-                    kind = "None";
-                    break;
-            }
-
             var type = this.Type.ToCSharp() + this.GetNullable();
             var rawType = this.IsNullable ? "string" : this.Type.ToCSharp();
 
             var code = new StringBuilder();
-            if (!string.IsNullOrWhiteSpace(m_fieldMapping.Converter))
-                code.AppendLine($@"[FieldConverter(ConverterKind.{kind}, ""{m_fieldMapping.Converter}"")]");
             code.AppendLine($@"{padding}[JsonIgnore]");
             code.AppendLine($@"{padding}public {rawType} {Name}Raw;");
             code.Append($@"{padding}public {type} {Name}");
