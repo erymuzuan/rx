@@ -10,6 +10,7 @@ define(["services/new-item", "services/datacontext", objectbuilders.logger], fun
 
     const list = ko.observableArray(),
         errors = ko.observableArray(),
+        selectedLocations = ko.observableArray(),
         portOptions = ko.observableArray(),
         entityOptions = ko.observableArray(),
         options = ko.observableArray(),
@@ -125,6 +126,24 @@ define(["services/new-item", "services/datacontext", objectbuilders.logger], fun
                         logger.error("There are errors in your receive location, !!!");
                     }
                 });
+        },
+        removeLocations = function () {
+            
+        },
+        pacakge = function() {
+            
+        },
+        packageLocations = function () {
+
+            
+        },
+        compileLocations = function () {
+            const tcs = new $.Deferred(),
+                tasks = selectedLocations().map(publish);
+
+            $.when(tasks).done(function() { tcs.resolve(true) });
+
+            return tcs.promise();
         };
 
     const vm = {
@@ -135,8 +154,13 @@ define(["services/new-item", "services/datacontext", objectbuilders.logger], fun
         edit: edit,
         start: start,
         stop: stop,
+        pacakge: pacakge,
         publish: publish,
         map: map,
+        selectedLocations: selectedLocations,
+        compileLocations: compileLocations,
+        packageLocations: packageLocations,
+        removeLocations: removeLocations,
         getDesigner: getDesigner,
         toolbar: {
             addNewCommand: addItemService.addReceiveLocation

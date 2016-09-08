@@ -1,0 +1,116 @@
+﻿
+<section class="view-model-modal" id="restapi-receive-location">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>
+                    <i class="fa fa-gg fa-2x"></i>
+                    REST API receive location
+                </h3>
+            </div>
+            <div class="modal-body" data-bind="with: location">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#restapi-general" data-toggle="tab">General</a>
+                        </li>
+                        
+                        <li>
+                            <a href="#location-security" data-toggle="tab">Security</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="restapi-general" class="tab-pane active">
+
+                            <form class="form-horizontal" id="restapi-receive-location-form">
+                                <div class="form-group">
+                                    <label for="location-name" class="col-lg-3 control-label">Name</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" data-bind="value: Name"
+                                               required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                                               placeholder="Location name"
+                                               class="form-control" id="location-name">
+                                    </div>
+                                </div>
+                         
+
+                                <div class="form-group">
+                                    <label for="path" class="col-lg-3 control-label">Base Address</label>
+                                    <div class="col-lg-8">
+                                        <input type="text" data-bind="value : BaseAddress"
+                                               required
+                                               placeholder="Server name and instant name, e.g https://10.10.10.155"
+                                               class="form-control" id="path">
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <i class="fa fa-spin fa-circle-o-notch" data-bind="visible:$root.isBusy"></i>
+                                    </div>
+                                </div>
+                             
+                                <div class="form-group">
+                                    <label for="location-filter" class="col-lg-3 control-label">Route</label>
+                                    <div class="col-lg-6">
+                                        <input type="text" data-bind="value: Route"
+                                               required
+                                               placeholder="e.g ~/my-sample-api/drop"
+                                               class="form-control" id="location-filter">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="location-method" class="col-lg-3 control-label">Method</label>
+                                    <div class="col-lg-6">
+                                        <select class="form-control" id="location-method" data-bind="value:Method">
+                                            <option value=""></option>
+                                            <option value="GET">GET</option>
+                                            <option value="POST">POST</option>
+                                            <option value="PATCH">PATCH</option>
+                                            <option value="DELETE">DELETE</option>
+                                            <option value="HEAD">HEAD</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-3 col-md-6">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input data-bind="checked: InProcess" id="in-process" type="checkbox" name="InProcess"/>
+                                                Running with RX web server process
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </form>
+                        </div>
+
+
+                        <div id="location-security" class="tab-pane">
+                            <form class="form-horizontal">
+
+                                <div class="form-group">
+                                    <label for="location-jwt-token" class="col-lg-3 control-label">API Token</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" data-bind="value: JwtToken"
+                                               required
+                                               placeholder="API token to call the submit API"
+                                               class="form-control" id="location-jwt-token">
+                                    </div>
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input form="restapi-receive-location-form" data-dismiss="modal" type="submit" class="btn btn-default" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

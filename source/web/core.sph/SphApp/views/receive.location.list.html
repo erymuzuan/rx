@@ -28,6 +28,7 @@
 <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'ReceiveLocation', list: list, map :map}">
     <thead>
         <tr>
+            <th></th>
             <th>Type</th>
             <th>Port</th>
             <th>Entity</th>
@@ -37,6 +38,9 @@
     </thead>
     <tbody data-bind="foreach :list">
         <tr>
+            <td>
+                <input type="checkbox" data-bind="checked : $root.selectedLocations, value:$data" />
+            </td>
             <td>
 
 
@@ -102,7 +106,7 @@
             <td>
                 <a href="javascript:;" data-bind="attr : {href:'#receive.port.designer/' + ko.unwrap(ReceivePort)},text: portName"></a>
             </td>
-            <td >
+            <td>
                 <a href="javascript:;" data-bind="attr : {href:'#entity.details/' + ko.unwrap(entityId)},text: portName"></a>
 
             </td>
@@ -110,9 +114,27 @@
                 <i class="fa fa-check" data-bind="visible:IsActive"></i>
             </td>
             <td>
-                <i class="fa fa-play" style="color:green" data-bind="visible:started"></i>
+                <i class="fa fa-play" style="color: green" data-bind="visible:started"></i>
                 <i class="fa fa-circle" style="color: red" data-bind="visible:!ko.unwrap(started)"></i>
             </td>
         </tr>
     </tbody>
+
+
 </table>
+<div style="height: 40px"></div>
+<div class="row">
+
+    <button class="btn btn-default" data-bind="command : $root.packageLocations, enable : $root.selectedLocations().length">
+        <i class="fa fa-file-archive-o"></i>
+        Package
+    </button>
+    <button class="btn btn-default" data-bind="command : $root.compileLocations, enable : $root.selectedLocations().length">
+        <i class="fa fa-gear"></i>
+        Compile
+    </button>
+    <button class="btn btn-danger" data-bind="enable : $root.selectedLocations().length, command : removeLocations">
+        <i class="fa fa-minus-circle" style="margin-right: 5px"></i>
+        Remove
+    </button>
+</div>
