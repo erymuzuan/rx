@@ -29,12 +29,12 @@
   "Note": "",
   "Entity": "SapFiAccount",
   "Resource": "sapfiaccounts",
-  "IsPublished": false,
+  "IsPublished": true,
   "IsConflictDetectionEnabled": false,
   "CreatedBy": "admin",
   "Id": "sap-fi-account-default",
   "CreatedDate": "2016-09-06T15:06:35.268882+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-06T15:07:10.0593083+08:00",
+  "ChangedDate": "2016-09-08T07:40:48.8282596+08:00",
   "WebId": "e99d26c7-20dd-4d3b-8b63-49b662018d8b"
 }
