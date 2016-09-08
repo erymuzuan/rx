@@ -87,8 +87,20 @@ namespace Bespoke.Sph.Domain
         public async Task<WorkflowCompilerResult> CompileAsync(ReceivePort port)
         {
             var options = new CompilerOptions { IsDebug = true };
+            if (this.GenerateExecutable())
+            {
+                var config = $@"<?xml version=""1.0"" encoding=""utf-8""?>
+<configuration>
+  <appSettings>
+    <add key=""sph:ApplicationName"" value=""{ConfigurationManager.ApplicationName}"" />
+  </appSettings>
+</configuration>";
+                File.WriteAllText($"{ConfigurationManager.CompilerOutputPath}\\{AssemblyName}.config", config);
+            }
             return await this.CompileAsync(port, options);
         }
+
+
         private async Task<WorkflowCompilerResult> CompileAsync(ReceivePort port, CompilerOptions options)
         {
             var classes = (await this.GenerateClassesAsync(port)).ToArray();
@@ -100,7 +112,7 @@ namespace Bespoke.Sph.Domain
                 var parameters = new CompilerParameters
                 {
                     OutputAssembly = Path.Combine(outputPath, this.AssemblyName),
-                    GenerateExecutable = false,
+                    GenerateExecutable = this.GenerateExecutable(),
                     IncludeDebugInformation = true
 
                 };
@@ -142,17 +154,24 @@ namespace Bespoke.Sph.Domain
         }
 
         [JsonIgnore]
+        public string AssemblyExtension => this.GenerateExecutable() ? ".exe" : ".dll";
+        [JsonIgnore]
         public string CodeNamespace => $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.ReceiveLocations";
         [JsonIgnore]
-        public string AssemblyName => $"{ConfigurationManager.ApplicationName}.ReceiveLocation.{TypeName}.dll";
+        public string AssemblyName => $"{ConfigurationManager.ApplicationName}.ReceiveLocation.{TypeName}{AssemblyExtension}";
         [JsonIgnore]
         public string PdbName => $"{ConfigurationManager.ApplicationName}.ReceiveLocation.{TypeName}.{Id}.pdb";
         [JsonIgnore]
         public string TypeName => Name.ToPascalCase();
         [JsonIgnore]
-        public string TypeFullName => $"{CodeNamespace}.{TypeName}, {AssemblyName.Replace(".dll", "")}";
+        public string TypeFullName => $"{CodeNamespace}.{TypeName}, {AssemblyName.Replace(AssemblyExtension, "")}";
 
-        public async Task<IEnumerable<Class>> GenerateClassesAsync(ReceivePort port)
+
+        protected virtual bool GenerateExecutable()
+        {
+            return false;
+        }
+        public virtual async Task<IEnumerable<Class>> GenerateClassesAsync(ReceivePort port)
         {
             var list = new List<Class>();
             var watcher = new Class { Name = Name.ToPascalCase(), Namespace = CodeNamespace, BaseClass = "IReceiveLocation, IDisposable" };

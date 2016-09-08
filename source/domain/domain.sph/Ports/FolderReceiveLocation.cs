@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,12 +11,70 @@ using Bespoke.Sph.Domain.Codes;
 namespace Bespoke.Sph.Domain
 {
 
-   
+
     [EntityType(typeof(ReceiveLocation))]
     [Export("ReceiveLocationDesigner", typeof(ReceiveLocation))]
     [DesignerMetadata(FriendlyName = "File drop", FontAwesomeIcon = "folder-open-o", Route = "receive.location.folder/:id", Name = "folder")]
     public partial class FolderReceiveLocation : ReceiveLocation
     {
+        protected override bool GenerateExecutable()
+        {
+            return true;
+        }
+
+        public override async Task<IEnumerable<Class>> GenerateClassesAsync(ReceivePort port)
+        {
+            var list = (await base.GenerateClassesAsync(port)).ToList();
+            var program = new Class { Name = "Program", Namespace = CodeNamespace };
+            program.AddNamespaceImport<DateTime, FileInfo, DomainObject>();
+            program.ImportCollection.AddRange("System.Linq", "Topshelf");
+
+            if (!this.ReferencedAssemblyCollection.Any(x => x.Location.EndsWith("Topshelf.dll")))
+            {
+                var topshelf = new ReferencedAssembly
+                {
+                    Name = "Topshelf",
+                    WebId = Guid.NewGuid().ToString(),
+                    Location = $"{ConfigurationManager.Home}\\subscribers.host\\Topshelf.dll"
+                };
+                this.ReferencedAssemblyCollection.Add(topshelf);
+            }
+            list.Add(program);
+
+            var code = new StringBuilder();
+            code.AppendLine($@"   
+        public static void Main(string[] args)
+        {{
+            HostFactory.Run(config =>
+            {{
+                config.Service<IReceiveLocation>(svc =>
+                {{
+                    svc.ConstructUsing(() => new {TypeName}());
+
+                    svc.WhenStarted(x => x.Start());
+                    svc.WhenStopped(x => x.Stop());
+                    svc.WhenPaused(x => x.Pause());
+                    svc.WhenContinued(x => x.Resume());
+                    svc.WhenShutdown(x => x.Stop());
+                    svc.WhenCustomCommandReceived((x, g, i) =>
+                    {{
+                        Console.WriteLine(g);
+                        Console.WriteLine(i);
+                    }});
+                }});
+                config.SetServiceName(""RxFileDropLocation{Name}"");
+                config.SetDisplayName(""Rx Receive Location {Name}"");
+                config.SetDescription($""Rx Developer receive location for {Name}"");
+
+                config.StartAutomatically();
+            }});
+
+        }}");
+            program.AddMethod(new Method { Code = code.ToString() });
+
+            return list;
+        }
+
         protected override Task InitializeServiceClassAsync(Class watcher, ReceivePort port)
         {
             watcher.AddNamespaceImport<FileSystemWatcher, HttpClient, Uri, DomainObject>();
@@ -39,11 +98,13 @@ namespace Bespoke.Sph.Domain
             start.AppendLine("public bool Start()");
             start.AppendLine("{");
             start.AppendLine($@"       
+                        var token = ConfigurationManager.GetEnvironmentVariable(""{Name}_JwtToken"") ?? {JwtToken.ToVerbatim()};
                         m_client = new HttpClient();                        
                         m_client.BaseAddress = new Uri(ConfigurationManager.BaseUrl);
-                        m_client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(""Bearer"", ""{JwtToken}"");
+                        m_client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(""Bearer"", token);
 
-                        var m_watcher = new FileSystemWatcher({Path.ToVerbatim()}, {Filter.ToVerbatim()});
+                        var path = ConfigurationManager.GetEnvironmentVariable(""{Name}_Path"") ?? {Path.ToVerbatim()};
+                        var m_watcher = new FileSystemWatcher(path, {Filter.ToVerbatim()});
                         m_watcher.EnableRaisingEvents = true;
                         m_watcher.Created += FswChanged;
 
@@ -57,7 +118,7 @@ namespace Bespoke.Sph.Domain
 
         protected override Task<Method> GenerateStopMethod(ReceivePort port)
         {
-            return Task.FromResult(new Method {Code = "public bool Stop(){ this.Dispose(); return true;}"});
+            return Task.FromResult(new Method { Code = "public bool Stop(){ this.Dispose(); return true;}" });
         }
 
         protected override Task<Method> GeneratePauseMethod(ReceivePort port)
@@ -66,7 +127,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("public void Pause(){");
             code.AppendLine("m_paused = true;");
             code.AppendLine("}");
-            return Task.FromResult(new Method {Code = code.ToString()});
+            return Task.FromResult(new Method { Code = code.ToString() });
         }
         protected override Task<Method> GenerateResumeMethod(ReceivePort port)
         {
@@ -74,7 +135,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("public void Resume(){");
             code.AppendLine("m_paused = false;");
             code.AppendLine("}");
-            return Task.FromResult(new Method {Code = code.ToString()});
+            return Task.FromResult(new Method { Code = code.ToString() });
         }
 
         private static string DisposeCode()
