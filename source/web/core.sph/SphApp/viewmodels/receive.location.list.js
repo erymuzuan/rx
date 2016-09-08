@@ -11,15 +11,20 @@ define(["services/new-item", "services/datacontext", objectbuilders.logger], fun
     const list = ko.observableArray(),
         errors = ko.observableArray(),
         portOptions = ko.observableArray(),
+        entityOptions = ko.observableArray(),
         options = ko.observableArray(),
         isBusy = ko.observable(false),
         activate = function () {
-            return context.loadAsync({ entity:"ReceivePort" , size:40})
-                .then(function(lo) {
+            return context.getTuplesAsync("EntityDefinition", "", "Id", "Name")
+                   .then(function (els) {
+                       entityOptions(els);
+                       return context.loadAsync({ entity: "ReceivePort", size: 40 });
+                   })
+                .then(function (lo) {
                     portOptions(lo.itemCollection);
                     return context.get("receive-locations/installed");
                 }).then(options);
-      
+
         },
             getDesigner = function ($type) {
                 const item = _(options()).find(v => ko.unwrap(v.location.$type) === ko.unwrap($type));
@@ -31,9 +36,11 @@ define(["services/new-item", "services/datacontext", objectbuilders.logger], fun
         map = function (loc) {
             const designer = getDesigner(loc.$type),
                 port = _(portOptions()).find(x => ko.unwrap(x.Id) === ko.unwrap(loc.ReceivePort)),
+                entity = _(entityOptions()).find(x => ko.unwrap(x.Name) === ko.unwrap(port.Entity)),
                 started = ko.observable(true);
             loc.portName = port.Name;
             loc.entity = port.Entity;
+            loc.entityId = entity.Id;
             loc.designer = designer;
             loc.started = started;
 
@@ -51,7 +58,7 @@ define(["services/new-item", "services/datacontext", objectbuilders.logger], fun
                     dialog.location(clone);
                     dialog.port(port);
                     app2.showDialog(dialog)
-                        .done(function(result) {
+                        .done(function (result) {
                             if (!result) return;
                             if (result === "OK") {
                                 list.replace(location, map(dialog.location()));
@@ -80,7 +87,7 @@ define(["services/new-item", "services/datacontext", objectbuilders.logger], fun
                         logger.error("There are errors when starting your location, !!!");
                     }
                 });
-            
+
         },
         stop = function (location) {
             const data = ko.mapping.toJSON(location);
@@ -99,9 +106,9 @@ define(["services/new-item", "services/datacontext", objectbuilders.logger], fun
                         logger.error("There are errors when stopping your location, !!!");
                     }
                 });
-            
+
         },
-        publish = function(location) {
+        publish = function (location) {
             const data = ko.mapping.toJSON(location);
             isBusy(true);
 

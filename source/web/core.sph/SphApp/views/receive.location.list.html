@@ -1,7 +1,7 @@
 ﻿<style>
     div.btn-group button {
         margin-left: 10px;
-        border-width: 0px;
+        border-width: 0;
     }
 </style>
 <h1><i class="fa fa-bullhorn" style="margin-right: 10px"></i>Receive Locations<i class="fa fa-spin fa-cog" style="margin-left: 15px" data-bind="visible:isBusy"></i></h1>
@@ -99,8 +99,13 @@
                 </div>
             </td>
 
-            <td data-bind="text:portName"></td>
-            <td data-bind="text:entity"></td>
+            <td>
+                <a href="javascript:;" data-bind="attr : {href:'#receive.port.designer/' + ko.unwrap(ReceivePort)},text: portName"></a>
+            </td>
+            <td >
+                <a href="javascript:;" data-bind="attr : {href:'#entity.details/' + ko.unwrap(entityId)},text: portName"></a>
+
+            </td>
             <td>
                 <i class="fa fa-check" data-bind="visible:IsActive"></i>
             </td>
