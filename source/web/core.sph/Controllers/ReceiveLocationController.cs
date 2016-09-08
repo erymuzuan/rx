@@ -274,5 +274,15 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
 
+        [HttpPost]
+        [Route("{id}/package")]
+        public async Task<IHttpActionResult> PackageAsync(string id)
+        {
+            var context = new SphDataContext();
+            var loc = context.LoadOneFromSources<ReceiveLocation>(x => x.Id == id);
+            var output = await loc.PackageAsync();
+            return Created(new Uri("/binary-store/" + output), new {success = true});
+
+        }
     }
 }

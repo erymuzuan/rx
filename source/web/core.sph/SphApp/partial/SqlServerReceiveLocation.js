@@ -9,7 +9,8 @@ bespoke.sph.domain.Adapters.Polling = function(model) {
     model = model || {};
     return {
         Interval: ko.observable( model.Interval || 5 * 60 * 1000), // 5 minutes
-        Query : ko.observable(model.Query || "")
+        Query: ko.observable(model.Query || ""),
+        StartDate : ko.observable(model.Query)
     }
 }
 bespoke.sph.domain.Adapters.SqlServerReceiveLocation = function (model) {

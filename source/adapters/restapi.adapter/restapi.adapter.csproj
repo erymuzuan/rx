@@ -55,8 +55,8 @@
     <PostBuildEvent>copy $(TargetDir)$(TargetName).dll %25RX_DEVV1_HOME%25\subscribers
 copy $(TargetDir)$(TargetName).pdb %25RX_DEVV1_HOME%25\subscribers
 
-copy $(TargetDir)$(TargetName).dll %25RX_DEVV1_WebPath%25\subscribers
-copy $(TargetDir)$(TargetName).pdb %25RX_DEVV1_WebPath%25\subscribers</PostBuildEvent>
+copy $(TargetDir)$(TargetName).dll %25RX_DEVV1_WebPath%25\bin\
+copy $(TargetDir)$(TargetName).pdb %25RX_DEVV1_WebPath%25\bin\</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -205,5 +205,10 @@ namespace Bespoke.Sph.Domain
         {
             return Task.FromResult(new Method { Code = "public void Resume(){}" });
         }
+
+        public virtual Task<string> PackageAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
