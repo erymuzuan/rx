@@ -30,12 +30,12 @@
 
         <div class="col-lg-8 col-md-7 col-sm-6">
             <div class="form-group">
-                <label class="control-label" for="search-textbox-sqladapter"></label>
-                <input type="search" placeholder="Search...." id="search-textbox-sqladapter" class="form-control" />
+                <label class="control-label" for="search-textbox-rece-port"></label>
+                <input type="search" placeholder="Search...." id="search-textbox-rece-port" class="form-control" />
 
             </div>
             <div id="schema-tree-panel" style="overflow-y: scroll; min-height: 400px"
-                 data-bind="portTree :{ port:port, selected: $root.selected, searchTextBox :'#search-textbox-sqladapter'}">
+                 data-bind="portTree :{ port:port, selected: $root.selected, searchTextBox :'#search-textbox-rece-port'}">
                 <h3>This is where the tree view goes</h3>
             </div>
         </div>
@@ -44,85 +44,22 @@
         <div class="col-lg-4 col-md-5 col-sm-6" data-bind="with:selected ">
 
             <!-- ko if : $type === "Bespoke.Sph.Domain.DelimitedTextFieldMapping, domain.sph" -->
-            <h3>Field Property</h3>
-            <form>
-                <div class="form-group">
-                    <label class="control-label">Name</label>
-                    <input type="text" required pattern="^[A-Za-z_][A-Za-z0-9_]*$" class="form-control"
-                           data-bind="value:Name, tooltip: 'The property name used internally by C# compiler'" />
-                </div>
-
-                <!-- ko if : IsComplex -->
-
-                <div class="form-group">
-                    <label for="field-complex-type" class="control-label">Type Name</label>
-                    <input type="text" data-bind="value: TypeName"
-                           required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
-                           placeholder="C# type name for field items"
-                           class="form-control" id="field-complex-type">
-                </div>
-
-
-                <!-- /ko -->
-                <!-- ko ifnot : IsComplex -->
-
-                <div class="form-group">
-                    <label class="checkbox">
-                        <input data-bind="checked: Ignore" id="field-ignore" type="checkbox" name="ignore" />
-                        Ignore
-                    </label>
-                </div>
-
-                <div class="form-group">
-                    <label for="member-type2">Type</label>
-                    <select required class="form-control" id="member-type2"
-                            data-bind="value:TypeName, tooltip:'The data type of the return value', disable :Ignore">
-                        <option value="">[Please Select]</option>
-                        <option value="System.String, mscorlib">String</option>
-                        <option value="System.Int32, mscorlib">Integer</option>
-                        <option value="System.Decimal, mscorlib">Decimal</option>
-                        <option value="System.DateTime, mscorlib">DateTime</option>
-                        <option value="System.Boolean, mscorlib">Boolean</option>
-                    </select>
-                </div>
-
-
-                <div class="form-group">
-                    <label class="control-label">Converter</label>
-                    <input type="text" class="form-control"
-                           data-bind="value:Converter, tooltip: 'Converter expression', disable:Ignore" />
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label">Sample Value</label>
-                    <input type="text" readonly="readonly" class="form-control"
-                           data-bind="value:SampleValue, tooltip: 'Converter expression'" />
-                </div>
-
-                <div class="form-group">
-                    <label class="checkbox">
-                        <input data-bind="checked: IsNullable, disable:Ignore" id="field-nullable" type="checkbox" name="IsNullable" />
-                        Nullable
-                    </label>
-                </div>
-
-                <div class="form-group">
-                    <label for="field-nullable-placeholder" class="control-label">Null placeholder</label>
-                    <input type="text" data-bind="value: NullPlaceholder, enable: IsNullable"
-                           placeholder="Special string used to denote a null value"
-                           class="form-control" id="field-nullable-placeholder">
-                </div>
-
-                <!-- /ko -->
-
-                <div class="form-group">
-                    <label for="field-comment" class="control-label">Comment</label>
-                    <textarea class="form-control" id="field-comment" data-bind="value:Comment" placeholder="Developers comment"></textarea>
-                </div>
-
-
-            </form>
+            <!-- ko compose : {view:'_field.mapping.header.delimitedtext'}-->
+            <!-- /ko-->
             <!-- /ko -->
+            
+
+            <!-- ko if : $type === "Bespoke.Sph.Domain.HeaderFieldMapping, domain.sph" -->
+            <!-- ko compose : {view:'_field.mapping.header'}-->
+            <!-- /ko-->
+            <!-- /ko -->
+            
+
+            <!-- ko if : $type === "Bespoke.Sph.Domain.UriFieldMapping, domain.sph" -->
+            <!-- ko compose : {view:'_field.mapping.uri'}-->
+            <!-- /ko-->
+            <!-- /ko -->
+
 
         </div>
 
@@ -136,6 +73,9 @@
                 </li>
                 <li>
                     <a href="#reference-assemblies" data-toggle="tab">Referenced Assemblies</a>
+                </li>
+                <li>
+                    <a href="#port-header" data-toggle="tab">Headers</a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -191,6 +131,10 @@
                         <i class="fa fa-plus-circle"></i>
                         Add an assembly
                     </a>
+                </div>
+
+                <div id="port-header" class="tab-pane">
+
                 </div>
             </div>
         </div>

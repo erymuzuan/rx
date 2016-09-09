@@ -1,0 +1,67 @@
+﻿
+<section class="view-model-modal" id="header-field-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>
+                    Head Field
+                </h3>
+            </div>
+            <div class="modal-body" data-bind="with: field">
+
+                <form class="form-horizontal" id="header-field-dialog-form">
+                    <div class="form-group">
+                        <label for="name" class="col-lg-3 control-label">Name</label>
+                        <div class="col-lg-6">
+                            <input type="text" data-bind="value: Name"
+                                   required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                                   placeholder="Field name"
+                                   class="form-control" id="name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="header-name" class="col-lg-3 control-label">Header</label>
+                        <div class="col-lg-6">
+                            <input type="text" data-bind="kendoComboBox: Header, source : $root.headerOptions"
+                                   required
+                                   placeholder="Header's name"
+                                   class="form-control" id="header-name">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pattern" class="col-lg-3 control-label">Pattern</label>
+                        <div class="col-lg-9">
+                            <input type="text" data-bind="value: Pattern"
+                                   required
+                                   placeholder="Regex pattern with value group e.g. -(?<value>\d{3}).txt"
+                                   class="form-control" id="pattern">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="header-type" class="col-lg-3 control-label">Type</label>
+                        <div class="col-lg-6">
+                            <select required class="form-control" id="header-type"
+                                    data-bind="value:TypeName">
+                                <option value="">[Please Select]</option>
+                                <option value="System.String, mscorlib">String</option>
+                                <option value="System.Int32, mscorlib">Integer</option>
+                                <option value="System.Decimal, mscorlib">Decimal</option>
+                                <option value="System.DateTime, mscorlib">DateTime</option>
+                                <option value="System.Boolean, mscorlib">Boolean</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="header-field-dialog-form" data-dismiss="modal" type="submit" class="btn btn-default" value="OK" data-bind="click: okClick"/>
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

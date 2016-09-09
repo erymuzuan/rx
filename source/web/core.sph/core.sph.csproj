@@ -2733,6 +2733,8 @@
     <EmbeddedResource Include="SphApp\viewmodels\_data.import.history.js" />
     <EmbeddedResource Include="SphApp\viewmodels\_data.import.schedule.js" />
     <EmbeddedResource Include="SphApp\viewmodels\transform.definition.edit.js" />
+    <Content Include="SphApp\viewmodels\receive.port.header.field.dialog.js" />
+    <Content Include="SphApp\viewmodels\receive.port.uri.field.dialog.js" />
     <Content Include="SphApp\viewmodels\restapi.receive.location.dialog.js" />
     <Content Include="SphApp\viewmodels\sqlserver.receive.location.dialog.js" />
     <Content Include="SphApp\viewmodels\folder.receive.location.dialog.js" />
@@ -3295,6 +3297,8 @@
     <EmbeddedResource Include="SphApp\views\_data.import.errors.html" />
     <EmbeddedResource Include="SphApp\views\_data.import.history.html" />
     <EmbeddedResource Include="SphApp\views\_data.import.schedule.html" />
+    <Content Include="SphApp\views\receive.port.header.field.dialog.html" />
+    <Content Include="SphApp\views\receive.port.uri.field.dialog.html" />
     <Content Include="SphApp\views\restapi.receive.location.dialog.html" />
     <Content Include="SphApp\views\sqlserver.receive.location.dialog.html" />
     <Content Include="SphApp\views\folder.receive.location.dialog.html" />
@@ -3306,6 +3310,9 @@
     <Content Include="SphApp\views\receive.location.folder.html" />
     <EmbeddedResource Include="SphApp\views\receive.location.list.html" />
     <Content Include="SphApp\views\view.sample.file.dialog.html" />
+    <Content Include="SphApp\views\_field.mapping.header.delimitedtext.html" />
+    <Content Include="SphApp\views\_field.mapping.uri.html" />
+    <Content Include="SphApp\views\_field.mapping.header.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>

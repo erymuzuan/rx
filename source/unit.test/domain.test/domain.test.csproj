@@ -200,6 +200,7 @@
     <Compile Include="entities\ValueObjectDefinitionCodeTest.cs" />
     <Compile Include="entities\QuerySortTest.cs" />
     <Compile Include="receive.ports\CodeGeneratorTest.cs" />
+    <Compile Include="receive.ports\CodeWithHeaderTest.cs" />
     <Compile Include="receive.ports\CsvOrderItem.cs" />
     <Compile Include="receive.ports\CsvSalesOrder.cs" />
     <Compile Include="receive.ports\MockExtensions.cs" />
@@ -306,6 +307,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="soc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="text-sapfi-20160809-150404-12.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="text-csv-with-escape.txt">

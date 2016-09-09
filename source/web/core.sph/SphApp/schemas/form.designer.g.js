@@ -3061,6 +3061,8 @@ bespoke.sph.domain.FolderReceiveLocation = function (optionOrWebid) {
 
     v.Filter = ko.observable("");
 
+    v.ArchiveLocation = ko.observable("");
+
     v["$type"] = "Bespoke.Sph.Domain.FolderReceiveLocation, domain.sph";
 
 
@@ -3275,8 +3277,6 @@ bespoke.sph.domain.DelimitedTextFieldMapping = function (optionOrWebid) {
 
     v.Column = ko.observable(0);
 
-    v.Converter = ko.observable("");
-
     v.AllowMissing = ko.observable(false);
 
     v["$type"] = "Bespoke.Sph.Domain.DelimitedTextFieldMapping, domain.sph";
@@ -3318,8 +3318,6 @@ bespoke.sph.domain.FixedLengthTextFieldMapping = function (optionOrWebid) {
     var v = new bespoke.sph.domain.TextFieldMapping(optionOrWebid);
 
     v.Column = ko.observable(0);
-
-    v.Converter = ko.observable("");
 
     v.AllowMissing = ko.observable(false);
 
@@ -3402,6 +3400,92 @@ bespoke.sph.domain.FlatFileDetailTag = function (optionOrWebid) {
         return _(model).extend(new bespoke.sph.domain.FlatFileDetailTagPartial(model, optionOrWebid));
     }
     return model;
+};
+
+
+
+bespoke.sph.domain.HeaderFieldMapping = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.TextFieldMapping(optionOrWebid);
+
+    v.Header = ko.observable("");
+
+    v.Pattern = ko.observable("");
+
+    v["$type"] = "Bespoke.Sph.Domain.HeaderFieldMapping, domain.sph";
+
+    v.StartPosition = ko.observable();//nillable
+    v.Length = ko.observable();//nillable
+
+    var context = require("services/datacontext");
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                // array
+                if (ko.isObservable(v[n]) && 'push' in v[n]) {
+                    var values = optionOrWebid[n].$values || optionOrWebid[n];
+                    if (_(values).isArray()) {
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
+                        continue;
+                    }
+                }
+                if (ko.isObservable(v[n])) {
+                    v[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.HeaderFieldMappingPartial) {
+        return _(v).extend(new bespoke.sph.domain.HeaderFieldMappingPartial(v, optionOrWebid));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.UriFieldMapping = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.TextFieldMapping(optionOrWebid);
+
+    v.Uri = ko.observable("");
+
+    v.Pattern = ko.observable("");
+
+    v["$type"] = "Bespoke.Sph.Domain.UriFieldMapping, domain.sph";
+
+
+    var context = require("services/datacontext");
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                // array
+                if (ko.isObservable(v[n]) && 'push' in v[n]) {
+                    var values = optionOrWebid[n].$values || optionOrWebid[n];
+                    if (_(values).isArray()) {
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
+                        continue;
+                    }
+                }
+                if (ko.isObservable(v[n])) {
+                    v[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.UriFieldMappingPartial) {
+        return _(v).extend(new bespoke.sph.domain.UriFieldMappingPartial(v, optionOrWebid));
+    }
+    return v;
 };
 
 
@@ -3518,6 +3602,7 @@ bespoke.sph.domain.ReceiveLocation = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ReceiveLocation, domain.sph",
+
         Id: ko.observable("0"),
         Name: ko.observable(""),
         IsActive: ko.observable(false),
@@ -3592,6 +3677,7 @@ bespoke.sph.domain.TextFieldMapping = function (optionOrWebid) {
         Name: ko.observable(""),
         TypeName: ko.observable(""),
         IsNullable: ko.observable(false),
+        Converter: ko.observable(""),
         SampleValue: ko.observable(""),
         IsComplex: ko.observable(false),
         AllowMultiple: ko.observable(false),

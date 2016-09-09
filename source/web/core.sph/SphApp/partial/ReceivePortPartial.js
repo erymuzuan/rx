@@ -17,32 +17,58 @@ bespoke.sph.domain.ReceivePortPartial = function (port) {
                 return ok && port.TextFormatter().isWizardOk();
             return ok;
         }),
-        removeReceiveLocation = function (child) {
+        removeHeaderFieldMapping = function (child) {
             var self = this;
             return function () {
-                self.ReceiveLocationCollection.remove(child);
+                self.FieldMappingCollection.remove(child);
             };
         },
-        addReceiveLocation = function () {
-            var br = new bespoke.sph.domain.FolderReceiveLocation({ WebId: system.guid() });
-            var self = this;
+        addHeaderFieldMapping = function () {
+            const tcs = new $.Deferred(),
+                br = new bespoke.sph.domain.HeaderFieldMapping({ WebId: system.guid() }),
+                self = this;
 
-            require(["viewmodels/folder.receive.location.dialog", "durandal/app"], function (dialog, app) {
-                dialog.location(br);
+            require(["viewmodels/receive.port.header.field.dialog", "durandal/app"], function (dialog, app) {
+                dialog.field(br);
                 dialog.port(self);
                 app.showDialog(dialog)
                     .done(function (result) {
-                        if (!result) return;
                         if (result === "OK") {
-                            self.ReceiveLocationCollection.push(br);
+                            self.FieldMappingCollection.push(br);
+                            tcs.resolve(br);
+                        } else {
+                            tcs.resolve(false);
                         }
                     });
             });
+
+            return tcs.promise();
         },
-        editReceiveLocation = function (br) {
+        addUriFieldMapping = function () {
+            const tcs = new $.Deferred(),
+                br = new bespoke.sph.domain.UriFieldMapping({ WebId: system.guid() }),
+                self = this;
+
+            require(["viewmodels/receive.port.uri.field.dialog", "durandal/app"], function (dialog, app) {
+                dialog.field(br);
+                dialog.port(self);
+                app.showDialog(dialog)
+                    .done(function (result) {
+                        if (result === "OK") {
+                            self.FieldMappingCollection.push(br);
+                            tcs.resolve(br);
+                        } else {
+                            tcs.resolve(false);
+                        }
+                    });
+            });
+
+            return tcs.promise();
+        },
+        editHeaderFieldMapping = function (br) {
             var self = this;
             return function () {
-                require(["viewmodels/folder.receive.location.dialog", "durandal/app"], function (dialog, app) {
+                require(["viewmodels/receive.port.header.field.dialog", "durandal/app"], function (dialog, app) {
                     var clone = ko.mapping.fromJS(ko.mapping.toJS(br));
                     dialog.location(clone);
                     dialog.port(self);
@@ -50,7 +76,7 @@ bespoke.sph.domain.ReceivePortPartial = function (port) {
                         .done(function (result) {
                             if (!result) return;
                             if (result === "OK") {
-                                self.ReceiveLocationCollection.replace(br, clone);
+                                self.FieldMappingCollection.replace(br, clone);
                             }
                         });
                 });
@@ -85,9 +111,10 @@ bespoke.sph.domain.ReceivePortPartial = function (port) {
         editReferencedAssembly: editReferencedAssembly,
         removeReferencedAssembly: removeReferencedAssembly,
         addReferencedAssembly: addReferencedAssembly,
-        editReceiveLocation: editReceiveLocation,
-        removeReceiveLocation: removeReceiveLocation,
-        addReceiveLocation: addReceiveLocation,
+        editHeaderFieldMapping: editHeaderFieldMapping,
+        removeHeaderFieldMapping: removeHeaderFieldMapping,
+        addHeaderFieldMapping: addHeaderFieldMapping,
+        addUriFieldMapping: addUriFieldMapping,
         isWizardOk: isWizardOk
     };
 };

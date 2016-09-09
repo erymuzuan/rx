@@ -169,6 +169,26 @@ namespace Bespoke.Sph.Domain
             await WaitReadyAsync(file);
             File.Move(file, wip );
             var port = new {port.CodeNamespace}.{port.TypeName}();
+            port.Uri = new System.Uri(file);  
+
+            var fileInfo = new System.IO.FileInfor(file);          
+            port.AddHeader(""CreationTime"", $""{{fileInfo.CreationTime:s}}"");
+            port.AddHeader(""DirectoryName"", fileInfo.DirectoryName);
+            port.AddHeader(""Exists"", $""{{fileInfo.Exists}}"" );
+            port.AddHeader(""Length"", $""{{fileInfo.Length}}"" );
+            port.AddHeader(""Extension"", fileInfo.Extension);
+            port.AddHeader(""Attributes"", $""{{fileInfo.Attributes}}"" );
+            port.AddHeader(""FullName"", fileInfo.FullName );
+            port.AddHeader(""Name"", fileInfo.Name}});
+            port.AddHeader(""LastWriteTime"", $""{{fileInfo.LastWriteTime:s}}"");
+            port.AddHeader(""LastAccessTime"", $""{{fileInfo.LastAccessTime:s}}"");
+            port.AddHeader(""IsReadOnly"", $""{{fileInfo.IsReadOnly}}"");
+            port.AddHeader(""Rx:ApplicationName"", ""{ConfigurationManager.ApplicationName}"");
+            port.AddHeader(""Rx:LocationName"", ""{Name}"");
+            port.AddHeader(""Rx:Type"", ""FolderReceiveLocation"");
+            port.AddHeader(""Rx:MachineName"", System.Environment.GetEnvironmentVariable(""COMPUTERNAME""));
+            port.AddHeader(""Rx:UserName"", System.Environment.GetEnvironmentVariable(""USERNAME""));
+
             // TODO : just read to the next record
             var number = 0;
             var lines = File.ReadLines(wip);

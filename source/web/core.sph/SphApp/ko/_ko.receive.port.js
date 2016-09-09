@@ -3,6 +3,7 @@
 ///<reference path="../../Scripts/underscore.js"/>
 ///<reference path="../../SphApp/objectbuilders.js"/>
 ///<reference path="../../SphApp/schemas/form.designer.g.js"/>
+///<reference path="../../SphApp/partial/ReceivePortPartial.js"/>
 ///<reference path="../../Scripts/jquery-2.2.0.intellisense.js"/>
 /**
  * @param {{Id,TableDefinitionCollection:function, ControllerActionCollection:function, OperationDefinitionCollection:function,ColumnCollection:function,ChildRelationCollection,Table, Schema, Name}} adapter
@@ -46,6 +47,12 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                 },
                 computeNodeText = function (fieldMapping, $index) {
                     const field = ko.toJS(fieldMapping),
+                        uri = field.$type === "Bespoke.Sph.Domain.UriFieldMapping, domain.sph"
+                            ? " <i class='fa fa-link column-icon' style='margin-left:5px;color:orange' title='Uri information'></i>"
+                            : "",
+                        header = field.$type === "Bespoke.Sph.Domain.HeaderFieldMapping, domain.sph"
+                            ? " <i class='fa fa-envelope-o column-icon' style='margin-left:5px;color:orange' title='Header information'></i>"
+                            : "",
                         nullable = field.IsNullable
                             ? " <i class='fa fa-question column-icon' style='margin-left:5px;color:darkgreen' title='Nullable'></i>"
                             : "",
@@ -54,7 +61,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                             : "",
                         sample = field.SampleValue;
                     if ($index)
-                        return `${$index}. ${field.Name}${nullable}${ignore} (${sample})`;
+                        return `${$index}. ${field.Name}${nullable}${ignore} (${sample}) ${uri} ${header}`;
                     return `${field.Name}${nullable}${ignore} (${sample})`;
                 },
                 nullableSubscription = null,
@@ -148,19 +155,60 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                             },
                             "contextmenu": {
                                 "items": function ($node) {
-                                    if ($node.type === "default") {
-                                        return [];
-                                    }
+
                                     const field = $node.data,
                                         $index = $node.original.$index,
                                         ref = $(element).jstree(true),
-                                        setNodeText = function (col) {
+                                        setNodeText = function(col) {
                                             const text = computeNodeText(col, $index);
                                             $(`#${$node.id}`).find(`>a.jstree-anchor>i.column-icon`).remove();
                                             ref.rename_node($node, text);
                                         };
 
-                                    const ignore = {
+                                    let  sel = ref.get_selected();
+
+                                    if ($node.type === "default") {
+                                        const addHeaderField = {
+                                                  label:"Add header field",
+                                                  action : function() {
+                                                      port.addHeaderFieldMapping().done(function(f) {
+                                                          if (!f) {
+                                                              return false;
+                                                          }
+                                                          const headerNode = {
+                                                                    text: computeNodeText(f, $node.children.length + 1),
+                                                                    state: "open",
+                                                                    type: getNodeMemberType(f),
+                                                                    data: f,
+                                                                    $index: $node.children.length + 1,
+                                                                    webid: ko.unwrap(f.WebId)
+                                                                };;
+                                                          if (!sel.length) {
+                                                              return false;
+                                                          }
+                                                          sel = sel[0];
+                                                          sel = ref.create_node(sel, headerNode);
+                                                          return true;
+
+                                                      });
+                                                  }
+                                              },
+                                          addUriField = {
+                                              label: "Add uri field",
+                                              action: function () {
+                                                  port.addUriFieldMapping();
+                                              }
+                                          };
+                                        return [addHeaderField, addUriField];
+                                    }
+
+                                    const removeField = {
+                                        label: "Remove",
+                                        action: function () {
+                                            port.FieldMappingCollection(field);
+                                            ref.delete_node($node);
+                                        }
+                                    },ignore = {
                                         label: "Ignore",
                                         action: function () {
                                             field.Ignore(true);
@@ -205,6 +253,13 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                         else {
                                             items.push(makeNullable);
                                         }
+                                    }
+
+                                    if (ko.unwrap(field.$type )=== "Bespoke.Sph.Domain.HeaderFieldMapping, domain.sph") {
+                                        items.push(removeField);
+                                    }
+                                    if (ko.unwrap(field.$type )=== "Bespoke.Sph.Domain.UriFieldMapping, domain.sph") {
+                                        items.push(removeField);
                                     }
 
                                     return items;

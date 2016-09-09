@@ -9242,6 +9242,21 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_ArchiveLocation;
+        public string ArchiveLocation
+        {
+            get
+            {
+                return m_ArchiveLocation;
+            }
+            set
+            {
+                m_ArchiveLocation = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
 
     }
 
@@ -9477,21 +9492,6 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private string m_Converter;
-        public string Converter
-        {
-            get
-            {
-                return m_Converter;
-            }
-            set
-            {
-                m_Converter = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
         private bool m_AllowMissing;
         public bool AllowMissing
         {
@@ -9528,21 +9528,6 @@ namespace Bespoke.Sph.Domain
             set
             {
                 m_Column = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
-        private string m_Converter;
-        public string Converter
-        {
-            get
-            {
-                return m_Converter;
-            }
-            set
-            {
-                m_Converter = value;
                 RaisePropertyChanged();
             }
         }
@@ -9745,6 +9730,92 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_rowTag;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class HeaderFieldMapping
+    {
+
+        private string m_Header;
+        public string Header
+        {
+            get
+            {
+                return m_Header;
+            }
+            set
+            {
+                m_Header = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Pattern;
+        public string Pattern
+        {
+            get
+            {
+                return m_Pattern;
+            }
+            set
+            {
+                m_Pattern = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        public int? StartPosition { get; set; }
+
+        public int? Length { get; set; }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class UriFieldMapping
+    {
+
+        private string m_Uri;
+        public string Uri
+        {
+            get
+            {
+                return m_Uri;
+            }
+            set
+            {
+                m_Uri = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Pattern;
+        public string Pattern
+        {
+            get
+            {
+                return m_Pattern;
+            }
+            set
+            {
+                m_Pattern = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -10874,6 +10945,11 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 
+        private string m_converter;
+        public const string PropertyNameConverter = "Converter";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
         private string m_sampleValue;
         public const string PropertyNameSampleValue = "SampleValue";
 
@@ -10971,6 +11047,27 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_isNullable;
+            }
+        }
+
+
+
+        public string Converter
+        {
+            set
+            {
+                if (m_converter == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameConverter, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_converter = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_converter;
             }
         }
 

@@ -97,7 +97,10 @@ namespace Bespoke.Sph.Domain
                     if(line.StartsWith({RecordTag.ToVerbatim()}) && null != record)
                          yield return record;                 
                     if(line.StartsWith({RecordTag.ToVerbatim()}))
-                         record = engine.ReadString(normalized)[0];  
+                    {{
+                        record = engine.ReadString(normalized)[0];
+                        this.ProcessHeader(record);
+                    }} 
                     {childRecordCode}         
                 }}");
             }
@@ -107,7 +110,9 @@ namespace Bespoke.Sph.Domain
                 foreach(var line in lines)
                 {{
                     {normalized}
-                    yield return engine.ReadString(normalized)[0];  
+                    record = engine.ReadString(normalized)[0]; 
+                    this.ProcessHeader(record); 
+                    yield return record;
                 }}
 
 ");
