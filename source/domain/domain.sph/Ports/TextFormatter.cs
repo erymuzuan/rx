@@ -38,55 +38,18 @@ namespace Bespoke.Sph.Domain
 
         protected virtual string GetProcessHeaderCode(ReceivePort port)
         {
-            var code = new StringBuilder();
-            code.AppendLine($@"private void ProcessHeader({port.Entity} record)
-        {{");
-            foreach (var field in port.FieldMappingCollection.OfType<HeaderFieldMapping>().Where(x => !string.IsNullOrWhiteSpace(x.Pattern)))
-            {
-                var varName = field.Name.ToCamelCase();
-                var fieldName = field.Name;
-                code.AppendLine("// Header: " + fieldName);
-                code.AppendLine($@"var {varName}Raw = Strings.RegexSingleValue(this.Headers[""{field.Header}""], {field.Pattern.ToVerbatim()}, ""value"");");
-                if (field.IsNullable)
-                {
-                    var nullable = field.Type == typeof(string) ? "" : "?";
-                    code.AppendLine($"Func<string, {field.Type.ToCSharp()}{nullable}> func{fieldName} = x =>{{");
-                    code.AppendLine($@" if(null == x) return null;");
-                    code.AppendLine(field.GenerateNullableReadCode("x"));
-                    code.AppendLine("};");
-                    code.AppendLine($"record.{fieldName} = func{fieldName}({varName}Raw);");
-                }
-                else
-                {
-                    var expression = field.GenerateReadExpressionCode($"{varName}Raw");
-                    code.AppendLine($"record.{fieldName} = {expression};");
-                }
-                code.AppendLine();
-            }
-            foreach (var field in port.FieldMappingCollection.OfType<UriFieldMapping>().Where(x => !string.IsNullOrWhiteSpace(x.Pattern)))
-            {
-                var varName = field.Name.ToCamelCase();
-                var fieldName = field.Name;
-                code.AppendLine("// Uri: " + fieldName);
-                code.AppendLine($@"var {varName}Raw = Strings.RegexSingleValue(this.Uri.ToString(), {field.Pattern.ToVerbatim()}, ""value"");");
-                if (field.IsNullable)
-                {
-                    var nullable = field.Type == typeof(string) ? "" : "?";
-                    code.AppendLine($"Func<string, {field.Type.ToCSharp()}{nullable}> func{fieldName} = x =>{{");
-                    code.AppendLine(" if(null == x) return null;");
-                    code.AppendLine(field.GenerateNullableReadCode("x"));
-                    code.AppendLine("};");
-                    code.AppendLine($"record.{fieldName} = func{fieldName}({varName}Raw);");
-                }
-                else
-                {
-                    var expression = field.GenerateReadExpressionCode($"{varName}Raw");
-                    code.AppendLine($"record.{fieldName} = {expression};");
-                }
-                code.AppendLine();
-            }
-            code.AppendLine("}");
+            var headers =port.FieldMappingCollection.OfType<HeaderFieldMapping>().Where(f => !string.IsNullOrWhiteSpace(f.Pattern));
+            var uriFields = port.FieldMappingCollection.OfType<UriFieldMapping>().Where(x => !string.IsNullOrWhiteSpace(x.Pattern));
 
+
+            var code = new StringBuilder();
+            code.AppendLine($@"private void ProcessHeader({port.Entity} record)");
+            code.AppendLine("{");
+
+            code.JoinAndAppendLine(headers, "\r\n", f=> f.GenerateProcessRecordCode());
+            code.JoinAndAppendLine(uriFields, "\r\n", f => f.GenerateProcessRecordCode());
+
+            code.AppendLine("}");
             return code.ToString();
         }
 
