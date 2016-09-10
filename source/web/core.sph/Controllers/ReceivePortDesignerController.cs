@@ -62,10 +62,18 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<IHttpActionResult> GenerateEntityDefinitionAsync([JsonBody]ReceivePort port, string id)
         {
             var ed = await port.GenerateEntityDefinitionAsync();
+            var op = new OperationEndpoint
+            {
+                Entity = port.Entity,
+                Name = "Default",
+                IsHttpPost = true,
+                Route = "",
+                Id = $"default-post-{port.Entity.ToIdFormat()}"
+            };
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
-                session.Attach(ed);
+                session.Attach(ed,op);
                 await session.SubmitChanges();
             }
 

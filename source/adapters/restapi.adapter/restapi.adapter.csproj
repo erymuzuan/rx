@@ -41,8 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HttpHeader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RestApiAdapterRouteProvider.cs" />
     <Compile Include="RestApiReceiveLocation.cs" />
+    <Compile Include="RestApiServerAdapter.p.cs" />
+    <Compile Include="RestApiServerAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">

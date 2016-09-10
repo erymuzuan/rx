@@ -16,6 +16,7 @@ define(["plugins/dialog", "services/datacontext"],
             isBusy = ko.observable(false),
             port = ko.observable(new bespoke.sph.domain.ReceivePort()),
             endpointOptions = ko.observableArray(),
+            contentTypeOptions = ko.observableArray(["text/plain", "text/html", "application/json", "text/xml"]),
             activate = function () {
                 isBusy(true);
             
@@ -37,6 +38,7 @@ define(["plugins/dialog", "services/datacontext"],
             port: port,
             activate: activate,
             location: location,
+            contentTypeOptions: contentTypeOptions,
             endpointOptions: endpointOptions,
             okClick: okClick,
             cancelClick: cancelClick

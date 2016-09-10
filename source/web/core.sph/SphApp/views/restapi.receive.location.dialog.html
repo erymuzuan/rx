@@ -16,9 +16,11 @@
                         <li class="active">
                             <a href="#restapi-general" data-toggle="tab">General</a>
                         </li>
-                        
                         <li>
-                            <a href="#location-security" data-toggle="tab">Security</a>
+                            <a href="#request-content" data-bind="visible:InProcess" data-toggle="tab">Content</a>
+                        </li>
+                        <li>
+                            <a href="#location-security" data-bind="visible:!ko.unwrap(InProcess)" data-toggle="tab">Security</a>
                         </li>
                     </ul>
                     <div class="tab-content">
@@ -34,21 +36,18 @@
                                                class="form-control" id="location-name">
                                     </div>
                                 </div>
-                         
+
 
                                 <div class="form-group">
                                     <label for="path" class="col-lg-3 control-label">Base Address</label>
-                                    <div class="col-lg-8">
+                                    <div class="col-lg-9">
                                         <input type="text" data-bind="value : BaseAddress"
                                                required
-                                               placeholder="Server name and instant name, e.g https://10.10.10.155"
+                                               placeholder="API base address, e.g https://10.10.10.155"
                                                class="form-control" id="path">
                                     </div>
-                                    <div class="col-lg-1">
-                                        <i class="fa fa-spin fa-circle-o-notch" data-bind="visible:$root.isBusy"></i>
-                                    </div>
                                 </div>
-                             
+
                                 <div class="form-group">
                                     <label for="location-filter" class="col-lg-3 control-label">Route</label>
                                     <div class="col-lg-6">
@@ -76,20 +75,31 @@
                                     <div class="col-md-offset-3 col-md-6">
                                         <div class="checkbox">
                                             <label>
-                                                <input data-bind="checked: InProcess" id="in-process" type="checkbox" name="InProcess"/>
-                                                Running with RX web server process
+                                                <input data-bind="checked: InProcess" id="in-process" type="checkbox" name="InProcess" />
+                                                Running within RX web server process
                                             </label>
                                         </div>
                                     </div>
                                 </div>
-                                
+
+                            </form>
+                        </div>
+                        
+                        <div id="request-content" class="tab-pane">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="request-content-type" class="col-lg-3 control-label">Content Type</label>
+                                    <div class="col-lg-6">
+                                        <input type="text" data-bind="kendoComboBox: ContentType, source : $root.contentTypeOptions"
+                                               required 
+                                               class="form-control" id="request-content-type">
+                                    </div>
+                                </div>
                             </form>
                         </div>
 
-
                         <div id="location-security" class="tab-pane">
                             <form class="form-horizontal">
-
                                 <div class="form-group">
                                     <label for="location-jwt-token" class="col-lg-3 control-label">API Token</label>
                                     <div class="col-lg-9">
