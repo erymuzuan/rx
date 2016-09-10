@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
@@ -45,51 +44,100 @@ namespace Bespoke.Sph.Domain
             complex.MemberCollection.AddRange(children);
             return complex;
         }
-
-        protected virtual string GenerateReadFieldCode(string objectName, string rawName = "")
+        internal virtual string GenerateReadExpressionCode(string rawName = "")
         {
-            if (typeof(int) == this.Type)
-                return GenerateReadIntField(objectName, rawName);
-            var code = new StringBuilder();
-            code.AppendLine($@"        if({Name}Raw == {this.NullPlaceholder.ToVerbatim()})");
-            code.AppendLine($@"             return null;");
-            if (this.Type == typeof(string))
-                code.AppendLine($@"        return {Name}Raw;");
-            if (this.Type == typeof(DateTime))
-                code.AppendLine($@"        return DateTime.ParseExact({Name}Raw,{this.Converter.ToVerbatim()}, System.Globalization.CultureInfo.InvariantCulture);");
-
-            // TODO : parse according to format
-            if (this.Type == typeof(int))
-                code.AppendLine($@"        
-                                        var n = 0;
-                                        if(int.TryParse({Name}Raw, NumberStyles.Any, CultureInfo.InvariantCulture, out n)) return n;
-                                        return null;");
-            //TODO : parse according to format
-            if (this.Type == typeof(decimal))
-                code.AppendLine($@"        
-                                        var n = 0m;
-                                        if(decimal.TryParse({Name}Raw, NumberStyles.Any, CultureInfo.InvariantCulture, out n)) return n;
-                                        return null;");
-            // TODO : assuming Converter is the True string
-            if (this.Type == typeof(bool))
-                code.AppendLine($@"  return {Name}Raw == {this.Converter.ToVerbatim()};");
-            return string.Empty;
-        }
-
-        protected virtual string GenerateReadIntField(string objectName, string rawName)
-        {
-            var code = new StringBuilder();
             if (string.IsNullOrWhiteSpace(rawName))
                 rawName = $"{Name.ToCamelCase()}Raw";
-            var name = Name.ToCamelCase();
-            code.AppendLine($@"
-                        int {name};
-                        if(int.TryParse({rawName}, out {name}))
-                        {{
-                            {objectName}.{Name} = {name};
-                        }}");
+            if (this.IsNullable)
+                throw new InvalidOperationException("This method is meant to generate property expression for Non nullable field");
+            
+            if (this.Type == typeof(string)) return GenerateReadStringExpression(rawName);
+            if (this.Type == typeof(DateTime)) return GenerateReadDateTimeExpression(rawName);
+            if (this.Type == typeof(bool)) return GenerateReadBooleanExpression(rawName);
+            if (this.Type == typeof(decimal)) return GenerateReadDecimalExpression(rawName);
+            if (this.Type == typeof(int)) return GenerateReadInt32Expression(rawName);
+            throw new NotSupportedException($"{TypeName} type is not supported");
 
-            return code.ToString();
+        }
+
+        internal virtual string GenerateNullableReadCode(string rawName = "")
+        {
+            if (!this.IsNullable)
+                throw new InvalidOperationException("This method is meant to generate property getter code Nullable field");
+            if (string.IsNullOrWhiteSpace(rawName))
+                rawName = $"{Name.ToCamelCase()}Raw";
+            if (this.Type == typeof(string))
+                return GenerateReadNullableString(rawName);
+            if (this.Type == typeof(DateTime))
+                return GenerateReadNullableDateTime(rawName);
+            if (this.Type == typeof(int))
+                return GenerateReadNullableInt32(rawName);
+            if (this.Type == typeof(decimal))
+                return GenerateReadNullableDecimal(rawName);
+            if (this.Type == typeof(bool))
+                return GenerateReadNullableBoolean(rawName);
+            throw new NotSupportedException($"{TypeName} type is not supported");
+        }
+
+        protected virtual string GenerateReadNullableDateTime(string rawName)
+        {
+            return $@"        return DateTime.ParseExact({rawName},{Converter.ToVerbatim()}, System.Globalization.CultureInfo.InvariantCulture);";
+        }
+
+        protected virtual string GenerateReadNullableString(string rawName)
+        {
+            return $@"        return {rawName};";
+        }
+
+        protected virtual string GenerateReadNullableInt32(string rawName)
+        {
+            // TODO : parse according to format
+            return $@"        
+                                        var n = 0;
+                                        if(int.TryParse({rawName}, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out n)) return n;
+                                        return null;";
+        }
+
+        /// <summary>
+        ///  assuming Converter is the True string
+        /// </summary>
+        /// <returns></returns>
+        protected virtual string GenerateReadNullableBoolean(string rawName)
+        {
+            return $@"  return {rawName} == {Converter.ToVerbatim()};";
+        }
+
+        protected virtual string GenerateReadNullableDecimal(string rawName)
+        {
+            //TODO : parse according to format
+            return $@"        
+                                        var n = 0m;
+                                        if(decimal.TryParse({rawName}, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out n)) return n;
+                                        return null;";
+        }
+
+        protected virtual string GenerateReadInt32Expression(string rawName)
+        {
+            return $"int.Parse({rawName}, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture)";
+        }
+
+        protected virtual string GenerateReadDecimalExpression(string rawName)
+        {
+            return $"decimal.Parse({rawName}, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture)";
+        }
+
+        protected virtual string GenerateReadBooleanExpression(string rawName)
+        {
+            return $"{rawName} == {Converter.ToVerbatim()}";
+        }
+
+        protected virtual string GenerateReadDateTimeExpression(string rawName)
+        {
+            return $"DateTime.ParseExact({rawName}, {Converter.ToVerbatim()}, System.Globalization.CultureInfo.InvariantCulture)";
+        }
+        protected virtual string GenerateReadStringExpression(string rawName)
+        {
+            return rawName;
         }
     }
 }

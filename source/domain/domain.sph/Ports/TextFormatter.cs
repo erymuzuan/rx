@@ -22,17 +22,17 @@ namespace Bespoke.Sph.Domain
 
         public virtual Task<Class> GetPortClassAsync(ReceivePort port)
         {
-            var type = new Class {Name = port.Name.ToPascalCase(), Namespace = port.CodeNamespace};
+            var type = new Class { Name = port.Name.ToPascalCase(), Namespace = port.CodeNamespace };
             type.AddNamespaceImport<DateTime, JsonIgnoreAttribute, FileInfo, Task>();
             type.AddNamespaceImport<DomainObject>();
             type.AddProperty("Uri", typeof(Uri));
             type.AddProperty(@"public IDictionary<string, string> Headers { get; } = new Dictionary<string, string>(); ");
-            type.AddMethod(new Method() {Code = @"public void AddHeader<T>(string name, T value){
+            type.AddMethod(new Method() { Code = @"public void AddHeader<T>(string name, T value){
         this.Headers.Add(name,$""{value}"");
-}"});
+}" });
 
 
-            type.AddMethod(new Method {Code = GetProcessHeaderCode(port)});
+            type.AddMethod(new Method { Code = GetProcessHeaderCode(port) });
             return Task.FromResult(type);
         }
 
@@ -43,45 +43,29 @@ namespace Bespoke.Sph.Domain
         {{");
             foreach (var field in port.FieldMappingCollection.OfType<HeaderFieldMapping>().Where(x => !string.IsNullOrWhiteSpace(x.Pattern)))
             {
-                var name = field.Name.ToCamelCase();
-                code.AppendLine($@"var {name}Raw = Strings.RegexSingleValue(this.Headers[""{field.Header}""], {field.Pattern.ToVerbatim()}, ""value"");");
-                if (field.Type == typeof(int))
+                var varName = field.Name.ToCamelCase();
+                var fieldName = field.Name;
+                code.AppendLine($@"var {varName}Raw = Strings.RegexSingleValue(this.Headers[""{field.Header}""], {field.Pattern.ToVerbatim()}, ""value"");");
+                if (field.IsNullable)
                 {
-                    code.AppendLine($@"
-                        int {name};
-                        if(int.TryParse({name}Raw, out {name}))
-                        {{
-                            record.{field.Name} = {name};
-                        }}");
+                    var nullable = field.Type == typeof(string) ? "" : "?";
+                    code.AppendLine($"Func<string, {field.Type.ToCSharp()}{nullable}> func{fieldName} = x =>{{");
+                    code.AppendLine($@" if(null == x) return null;");
+                    code.AppendLine(field.GenerateNullableReadCode("x"));
+                    code.AppendLine("};");
+                    code.AppendLine($"record.{fieldName} = func{fieldName}({varName}Raw);");
                 }
-                if (field.Type == typeof(DateTime))
+                else
                 {
-                    code.AppendLine($@"
-                        DateTime {name};
-                        if(DateTime.TryParse({name}Raw, out {name}))
-                        {{
-                            record.{field.Name} = {name};
-                        }}");
-                }
-                if (field.Type == typeof(decimal))
-                {
-                    code.AppendLine($@"
-                        decimal {name};
-                        if(decimal.TryParse({name}Raw, out {name}))
-                        {{
-                            record.{field.Name} = {name};
-                        }}");
-                }
-                if (field.Type == typeof(string))
-                {
-                    code.AppendLine($@"record.{field.Name} = {name}Raw;");
+                    var expression = field.GenerateReadExpressionCode($"{varName}Raw");
+                    code.AppendLine($"record.{fieldName} = {expression};");
                 }
             }
             code.AppendLine("}");
 
             return code.ToString();
         }
-        
+
     }
 
     public partial class HtmlTextFormatter : TextFormatter { }

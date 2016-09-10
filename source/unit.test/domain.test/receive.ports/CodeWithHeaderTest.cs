@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
@@ -11,6 +14,7 @@ namespace domain.test.receive.ports
 {
     public class CodeWithHeaderTest
     {
+        private const string SampleStoreId = "text-sapfi-20160809-150404-12.txt";
         public ITestOutputHelper Console { get; }
 
         public CodeWithHeaderTest(ITestOutputHelper helper)
@@ -23,7 +27,7 @@ namespace domain.test.receive.ports
             store.SetupAndReturnDoc("soc.text");
             store.SetupAndReturnDoc("with-label.txt");
             store.SetupAndReturnDoc("text-csv-with-label-children.txt");
-            store.SetupAndReturnDoc("text-sapfi-20160809-150404-12.txt");
+            store.SetupAndReturnDoc(SampleStoreId);
             ObjectBuilder.AddCacheList(store.Object);
 
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
@@ -36,7 +40,7 @@ namespace domain.test.receive.ports
             var classes = (await port.GenerateCodeAsync()).ToArray();
             var salesOrder = classes.SingleOrDefault(x => x.Name == "SalesOrder");
             Assert.NotNull(salesOrder);
-            Assert.Equal(9, salesOrder.PropertyCollection.Count);
+            Assert.Equal(10, salesOrder.PropertyCollection.Count);
             Console.WriteLine(salesOrder.GetCode());
 
             var itemClass = classes.SingleOrDefault(x => x.Name == "Item");
@@ -60,15 +64,31 @@ namespace domain.test.receive.ports
         [Fact]
         public async Task CompilePort()
         {
-            var port = await GenerateReceivePort();
-
-            var cr = await port.CompileAsync();
+            var source = await GenerateReceivePort();
+            var cr = await source.CompileAsync();
             foreach (var eror in cr.Errors)
             {
                 Console.WriteLine(eror.ToString());
             }
             Assert.True(cr.Result, cr.ToString());
             Console.WriteLine(cr.Output);
+
+
+            var assembly = Assembly.LoadFile(cr.Output);
+            var portType = assembly.GetType($"{source.CodeNamespace}.{source.TypeName}");
+            dynamic port = Activator.CreateInstance(portType);
+
+            port.AddHeader("Name", SampleStoreId);
+            port.AddHeader("LastWriteTime", $"{DateTime.Now:s}");
+            port.Uri = new Uri(Path.GetFullPath(SampleStoreId));
+            var lines = File.ReadLines(SampleStoreId);
+            foreach (var r in port.Process(lines))
+            {
+                Assert.Equal(12, r.Count);
+                Assert.Equal(DateTime.ParseExact("20160809-150404","yyyyMMdd-HHmmss", CultureInfo.InvariantCulture), r.Created);
+                Assert.Equal(11, (int?)r.CountLong);
+            }
+
 
         }
 
@@ -77,7 +97,7 @@ namespace domain.test.receive.ports
             var csv = new DelimitedTextFormatter
             {
                 Name = "csv",
-                SampleStoreId = "text-sapfi-20160809-150404-12.txt",
+                SampleStoreId = SampleStoreId,
                 EscapeCharacter = "\"",
                 Delimiter = ",",
                 HasLabel = false,
@@ -93,22 +113,15 @@ namespace domain.test.receive.ports
                 TextFormatter = csv
             };
 
-            csv.DetailRowCollection.Add(new FlatFileDetailTag
-            {
-                TypeName = "Item",
-                Name = "Items",
-                Parent = "$record",
-                RowTag = "I",
-                WebId = "items-row"
-            });
 
             var fields = await csv.GetFieldMappingsAsync();
             port.FieldMappingCollection.ClearAndAddRange(fields);
 
-
+            port.FieldMappingCollection.Add(new UriFieldMapping { Name = "CountLong", Type = typeof(int), Pattern = @"-(?<value>\d{1,4}).txt" });
             port.FieldMappingCollection.Add(new HeaderFieldMapping { Name = "FileName", Type = typeof(string), Pattern = ".*", Header = "Name", SampleValue = csv.SampleStoreId });
-            port.FieldMappingCollection.Add(new HeaderFieldMapping { Name = "Count", Type = typeof(int), Pattern = @"-(?<value>\d{1,4}).txt)", Header = "Name" });
-            port.FieldMappingCollection.Add(new HeaderFieldMapping { Name = "Created", Pattern = ".*", Header = "LastWriteTime", Type = typeof(DateTime) });
+            port.FieldMappingCollection.Add(new HeaderFieldMapping { Name = "Count", Type = typeof(int), Pattern = @"-(?<value>\d{1,4}).txt", Header = "Name" });
+            port.FieldMappingCollection.Add(new HeaderFieldMapping { Name = "Created", Pattern = @"-(?<value>\d{8}-\d{6})-", Converter = "yyyyMMdd-HHmmss", Header = "Name", Type = typeof(DateTime) });
+            port.FieldMappingCollection.Add(new HeaderFieldMapping { Name = "Created2",IsNullable = true, Pattern = @"-(?<value>\d{8}-\d{6})-", Converter = "yyyyMMdd-HHmmss", Header = "Name", Type = typeof(DateTime) });
 
             var customerNameField = fields[2];
             Assert.Equal("Ahmad, sons and friends", customerNameField.SampleValue);
@@ -125,13 +138,7 @@ namespace domain.test.receive.ports
             dateField.Name = "Date";
             dateField.TypeName = typeof(DateTime).GetShortAssemblyQualifiedName();
             dateField.Converter = "yyyy-MM-dd";
-
-            fields[0].FieldMappingCollection[0].Name = "Tag";
-            fields[0].FieldMappingCollection[1].Name = "Description";
-            fields[0].FieldMappingCollection[2].Name = "Quantity";
-            fields[0].FieldMappingCollection[2].TypeName = typeof(int).GetShortAssemblyQualifiedName();
-            fields[0].FieldMappingCollection[3].Name = "Amount";
-            fields[0].FieldMappingCollection[3].TypeName = typeof(decimal).GetShortAssemblyQualifiedName();
+            
             return port;
         }
 

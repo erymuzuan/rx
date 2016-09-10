@@ -2,16 +2,26 @@
 
 namespace Bespoke.Sph.Domain
 {
+    public class HeaderFieldMember : SimpleMember
+    {
+        public override string GeneratedCode(string padding = "      ")
+        {
+            var nullabe = this.Type == typeof(string) ? "" : "?";
+         
+            return $"[FieldHidden] public {Type.ToCSharp()}{nullabe} {Name};";
+        }
+    }
     public partial class HeaderFieldMapping : TextFieldMapping
     {
-        protected override string GenerateReadFieldCode(string objectName, string rawName = "")
+        public override Member GenerateMember()
         {
-            var code = new StringBuilder();
-            var field = this;
-            var name = field.Name.ToCamelCase();
-            code.AppendLine($@"var {name}Raw = Strings.RegexSingleValue(this.Headers[""{field.Header}""], {field.Pattern.ToVerbatim()}, ""value"");");
-            code.AppendLine(base.GenerateReadFieldCode("record"));
-            return code.ToString();
+           return new HeaderFieldMember
+           {
+               Name = this.Name,
+               TypeName = this.TypeName,
+               Type = this.Type,
+               IsNullable = this.IsNullable
+           };
         }
 
 

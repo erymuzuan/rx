@@ -18,11 +18,9 @@ namespace Bespoke.Sph.Domain
         public override string GeneratedCode(string padding = "      ")
         {
             var type = this.Type.ToCSharp() + this.GetNullable();
-            var rawType = this.IsNullable ? "string" : this.Type.ToCSharp();
-
             var code = new StringBuilder();
             code.AppendLine($@"{padding}[JsonIgnore]");
-            code.AppendLine($@"{padding}public {rawType} {Name}Raw;");
+            code.AppendLine($@"{padding}public string {Name}Raw;");
             code.Append($@"{padding}public {type} {Name}");
             if (this.IsNullable)
             {
@@ -30,33 +28,15 @@ namespace Bespoke.Sph.Domain
                 code.AppendLine("    get{");
                 code.AppendLine($@"        if({Name}Raw == {m_fieldMapping.NullPlaceholder.ToVerbatim()})");
                 code.AppendLine($@"             return null;");
-                if (this.Type == typeof(string))
-                    code.AppendLine($@"        return {Name}Raw;");
-                if (this.Type == typeof(DateTime))
-                    code.AppendLine($@"        return DateTime.ParseExact({Name}Raw,{m_fieldMapping.Converter.ToVerbatim()}, System.Globalization.CultureInfo.InvariantCulture);");
-
-                // TODO : parse according to format
-                if (this.Type == typeof(int))
-                    code.AppendLine($@"        
-                                        var n = 0;
-                                        if(int.TryParse({Name}Raw, NumberStyles.Any, CultureInfo.InvariantCulture, out n)) return n;
-                                        return null;");
-                //TODO : parse according to format
-                if (this.Type == typeof(decimal))
-                    code.AppendLine($@"        
-                                        var n = 0m;
-                                        if(decimal.TryParse({Name}Raw, NumberStyles.Any, CultureInfo.InvariantCulture, out n)) return n;
-                                        return null;");
-                // TODO : assuming Converter is the True string
-                if (this.Type == typeof(bool))
-                    code.AppendLine($@"  return {Name}Raw == {m_fieldMapping.Converter.ToVerbatim()};");
+                code.AppendLine($"         {m_fieldMapping.GenerateNullableReadCode()}");
 
                 code.AppendLine("       }");
                 code.AppendLine("}");
             }
             else
             {
-                code.AppendLine($@" => {Name}Raw;");
+                var expression = m_fieldMapping.GenerateReadExpressionCode(Name + "Raw");
+                code.AppendLine($@" => {expression};");
             }
 
             return code.ToString();

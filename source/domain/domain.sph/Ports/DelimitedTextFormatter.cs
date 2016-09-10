@@ -35,10 +35,12 @@ namespace Bespoke.Sph.Domain
 
         private string GenerateNormalizeMethod()
         {
+            if (string.IsNullOrWhiteSpace(EscapeCharacter)) return string.Empty;
+
             var normalize = $@"
         private string Normalize(string text, string placeHolder)
         {{
-            if (string.IsNullOrWhiteSpace({EscapeCharacter.ToVerbatim()}) || !text.Contains({EscapeCharacter.ToVerbatim()}))
+            if (!text.Contains({EscapeCharacter.ToVerbatim()}))
                 return text;
             const RegexOptions OPTIONS = RegexOptions.IgnoreCase | RegexOptions.Multiline;
             var pattern = $@""(?<a>{EscapeCharacter.EscapeVerbatim()}(.*?){EscapeCharacter.EscapeVerbatim()})(?<b>\s?({Delimiter
@@ -78,7 +80,7 @@ namespace Bespoke.Sph.Domain
                 ");
             }
 
-            if(!string.IsNullOrWhiteSpace(this.EscapeCharacter))
+            if (!string.IsNullOrWhiteSpace(this.EscapeCharacter))
                 code.AppendLine("var placeHolder = new string('x', 15);");
             code.AppendLine($@"{port.Entity} record = null;");
             var normalized = "var normalized = line;";
@@ -181,6 +183,9 @@ namespace Bespoke.Sph.Domain
         }
         private async Task<IEnumerable<DelimitedTextFieldMapping>> GetFieldsFromLineAsync(string line)
         {
+            if (string.IsNullOrWhiteSpace(line))
+                return Array.Empty<DelimitedTextFieldMapping>();
+
             var labels = await GetFieldLabelsAsync();
             var placeHolder = new string('x', 15);
             var columns = line.Split(new[] { this.Delimiter }, StringSplitOptions.None);
