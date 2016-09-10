@@ -40,14 +40,9 @@ namespace domain.test.receive.ports
             var classes = (await port.GenerateCodeAsync()).ToArray();
             var salesOrder = classes.SingleOrDefault(x => x.Name == "SalesOrder");
             Assert.NotNull(salesOrder);
-            Assert.Equal(10, salesOrder.PropertyCollection.Count);
+            Assert.Equal(12, salesOrder.PropertyCollection.Count);
             Console.WriteLine(salesOrder.GetCode());
-
-            var itemClass = classes.SingleOrDefault(x => x.Name == "Item");
-            Assert.NotNull(itemClass);
-            Assert.Equal(4, itemClass.PropertyCollection.Count);
-            Console.WriteLine(itemClass.GetCode());
-
+            
         }
 
         [Fact]
@@ -86,7 +81,7 @@ namespace domain.test.receive.ports
             {
                 Assert.Equal(12, r.Count);
                 Assert.Equal(DateTime.ParseExact("20160809-150404","yyyyMMdd-HHmmss", CultureInfo.InvariantCulture), r.Created);
-                Assert.Equal(11, (int?)r.CountLong);
+                Assert.Equal(12, (int?)r.CountLong);
             }
 
 
@@ -118,6 +113,7 @@ namespace domain.test.receive.ports
             port.FieldMappingCollection.ClearAndAddRange(fields);
 
             port.FieldMappingCollection.Add(new UriFieldMapping { Name = "CountLong", Type = typeof(int), Pattern = @"-(?<value>\d{1,4}).txt" });
+            port.FieldMappingCollection.Add(new UriFieldMapping { Name = "CountLong2", IsNullable = true, Type = typeof(int), Pattern = @"-(?<value>\d{1,4}).txt" });
             port.FieldMappingCollection.Add(new HeaderFieldMapping { Name = "FileName", Type = typeof(string), Pattern = ".*", Header = "Name", SampleValue = csv.SampleStoreId });
             port.FieldMappingCollection.Add(new HeaderFieldMapping { Name = "Count", Type = typeof(int), Pattern = @"-(?<value>\d{1,4}).txt", Header = "Name" });
             port.FieldMappingCollection.Add(new HeaderFieldMapping { Name = "Created", Pattern = @"-(?<value>\d{8}-\d{6})-", Converter = "yyyyMMdd-HHmmss", Header = "Name", Type = typeof(DateTime) });

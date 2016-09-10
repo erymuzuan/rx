@@ -45,6 +45,7 @@ namespace Bespoke.Sph.Domain
             {
                 var varName = field.Name.ToCamelCase();
                 var fieldName = field.Name;
+                code.AppendLine("// Header: " + fieldName);
                 code.AppendLine($@"var {varName}Raw = Strings.RegexSingleValue(this.Headers[""{field.Header}""], {field.Pattern.ToVerbatim()}, ""value"");");
                 if (field.IsNullable)
                 {
@@ -60,6 +61,29 @@ namespace Bespoke.Sph.Domain
                     var expression = field.GenerateReadExpressionCode($"{varName}Raw");
                     code.AppendLine($"record.{fieldName} = {expression};");
                 }
+                code.AppendLine();
+            }
+            foreach (var field in port.FieldMappingCollection.OfType<UriFieldMapping>().Where(x => !string.IsNullOrWhiteSpace(x.Pattern)))
+            {
+                var varName = field.Name.ToCamelCase();
+                var fieldName = field.Name;
+                code.AppendLine("// Uri: " + fieldName);
+                code.AppendLine($@"var {varName}Raw = Strings.RegexSingleValue(this.Uri.ToString(), {field.Pattern.ToVerbatim()}, ""value"");");
+                if (field.IsNullable)
+                {
+                    var nullable = field.Type == typeof(string) ? "" : "?";
+                    code.AppendLine($"Func<string, {field.Type.ToCSharp()}{nullable}> func{fieldName} = x =>{{");
+                    code.AppendLine(" if(null == x) return null;");
+                    code.AppendLine(field.GenerateNullableReadCode("x"));
+                    code.AppendLine("};");
+                    code.AppendLine($"record.{fieldName} = func{fieldName}({varName}Raw);");
+                }
+                else
+                {
+                    var expression = field.GenerateReadExpressionCode($"{varName}Raw");
+                    code.AppendLine($"record.{fieldName} = {expression};");
+                }
+                code.AppendLine();
             }
             code.AppendLine("}");
 
