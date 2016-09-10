@@ -55,22 +55,61 @@ namespace Bespoke.Sph.Domain
         private string GenerateProcessCode(ReceivePort port)
         {
             var code = new StringBuilder();
-            code.Append($"public IEnumerable<{port.Entity}> Process(IEnumerable<string> lines)");
-            code.AppendLine($@"
-                    {{
-                         var engine = new FileHelperEngine<{port.Entity}>();
-                ");
+            var hasDetailRowsWithTag = this.HasTagIdentifier && this.DetailRowCollection.Count > 0;
 
-            foreach (var row in this.DetailRowCollection)
-            {
-                var itemName = row.TypeName.ToCamelCase();
-                code.AppendLine($@"var {itemName}Engine = new FileHelperEngine<{row.TypeName}>();");
-            }
+            code.Append($"public IEnumerable<{port.Entity}> Process(IEnumerable<string> lines)");
+            code.AppendLine("{");
+            if (!string.IsNullOrWhiteSpace(this.EscapeCharacter))
+                code.AppendLine("var placeHolder = new string('x', 15);");
+
+            code.AppendLine($@"   var engine = new FileHelperEngine<{port.Entity}>();");
+
+
+            code.AppendLine(hasDetailRowsWithTag
+                ? GenerateProcessCodeDetailsWithTag(port)
+                : GenerateProcessCode());
+
+            code.AppendLine("} ");
+            return code.ToString();
+        }
+
+        private string GenerateNormalizeLineCode()
+        {
+            var normalized = "var normalized = line;";
+            if (!string.IsNullOrWhiteSpace(this.EscapeCharacter))
+                normalized = $@"
+                    var normalized = line;
+                    var hasEscape = line.Contains({EscapeCharacter.ToVerbatim()});
+                    if (hasEscape)
+                        normalized = Normalize(line, placeHolder);";
+
+            return normalized;
+        }
+        private string GenerateProcessCode()
+        {
+            var normalized = this.GenerateNormalizeLineCode();
+            return $@"
+                foreach(var line in lines)
+                {{
+                    {normalized}
+                    var record = engine.ReadString(normalized)[0]; 
+                    this.ProcessHeader(record); 
+                    yield return record;
+                }}
+
+";
+        }
+        private string GenerateProcessCodeDetailsWithTag(ReceivePort port)
+        {
+            var normalized = this.GenerateNormalizeLineCode();
+            var code = new StringBuilder();
 
             var childRecordCode = new StringBuilder();
             foreach (var row in this.DetailRowCollection)
             {
                 var itemName = row.TypeName.ToCamelCase();
+
+                code.AppendLine($@"var {itemName}Engine = new FileHelperEngine<{row.TypeName}>();");
                 childRecordCode.Append($@"
                     if(line.StartsWith({row.RowTag.ToVerbatim()}))
                     {{
@@ -80,19 +119,8 @@ namespace Bespoke.Sph.Domain
                 ");
             }
 
-            if (!string.IsNullOrWhiteSpace(this.EscapeCharacter))
-                code.AppendLine("var placeHolder = new string('x', 15);");
             code.AppendLine($@"{port.Entity} record = null;");
-            var normalized = "var normalized = line;";
-            if (!string.IsNullOrWhiteSpace(this.EscapeCharacter))
-                normalized = $@"
-                    var normalized = line;
-                    var hasEscape = line.Contains({EscapeCharacter.ToVerbatim()});
-                    if (hasEscape)
-                        normalized = Normalize(line, placeHolder);";
-            if (this.HasTagIdentifier && this.DetailRowCollection.Count > 0)
-            {
-                code.AppendLine($@"
+            code.AppendLine($@"
                 foreach(var line in lines)
                 {{
                     {normalized}
@@ -105,22 +133,7 @@ namespace Bespoke.Sph.Domain
                     }} 
                     {childRecordCode}         
                 }}");
-            }
-            else
-            {
-                code.AppendLine($@"
-                foreach(var line in lines)
-                {{
-                    {normalized}
-                    record = engine.ReadString(normalized)[0]; 
-                    this.ProcessHeader(record); 
-                    yield return record;
-                }}
 
-");
-            }
-
-            code.AppendLine("        } ");
             return code.ToString();
         }
 
