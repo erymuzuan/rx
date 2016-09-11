@@ -202,6 +202,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "receive.locations.host", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "restapi.adapter", "source\adapters\restapi.adapter\restapi.adapter.csproj", "{7A50FFFD-3076-4DFB-8701-5C8104F17590}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "adapter.restapi.test", "source\unit.test\adapter.restapi.test\adapter.restapi.test.csproj", "{7EDC8CB0-8CCB-4628-91BC-A496CDB923C2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -456,6 +458,10 @@ Global
 		{7A50FFFD-3076-4DFB-8701-5C8104F17590}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A50FFFD-3076-4DFB-8701-5C8104F17590}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A50FFFD-3076-4DFB-8701-5C8104F17590}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EDC8CB0-8CCB-4628-91BC-A496CDB923C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EDC8CB0-8CCB-4628-91BC-A496CDB923C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EDC8CB0-8CCB-4628-91BC-A496CDB923C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EDC8CB0-8CCB-4628-91BC-A496CDB923C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -525,5 +531,6 @@ Global
 		{C3AB0560-8E6C-4465-A02C-0CDFBEAC80C9} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 		{E5F299B4-7352-46A3-9714-8CFD2FAC9923} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 		{7A50FFFD-3076-4DFB-8701-5C8104F17590} = {B9C4C533-8EA0-4DD0-887E-4C5734F27238}
+		{7EDC8CB0-8CCB-4628-91BC-A496CDB923C2} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 	EndGlobalSection
 EndGlobal

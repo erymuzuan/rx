@@ -127,7 +127,7 @@ namespace restapi.adapter
             if (jp.Value.GetType() == typeof(JObject))
             {
                 var jo = (JObject)jp.Value;
-                var member = new ComplexMember { Name = jp.Name.ToPascalCase(), TypeName = $"{jp.Name.ToPascalCase()}Item", AllowMultiple = true, PropertyAttribute = $@"[JsonProperty(""{jp.Name}"")]" };
+                var member = new ComplexMember { Name = jp.Name.ToPascalCase(), TypeName = $"{jp.Name.ToPascalCase()}Item", AllowMultiple = false, PropertyAttribute = $@"[JsonProperty(""{jp.Name}"")]" };
                 // recurse
                 var chilren = from f in jo.Children()
                               select GetContentMember((JProperty)f);

@@ -1295,17 +1295,11 @@
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="SphApp\viewmodels\_adapter.sqlserver.add.operation.dialog.js" />
-    <Content Include="SphApp\viewmodels\_adapter.sqlserver.add.table.dialog.js" />
-    <Content Include="SphApp\viewmodels\_adapter.sqlserver.table.dialog.js" />
     <Content Include="SphApp\gulpfile.js" />
     <Content Include="SphApp\services\cultures.my.js" />
     <Content Include="SphApp\viewmodels\flatfile-adapter-wizard.js" />
     <Content Include="SphApp\viewmodels\public.index.js" />
     <EmbeddedResource Include="SphApp\views\public.index.html" />
-    <Content Include="SphApp\views\_adapter.sqlserver.add.operation.dialog.html" />
-    <Content Include="SphApp\views\_adapter.sqlserver.add.table.dialog.html" />
-    <Content Include="SphApp\views\_adapter.sqlserver.table.dialog.html" />
     <Content Include="SphApp\views\flatfile-adapter-wizard.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

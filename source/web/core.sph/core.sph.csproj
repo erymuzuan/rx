@@ -2234,7 +2234,6 @@
     <Content Include="SphApp\partial\RouteParameter.js" />
     <Content Include="SphApp\partial\RouteParameterFieldPartial.js" />
     <Content Include="SphApp\partial\DelimitedTextFormatter.js" />
-    <Content Include="SphApp\partial\RestApiReceiveLocation.js" />
     <Content Include="SphApp\partial\SqlServerReceiveLocation.js" />
     <Content Include="SphApp\partial\TimePeriodPartial.js" />
     <Content Include="SphApp\partial\WorkflowFormPartial.js" />
