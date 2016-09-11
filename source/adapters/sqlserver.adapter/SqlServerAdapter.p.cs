@@ -7,7 +7,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 {
     [EntityType(typeof(Adapter))]
     [Export("AdapterDesigner", typeof(Adapter))]
-    [DesignerMetadata(Name = "MS SQL database", FontAwesomeIcon = "windows", RouteTableProvider = typeof(SqlServerAdapterRouteProvider), Route = "adapter.sqlserver/0")]
+    [DesignerMetadata(Name = "sqlserver", FriendlyName = "MS SQL database", FontAwesomeIcon = "windows", RouteTableProvider = typeof(SqlServerAdapterRouteProvider), Route = "adapter.sqlserver/0")]
     public partial class SqlServerAdapter
     {
         public string Server { get; set; }
@@ -20,10 +20,10 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             get
             {
-                if(this.TrustedConnection)
-                return
-                    $@"Data Source={this.Server};Initial Catalog={this.Database
-                        };Integrated Security=True;MultipleActiveResultSets=True";
+                if (this.TrustedConnection)
+                    return
+                        $@"Data Source={this.Server};Initial Catalog={this.Database
+                            };Integrated Security=True;MultipleActiveResultSets=True";
                 return $"Server={this.Server};Database={this.Database};User Id={this.UserId};Password={this.Password};;MultipleActiveResultSets=True";
             }
         }

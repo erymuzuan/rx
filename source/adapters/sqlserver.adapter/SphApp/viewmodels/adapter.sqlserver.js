@@ -1,14 +1,11 @@
-﻿/// <reference path="../Scripts/jquery-2.2.0.intellisense.js" />
-/// <reference path="../Scripts/knockout-3.4.0.debug.js" />
-/// <reference path="../Scripts/knockout.mapping-latest.debug.js" />
-/// <reference path="../Scripts/require.js" />
-/// <reference path="../Scripts/underscore.js" />
-/// <reference path="../Scripts/moment.js" />
-/// <reference path="../services/datacontext.js" />
-/// <reference path="../schemas/sph.domain.g.js" />
-/// <reference path="../../../web/core.sph/sphapp/schemas/adapter.api.g.js" />
-/// <reference path="c:\project\work\sph\source\adapters\sqlserver.adapter\_sql.server.adapter.domain.js" />
-/// <reference path="../domain/domain.sph/Scripts/objectbuilders.js" />
+﻿/// <reference path="~/Scripts/jquery-2.2.0.intellisense.js" />
+/// <reference path="~/Scripts/knockout-3.4.0.debug.js" />
+/// <reference path="~/Scripts/knockout.mapping-latest.debug.js" />
+/// <reference path="~/Scripts/require.js" />
+/// <reference path="~/Scripts/underscore.js" />
+/// <reference path="~/Scripts/moment.js" />
+/// <reference path="~/Scripts/objectbuilders.js" />
+
 /*globals console, define, objectbuilders, bespoke, String*/
 /**
  * @param{{app:string, system:string}}objectbuilders
@@ -22,7 +19,7 @@
  */
 
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app, objectbuilders.system, "viewmodels/_developers.log", "knockout", "jquery",
-        "sqlserver-adapter/resource/_sql.server.adapter.domain.js", "ko/_ko.adapter.sqlserver"],
+        "sqlserver-adapter/resource/_sql.server.adapter.domain.js", "ko/adapter.sqlserver.ko.binding"],
     function (context, logger, router, app, system, dlog, ko, $) {
         "use strict";
 
@@ -48,7 +45,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     password = ko.unwrap(adp.Password);
                 loadingDatabases(true);
                 isBusy(true);
-                $.getJSON("sqlserver-adapter/databases/?server=" + server + "&trusted=" + trusted + "&userid=" + userid + "&password=" + password)
+                $.getJSON(`sqlserver-adapter/databases/?server=${server}&trusted=${trusted}&userid=${userid}&password=${password}`)
                     .then(function (result) {
                         loadingDatabases(false);
                         if (result.success) {
@@ -84,10 +81,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
 
                 // get the options for lookup table
-                return $.getJSON("/sqlserver-adapter/table-options?server=" + server + "&database=" + database + "&trusted=" + trusted + "&userid=" + userid + "&password=" + password)
+                return $.getJSON(`/sqlserver-adapter/table-options?server=${server}&database=${database}&trusted=${trusted}&userid=${userid}&password=${password}`)
                     .done(function (result) {
-                        var options = _(result).map(function (v) {
-                            return "[" + v.Schema + "].[" + v.Name + "]";
+                        const options = _(result).map(function (v) {
+                            return `[${v.Schema}].[${v.Name}]`;
                         });
 
                         tableNameOptions(options);
@@ -95,11 +92,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             refresh = function () {
 
-                return $.getJSON("/sqlserver-adapter/" + adapter().Id() + "/refresh-metadata")
+                return $.getJSON(`/sqlserver-adapter/${adapter().Id()}/refresh-metadata`)
                     .then(function (result) {
                         adapter(context.toObservable(result.adapter));
                         changes(result.changes);
-                        var logs = _(result.changes).map(function (c) {
+                        const logs = _(result.changes).map(function (c) {
                             var message = "";
 
                             switch (c.Action) {
@@ -118,7 +115,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             return {
                                 time: "",
                                 message: message,
-                                severity: "Info",
+                                severity: "Info"
 
                             };
                         });
@@ -132,7 +129,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 connected(false);
                 changes.removeAll();
 
-                var query = String.format("Id eq '{0}'", sid);
+                const query = String.format("Id eq '{0}'", sid);
                 return context.loadOneAsync("Adapter", query)
                     .then(function (result) {
 
@@ -158,7 +155,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         return;
                     }
                     isBusy(true);
-                    var adp = ko.unwrap(adapter),
+                    const adp = ko.unwrap(adapter),
                         server = ko.unwrap(adp.Server),
                         database = ko.unwrap(adp.Database),
                         trusted = ko.unwrap(adp.TrustedConnection),
@@ -176,7 +173,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             return;
                         }
 
-                        var dev = $("#developers-log-panel").height(),
+                        const dev = $("#developers-log-panel").height(),
                             top = adapterTreePanel.offset().top,
                             height = dev + top;
                         adapterTreePanel.css("max-height", $(window).height() - height);
@@ -186,7 +183,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 setDesignerHeight();
 
                 var loadLookupColumnOptions = function (table, lookup) {
-                    var splits = table.split("].["),
+                    const splits = table.split("].["),
                         schema = splits[0].replace(/\[/g, "").replace(/]/g, ""),
                         name = splits[1].replace(/\[/g, "").replace(/]/g, ""),
                         adp = ko.unwrap(adapter),

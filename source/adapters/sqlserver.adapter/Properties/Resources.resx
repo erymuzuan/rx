@@ -117,22 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="SqlServerAdapterHtml" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\adapter.sqlserver.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="SqlServerAdapterJs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\adapter.sqlserver.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
   <data name="DuplicateContentSource" xml:space="preserve">
     <value>There is already file {0} with the {1} content</value>
   </data>
-  <data name="SprocHtml" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\adapter.sqlserver.sproc.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="SprocJs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\adapter.sqlserver.sproc.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="_ko_adapter_sqlserver" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\_ko.adapter.sqlserver.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

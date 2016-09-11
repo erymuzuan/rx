@@ -1,18 +1,18 @@
-﻿/// <reference path="../Scripts/jquery-2.2.0.intellisense.js" />
-/// <reference path="../Scripts/knockout-3.4.0.debug.js" />
-/// <reference path="../Scripts/knockout.mapping-latest.debug.js" />
-/// <reference path="../Scripts/require.js" />
-/// <reference path="../Scripts/underscore.js" />
-/// <reference path="../Scripts/respond.js" />
-/// <reference path="../Scripts/moment.js" />
+﻿/// <reference path="~/Scripts/jquery-2.2.0.intellisense.js" />
+/// <reference path="~/Scripts/knockout-3.4.0.debug.js" />
+/// <reference path="~/Scripts/knockout.mapping-latest.debug.js" />
+/// <reference path="~/Scripts/require.js" />
+/// <reference path="~/Scripts/underscore.js" />
+/// <reference path="~/Scripts/moment.js" />
+/// <reference path="~/Scripts/_task.js" />
+/// <reference path="~/Scripts/objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
-/// <reference path="../../../web/web.sph/scripts/prism.js" />
 
-define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, "ko/_ko.adapter.sqlserver", "sqlserver-adapter/resource/_sql.server.adapter.domain.js"],
-    function (context, logger, router, system) {
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, "ko/adapter.sqlserver.ko.binding", "sqlserver-adapter/resource/_sql.server.adapter.domain.js"],
+    function (context, logger) {
 
-        var operation = ko.observable({ObjectType: ko.observable()}),
+        const operation = ko.observable({ObjectType: ko.observable()}),
             isBusy = ko.observable(false),
             adapterId = ko.observable(),
             text = ko.observable(),
@@ -21,7 +21,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             member = ko.observable(),
             selected = ko.observable(),
             objectType = ko.computed(function(){
-                var type = operation().ObjectType();
+                const type = operation().ObjectType();
                 switch(type){
                     case "P":
                     case "P ": return "Stored Procedure";
@@ -32,11 +32,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 }
                 return type;
             }),
-        activate = function (id, uuid) {
+            activate = function (id, uuid) {
             adapterId(id);
             var tcs = new $.Deferred();
 
-            $.get("/sqlserver-adapter/sproc/" + id + "/" + uuid.replace(".", "/"))
+            $.get(`/sqlserver-adapter/sproc/${id}/${uuid.replace(".", "/")}`)
                 .done(function (op) {
 
                     var op2 = context.toObservable(op);
@@ -66,7 +66,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     tcs.resolve(op);
                 });
 
-            $.get("/sqlserver-adapter/sproc-text/" + id + "/" + uuid.replace(".", "/"))
+            $.get(`/sqlserver-adapter/sproc-text/${id}/${uuid.replace(".", "/")}`)
                 .done(function (st) {
                     text(st);
                 });
@@ -80,15 +80,15 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             return tcs.promise();
 
         },
-        attached = function (view) {
+        attached = function () {
 
         },
         save = function () {
-            var tcs = new $.Deferred();
+            const tcs = new $.Deferred();
             $.ajax({
                 type: "PATCH",
                 data: ko.mapping.toJSON(operation),
-                url: "/sqlserver-adapter/sproc/" + adapterId(),
+                url: `/sqlserver-adapter/sproc/${adapterId()}`,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 error: tcs.reject,
@@ -103,7 +103,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             return Task.fromResult(0);
         };
 
-        var vm = {
+        const vm = {
             text: text,
             requestSchema: requestSchema,
             responseSchema: responseSchema,
