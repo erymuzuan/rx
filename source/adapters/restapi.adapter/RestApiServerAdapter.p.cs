@@ -4,5 +4,6 @@
     {
         public string BaseAddress { get; set; }
 
+        public override string OdataTranslator { get; }
     }
 }
