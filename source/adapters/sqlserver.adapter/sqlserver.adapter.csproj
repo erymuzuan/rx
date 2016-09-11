@@ -160,6 +160,12 @@
     <EmbeddedResource Include="SphApp\views\adapter.sqlserver.sproc.html" />
     <EmbeddedResource Include="SphApp\ko\adapter.sqlserver.ko.binding.js" />
     <Content Include="Scripts\_task.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\adapter.sqlserver.add.operation.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\adapter.sqlserver.add.table.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\adapter.sqlserver.table.dialog.js" />
+    <EmbeddedResource Include="SphApp\views\adapter.sqlserver.add.operation.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\adapter.sqlserver.add.table.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\adapter.sqlserver.table.dialog.html" />
     <Content Include="_ko.adapter.sqlserver.js" />
     <EmbeddedResource Include="_sql.server.adapter.domain.js" />
   </ItemGroup>

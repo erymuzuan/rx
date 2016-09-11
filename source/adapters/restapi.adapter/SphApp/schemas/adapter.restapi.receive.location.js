@@ -1,4 +1,4 @@
-﻿///<reference path="../schemas/form.designer.g.js"/>
+﻿///<reference path="~/Scripts/__domain.js"/>
 ///<reference path="~/Scripts/require.js"/>
 ///<reference path="~/Scripts/knockout-3.4.0.debug.js"/>
 ///<reference path="~/Scripts/jquery-2.2.0.intellisense.js"/>

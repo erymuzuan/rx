@@ -1,0 +1,115 @@
+﻿
+
+
+<div class="row" data-bind="with : adapter">
+    <i class="fa fa-gg fa-4x pull-left" style="margin-left: 10px"></i>
+    <h1 data-bind="text:Name"></h1>
+</div>
+
+
+<div id="error-list" class="row" data-bind="visible:errors().length">
+    <!-- ko foreach : errors -->
+    <div class="col-md-8 col-md-offset-2 alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+        <!-- ko if : Code -->
+        <strong class="icon-read-more" data-bind="bootstrapPopover : Code"> ..more</strong>
+        <!-- /ko-->
+        <!-- ko if : FileName -->
+        <br />
+        <a href="javascript:;" data-bind="click : $root.viewFile">
+            <span class="small" data-bind="text:FileName"></span>(<span class="small" data-bind="text:Line"></span>)
+        </a>
+        <!-- /ko-->
+
+
+    </div>
+    <div class="col-md-2"></div>
+    <!-- /ko-->
+</div>
+
+<div id="validations-list" class="row" data-bind="visible:validations().length">
+    <!-- ko foreach : validations -->
+    <div class="col-md-8 col-md-offset-2 alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+    </div>
+    <div class="col-md-2"></div>
+    <!-- /ko-->
+</div>
+
+
+<div class="row">
+    <div class="row col-lg-8 col-md-8">
+
+        <div class="col-lg-8 col-md-7 col-sm-6">
+            <div class="form-group">
+                <label class="control-label" for="search-textbox-restapi"></label>
+                <input type="search" placeholder="Search...." id="search-textbox-restapi" class="form-control" />
+
+            </div>
+            <div id="table-tree" style="overflow-y: scroll; min-height: 400px"
+                 data-bind="restApiAdapterTree :{ adapter:adapter, selected: $root.selected, addOperation:$root.addOperation, searchTextBox :'#search-textbox-sqladapter'}">
+                <h3>This is where the tre view goes</h3>
+            </div>
+           
+
+            <button class="btn btn-link" data-bind="click : $root.addOperation, enable :$root.connected">
+                <i class="fa fa-plus-circle"></i>
+                Add new stored procedure or function
+            </button>
+        </div>
+
+
+
+        <div class="col-lg-4 col-md-5 col-sm-6" data-bind="with:selected "></div>
+
+    </div>
+    <div class="col-lg-3" data-bind="with : adapter">
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#general" data-toggle="tab">General</a>
+                </li>
+                <li>
+                    <a href="#PANEL2" data-toggle="tab">TEXT2</a>
+                </li>
+                <li>
+                    <a href="#PANEL3" data-toggle="tab">TEXT3</a>
+                </li>
+                <li>
+                    <a href="#PANEL4" data-toggle="tab">TEXT4</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="general" class="tab-pane active">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="adapter-name" class="col-lg-3 control-label">Name</label>
+                            <div class="col-lg-9">
+                                <input type="text" data-bind="value: Name"
+                                       required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                                       placeholder="Name must be valid C# identifier"
+                                       class="form-control" id="adapter-name">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="PANEL2" class="tab-pane">
+
+
+                </div>
+                <div id="PANEL3" class="tab-pane">
+
+
+                </div>
+                <div id="PANEL4" class="tab-pane">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

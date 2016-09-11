@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Api;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
-    public class RestApiAdapterRouteProvider
+    public class RestApiAdapterRouteProvider : IRouteTableProvider
     {
 
         public string GetEditorViewModel(JsRoute route)
