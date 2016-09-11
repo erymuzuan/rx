@@ -6,7 +6,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Newtonsoft.Json.Linq;
 
-namespace restapi.adapter
+namespace Bespoke.Sph.Integrations.Adapters
 {
     public class RestApiOperationDefinition : OperationDefinition
     {
@@ -29,6 +29,8 @@ namespace restapi.adapter
             this.BaseAddress = request["url"]?.Value<string>();
             this.HttpMethod = request["method"]?.Value<string>();
             this.HttpVersion = request["httpVersion"]?.Value<string>();
+            this.RequestBodySample = request["postData"]?["text"]?.Value<string>();
+            this.RequestContentType = request["postData"]?["mimeType"]?.Value<string>();
 
             foreach (var q in request["queryString"])
             {
@@ -88,11 +90,26 @@ namespace restapi.adapter
             var hms = from q in this.RequestHeaders.Keys
                       select new SimpleMember { Name = q.ToPascalCase(), Type = typeof(string) };
 
+            var querySrings = new ComplexMember { Name = "QueryStrings", AllowMultiple = false, TypeName = "QueryString" };
+            querySrings.MemberCollection.AddRange(qms);
+
+            var requestHeaders = new ComplexMember { Name = "Headers", TypeName = "RequestHeader", AllowMultiple = false };
+            requestHeaders.MemberCollection.AddRange(hms);
+
             this.RequestMemberCollection.Clear();
-            this.RequestMemberCollection.AddRange(qms);
-            this.RequestMemberCollection.AddRange(hms);
+            this.RequestMemberCollection.AddRange(querySrings, requestHeaders);
+            if (!string.IsNullOrWhiteSpace(this.RequestBodySample))
+            {
 
+                var requestContent = JObject.Parse(this.RequestBodySample);
+                var requestBodyMembers = from j in requestContent.Children()
+                                         select GetContentMember((JProperty)j);
 
+                var requestBody = new ComplexMember { Name = "Body", TypeName = "RequestBody" };
+                requestBody.MemberCollection.AddRange(requestBodyMembers.Where(x => null != x));
+                this.RequestMemberCollection.Add(requestBody);
+            }
+            
             var responseHeaderMembers = from k in this.ResponseHeaders.Keys
                                         select new SimpleMember { Name = k.ToPascalCase(), Type = typeof(string), PropertyAttribute = $@"[JsonProperty(""{k}"")]" };
             var responseHeader = new ComplexMember { AllowMultiple = false, Name = "Headers", TypeName = "Header" };
@@ -106,6 +123,11 @@ namespace restapi.adapter
             this.ResponseMemberCollection.Clear();
             this.ResponseMemberCollection.Add(responseHeader);
             this.ResponseMemberCollection.Add(responseBody);
+
+            this.Name = this.HttpMethod.ToLower().ToPascalCase() + "1";
+            this.MethodName = this.HttpMethod.ToLower().ToPascalCase() + "1";
+            this.Schema = "";
+
 
             return Task.FromResult(0);
         }

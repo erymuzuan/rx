@@ -8,7 +8,6 @@
  * @param{{create_node:function, get_node:function, jstree:function, rename_node, set_type: function, delete_node:function, get_type:function, get_selected:function, set_selected:function}} jstree
  * @param{{system:string, searchTextBox:string}} objectbuilders
  * @param{{RequestMemberCollection:function,ResponseMemberCollection:function, Uuid:string , IsSelected : function, Order: function}} OperationDefinition
- * @param{{LookupColumnTable:function, IsEnabled, IsComplex, Ignore, IsComputed, IsPrimaryKey:boolean, Unsupported:boolean}} column
  * @param {{ entity: object, MemberCollection:function}} entity
  * @param {{ debounce:function}} _
  */
@@ -29,7 +28,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                 member = value.selected,
                 jsTreeData = [{
                     id: "table-node",
-                    text: "Tables",
+                    text: "Resources",
                     type: "table-node",
                     state: {
                         opened: true
@@ -38,35 +37,29 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                 },
                     {
                         "id": "node-operations",
-                        text: "Operations",
+                        text: "Endpoints",
                         icon: "fa fa-cogs",
                         state: {
                             opened: true
                         }
                     }],
-                calculateColumnName = function (col) {
+                computeNodeText = function (mbr) {
 
-                    const column = ko.toJS(col),
-                        lookup = column.LookupColumnTable.IsEnabled ? " <i class='fa fa-binoculars column-icon' style='margin-left:5px;color:darkgreen' title='Lookup: The value is stored in another table'></i>" : "",
-                        complex = column.IsComplex ? " <i class='fa fa-link column-icon' style='margin-left:5px;color:darkblue' title='Complex: creates a link to the column value'></i>" : "",
-                        ignore = column.Ignore ? " <i class='fa fa-eye-slash column-icon' style='margin-left:5px;color:grey' title='Ignored : will not be read in select'></i>" : "",
-                        readonly = column.IsComputed ? " <i class='fa fa-info-circle column-icon' style='margin-left:5px;color:#0000ee' title='Computed readonly column'></i>" : "",
-                        primaryKey = column.IsPrimaryKey ? "<i class='icon-key column-icon' style='margin-right:3px;color:#ff8c00;font-weight: bold' title='Primary Key'></i> " : "",
-                        unsupported = column.Unsupported ? "<i class='fa fa-exclamation-triangle column-icon' style='margin-right:3px;color:#ff0028;font-weight: bold' title='The column type is not supported'></i> " : "",
-                        displayName = column.DisplayName || "",
+                    const field = ko.toJS(mbr),
+                        displayName = field.DisplayName || "",
                         bracket = displayName ? " [" : "",
                         bracket2 = displayName ? "]" : "";
 
-                    return primaryKey + unsupported + column.Name + readonly + bracket + displayName + bracket2 + complex + lookup + ignore;
+                    return field.Name + bracket + displayName + bracket2;
 
 
                 },
                 mapTable = function (v) {
-                    var table = ko.toJS(v),
+                    const table = ko.toJS(v),
                         columns = _(v.ColumnCollection()).map(function (col) {
                             return {
                                 id: `column-${table.Name}-${ko.unwrap(col.WebId)}`,
-                                text: calculateColumnName(col),
+                                text: computeNodeText(col),
                                 type: ko.unwrap(col.TypeName),
                                 data: col
                             };
@@ -119,40 +112,31 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                 },
                 mapOperation = function (v) {
 
-                    var createNode = function (t, isResponse) {
-                            var isResultSet = ko.unwrap(t.$type) === "Bespoke.Sph.Domain.ComplexMember, domain.sph",
-                                icon = isResultSet ? "Bespoke.Sph.Domain.ComplexMember, domain.sph" : ko.unwrap(t.TypeName),
-                                members = _(t.MemberCollection()).map(function (x) {
-                                    return {
-                                        id: `parameter-${ko.unwrap(x.WebId)}`,
-                                        text: calculateColumnName(x),
-                                        type: x.TypeName(),
-                                        data: x
-                                    };
-                                }),
-                                webid = ko.unwrap(t.WebId);
+                    const createNode = function (t) {
+                        const complex = ko.unwrap(t.$type) === "Bespoke.Sph.Domain.ComplexMember, domain.sph",
+                            allowMultiple = ko.unwrap(t.AllowMultiple),
+                            icon = complex ? (allowMultiple ? "array" : "object") : ko.unwrap(t.TypeName),
+                            members = _(t.MemberCollection()).map(createNode),
+                            webid = ko.unwrap(t.WebId) || system.guid();
 
+                        if (ko.isObservable(t.WebId))
+                            t.WebId(webid);
 
-                            if (ko.isObservable(t.WebId))
-                                t.WebId(webid);
-
-                            return {
-                                id: (isResponse ? "parameter-" : "") + webid,
-                                text: isResultSet ? t.Name() : calculateColumnName(t),
-                                type: icon,
-                                data: t,
-                                children: members
-                            };
-                        },
-                        requests = _(v.RequestMemberCollection()).map(createNode),
-                        responses = _(v.ResponseMemberCollection()).map(function (vt) {
-                            return createNode(vt, true);
-                        });
+                        return {
+                            id: webid,
+                            text: complex ? t.Name() : computeNodeText(t),
+                            type: icon,
+                            data: t,
+                            children: members
+                        };
+                    },
+                        requests = v.RequestMemberCollection().map(createNode),
+                        responses = v.ResponseMemberCollection().map(createNode);
                     return {
                         id: `operation-${ko.unwrap(v.Uuid)}`,
-                        text: `${ko.unwrap(v.Schema)}.${ko.unwrap(v.Name)}`,
+                        text: `${ko.unwrap(v.Name)}`,
                         state: "open",
-                        type: ko.unwrap(v.ObjectType),
+                        type: ko.unwrap(v.HttpMethod),
                         data: v,
                         children: [{
                             text: "Request",
@@ -216,7 +200,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                         }
                                         var columnsParent = target.text === "Columns" || target.type === "Bespoke.Sph.Domain.ComplexMember, domain.sph";
                                         if (!columnsParent) return false;
-                                        if (target.id !== node.parent)return false;
+                                        if (target.id !== node.parent) return false;
 
                                         //console.log("dragged into target %s , and id ",target.text, target.id);
 
@@ -224,7 +208,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                     }
                                     return true;
                                 },
-                                "themes": {"stripes": true},
+                                "themes": { "stripes": true },
                                 'data': jsTreeData
                             },
                             "dnd": {
@@ -278,7 +262,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                             }
                                         },
                                         setNodeText = function (col) {
-                                            var text = calculateColumnName(col);
+                                            var text = computeNodeText(col);
 
                                             $(`#${$node.id}`).find(`>a.jstree-anchor>i.column-icon`).remove();
 
@@ -438,6 +422,27 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                             },
                             "types": {
 
+                                "OPTIONS": {
+                                    "icon": "fa fa-gear"
+                                },
+                                "PATCH": {
+                                    "icon": "fa fa-pencil-square-o"
+                                },
+                                "HEAD": {
+                                    "icon": "fa fa-use"
+                                },
+                                "DELETE": {
+                                    "icon": "fa fa-minus-circle"
+                                },
+                                "PUT": {
+                                    "icon": "fa fa-plus-circle"
+                                },
+                                "POST": {
+                                    "icon": "fa fa-plus"
+                                },
+                                "GET": {
+                                    "icon": "fa fa-get-pocket"
+                                },
                                 "api-action-enabled": {
                                     "icon": "fa fa-check-square-o"
                                 },
@@ -456,12 +461,6 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                 "table-node": {
                                     "icon": "fa fa-table"
                                 },
-                                "U": {
-                                    "icon": "fa fa-list"
-                                },
-                                "V": {
-                                    "icon": "fa fa-bars"
-                                },
                                 "related-table": {
                                     "icon": "fa fa-list-alt"
                                 },
@@ -474,21 +473,6 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                 "column": {
                                     "icon": "fa fa-columns"
                                 },
-                                "P ": {
-                                    "icon": "fa fa-cog"
-                                },
-                                "P": {
-                                    "icon": "fa fa-cog"
-                                },
-                                "FN": {
-                                    "icon": "fa fa-calculator"
-                                },
-                                "TF": {
-                                    "icon": "fa fa-th"
-                                },
-                                "IF": {
-                                    "icon": "fa fa-th-list"
-                                },
                                 "System.String, mscorlib": {
                                     "icon": "glyphicon glyphicon-bold",
                                     "valid_children": []
@@ -497,64 +481,18 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                     "icon": "glyphicon glyphicon-calendar",
                                     "valid_children": []
                                 },
-                                "System.DateTimeOffset, mscorlib": {
-                                    "icon": "fa fa-hourglass-o",
-                                    "valid_children": []
-                                },
-                                "System.TimeSpan, mscorlib": {
-                                    "icon": "fa fa-clock-o",
-                                    "valid_children": []
-                                },
-                                "System.Int16, mscorlib": {
-                                    "icon": "fa fa-sort-numeric-asc",
-                                    "valid_children": []
-                                },
                                 "System.Int32, mscorlib": {
                                     "icon": "fa fa-sort-numeric-asc",
-                                    "valid_children": []
-                                },
-                                "System.Int64, mscorlib": {
-                                    "icon": "fa fa-sort-numeric-asc",
-                                    "valid_children": []
-                                },
-                                "System.Byte, mscorlib": {
-                                    "icon": "fa fa-sort-numeric-asc",
-                                    "valid_children": []
-                                },
-                                "System.Byte[], mscorlib": {
-                                    "icon": "fa fa-picture-o",
                                     "valid_children": []
                                 },
                                 "System.Decimal, mscorlib": {
                                     "icon": "glyphicon glyphicon-usd",
                                     "valid_children": []
                                 },
-                                "System.Double, mscorlib": {
-                                    "icon": "fa fa-gg",
-                                    "valid_children": []
+                                "object": {
+                                    "icon": "fa fa-object-group"
                                 },
-                                "System.Guid, mscorlib": {
-                                    "icon": "fa fa-glide",
-                                    "valid_children": []
-                                },
-                                "System.Single, mscorlib": {
-                                    "icon": "fa fa-eur",
-                                    "valid_children": []
-                                },
-                                "System.Boolean, mscorlib": {
-                                    "icon": "glyphicon glyphicon-ok",
-                                    "valid_children": []
-                                },
-                                "System.Object, mscorlib": {
-                                    "icon": "fa fa-building-o"
-                                },
-                                "ComplexMember": {
-                                    "icon": "glyphicon glyphicon-list"
-                                },
-                                "System.Xml.XmlDocument, System.Xml": {
-                                    "icon": "fa fa-code"
-                                },
-                                "Bespoke.Sph.Domain.ComplexMember, domain.sph": {
+                                "array": {
                                     "icon": "glyphicon glyphicon-list"
                                 }
                             },
@@ -586,8 +524,8 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
             adapter().TableDefinitionCollection.subscribe(function (changes) {
                 console.log(changes);
                 var tables = _(changes).filter(function (c) {
-                        return c.status === "added";
-                    }),
+                    return c.status === "added";
+                }),
                     children = _(tables).map(function (c) {
                         return mapTable(c.value);
                     });
@@ -603,8 +541,8 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
             adapter().OperationDefinitionCollection.subscribe(function (changes) {
                 console.log(changes);
                 var operations = _(changes).filter(function (c) {
-                        return c.status === "added";
-                    }),
+                    return c.status === "added";
+                }),
                     children = _(operations).map(function (c) {
                         return mapOperation(c.value);
                     });
@@ -619,7 +557,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
             $(element).on("click", "i.fa-square-o, i.fa-check-square-o", function () {
                 var id = $(this).parents("li").attr("id"),
                     node = tree.get_node(id);
-                if (!node)return;
+                if (!node) return;
 
                 var action = node.data;
 
@@ -765,7 +703,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                             "core": {
                                 "animation": 0,
                                 "check_callback": true,
-                                "themes": {"stripes": true},
+                                "themes": { "stripes": true },
                                 'data': jsTreeData
                             },
                             "contextmenu": {
@@ -816,15 +754,15 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                             label: "Add record",
                                             action: function () {
                                                 var child = {
-                                                        $type: "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
-                                                        WebId: system.guid(),
-                                                        TypeName: ko.observable("System.String, mscorlib"),
-                                                        FieldName: ko.observable("Member_Name"),
-                                                        Name: ko.observable(""),
-                                                        DisplayName: ko.observable(""),
-                                                        SqlDbType: ko.observable(),
-                                                        IsNullable: ko.observable(false)
-                                                    },
+                                                    $type: "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
+                                                    WebId: system.guid(),
+                                                    TypeName: ko.observable("System.String, mscorlib"),
+                                                    FieldName: ko.observable("Member_Name"),
+                                                    Name: ko.observable(""),
+                                                    DisplayName: ko.observable(""),
+                                                    SqlDbType: ko.observable(),
+                                                    IsNullable: ko.observable(false)
+                                                },
                                                     parent = $(element).jstree("get_selected", true),
                                                     mb = parent[0].data,
                                                     newNode = {

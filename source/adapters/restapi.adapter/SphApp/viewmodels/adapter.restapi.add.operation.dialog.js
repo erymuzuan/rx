@@ -7,10 +7,13 @@
 /// <reference path="~/SphApp/schemas/adapter.restapi.receive.location.js" />
 
 
-define(["plugins/dialog"],
-    function(dialog) {
+define(["plugins/dialog", objectbuilders.datacontext],
+    function(dialog, context) {
 
-        const operation = ko.observable(new bespoke.sph.domain.api.RestApiOperationDefinition()),
+        const options = ko.observableArray(),
+            selectedOptions = ko.observableArray(),
+            busy = ko.observable(false),
+            storeId = ko.observable(),
             adapter = ko.observable(),
             okClick = function(data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
@@ -22,8 +25,20 @@ define(["plugins/dialog"],
                 dialog.close(this, "Cancel");
             };
 
+        storeId.subscribe(function(id) {
+            busy(true);
+            context.get(`/restapi-adapters/hars/${id}/endpoints`).done(function(list){
+                const maps = list.map(v => new bespoke.sph.domain.api.RestApiOperationDefinition(v));
+                options(maps);
+                selectedOptions([]);
+            });
+        });
+
         const vm = {
-            operation: operation,
+            busy: busy,
+            options: options,
+            selectedOptions: selectedOptions,
+            storeId: storeId,
             adapter: adapter,
             okClick: okClick,
             cancelClick: cancelClick

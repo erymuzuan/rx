@@ -3,20 +3,19 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Integrations.Adapters;
 using Moq;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using restapi.adapter;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace adapter.restapi.test
 {
-    public class HarExtractorTest
+    public class HarGetExtractorTest
     {
         public ITestOutputHelper Console { get; }
 
-        public HarExtractorTest(ITestOutputHelper helper)
+        public HarGetExtractorTest(ITestOutputHelper helper)
         {
             Environment.SetEnvironmentVariable($"RX_{ConfigurationManager.ApplicationName}_HOME", @"c:\temp\rx", EnvironmentVariableTarget.Process);
 
@@ -43,7 +42,6 @@ namespace adapter.restapi.test
         private JObject GetHar()
         {
             var text = File.ReadAllText("har.setting.har");
-        
             return JObject.Parse(text);
         }
 
@@ -72,7 +70,7 @@ namespace adapter.restapi.test
             var entry = json.SelectToken("$.log.entries").Select(e => new RestApiOperationDefinition(e)).First();
 
             await entry.BuildAsync();
-            Assert.Equal(15, entry.RequestMemberCollection.Count);
+            Assert.Equal(2, entry.RequestMemberCollection.Count);
         }
         [Fact]
         public async Task BuildResponseMembers()
@@ -81,6 +79,10 @@ namespace adapter.restapi.test
             var entry = json.SelectToken("$.log.entries").Select(e => new RestApiOperationDefinition(e)).First();
 
             await entry.BuildAsync();
+
+            Assert.Equal("Get1", entry.Name);
+            Assert.Equal("GET", entry.HttpMethod);
+
             Assert.Equal(2, entry.ResponseMemberCollection.Count);
             var body = entry.ResponseMemberCollection.Single(x => x.Name == "Body");
             Assert.Equal(8, body.MemberCollection.Count);

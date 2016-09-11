@@ -7,7 +7,7 @@
     <ProjectGuid>{7A50FFFD-3076-4DFB-8701-5C8104F17590}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>restapi.adapter</RootNamespace>
+    <RootNamespace>Bespoke.Sph.Integrations.Adapters</RootNamespace>
     <AssemblyName>restapi.adapter</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -61,6 +61,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EndpointsBuilder.cs" />
+    <Compile Include="RestApiAdapterController.cs" />
     <Compile Include="RestApiOperationDefinition.cs" />
     <Compile Include="RestApiServerAdapter.code.cs" />
     <Compile Include="HttpHeader.cs" />
@@ -74,6 +76,10 @@
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\web\webapi.common\webapi.common.csproj">
+      <Project>{2A396BF5-09BD-4AE9-B6DE-CF93AEE99D66}</Project>
+      <Name>webapi.common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

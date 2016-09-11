@@ -14,7 +14,7 @@ bespoke.sph.domain.api.RestApiOperationDefinition = function (model) {
     v.RequestContentType = ko.observable("");
     v.ResponseContentType = ko.observable("");
     v.BaseAddress = ko.observable("");
-    v.RequestMethod = ko.observable("POST");
+    v.HttpMethod = ko.observable("POST");
     v.Route = ko.observable(""); // for get turns into query string
     v["$type"] = "Bespoke.Sph.Integrations.Adapters.RestApiOperationDefinition, restapi.adapter";
 

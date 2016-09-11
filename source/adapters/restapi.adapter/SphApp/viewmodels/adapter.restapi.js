@@ -127,18 +127,16 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             .done(function (result) {
                                 if (!result) return;
                                 if (result === "OK") {
-                                    _(dialog.selectedOperations()).each(function (v) {
-                                        adapter().OperationDefinitionCollection.push(v);
-                                    });
+                                    dialog.selectedOptions().forEach(v => adapter().OperationDefinitionCollection.push(v));
                                 }
                             });
                     });
             },
-            removeOperation = function (table) {
-                adapter().OperationDefinitionCollection.remove(table);
+            removeOperation = function (endpoint) {
+                adapter().OperationDefinitionCollection.remove(endpoint);
             },
             saveAsync = function () {
-                var data = ko.mapping.toJSON(adapter);
+                const data = ko.mapping.toJSON(adapter);
                 isBusy(true);
 
                 return context.put(data, "/adapter/" + ko.unwrap(adapter().Id))
