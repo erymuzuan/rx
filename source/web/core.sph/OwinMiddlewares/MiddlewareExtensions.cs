@@ -7,6 +7,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Controllers;
 using Bespoke.Sph.Web.Hubs;
 using Microsoft.AspNet.SignalR;
+using Microsoft.Owin;
 using Owin;
 
 namespace Bespoke.Sph.Web.OwinMiddlewares
@@ -36,9 +37,10 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
             app.Map("/sphapp/main.js", cfg => cfg.Use<RequireJsBundleMiddleware>(debug));
 
             app.Map("/SphApp", cfg =>
-            {
-                cfg.Use<ResourceMiddleware>("SphApp", debug);
-            });
+           {
+               cfg.Use<AdapterResourceMiddleware>("SphApp", debug);
+               cfg.Use<ResourceMiddleware>("SphApp", debug);
+           });
             app.Map("/Content", cfg =>
             {
                 cfg.Use<ResourceMiddleware>("Content", debug);

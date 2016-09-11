@@ -16,7 +16,7 @@ namespace Bespoke.Sph.WebApi
 
             var ds = new DeveloperService();
             ObjectBuilder.ComposeMefCatalog(ds);
-            ObjectBuilder.AddCacheList(ds);
+            ObjectBuilder.AddCacheList<IDeveloperService>(ds);
         }
 
         [ImportMany(typeof(IBuildDiagnostics))]

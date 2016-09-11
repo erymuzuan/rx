@@ -1298,11 +1298,6 @@
     <Content Include="SphApp\viewmodels\_adapter.sqlserver.add.operation.dialog.js" />
     <Content Include="SphApp\viewmodels\_adapter.sqlserver.add.table.dialog.js" />
     <Content Include="SphApp\viewmodels\_adapter.sqlserver.table.dialog.js" />
-    <Content Include="SphApp\views\adapter.sqlserver.sproc.html" />
-    <Content Include="SphApp\viewmodels\adapter.sqlserver.sproc.js" />
-    <Content Include="SphApp\ko\_ko.adapter.sqlserver.js" />
-    <Content Include="SphApp\views\adapter.sqlserver.html" />
-    <Content Include="SphApp\viewmodels\adapter.sqlserver.js" />
     <Content Include="SphApp\gulpfile.js" />
     <Content Include="SphApp\services\cultures.my.js" />
     <Content Include="SphApp\viewmodels\flatfile-adapter-wizard.js" />

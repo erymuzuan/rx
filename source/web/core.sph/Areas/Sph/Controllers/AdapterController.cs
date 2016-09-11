@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
@@ -135,42 +134,7 @@ namespace Bespoke.Sph.Web.Controllers
             return Ok(result);
         }
 
-
-        [Route("designer/{jsroute}/{extension}")]
-        [HttpGet]
-        public IHttpActionResult GetDialog(string extension, string jsroute)
-        {
-            var lowered = jsroute.ToLowerInvariant();
-            
-            if (null == this.DeveloperService.Adapters)
-                return InternalServerError(new Exception("MEF Cannot load adapters metadata"));
-
-            var routeProviders = this.DeveloperService.Adapters
-                .Where(x => null != x.Metadata.RouteTableProvider)
-                .Select(x => Activator.CreateInstance(x.Metadata.RouteTableProvider) as IRouteTableProvider)
-                .Where(x => null != x)
-                .Select(x => x)
-                .ToList();
-            var route = routeProviders
-                .Select(x => x.Routes)
-                .SelectMany(x => x.ToArray())
-                .SingleOrDefault(r => r.ModuleId.ToLowerInvariant().Replace("viewmodels/adapter.", "") == lowered);
-
-
-            if (null == route)
-                return NotFound("cannot find the route for " + jsroute);
-
-            var provider = routeProviders
-                .First(x => x.Routes.Any(y => y.ModuleId == route.ModuleId));
-
-            if (extension == "js")
-            {
-                var js = provider.GetEditorViewModel(route);
-                return Javascript(js);
-            }
-            var html = provider.GetEditorView(route);
-            return Html(html);
-        }
+        
 
 
     }

@@ -24,9 +24,13 @@ define(["plugins/dialog", objectbuilders.datacontext],
                 name("");
                 selectedItem({
                     adapter: {
-                        Name: ko.observable()
+                        Name: ko.observable(),
+                        FriendlyName: ko.observable()
+
+
                     },
                     designer: {
+                        FriendlyName: ko.observable("Select your adapter type"),
                         Name: ko.observable("Select your adapter type"),
                         BootstrapIcon: ko.observable(),
                         PngIcon: ko.observable(),
