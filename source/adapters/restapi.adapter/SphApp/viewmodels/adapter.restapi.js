@@ -127,7 +127,13 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             .done(function (result) {
                                 if (!result) return;
                                 if (result === "OK") {
-                                    dialog.selectedOptions().forEach(v => adapter().OperationDefinitionCollection.push(v));
+                                    const endpoints = adapter().OperationDefinitionCollection;
+                                    for (let v of dialog.selectedOptions()) {
+                                        const exist = endpoints().find(x => ko.unwrap(x.WebId) === ko.unwrap(v.WebId));
+                                        if (!exist) {
+                                            endpoints.push(v);
+                                        }
+                                    }
                                 }
                             });
                     });

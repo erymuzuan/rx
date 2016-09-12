@@ -127,6 +127,8 @@ namespace Bespoke.Sph.Integrations.Adapters
             this.Name = this.HttpMethod.ToLower().ToPascalCase() + "1";
             this.MethodName = this.HttpMethod.ToLower().ToPascalCase() + "1";
             this.Schema = "";
+            this.WebId = Guid.NewGuid().ToString();
+            this.Uuid = this.WebId;
 
 
             return Task.FromResult(0);

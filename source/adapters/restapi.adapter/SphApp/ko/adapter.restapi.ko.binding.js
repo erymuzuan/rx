@@ -133,7 +133,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                         requests = v.RequestMemberCollection().map(createNode),
                         responses = v.ResponseMemberCollection().map(createNode);
                     return {
-                        id: `operation-${ko.unwrap(v.Uuid)}`,
+                        id: `operation-${ko.unwrap(v.WebId)}`,
                         text: `${ko.unwrap(v.Name)}`,
                         state: "open",
                         type: ko.unwrap(v.HttpMethod),
@@ -157,8 +157,8 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                 },
                 tree = null,
                 loadJsTree = function () {
-                    jsTreeData[0].children = _(adapter().TableDefinitionCollection()).map(mapTable);
-                    jsTreeData[1].children = _(adapter().OperationDefinitionCollection()).map(mapOperation);
+                    jsTreeData[0].children = adapter().TableDefinitionCollection().map(mapTable);
+                    jsTreeData[1].children = adapter().OperationDefinitionCollection().map(mapOperation);
 
                     $(element)
                         .on("select_node.jstree", function (node, selected) {
