@@ -33,12 +33,7 @@ define(["plugins/dialog", objectbuilders.datacontext],
                     const ep = ko.dataFor(this);
                     busy(true);
                     if ($(this).is(":checked")) {
-                        context.post(ko.mapping.toJSON(ep), `/restapi-adapters/endpoints/${ko.unwrap(ep.Name)}/build`)
-                            .done(function(result) {
-                                const built = new bespoke.sph.domain.api.RestApiOperationDefinition(result);
-                                selectedOptions.push(built);
-                                busy(false);
-                            });
+                        selectedOptions.push(ep);
                     } else {
                         selectedOptions.remove(ep);
                     }

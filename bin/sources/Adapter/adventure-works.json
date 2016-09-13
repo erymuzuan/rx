@@ -1,6 +1,7 @@
 {
   "$type": "Bespoke.Sph.Integrations.Adapters.SqlServerAdapter, sqlserver.adapter",
   "OdataTranslator": "OdataSqlTranslator",
+  "Version": 0,
   "Server": ".\\DEV2016",
   "TrustedConnection": true,
   "UserId": "null",
@@ -40,7 +41,6 @@
                 "WebId": null
               },
               "IsEnabled": false,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -64,7 +64,6 @@
                 "WebId": null
               },
               "IsEnabled": true,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -72,7 +71,6 @@
             {
               "$type": "Bespoke.Sph.Domain.Api.DeleteActionCode, domain.sph",
               "Name": "Delete resource action",
-              "ActionName": "Remove",
               "ErrorRetry": {
                 "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
                 "Attempt": 3,
@@ -88,7 +86,6 @@
             },
             {
               "$type": "Bespoke.Sph.Domain.Api.GetOneActionCode, domain.sph",
-              "ActionName": "Get",
               "Name": "Get one by primary key",
               "CachingSetting": {
                 "$type": "Bespoke.Sph.Domain.CachingSetting, domain.sph",
@@ -122,7 +119,6 @@
                 "WebId": null
               },
               "IsEnabled": false,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -130,7 +126,6 @@
             {
               "$type": "Bespoke.Sph.Domain.Api.ListActionCode, domain.sph",
               "Name": "List action",
-              "ActionName": "List",
               "IsAsync": true,
               "Route": "",
               "CachingSetting": {
@@ -163,7 +158,6 @@
                 "WebId": null
               },
               "IsEnabled": false,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -201,7 +195,7 @@
                 "ValueColumn": null,
                 "KeyColumn": null,
                 "Name": null,
-                "TypeName": null,
+                "TypeName": "",
                 "WebId": null
               },
               "TypeName": "System.Int32, mscorlib",
@@ -977,7 +971,6 @@
                 "WebId": null
               },
               "IsEnabled": false,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -1001,7 +994,6 @@
                 "WebId": null
               },
               "IsEnabled": false,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -1009,7 +1001,6 @@
             {
               "$type": "Bespoke.Sph.Domain.Api.ListActionCode, domain.sph",
               "Name": "List action",
-              "ActionName": "List",
               "IsAsync": true,
               "Route": "",
               "CachingSetting": {
@@ -2254,7 +2245,6 @@
                 "WebId": null
               },
               "IsEnabled": false,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -2278,7 +2268,6 @@
                 "WebId": null
               },
               "IsEnabled": false,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -2286,7 +2275,6 @@
             {
               "$type": "Bespoke.Sph.Domain.Api.DeleteActionCode, domain.sph",
               "Name": "Delete resource action",
-              "ActionName": "Remove",
               "ErrorRetry": {
                 "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
                 "Attempt": 3,
@@ -2302,7 +2290,6 @@
             },
             {
               "$type": "Bespoke.Sph.Domain.Api.GetOneActionCode, domain.sph",
-              "ActionName": "Get",
               "Name": "Get one by primary key",
               "CachingSetting": {
                 "$type": "Bespoke.Sph.Domain.CachingSetting, domain.sph",
@@ -2336,7 +2323,6 @@
                 "WebId": null
               },
               "IsEnabled": false,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -2344,7 +2330,6 @@
             {
               "$type": "Bespoke.Sph.Domain.Api.ListActionCode, domain.sph",
               "Name": "List action",
-              "ActionName": "List",
               "IsAsync": true,
               "Route": "",
               "CachingSetting": {
@@ -2377,7 +2362,6 @@
                 "WebId": null
               },
               "IsEnabled": false,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -2955,7 +2939,6 @@
                 "WebId": null
               },
               "IsEnabled": false,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -2979,7 +2962,6 @@
                 "WebId": null
               },
               "IsEnabled": false,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -2987,7 +2969,6 @@
             {
               "$type": "Bespoke.Sph.Domain.Api.DeleteActionCode, domain.sph",
               "Name": "Delete resource action",
-              "ActionName": "Remove",
               "ErrorRetry": {
                 "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
                 "Attempt": 3,
@@ -3003,7 +2984,6 @@
             },
             {
               "$type": "Bespoke.Sph.Domain.Api.GetOneActionCode, domain.sph",
-              "ActionName": "Get",
               "Name": "Get one by primary key",
               "CachingSetting": {
                 "$type": "Bespoke.Sph.Domain.CachingSetting, domain.sph",
@@ -3037,7 +3017,6 @@
                 "WebId": null
               },
               "IsEnabled": false,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -3045,7 +3024,6 @@
             {
               "$type": "Bespoke.Sph.Domain.Api.ListActionCode, domain.sph",
               "Name": "List action",
-              "ActionName": "List",
               "IsAsync": true,
               "Route": "",
               "CachingSetting": {
@@ -3078,7 +3056,6 @@
                 "WebId": null
               },
               "IsEnabled": false,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -3406,7 +3383,6 @@
                 "WebId": null
               },
               "IsEnabled": true,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -3430,7 +3406,6 @@
                 "WebId": null
               },
               "IsEnabled": false,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -3438,7 +3413,6 @@
             {
               "$type": "Bespoke.Sph.Domain.Api.DeleteActionCode, domain.sph",
               "Name": "Delete resource action",
-              "ActionName": "Remove",
               "ErrorRetry": {
                 "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
                 "Attempt": 3,
@@ -3454,7 +3428,6 @@
             },
             {
               "$type": "Bespoke.Sph.Domain.Api.GetOneActionCode, domain.sph",
-              "ActionName": "Get",
               "Name": "Get one by primary key",
               "CachingSetting": {
                 "$type": "Bespoke.Sph.Domain.CachingSetting, domain.sph",
@@ -3488,7 +3461,6 @@
                 "WebId": null
               },
               "IsEnabled": false,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -3496,7 +3468,6 @@
             {
               "$type": "Bespoke.Sph.Domain.Api.ListActionCode, domain.sph",
               "Name": "List action",
-              "ActionName": "List",
               "IsAsync": true,
               "Route": "",
               "CachingSetting": {
@@ -3529,7 +3500,6 @@
                 "WebId": null
               },
               "IsEnabled": false,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -4495,7 +4465,6 @@
                 "WebId": null
               },
               "IsEnabled": false,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -4519,7 +4488,6 @@
                 "WebId": null
               },
               "IsEnabled": false,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -4527,7 +4495,6 @@
             {
               "$type": "Bespoke.Sph.Domain.Api.DeleteActionCode, domain.sph",
               "Name": "Delete resource action",
-              "ActionName": "Remove",
               "ErrorRetry": {
                 "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
                 "Attempt": 3,
@@ -4543,7 +4510,6 @@
             },
             {
               "$type": "Bespoke.Sph.Domain.Api.GetOneActionCode, domain.sph",
-              "ActionName": "Get",
               "Name": "Get one by primary key",
               "CachingSetting": {
                 "$type": "Bespoke.Sph.Domain.CachingSetting, domain.sph",
@@ -4577,7 +4543,6 @@
                 "WebId": null
               },
               "IsEnabled": false,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -4585,7 +4550,6 @@
             {
               "$type": "Bespoke.Sph.Domain.Api.ListActionCode, domain.sph",
               "Name": "List action",
-              "ActionName": "List",
               "IsAsync": true,
               "Route": "",
               "CachingSetting": {
@@ -4618,7 +4582,6 @@
                 "WebId": null
               },
               "IsEnabled": false,
-              "ActionName": "",
               "IsAsync": false,
               "Route": null,
               "ReturnTypeName": "System.Object, mscorlib"
@@ -6098,6 +6061,6 @@
   "Id": "adventure-works",
   "CreatedDate": "2016-06-23T07:55:43.2930618+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-06-26T16:54:38.7652025+08:00",
+  "ChangedDate": "2016-09-11T08:57:44.8645541+08:00",
   "WebId": "871a980f-855f-499e-a0a5-7d4aabaa3cc6"
 }

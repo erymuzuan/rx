@@ -10,20 +10,22 @@ namespace Bespoke.Sph.Integrations.Adapters
     [Export("AdapterDesigner", typeof(Adapter))]
     [DesignerMetadata(Name = "restapi", FriendlyName = "REST Api", FontAwesomeIcon = "gg",
          RouteTableProvider = typeof(RestApiAdapterRouteProvider), Route = "adapter.restapi/0")]
-    public partial class RestApiServerAdapter : Adapter
+    public partial class RestApiAdapter : Adapter
     {
-        public RestApiServerAdapter()
+        public RestApiAdapter()
         {
 
         }
-        public RestApiServerAdapter(string odataTranslator)
+        public RestApiAdapter(string odataTranslator)
         {
             OdataTranslator = odataTranslator;
         }
 
         protected override Task<Class> GenerateOdataTranslatorSourceCodeAsync()
         {
-            throw new System.NotImplementedException();
+            var tcs = new TaskCompletionSource<Class>();
+            tcs.SetResult(null);
+            return tcs.Task;
         }
     }
 }

@@ -10,7 +10,6 @@
       {
         "$type": "Bespoke.Sph.Domain.DelimitedTextFieldMapping, domain.sph",
         "Column": 0,
-        "Converter": null,
         "AllowMissing": false,
         "FieldMappingCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
@@ -19,6 +18,7 @@
         "Name": "SapAccountNo",
         "TypeName": "System.String, mscorlib",
         "IsNullable": false,
+        "Converter": null,
         "SampleValue": "8800477043",
         "IsComplex": false,
         "AllowMultiple": false,
@@ -30,7 +30,6 @@
       {
         "$type": "Bespoke.Sph.Domain.DelimitedTextFieldMapping, domain.sph",
         "Column": 1,
-        "Converter": null,
         "AllowMissing": false,
         "FieldMappingCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
@@ -39,6 +38,7 @@
         "Name": "ReferenceNo",
         "TypeName": "System.String, mscorlib",
         "IsNullable": true,
+        "Converter": null,
         "SampleValue": "21061610119",
         "IsComplex": false,
         "AllowMultiple": false,
@@ -50,7 +50,6 @@
       {
         "$type": "Bespoke.Sph.Domain.DelimitedTextFieldMapping, domain.sph",
         "Column": 2,
-        "Converter": "yyyyMMdd HHmmss",
         "AllowMissing": false,
         "FieldMappingCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
@@ -59,6 +58,7 @@
         "Name": "Date",
         "TypeName": "System.DateTime, mscorlib",
         "IsNullable": true,
+        "Converter": "yyyyMMdd HHmmss",
         "SampleValue": "20160824 220310",
         "IsComplex": false,
         "AllowMultiple": false,
@@ -80,6 +80,7 @@
         "Name": "Count",
         "TypeName": "System.Int32, mscorlib",
         "IsNullable": false,
+        "Converter": null,
         "SampleValue": "",
         "IsComplex": false,
         "AllowMultiple": false,
@@ -99,6 +100,7 @@
         "Name": "Origin",
         "TypeName": "System.Int32, mscorlib",
         "IsNullable": false,
+        "Converter": null,
         "SampleValue": "",
         "IsComplex": false,
         "AllowMultiple": false,
@@ -132,6 +134,6 @@
   "Id": "sap-financial-account-update",
   "CreatedDate": "2016-09-06T14:41:32.5538063+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-09T10:04:22.9229724+08:00",
+  "ChangedDate": "2016-09-09T10:41:50.8466017+08:00",
   "WebId": "314010d0-81a6-4c1b-91b9-d052aa6390cf"
 }

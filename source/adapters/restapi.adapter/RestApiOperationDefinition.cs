@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
@@ -8,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Integrations.Adapters
 {
-    public class RestApiOperationDefinition : OperationDefinition
+    public partial class RestApiOperationDefinition : OperationDefinition
     {
         public RestApiOperationDefinition()
         {
@@ -71,17 +72,12 @@ namespace Bespoke.Sph.Integrations.Adapters
         public string Route { get; set; }
         public string HttpVersion { get; set; }
 
-        public IDictionary<string, string> QueryStrings { get; } = new Dictionary<string, string>();
-        public IDictionary<string, string> RequestHeaders { get; } = new Dictionary<string, string>();
-        public IDictionary<string, string> ResponseHeaders { get; } = new Dictionary<string, string>();
+        public Dictionary<string, string> QueryStrings { get; } = new Dictionary<string, string>();
+        public Dictionary<string, string> RequestHeaders { get; } = new Dictionary<string, string>();
+        public Dictionary<string, string> ResponseHeaders { get; } = new Dictionary<string, string>();
         public string ResponseStatusText { get; set; }
         public int? ResponseStatus { get; set; }
         public long? ResponseBodySize { get; set; }
-
-        protected override string GenerateAdapterActionBody(Adapter adapter)
-        {
-            throw new NotImplementedException();
-        }
 
         public Task BuildAsync(string name = "")
         {
@@ -97,7 +93,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             this.Uuid = this.WebId;
 
             var qms = from q in this.QueryStrings.Keys
-                      select new SimpleMember { Name = q.ToPascalCase(), Type = typeof(string) };
+                      select new SimpleMember { Name = q.ToPascalCase(), Type = typeof(string), FullName = q};
             var hms = from q in this.RequestHeaders.Keys
                       select new SimpleMember { Name = q.ToPascalCase(), Type = typeof(string) };
 
@@ -125,7 +121,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                                         select new SimpleMember { Name = k.ToPascalCase(), Type = typeof(string), PropertyAttribute = $@"[JsonProperty(""{k}"")]" };
             var responseHeader = new ComplexMember { AllowMultiple = false, Name = "Headers", TypeName = $"{Name}ResponseHeader" };
             responseHeader.MemberCollection.AddRange(responseHeaderMembers);
-            var responseBody = new ComplexMember { Name = "Body", AllowMultiple = false , TypeName = $"{name}ResponseBody"};
+            var responseBody = new ComplexMember { Name = "Body", AllowMultiple = false, TypeName = $"{name}ResponseBody" };
             var json = JObject.Parse(this.ResponseBodySample);
             var members = from j in json.Children()
                           select GetContentMember((JProperty)j);

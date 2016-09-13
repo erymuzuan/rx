@@ -1,6 +1,6 @@
 ﻿namespace Bespoke.Sph.Integrations.Adapters
 {
-    public partial class RestApiServerAdapter
+    public partial class RestApiAdapter
     {
         public string BaseAddress { get; set; }
 

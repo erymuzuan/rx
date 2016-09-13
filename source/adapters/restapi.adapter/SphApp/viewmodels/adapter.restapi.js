@@ -105,7 +105,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 const data = ko.mapping.toJSON(adapter);
                 isBusy(true);
 
-                return context.post(data, "/restapi-adapter/publish")
+                return context.post(data, "/restapi-adapters/publish")
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
