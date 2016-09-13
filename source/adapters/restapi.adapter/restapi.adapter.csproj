@@ -62,7 +62,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="adapters\restapi.adapter\RestApiOperationDefinition.code.cs" />
-    <Compile Include="EndpointsBuilder.cs" />
+    <Compile Include="Builders\EndpointsBuilderFactory.cs" />
+    <Compile Include="Builders\HarEndpointsBuilder.cs" />
+    <Compile Include="Builders\HarEndpointsBuilder.p.cs" />
+    <Compile Include="Builders\IEndpointsBuilder.cs" />
     <Compile Include="RestApiAdapter.code.cs" />
     <Compile Include="RestApiAdapter.cs" />
     <Compile Include="RestApiAdapter.p.cs" />
@@ -72,6 +75,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestApiAdapterRouteProvider.cs" />
     <Compile Include="RestApiReceiveLocation.cs" />
+    <Compile Include="ServiceProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.WebApi;
@@ -9,12 +10,26 @@ namespace Bespoke.Sph.Integrations.Adapters
     [RoutePrefix("restapi-adapters")]
     public class RestApiAdapterController : BaseApiController
     {
+        public RestApiAdapterController()
+        {
+            var sp = ObjectBuilder.GetObject<ServiceProvider>();
+            if (null == sp)
+            {
+                sp = new ServiceProvider();
+                ObjectBuilder.ComposeMefCatalog(sp);
+                ObjectBuilder.AddCacheList(sp);
+            }
+        }
         [HttpGet]
         [Route("hars/{id}/endpoints")]
         public async Task<IHttpActionResult> GetEndpoints(string id)
         {
-            var builder = EndpointsBuilderFactory.Create(id);
-            var endpoints = await builder.BuildAsync();
+            var factory = new EndpointsBuilderFactory();
+            var sp = ObjectBuilder.GetObject<ServiceProvider>();
+            var builders = await factory.CreateAsync(sp, id);
+            var endpoints =(builders.Select(x => new RestApiOperationDefinition(x))).ToList();
+            var tasks = endpoints.Select(x => x.BuildAsync());
+            await Task.WhenAll(tasks);
 
             var json = "[" + endpoints.JoinString(",", x => x.ToJsonString()) + "]";
             return Json(json);
