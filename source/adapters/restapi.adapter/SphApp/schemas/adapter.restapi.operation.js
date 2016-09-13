@@ -17,7 +17,6 @@ bespoke.sph.domain.api.RestApiOperationDefinition = function (model) {
     v.BaseAddress = ko.observable("");
     v.HttpMethod = ko.observable("POST");
     v.Route = ko.observable(""); // for get turns into query string
-    v.AuthenticationType = ko.observable("Basic"),
     v["$type"] = "Bespoke.Sph.Integrations.Adapters.RestApiOperationDefinition, restapi.adapter";
 
     var context = require("services/datacontext");

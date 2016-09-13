@@ -1,9 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Integrations.Adapters;
 using Moq;
+using Newtonsoft.Json.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -12,6 +14,13 @@ namespace adapter.restapi.test
     public class HarGetExtractorTest
     {
         public ITestOutputHelper Console { get; }
+
+        public HarEndpointsBuilder GetBuilder()
+        {
+            var json = JObject.Parse(File.ReadAllText("har.setting.har"));
+            var token = json.SelectToken("$.log.entries").First;
+            return new HarEndpointsBuilder(token);
+        }
 
         public HarGetExtractorTest(ITestOutputHelper helper)
         {
@@ -24,15 +33,9 @@ namespace adapter.restapi.test
 
         }
         [Fact]
-        public async Task GetRequestAsync()
+        public void GetRequest()
         {
-            var builder = new HarEndpointsBuilder
-            {
-                StoreId = "har.setting.har"
-            };
-            var endpoints = await builder.BuildAsync();
-
-            Assert.Equal(1, endpoints.Count());
+            var builder = GetBuilder();
             Assert.Equal(5, builder.QueryStrings.Keys.Count);
             Assert.Equal(10, builder.RequestHeaders.Keys.Count);
             Assert.Equal("GET", builder.HttpMethod);
@@ -44,12 +47,8 @@ namespace adapter.restapi.test
         [Fact]
         public async Task GetResponseAsync()
         {
-            var builder = new HarEndpointsBuilder
-            {
-                StoreId = "har.setting.har"
-            };
-            var endpoints = await builder.BuildAsync();
-            var entry = endpoints.FirstOrDefault();
+            var builder = GetBuilder();
+            var entry = await builder.BuildAsync();
 
             Assert.NotNull(entry);
 
@@ -68,12 +67,8 @@ namespace adapter.restapi.test
         [Fact]
         public async Task GetRequestMembers()
         {
-            var builder = new HarEndpointsBuilder
-            {
-                StoreId = "har.setting.har"
-            };
-            var endpoints = await builder.BuildAsync();
-            var entry = endpoints.FirstOrDefault();
+            var builder = GetBuilder();
+            var entry = await builder.BuildAsync();
             Assert.NotNull(entry);
             Assert.Equal(2, entry.RequestMemberCollection.Count);
         }
@@ -82,12 +77,8 @@ namespace adapter.restapi.test
         [Fact]
         public async Task BuildResponseMembers()
         {
-            var builder = new HarEndpointsBuilder
-            {
-                StoreId = "har.setting.har"
-            };
-            var endpoints = await builder.BuildAsync();
-            var entry = endpoints.FirstOrDefault();
+            var builder = GetBuilder();
+            var entry = await builder.BuildAsync();
             Assert.NotNull(entry);
 
             Assert.Equal("GetApiSystemsSetting", entry.Name);

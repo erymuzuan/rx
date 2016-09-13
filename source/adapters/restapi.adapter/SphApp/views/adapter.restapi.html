@@ -54,12 +54,6 @@
                  data-bind="restApiAdapterTree :{ adapter:adapter, selected: $root.selected, addOperation:$root.addOperation, searchTextBox :'#search-textbox-sqladapter'}">
                 <h3>This is where the tre view goes</h3>
             </div>
-
-
-            <button class="btn btn-link" data-bind="click : $root.addOperation, enable :$root.connected">
-                <i class="fa fa-plus-circle"></i>
-                Add new stored procedure or function
-            </button>
         </div>
 
 
@@ -209,8 +203,8 @@
                 <div id="rest-api-security" class="tab-pane">
                     <form class="form-horizontal">
                         <div class="form-group">
-                            <label for="authentication-type" class="col-lg-2 control-label">Type</label>
-                            <div class="col-lg-6">
+                            <label for="authentication-type" class="col-lg-3 control-label">Type</label>
+                            <div class="col-lg-9">
                                 <input type="text" data-bind="value: AuthenticationType"
                                        placeholder="e.g. Bearer"
                                        class="form-control" id="authentication-type">

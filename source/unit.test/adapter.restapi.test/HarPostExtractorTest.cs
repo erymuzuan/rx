@@ -1,9 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Integrations.Adapters;
 using Moq;
+using Newtonsoft.Json.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -12,6 +14,12 @@ namespace adapter.restapi.test
     public class HarPostExtractorTest
     {
         public ITestOutputHelper Console { get; }
+        public HarEndpointsBuilder GetBuilder(int position = 0)
+        {
+            var json = JObject.Parse(File.ReadAllText("post.snb.har"));
+            var token = json.SelectToken("$.log.entries").ToArray()[position];
+            return new HarEndpointsBuilder(token);
+        }
 
         public HarPostExtractorTest(ITestOutputHelper helper)
         {
@@ -28,15 +36,8 @@ namespace adapter.restapi.test
         [Fact]
         public async Task PostRequestAsync()
         {
-            var builder = new HarEndpointsBuilder
-            {
-                StoreId = "post.snb.har"
-            };
-            var endpoints = (await builder.BuildAsync()).ToArray();
-            Assert.Equal(2, endpoints.Length);
-            Console.WriteLine("Name " + endpoints[0].Name);
-            Console.WriteLine("Name " + endpoints[1].Name);
-            var entry = endpoints.FirstOrDefault(x => x.HttpMethod == "POST");
+            var builder = GetBuilder(1);
+            var entry = await builder.BuildAsync();
             Assert.NotNull(entry);
             Assert.Equal("PostApiCmdUpdateVirtualBankAccount", entry.Name);
 
@@ -49,18 +50,18 @@ namespace adapter.restapi.test
         [Fact]
         public async Task BuildRequestMembers()
         {
-            var builder = new HarEndpointsBuilder
-            {
-                StoreId = "post.snb.har"
-            };
-            var endpoints = await builder.BuildAsync();
-            var entry = endpoints.FirstOrDefault(x => x.HttpMethod == "POST");
+            var builder = GetBuilder(1);
+            var entry = await builder.BuildAsync();
             Assert.NotNull(entry);
 
             Assert.Equal("POST", entry.HttpMethod);
             Assert.Equal("PostApiCmdUpdateVirtualBankAccount", entry.Name);
 
             Assert.Equal(3, entry.RequestMemberCollection.Count);
+            Assert.Equal("http://eryken2.asuscomm.com:8086/api/cmd/UpdateVirtualBankAccount", entry.BaseAddress);
+            Assert.Equal("POST", entry.HttpMethod);
+
+
             var header = entry.RequestMemberCollection.Single(x => x.Name == "Headers");
             Assert.Equal("Cache-Control,Pragma,Content-Type,Expires,Server,Access-Control-Allow-Origin,Access-Control-Allow-Credentials,X-AspNet-Version,X-Powered-By,Date,Content-Length",
                 header.MemberCollection.ToString(",", x => x.FullName));

@@ -1,0 +1,22 @@
+﻿SET RX_DEVV1_ElasticsearchIndexNumberOfShards=1
+SET RX_DEVV1_BaseUrl=http://localhost:4436
+SET RX_DEVV1_RabbitMqPassword=guest
+SET RX_DEVV1_ApplicationFullName=Engineering Team Development
+SET RX_DEVV1_ElasticsearchHttpPort=9200
+SET RX_DEVV1_WebPath=C:\project\work\sph\source\web\web.sph
+SET RX_DEVV1_RabbitMqDirectory=C:\project\work\sph\bin\rabbitmq_server
+SET RX_DEVV1_RabbitMqBase=C:\project\work\sph\bin\rabbitmq_base
+SET RX_DEVV1_ElasticSearchJar=C:\project\work\sph\bin\elasticsearch\lib\elasticsearch-1.7.5.jar
+SET RX_DEVV1_HOME=C:\project\work\sph\bin
+SET RX_DEVV1_SqlConnectionString=Data Source=(localdb)\ProjectsV13;Initial Catalog=DevV1;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
+SET RX_DEVV1_SqlLocalDbName=Projects
+SET RX_DEVV1_ElasticsearchClusterName=cluster_WS27_DevV1
+SET RX_DEVV1_RabbitMqManagementPort=15672
+SET RX_DEVV1_IisExpressExecutable=C:\project\work\sph\bin\IIS Express\iisexpress.exe
+SET RX_DEVV1_WebsitePort=4436
+SET RX_DEVV1_FromEmailAddress=erymuzuan@bespoke.com.my
+SET RX_DEVV1_ElasticsearchIndexNumberOfReplicas=0
+SET RX_DEVV1_LoggerWebSocketPort=50238
+SET RX_DEVV1_RabbitMqUserName=guest
+SET RX_DEVV1_ElasticsearchNodeName=node_WS27_DevV1
+SET RABBITMQ_BASE=C:\project\work\sph\bin\control.center\rabbitmq_base

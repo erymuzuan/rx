@@ -1,0 +1,211 @@
+{
+  "$type": "Bespoke.Sph.Domain.WorkflowDefinition, domain.sph",
+  "ActivityCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Activity, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ExpressionActivity, domain.sph",
+        "Expression": "// PLEASE WAIT WHILE YOUR SCRIPT IS LOADING\nvar adapter = new Bespoke.DevV1.Adapters.CountryLookupDatabase.CountryLookupAdapter();\nthis.Country.Population = int.Parse(\n    await adapter.ExecuteScalarAsync<string>(\"SELECT [Population] FROM CountryLookup WHERE Id = '\" + this.Country.Name + \"'\"));",
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Expression",
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 155,
+          "Y": 112,
+          "WebId": null
+        },
+        "IsInitiator": true,
+        "NextActivityWebId": "a8f02c18-f6b2-46c9-949b-2817c37a46f1",
+        "Name": "RetrievePopulation",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "6fd65730-3a91-4180-c5de-9062d7cd096a"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.EndActivity, domain.sph",
+        "IsTerminating": false,
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "End",
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 382,
+          "Y": 597,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": null,
+        "Name": "End_2",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "ff89d293-431b-4217-b9b5-81a39ff6e61f"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SendActivity, domain.sph",
+        "PortType": null,
+        "Adapter": "Bespoke.DevV1.Adapters.CountryLookupDatabase.CountryPopulationAdapter",
+        "Method": "InsertAsync",
+        "AdapterAssembly": "DevV1.CountryLookupDatabase",
+        "IsSynchronous": false,
+        "ArgumentPath": "AdapterCountryPopulation",
+        "ReturnValuePath": null,
+        "ExceptionFilterCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ExceptionFilter, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "InitializingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": []
+        },
+        "FollowingCorrelationSetCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+          "$values": []
+        },
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Send",
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 449,
+          "Y": 422,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "ff89d293-431b-4217-b9b5-81a39ff6e61f",
+        "Name": "UpdateLookupPopulation",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "67cc3b51-a0e6-4f03-f929-811c4f28a7d9"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.MappingActivity, domain.sph",
+        "MappingDefinition": "DevV1.Integrations.Transforms.CountryToLookupPopulation",
+        "DestinationType": null,
+        "OutputPath": "AdapterCountryPopulation",
+        "MappingSourceCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MappingSource, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.MappingSource, domain.sph",
+              "TypeName": "",
+              "Variable": "Country",
+              "WebId": "Input Path"
+            }
+          ]
+        },
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Mapping",
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 370,
+          "Y": 213,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "67cc3b51-a0e6-4f03-f929-811c4f28a7d9",
+        "Name": "Mapping_4",
+        "TryScope": null,
+        "CatchScope": null,
+        "WebId": "a8f02c18-f6b2-46c9-949b-2817c37a46f1"
+      }
+    ]
+  },
+  "VariableDefinitionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Variable, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ClrTypeVariable, domain.sph",
+        "Assembly": "",
+        "CanInitiateWithDefaultConstructor": true,
+        "Name": "Country",
+        "TypeName": "Bespoke.DevV1.Countries.Domain.Country, DevV1.Country",
+        "DefaultValue": "",
+        "WebId": "2b53ea1f-a83c-448f-8dab-1663ed7c7846"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleVariable, domain.sph",
+        "Name": "Row",
+        "TypeName": "System.String, mscorlib",
+        "DefaultValue": "",
+        "WebId": "1f00ced2-fd87-4ac3-f1c8-6d2d5d2b63b1"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ClrTypeVariable, domain.sph",
+        "Assembly": "",
+        "CanInitiateWithDefaultConstructor": true,
+        "Name": "AdapterCountryPopulation",
+        "TypeName": "Bespoke.DevV1.Adapters.CountryLookupDatabase.CountryPopulation, DevV1.CountryLookupDatabase",
+        "DefaultValue": "",
+        "WebId": "ee715ec8-a365-44a2-a364-dcb03070a619"
+      }
+    ]
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
+        "Name": "DevV1.CountryLookupDatabase",
+        "FullName": "DevV1.CountryLookupDatabase, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "Version": "0.0.0.0",
+        "Location": "C:\\project\\work\\sph\\source\\web\\web.sph\\bin\\DevV1.CountryLookupDatabase.dll",
+        "IsGac": false,
+        "IsStrongName": false,
+        "RuntimeVersion": "v4.0.30319",
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
+        "Name": "DevV1.Country",
+        "FullName": "DevV1.Country, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "Version": "0.0.0.0",
+        "Location": "C:\\project\\work\\sph\\source\\web\\web.sph\\bin\\DevV1.Country.dll",
+        "IsGac": false,
+        "IsStrongName": false,
+        "RuntimeVersion": "v4.0.30319",
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
+        "Name": "DevV1.CountryToLookupPopulation",
+        "FullName": "DevV1.CountryToLookupPopulation, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "Version": "0.0.0.0",
+        "Location": "C:\\project\\work\\sph\\source\\web\\web.sph\\bin\\DevV1.CountryToLookupPopulation.dll",
+        "IsGac": false,
+        "IsStrongName": false,
+        "RuntimeVersion": "v4.0.30319",
+        "WebId": null
+      }
+    ]
+  },
+  "CorrelationSetCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationSet, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "CorrelationTypeCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CorrelationType, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "TryScopeCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TryScope, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "Update country population",
+  "Note": "",
+  "IsActive": true,
+  "SchemaStoreId": "fdde1769-bd10-40bf-90ff-b7f843e742b6",
+  "Version": 1,
+  "WorkflowTypeName": "UpdateCountryPopulationWorkflow",
+  "CreatedBy": "admin",
+  "Id": "update-country-population",
+  "CreatedDate": "2016-09-01T12:10:46.325187+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-09-01T12:54:39.2322104+08:00",
+  "WebId": "b400046e-f6b2-4309-a3ef-0df00fbbaab4 (2016-09-01 12:10:46.325)"
+}
