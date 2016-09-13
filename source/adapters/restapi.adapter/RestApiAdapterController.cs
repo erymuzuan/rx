@@ -19,5 +19,13 @@ namespace Bespoke.Sph.Integrations.Adapters
             var json = "[" + endpoints.JoinString(",", x => x.ToJsonString()) + "]";
             return Json(json);
         }
+
+        [HttpPost]
+        [Route("endpoints/{name}/build")]
+        public async Task<IHttpActionResult> BuildEndpointAsync(RestApiOperationDefinition endpoint, string name)
+        {
+            await endpoint.BuildAsync(name);
+            return Json(endpoint.ToJsonString());
+        }
     }
 }

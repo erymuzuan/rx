@@ -6,6 +6,7 @@
 
 bespoke.sph.domain.api.RestApiOperationDefinition = function (model) {
     const v = new bespoke.sph.domain.api.OperationDefinition(model);
+    v.busy = ko.observable(false);
     v.HarStoreId = ko.observable("");
     v.RequestHeadersSample = ko.observable("");
     v.RequestBodySample = ko.observable("");

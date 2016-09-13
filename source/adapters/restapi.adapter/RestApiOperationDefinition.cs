@@ -83,17 +83,28 @@ namespace Bespoke.Sph.Integrations.Adapters
             throw new NotImplementedException();
         }
 
-        public Task BuildAsync()
+        public Task BuildAsync(string name = "")
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                var uri = new Uri(BaseAddress);
+                name = $"{HttpMethod.ToLowerInvariant()} {uri.LocalPath.Replace("/", " ")}".ToPascalCase();
+            }
+            this.Name = name;
+            this.MethodName = name;
+            this.Schema = "";
+            this.WebId = Guid.NewGuid().ToString();
+            this.Uuid = this.WebId;
+
             var qms = from q in this.QueryStrings.Keys
                       select new SimpleMember { Name = q.ToPascalCase(), Type = typeof(string) };
             var hms = from q in this.RequestHeaders.Keys
                       select new SimpleMember { Name = q.ToPascalCase(), Type = typeof(string) };
 
-            var querySrings = new ComplexMember { Name = "QueryStrings", AllowMultiple = false, TypeName = "QueryString" };
+            var querySrings = new ComplexMember { Name = "QueryStrings", AllowMultiple = false, TypeName = $"{name}QueryString" };
             querySrings.MemberCollection.AddRange(qms);
 
-            var requestHeaders = new ComplexMember { Name = "Headers", TypeName = "RequestHeader", AllowMultiple = false };
+            var requestHeaders = new ComplexMember { Name = "Headers", TypeName = $"{name}RequestHeader", AllowMultiple = false };
             requestHeaders.MemberCollection.AddRange(hms);
 
             this.RequestMemberCollection.Clear();
@@ -105,16 +116,16 @@ namespace Bespoke.Sph.Integrations.Adapters
                 var requestBodyMembers = from j in requestContent.Children()
                                          select GetContentMember((JProperty)j);
 
-                var requestBody = new ComplexMember { Name = "Body", TypeName = "RequestBody" };
+                var requestBody = new ComplexMember { Name = "Body", TypeName = $"{name}RequestBody" };
                 requestBody.MemberCollection.AddRange(requestBodyMembers.Where(x => null != x));
                 this.RequestMemberCollection.Add(requestBody);
             }
-            
+
             var responseHeaderMembers = from k in this.ResponseHeaders.Keys
                                         select new SimpleMember { Name = k.ToPascalCase(), Type = typeof(string), PropertyAttribute = $@"[JsonProperty(""{k}"")]" };
-            var responseHeader = new ComplexMember { AllowMultiple = false, Name = "Headers", TypeName = "Header" };
+            var responseHeader = new ComplexMember { AllowMultiple = false, Name = "Headers", TypeName = $"{Name}ResponseHeader" };
             responseHeader.MemberCollection.AddRange(responseHeaderMembers);
-            var responseBody = new ComplexMember { Name = "Body", AllowMultiple = false };
+            var responseBody = new ComplexMember { Name = "Body", AllowMultiple = false , TypeName = $"{name}ResponseBody"};
             var json = JObject.Parse(this.ResponseBodySample);
             var members = from j in json.Children()
                           select GetContentMember((JProperty)j);
@@ -124,11 +135,6 @@ namespace Bespoke.Sph.Integrations.Adapters
             this.ResponseMemberCollection.Add(responseHeader);
             this.ResponseMemberCollection.Add(responseBody);
 
-            this.Name = this.HttpMethod.ToLower().ToPascalCase() + "1";
-            this.MethodName = this.HttpMethod.ToLower().ToPascalCase() + "1";
-            this.Schema = "";
-            this.WebId = Guid.NewGuid().ToString();
-            this.Uuid = this.WebId;
 
 
             return Task.FromResult(0);

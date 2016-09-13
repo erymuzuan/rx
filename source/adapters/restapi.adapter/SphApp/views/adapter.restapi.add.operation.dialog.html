@@ -1,5 +1,5 @@
 ﻿<section class="view-model-modal" id="rest-api-operation-dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="width: 850px">
         <div class="modal-content">
 
             <div class="modal-header">
@@ -37,13 +37,14 @@
                         <tr>
                             <td>
                                 <input type="checkbox" class="selector" data-bind="value: WebId" />
+                                <i class="fa fa-spin fa-circle-o-notch" data-bind="value: busy"></i>
                             </td>
                             <td data-bind="text:HttpMethod"></td>
                             <td>
                                 <input type="text" data-bind="value : Name, uniqueName:true" class="form-control" required pattern="^[A-Za-z_][A-Za-z0-9_]*$" />
                             </td>
                             <td>
-                                <input type="text" readonly="readonly" data-bind="value:BaseAddress" class="form-control" />
+                                <input type="text" readonly="readonly" data-bind="value:BaseAddress, attr :{title: BaseAddress}" class="form-control" />
                             </td>
                         </tr>
                     </tbody>

@@ -31,8 +31,14 @@ define(["plugins/dialog", objectbuilders.datacontext],
             attached = function (view) {
                 $(view).on("click", "input[type=checkbox].selector", function () {
                     const ep = ko.dataFor(this);
+                    busy(true);
                     if ($(this).is(":checked")) {
-                        selectedOptions.push(ep);
+                        context.post(ko.mapping.toJSON(ep), `/restapi-adapters/endpoints/${ko.unwrap(ep.Name)}/build`)
+                            .done(function(result) {
+                                const built = new bespoke.sph.domain.api.RestApiOperationDefinition(result);
+                                selectedOptions.push(built);
+                                busy(false);
+                            });
                     } else {
                         selectedOptions.remove(ep);
                     }
@@ -40,12 +46,18 @@ define(["plugins/dialog", objectbuilders.datacontext],
                 });
             };
 
-        storeId.subscribe(function(id) {
+        storeId.subscribe(function (id) {
+            if (!id) {
+                busy(false);
+                selectedOptions.removeAll();
+                return;
+            }
             busy(true);
             context.get(`/restapi-adapters/hars/${id}/endpoints`).done(function(list){
                 const maps = list.map(v => new bespoke.sph.domain.api.RestApiOperationDefinition(v));
                 options(maps);
                 selectedOptions.removeAll();
+                busy(false);
             });
         });
 
