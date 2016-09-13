@@ -6,7 +6,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 {
     public interface IEndpointsBuilder
     {
-        Task<IEnumerable<RestApiOperationDefinition>> BuildAsync();
+        Task<RestApiOperationDefinition> BuildAsync();
         double Order { get; }
         string StoreId { get; set; }
         Task<IEnumerable<IEndpointsBuilder>> GetBuildersAsync();

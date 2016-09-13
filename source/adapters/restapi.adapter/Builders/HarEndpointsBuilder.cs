@@ -13,7 +13,6 @@ namespace Bespoke.Sph.Integrations.Adapters
     [Export(typeof(IEndpointsBuilder))]
     public partial class HarEndpointsBuilder : IEndpointsBuilder
     {
-        public JToken JsonToken { get; private set; }
 
         public HarEndpointsBuilder()
         {
@@ -23,7 +22,10 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         public HarEndpointsBuilder(JToken x)
         {
-            this.JsonToken = x;
+            var request = x["request"];
+            var response = x["response"];
+            ExtractRequet(request);
+            ExtractResponse(response);
         }
 
         public string ResponseHeaderSample { get; set; }
@@ -71,19 +73,16 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             return enc;
         }
-        public async Task<IEnumerable<RestApiOperationDefinition>> BuildAsync()
-        {
-            var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var har = await store.GetContentAsync(this.StoreId);
-            var temp = Path.GetTempFileName();
-            File.WriteAllBytes(temp, har.Content);
-            var text = File.ReadAllText(temp);
 
-            var json = JObject.Parse(text);
-            var entries = json.SelectToken("$.log.entries").Select(GetOne).ToList();
-            var tasks = entries.Select(x => x.BuildAsync());
-            await Task.WhenAll(tasks);
-            return entries;
+        public async Task<RestApiOperationDefinition> BuildAsync()
+        {
+            var op = new RestApiOperationDefinition(this)
+            {
+                BaseAddress = this.BaseAddress,
+                HttpMethod = this.HttpMethod
+            };
+            await op.BuildAsync();
+            return op;
         }
 
         public async Task<IEnumerable<IEndpointsBuilder>> GetBuildersAsync()
@@ -97,7 +96,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 var text = File.ReadAllText(temp);
                 var json = JObject.Parse(text);
                 var entries = json.SelectToken("$.log.entries").ToList();
-                return entries.Select(x => new HarEndpointsBuilder(x));
+                return entries.Select(x => new HarEndpointsBuilder(x) { StoreId = this.StoreId });
             }
             catch
             {
@@ -161,29 +160,6 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
 
 
-        public RestApiOperationDefinition GetOne(JToken entry)
-        {
-            this.QueryStrings.Clear();
-            this.ResponseHeaders.Clear();
-            this.HttpMethod = null;
-            this.RequestHeaders.Clear();
-            this.RequestBodySample = null;
-            this.ResponseHeaders.Clear();
-            this.RequestContentType = null;
-            this.ResponseBodySample = null;
-
-            var op = new RestApiOperationDefinition(this);
-            var request = entry["request"];
-            var response = entry["response"];
-            ExtractRequet(request);
-            ExtractResponse(response);
-
-            op.BaseAddress = this.BaseAddress;
-            op.HttpMethod = this.HttpMethod;
-
-
-            return op;
-        }
 
         private void ExtractRequet(JToken request)
         {

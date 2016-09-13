@@ -189,13 +189,7 @@
                     <a href="#general" data-toggle="tab">General</a>
                 </li>
                 <li>
-                    <a href="#PANEL2" data-toggle="tab">TEXT2</a>
-                </li>
-                <li>
-                    <a href="#PANEL3" data-toggle="tab">TEXT3</a>
-                </li>
-                <li>
-                    <a href="#PANEL4" data-toggle="tab">TEXT4</a>
+                    <a href="#rest-api-security" data-toggle="tab">Security</a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -212,15 +206,17 @@
                         </div>
                     </form>
                 </div>
-                <div id="PANEL2" class="tab-pane">
-
-
-                </div>
-                <div id="PANEL3" class="tab-pane">
-
-
-                </div>
-                <div id="PANEL4" class="tab-pane">
+                <div id="rest-api-security" class="tab-pane">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="authentication-type" class="col-lg-2 control-label">Type</label>
+                            <div class="col-lg-6">
+                                <input type="text" data-bind="value: AuthenticationType"
+                                       placeholder="e.g. Bearer"
+                                       class="form-control" id="authentication-type">
+                            </div>
+                        </div>
+                    </form>
 
                 </div>
 

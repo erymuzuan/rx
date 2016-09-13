@@ -12,13 +12,7 @@ namespace Bespoke.Sph.Integrations.Adapters
     {
         public RestApiAdapterController()
         {
-            var sp = ObjectBuilder.GetObject<ServiceProvider>();
-            if (null == sp)
-            {
-                sp = new ServiceProvider();
-                ObjectBuilder.ComposeMefCatalog(sp);
-                ObjectBuilder.AddCacheList(sp);
-            }
+            ServiceProvider.Init();
         }
         [HttpGet]
         [Route("hars/{id}/endpoints")]
@@ -27,9 +21,8 @@ namespace Bespoke.Sph.Integrations.Adapters
             var factory = new EndpointsBuilderFactory();
             var sp = ObjectBuilder.GetObject<ServiceProvider>();
             var builders = await factory.CreateAsync(sp, id);
-            var endpoints =(builders.Select(x => new RestApiOperationDefinition(x))).ToList();
-            var tasks = endpoints.Select(x => x.BuildAsync());
-            await Task.WhenAll(tasks);
+            var tasks = builders.Select(x => x.BuildAsync());
+            var endpoints = (await Task.WhenAll(tasks));
 
             var json = "[" + endpoints.JoinString(",", x => x.ToJsonString()) + "]";
             return Json(json);
