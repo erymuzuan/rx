@@ -1,11 +1,9 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Integrations.Adapters;
 using Moq;
-using Newtonsoft.Json.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -21,66 +19,78 @@ namespace adapter.restapi.test
 
             Console = helper;
             var store = new Mock<IBinaryStore>(MockBehavior.Strict);
-
             store.SetupAndReturnDoc("har.setting.har");
             ObjectBuilder.AddCacheList(store.Object);
 
         }
         [Fact]
-        public void GetRequest()
+        public async Task GetRequestAsync()
         {
-            var json = GetHar();
-            var entry = json.SelectToken("$.log.entries").Select(e => new RestApiOperationDefinition(e)).First();
+            var builder = new HarEndpointsBuilder
+            {
+                StoreId = "har.setting.har"
+            };
+            var endpoints = await builder.BuildAsync();
 
-            Assert.Equal(5, entry.QueryStrings.Keys.Count);
-            Assert.Equal(10, entry.RequestHeaders.Keys.Count);
-            Assert.Equal("GET", entry.HttpMethod);
-            Assert.Equal("HTTP/1.1", entry.HttpVersion);
+            Assert.Equal(1, endpoints.Count());
+            Assert.Equal(5, builder.QueryStrings.Keys.Count);
+            Assert.Equal(10, builder.RequestHeaders.Keys.Count);
+            Assert.Equal("GET", builder.HttpMethod);
+            Assert.Equal("HTTP/1.1", builder.HttpVersion);
 
         }
 
-        private JObject GetHar()
-        {
-            var text = File.ReadAllText("har.setting.har");
-            return JObject.Parse(text);
-        }
 
         [Fact]
-        public void GetResponse()
+        public async Task GetResponseAsync()
         {
-            var json = JObject.Parse(File.ReadAllText("har.setting.har"));
-            var entry = json.SelectToken("$.log.entries").Select(e => new RestApiOperationDefinition(e)).First();
+            var builder = new HarEndpointsBuilder
+            {
+                StoreId = "har.setting.har"
+            };
+            var endpoints = await builder.BuildAsync();
+            var entry = endpoints.FirstOrDefault();
 
-            Assert.Equal(10, entry.ResponseHeaders.Keys.Count);
-            Assert.Equal("gzip", entry.ResponseHeaders["Content-Encoding"]);
-            Assert.Equal("OK", entry.ResponseStatusText);
-            Assert.Equal(200, entry.ResponseStatus);
-            Assert.Equal(2015, entry.ResponseBodySize);
-            Assert.Equal("application/json", entry.ResponseContentType);
-            Assert.Contains("29T15:49:25.4862826+08:0", entry.ResponseBodySample);
+            Assert.NotNull(entry);
+
+            Assert.Equal(10, builder.ResponseHeaders.Keys.Count);
+            Assert.Equal("gzip", builder.ResponseHeaders["Content-Encoding"]);
+            Assert.Equal("OK", builder.ResponseStatusText);
+            Assert.Equal(200, builder.ResponseStatus);
+            Assert.Equal(2015, builder.ResponseBodySize);
+            Assert.Equal("application/json", builder.ResponseContentType);
+            Assert.Contains("29T15:49:25.4862826+08:0", builder.ResponseBodySample);
             Assert.Equal("GET", entry.HttpMethod);
-            Assert.Equal("HTTP/1.1", entry.HttpVersion);
+            Assert.Equal("HTTP/1.1", builder.HttpVersion);
         }
 
 
         [Fact]
         public async Task GetRequestMembers()
         {
-            var json = GetHar();
-            var entry = json.SelectToken("$.log.entries").Select(e => new RestApiOperationDefinition(e)).First();
-
-            await entry.BuildAsync();
+            var builder = new HarEndpointsBuilder
+            {
+                StoreId = "har.setting.har"
+            };
+            var endpoints = await builder.BuildAsync();
+            var entry = endpoints.FirstOrDefault();
+            Assert.NotNull(entry);
             Assert.Equal(2, entry.RequestMemberCollection.Count);
         }
+
+
         [Fact]
         public async Task BuildResponseMembers()
         {
-            var json = GetHar();
-            var entry = json.SelectToken("$.log.entries").Select(e => new RestApiOperationDefinition(e)).First();
+            var builder = new HarEndpointsBuilder
+            {
+                StoreId = "har.setting.har"
+            };
+            var endpoints = await builder.BuildAsync();
+            var entry = endpoints.FirstOrDefault();
+            Assert.NotNull(entry);
 
-            await entry.BuildAsync();
-
-            Assert.Equal("Get1", entry.Name);
+            Assert.Equal("GetApiSystemsSetting", entry.Name);
             Assert.Equal("GET", entry.HttpMethod);
 
             Assert.Equal(2, entry.ResponseMemberCollection.Count);

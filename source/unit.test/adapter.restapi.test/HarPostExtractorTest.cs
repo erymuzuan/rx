@@ -1,11 +1,9 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Integrations.Adapters;
 using Moq;
-using Newtonsoft.Json.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -27,21 +25,23 @@ namespace adapter.restapi.test
             ObjectBuilder.AddCacheList(store.Object);
 
         }
-        private JObject GetHar()
-        {
-            var text = File.ReadAllText("post.snb.har");
-            return JObject.Parse(text);
-        }
         [Fact]
-        public void PostRequest()
+        public async Task PostRequestAsync()
         {
-            var json = GetHar();
-            var entry = json.SelectToken("$.log.entries").Select(e => new RestApiOperationDefinition(e)).Last();
+            var builder = new HarEndpointsBuilder
+            {
+                StoreId = "post.snb.har"
+            };
+            var endpoints = (await builder.BuildAsync()).ToArray();
+            Assert.Equal(2, endpoints.Length);
+            Console.WriteLine("Name " + endpoints[0].Name);
+            Console.WriteLine("Name " + endpoints[1].Name);
+            var entry = endpoints.FirstOrDefault(x => x.HttpMethod == "POST");
+            Assert.NotNull(entry);
+            Assert.Equal("PostApiCmdUpdateVirtualBankAccount", entry.Name);
 
-            Assert.Equal(0, entry.QueryStrings.Keys.Count);
-            Assert.Equal(10, entry.RequestHeaders.Keys.Count);
             Assert.Equal("POST", entry.HttpMethod);
-            Assert.Equal("HTTP/1.1", entry.HttpVersion);
+            Assert.Equal("HTTP/1.1", builder.HttpVersion);
 
         }
 
@@ -49,17 +49,22 @@ namespace adapter.restapi.test
         [Fact]
         public async Task BuildRequestMembers()
         {
-            var json = GetHar();
-            var entry = json.SelectToken("$.log.entries").Select(e => new RestApiOperationDefinition(e)).Last();
+            var builder = new HarEndpointsBuilder
+            {
+                StoreId = "post.snb.har"
+            };
+            var endpoints = await builder.BuildAsync();
+            var entry = endpoints.FirstOrDefault(x => x.HttpMethod == "POST");
+            Assert.NotNull(entry);
 
-            await entry.BuildAsync();
-            
             Assert.Equal("POST", entry.HttpMethod);
-            Assert.Equal("Post1", entry.Name);
+            Assert.Equal("PostApiCmdUpdateVirtualBankAccount", entry.Name);
 
             Assert.Equal(3, entry.RequestMemberCollection.Count);
             var header = entry.RequestMemberCollection.Single(x => x.Name == "Headers");
-            Assert.Equal(10, header.MemberCollection.Count);
+            Assert.Equal("Cache-Control,Pragma,Content-Type,Expires,Server,Access-Control-Allow-Origin,Access-Control-Allow-Credentials,X-AspNet-Version,X-Powered-By,Date,Content-Length",
+                header.MemberCollection.ToString(",", x => x.FullName));
+            Assert.Equal(11, header.MemberCollection.Count);
             Assert.False(header.AllowMultiple);
 
 
