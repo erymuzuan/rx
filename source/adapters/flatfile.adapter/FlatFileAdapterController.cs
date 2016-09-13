@@ -25,7 +25,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         [Route("generate")]
         public async Task<HttpResponseMessage> GenerateAsync([FromBody]FlatFileAdapter adapter)
         {
-            if (null == adapter.Tables || 0 == adapter.Tables.Length)
+            if (null == adapter.TableDefinitionCollection || 0 == adapter.TableDefinitionCollection.Count)
             {
 
                 var json = JsonConvert.SerializeObject(new { message = "No tables is specified", success = false, status = "Fail" });

@@ -57,7 +57,6 @@ namespace Bespoke.Sph.Integrations.Adapters
             var validationErrors = (await adapter.ValidateAsync()).ToArray();
             if (validationErrors.Any())
                 return Json(validationErrors);
-            adapter.Tables = new AdapterTable[] { };
             var result = await adapter.CompileAsync();
 
             var context = new SphDataContext();

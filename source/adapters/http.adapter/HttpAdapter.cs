@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 {
     [EntityType(typeof(Adapter))]
     [Export("AdapterDesigner", typeof(Adapter))]
-    [DesignerMetadata(Name = "HTTP adapter", FontAwesomeIcon = "html5", Route = "adapter.http/0", RouteTableProvider = typeof(HttpAdapterRouteTableProvider))]
+    [DesignerMetadata(Name = "http", FriendlyName = "HTTP adapter", FontAwesomeIcon = "html5", Route = "adapter.http/0", RouteTableProvider = typeof(HttpAdapterRouteTableProvider))]
     public partial class HttpAdapter : Adapter
     {
         public static readonly string[] ImportDirectives =

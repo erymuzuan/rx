@@ -15,7 +15,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 {
     [EntityType(typeof(Adapter))]
     [Export("AdapterDesigner", typeof(Adapter))]
-    [DesignerMetadata(Name = "Flat file adapter", FontAwesomeIcon = "file-o", Route = "adapter.flatfile/0", RouteTableProvider = typeof(FlatFileAdapterRouteTableProvider))]
+    [DesignerMetadata(Name = "textfile", FriendlyName = "Flat file adapter", FontAwesomeIcon = "file-o", Route = "adapter.flatfile/0", RouteTableProvider = typeof(FlatFileAdapterRouteTableProvider))]
     public partial class FlatFileAdapter : Adapter
     {
         public static readonly string[] ImportDirectives =
@@ -79,7 +79,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
-      
+
 
 
         protected override Task<Class> GenerateOdataTranslatorSourceCodeAsync()

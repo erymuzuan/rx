@@ -160,6 +160,11 @@ namespace Bespoke.Sph.Integrations.Adapters
             return sources;
         }
 
+        protected override string GenerateAdapterActionBody(Adapter adapter)
+        {
+            throw new NotImplementedException();
+        }
+
         public override IEnumerable<Class> GenerateRequestCode()
         {
 
