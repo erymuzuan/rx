@@ -522,6 +522,10 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                     "icon": "glyphicon glyphicon-usd",
                                     "valid_children": []
                                 },
+                                "System.Boolean, mscorlib": {
+                                    "icon": "fa fa-check",
+                                    "valid_children": []
+                                },
                                 "object": {
                                     "icon": "fa fa-object-group"
                                 },

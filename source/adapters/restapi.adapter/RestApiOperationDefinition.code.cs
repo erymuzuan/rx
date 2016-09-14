@@ -94,30 +94,45 @@ namespace Bespoke.Sph.Integrations.Adapters
             var dateTimeHeaders = headerParent.MemberCollection.OfType<SimpleMember>().Where(x => x.Type == typeof(DateTime)).ToArray();
             var int32Headers = headerParent.MemberCollection.OfType<SimpleMember>().Where(x => x.Type == typeof(int)).ToArray();
             var decimalHeaders = headerParent.MemberCollection.OfType<SimpleMember>().Where(x => x.Type == typeof(decimal)).ToArray();
+            var booleanHeaders = headerParent.MemberCollection.OfType<SimpleMember>().Where(x => x.Type == typeof(bool)).ToArray();
 
+            Func<SimpleMember, bool> checkContentHeader = m =>
+            {
+                if (m.FullName.Equals("Expires", StringComparison.InvariantCultureIgnoreCase)) return true;
+                if (m.FullName.ToEmptyString().StartsWith("content-", StringComparison.InvariantCultureIgnoreCase)) return true;
+                return false;
+            };
+
+            Func<SimpleMember, string> hasHeaderCode = m => checkContentHeader(m) ?
+                                                                $@"response.Content.Headers.Contains(""{m.FullName}"")" :
+                                                                $@"response.Headers.Contains(""{m.FullName}"")";
+
+            Func<SimpleMember, string> readHeaderCode = m => checkContentHeader(m) ? 
+                                                                $@"response.Content.Headers.GetValues(""{m.FullName}"")" : 
+                                                                $@"response.Headers.GetValues(""{m.FullName}"")";
 
             #region "strings headers"
             foreach (var header in stringHeaders.Where(x => x.AllowMultiple))
             {
-                code.AppendLine($@"if(response.Headers.Contains(""{header.FullName}""))");
-                code.AppendLine($@"   result.Headers.{header.Name}.AddRange(response.Headers.GetValues(""{header.FullName}""));");
+                code.AppendLine($@"if({hasHeaderCode(header)})");
+                code.AppendLine($@"   result.Headers.{header.Name}.AddRange({readHeaderCode(header)});");
 
             }
-            foreach (var header in stringHeaders.Where(x => !x.AllowMultiple))
+            foreach (var h in stringHeaders.Where(x => !x.AllowMultiple))
             {
-                code.AppendLine($@"if(response.Headers.Contains(""{header.FullName}""))");
-                code.AppendLine($@"   result.Headers.{header.Name} = string.Join("","", response.Headers.GetValues(""{header.FullName}""));");
+                code.AppendLine($@"if({hasHeaderCode(h)})");
+                code.AppendLine($@"   result.Headers.{h.Name} = string.Join(""; "", {readHeaderCode(h)});");
             }
             #endregion
 
             #region "DateTime headers"
             foreach (var header in dateTimeHeaders.Where(x => !x.AllowMultiple))
             {
-                code.AppendLine($@"if(response.Headers.Contains(""{header.FullName}""))");
+                code.AppendLine($@"if({hasHeaderCode(header)})");
                 code.AppendLine("  {");
                 if (header.IsNullable)
                 {
-                    code.AppendLine($@"    var header{header.Name}Raw = response.Headers.GetValues(""{header.FullName}"").FirstOrDefault();");
+                    code.AppendLine($@"    var header{header.Name}Raw = {readHeaderCode(header)}.FirstOrDefault();");
                     code.AppendLine($@"    DateTime header{header.Name};
                                            if(DateTime.TryParse(header{header.Name}Raw, out header{header.Name}))
                                               result.Headers.{header.Name} = header{header.Name};
@@ -125,7 +140,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 }
                 else
                 {
-                    code.AppendLine($@"     var header{header.Name}Raw = response.Headers.GetValues(""{header.FullName}"").First();");
+                    code.AppendLine($@"     var header{header.Name}Raw = {readHeaderCode(header)}.First();");
                     code.AppendLine($@"     result.Headers.{header.Name} = DateTime.Parse(header{header.Name}Raw);");
                 }
                 code.AppendLine("  }");
@@ -136,11 +151,11 @@ namespace Bespoke.Sph.Integrations.Adapters
             #region "Int32 headers"
             foreach (var header in int32Headers.Where(x => !x.AllowMultiple))
             {
-                code.AppendLine($@"if(response.Headers.Contains(""{header.FullName}""))");
+                code.AppendLine($@"if({hasHeaderCode(header)})");
                 code.AppendLine("  {");
                 if (header.IsNullable)
                 {
-                    code.AppendLine($@"var header{header.Name}Raw = response.Headers.GetValues(""{header.FullName}"").FirstOrDefault();");
+                    code.AppendLine($@"var header{header.Name}Raw = {readHeaderCode(header)}.FirstOrDefault();");
                     code.AppendLine($@"int header{header.Name};
                                        if(int.TryParse(header{header.Name}Raw, out header{header.Name}))
                                             result.Headers.{header.Name} = header{header.Name};
@@ -148,7 +163,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 }
                 else
                 {
-                    code.AppendLine($@"var header{header.Name}Raw = response.Headers.GetValues(""{header.FullName}"").First();");
+                    code.AppendLine($@"var header{header.Name}Raw = {readHeaderCode(header)}.First();");
                     code.AppendLine($@"result.Headers.{header.Name} = int.Parse(header{header.Name}Raw);");
                 }
                 code.AppendLine("  }");
@@ -158,11 +173,11 @@ namespace Bespoke.Sph.Integrations.Adapters
             #region "decimals headers"
             foreach (var header in decimalHeaders.Where(x => !x.AllowMultiple))
             {
-                code.AppendLine($@"if(response.Headers.Contains(""{header.FullName}""))");
+                code.AppendLine($@"if({hasHeaderCode(header)})");
                 code.AppendLine("  {");
                 if (header.IsNullable)
                 {
-                    code.AppendLine($@"var header{header.Name}Raw = response.Headers.GetValues(""{header.FullName}"").FirstOrDefault();");
+                    code.AppendLine($@"var header{header.Name}Raw = {readHeaderCode(header)}.FirstOrDefault();");
                     code.AppendLine($@"decimal header{header.Name};
                                        if(decimal.TryParse(header{header.Name}Raw, out header{header.Name}))
                                             result.Headers.{header.Name} = header{header.Name};
@@ -170,8 +185,30 @@ namespace Bespoke.Sph.Integrations.Adapters
                 }
                 else
                 {
-                    code.AppendLine($@"var header{header.Name}Raw = response.Headers.GetValues(""{header.FullName}"").First();");
+                    code.AppendLine($@"var header{header.Name}Raw = {readHeaderCode(header)}.First();");
                     code.AppendLine($@"result.Headers.{header.Name} = decimal.Parse(header{header.Name}Raw);");
+                }
+                code.AppendLine("  }");
+            }
+            #endregion
+
+            #region "boolean headers"
+            foreach (var header in booleanHeaders.Where(x => !x.AllowMultiple))
+            {
+                code.AppendLine($@"if({hasHeaderCode(header)})");
+                code.AppendLine("  {");
+                if (header.IsNullable)
+                {
+                    code.AppendLine($@"var header{header.Name}Raw = {readHeaderCode(header)}.FirstOrDefault();");
+                    code.AppendLine($@"bool header{header.Name};
+                                       if(bool.TryParse(header{header.Name}Raw, out header{header.Name}))
+                                            result.Headers.{header.Name} = header{header.Name};
+");
+                }
+                else
+                {
+                    code.AppendLine($@"var header{header.Name}Raw = {readHeaderCode(header)}.First();");
+                    code.AppendLine($@"result.Headers.{header.Name} = bool.Parse(header{header.Name}Raw);");
                 }
                 code.AppendLine("  }");
             }

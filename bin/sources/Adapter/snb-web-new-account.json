@@ -1,6 +1,11 @@
 {
   "$type": "Bespoke.Sph.Integrations.Adapters.RestApiAdapter, restapi.adapter",
   "BaseAddress": null,
+  "AuthenticationType": null,
+  "SecurityHeaderCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Integrations.Adapters.HttpHeader, restapi.adapter]], domain.sph",
+    "$values": []
+  },
   "OdataTranslator": null,
   "TableDefinitionCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.TableDefinition, domain.sph]], domain.sph",
@@ -10,7 +15,7 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Api.OperationDefinition, domain.sph]], domain.sph",
     "$values": [
       {
-        "$type": "Bespoke.Sph.Integrations.Adapters.RestApiOperationDefinition, restapi.adapter",
+        "$type": "Bespoke.Sph.Integrations.Adapters.RequestWithoutBodyApiOperationDefinition, restapi.adapter",
         "HttpMethod": "GET",
         "BaseAddress": "http://eryken2.asuscomm.com:8086/api/Branch?%24inlinecount=allpages&%24format=json&%24top=15&%24orderby=Name",
         "UseHttpGet": false,
@@ -711,7 +716,7 @@
                   },
                   {
                     "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
-                    "TypeName": "System.String, mscorlib",
+                    "TypeName": "System.DateTime, mscorlib",
                     "IsNullable": false,
                     "IsNotIndexed": false,
                     "IsAnalyzed": false,
@@ -828,7 +833,7 @@
                   {
                     "$type": "Bespoke.Sph.Domain.ComplexMember, domain.sph",
                     "EmptyField": null,
-                    "TypeName": "ValueItem",
+                    "TypeName": "Branch",
                     "FullName": null,
                     "PropertyAttribute": "[JsonProperty(\"value\")]",
                     "MemberCollection": {
@@ -1855,7 +1860,7 @@
                   {
                     "$type": "Bespoke.Sph.Domain.ComplexMember, domain.sph",
                     "EmptyField": null,
-                    "TypeName": "ValueItem",
+                    "TypeName": "UpdatedBranch",
                     "FullName": null,
                     "PropertyAttribute": "[JsonProperty(\"value\")]",
                     "MemberCollection": {
@@ -2077,6 +2082,6 @@
   "Id": "snb-web-new-account",
   "CreatedDate": "2016-09-11T09:12:56.5762714+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-13T14:51:08.2313673+08:00",
+  "ChangedDate": "2016-09-14T09:48:18.9715736+08:00",
   "WebId": "9f1e0de5-ac68-4f43-a0dc-68a340e00b84"
 }
