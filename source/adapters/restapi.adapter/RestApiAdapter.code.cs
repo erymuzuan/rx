@@ -21,7 +21,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             var sources = new ObjectCollection<Class>();
             var adapterClass = new Class { Name = Name, Namespace = CodeNamespace };
             adapterClass.AddNamespaceImport<DateTime, DomainObject, SqlConnection, CommandType>();
-            adapterClass.AddNamespaceImport<Task, HttpClient, JsonSerializerSettings>();
+            adapterClass.AddNamespaceImport<Task, HttpClient, JsonSerializerSettings, IQueryable<RestApiAdapter>>();
             var ope = this.OperationDefinitionCollection.OfType<RestApiOperationDefinition>().First();
             var uri = new Uri(ope.BaseAddress);
             var baseAddress = $"{uri.Scheme}://{uri.Host}:{uri.Port}";
