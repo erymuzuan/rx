@@ -61,6 +61,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HttpHeaderMember.cs" />
+    <Compile Include="QueryStringMember.cs" />
     <Compile Include="RequestWithoutBodyApiOperationDefinition.code.cs" />
     <Compile Include="RequestWithoutBodyApiOperationDefinition.cs" />
     <Compile Include="RestApiOperationDefinition.build.cs" />

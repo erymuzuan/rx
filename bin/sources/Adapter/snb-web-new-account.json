@@ -64,7 +64,7 @@
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
                       "$values": []
                     },
-                    "Name": "Inlinecount",
+                    "Name": "InlineCount",
                     "AllowMultiple": false,
                     "DefaultValue": null,
                     "WebId": "f64185b5-a8b0-4ec8-b55f-0fe22a2c68d3"
@@ -140,6 +140,30 @@
                     "AllowMultiple": false,
                     "DefaultValue": null,
                     "WebId": "419ea163-8519-4f48-8d76-620ccdaad5f4"
+                  },
+                  {
+                    "$type": "Bespoke.Sph.Integrations.Adapters.QueryStringMember, restapi.adapter",
+                    "TypeName": "System.Int32, mscorlib",
+                    "IsNullable": true,
+                    "IsNotIndexed": false,
+                    "IsAnalyzed": false,
+                    "IsFilterable": false,
+                    "IsExcludeInAll": false,
+                    "Boost": 0,
+                    "FullName": "$skip",
+                    "PropertyAttribute": null,
+                    "MemberCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "Name": "Skip",
+                    "AllowMultiple": false,
+                    "DefaultValue": null,
+                    "WebId": "2e7eda7a-cb7e-4c37-b482-0016a48feaaa"
                   }
                 ]
               },
@@ -2082,6 +2106,6 @@
   "Id": "snb-web-new-account",
   "CreatedDate": "2016-09-11T09:12:56.5762714+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-14T09:48:18.9715736+08:00",
+  "ChangedDate": "2016-09-14T11:34:18.9751883+08:00",
   "WebId": "9f1e0de5-ac68-4f43-a0dc-68a340e00b84"
 }

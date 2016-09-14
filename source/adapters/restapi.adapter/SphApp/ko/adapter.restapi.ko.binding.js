@@ -176,7 +176,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                             if (typeof member !== "function") {
                                 return;
                             }
-                            disposeSubscriptions(nameSubscription,  typeNameSubscription);
+                            disposeSubscriptions(nameSubscription, typeNameSubscription);
 
                             const $node = selected.node,
                                  field = $node.data,
@@ -252,135 +252,62 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                             "contextmenu": {
                                 "items": function ($node) {
                                     console.log($node);
-                                    var ref = tree,
+                                    const ref = tree,
                                         removeMenu = {
                                             label: "Remove",
                                             action: function () {
                                                 tree.delete_node($node);
 
-                                                if ($node.type === "U") {
-                                                    adapter().TableDefinitionCollection.remove(function (v) {
-                                                        return ko.unwrap(v.Schema) == ko.unwrap($node.data.Schema) && ko.unwrap(v.Name) == ko.unwrap($node.data.Name);
-                                                    });
-                                                } else {
-                                                    adapter().OperationDefinitionCollection.remove(function (v) {
-                                                        return ko.unwrap(v.Schema) == ko.unwrap($node.data.Schema) && ko.unwrap(v.Name) == ko.unwrap($node.data.Name);
-                                                    });
-                                                }
+                                                // TODO : remove
 
                                                 return true;
 
                                             }
                                         },
-                                        editOperation = {
-                                            "label": "Edit operation",
-                                            _disabled: !ko.unwrap(connected),
-                                            "action": function () {
-                                                var op = ko.toJS($node.data);
-                                                window.location = `/sph#adapter.sqlserver.sproc/${ko.unwrap(adapter().Id)}/${op.Schema}.${op.Name}`;
-                                            }
-                                        },
-                                        selectRelatedTable = {
-                                            label: "Make a relation",
-                                            action: function () {
-                                                $node.data.IsSelected(true);
-                                                ref.set_type($node, "child-table-selected");
-                                            }
-                                        },
-                                        unselectRelatedTable = {
-                                            label: "Undo relation",
-                                            action: function () {
-                                                ref.set_type($node, "child-table");
-                                                $node.data.IsSelected(false);
-                                            }
-                                        },
-                                        setNodeText = function (col) {
-                                            var text = computeNodeText(col);
-
-                                            $(`#${$node.id}`).find(`>a.jstree-anchor>i.column-icon`).remove();
-
-                                            tree.rename_node($node, text);
-                                        },
-                                        markComplex = {
-                                            label: "Make a complex resource",
-                                            action: function () {
-
-                                                $node.data.IsComplex(true);
-                                                setNodeText($node.data);
-                                            }
-                                        },
-                                        makeInline = {
-                                            label: "Make an inline member",
-                                            action: function () {
-                                                $node.data.IsComplex(false);
-                                                setNodeText($node.data);
-                                            }
-                                        },
-                                        makeLookup = {
-                                            label: "Enable lookup value",
-                                            action: function () {
-                                                $node.data.LookupColumnTable().IsEnabled(true);
-                                                setNodeText($node.data);
-                                            },
-                                            _disabled: !ko.unwrap(connected)
-                                        },
-                                        undoLookup = {
-                                            label: "Disable lookup value",
-                                            action: function () {
-                                                $node.data.LookupColumnTable().IsEnabled(false);
-                                                setNodeText($node.data);
-                                            }
-                                        },
-                                        ignoreMenu = {
-                                            label: "Ignore",
-                                            action: function () {
-                                                $node.data.Ignore(true);
-                                                setNodeText($node.data);
-                                            }
-                                        },
-                                        includeMenu = {
-                                            label: "Include",
-                                            action: function () {
-                                                $node.data.Ignore(false);
-                                                setNodeText($node.data);
-                                            }
-                                        },
-                                        enableActionMenu = {
-                                            label: "Enable",
-                                            action: function () {
-                                                $node.data.IsEnabled(true);
-                                                tree.set_type($node, "api-action-enabled");
-                                            }
-                                        },
-                                        disableActionMenu = {
-                                            label: "Disable",
-                                            action: function () {
-                                                $node.data.IsEnabled(false);
-                                                tree.set_type($node, "api-action-disabled");
-                                            }
-                                        };
-                                    var data = $node.data,
+                                        data = $node.data,
                                         dataJs = ko.toJS(data);
                                     if (dataJs.Name === "Headers") {
                                         return [
                                         {
                                             label: "Add header",
-                                            action : function() {}
+                                            action: function () {
+                                                const child = new bespoke.sph.domain.HttpHeaderMember({ WebId: system.guid(), TypeName: "System.String, mscorlib", Name: "Member_Name", FullName: "querystringKey" }),
+                                                        parent = $(element).jstree("get_selected", true),
+                                                        mb = parent[0].data,
+                                                        newNode = { state: "open", type: "System.String, mscorlib", text: "Member_Name", data: child };
+
+
+                                                const nn = ref.create_node($node, newNode);
+                                                mb.MemberCollection.push(child);
+
+                                                ref.deselect_node([parent]);
+                                                ref.select_node(nn);
+
+                                                return true;
+
+                                            }
                                         }];
                                     }
                                     if (dataJs.Name === "QueryStrings") {
                                         return [
                                         {
                                             label: "Add query string",
-                                            action : function() {}
-                                        }];
-                                    }
+                                            action: function () {
+                                                const child = new bespoke.sph.domain.QueryStringMember({ WebId: system.guid(), TypeName: "System.String, mscorlib", Name: "Member_Name", FullName: "querystringKey" }),
+                                                        parent = $(element).jstree("get_selected", true),
+                                                        mb = parent[0].data,
+                                                        newNode = { state: "open", type: "System.String, mscorlib", text: "Member_Name", data: child };
 
-                                    if ($node.id === "table-node" && addTable) {
-                                        return [{
-                                            label: "Add new table/view",
-                                            action: addTable,
-                                            _disabled: !ko.unwrap(connected)
+
+                                                const nn = ref.create_node($node, newNode);
+                                                mb.MemberCollection.push(child);
+
+                                                ref.deselect_node([parent]);
+                                                ref.select_node(nn);
+
+                                                return true;
+
+                                            }
                                         }];
                                     }
 
@@ -424,46 +351,12 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                         return items;
                                     }
 
-                                    if ($node.id.startsWith("action-")) {
-                                        if (ko.unwrap(data.IsEnabled))
-                                            return [disableActionMenu];
-
-                                        return [enableActionMenu];
+                                    if (dataJs.$type === "Bespoke.Sph.Integrations.Adapters.QueryStringMember, restapi.adapter") {
+                                        return [removeMenu];
                                     }
-                                    if ($node.type === "child-table-selected")
-                                        return [unselectRelatedTable];
-                                    if ($node.type === "child-table")
-                                        return [selectRelatedTable];
-                                    if ($node.type === "U")
+                                    if (dataJs.$type === "Bespoke.Sph.Integrations.Adapters.HttpHeaderMember, restapi.adapter") {
                                         return [removeMenu];
-                                    if ($node.type === "V")
-                                        return [removeMenu];
-                                    if ($node.id.startsWith("operation-"))
-                                        return [editOperation, removeMenu];
-                                    if ($node.type === "api-actions")
-                                        return [{
-                                            label: "Enable all endpoints", action: function () {
-
-                                                _($node.children).each(function (v) {
-                                                    var cn = ref.get_node(v),
-                                                        ep = cn.data;
-                                                    ep.IsEnabled(true);
-                                                    tree.set_type(cn, "api-action-enabled");
-                                                });
-                                            }
-                                        },
-                                            {
-                                                label: "Disable all endpoints",
-                                                action: function () {
-
-                                                    _($node.children).each(function (v) {
-                                                        var cn = ref.get_node(v),
-                                                            ep = cn.data;
-                                                        ep.IsEnabled(false);
-                                                        tree.set_type(cn, "api-action-disabled");
-                                                    });
-                                                }
-                                            }];
+                                    }
                                     return [];
 
                                 }
@@ -559,7 +452,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                             "plugins": ["contextmenu", "types", "dnd", "search"]
                         });
                 };
-            
+
             loadJsTree();
             tree = $(element).jstree(true);
 

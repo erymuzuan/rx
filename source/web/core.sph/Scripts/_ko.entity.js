@@ -201,7 +201,7 @@ ko.bindingHandlers.tree = {
                                 var simpleMenu = {
                                     label: "Add Simple Child",
                                     action: function () {
-                                        var child = new bespoke.sph.domain.SimpleMember({ WebId: system.guid(), TypeName: "System.String, mscorlib", Name: "Member_Name" }),
+                                        var child = new bespoke.sph.domain.QueryStringMember({ WebId: system.guid(), TypeName: "System.String, mscorlib", Name: "Member_Name" }),
                                             parent = $(element).jstree("get_selected", true),
                                             mb = parent[0].data,
                                             newNode = { state: "open", type: "System.String, mscorlib", text: "Member_Name", data: child };

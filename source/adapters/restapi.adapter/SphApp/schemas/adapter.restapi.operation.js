@@ -53,3 +53,30 @@ bespoke.sph.domain.api.RequestWithoutBodyApiOperationDefinition = function (mode
     return v;
 
 }
+
+bespoke.sph.domain.QueryStringMember = function(model) {
+    const v = new bespoke.sph.domain.SimpleMember(model);
+    v.FullName = ko.observable("");
+    v.$type = "Bespoke.Sph.Integrations.Adapters.QueryStringMember, restapi.adapter";
+
+    v.Name.subscribe(function(name) {
+        if (!ko.unwrap(v.FullName)) {
+            v.FullName(name);
+        }
+    });
+    return v;
+}
+bespoke.sph.domain.HttpHeaderMember = function(model) {
+    const v = new bespoke.sph.domain.SimpleMember(model);
+    v.FullName = ko.observable("");
+    v.$type = "Bespoke.Sph.Integrations.Adapters.HttpHeaderMember, restapi.adapter";
+
+
+    v.Name.subscribe(function (name) {
+        if (!ko.unwrap(v.FullName)) {
+            v.FullName(name);
+        }
+    });
+
+    return v;
+}

@@ -150,7 +150,7 @@
             <form class="form" role="form" data-bind="visible:Name()">
                 <div class="form-group">
                     <label for="member_name">Name</label>
-                    <input class="form-control" id="member_name" name="member.name" type="text" required data-bind="value: Name" title="The value will be used for C# code generation" />
+                    <input class="form-control" id="member_name" name="member.name" type="text" required pattern="^[A-Z][A-Za-z0-9_]*$" data-bind="value: Name" title="The value will be used for C# code generation" />
                 </div>
                 <div class="form-group">
                     <label for="member_name">Full Name</label>
@@ -173,6 +173,85 @@
                 <div class="form-group">
                     <label class="checkbox">
                         <input data-bind="checked: IsNullable, disable: ko.unwrap(AllowMultiple)" id="member-nullable" type="checkbox" name="IsNullable" />
+                        Nullable
+                    </label>
+                </div>
+
+            </form>
+
+            <!-- /ko-->
+            
+
+            <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Integrations.Adapters.HttpHeaderMember, restapi.adapter"-->
+            <form class="form" role="form" data-bind="visible:Name()">
+                <div class="form-group">
+                    <label for="http-header-name">Name</label>
+                    <input class="form-control" id="http-header-name" name="member.name" type="text" required data-bind="value: Name"
+                           pattern="^[A-Z][A-Za-z0-9_]*$"
+                           title="The value will be used for C# code generation" />
+                </div>
+                <div class="form-group">
+                    <label for="http-header-fullname">Full Name</label>
+                    <input class="form-control" id="http-header-fullname" name="member.fullname" type="text" required data-bind="value: FullName" title="The value is the actual item property from the request/response object" />
+                </div>
+
+                <div class="form-group">
+                    <label for="http-header-type">Type</label>
+                    <select class="form-control" id="http-header-type" data-bind="value:TypeName">
+                        <option value="">[Please Select]</option>
+                        <option value="System.String, mscorlib">String</option>
+                        <option value="System.Int32, mscorlib">Integer</option>
+                        <option value="System.Decimal, mscorlib">Decimal</option>
+                        <option value="System.DateTime, mscorlib">DateTime</option>
+                        <option value="System.Boolean, mscorlib">Boolean</option>
+                    </select>
+
+                </div>
+                <div class="form-group">
+                    <label class="checkbox">
+                        <input data-bind="checked: AllowMultiple" id="http-header-allowmultiple" type="checkbox" name="AllowMultiple" />
+                        Allow multiple
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox">
+                        <input data-bind="checked: IsNullable, disable: ko.unwrap(AllowMultiple)" id="http-header-nullable" type="checkbox" name="IsNullable" />
+                        Nullable
+                    </label>
+                </div>
+
+            </form>
+
+            <!-- /ko-->
+            
+
+            <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Integrations.Adapters.QueryStringMember, restapi.adapter"-->
+            <form class="form" role="form" data-bind="visible:Name()">
+                <div class="form-group">
+                    <label for="member_name">Name</label>
+                    <input class="form-control" id="query-string-name" name="member.name" type="text" required pattern="^[A-Z][A-Za-z0-9_]*$" data-bind="value: Name" title="The value will be used for C# code generation" />
+                </div>
+                <div class="form-group">
+                    <label for="member_name">Full Name</label>
+                    <input class="form-control" id="query-string-fullname" name="member.fullname" type="text" required data-bind="value: FullName" title="The value is the actual item property from the request/response object" />
+                </div>
+
+                <div class="form-group">
+                    <label for="member-type">Type</label>
+
+                    <select class="form-control" id="query-string-type" data-bind="value:TypeName">
+                        <option value="">[Please Select]</option>
+                        <option value="System.String, mscorlib">String</option>
+                        <option value="System.Int32, mscorlib">Integer</option>
+                        <option value="System.Decimal, mscorlib">Decimal</option>
+                        <option value="System.DateTime, mscorlib">DateTime</option>
+                        <option value="System.Boolean, mscorlib">Boolean</option>
+                    </select>
+
+                </div>
+                <div class="form-group">
+                    <label class="checkbox">
+                        <input data-bind="checked: IsNullable, disable: ko.unwrap(AllowMultiple)" id="query-string-nullable" type="checkbox" name="IsNullable" />
                         Nullable
                     </label>
                 </div>
