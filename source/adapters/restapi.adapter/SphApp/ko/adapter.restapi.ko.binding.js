@@ -19,12 +19,12 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
         init: function (element, valueAccessor) {
 
             var system = require(objectbuilders.system),
+                app = require(objectbuilders.app),
                 value = valueAccessor(),
                 adapter = value.adapter,
                 connected = value.connected || true,
                 searchInput = $(ko.unwrap(value.searchTextBox)),
                 addOperation = value.addOperation,
-                addTable = value.addTable,
                 member = value.selected,
                 jsTreeData = [{
                     id: "table-node",
@@ -264,7 +264,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
 
                                             }
                                         },
-                                        data = $node.data,
+                                        data = $node.data || {},
                                         dataJs = ko.toJS(data);
                                     if (dataJs.Name === "Headers") {
                                         return [
@@ -319,8 +319,21 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                             _disabled: !ko.unwrap(connected)
                                         }];
                                     }
-
-
+                                    if ($node.id.startsWith("operation-")) {
+                                        return [{
+                                            label: "Remove",
+                                            action: function() {
+                                                app.showMessage("Are you sure you want to remove this endpoint", "RX Developers", ["Yes", "No"])
+                                                    .done(function(dialogResult) {
+                                                        if (dialogResult === "Yes") {
+                                                            adapter().OperationDefinitionCollection.remove(data);
+                                                            // remove the node
+                                                            ref.delete_node($node);
+                                                        }
+                                                    });
+                                            }
+                                        }];
+                                    }
 
                                     if (dataJs.$type === "Bespoke.Sph.Integrations.Adapters.QueryStringMember, restapi.adapter") {
                                         return [removeMenu];

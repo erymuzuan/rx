@@ -17,8 +17,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             request.AddProperty($"public {MethodName}QueryString QueryStrings {{get;set;}} = new {MethodName}QueryString();");
             request.AddProperty($"public {MethodName}RequestHeader Headers {{get;set;}} = new {MethodName}RequestHeader();");
-            if (this.HttpMethod != "GET")
-                request.AddProperty($"public {MethodName}RequestBody Body{{get;set;}} = new {MethodName}RequestBody();");
+            request.AddProperty($"public {MethodName}RequestBody Body{{get;set;}} = new {MethodName}RequestBody();");
 
             list.Add(request);
             return list;
@@ -43,6 +42,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             var opUri = uri.LocalPath;
 
             code.AppendLine(this.GenerateRequestQueryStringsCode(ref opUri));
+            code.AppendLine(this.GenerateRequestHeadersCode((RestApiAdapter)adapter));
             code.AppendLine($@" 
             var setting = new JsonSerializerSettings();
             var json = JsonConvert.SerializeObject(request.Body, setting);
@@ -61,6 +61,40 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
+        protected string GenerateRequestHeadersCode(RestApiAdapter adapter)
+        {
+            var headerMembers = this.RequestMemberCollection.FirstOrDefault(x => x.Name.EndsWith("Headers"));
+            if (null == headerMembers)
+                return string.Empty;
+
+            var code = new StringBuilder("var rqh = request.Headers;");
+            code.AppendLine();
+            code.AppendLine($@"m_client.DefaultRequestHeaders.Clear();");
+            Func<SimpleMember, int, bool> checkContentHeader = (m, i) =>
+              {
+                  if (m.FullName.Equals("Expires", StringComparison.InvariantCultureIgnoreCase)) return false;
+                  if (m.FullName.ToEmptyString().StartsWith("content-", StringComparison.InvariantCultureIgnoreCase)) return false;
+                  return true;
+              };
+            var headers = headerMembers.MemberCollection.OfType<SimpleMember>().Where(checkContentHeader).ToList();
+            foreach (var m in headers.Where(x => !x.AllowMultiple))
+            {
+                code.AppendLine($@"m_client.DefaultRequestHeaders.Add(""{m.FullName}"", $""{{rqh.{m.Name}}}"");");
+            }
+            foreach (var m in headers.Where(x => x.AllowMultiple))
+            {
+                code.AppendLine($@"m_client.DefaultRequestHeaders.Add(""{m.FullName}"", rqh.{m.Name}).Select(x => $""{{x}}""));");
+            }
+            if (!string.IsNullOrWhiteSpace(adapter.AuthenticationType))
+            {
+                code.AppendLine($@"var token = " + adapter.DefaultValue.GenerateCode() + ";");
+                code.AppendLine($@"m_client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(""{adapter.AuthenticationType}"", token);");
+            }
+
+
+            return code.ToString();
+        }
+
         protected string GenerateRequestQueryStringsCode(ref string opUri)
         {
             var qsMember = this.RequestMemberCollection.FirstOrDefault(x => x.Name.EndsWith("QueryStrings"));
@@ -69,10 +103,18 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             var code = new StringBuilder("var qs = request.QueryStrings;");
             var queryString = new StringBuilder();
-            queryString.JoinAndAppendLine(qsMember.MemberCollection, "&", s => $"{s.FullName}={{qs.{s.Name}}}");
+            var nonNullableQueryStrings = qsMember.MemberCollection.OfType<SimpleMember>().Where(x => !x.IsNullable).ToArray();
+            var nullableQueryString = qsMember.MemberCollection.OfType<SimpleMember>().Where(x => x.IsNullable);
 
-            if (qsMember.MemberCollection.Any())
+
+            queryString.JoinAndAppend(nonNullableQueryStrings, "&", s => $"{s.FullName}={{qs.{s.Name}}}");
+            if (nonNullableQueryStrings.Any())
+                queryString.Append("&");
+            queryString.JoinAndAppend(nullableQueryString, "", s => $@"{{(qs.{s.Name}.HasValue ? $@""&{s.FullName}={{qs.{s.Name}}}"" :"""" )}}");
+
+            if (queryString.Length > 0)
             {
+
                 opUri += "?" + queryString;
             }
 
@@ -107,8 +149,8 @@ namespace Bespoke.Sph.Integrations.Adapters
                                                                 $@"response.Content.Headers.Contains(""{m.FullName}"")" :
                                                                 $@"response.Headers.Contains(""{m.FullName}"")";
 
-            Func<SimpleMember, string> readHeaderCode = m => checkContentHeader(m) ? 
-                                                                $@"response.Content.Headers.GetValues(""{m.FullName}"")" : 
+            Func<SimpleMember, string> readHeaderCode = m => checkContentHeader(m) ?
+                                                                $@"response.Content.Headers.GetValues(""{m.FullName}"")" :
                                                                 $@"response.Headers.GetValues(""{m.FullName}"")";
 
             #region "strings headers"

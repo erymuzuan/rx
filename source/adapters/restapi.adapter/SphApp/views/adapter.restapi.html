@@ -261,7 +261,7 @@
             <!-- /ko-->
             
             
-            <!-- ko if : ko.isObservable(DefaultValue) -->
+            <!-- ko if : typeof DefaultValue === "function" && ko.isObservable(DefaultValue) -->
 
             <div class="form-group">
                 <label for="default-value" class="control-label">Default Value</label>
@@ -338,11 +338,50 @@
                         <div class="form-group">
                             <label for="authentication-type" class="col-lg-3 control-label">Type</label>
                             <div class="col-lg-9">
-                                <input type="text" data-bind="value: AuthenticationType"
+                                <input type="text" data-bind="kendoComboBox: AuthenticationType, source : ko.observableArray(['Bearer', 'Basic', 'Digest','HOBA','Negotiate','OAuth','SCRAM-SHA-1','SCRAM-SHA-256'])"
                                        placeholder="e.g. Bearer"
                                        class="form-control" id="authentication-type">
                             </div>
                         </div>
+                        
+                        <!-- ko if : ko.isObservable(DefaultValue) -->
+
+                        <div class="form-group">
+                            <label for="authentication-value" class="col-lg-3 control-label">Value</label>
+                            <div class="btn-group" id="authentication-value">
+                                <a data-bind="with : DefaultValue, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
+                                    <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+                                    <!-- ko text : Name -->
+                                    <!-- /ko -->
+                                    <i class="fa fa-caret-down"></i>
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    <li data-bind="with : DefaultValue">
+                                        <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent, $data, $parent.DefaultValue)">
+                                            <i class="fa fa-edit"></i>
+                                            Edit Default Value
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.DefaultValue" href="#">
+                                            <img src="/images/ConstantField.png" alt="constantfield" class="pull-left" />
+                                            + Constant Field
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a data-bind="unwrapClick: addField,field : 'Function', accessor : $data.DefaultValue" href="#">
+                                            <img src="/images/FunctionField.png" alt="FunctionField" class="pull-left" />
+                                            + Function Field
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                        <!-- /ko -->
                     </form>
 
                 </div>

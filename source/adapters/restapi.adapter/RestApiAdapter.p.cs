@@ -6,6 +6,7 @@ namespace Bespoke.Sph.Integrations.Adapters
     {
         public string BaseAddress { get; set; }
         public string AuthenticationType { get; set; }
+        public Field DefaultValue { get; set; }
         public ObjectCollection<HttpHeader> SecurityHeaderCollection { get; } = new ObjectCollection<HttpHeader>();
 
         public override string OdataTranslator { get; }

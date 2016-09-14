@@ -21,7 +21,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             this.Uuid = this.WebId;
 
             var qms = await m_builder.GetRequestQueryStringMembersAsync();
-            var hms = await m_builder.GetResponseHeaderMembersAsync();
+            var hms = await m_builder.GetRequestHeaderMembersAsync();
 
             var querySrings = new ComplexMember
             {

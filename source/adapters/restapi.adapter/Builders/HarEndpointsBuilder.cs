@@ -81,13 +81,13 @@ namespace Bespoke.Sph.Integrations.Adapters
                 BaseAddress = this.BaseAddress,
                 HttpMethod = this.HttpMethod
             };
-            var requestWithoutBodies = new[] {"GET", "HEAD", "OPTIONS", "DELETE"};
+            var requestWithoutBodies = new[] { "GET", "HEAD", "OPTIONS", "DELETE" };
             if (requestWithoutBodies.Contains(this.HttpMethod.ToUpperInvariant()))
             {
                 op = new RequestWithoutBodyApiOperationDefinition(this)
                 {
                     BaseAddress = this.BaseAddress,
-                    HttpMethod =  this.HttpMethod
+                    HttpMethod = this.HttpMethod
                 };
             }
 
@@ -128,7 +128,20 @@ namespace Bespoke.Sph.Integrations.Adapters
         public Task<IEnumerable<Member>> GetRequestHeaderMembersAsync()
         {
             var hms = from q in this.RequestHeaders.Keys
-                      select new SimpleMember { Name = q.ToPascalCase(), FullName = q, Type = typeof(string) };
+                      select new SimpleMember
+                      {
+                          Name = q.ToPascalCase(),
+                          FullName = q,
+                          Type = typeof(string),
+                          DefaultValue = new ConstantField
+                          {
+                              Name = q,
+                              Value = this.RequestHeaders[q],
+                              Type = typeof(string),
+                              WebId = Guid.NewGuid().ToString()
+                          },
+                          WebId = Guid.NewGuid().ToString()
+                      };
             var members = new List<Member>();
             members.AddRange(hms);
             return Task.FromResult(members.Where(x => null != x));
@@ -138,7 +151,20 @@ namespace Bespoke.Sph.Integrations.Adapters
         public Task<IEnumerable<Member>> GetRequestQueryStringMembersAsync()
         {
             var qms = from q in this.QueryStrings.Keys
-                      select new SimpleMember { Name = q.ToPascalCase(), Type = typeof(string), FullName = q };
+                      select new SimpleMember
+                      {
+                          Name = q.ToPascalCase(),
+                          Type = typeof(string),
+                          FullName = q,
+                          DefaultValue = new ConstantField
+                          {
+                              Name = q,
+                              Value = this.QueryStrings[q],
+                              Type = typeof(string),
+                              WebId = Guid.NewGuid().ToString()
+                          },
+                          WebId = Guid.NewGuid().ToString()
+                      };
             var members = new List<Member>();
             members.AddRange(qms);
             return Task.FromResult(members.AsEnumerable());

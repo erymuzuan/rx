@@ -52,8 +52,47 @@ bespoke.sph.domain.api.RequestWithoutBodyApiOperationDefinition = function (mode
 
 }
 
+bespoke.sph.domain.Adapters.RestApiAdapter = function(model) {
+    const v = new bespoke.sph.domain.api.Adapter(model);
+    v.$type = "Bespoke.Sph.Integrations.Adapters.RestApiAdapter, restapi.adapter";
+    v.BaseAddress = ko.observable(model.BaseAddress || "");
+    v.AuthenticationType = ko.observable(model.AuthenticationType || "");
+    v.SecurityHeaderCollection = ko.observableArray([]);
+    v.DefaultValue = ko.observable(model.DefaultValue || {});
+
+
+    var context = require("services/datacontext");
+    if (model && typeof model === "object") {
+        for (let n in model) {
+            if (model.hasOwnProperty(n)) {
+                // array
+                if (ko.isObservable(v[n]) && "push" in v[n]) {
+                    const values = model[n].$values || model[n];
+                    if (_(values).isArray()) {
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
+                        continue;
+                    }
+                }
+                if (ko.isObservable(v[n])) {
+                    v[n](model[n]);
+                }
+            }
+        }
+    }
+
+    v.Name.subscribe(function(name) {
+        if (!ko.unwrap(v.FullName)) {
+            v.FullName(name);
+        }
+    });
+
+    return _(v).extend(new bespoke.sph.domain.FieldContainer(v, model));
+}
 bespoke.sph.domain.Adapters.QueryStringMember = function(model) {
     const v = new bespoke.sph.domain.SimpleMember(model);
+    if (!ko.isObservable(v.FullName)) {
+        v.FullName = ko.observable(model.FullName ||"");
+    }
     v.$type = "Bespoke.Sph.Integrations.Adapters.QueryStringMember, restapi.adapter";
 
 
@@ -65,8 +104,13 @@ bespoke.sph.domain.Adapters.QueryStringMember = function(model) {
 
     return _(v).extend(new bespoke.sph.domain.FieldContainer(v, model));
 }
+
+
 bespoke.sph.domain.Adapters.HttpHeaderMember = function(model) {
     const v = new bespoke.sph.domain.SimpleMember(model);
+    if (!ko.isObservable(v.FullName)) {
+        v.FullName = ko.observable(model.FullName || "");
+    }
     v.$type = "Bespoke.Sph.Integrations.Adapters.HttpHeaderMember, restapi.adapter";
 
 
