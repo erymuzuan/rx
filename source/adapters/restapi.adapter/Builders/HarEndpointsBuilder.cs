@@ -81,6 +81,16 @@ namespace Bespoke.Sph.Integrations.Adapters
                 BaseAddress = this.BaseAddress,
                 HttpMethod = this.HttpMethod
             };
+            var requestWithoutBodies = new[] {"GET", "HEAD", "OPTIONS", "DELETE"};
+            if (requestWithoutBodies.Contains(this.HttpMethod.ToUpperInvariant()))
+            {
+                op = new RequestWithoutBodyApiOperationDefinition(this)
+                {
+                    BaseAddress = this.BaseAddress,
+                    HttpMethod =  this.HttpMethod
+                };
+            }
+
             await op.BuildAsync();
             return op;
         }
