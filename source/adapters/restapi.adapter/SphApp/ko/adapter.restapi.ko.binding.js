@@ -359,7 +359,22 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                                 tree.set_type($node, "api-action-disabled");
                                             }
                                         };
-                                    var data = $node.data;
+                                    var data = $node.data,
+                                        dataJs = ko.toJS(data);
+                                    if (dataJs.Name === "Headers") {
+                                        return [
+                                        {
+                                            label: "Add header",
+                                            action : function() {}
+                                        }];
+                                    }
+                                    if (dataJs.Name === "QueryStrings") {
+                                        return [
+                                        {
+                                            label: "Add query string",
+                                            action : function() {}
+                                        }];
+                                    }
 
                                     if ($node.id === "table-node" && addTable) {
                                         return [{
