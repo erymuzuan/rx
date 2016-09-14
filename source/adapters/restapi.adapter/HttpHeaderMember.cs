@@ -4,6 +4,5 @@ namespace Bespoke.Sph.Integrations.Adapters
 {
     public class HttpHeaderMember : SimpleMember
     {
-        
     }
 }

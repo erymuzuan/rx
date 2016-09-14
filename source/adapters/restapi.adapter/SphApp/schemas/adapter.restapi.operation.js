@@ -44,8 +44,6 @@ bespoke.sph.domain.api.RestApiOperationDefinition = function (model) {
     return v;
 };
 
-
-
 bespoke.sph.domain.api.RequestWithoutBodyApiOperationDefinition = function (model) {
     const v = new bespoke.sph.domain.api.RestApiOperationDefinition(model);
     v.$type = "Bespoke.Sph.Integrations.Adapters.RequestWithoutBodyApiOperationDefinition, restapi.adapter";
@@ -54,21 +52,21 @@ bespoke.sph.domain.api.RequestWithoutBodyApiOperationDefinition = function (mode
 
 }
 
-bespoke.sph.domain.QueryStringMember = function(model) {
+bespoke.sph.domain.Adapters.QueryStringMember = function(model) {
     const v = new bespoke.sph.domain.SimpleMember(model);
-    v.FullName = ko.observable("");
     v.$type = "Bespoke.Sph.Integrations.Adapters.QueryStringMember, restapi.adapter";
+
 
     v.Name.subscribe(function(name) {
         if (!ko.unwrap(v.FullName)) {
             v.FullName(name);
         }
     });
-    return v;
+
+    return _(v).extend(new bespoke.sph.domain.FieldContainer(v, model));
 }
-bespoke.sph.domain.HttpHeaderMember = function(model) {
+bespoke.sph.domain.Adapters.HttpHeaderMember = function(model) {
     const v = new bespoke.sph.domain.SimpleMember(model);
-    v.FullName = ko.observable("");
     v.$type = "Bespoke.Sph.Integrations.Adapters.HttpHeaderMember, restapi.adapter";
 
 
@@ -78,5 +76,7 @@ bespoke.sph.domain.HttpHeaderMember = function(model) {
         }
     });
 
-    return v;
+
+    return _(v).extend(new bespoke.sph.domain.FieldContainer(v, model));
+
 }

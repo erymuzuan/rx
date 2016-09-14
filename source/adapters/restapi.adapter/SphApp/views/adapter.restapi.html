@@ -259,7 +259,53 @@
             </form>
 
             <!-- /ko-->
+            
+            
+            <!-- ko if : ko.isObservable(DefaultValue) -->
 
+            <div class="form-group">
+                <label for="default-value" class="control-label">Default Value</label>
+                <button disabled style="margin-left: 7px" class="btn btn-link" data-bind="visible:AllowMultiple">[Select a value] <i class="fa fa-caret-down"></i></button>
+                <div class="btn-group" id="default-value" data-bind="visible :!ko.unwrap(AllowMultiple)">
+                    <a data-bind="with : DefaultValue, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
+                        <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+                        <!-- ko text : Name -->
+                        <!-- /ko -->
+                        <i class="fa fa-caret-down"></i>
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        <li data-bind="with : DefaultValue">
+                            <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent, $data, $parent.DefaultValue)">
+                                <i class="fa fa-edit"></i>
+                                Edit Default Value
+                            </a>
+                        </li>
+                        <li data-bind="with : DefaultValue">
+                            <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.removeField.call($parent, $data, $parent.DefaultValue)">
+                                <i class="fa fa-times"></i>
+                                Remove Default Value
+                            </a>
+                        </li>
+
+                        <li>
+                            <a data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.DefaultValue" href="#">
+                                <img src="/images/ConstantField.png" alt="constantfield" class="pull-left" />
+                                + Constant Field
+                            </a>
+                        </li>
+                        <li>
+                            <a data-bind="unwrapClick: addField,field : 'Function', accessor : $data.DefaultValue" href="#">
+                                <img src="/images/FunctionField.png" alt="FunctionField" class="pull-left" />
+                                + Function Field
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- /ko -->
         </div>
 
     </div>

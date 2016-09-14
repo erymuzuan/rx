@@ -271,7 +271,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                         {
                                             label: "Add header",
                                             action: function () {
-                                                const child = new bespoke.sph.domain.HttpHeaderMember({ WebId: system.guid(), TypeName: "System.String, mscorlib", Name: "Member_Name", FullName: "querystringKey" }),
+                                                const child = new bespoke.sph.domain.Adapters.HttpHeaderMember({ WebId: system.guid(), TypeName: "System.String, mscorlib", Name: "Member_Name", FullName: "querystringKey" }),
                                                         parent = $(element).jstree("get_selected", true),
                                                         mb = parent[0].data,
                                                         newNode = { state: "open", type: "System.String, mscorlib", text: "Member_Name", data: child };
@@ -293,7 +293,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                         {
                                             label: "Add query string",
                                             action: function () {
-                                                const child = new bespoke.sph.domain.QueryStringMember({ WebId: system.guid(), TypeName: "System.String, mscorlib", Name: "Member_Name", FullName: "querystringKey" }),
+                                                const child = new bespoke.sph.domain.Adapters.QueryStringMember({ WebId: system.guid(), TypeName: "System.String, mscorlib", Name: "Member_Name", FullName: "querystringKey" }),
                                                         parent = $(element).jstree("get_selected", true),
                                                         mb = parent[0].data,
                                                         newNode = { state: "open", type: "System.String, mscorlib", text: "Member_Name", data: child };
@@ -321,35 +321,6 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                     }
 
 
-                                    if ($node.id.startsWith("column-")) {
-                                        let items = [];
-
-                                        if (ko.unwrap(data.Ignore))
-                                            items.push(includeMenu);
-                                        else
-                                            items.push(ignoreMenu);
-
-                                        if (ko.unwrap(data.IsComplex))
-                                            items.push(makeInline);
-                                        else
-                                            items.push(markComplex);
-
-                                        if (ko.unwrap(data.LookupColumnTable().IsEnabled))
-                                            items.push(undoLookup);
-                                        else
-                                            items.push(makeLookup);
-                                        return items;
-                                    }
-                                    if ($node.id.startsWith("parameter-")) {
-                                        let items = [];
-
-                                        if (ko.unwrap(data.Ignore))
-                                            items.push(includeMenu);
-                                        else
-                                            items.push(ignoreMenu);
-
-                                        return items;
-                                    }
 
                                     if (dataJs.$type === "Bespoke.Sph.Integrations.Adapters.QueryStringMember, restapi.adapter") {
                                         return [removeMenu];
