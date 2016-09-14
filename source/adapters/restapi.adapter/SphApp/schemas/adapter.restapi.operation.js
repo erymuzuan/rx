@@ -41,8 +41,15 @@ bespoke.sph.domain.api.RestApiOperationDefinition = function (model) {
         v.WebId(model);
     }
 
-    if (bespoke.sph.domain.RestApiReceiveLocationPartial) {
-        return _(v).extend(new bespoke.sph.domain.FolderReceiveLocationPartial(v, model));
-    }
     return v;
 };
+
+
+
+bespoke.sph.domain.api.RequestWithoutBodyApiOperationDefinition = function (model) {
+    const v = new bespoke.sph.domain.api.RestApiOperationDefinition(model);
+    v.$type = "Bespoke.Sph.Integrations.Adapters.RequestWithoutBodyApiOperationDefinition, restapi.adapter";
+
+    return v;
+
+}

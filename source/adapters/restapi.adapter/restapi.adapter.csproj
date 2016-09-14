@@ -61,7 +61,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="adapters\restapi.adapter\RestApiOperationDefinition.code.cs" />
+    <Compile Include="RequestWithoutBodyApiOperationDefinition.code.cs" />
+    <Compile Include="RequestWithoutBodyApiOperationDefinition.cs" />
+    <Compile Include="RestApiOperationDefinition.build.cs" />
+    <Compile Include="RestApiOperationDefinition.code.cs" />
     <Compile Include="Builders\EndpointsBuilderFactory.cs" />
     <Compile Include="Builders\HarEndpointsBuilder.cs" />
     <Compile Include="Builders\HarEndpointsBuilder.p.cs" />
