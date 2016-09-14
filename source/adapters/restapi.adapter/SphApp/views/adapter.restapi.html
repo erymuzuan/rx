@@ -146,7 +146,11 @@
             <form class="form" role="form" data-bind="visible:Name()">
                 <div class="form-group">
                     <label for="member_name">Name</label>
-                    <input class="form-control" id="member_name" name="member.name" type="text" required data-bind="value: Name" />
+                    <input class="form-control" id="member_name" name="member.name" type="text" required data-bind="value: Name" title="The value will be used for C# code generation" />
+                </div>
+                <div class="form-group">
+                    <label for="member_name">Full Name</label>
+                    <input class="form-control" id="member-fullname" name="member.fullname" type="text" required data-bind="value: FullName" readonly="readonly" title="The value is the actual item property from the request/response object" />
                 </div>
 
                 <div class="form-group">
