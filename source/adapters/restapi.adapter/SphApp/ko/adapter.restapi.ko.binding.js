@@ -54,6 +54,16 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
 
 
                 },
+                disposeSubscriptions = function (...subs) {
+                    subs.forEach(v => {
+                        if (v) {
+                            v.dispose();
+                            v = null;
+                        }
+                    });
+                },
+                nameSubscription = null,
+                typeNameSubscription = null,
                 mapTable = function (v) {
                     const table = ko.toJS(v),
                         columns = _(v.ColumnCollection()).map(function (col) {
@@ -162,9 +172,32 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
 
                     $(element)
                         .on("select_node.jstree", function (node, selected) {
-                            member(selected.node.data);
-                        })
 
+                            if (typeof member !== "function") {
+                                return;
+                            }
+                            disposeSubscriptions(nameSubscription,  typeNameSubscription);
+
+                            const $node = selected.node,
+                                 field = $node.data,
+                                 ref = $(element).jstree(true),
+                                 $index = $node.original.$index;
+                            if (field) {
+                                member(field);
+
+                                const nodeTextChanged = function () {
+                                    const text = computeNodeText(field, $index);
+                                    $(`#${$node.id}`).find(`>a.jstree-anchor>i.column-icon`).remove();
+                                    ref.rename_node($node, text);
+                                };
+                                nameSubscription = field.Name.subscribe(nodeTextChanged);
+                                // type
+                                if (ko.isObservable(field.TypeName)) {
+                                    typeNameSubscription = field.TypeName.subscribe(t => ref.set_type($node, t));
+                                }
+                            }
+
+                        })
                         .on("move_node.jstree", function (e, data) {
                             var ref = $(element).jstree(true),
                                 column = data.node.data,
@@ -507,8 +540,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                             "plugins": ["contextmenu", "types", "dnd", "search"]
                         });
                 };
-
-
+            
             loadJsTree();
             tree = $(element).jstree(true);
 
