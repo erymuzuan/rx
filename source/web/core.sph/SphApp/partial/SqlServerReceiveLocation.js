@@ -9,6 +9,7 @@ bespoke.sph.domain.Adapters.Polling = function(model) {
     model = model || {};
     return {
         Interval: ko.observable( model.Interval || 5 * 60 * 1000), // 5 minutes
+        IntervalPeriod: ko.observable("minute"), // 5 minutes
         Query: ko.observable(model.Query || ""),
         StartDate : ko.observable(model.Query)
     }

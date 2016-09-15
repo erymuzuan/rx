@@ -86,6 +86,7 @@
     <Compile Include="Columns\TinyIntColumn.cs" />
     <Compile Include="Columns\XmlColumn.cs" />
     <Compile Include="FunctionOperationDefinition.cs" />
+    <Compile Include="Polling.cs" />
     <Compile Include="ScalarValuedFunction.cs" />
     <Compile Include="IColumnGeneratorMetadata.cs" />
     <Compile Include="ParameterNameExtensions.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="SqlOperationFactory.cs" />
     <Compile Include="SqlServerAdapter.metadata.cs" />
     <Compile Include="SqlServerReceiveLocation.cs" />
+    <Compile Include="SqlServerReceiveLocation.p.cs" />
     <Compile Include="TableValuedFunction.cs" />
     <Compile Include="ThreeWayBoolean.cs" />
     <EmbeddedResource Include="OdataSqlTranslator.cs" />
