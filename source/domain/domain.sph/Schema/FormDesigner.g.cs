@@ -9407,6 +9407,128 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
+    public partial class SqlServerRecordSetFormatter
+    {
+
+        private int m_RecordReaderIndex;
+        public int RecordReaderIndex
+        {
+            get
+            {
+                return m_RecordReaderIndex;
+            }
+            set
+            {
+                m_RecordReaderIndex = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Server;
+        public string Server
+        {
+            get
+            {
+                return m_Server;
+            }
+            set
+            {
+                m_Server = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Database;
+        public string Database
+        {
+            get
+            {
+                return m_Database;
+            }
+            set
+            {
+                m_Database = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_Trusted;
+        public bool Trusted
+        {
+            get
+            {
+                return m_Trusted;
+            }
+            set
+            {
+                m_Trusted = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_UserId;
+        public string UserId
+        {
+            get
+            {
+                return m_UserId;
+            }
+            set
+            {
+                m_UserId = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Password;
+        public string Password
+        {
+            get
+            {
+                return m_Password;
+            }
+            set
+            {
+                m_Password = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Query;
+        public string Query
+        {
+            get
+            {
+                return m_Query;
+            }
+            set
+            {
+                m_Query = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<SqlServerRecordSet> SqlServerRecordSetCollection { get; } = new ObjectCollection<SqlServerRecordSet>();
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
     public partial class JsonTextFormatter
     {
 
@@ -9816,6 +9938,172 @@ namespace Bespoke.Sph.Domain
             {
                 m_Pattern = value;
                 RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class SqlServerRecordSet
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_fieldName;
+        public const string PropertyNameFieldName = "FieldName";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_sqlServerDataType;
+        public const string PropertyNameSqlServerDataType = "SqlServerDataType";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_typeName;
+        public const string PropertyNameTypeName = "TypeName";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_sampleValue;
+        public const string PropertyNameSampleValue = "SampleValue";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isNullable;
+        public const string PropertyNameIsNullable = "IsNullable";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string FieldName
+        {
+            set
+            {
+                if (String.Equals(m_fieldName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFieldName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_fieldName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_fieldName;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string SqlServerDataType
+        {
+            set
+            {
+                if (String.Equals(m_sqlServerDataType, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSqlServerDataType, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_sqlServerDataType = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_sqlServerDataType;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string TypeName
+        {
+            set
+            {
+                if (String.Equals(m_typeName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_typeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_typeName;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string SampleValue
+        {
+            set
+            {
+                if (String.Equals(m_sampleValue, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSampleValue, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_sampleValue = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_sampleValue;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public bool IsNullable
+        {
+            set
+            {
+                if (m_isNullable == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsNullable, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isNullable = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isNullable;
             }
         }
 

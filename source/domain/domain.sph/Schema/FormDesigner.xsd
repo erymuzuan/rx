@@ -1170,6 +1170,30 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="SqlServerRecordSetFormatter">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="TextFormatter">
+					<xs:all>
+						<xs:element name="SqlServerRecordSetCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="SqlServerRecordSet" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+					<xs:attribute name="RecordReaderIndex" type="xs:int" use="required"/>
+					<xs:attribute name="Server" type="xs:string" use="required"/>
+					<xs:attribute name="Database" type="xs:string" use="required"/>
+					<xs:attribute name="Trusted" type="xs:boolean" use="required"/>
+					<xs:attribute name="UserId" type="xs:string" use="required"/>
+					<xs:attribute name="Password" type="xs:string" use="required"/>
+					<xs:attribute name="Query" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="JsonTextFormatter">
 		<xs:complexType>
 			<xs:complexContent>
@@ -1272,6 +1296,15 @@
 					<xs:attribute name="Pattern" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SqlServerRecordSet">
+		<xs:complexType>
+			<xs:attribute name="FieldName" type="xs:string" use="required"/>
+			<xs:attribute name="SqlServerDataType" type="xs:string" use="required"/>
+			<xs:attribute name="TypeName" type="xs:string" use="required"/>
+			<xs:attribute name="SampleValue" type="xs:string" use="required"/>
+			<xs:attribute name="IsNullable" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

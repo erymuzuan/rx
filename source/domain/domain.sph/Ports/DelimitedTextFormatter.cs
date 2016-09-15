@@ -19,8 +19,7 @@ namespace Bespoke.Sph.Domain
         public override async Task<Class> GetPortClassAsync(ReceivePort port)
         {
             var type = await base.GetPortClassAsync(port);
-            type.AddNamespaceImport<FileHelpers.DelimitedRecordAttribute, List<string>>();
-            type.AddNamespaceImport<Match>();
+            type.AddNamespaceImport<FileHelpers.DelimitedRecordAttribute>();
 
             var processCode = GenerateProcessCode(port);
             type.AddMethod(new Method { Code = processCode });

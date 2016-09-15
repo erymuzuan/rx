@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Codes;
 using Newtonsoft.Json;
@@ -24,7 +26,7 @@ namespace Bespoke.Sph.Domain
         {
             var type = new Class { Name = port.Name.ToPascalCase(), Namespace = port.CodeNamespace };
             type.AddNamespaceImport<DateTime, JsonIgnoreAttribute, FileInfo, Task>();
-            type.AddNamespaceImport<DomainObject>();
+            type.AddNamespaceImport<DomainObject, IDictionary<string, string>, System.Text.RegularExpressions.Match>();
             type.AddProperty("Uri", typeof(Uri));
             type.AddProperty(@"public IDictionary<string, string> Headers { get; } = new Dictionary<string, string>(); ");
             type.AddMethod(new Method() { Code = @"public void AddHeader<T>(string name, T value){
@@ -38,7 +40,7 @@ namespace Bespoke.Sph.Domain
 
         protected virtual string GetProcessHeaderCode(ReceivePort port)
         {
-            var headers =port.FieldMappingCollection.OfType<HeaderFieldMapping>().Where(f => !string.IsNullOrWhiteSpace(f.Pattern));
+            var headers = port.FieldMappingCollection.OfType<HeaderFieldMapping>().Where(f => !string.IsNullOrWhiteSpace(f.Pattern));
             var uriFields = port.FieldMappingCollection.OfType<UriFieldMapping>().Where(x => !string.IsNullOrWhiteSpace(x.Pattern));
 
 
@@ -46,7 +48,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine($@"private void ProcessHeader({port.Entity} record)");
             code.AppendLine("{");
 
-            code.JoinAndAppendLine(headers, "\r\n", f=> f.GenerateProcessRecordCode());
+            code.JoinAndAppendLine(headers, "\r\n", f => f.GenerateProcessRecordCode());
             code.JoinAndAppendLine(uriFields, "\r\n", f => f.GenerateProcessRecordCode());
 
             code.AppendLine("}");
