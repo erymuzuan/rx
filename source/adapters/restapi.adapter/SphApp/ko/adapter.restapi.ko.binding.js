@@ -3,6 +3,7 @@
 ///<reference path="~/Scripts/knockout-3.4.0.debug.js"/>
 ///<reference path="~/Scripts/jquery-2.2.0.intellisense.js"/>
 ///<reference path="../../web/core.sph/SphApp/schemas/form.designer.g.js"/>
+/// <reference path="../schemas/adapter.restapi.operation.js" />
 /**
  * @param {{Id,TableDefinitionCollection:function, ControllerActionCollection:function, OperationDefinitionCollection:function,ColumnCollection:function,ChildRelationCollection,Table, Schema, Name}} adapter
  * @param{{create_node:function, get_node:function, jstree:function, rename_node, set_type: function, delete_node:function, get_type:function, get_selected:function, set_selected:function}} jstree
@@ -44,13 +45,15 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                         }
                     }],
                 computeNodeText = function (mbr) {
-
                     const field = ko.toJS(mbr),
+                        nullable = field.IsNullable ? "<i class='fa fa-question column-icon' style='margin-right:5px;color:green' title='Nullalbe'></i> " : "",
+                        extraQueryString = field.$type === "Bespoke.Sph.Integrations.Adapters.QueryStringMember, restapi.adapter" ? " <i class='fa fa-info-circle column-icon' style='margin-left:5px;color:orange' title='Extra query string parameter added by user'></i>" : "",
+                        extraHeader = field.$type === "Bespoke.Sph.Integrations.Adapters.HttpHeaderMember, restapi.adapter" ? " <i class='fa fa-plus-circle column-icon' style='margin-left:5px;color:orange' title='Extra header added by user'></i>" : "",
                         displayName = field.DisplayName || "",
                         bracket = displayName ? " [" : "",
                         bracket2 = displayName ? "]" : "";
 
-                    return field.Name + bracket + displayName + bracket2;
+                    return   nullable + field.Name + bracket + displayName + bracket2 + extraHeader + extraQueryString;
 
 
                 },
@@ -62,6 +65,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                         }
                     });
                 },
+                nullableSubscription = null,
                 nameSubscription = null,
                 typeNameSubscription = null,
                 mapTable = function (v) {
@@ -176,7 +180,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                             if (typeof member !== "function") {
                                 return;
                             }
-                            disposeSubscriptions(nameSubscription, typeNameSubscription);
+                            disposeSubscriptions(nameSubscription, typeNameSubscription, nullableSubscription);
 
                             const $node = selected.node,
                                  field = $node.data,
@@ -191,6 +195,10 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                     ref.rename_node($node, text);
                                 };
                                 nameSubscription = field.Name.subscribe(nodeTextChanged);
+                                // nullable
+                                if (ko.isObservable(field.IsNullable)) {
+                                    nullableSubscription = field.IsNullable.subscribe(nodeTextChanged);
+                                }
                                 // type
                                 if (ko.isObservable(field.TypeName)) {
                                     typeNameSubscription = field.TypeName.subscribe(t => ref.set_type($node, t));
@@ -256,10 +264,17 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                         removeMenu = {
                                             label: "Remove",
                                             action: function () {
-                                                tree.delete_node($node);
 
-                                                // TODO : remove
-
+                                                const n = ref.get_selected(true)[0],
+                                                    p = ref.get_node($(`#${n.parent}`)),
+                                                    parentMember = p.data;
+                                                if (parentMember && typeof parentMember.MemberCollection === "function") {
+                                                    const child = _(parentMember.MemberCollection()).find(function (v) {
+                                                        return v.WebId() === n.data.WebId();
+                                                    });
+                                                    parentMember.MemberCollection.remove(child);
+                                                }
+                                                ref.delete_node($node);
                                                 return true;
 
                                             }
@@ -538,316 +553,5 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
 
         }
     };
-
-
-    ko.bindingHandlers.restApiOperationSchemaTree = {
-        init: function (element, valueAccessor) {
-            var system = require(objectbuilders.system),
-                value = valueAccessor(),
-                operation = ko.unwrap(value.operation),
-                name = ko.unwrap(value.name),
-                member = value.selected,
-                createNode = function (v) {
-
-                    var icon = ko.unwrap(v.$type) === "Bespoke.Sph.Domain.ComplexMember, domain.sph" ? "Bespoke.Sph.Domain.ComplexMember, domain.sph" : ko.unwrap(v.TypeName);
-                    return {
-                        text: v.Name(),
-                        state: "open",
-                        type: icon,
-                        data: v
-                    };
-                },
-                jsTreeData = [{
-                    text: "Request",
-                    type: "request",
-                    state: {
-                        opened: true
-                    }
-                }, {
-                    text: "Response",
-                    type: "response",
-                    state: {
-                        opened: true
-                    }
-                }],
-                recurseChildMember = function (node) {
-                    node.children = _(node.data.MemberCollection()).map(function (v) {
-                        return {
-                            text: typeof v.FieldName === "function" ? v.FieldName() : v.Name(),
-                            state: "open",
-                            type: v.TypeName(),
-                            data: v
-                        };
-                    });
-                    _(node.children).each(recurseChildMember);
-                },
-                loadJsTree = function () {
-                    jsTreeData[0].children = _(operation.RequestMemberCollection()).map(createNode);
-                    jsTreeData[1].children = _(operation.ResponseMemberCollection()).map(createNode);
-                    _(jsTreeData[1].children).each(recurseChildMember);
-                    $(element)
-                        .on("select_node.jstree", function (node, selected) {
-                            var tree = $(element).jstree(true);
-                            if (selected.node.data && typeof selected.node.data.Name === "function") {
-                                member(selected.node.data);
-
-                                if (typeof member().FieldName === "function") {
-                                    member().FieldName.subscribe(function (name) {
-                                        tree.rename_node(selected.node, name);
-                                    });
-
-                                } else {
-                                    // subscribe to Name change
-                                    member().Name.subscribe(function (name) {
-                                        tree.rename_node(selected.node, name);
-                                    });
-                                    // type
-                                    member().TypeName.subscribe(function (name) {
-                                        tree.set_type(selected.node, name);
-                                    });
-
-                                }
-                            }
-                        })
-                        .on("create_node.jstree", function (event, node) {
-                            console.log(node, "node");
-                        })
-                        .on("rename_node.jstree", function (ev, node) {
-                            var mb = node.node.data;
-                            if (typeof mb.FieldName === "function" && ko.isObservable(mb.FieldName)) {
-                                mb.FieldName(node.text);
-                                if (!ko.unwrap(mb.Name)) {
-                                    mb.Name(node.text.replace(/ /g, ""));
-                                }
-                                if (!ko.unwrap(mb.DisplayName)) {
-                                    mb.DisplayName(node.text.replace(/ /g, ""));
-                                }
-
-                            } else {
-                                mb.Name(node.text);
-                            }
-                        })
-                        .jstree({
-                            "core": {
-                                "animation": 0,
-                                "check_callback": true,
-                                "themes": { "stripes": true },
-                                'data': jsTreeData
-                            },
-                            "contextmenu": {
-                                "items": function ($node) {
-                                    var $item = $node.data,
-                                        addResultSet = {
-                                            label: "Add result set",
-                                            action: function () {
-                                                var text = `${name}Result1`,
-                                                    child = new bespoke.sph.domain.ComplexMember({
-                                                        WebId: system.guid(),
-                                                        AllowMultiple: true,
-                                                        TypeName: text,
-                                                        Name: text
-                                                    }),
-                                                    parent = $(element).jstree("get_selected", true),
-                                                    mb = parent[0].data,
-                                                    newNode = {
-                                                        state: "open",
-                                                        type: ko.unwrap(child.$type),
-                                                        text: text,
-                                                        data: child
-                                                    };
-
-                                                var ref = $(element).jstree(true),
-                                                    sel = ref.get_selected();
-                                                if (!sel.length) {
-                                                    return false;
-                                                }
-                                                sel = sel[0];
-                                                sel = ref.create_node(sel, newNode);
-                                                if (sel) {
-                                                    ref.edit(sel);
-                                                    if (mb && mb.MemberCollection) {
-                                                        mb.MemberCollection.push(child);
-                                                    } else {
-                                                        entity.MemberCollection.push(child);
-                                                    }
-                                                    return true;
-                                                }
-                                                return false;
-
-
-                                            }
-                                        },
-                                        addRecord =
-                                        {
-                                            label: "Add record",
-                                            action: function () {
-                                                var child = {
-                                                    $type: "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
-                                                    WebId: system.guid(),
-                                                    TypeName: ko.observable("System.String, mscorlib"),
-                                                    FieldName: ko.observable("Member_Name"),
-                                                    Name: ko.observable(""),
-                                                    DisplayName: ko.observable(""),
-                                                    SqlDbType: ko.observable(),
-                                                    IsNullable: ko.observable(false)
-                                                },
-                                                    parent = $(element).jstree("get_selected", true),
-                                                    mb = parent[0].data,
-                                                    newNode = {
-                                                        state: "open",
-                                                        type: ko.unwrap(child.TypeName),
-                                                        text: ko.unwrap(child.Name),
-                                                        data: child
-                                                    };
-
-
-                                                var ref = $(element).jstree(true),
-                                                    sel = ref.get_selected();
-                                                if (!sel.length) {
-                                                    return false;
-                                                }
-                                                sel = sel[0];
-                                                sel = ref.create_node(sel, newNode);
-                                                if (sel) {
-                                                    ref.edit(sel);
-                                                    if (mb && mb.MemberCollection) {
-                                                        mb.MemberCollection.push(child);
-                                                    } else {
-                                                        entity.MemberCollection.push(child);
-                                                    }
-                                                    return true;
-                                                }
-                                                return false;
-
-
-                                            }
-                                        },
-                                        removeMember =
-                                        {
-                                            label: "Remove",
-                                            action: function () {
-                                                var ref = $(element).jstree(true),
-                                                    sel = ref.get_selected();
-
-                                                // now delete the member
-                                                var n = ref.get_selected(true)[0],
-                                                    p = ref.get_node($(`#${n.parent}`)),
-                                                    parentMember = p.data;
-                                                if (parentMember && typeof parentMember.MemberCollection === "function") {
-                                                    var child = _(parentMember.MemberCollection()).find(v=>ko.unwrap(v.WebId) === ko.unwrap(n.data.WebId));
-                                                    parentMember.MemberCollection.remove(child);
-                                                } else {
-                                                    var child2 = _(entity.MemberCollection()).find(v => v.WebId() === n.data.WebId());
-                                                    entity.MemberCollection.remove(child2);
-                                                }
-
-                                                if (!sel.length) {
-                                                    return false;
-                                                }
-                                                ref.delete_node(sel);
-
-                                                return true;
-
-                                            }
-                                        };
-
-                                    console.log($item);
-                                    if ($node.type === "Bespoke.Sph.Domain.ComplexMember, domain.sph")
-                                        return [addRecord, removeMember];
-                                    if ($node.type === "response")
-                                        return [addRecord, addResultSet];
-                                    if ($node.type === "request")
-                                        return [addRecord];
-                                    if ($node.text === "@return_value")
-                                        return [];
-
-                                    return [removeMember];
-
-                                }
-                            },
-                            "types": {
-                                "System.String, mscorlib": {
-                                    "icon": "glyphicon glyphicon-bold",
-                                    "valid_children": []
-                                },
-                                "System.DateTime, mscorlib": {
-                                    "icon": "glyphicon glyphicon-calendar",
-                                    "valid_children": []
-                                },
-                                "System.DateTimeOffset, mscorlib": {
-                                    "icon": "fa fa-hourglass-o",
-                                    "valid_children": []
-                                },
-                                "System.TimeSpan, mscorlib": {
-                                    "icon": "fa fa-clock-o",
-                                    "valid_children": []
-                                },
-                                "System.Int16, mscorlib": {
-                                    "icon": "fa fa-sort-numeric-asc",
-                                    "valid_children": []
-                                },
-                                "System.Int32, mscorlib": {
-                                    "icon": "fa fa-sort-numeric-asc",
-                                    "valid_children": []
-                                },
-                                "System.Int64, mscorlib": {
-                                    "icon": "fa fa-sort-numeric-asc",
-                                    "valid_children": []
-                                },
-                                "System.Byte, mscorlib": {
-                                    "icon": "fa fa-sort-numeric-asc",
-                                    "valid_children": []
-                                },
-                                "System.Byte[], mscorlib": {
-                                    "icon": "fa fa-picture-o",
-                                    "valid_children": []
-                                },
-                                "System.Decimal, mscorlib": {
-                                    "icon": "glyphicon glyphicon-usd",
-                                    "valid_children": []
-                                },
-                                "System.Double, mscorlib": {
-                                    "icon": "fa fa-gg",
-                                    "valid_children": []
-                                },
-                                "System.Guid, mscorlib": {
-                                    "icon": "fa fa-glide",
-                                    "valid_children": []
-                                },
-                                "System.Single, mscorlib": {
-                                    "icon": "fa fa-eur",
-                                    "valid_children": []
-                                },
-                                "System.Boolean, mscorlib": {
-                                    "icon": "glyphicon glyphicon-ok",
-                                    "valid_children": []
-                                },
-                                "System.Object, mscorlib": {
-                                    "icon": "fa fa-building-o"
-                                },
-                                "ComplexMember": {
-                                    "icon": "glyphicon glyphicon-list"
-                                },
-                                "System.Xml.XmlDocument, System.Xml": {
-                                    "icon": "fa fa-code"
-                                },
-                                "Bespoke.Sph.Domain.ComplexMember, domain.sph": {
-                                    "icon": "glyphicon glyphicon-list"
-                                },
-                                "request": {
-                                    "icon": "fa fa-envelope-o"
-                                },
-                                "response": {
-                                    "icon": "fa fa-envelope"
-                                }
-                            },
-                            "plugins": ["contextmenu", "types"]
-                        });
-                };
-            loadJsTree();
-
-
-        }
-    };
-
+    
 });
