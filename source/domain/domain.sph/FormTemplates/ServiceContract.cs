@@ -129,7 +129,7 @@ namespace Bespoke.Sph.Domain
             controller.ImportCollection.Add("System.Net.Http");
             controller.ImportCollection.Add("Newtonsoft.Json.Linq");
             controller.ImportCollection.Add(m_entityDefinition.CodeNamespace);
-            controller.AttributeCollection.Add($"[RoutePrefix(\"api/{m_entityDefinition.Plural.ToLowerInvariant()}\")]");
+            controller.AttributeCollection.Add($"[RoutePrefix(\"api/{m_entityDefinition.Plural.ToIdFormat()}\")]");
 
 
             controller.PropertyCollection.Add(new Property { Name = "CacheManager", Type = typeof(ICacheManager) });
