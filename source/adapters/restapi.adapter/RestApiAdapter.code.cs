@@ -40,7 +40,8 @@ namespace Bespoke.Sph.Integrations.Adapters
             foreach (var op in this.OperationDefinitionCollection)
             {
                 op.CodeNamespace = this.CodeNamespace;
-                var methodName = op.MethodName;
+                var methodName = op.Name;
+                op.MethodName = op.Name;
 
                 if (addedActions.Contains(methodName)) continue;
                 addedActions.Add(methodName);

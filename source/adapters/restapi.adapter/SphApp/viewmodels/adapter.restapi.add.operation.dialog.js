@@ -9,23 +9,22 @@
 
 
 define(["plugins/dialog", objectbuilders.datacontext],
-    function(dialog, context) {
+    function (dialog, context) {
 
         const options = ko.observableArray(),
             selectedOptions = ko.observableArray(),
             busy = ko.observable(false),
             storeId = ko.observable(),
             adapter = ko.observable(),
-            activate = function() {
+            activate = function () {
                 selectedOptions([]);
             },
-            okClick = function(data, ev) {
+            okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
                     dialog.close(this, "OK");
                 }
-
             },
-            cancelClick = function() {
+            cancelClick = function () {
                 dialog.close(this, "Cancel");
             },
             attached = function (view) {
@@ -37,7 +36,6 @@ define(["plugins/dialog", objectbuilders.datacontext],
                     } else {
                         selectedOptions.remove(ep);
                     }
-                    
                 });
             };
 
@@ -48,8 +46,16 @@ define(["plugins/dialog", objectbuilders.datacontext],
                 return;
             }
             busy(true);
-            context.get(`/restapi-adapters/hars/${id}/endpoints`).done(function(list){
+            context.get(`/restapi-adapters/hars/${id}/endpoints`).done(function (list) {
                 const maps = list.map(v => new bespoke.sph.domain.api.RestApiOperationDefinition(v));
+                // change the method name to the Operation name
+                maps.forEach(v => {
+                    v.Name.subscribe(function (name) {
+                        if (name) {
+                            v.MethodName(name);
+                        }
+                    });
+                });
                 options(maps);
                 selectedOptions.removeAll();
                 busy(false);

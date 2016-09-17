@@ -186,7 +186,10 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                  field = $node.data,
                                  ref = $(element).jstree(true),
                                  $index = $node.original.$index;
-                            if (field) {
+                            if ($node.type === "default") {
+                                return;
+                            }
+                            if (field && ko.isObservable(field.Name)) {
                                 member(field);
 
                                 const nodeTextChanged = function () {
@@ -328,7 +331,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
 
                                     if ($node.id === "node-operations" && addOperation) {
                                         return [{
-                                            label: "Add new sproc/function",
+                                            label: "Add new REST endpoint",
                                             action: addOperation,
                                             "icon": "fa fa-cogs",
                                             _disabled: !ko.unwrap(connected)

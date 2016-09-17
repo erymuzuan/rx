@@ -41,6 +41,24 @@ bespoke.sph.domain.api.RestApiOperationDefinition = function (model) {
         v.WebId(model);
     }
 
+    v.Name.subscribe(function (name) {
+        if (!name) {
+            return;
+        }
+        v.MethodName(name);
+        const requestHeader = v.RequestMemberCollection().find(x => ko.unwrap(x.Name) === "Headers"),
+            requestQueryString = v.RequestMemberCollection().find(x => ko.unwrap(x.Name) === "QueryStrings"),
+            requestBody = v.RequestMemberCollection().find(x => ko.unwrap(x.Name) === "Body"),
+            responseHeader = v.ResponseMemberCollection().find(x => ko.unwrap(x.Name) === "Headers"),
+            responseBody = v.ResponseMemberCollection().find(x => ko.unwrap(x.Name) === "Body");
+        responseHeader.TypeName(`${name}ResponseHeader`);
+        responseBody.TypeName(`${name}ResponseBody`);
+
+        requestHeader.TypeName(`${name}RequestHeader`);
+        requestBody.TypeName(`${name}RequestBody`);
+        if (requestQueryString)
+            requestQueryString.TypeName(`${name}QueryString`);
+    });
     return v;
 };
 
@@ -52,7 +70,7 @@ bespoke.sph.domain.api.RequestWithoutBodyApiOperationDefinition = function (mode
 
 }
 
-bespoke.sph.domain.Adapters.RestApiAdapter = function(model) {
+bespoke.sph.domain.Adapters.RestApiAdapter = function (model) {
     const v = new bespoke.sph.domain.api.Adapter(model);
     v.$type = "Bespoke.Sph.Integrations.Adapters.RestApiAdapter, restapi.adapter";
     v.BaseAddress = ko.observable(model.BaseAddress || "");
@@ -80,7 +98,7 @@ bespoke.sph.domain.Adapters.RestApiAdapter = function(model) {
         }
     }
 
-    v.Name.subscribe(function(name) {
+    v.Name.subscribe(function (name) {
         if (!ko.unwrap(v.FullName)) {
             v.FullName(name);
         }
@@ -88,15 +106,15 @@ bespoke.sph.domain.Adapters.RestApiAdapter = function(model) {
 
     return _(v).extend(new bespoke.sph.domain.FieldContainer(v, model));
 }
-bespoke.sph.domain.Adapters.QueryStringMember = function(model) {
+bespoke.sph.domain.Adapters.QueryStringMember = function (model) {
     const v = new bespoke.sph.domain.SimpleMember(model);
     if (!ko.isObservable(v.FullName)) {
-        v.FullName = ko.observable(model.FullName ||"");
+        v.FullName = ko.observable(model.FullName || "");
     }
     v.$type = "Bespoke.Sph.Integrations.Adapters.QueryStringMember, restapi.adapter";
 
 
-    v.Name.subscribe(function(name) {
+    v.Name.subscribe(function (name) {
         if (!ko.unwrap(v.FullName)) {
             v.FullName(name);
         }
@@ -106,7 +124,7 @@ bespoke.sph.domain.Adapters.QueryStringMember = function(model) {
 }
 
 
-bespoke.sph.domain.Adapters.HttpHeaderMember = function(model) {
+bespoke.sph.domain.Adapters.HttpHeaderMember = function (model) {
     const v = new bespoke.sph.domain.SimpleMember(model);
     if (!ko.isObservable(v.FullName)) {
         v.FullName = ko.observable(model.FullName || "");
