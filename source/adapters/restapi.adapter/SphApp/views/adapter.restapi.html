@@ -134,12 +134,8 @@
                     <input class="form-control" id="complex-member-name" name="member.name" type="text" required data-bind="value: Name" readonly="readonly" />
                 </div>
                 <div class="form-group">
-                    <label for="complex-full-name">Full Name</label>
-                    <input class="form-control" id="complex-full-name" name="member.name" type="text" required data-bind="value: FullName" readonly="readonly" />
-                </div>
-                <div class="form-group">
                     <label for="complex-type-name">Type Name</label>
-                    <input class="form-control" pattern="^[A-Za-z][A-Za-z0-9]*$" placeholder="The type name for this member" id="complex-type-name" name="member.name" type="text" required data-bind="value: TypeName, tooltip:'Type name is used for class name in your generated code so this member will a property named with the Name and of type TypeName'" />
+                    <input class="form-control" readonly="readonly" pattern="^[A-Za-z][A-Za-z0-9]*$" placeholder="The type name for this member" id="complex-type-name" name="member.name" type="text" required data-bind="value: TypeName, tooltip:'Type name is used for class name in your generated code so this member will a property named with the Name and of type TypeName'" />
                 </div>
 
 
@@ -153,7 +149,7 @@
                     <input class="form-control" id="member_name" name="member.name" type="text" required pattern="^[A-Z][A-Za-z0-9_]*$" data-bind="value: Name" title="The value will be used for C# code generation" />
                 </div>
                 <div class="form-group">
-                    <label for="member_name">Full Name</label>
+                    <label for="member_name">Actual Name</label>
                     <input class="form-control" id="member-fullname" name="member.fullname" type="text" required data-bind="value: FullName" readonly="readonly" title="The value is the actual item property from the request/response object" />
                 </div>
 

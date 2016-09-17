@@ -9,9 +9,9 @@ namespace Bespoke.Sph.Integrations.Adapters
     {
         public async Task BuildAsync(string name = "")
         {
+            var uri = new Uri(BaseAddress);
             if (string.IsNullOrWhiteSpace(name))
             {
-                var uri = new Uri(BaseAddress);
                 name = $"{HttpMethod.ToLowerInvariant()} {uri.LocalPath.Replace("/", " ")}".ToPascalCase();
             }
             this.Name = name;
@@ -22,6 +22,24 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             var qms = await m_builder.GetRequestQueryStringMembersAsync();
             var hms = await m_builder.GetRequestHeaderMembersAsync();
+
+            var routeParameters = new ComplexMember
+            {
+                Name = "RouteParameters",
+                AllowMultiple = false,
+                TypeName = $"{name}Route"
+            };
+            var routes = from s in uri.AbsolutePath.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries)
+                         select new RouteParameterMember
+                         {
+                             Name = s,
+                             DefaultValue = new ConstantField { Name = s, Value = s, Type = typeof(string) },
+                             FullName = s,
+                             Type = s.TryGuessType()
+                         };
+            routeParameters.MemberCollection.AddRange(routes);
+
+
 
             var querySrings = new ComplexMember
             {
@@ -40,15 +58,10 @@ namespace Bespoke.Sph.Integrations.Adapters
             requestHeaders.MemberCollection.AddRange(hms);
 
             this.RequestMemberCollection.Clear();
-            this.RequestMemberCollection.AddRange(querySrings, requestHeaders);
-            if (this.HttpMethod != "GET")
-            {
-                var requestBodyMembers = await m_builder.GetRequestBodyMembersAsync();
-
-                var requestBody = new ComplexMember {Name = "Body", TypeName = $"{name}RequestBody"};
-                requestBody.MemberCollection.AddRange(requestBodyMembers.Where(x => null != x));
+            this.RequestMemberCollection.AddRange(routeParameters, querySrings, requestHeaders);
+            var requestBody =await this.GetRequestBodyMemberAsync();
+            if (null != requestBody)
                 this.RequestMemberCollection.Add(requestBody);
-            }
 
             var responseHeaderMembers = await m_builder.GetResponseHeaderMembersAsync();
             var responseHeader = new ComplexMember
@@ -72,6 +85,16 @@ namespace Bespoke.Sph.Integrations.Adapters
             this.ResponseMemberCollection.Clear();
             this.ResponseMemberCollection.Add(responseHeader);
             this.ResponseMemberCollection.Add(responseBody);
+        }
+
+        protected virtual async Task<Member> GetRequestBodyMemberAsync()
+        {
+            var requestBodyMembers = await m_builder.GetRequestBodyMembersAsync();
+
+            var requestBody = new ComplexMember { Name = "Body", TypeName = $"{Name}RequestBody" };
+            requestBody.MemberCollection.AddRange(requestBodyMembers.Where(x => null != x));
+            return requestBody;
+
         }
     }
 }

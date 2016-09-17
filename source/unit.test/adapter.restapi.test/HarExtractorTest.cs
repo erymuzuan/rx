@@ -42,8 +42,7 @@ namespace adapter.restapi.test
             Assert.Equal("HTTP/1.1", builder.HttpVersion);
 
         }
-
-
+        
         [Fact]
         public async Task GetResponseAsync()
         {
@@ -70,7 +69,8 @@ namespace adapter.restapi.test
             var builder = GetBuilder();
             var entry = await builder.BuildAsync();
             Assert.NotNull(entry);
-            Assert.Equal(2, entry.RequestMemberCollection.Count);
+            Assert.IsType<RequestWithoutBodyApiOperationDefinition>(entry);
+            Assert.Equal(3, entry.RequestMemberCollection.Count);
         }
 
 

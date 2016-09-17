@@ -123,6 +123,23 @@ bespoke.sph.domain.Adapters.QueryStringMember = function (model) {
     return _(v).extend(new bespoke.sph.domain.FieldContainer(v, model));
 }
 
+bespoke.sph.domain.Adapters.RouteParameterMember = function (model) {
+    const v = new bespoke.sph.domain.SimpleMember(model);
+    if (!ko.isObservable(v.FullName)) {
+        v.FullName = ko.observable(model.FullName || "");
+    }
+    v.$type = "Bespoke.Sph.Integrations.Adapters.QueryStringMember, restapi.adapter";
+
+
+    v.Name.subscribe(function (name) {
+        if (!ko.unwrap(v.FullName)) {
+            v.FullName(name);
+        }
+    });
+
+    return _(v).extend(new bespoke.sph.domain.FieldContainer(v, model));
+}
+
 
 bespoke.sph.domain.Adapters.HttpHeaderMember = function (model) {
     const v = new bespoke.sph.domain.SimpleMember(model);

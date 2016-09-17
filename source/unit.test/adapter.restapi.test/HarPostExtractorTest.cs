@@ -43,7 +43,6 @@ namespace adapter.restapi.test
 
             Assert.Equal("POST", entry.HttpMethod);
             Assert.Equal("HTTP/1.1", builder.HttpVersion);
-
         }
 
 
@@ -57,15 +56,18 @@ namespace adapter.restapi.test
             Assert.Equal("POST", entry.HttpMethod);
             Assert.Equal("PostApiCmdUpdateVirtualBankAccount", entry.Name);
 
-            Assert.Equal(3, entry.RequestMemberCollection.Count);
+            Assert.Equal(4, entry.RequestMemberCollection.Count);
             Assert.Equal("http://eryken2.asuscomm.com:8086/api/cmd/UpdateVirtualBankAccount", entry.BaseAddress);
             Assert.Equal("POST", entry.HttpMethod);
+            var routeParameter = entry.RequestMemberCollection.SingleOrDefault(x => x.Name == "RouteParameters");
+            Assert.NotNull(routeParameter);
+            var routes = routeParameter.MemberCollection.OfType<RouteParameterMember>();
+            Assert.Equal("api/cmd/UpdateVirtualBankAccount", routes.ToString("/", x => x.Name));
 
 
             var header = entry.RequestMemberCollection.Single(x => x.Name == "Headers");
-            Assert.Equal("Cache-Control,Pragma,Content-Type,Expires,Server,Access-Control-Allow-Origin,Access-Control-Allow-Credentials,X-AspNet-Version,X-Powered-By,Date,Content-Length",
-                header.MemberCollection.ToString(",", x => x.FullName));
-            Assert.Equal(11, header.MemberCollection.Count);
+      
+            Assert.Equal(10, header.MemberCollection.Count);
             Assert.False(header.AllowMultiple);
 
 

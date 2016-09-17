@@ -1,7 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Domain.Codes;
 
@@ -22,13 +23,18 @@ namespace Bespoke.Sph.Integrations.Adapters
             list.Add(request);
             return list;
         }
+
+        protected override Task<Member> GetRequestBodyMemberAsync()
+        {
+            return Task.FromResult(default(Member));
+        }
+
         protected override string GenerateAdapterActionBody(Adapter adapter)
         {
-            var uri = new Uri(this.BaseAddress);
-            var opUri = uri.LocalPath;
+            var opUri = this.GenerateRouteCode();
             var code = new StringBuilder();
 
-            code.AppendLine(base.GenerateRequestQueryStringsCode(ref opUri));
+            code.AppendLine(this.GenerateRequestQueryStringsCode(ref opUri));
             code.AppendLine(this.GenerateRequestHeadersCode((RestApiAdapter)adapter));
 
             if (this.ErrorRetry.IsEnabled)
@@ -54,7 +60,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                            ");
             }
 
-            code.AppendLine(base.GenerateProcessHttpResonseCode());
+            code.AppendLine(this.GenerateProcessHttpResonseCode());
 
             return code.ToString();
         }

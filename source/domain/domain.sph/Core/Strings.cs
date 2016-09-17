@@ -481,6 +481,23 @@ namespace Bespoke.Sph.Domain
             return type.FullName;
         }
 
+        public static Type TryGuessType(this object literal)
+        {
+            if (literal is bool) return typeof(bool);
+            if (literal is decimal) return typeof(decimal);
+            if (literal is int) return typeof(int);
+            if (literal is DateTime) return typeof(DateTime);
+
+            int intValue;
+            if (int.TryParse($"{literal}", out intValue)) return typeof(int);
+            decimal decimalValue;
+            if (decimal.TryParse($"{literal}", out decimalValue)) return typeof(decimal);
+            DateTime dateTimeValue;
+            if (DateTime.TryParse($"{literal}", out dateTimeValue)) return typeof(DateTime);
+            bool boolValue;
+            if (bool.TryParse($"{literal}", out boolValue)) return typeof(bool);
+            return typeof(string);
+        }
         public static Type GetType(string typeName)
         {
             var t = Type.GetType(typeName);

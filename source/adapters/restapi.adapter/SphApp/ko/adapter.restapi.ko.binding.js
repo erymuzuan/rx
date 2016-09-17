@@ -289,10 +289,10 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                         {
                                             label: "Add header",
                                             action: function () {
-                                                const child = new bespoke.sph.domain.Adapters.HttpHeaderMember({ WebId: system.guid(), TypeName: "System.String, mscorlib", Name: "Member_Name", FullName: "querystringKey" }),
-                                                        parent = $(element).jstree("get_selected", true),
-                                                        mb = parent[0].data,
-                                                        newNode = { state: "open", type: "System.String, mscorlib", text: "Member_Name", data: child };
+                                                const parent = $(element).jstree("get_selected", true),
+                                                      mb = parent[0].data, count = mb.MemberCollection().length,
+                                                      child = new bespoke.sph.domain.Adapters.HttpHeaderMember({ WebId: system.guid(), TypeName: "System.String, mscorlib", Name: `Header${count + 1}`, FullName: "" }),
+                                                      newNode = { state: "open", type: "System.String, mscorlib", text: "Member_Name", data: child };
 
 
                                                 const nn = ref.create_node($node, newNode);
@@ -312,6 +312,28 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                             label: "Add query string",
                                             action: function () {
                                                 const child = new bespoke.sph.domain.Adapters.QueryStringMember({ WebId: system.guid(), TypeName: "System.String, mscorlib", Name: "Member_Name", FullName: "querystringKey" }),
+                                                        parent = $(element).jstree("get_selected", true),
+                                                        mb = parent[0].data,
+                                                        newNode = { state: "open", type: "System.String, mscorlib", text: "Member_Name", data: child };
+
+
+                                                const nn = ref.create_node($node, newNode);
+                                                mb.MemberCollection.push(child);
+
+                                                ref.deselect_node([parent]);
+                                                ref.select_node(nn);
+
+                                                return true;
+
+                                            }
+                                        }];
+                                    }
+                                    if (dataJs.Name === "RouteParameters") {
+                                        return [
+                                        {
+                                            label: "Add route parameter",
+                                            action: function () {
+                                                const child = new bespoke.sph.domain.Adapters.RouteParameterMember({ WebId: system.guid(), TypeName: "System.String, mscorlib", Name: "Member_Name", FullName: "querystringKey" }),
                                                         parent = $(element).jstree("get_selected", true),
                                                         mb = parent[0].data,
                                                         newNode = { state: "open", type: "System.String, mscorlib", text: "Member_Name", data: child };

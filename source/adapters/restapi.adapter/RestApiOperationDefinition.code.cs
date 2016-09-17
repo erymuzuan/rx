@@ -38,8 +38,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         protected override string GenerateAdapterActionBody(Adapter adapter)
         {
             var code = new StringBuilder();
-            var uri = new Uri(this.BaseAddress);
-            var opUri = uri.LocalPath;
+            var opUri = this.GenerateRouteCode();
 
             code.AppendLine(this.GenerateRequestQueryStringsCode(ref opUri));
             code.AppendLine(this.GenerateRequestHeadersCode((RestApiAdapter)adapter));
@@ -93,6 +92,13 @@ namespace Bespoke.Sph.Integrations.Adapters
 
 
             return code.ToString();
+        }
+
+        protected string GenerateRouteCode()
+        {
+            var routeParameterMembers = this.RequestMemberCollection.FirstOrDefault(x => x.Name.EndsWith("RouteParameters"));
+            var routes = routeParameterMembers?.MemberCollection.OfType<RouteParameterMember>();
+            return null == routes ? string.Empty : routes.ToString("/", x => $@"{{request.RouteParameters.{x.Name}{(string.IsNullOrWhiteSpace(x.Converter) ? "" : ":" + x.Converter)}}}");
         }
 
         protected string GenerateRequestQueryStringsCode(ref string opUri)
