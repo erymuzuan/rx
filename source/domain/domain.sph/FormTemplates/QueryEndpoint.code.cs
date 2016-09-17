@@ -168,6 +168,11 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             var route = this.GetRoute();
             var tokenRoute = route.Replace("~/", "");
+            var constraints = Strings.RegexValues(route, "(?<constraint>:.*)}", "constraint");
+            foreach (var cnt in constraints)
+            {
+                tokenRoute = tokenRoute.Replace(cnt, string.Empty);
+            }
 
             code.AppendLine("       [HttpGet]");
             code.AppendLine($"       [QueryRoute(\"{route}\")]");
