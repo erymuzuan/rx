@@ -12,8 +12,10 @@
 define(["services/datacontext", "services/jsonimportexport", "plugins/router", objectbuilders.app, objectbuilders.system, objectbuilders.logger],
     function (context, eximp, router, app, system, logger) {
 
-        var trigger = ko.observable(new bespoke.sph.domain.Trigger()),
-            originalEntity = "",
+        let originalEntity = "",
+            itemDeleted = false;
+
+        const trigger = ko.observable(new bespoke.sph.domain.Trigger()),
             typeaheadEntity = ko.observable(),
             isBusy = ko.observable(false),
             id = ko.observable(),
@@ -23,7 +25,6 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
             entities = ko.observableArray(),
             operationOptions = ko.observableArray(),
             operations = ko.observableArray(),
-            itemDeleted = false,
             activate = function (id2) {
                 id(id2);
 
