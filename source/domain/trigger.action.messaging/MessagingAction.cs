@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -48,13 +49,16 @@ namespace Bespoke.Sph.Messaging
                         
             code.AppendLine($"var map = new {map.CodeNamespace}.{map.Name}();");
             code.AppendLine("var source = await map.TransformAsync(item);");
-            if (string.IsNullOrWhiteSpace(this.Table) && !string.IsNullOrWhiteSpace(this.Operation))
+            var useOperation = string.IsNullOrWhiteSpace(this.Table) && !string.IsNullOrWhiteSpace(this.Operation);
+            var useTable = !string.IsNullOrWhiteSpace(this.Table) && !string.IsNullOrWhiteSpace(this.Crud);
+            if (useOperation)
             {
+                var op = adapter.OperationDefinitionCollection.Single(x => x.Name == this.Operation);
                 code.AppendLine($"var adapter = new {AdapterType.FullName}();");
-                code.AppendLine($"var response = await adapter.{Operation}(source);");
+                code.AppendLine($"var response = await adapter.{op.MethodName}Async(source);");
 
             }
-            if (!string.IsNullOrWhiteSpace(this.Table) && !string.IsNullOrWhiteSpace(this.Crud))
+            if (useTable)
             {
                 code.AppendLine($"var adapter = new {adapter.CodeNamespace}.{Table}Adapter();");
                 code.AppendLine($"var response = await adapter.{Crud}Async(source);");
