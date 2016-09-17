@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 
 namespace Bespoke.Sph.Domain
@@ -28,7 +27,7 @@ namespace Bespoke.Sph.Domain
                 code.AppendLine("    get{");
                 code.AppendLine($@"        if({Name}Raw == {m_fieldMapping.NullPlaceholder.ToVerbatim()})");
                 code.AppendLine($@"             return null;");
-                code.AppendLine($"         {m_fieldMapping.GenerateNullableReadCode()}");
+                code.AppendLine($"         {m_fieldMapping.GenerateNullableReadCode(Name + "Raw")}");
 
                 code.AppendLine("       }");
                 code.AppendLine("}");
