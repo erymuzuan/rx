@@ -5,7 +5,7 @@ namespace Bespoke.Sph.Integrations.Adapters
     public class Polling
     {
         public long Interval { get; set; }
-        public string IntervalPeriod { get; set; }
+        public string IntervalPeriod { get; set; } = "miliseconds";
         public string Query { get; set; }
         public string Option { get; set; }
         public DateTime StartDate { get; set; }
@@ -13,8 +13,6 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             get
             {
-                if (this.IntervalPeriod == "miliseconds")
-                    return Convert.ToInt64(this.Interval);
                 if (this.IntervalPeriod == "seconds")
                     return Convert.ToInt64(this.Interval * 1000);
                 if (this.IntervalPeriod == "minutes")
@@ -25,7 +23,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                     return Convert.ToInt64(this.Interval * 1000 * 60 * 60 * 24);
                 if (this.IntervalPeriod == "weeks")
                     return Convert.ToInt64(this.Interval * 1000 * 60 * 60 * 7);
-                throw new InvalidOperationException("Cannot recognize period " + this.IntervalPeriod);
+                return Convert.ToInt64(this.Interval);
 
             }
         }
