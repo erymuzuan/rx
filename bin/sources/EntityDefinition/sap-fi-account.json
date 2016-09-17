@@ -9,7 +9,7 @@
         "IsNullable": true,
         "IsNotIndexed": false,
         "IsAnalyzed": false,
-        "IsFilterable": false,
+        "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 1,
         "FullName": null,
@@ -33,7 +33,7 @@
         "IsNullable": false,
         "IsNotIndexed": false,
         "IsAnalyzed": false,
-        "IsFilterable": false,
+        "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 1,
         "FullName": null,
@@ -57,7 +57,7 @@
         "IsNullable": true,
         "IsNotIndexed": false,
         "IsAnalyzed": false,
-        "IsFilterable": false,
+        "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 1,
         "FullName": null,
@@ -96,7 +96,7 @@
     },
     "EntityResourceEndpoint": {
       "$type": "Bespoke.Sph.Domain.EntityResourceEndpoint, domain.sph",
-      "IsAllowed": false,
+      "IsAllowed": true,
       "FilterExpression": null,
       "WebId": null
     },
@@ -115,6 +115,6 @@
   "Id": "sap-fi-account",
   "CreatedDate": "2016-09-08T07:16:29.6474424+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-08T07:17:13.9140591+08:00",
+  "ChangedDate": "2016-09-17T11:57:53.8547279+08:00",
   "WebId": "314010d0-81a6-4c1b-91b9-d052aa6390cf"
 }

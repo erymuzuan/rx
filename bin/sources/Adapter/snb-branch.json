@@ -118,7 +118,7 @@
                   {
                     "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
                     "TypeName": "System.Int32, mscorlib",
-                    "IsNullable": false,
+                    "IsNullable": true,
                     "IsNotIndexed": false,
                     "IsAnalyzed": false,
                     "IsFilterable": false,
@@ -2179,6 +2179,6 @@
   "Id": "snb-branch",
   "CreatedDate": "2016-09-14T14:58:08.928943+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-14T16:00:31.4775893+08:00",
+  "ChangedDate": "2016-09-15T10:43:41.6244634+08:00",
   "WebId": "e10bbe1e-900d-405f-a594-6a7bb236c699"
 }
