@@ -23,18 +23,42 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
-        "Source": "Date",
+        "Source": "ReferenceNo",
         "TypeName": "",
+        "Destination": "Routes.ReferenceNo",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "d3b36ea9-1fea-4483-b3cb-ee82e0393da1"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.FunctoidMap, domain.sph",
+        "__uuid": "",
+        "Functoid": "f75d2ac5-d749-4330-82de-688f9907666d",
         "Destination": "Body.DateTime",
         "SourceTypeName": "",
         "DestinationTypeName": "",
-        "WebId": "d193e47e-2872-4828-ad8e-4d6a2e1a2bd2"
+        "WebId": "90c03130-5cbc-4e86-ebd9-693ec1cbd7da"
       }
     ]
   },
   "FunctoidCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Functoid, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.NowFunctoid, domain.sph",
+        "ArgumentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FunctoidArg, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": null,
+        "OutputTypeName": null,
+        "Label": null,
+        "Comment": null,
+        "X": 240.0,
+        "Y": 213.0,
+        "WebId": "f75d2ac5-d749-4330-82de-688f9907666d"
+      }
+    ]
   },
   "InputCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
@@ -47,12 +71,12 @@
   "Name": "SapFlatFileToWebApi",
   "Description": "",
   "InputTypeName": "Bespoke.DevV1.SapFiAccounts.Domain.SapFiAccount, DevV1.SapFiAccount",
-  "OutputTypeName": "Bespoke.DevV1.Adapters.SnbWebNewAccount.UpdateSapAccountNoRequest, DevV1.SnbWebNewAccount",
+  "OutputTypeName": "Bespoke.DevV1.Adapters.SnbWebNewAccount.UpdateSapAccountRequest, DevV1.SnbWebNewAccount",
   "IsPublished": true,
   "CreatedBy": "admin",
   "Id": "sap-flat-file-to-web-api",
   "CreatedDate": "2016-09-17T13:38:03.8098033+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-17T13:40:39.545451+08:00",
+  "ChangedDate": "2016-09-18T09:57:23.5143626+08:00",
   "WebId": "24b8d44e-5c97-4680-8eb3-5488b1f7161f"
 }
