@@ -26,12 +26,16 @@ namespace Bespoke.Sph.Integrations.Adapters
         public override IEnumerable<Class> GenerateResponseCode()
         {
             var list = base.GenerateResponseCode().ToList();
-            var request = new Class { Name = $"{MethodName}Response", Namespace = CodeNamespace };
+            var response = new Class { Name = $"{MethodName}Response", Namespace = CodeNamespace };
+            response.AddNamespaceImport<DomainObject,DateTime>();
 
-            request.AddProperty($"public {MethodName}ResponseHeader Headers {{get;set;}} = new {MethodName}ResponseHeader();");
-            request.AddProperty($"public {MethodName}ResponseBody Body{{get;set;}} = new {MethodName}ResponseBody();");
+            response.AddProperty($"public {MethodName}ResponseHeader Headers {{get;set;}} = new {MethodName}ResponseHeader();");
+            response.AddProperty($"public {MethodName}ResponseBody Body{{get;set;}} = new {MethodName}ResponseBody();");
+            var members = from m in this.ResponseMemberCollection.OfType<SimpleMember>()
+                select new Property {Code = m.GeneratedCode()};
+            response.PropertyCollection.AddRange(members);
 
-            list.Add(request);
+            list.Add(response);
             return list;
         }
 
@@ -68,7 +72,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             var code = new StringBuilder("var rqh = request.Headers;");
             code.AppendLine();
-            code.AppendLine($@"m_client.DefaultRequestHeaders.Clear();");
+            code.AppendLine(@"m_client.DefaultRequestHeaders.Clear();");
             Func<SimpleMember, int, bool> checkContentHeader = (m, i) =>
               {
                   if (m.FullName.Equals("Expires", StringComparison.InvariantCultureIgnoreCase)) return false;
@@ -86,7 +90,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             }
             if (!string.IsNullOrWhiteSpace(adapter.AuthenticationType))
             {
-                code.AppendLine($@"var token = " + adapter.DefaultValue.GenerateCode() + ";");
+                code.AppendLine($@"var token = {adapter.DefaultValue.GenerateCode()};");
                 code.AppendLine($@"m_client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(""{adapter.AuthenticationType}"", token);");
             }
 
@@ -130,11 +134,29 @@ namespace Bespoke.Sph.Integrations.Adapters
         protected string GenerateProcessHttpResonseCode()
         {
             var code = new StringBuilder();
+            code.AppendLine($"var result = new {MethodName}Response();");
+
+            code.AppendLine("           result.StatusCode = (int)response.StatusCode;");
+            code.AppendLine("           result.StatusText = response.StatusCode.ToString();");
             code.AppendLine("           var content2 = response.Content as StreamContent;");
             code.AppendLine("           if(null == content2) throw new Exception(\"Fail to read from response\");");
+            // response value
+            foreach (var m in this.ResponseMemberCollection.OfType<SimpleMember>().Where(x => x.Name.StartsWith("Content") && x.Type == typeof(string) && !x.AllowMultiple))
+            {
+                code.AppendLine($@"      result.{m.Name} = content2.Headers.{m.Name}.ToEmptyString();");
+            }
+            foreach (var m in this.ResponseMemberCollection.OfType<SimpleMember>().Where(x => x.Name.StartsWith("Content") && x.Type == typeof(string) && x.AllowMultiple))
+            {
+                code.AppendLine($@"      result.{m.Name}.AddRange(content2.Headers.{m.Name});");
+            }
+            code.AppendLine("           if(content2.Headers.Expires.HasValue)");
+            code.AppendLine("              result.Expires =  content2.Headers.Expires.Value.DateTime;");
+            code.AppendLine("           if(content2.Headers.LastModified.HasValue)");
+            code.AppendLine("              result.LastModified = content2.Headers.LastModified.Value.DateTime;");
+            code.AppendLine();
+
             code.AppendLine("           var text = await content2.ReadAsStringAsync();");
 
-            code.AppendLine($"var result = new {MethodName}Response();");
             code.AppendLine($"result.Body = JsonConvert.DeserializeObject<{MethodName}ResponseBody>(text);");
 
             var headerParent = this.ResponseMemberCollection.Single(x => x.Name == "Headers");

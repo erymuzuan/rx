@@ -49,6 +49,7 @@ bespoke.sph.domain.api.RestApiOperationDefinition = function (model) {
         const requestHeader = v.RequestMemberCollection().find(x => ko.unwrap(x.Name) === "Headers"),
             requestQueryString = v.RequestMemberCollection().find(x => ko.unwrap(x.Name) === "QueryStrings"),
             requestBody = v.RequestMemberCollection().find(x => ko.unwrap(x.Name) === "Body"),
+            requestRoute = v.RequestMemberCollection().find(x => ko.unwrap(x.Name) === "RouteParameters"),
             responseHeader = v.ResponseMemberCollection().find(x => ko.unwrap(x.Name) === "Headers"),
             responseBody = v.ResponseMemberCollection().find(x => ko.unwrap(x.Name) === "Body");
         responseHeader.TypeName(`${name}ResponseHeader`);
@@ -56,6 +57,7 @@ bespoke.sph.domain.api.RestApiOperationDefinition = function (model) {
 
         requestHeader.TypeName(`${name}RequestHeader`);
         requestBody.TypeName(`${name}RequestBody`);
+        requestRoute.TypeName(`${name}Route`);
         if (requestQueryString)
             requestQueryString.TypeName(`${name}QueryString`);
     });

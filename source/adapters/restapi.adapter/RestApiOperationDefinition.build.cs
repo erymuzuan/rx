@@ -32,8 +32,8 @@ namespace Bespoke.Sph.Integrations.Adapters
             var routes = from s in uri.AbsolutePath.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries)
                          select new RouteParameterMember
                          {
-                             Name = s,
-                             DefaultValue = new ConstantField { Name = s, Value = s, Type = typeof(string) },
+                             Name = s.ToPascalCase(),
+                             DefaultValue = new ConstantField { Name = s.ToPascalCase(), Value = s, Type = typeof(string) },
                              FullName = s,
                              Type = s.TryGuessType()
                          };
@@ -59,7 +59,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             this.RequestMemberCollection.Clear();
             this.RequestMemberCollection.AddRange(routeParameters, querySrings, requestHeaders);
-            var requestBody =await this.GetRequestBodyMemberAsync();
+            var requestBody = await this.GetRequestBodyMemberAsync();
             if (null != requestBody)
                 this.RequestMemberCollection.Add(requestBody);
 
@@ -85,6 +85,26 @@ namespace Bespoke.Sph.Integrations.Adapters
             this.ResponseMemberCollection.Clear();
             this.ResponseMemberCollection.Add(responseHeader);
             this.ResponseMemberCollection.Add(responseBody);
+            this.ResponseMemberCollection.Add(new SimpleMember { Name = "Allow", FullName = "Allow", Type = typeof(string), AllowMultiple = true });
+            this.ResponseMemberCollection.Add(new SimpleMember { Name = "StatusText", FullName = "StatusText", Type = typeof(string) });
+            this.ResponseMemberCollection.Add(new SimpleMember { Name = "StatusCode", FullName = "StatusCode", Type = typeof(int) });
+            this.ResponseMemberCollection.Add(new SimpleMember { Name = "ContentLength", FullName = "Content-Length", Type = typeof(int), IsNullable = true });
+            // MediaTypeHeaderValue
+            this.ResponseMemberCollection.Add(new SimpleMember { Name = "ContentType", FullName = "Content-Type", Type = typeof(string) });
+            // ContentDispositionHeaderValue
+            this.ResponseMemberCollection.Add(new SimpleMember { Name = "ContentDisposition", FullName = "Content-Disposition", Type = typeof(string) });
+
+            this.ResponseMemberCollection.Add(new SimpleMember { Name = "ContentEncoding", FullName = "Content-Encoding", Type = typeof(string), AllowMultiple = true });
+            this.ResponseMemberCollection.Add(new SimpleMember { Name = "ContentLanguage", FullName = "Content-Language", Type = typeof(string), AllowMultiple = true });
+
+            //Uri
+            this.ResponseMemberCollection.Add(new SimpleMember { Name = "ContentLocation", FullName = "Content-Location", Type = typeof(string) });
+            // byte array
+            //this.ResponseMemberCollection.Add(new SimpleMember { Name = "ContentMD5", FullName = "Content-MD5", Type = typeof(int), AllowMultiple = true});
+            this.ResponseMemberCollection.Add(new SimpleMember { Name = "ContentRange", FullName = "Content-Range", Type = typeof(string) });
+            this.ResponseMemberCollection.Add(new SimpleMember { Name = "Expires", FullName = "Expires", Type = typeof(DateTime), IsNullable = true });
+            this.ResponseMemberCollection.Add(new SimpleMember { Name = "LastModified", FullName = "Last-Modified", Type = typeof(DateTime), IsNullable = true });
+
         }
 
         protected virtual async Task<Member> GetRequestBodyMemberAsync()

@@ -60,6 +60,10 @@ namespace adapter.restapi.test
             Assert.Contains("29T15:49:25.4862826+08:0", builder.ResponseBodySample);
             Assert.Equal("GET", entry.HttpMethod);
             Assert.Equal("HTTP/1.1", builder.HttpVersion);
+
+            Assert.NotNull(entry.ResponseMemberCollection.SingleOrDefault(x => x.Name == "StatusText"));
+            Assert.NotNull(entry.ResponseMemberCollection.SingleOrDefault(x => x.Name == "StatusCode"));
+            Assert.NotNull(entry.ResponseMemberCollection.SingleOrDefault(x => x.Name == "ContentLength"));
         }
 
 
@@ -84,7 +88,7 @@ namespace adapter.restapi.test
             Assert.Equal("GetApiSystemsSetting", entry.Name);
             Assert.Equal("GET", entry.HttpMethod);
 
-            Assert.Equal(2, entry.ResponseMemberCollection.Count);
+            Assert.Equal(15, entry.ResponseMemberCollection.Count);
             var body = entry.ResponseMemberCollection.Single(x => x.Name == "Body");
             Assert.Equal(8, body.MemberCollection.Count);
 

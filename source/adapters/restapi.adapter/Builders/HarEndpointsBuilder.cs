@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -282,6 +283,10 @@ namespace Bespoke.Sph.Integrations.Adapters
                     case JTokenType.Float:
                         type = typeof(decimal);
                         break;
+                }
+                if (type == typeof(string))
+                {
+                    type = jv.ToString(CultureInfo.InvariantCulture).TryGuessType();
                 }
                 return new SimpleMember { Name = jp.Name.ToPascalCase(), PropertyAttribute = $@"[JsonProperty(""{jp.Name}"")]", Type = type };
 

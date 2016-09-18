@@ -46,14 +46,15 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                     }],
                 computeNodeText = function (mbr) {
                     const field = ko.toJS(mbr),
+                        multiple = field.AllowMultiple ? "<i class='fa fa-list-ul column-icon' style='margin-right:5px;color:green' title='Allow multiple'></i> " : "",
                         nullable = field.IsNullable ? "<i class='fa fa-question column-icon' style='margin-right:5px;color:green' title='Nullalbe'></i> " : "",
                         extraQueryString = field.$type === "Bespoke.Sph.Integrations.Adapters.QueryStringMember, restapi.adapter" ? " <i class='fa fa-info-circle column-icon' style='margin-left:5px;color:orange' title='Extra query string parameter added by user'></i>" : "",
                         extraHeader = field.$type === "Bespoke.Sph.Integrations.Adapters.HttpHeaderMember, restapi.adapter" ? " <i class='fa fa-plus-circle column-icon' style='margin-left:5px;color:orange' title='Extra header added by user'></i>" : "",
-                        displayName = field.DisplayName || "",
+                        displayName = field.FullName || "",
                         bracket = displayName ? " [" : "",
                         bracket2 = displayName ? "]" : "";
 
-                    return   nullable + field.Name + bracket + displayName + bracket2 + extraHeader + extraQueryString;
+                    return  multiple +  nullable + field.Name + bracket + displayName + bracket2 + extraHeader + extraQueryString;
 
 
                 },
