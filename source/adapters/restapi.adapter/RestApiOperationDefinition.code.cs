@@ -15,6 +15,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             var list = base.GenerateRequestCode().ToList();
             var request = new Class { Name = $"{MethodName}Request", Namespace = CodeNamespace };
 
+            request.AddProperty($"public {MethodName}Route Routes {{get;set;}} = new {MethodName}Route();");
             request.AddProperty($"public {MethodName}QueryString QueryStrings {{get;set;}} = new {MethodName}QueryString();");
             request.AddProperty($"public {MethodName}RequestHeader Headers {{get;set;}} = new {MethodName}RequestHeader();");
             request.AddProperty($"public {MethodName}RequestBody Body{{get;set;}} = new {MethodName}RequestBody();");
@@ -46,14 +47,23 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             code.AppendLine(this.GenerateRequestQueryStringsCode(ref opUri));
             code.AppendLine(this.GenerateRequestHeadersCode((RestApiAdapter)adapter));
-            code.AppendLine($@" 
+
+            var contentType = this.RequestMemberCollection.Single(x => x.Name == "Headers")
+                .MemberCollection.SingleOrDefault(x => x.FullName == "Content-Type");
+            
+            code.AppendLine($@"
+            var contentType = {(contentType == null ? "application/json".ToVerbatim() : $"request.Headers.{contentType.Name};")}; 
             var setting = new JsonSerializerSettings();
             var json = JsonConvert.SerializeObject(request.Body, setting);
 
             var content = new StringContent(json);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);
+
 
             var url = $@""{opUri}"";
             var httpRequest  = new HttpRequestMessage{{Method = new HttpMethod(""{HttpMethod}""), Content = content}};
+            httpRequest.RequestUri = new System.Uri(url, System.UriKind.Relative);
+
             var response = await m_client.SendAsync(httpRequest);
 
             ");
@@ -102,7 +112,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             var routeParameterMembers = this.RequestMemberCollection.FirstOrDefault(x => x.Name.EndsWith("RouteParameters"));
             var routes = routeParameterMembers?.MemberCollection.OfType<RouteParameterMember>();
-            return null == routes ? string.Empty : routes.ToString("/", x => $@"{{request.RouteParameters.{x.Name}{(string.IsNullOrWhiteSpace(x.Converter) ? "" : ":" + x.Converter)}}}");
+            return null == routes ? string.Empty : routes.ToString("/", x => $@"{{request.Routes.{x.Name}{(string.IsNullOrWhiteSpace(x.Converter) ? "" : ":" + x.Converter)}}}");
         }
 
         protected string GenerateRequestQueryStringsCode(ref string opUri)

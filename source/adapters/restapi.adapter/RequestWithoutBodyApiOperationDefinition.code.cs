@@ -17,6 +17,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             list.RemoveAll(x => x.Name == $"{MethodName}Request");
             var request = new Class { Name = $"{MethodName}Request", Namespace = CodeNamespace };
 
+            request.AddProperty($"public {MethodName}Route Routes {{get;set;}} = new {MethodName}Route();");
             request.AddProperty($"public {MethodName}QueryString QueryStrings {{get;set;}} = new {MethodName}QueryString();");
             request.AddProperty($"public {MethodName}RequestHeader Headers {{get;set;}} = new {MethodName}RequestHeader();");
 

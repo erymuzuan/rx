@@ -257,6 +257,46 @@
             <!-- /ko-->
             
             
+            <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Integrations.Adapters.RouteParameterMember, restapi.adapter"-->
+            <form class="form" role="form" data-bind="visible:Name()">
+                <div class="form-group">
+                    <label for="route-parameter-name">Name</label>
+                    <input class="form-control" id="route-parameter-name" name="member.name" type="text" required pattern="^[A-Z][A-Za-z0-9_]*$" data-bind="value: Name" title="The value will be used for C# code generation" />
+                </div>
+                <div class="form-group">
+                    <label for="route-parameter-fullname">Full Name</label>
+                    <input class="form-control" id="route-parameter-fullname" name="member.fullname" type="text" required data-bind="value: FullName" title="The value is the actual item property from the request/response object" />
+                </div>
+                <div class="form-group">
+                    <label for="route-parameter-fullname">Converter</label>
+                    <input class="form-control" id="route-parameter-converter" name="member.fullname" type="text" data-bind="value: Converter" title="How do you want to format the value to string" />
+                </div>
+
+                <div class="form-group">
+                    <label for="route-parameter-type">Type</label>
+
+                    <select class="form-control" id="route-parameter-type" data-bind="value:TypeName">
+                        <option value="">[Please Select]</option>
+                        <option value="System.String, mscorlib">String</option>
+                        <option value="System.Int32, mscorlib">Integer</option>
+                        <option value="System.Decimal, mscorlib">Decimal</option>
+                        <option value="System.DateTime, mscorlib">DateTime</option>
+                        <option value="System.Boolean, mscorlib">Boolean</option>
+                    </select>
+
+                </div>
+                <div class="form-group">
+                    <label class="checkbox">
+                        <input data-bind="checked: IsNullable, disable: ko.unwrap(AllowMultiple)" id="query-string-nullable" type="checkbox" name="IsNullable" />
+                        Nullable
+                    </label>
+                </div>
+
+            </form>
+
+            <!-- /ko-->
+            
+            
             <!-- ko if : typeof DefaultValue === "function" && ko.isObservable(DefaultValue) -->
 
             <div class="form-group">

@@ -33,7 +33,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                          select new RouteParameterMember
                          {
                              Name = s.ToPascalCase(),
-                             DefaultValue = new ConstantField { Name = s.ToPascalCase(), Value = s, Type = typeof(string) },
+                             DefaultValue = new ConstantField { Name = s.ToPascalCase(), Value = s, Type = s.TryGuessType() },
                              FullName = s,
                              Type = s.TryGuessType()
                          };

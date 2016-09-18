@@ -130,7 +130,7 @@ bespoke.sph.domain.Adapters.RouteParameterMember = function (model) {
     if (!ko.isObservable(v.FullName)) {
         v.FullName = ko.observable(model.FullName || "");
     }
-    v.$type = "Bespoke.Sph.Integrations.Adapters.QueryStringMember, restapi.adapter";
+    v.$type = "Bespoke.Sph.Integrations.Adapters.RouteParameterMember, restapi.adapter";
 
 
     v.Name.subscribe(function (name) {
