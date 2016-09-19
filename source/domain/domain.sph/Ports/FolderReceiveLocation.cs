@@ -167,7 +167,7 @@ namespace Bespoke.Sph.Domain
             var file = e.FullPath;
             var wip = file + "".wip"" ;
             await WaitReadyAsync(file);
-            File.Move(file, wip );
+
             var port = new {port.CodeNamespace}.{port.TypeName}();
             port.Uri = new System.Uri(file);  
 
@@ -188,6 +188,12 @@ namespace Bespoke.Sph.Domain
             port.AddHeader(""Rx:Type"", ""FolderReceiveLocation"");
             port.AddHeader(""Rx:MachineName"", System.Environment.GetEnvironmentVariable(""COMPUTERNAME""));
             port.AddHeader(""Rx:UserName"", System.Environment.GetEnvironmentVariable(""USERNAME""));
+
+
+
+            File.Move(file, wip );
+            await WaitReadyAsync(wip);
+            await Task.Delay(100);
 
             // TODO : just read to the next record
             var number = 0;
