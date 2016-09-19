@@ -74,6 +74,54 @@
         "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "8ffb5a32-d6c3-4a19-bdaa-e56f01e74b16"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+        "TypeName": "System.Int32, mscorlib",
+        "IsNullable": true,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": true,
+        "IsExcludeInAll": false,
+        "Boost": 0,
+        "FullName": null,
+        "PropertyAttribute": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "BatchCount",
+        "AllowMultiple": false,
+        "DefaultValue": null,
+        "WebId": "b47a1dd0-027f-41e0-fc2d-643756a39789"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": true,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": true,
+        "IsExcludeInAll": false,
+        "Boost": 0,
+        "FullName": null,
+        "PropertyAttribute": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "BatchNo",
+        "AllowMultiple": false,
+        "DefaultValue": null,
+        "WebId": "d36a149d-5861-40f0-b973-21b47a8b795c"
       }
     ]
   },
@@ -115,6 +163,6 @@
   "Id": "sap-fi-account",
   "CreatedDate": "2016-09-08T07:16:29.6474424+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-17T11:57:53.8547279+08:00",
+  "ChangedDate": "2016-09-19T11:06:57.1830147+08:00",
   "WebId": "314010d0-81a6-4c1b-91b9-d052aa6390cf"
 }
