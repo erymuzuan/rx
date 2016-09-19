@@ -94,6 +94,9 @@ namespace subscriber.entities
                 using (var createTableCommand = new SqlCommand(createTable, conn))
                 {
                     await createTableCommand.ExecuteNonQueryAsync();
+                    // save to dis for source
+                    var file = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(EntityDefinition)}\\{item.Name}.sql";
+                    System.IO.File.WriteAllText(file, createTable);
                 }
                 foreach (var s in createIndex)
                 {
