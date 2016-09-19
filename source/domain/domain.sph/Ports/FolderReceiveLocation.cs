@@ -171,7 +171,7 @@ namespace Bespoke.Sph.Domain
             var port = new {port.CodeNamespace}.{port.TypeName}();
             port.Uri = new System.Uri(file);  
 
-            var fileInfo = new System.IO.FileInfor(file);          
+            var fileInfo = new System.IO.FileInfo(file);          
             port.AddHeader(""CreationTime"", $""{{fileInfo.CreationTime:s}}"");
             port.AddHeader(""DirectoryName"", fileInfo.DirectoryName);
             port.AddHeader(""Exists"", $""{{fileInfo.Exists}}"" );
@@ -179,7 +179,7 @@ namespace Bespoke.Sph.Domain
             port.AddHeader(""Extension"", fileInfo.Extension);
             port.AddHeader(""Attributes"", $""{{fileInfo.Attributes}}"" );
             port.AddHeader(""FullName"", fileInfo.FullName );
-            port.AddHeader(""Name"", fileInfo.Name}});
+            port.AddHeader(""Name"", fileInfo.Name);
             port.AddHeader(""LastWriteTime"", $""{{fileInfo.LastWriteTime:s}}"");
             port.AddHeader(""LastAccessTime"", $""{{fileInfo.LastAccessTime:s}}"");
             port.AddHeader(""IsReadOnly"", $""{{fileInfo.IsReadOnly}}"");
