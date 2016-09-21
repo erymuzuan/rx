@@ -31,34 +31,19 @@
         "WebId": "d3b36ea9-1fea-4483-b3cb-ee82e0393da1"
       },
       {
-        "$type": "Bespoke.Sph.Domain.FunctoidMap, domain.sph",
-        "__uuid": "",
-        "Functoid": "f75d2ac5-d749-4330-82de-688f9907666d",
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Date",
+        "TypeName": "",
         "Destination": "Body.DateTime",
         "SourceTypeName": "",
         "DestinationTypeName": "",
-        "WebId": "90c03130-5cbc-4e86-ebd9-693ec1cbd7da"
+        "WebId": "4f43cd5d-c860-41a9-b1e5-687f76506b85"
       }
     ]
   },
   "FunctoidCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Functoid, domain.sph]], domain.sph",
-    "$values": [
-      {
-        "$type": "Bespoke.Sph.Domain.NowFunctoid, domain.sph",
-        "ArgumentCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FunctoidArg, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Name": null,
-        "OutputTypeName": null,
-        "Label": null,
-        "Comment": null,
-        "X": 240.0,
-        "Y": 213.0,
-        "WebId": "f75d2ac5-d749-4330-82de-688f9907666d"
-      }
-    ]
+    "$values": []
   },
   "InputCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
@@ -77,6 +62,6 @@
   "Id": "sap-flat-file-to-web-api",
   "CreatedDate": "2016-09-17T13:38:03.8098033+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-18T09:57:23.5143626+08:00",
+  "ChangedDate": "2016-09-21T11:04:45.1930458+08:00",
   "WebId": "24b8d44e-5c97-4680-8eb3-5488b1f7161f"
 }

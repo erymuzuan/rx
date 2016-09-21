@@ -5,6 +5,7 @@
   "ChangeExtension": true,
   "CredentialPassword": null,
   "Filter": "*.txt",
+  "ArchiveLocation": null,
   "ReferencedAssemblyCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
     "$values": []
@@ -25,6 +26,6 @@
   "Id": "sap-file-drop-on-d",
   "CreatedDate": "2016-09-06T15:07:34.2113742+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-08T08:28:20.2355118+08:00",
+  "ChangedDate": "2016-09-21T11:05:12.0096644+08:00",
   "WebId": "2ec9e7fb-274a-47c0-993e-f419015468f0"
 }
