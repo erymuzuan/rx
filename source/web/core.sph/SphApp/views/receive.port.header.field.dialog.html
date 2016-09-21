@@ -13,12 +13,12 @@
 
                 <form class="form-horizontal" id="header-field-dialog-form">
                     <div class="form-group">
-                        <label for="name" class="col-lg-3 control-label">Name</label>
+                        <label for="header-field-name" class="col-lg-3 control-label">Name</label>
                         <div class="col-lg-6">
                             <input type="text" data-bind="value: Name"
                                    required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
                                    placeholder="Field name"
-                                   class="form-control" id="name">
+                                   class="form-control" id="header-field-name">
                         </div>
                     </div>
                     <div class="form-group">
@@ -34,8 +34,7 @@
                     <div class="form-group">
                         <label for="pattern" class="col-lg-3 control-label">Pattern</label>
                         <div class="col-lg-9">
-                            <input type="text" data-bind="value: Pattern"
-                                   required
+                            <input type="text" data-bind="value: Pattern, tooltip : 'Leave it blank to take the raw value'"
                                    placeholder="Regex pattern with value group e.g. -(?<value>\d{3}).txt"
                                    class="form-control" id="pattern">
                         </div>
@@ -53,6 +52,15 @@
                                 <option value="System.DateTime, mscorlib">DateTime</option>
                                 <option value="System.Boolean, mscorlib">Boolean</option>
                             </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="header-converter" class="col-lg-3 control-label">Converter</label>
+                        <div class="col-lg-9">
+                            <input type="text" data-bind="value: Converter, enable : ko.unwrap(TypeName) !== 'System.String, mscorlib', attr : { 'required' : ko.unwrap(TypeName) !== 'System.String, mscorlib'}, tooltip: 'For boolean, the value should be the True string'"
+                                   placeholder="Format converter for non string value"
+                                   class="form-control" id="header-converter">
                         </div>
                     </div>
 

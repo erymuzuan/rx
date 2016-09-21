@@ -1,7 +1,9 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 
 namespace Bespoke.Sph.Domain
 {
+    [DebuggerDisplay("Path = {Name}({Pattern})/{Converter}, TypeName= {TypeName}")]
     public partial class UriFieldMapping : TextFieldMapping
     {
         public override Member GenerateMember()
@@ -14,7 +16,9 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             var varName = Name.ToCamelCase();
             code.AppendLine("// Uri: " + Name);
-            code.AppendLine($@"var {varName}Raw = Strings.RegexSingleValue(this.Uri.ToString(), {Pattern.ToVerbatim()}, ""value"");");
+            code.AppendLine(!string.IsNullOrWhiteSpace(this.Pattern)
+                ? $@"var {varName}Raw = Strings.RegexSingleValue(this.Uri.ToString(), {Pattern.ToVerbatim()}, ""value"");"
+                : $@"var {varName}Raw = this.Uri.ToString();");
             if (IsNullable)
             {
                 var nullable = Type == typeof(string) ? "" : "?";

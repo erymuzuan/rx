@@ -32,7 +32,7 @@ namespace Bespoke.Sph.Web.Controllers
             }
             if (portIsNewItem)
                 return Created("/receive-ports/" + port.Id, new { success = true, id = port.Id });
-            return Ok(new { success = true, id = port.Id });
+            return Ok(new { success = true, id = port.Id, message = $"You receive port has been successfully saved '{port.Id}'" });
         }
 
         [HttpPost]
@@ -73,7 +73,7 @@ namespace Bespoke.Sph.Web.Controllers
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
-                session.Attach(ed,op);
+                session.Attach(ed, op);
                 await session.SubmitChanges();
             }
 

@@ -20,12 +20,18 @@ define(["plugins/dialog"],
                 }
 
             },
+            attached = function(view) {
+                setTimeout(function () {
+                    $("#header-field-name").focus();
+                }, 500);
+            },
                 cancelClick = function () {
                     dialog.close(this, "Cancel");
                 };
 
         const vm = {
             headerOptions: headerOptions,
+            attached: attached,
             field: field,
             port: port,
             okClick: okClick,

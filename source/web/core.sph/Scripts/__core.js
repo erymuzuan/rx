@@ -716,7 +716,7 @@ ko.bindingHandlers.tree = {
                                 var simpleMenu = {
                                     label: "Add Simple Child",
                                     action: function () {
-                                        var child = new bespoke.sph.domain.SimpleMember({ WebId: system.guid(), TypeName: "System.String, mscorlib", Name: "Member_Name" }),
+                                        var child = new bespoke.sph.domain.QueryStringMember({ WebId: system.guid(), TypeName: "System.String, mscorlib", Name: "Member_Name" }),
                                             parent = $(element).jstree("get_selected", true),
                                             mb = parent[0].data,
                                             newNode = { state: "open", type: "System.String, mscorlib", text: "Member_Name", data: child };
@@ -1874,13 +1874,16 @@ ko.bindingHandlers.command = {
                         logger.error(err.statusText);
                         return;
                     }
-                    if (err.responseText) {
-                        logger.error(err.responseText);
-                        console.error(err.responseText);
-                    }
                     if (err.responseJSON) {
-                        logger.error(JSON.stringify(err.responseJSON));
-                        console.error(err.responseJson);
+                        const responseMessage = err.responseJSON.Message || "",
+                            details = err.responseJSON.Details || JSON.stringify(err.responseJSON);
+                        logger.error(responseMessage);
+                        console.error(responseMessage, details);
+                    } else {
+                        if (err.responseText) {
+                            logger.error(err.responseText);
+                            console.error(err.responseText);
+                        }
                     }
                 })
                 .done(function () {
@@ -2058,7 +2061,7 @@ ko.bindingHandlers.commandWithParameter = {
             button = $(element),
             inputValue = button.val();
 
-            
+
         var $spinner = $("<i class='fa fa-spin fa-circle-o-notch'></i>").hide(),
             $warning = $("<i class='fa fa-warning' style='color:red'></i>").hide();
         button.append($spinner);
@@ -2066,7 +2069,7 @@ ko.bindingHandlers.commandWithParameter = {
 
         button.click(function (e) {
             e.preventDefault();
-               if (this.form) {
+            if (this.form) {
                 if (!this.form.checkValidity()) return;
             }
             $spinner.show();
@@ -2387,7 +2390,7 @@ ko.bindingHandlers.searchPaging = {
             };
 
         if (typeof query.subscribe === "function") {
-            query.subscribe(function(q) {
+            query.subscribe(function (q) {
                 search(q, 1, 20);
             });
         }

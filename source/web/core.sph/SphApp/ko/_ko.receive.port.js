@@ -111,7 +111,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                  field = $node.data,
                                  ref = $(element).jstree(true),
                                  $index =$node.original.$index;
-                            if (field) {
+                            if (field && $node.type !== "default") {
                                 selectedField(field);
 
                                 const nodeTextChanged = function () {
@@ -205,8 +205,12 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                     const removeField = {
                                         label: "Remove",
                                         action: function () {
-                                            port.FieldMappingCollection(field);
+                                            const field2 = port.FieldMappingCollection()
+                                                .find(x => ko.unwrap(field.WebId) === ko.unwrap(x.WebId));
+                                            port.FieldMappingCollection.remove(field2);
                                             ref.delete_node($node);
+                                            selectedField(null);
+
                                         }
                                     },ignore = {
                                         label: "Ignore",

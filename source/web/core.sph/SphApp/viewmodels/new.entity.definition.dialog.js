@@ -11,7 +11,7 @@
 define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
     function (dialog, context, system) {
 
-        var entity = ko.observable(),
+        const entity = ko.observable(),
             id = ko.observable("0"),
             activate = function() {
                 var ed = new bespoke.sph.domain.EntityDefinition();
@@ -34,7 +34,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                 if (!bespoke.utils.form.checkValidity(ev.target)) {
                     return Task.fromResult(0);
                 }
-                var record = new bespoke.sph.domain.SimpleMember({
+                const record = new bespoke.sph.domain.SimpleMember({
                         "Name": entity().RecordName(),
                         "TypeName": "System.String, mscorlib",
                         "IsNullable": false,
@@ -64,7 +64,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
             };
 
 
-        var vm = {
+        const vm = {
             activate: activate,
             attached : attached,
             id: id,

@@ -1,7 +1,9 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 
 namespace Bespoke.Sph.Domain
 {
+    [DebuggerDisplay("Path = {Name}({Pattern})/{Converter}, TypeName= {TypeName}")]
     public partial class HeaderFieldMapping : TextFieldMapping
     {
         public override Member GenerateMember()
@@ -16,7 +18,10 @@ namespace Bespoke.Sph.Domain
             var varName = field.Name.ToCamelCase();
             var fieldName = field.Name;
             code.AppendLine("// Header: " + fieldName);
-            code.AppendLine($@"var {varName}Raw = Strings.RegexSingleValue(this.Headers[""{field.Header}""], {field.Pattern.ToVerbatim()}, ""value"");");
+            code.AppendLine(!string.IsNullOrWhiteSpace(this.Pattern)
+                ? $@"var {varName}Raw = Strings.RegexSingleValue(this.Headers[""{field.Header}""], {field.Pattern.ToVerbatim()}, ""value"");"
+                : $@"var {varName}Raw = this.Headers[""{field.Header}""];");
+
             if (field.IsNullable)
             {
                 var nullable = field.Type == typeof(string) ? "" : "?";
