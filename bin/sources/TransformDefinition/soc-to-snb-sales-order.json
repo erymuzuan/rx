@@ -47,6 +47,15 @@
         "SourceTypeName": "",
         "DestinationTypeName": "",
         "WebId": "84f6c993-19ba-43bf-cc24-0f199fc6c243"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "CreatedDate",
+        "TypeName": "",
+        "Destination": "Body.CreatedDate",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "8794e98c-0d32-4ca6-e879-e12cab70c631"
       }
     ]
   },
@@ -88,6 +97,6 @@
   "Id": "soc-to-snb-sales-order",
   "CreatedDate": "2016-09-24T12:37:21.6298726+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-24T12:41:03.5518523+08:00",
+  "ChangedDate": "2016-09-24T13:26:53.7676362+08:00",
   "WebId": "4b09fdb5-3707-4f5a-9e1d-bfeeae890776"
 }

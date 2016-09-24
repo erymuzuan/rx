@@ -1,16 +1,17 @@
 {
   "$type": "Bespoke.Sph.Domain.FolderReceiveLocation, domain.sph",
-  "Path": "D:\\temp\\drop",
+  "Path": "d:\\temp\\sap-drop",
   "CredentialUserName": null,
-  "ChangeExtension": false,
+  "ChangeExtension": true,
   "CredentialPassword": null,
-  "Filter": "*.txt",
+  "Filter": "*.log",
+  "ArchiveLocation": null,
   "ReferencedAssemblyCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
     "$values": []
   },
   "Name": "TempOnWhatEver",
-  "IsActive": false,
+  "IsActive": true,
   "ValidationEndpoint": null,
   "ValidationMethod": "",
   "SubmitEndpoint": "sales-order-default",
@@ -25,6 +26,6 @@
   "Id": "temp-on-what-ever",
   "CreatedDate": "2016-09-03T17:42:56.0792069+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-03T18:03:53.4749908+08:00",
+  "ChangedDate": "2016-09-24T10:42:50.4473979+08:00",
   "WebId": "3695eb34-1f51-4985-b4a8-364bfc7fab75"
 }

@@ -1,0 +1,31 @@
+{
+  "$type": "Bespoke.Sph.Domain.QueryEndpoint, domain.sph",
+  "ControllerName": "SalesOrderDefaultQueryEndpoint",
+  "FilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "SortCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "MemberCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": []
+  },
+  "CacheProfile": "",
+  "Name": "default",
+  "Route": "all-sales-orders",
+  "IsReturnSource": "",
+  "Entity": "SalesOrder",
+  "Note": "",
+  "IsPublished": true,
+  "Resource": "sales-orders",
+  "CacheFilter": null,
+  "CreatedBy": "admin",
+  "Id": "default",
+  "CreatedDate": "2016-09-24T12:00:30.6621575+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-09-24T12:01:08.213452+08:00",
+  "WebId": "01385ced-6b40-4395-eb96-c0adc50d2fb1"
+}

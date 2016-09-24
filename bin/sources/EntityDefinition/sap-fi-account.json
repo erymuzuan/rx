@@ -6,34 +6,10 @@
       {
         "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
         "TypeName": "System.String, mscorlib",
-        "IsNullable": false,
-        "IsNotIndexed": false,
-        "IsAnalyzed": false,
-        "IsFilterable": false,
-        "IsExcludeInAll": false,
-        "Boost": 1,
-        "FullName": null,
-        "PropertyAttribute": null,
-        "MemberCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "FieldPermissionCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Name": "SapAccountNo",
-        "AllowMultiple": false,
-        "DefaultValue": null,
-        "WebId": "c61f9453-6cc4-4342-9de2-9be5f10de184"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
-        "TypeName": "System.String, mscorlib",
         "IsNullable": true,
         "IsNotIndexed": false,
         "IsAnalyzed": false,
-        "IsFilterable": false,
+        "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 1,
         "FullName": null,
@@ -53,11 +29,35 @@
       },
       {
         "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
-        "TypeName": "System.DateTime, mscorlib",
+        "TypeName": "System.String, mscorlib",
         "IsNullable": false,
         "IsNotIndexed": false,
         "IsAnalyzed": false,
-        "IsFilterable": false,
+        "IsFilterable": true,
+        "IsExcludeInAll": false,
+        "Boost": 1,
+        "FullName": null,
+        "PropertyAttribute": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "SapAccountNo",
+        "AllowMultiple": false,
+        "DefaultValue": null,
+        "WebId": "c61f9453-6cc4-4342-9de2-9be5f10de184"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+        "TypeName": "System.DateTime, mscorlib",
+        "IsNullable": true,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": true,
         "IsExcludeInAll": false,
         "Boost": 1,
         "FullName": null,
@@ -74,78 +74,6 @@
         "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "8ffb5a32-d6c3-4a19-bdaa-e56f01e74b16"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
-        "TypeName": "System.Int32, mscorlib",
-        "IsNullable": false,
-        "IsNotIndexed": false,
-        "IsAnalyzed": false,
-        "IsFilterable": false,
-        "IsExcludeInAll": false,
-        "Boost": 1,
-        "FullName": null,
-        "PropertyAttribute": null,
-        "MemberCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "FieldPermissionCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Name": "Count",
-        "AllowMultiple": false,
-        "DefaultValue": null,
-        "WebId": "571bdcec-f2b2-4e74-cbe1-c190f1ac2410"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
-        "TypeName": "System.String, mscorlib",
-        "IsNullable": false,
-        "IsNotIndexed": false,
-        "IsAnalyzed": false,
-        "IsFilterable": false,
-        "IsExcludeInAll": false,
-        "Boost": 1,
-        "FullName": null,
-        "PropertyAttribute": null,
-        "MemberCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "FieldPermissionCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Name": "OriginalFileName",
-        "AllowMultiple": false,
-        "DefaultValue": null,
-        "WebId": "467e2563-8275-4cd8-dced-8bfeeb9c51bc"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
-        "TypeName": "System.DateTime, mscorlib",
-        "IsNullable": false,
-        "IsNotIndexed": false,
-        "IsAnalyzed": false,
-        "IsFilterable": false,
-        "IsExcludeInAll": false,
-        "Boost": 1,
-        "FullName": null,
-        "PropertyAttribute": null,
-        "MemberCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "FieldPermissionCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Name": "DropDateTime",
-        "AllowMultiple": false,
-        "DefaultValue": null,
-        "WebId": "2e1b5ae8-89ec-4bb7-e61a-1a41571b9812"
       }
     ]
   },
@@ -168,7 +96,7 @@
     },
     "EntityResourceEndpoint": {
       "$type": "Bespoke.Sph.Domain.EntityResourceEndpoint, domain.sph",
-      "IsAllowed": false,
+      "IsAllowed": true,
       "FilterExpression": null,
       "WebId": null
     },
@@ -180,13 +108,13 @@
   "RecordName": "ReferenceNo",
   "IsPublished": true,
   "TreatDataAsSource": false,
-  "Transient": false,
+  "Transient": true,
   "StoreInDatabase": null,
   "StoreInElasticsearch": null,
   "CreatedBy": "admin",
   "Id": "sap-fi-account",
-  "CreatedDate": "2016-09-21T11:01:10.5122549+08:00",
+  "CreatedDate": "2016-09-08T07:16:29.6474424+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-21T11:04:02.4241587+08:00",
+  "ChangedDate": "2016-09-17T11:04:17.5268798+08:00",
   "WebId": "314010d0-81a6-4c1b-91b9-d052aa6390cf"
 }
