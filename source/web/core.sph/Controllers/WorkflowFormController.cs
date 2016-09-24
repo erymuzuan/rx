@@ -40,7 +40,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("publish")]
         public async Task<IHttpActionResult> Publish([JsonBody]WorkflowForm form)
         {
-            var ds = ObjectBuilder.GetObject<DeveloperService>();
+            var ds = ObjectBuilder.GetObject<IDeveloperService>();
             var context = new SphDataContext();
             form.BuildDiagnostics = ds.BuildDiagnostics;
 
