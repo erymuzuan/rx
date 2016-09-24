@@ -13,7 +13,7 @@ namespace Bespoke.Sph.ElasticSearchLogger
     [Export(typeof(ILogger))]
     public class Logger : ILogger
     {
-        public Severity TraceSwitch { get; set; } = Severity.Log;
+        public Severity TraceSwitch { get; set; } = Severity.Info;
         private readonly HttpClient m_client;
 
         public Logger()
