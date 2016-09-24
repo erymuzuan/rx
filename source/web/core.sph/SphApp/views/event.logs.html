@@ -11,20 +11,35 @@
             entity : 'Log'
             }">
             <thead>
-                <tr>
-                    <th>Date Time</th>
-                    <th>Operation</th>
-                    <th>Severity</th>
-                    <th>Log Source</th>
-                </tr>
+            <tr>
+                <th>Date Time</th>
+                <th>Operation</th>
+                <th>Log Source</th>
+            </tr>
             </thead>
             <tbody data-bind="foreach :list">
-                <tr>
-                    <td>
-                        <a href="#" data-bind="click : $parent.openDetails, date: { value: time, format:'YYYY-MM-DD HH:mm ss', inputFormat : moment.ISO_8601}"></a>
+            <tr>
+                <td style="width: 180px">
+                    <a href="#" data-bind="click : $parent.openDetails">
+                        <!-- ko if : severity === "Warning" -->
+                        <i class="fa fa-exclamation-triangle" style="color: darkgoldenrod"></i>
+                        <!-- /ko -->
+                        <!-- ko if : severity === "Error" -->
+                        <i class="fa fa-exclamation-circle" style="color:rgb(241, 51, 51)"></i>
+                        <!-- /ko -->
+                        <!-- ko if : severity === "Critical" -->
+                        <i class="fa fa-exclamation-triangle" style="color:rgb(192, 2, 2)"></i>
+                        <!-- /ko -->
+                        <!-- ko if : severity === "Log" -->
+                        <i class="fa fa-info-circle" style="color:rgb(16, 172, 97)"></i>
+                        <!-- /ko -->
+                        <!-- ko if : severity === "Info" -->
+                        <i class="fa fa-info-circle" style="color:rgb(21, 93, 211)"></i>
+                        <!-- /ko -->
+                            <span data-bind="date: { value: time, format:'YYYY-MM-DD HH:mm ss', inputFormat : moment.ISO_8601}"></span>
+                        </a>
                     </td>
-                    <td data-bind="text: (operation || '<No Category>') + ': ' + message"></td>
-                    <td data-bind="text:severity"></td>
+                    <td data-bind="text: (operation || '') + ': ' + message"></td>
                     <td data-bind="text:log"></td>
                 </tr>
             </tbody>
@@ -57,6 +72,32 @@
                     <br/>
                     <!-- /ko-->
                     <a href="javascript:;" data-bind="click : function(){ $root.selectedSeverities([]);}">Clear</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label  class="col-lg-3 control-label">Source</label>
+                <div class="col-lg-9">
+                    <!-- ko foreach :sourceOptions-->
+                    <label>
+                        <input type="checkbox" data-bind="value:key, checked : $root.selectedSources"/>
+                        <!-- ko text: key--> <!-- /ko -->(<!-- ko text: doc_count--><!-- /ko-->)
+                    </label>
+                    <br/>
+                    <!-- /ko-->
+                    <a href="javascript:;" data-bind="click : function(){ $root.selectedSources([]);}">Clear</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label  class="col-lg-3 control-label">Logs</label>
+                <div class="col-lg-9">
+                    <!-- ko foreach :logOptions-->
+                    <label>
+                        <input type="checkbox" data-bind="value:key, checked : $root.selectedLogs"/>
+                        <!-- ko text: key--> <!-- /ko -->(<!-- ko text: doc_count--><!-- /ko-->)
+                    </label>
+                    <br/>
+                    <!-- /ko-->
+                    <a href="javascript:;" data-bind="click : function(){ $root.selectedLogs([]);}">Clear</a>
                 </div>
             </div>
             <div class="form-group">
