@@ -72,19 +72,18 @@ namespace Bespoke.Sph.Domain
             if (Path.IsPathRooted(val)) return val;
             return (Home + @"\" + defaultPath).Replace("\\\\", "\\");
         }
-        private static int GetEnvironmentVariableInt32(string setting, int defaultValue = 0)
+        public static int GetEnvironmentVariableInt32(string setting, int defaultValue = 0)
         {
             var val = GetEnvironmentVariable(setting);
             int intValue;
             return int.TryParse(val, out intValue) ? intValue : defaultValue;
         }
-        private static bool GetEnvironmentVariableBoolean(string setting, bool defaultValue = false)
+        public static bool GetEnvironmentVariableBoolean(string setting, bool defaultValue = false)
         {
             var val = GetEnvironmentVariable(setting);
             bool intValue;
             return bool.TryParse(val, out intValue) ? intValue : defaultValue;
         }
-
         public static string GetEnvironmentVariable(string setting)
         {
             var process = Environment.GetEnvironmentVariable($"RX_{ApplicationNameToUpper}_{setting}", EnvironmentVariableTarget.Process);

@@ -79,7 +79,8 @@ namespace Bespoke.Sph.Domain
         protected override Task InitializeServiceClassAsync(Class watcher, ReceivePort port)
         {
             watcher.AddNamespaceImport<FileSystemWatcher, HttpClient, Uri, DomainObject>();
-            watcher.AddNamespaceImport<List<object>, Task>();
+            watcher.AddNamespaceImport<List<object>, Task, Polly.Policy>();
+
             watcher.AddProperty("private FileSystemWatcher m_watcher; ");
             watcher.AddProperty("private HttpClient m_client; ");
             watcher.AddProperty("private bool m_paused = false; ");
@@ -207,7 +208,8 @@ namespace Bespoke.Sph.Domain
             var wip = file + "".wip"" ;
             await WaitReadyAsync(file);
 
-            var port = new {port.CodeNamespace}.{port.TypeName}(new LocationLogger());
+            var logger = new LocationLogger();
+            var port = new {port.CodeNamespace}.{port.TypeName}(logger);
             port.Uri = new System.Uri(file);  
 
             var fileInfo = new System.IO.FileInfo(file);          
@@ -243,16 +245,42 @@ namespace Bespoke.Sph.Domain
             foreach(var r in records)
             {{
                 number ++;
-                // polly policy goes here
+                
                 var request = new StringContent(r.ToJson());
                 request.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(""application/json"");
-                var response = await m_client.PostAsync(""/api/{endpoint.Resource}/{endpoint.Route}"", request);
-                Console.Write($""\r{{number}} : "" + response.StatusCode);
+
+                // polly policy goes here
+                var retry = ConfigurationManager.GetEnvironmentVariableInt32(""{Name}RetryCount"", 3);
+                var interval = ConfigurationManager.GetEnvironmentVariableInt32(""{Name}RetryInterval"", 500);
+
+                var pr = await Policy.Handle<Exception>()
+                                    .WaitAndRetryAsync(retry, c => TimeSpan.FromMilliseconds(interval * Math.Pow(2, c)))
+                                    .ExecuteAndCaptureAsync(async () =>  await m_client.PostAsync(""/api/{endpoint.Resource}/{endpoint.Route}"", request));
+
+                if (null != pr.FinalException)
+                {{
+                    logger.Log(new LogEntry(pr.FinalException){{Message =$""Line {{number}}""}} );
+                    continue;
+                }}
+                var response = pr.Result;
+                if (!response.IsSuccessStatusCode)
+                {{
+                    logger.Log(new LogEntry{{ Message = $""Non success status code line {{number}} : {{response.StatusCode}}"", Severity = Severity.Warning}});
+                }}
+                Console.Write($""\r{{number}} : {{response.StatusCode}}\t"");
+                logger.Log(new LogEntry{{Message = $""{{number}} : "" + response.StatusCode , Severity = Severity.Info}});
             }}
-            // TODO : options to archive the file
+
+
             Console.WriteLine();
-            Console.WriteLine($""Done processing {{file}}""); 
-            File.Delete(wip);
+            logger.Log(new LogEntry{{ Message = $""Done processing {{file}}"", Severity = Severity.Info }});
+
+            var archivedFolder = ConfigurationManager.GetEnvironmentVariable(""{Name}ArchiveFolder"");
+            if (!string.IsNullOrWhiteSpace(archivedFolder) && Directory.Exists(archivedFolder))
+                File.Move(wip, Path.Combine(archivedFolder, Path.GetFileName(file)));
+            else
+                File.Delete(wip);
+
         }}");
             return created.ToString();
         }
