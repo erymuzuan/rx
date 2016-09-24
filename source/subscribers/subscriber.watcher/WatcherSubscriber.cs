@@ -73,7 +73,10 @@ namespace Bespoke.Sph.WathersSubscribers
 
             try
             {
-                var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + ed1.Name);
+                var file = ConfigurationManager.ApplicationName + "." + ed1.Name;
+                if (!File.Exists(file))
+                    return null;
+                var edAssembly = Assembly.Load(file);
                 var edTypeName = $"{ed1.CodeNamespace}.{ed1.Name}";
                 var edType = edAssembly.GetType(edTypeName);
                 if (null == edType)
