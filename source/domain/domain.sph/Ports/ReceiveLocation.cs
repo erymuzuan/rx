@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -182,7 +183,36 @@ namespace Bespoke.Sph.Domain
             watcher.AddMethod(GeneratePauseMethod(port).Result);
             watcher.AddMethod(GenerateResumeMethod(port).Result);
 
+            var logger = this.GenerateLoggerClass(port);
+            list.Add(logger);
+
             return list;
+        }
+
+
+        protected virtual Class GenerateLoggerClass(ReceivePort port)
+        {
+            var logger = new Class { Name = "LocationLogger", Namespace = this.CodeNamespace, BaseClass = "ILogger" };
+            logger.AddNamespaceImport<DomainObject, DateTime>();
+
+            var code = new StringBuilder();
+            code.AppendLine($@"
+
+        public Task LogAsync(LogEntry entry)
+        {{
+            return ObjectBuilder.LogAsync(entry);
+        }}
+        public void Log(LogEntry entry)
+        {{
+            ObjectBuilder.Log(entry);          
+        }}
+
+");
+
+            logger.AddMethod(new Method { Code = code.ToString() });
+
+
+            return logger;
         }
 
         protected virtual Task InitializeServiceClassAsync(Class watcher, ReceivePort port)

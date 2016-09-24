@@ -66,7 +66,7 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine(hasDetailRowsWithTag
                 ? GenerateProcessCodeDetailsWithTag(port)
-                : GenerateProcessCode());
+                : GenerateProcessCode(port.Entity));
 
             code.AppendLine("} ");
             return code.ToString();
@@ -84,15 +84,26 @@ namespace Bespoke.Sph.Domain
 
             return normalized;
         }
-        private string GenerateProcessCode()
+        private string GenerateProcessCode(string portName)
         {
             var normalized = this.GenerateNormalizeLineCode();
             return $@"
+                var count = 0;
                 foreach(var line in lines)
                 {{
+                    count++;
                     {normalized}
-                    var record = engine.ReadString(normalized)[0]; 
-                    this.ProcessHeader(record); 
+
+                    {portName} record = null;
+                    try
+                    {{
+                        record = engine.ReadString(normalized)[0]; 
+                        this.ProcessHeader(record);                     
+                    }}
+                    catch (Exception e)
+                    {{
+                        Logger.Log(new LogEntry(e){{ Message = $""Exception reading line {{count}}""}});
+                    }}
                     yield return record;
                 }}
 

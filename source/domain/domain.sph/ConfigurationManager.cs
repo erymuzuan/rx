@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace Bespoke.Sph.Domain
@@ -118,6 +119,29 @@ namespace Bespoke.Sph.Domain
             collection.SetValue(settings, true);
             element.SetValue(settings, true);
 
+        }
+
+        public static ReferencedAssembly GetPackage(string name, string version = "", string framework="net45")
+        {
+            var folder = $"{GetPath("packages", "packages")}";
+            if (!Directory.Exists(folder)) return null;
+            var lib = Directory.GetDirectories(folder, name + ".*").LastOrDefault();
+            if (null == lib) return null;
+            if (string.IsNullOrWhiteSpace(version))
+                version = Path.GetDirectoryName(lib)?.Replace(name + ".", "");
+
+            var package = new ReferencedAssembly
+            {
+                Name = name,
+                WebId = Guid.NewGuid().ToString(),
+                Version = version,
+                RuntimeVersion = framework,
+                FullName = "",
+                IsGac = false,
+                Location = $@"{folder}\{name}.{version}\lib\{framework}\{name}.dll"
+            };
+
+            return package;
         }
     }
 }

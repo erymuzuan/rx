@@ -28,10 +28,13 @@ namespace Bespoke.Sph.Domain
             type.AddNamespaceImport<DateTime, JsonIgnoreAttribute, FileInfo, Task>();
             type.AddNamespaceImport<DomainObject, IDictionary<string, string>, System.Text.RegularExpressions.Match>();
             type.AddProperty("Uri", typeof(Uri));
+            type.AddProperty(@"public ILogger Logger {get;} ");
             type.AddProperty(@"public IDictionary<string, string> Headers { get; } = new Dictionary<string, string>(); ");
             type.AddMethod(new Method() { Code = @"public void AddHeader<T>(string name, T value){
         this.Headers.Add(name,$""{value}"");
 }" });
+
+            type.CtorCollection.Add($"public {type.Name}(ILogger logger){{ this.Logger = logger; }}");
 
 
             type.AddMethod(new Method { Code = GetProcessHeaderCode(port) });

@@ -22,6 +22,10 @@ namespace domain.test.receive.ports
             Environment.SetEnvironmentVariable($"RX_{ConfigurationManager.ApplicationName}_HOME", @"c:\temp\rx", EnvironmentVariableTarget.Process);
 
             Console = helper;
+            var logger = new Mock<ILogger>(MockBehavior.Strict);
+            logger.Setup(x => x.Log(It.IsAny<LogEntry>()));
+            ObjectBuilder.AddCacheList(logger.Object);
+
             var store = new Mock<IBinaryStore>(MockBehavior.Strict);
 
             store.SetupAndReturnDoc("soc.text");
@@ -42,7 +46,7 @@ namespace domain.test.receive.ports
             Assert.NotNull(salesOrder);
             Assert.Equal(12, salesOrder.PropertyCollection.Count);
             Console.WriteLine(salesOrder.GetCode());
-            
+
         }
 
         [Fact]
@@ -71,7 +75,7 @@ namespace domain.test.receive.ports
 
             var assembly = Assembly.LoadFile(cr.Output);
             var portType = assembly.GetType($"{source.CodeNamespace}.{source.TypeName}");
-            dynamic port = Activator.CreateInstance(portType);
+            dynamic port = Activator.CreateInstance(portType, ObjectBuilder.GetObject<ILogger>());
 
             port.AddHeader("Name", SampleStoreId);
             port.AddHeader("LastWriteTime", $"{DateTime.Now:s}");
@@ -80,7 +84,7 @@ namespace domain.test.receive.ports
             foreach (var r in port.Process(lines))
             {
                 Assert.Equal(12, r.Count);
-                Assert.Equal(DateTime.ParseExact("20160809-150404","yyyyMMdd-HHmmss", CultureInfo.InvariantCulture), r.Created);
+                Assert.Equal(DateTime.ParseExact("20160809-150404", "yyyyMMdd-HHmmss", CultureInfo.InvariantCulture), r.Created);
                 Assert.Equal(12, (int?)r.CountLong);
             }
 
@@ -117,7 +121,7 @@ namespace domain.test.receive.ports
             port.FieldMappingCollection.Add(new HeaderFieldMapping { Name = "FileName", Type = typeof(string), Pattern = ".*", Header = "Name", SampleValue = csv.SampleStoreId });
             port.FieldMappingCollection.Add(new HeaderFieldMapping { Name = "Count", Type = typeof(int), Pattern = @"-(?<value>\d{1,4}).txt", Header = "Name" });
             port.FieldMappingCollection.Add(new HeaderFieldMapping { Name = "Created", Pattern = @"-(?<value>\d{8}-\d{6})-", Converter = "yyyyMMdd-HHmmss", Header = "Name", Type = typeof(DateTime) });
-            port.FieldMappingCollection.Add(new HeaderFieldMapping { Name = "Created2",IsNullable = true, Pattern = @"-(?<value>\d{8}-\d{6})-", Converter = "yyyyMMdd-HHmmss", Header = "Name", Type = typeof(DateTime) });
+            port.FieldMappingCollection.Add(new HeaderFieldMapping { Name = "Created2", IsNullable = true, Pattern = @"-(?<value>\d{8}-\d{6})-", Converter = "yyyyMMdd-HHmmss", Header = "Name", Type = typeof(DateTime) });
 
             var customerNameField = fields[2];
             Assert.Equal("Ahmad, sons and friends", customerNameField.SampleValue);
@@ -134,7 +138,7 @@ namespace domain.test.receive.ports
             dateField.Name = "Date";
             dateField.TypeName = typeof(DateTime).GetShortAssemblyQualifiedName();
             dateField.Converter = "yyyy-MM-dd";
-            
+
             return port;
         }
 

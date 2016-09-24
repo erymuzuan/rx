@@ -31,13 +31,10 @@ namespace Bespoke.Sph.Domain
 
             if (!this.ReferencedAssemblyCollection.Any(x => x.Location.EndsWith("Topshelf.dll")))
             {
-                var topshelf = new ReferencedAssembly
-                {
-                    Name = "Topshelf",
-                    WebId = Guid.NewGuid().ToString(),
-                    Location = $"{ConfigurationManager.Home}\\subscribers.host\\Topshelf.dll"
-                };
-                this.ReferencedAssemblyCollection.Add(topshelf);
+                this.ReferencedAssemblyCollection.AddPackage("Topshelf", "4.0.2", "net452");
+                this.ReferencedAssemblyCollection.AddPackage("NLog", "4.3.9");
+                this.ReferencedAssemblyCollection.AddPackage("Topshelf.NLog", "4.0.2", "net452");
+                this.ReferencedAssemblyCollection.AddPackage("Polly", "4.2.4");
             }
             list.Add(program);
 
@@ -47,6 +44,7 @@ namespace Bespoke.Sph.Domain
         {{
             HostFactory.Run(config =>
             {{
+                config.UseNLog();
                 config.Service<IReceiveLocation>(svc =>
                 {{
                     svc.ConstructUsing(() => new {TypeName}());
@@ -72,8 +70,11 @@ namespace Bespoke.Sph.Domain
         }}");
             program.AddMethod(new Method { Code = code.ToString() });
 
+         
+
             return list;
         }
+
 
         protected override Task InitializeServiceClassAsync(Class watcher, ReceivePort port)
         {
@@ -153,6 +154,44 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
+        protected override Class GenerateLoggerClass(ReceivePort port)
+        {
+            var logger = new Class { Name = "LocationLogger", Namespace = this.CodeNamespace , BaseClass = "ILogger"};
+            logger.AddNamespaceImport<DomainObject, DateTime, Task>();
+            logger.ImportCollection.Add("Topshelf.Logging");
+
+            
+            var code = new StringBuilder();
+            
+            code.AppendLine($@"
+        public Task LogAsync(LogEntry entry)
+        {{
+            this.Log(entry);
+            return Task.FromResult(0);
+        }}
+        public void Log(LogEntry entry)
+        {{
+            var logger = HostLogger.Get<{this.TypeName}>();
+            switch(entry.Severity)
+            {{
+                case Severity.Critical: logger.Fatal(entry.Message);break;
+                case Severity.Error: logger.Error(entry.Details, entry.Exception);break;
+                case Severity.Warning: logger.Warn(entry.Message);break;
+                case Severity.Log:
+                case Severity.Info: logger.Info(entry.Message);break;
+                case Severity.Verbose: logger.Debug(entry.Message);break;
+                case Severity.Debug: logger.Debug(entry.Message);break;
+            }}
+            
+        }}
+
+");
+            
+            logger.AddMethod(new Method {Code =  code.ToString()});
+
+
+            return logger;
+        }
         private string GenerateFileCreatedMethod(ReceivePort port)
         {
             var context = new SphDataContext();
@@ -168,7 +207,7 @@ namespace Bespoke.Sph.Domain
             var wip = file + "".wip"" ;
             await WaitReadyAsync(file);
 
-            var port = new {port.CodeNamespace}.{port.TypeName}();
+            var port = new {port.CodeNamespace}.{port.TypeName}(new LocationLogger());
             port.Uri = new System.Uri(file);  
 
             var fileInfo = new System.IO.FileInfo(file);          
