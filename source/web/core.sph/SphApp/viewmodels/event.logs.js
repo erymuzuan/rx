@@ -33,10 +33,18 @@ define(["services/datacontext", "services/logger", "plugins/router"],
 
                 });
             },
+            query = ko.observable({
+                "sort": [
+                 {
+                     "time": {
+                         "order": "desc"
+                     }
+                 }
+                ]
+            }),
             getKeysAsync = function (field) {
-                var tcs = new $.Deferred(),
+                const tcs = new $.Deferred(),
                     agg = {
-                        "aggs": {
                             "category": {
                                 "terms": {
                                     "field": field,
@@ -44,13 +52,13 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                                 }
                             }
                         },
-                        "fields": [
-                            "computer"
-                        ]
-                    };
-                context.searchAsync("log", agg)
+                    filteredAgg = ko.toJS(query);
+                filteredAgg.aggs = agg;
+                filteredAgg.fields = ["computer"];
+
+                context.searchAsync("log", filteredAgg)
                  .then(function (result) {
-                     var buckets = result.aggregations.category.buckets;
+                     const buckets = result.aggregations.category.buckets;
                      tcs.resolve(buckets);
                  });
 
@@ -72,20 +80,11 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     .then(computerOptions);
             },
             attached = function (view) {
-                $(view).find("form#filter-logs-form").one("submite", function (e) {
+                $(view).find("form#filter-logs-form").one("submit", function (e) {
                     e.preventDefault();
                     searchById();
                 });
             },
-            query = ko.observable({
-                "sort": [
-                 {
-                     "time": {
-                         "order": "desc"
-                     }
-                 }
-                ]
-            }),
             executeQuery = function () {
                 const q = {
                     "query": {
@@ -129,6 +128,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 }
 
                 query(q);
+
             };
 
         selectedComputers.subscribe(executeQuery, null, "arrayChange");
@@ -137,6 +137,8 @@ define(["services/datacontext", "services/logger", "plugins/router"],
         selectedLogs.subscribe(executeQuery, null, "arrayChange");
         timeFrom.subscribe(executeQuery);
         timeTo.subscribe(executeQuery);
+        query.subscribe(activate);
+
 
 
         const vm = {
