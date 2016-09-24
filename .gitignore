@@ -182,3 +182,4 @@ source/web/core.sph/bower_components/
 /bin/rabbitmq_server*
 /bin/database
 /bin/services
+/bin/packages
