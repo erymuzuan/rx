@@ -249,11 +249,45 @@ namespace Bespoke.Sph.Integrations.Adapters
                 var ja = (JArray)jp.Value;
                 var member = new ComplexMember { Name = jp.Name.ToPascalCase(), TypeName = $"{jp.Name.ToPascalCase()}Item", AllowMultiple = true, PropertyAttribute = $@"[JsonProperty(""{jp.Name}"")]" };
                 // recurse
-                var fr = (JObject)ja.First();
-                var chilren = from f in fr.Children()
-                              select GetContentMember((JProperty)f);
-                member.MemberCollection.AddRange(chilren);
-                return member;
+                if (ja.Count == 0)
+                {
+                    // we cannot guest the content of empty array
+                    return new SimpleMember { Name = jp.Name.ToPascalCase(), PropertyAttribute = $@"[JsonProperty(""{jp.Name}"")]", Type = typeof(string), AllowMultiple = true };
+                }
+                var fr = ja.First as JObject;
+                if (null != fr)
+                {
+                    var chilren = from f in fr.Children()
+                                  select GetContentMember((JProperty)f);
+                    member.MemberCollection.AddRange(chilren);
+                    return member;
+                }
+                var jv = ja.First as JValue;
+                if (null != jv)
+                {
+                    var type = typeof(string);
+                    switch (jv.Type)
+                    {
+                        case JTokenType.Date:
+                            type = typeof(DateTime);
+                            break;
+                        case JTokenType.Integer:
+                            type = typeof(int);
+                            break;
+                        case JTokenType.Boolean:
+                            type = typeof(bool);
+                            break;
+                        case JTokenType.Float:
+                            type = typeof(decimal);
+                            break;
+                    }
+                    if (type == typeof(string))
+                    {
+                        type = jv.ToString(CultureInfo.InvariantCulture).TryGuessType();
+                    }
+                    return new SimpleMember { Name = jp.Name.ToPascalCase(), PropertyAttribute = $@"[JsonProperty(""{jp.Name}"")]", Type = type, AllowMultiple = true };
+
+                }
             }
             if (jp.Value.GetType() == typeof(JObject))
             {

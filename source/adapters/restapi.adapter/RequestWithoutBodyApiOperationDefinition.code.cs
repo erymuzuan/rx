@@ -61,7 +61,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                            ");
             }
 
-            code.AppendLine(this.GenerateProcessHttpResonseCode());
+            code.AppendLine(this.GenerateProcessHttpResponseCode());
 
             return code.ToString();
         }

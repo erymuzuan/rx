@@ -69,7 +69,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             ");
 
 
-            code.AppendLine(this.GenerateProcessHttpResonseCode());
+            code.AppendLine(this.GenerateProcessHttpResponseCode());
 
             return code.ToString();
         }
@@ -141,7 +141,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             return code.ToString();
         }
 
-        protected string GenerateProcessHttpResonseCode()
+        protected string GenerateProcessHttpResponseCode()
         {
             var code = new StringBuilder();
             code.AppendLine($"var result = new {MethodName}Response();");
@@ -165,9 +165,6 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("              result.LastModified = content2.Headers.LastModified.Value.DateTime;");
             code.AppendLine();
 
-            code.AppendLine("           var text = await content2.ReadAsStringAsync();");
-
-            code.AppendLine($"result.Body = JsonConvert.DeserializeObject<{MethodName}ResponseBody>(text);");
 
             var headerParent = this.ResponseMemberCollection.Single(x => x.Name == "Headers");
             var stringHeaders = headerParent.MemberCollection.OfType<SimpleMember>().Where(x => x.Type == typeof(string)).ToArray();
@@ -293,6 +290,31 @@ namespace Bespoke.Sph.Integrations.Adapters
                 code.AppendLine("  }");
             }
             #endregion
+
+
+            code.AppendLine("         var text = await content2.ReadAsStringAsync();");
+            code.AppendLine(@"        if(!response.IsSuccessStatusCode)");
+            code.AppendLine(@"        {");
+            code.AppendLine($@"            ObjectBuilder.GetObject<ILogger>().LogAsync(new LogEntry{{ 
+                                                            Message = $""{{(int)response.StatusCode}} {HttpMethod} {{httpRequest.RequestUri}}"",
+                                                            Severity = Severity.Warning,
+                                                            Log = EventLog.Subscribers,
+                                                            Source = ""{Name}"",
+                                                            Details = text + ""\r\n"" + JsonConvert.SerializeObject(request)
+                                                        }});");
+            code.AppendLine(@"            return result;");
+            code.AppendLine(@"        }");
+            code.AppendLine(@"        else");
+            code.AppendLine(@"        {");
+            code.AppendLine($@"            ObjectBuilder.GetObject<ILogger>().LogAsync(new LogEntry{{ 
+                                                            Message = $""{{(int)response.StatusCode}} {HttpMethod} {{httpRequest.RequestUri}}"",
+                                                            Severity = Severity.Log,
+                                                            Log = EventLog.Subscribers,
+                                                            Source = ""{Name}"",
+                                                            Details = text
+                                                        }});");
+            code.AppendLine(@"        }");
+            code.AppendLine($"        result.Body = JsonConvert.DeserializeObject<{MethodName}ResponseBody>(text);");
 
             code.AppendLine("return result;");
             return code.ToString();
