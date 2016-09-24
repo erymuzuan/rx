@@ -25,7 +25,7 @@ namespace Bespoke.Sph.Web.Controllers
         [OutputCache(Duration = 64800, Location = OutputCacheLocation.Any)]
         public ActionResult GetToolboxItems()
         {
-            var ds = ObjectBuilder.GetObject<DeveloperService>();
+            var ds = ObjectBuilder.GetObject<IDeveloperService>();
             var actions = from a in ds.ToolboxItems
                           orderby a.Metadata.Order
                           select
@@ -44,7 +44,7 @@ namespace Bespoke.Sph.Web.Controllers
         [OutputCache(Duration = 2592200, Location = OutputCacheLocation.Any)]
         public ActionResult GetPngIcon(string name)
         {
-            var ds = ObjectBuilder.GetObject<DeveloperService>();
+            var ds = ObjectBuilder.GetObject<IDeveloperService>();
 
             var act = ds.ToolboxItems
                 .SingleOrDefault(x => string.Equals(x.Metadata.Name, name, StringComparison.InvariantCultureIgnoreCase));
@@ -72,7 +72,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("editor/{name}.{extension:length(2,4)}")]
         public ActionResult GetDialog(string name, string extension)
         {
-            var ds = ObjectBuilder.GetObject<DeveloperService>();
+            var ds = ObjectBuilder.GetObject<IDeveloperService>();
             var info = ds.ToolboxItems
                 .SingleOrDefault(x => string.Equals(x.Metadata.Name, name, StringComparison.InvariantCultureIgnoreCase));
             if (null != info)
