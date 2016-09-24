@@ -85,19 +85,9 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
-        public async Task<WorkflowCompilerResult> CompileAsync(ReceivePort port)
+        public virtual async Task<WorkflowCompilerResult> CompileAsync(ReceivePort port)
         {
             var options = new CompilerOptions { IsDebug = true };
-            if (this.GenerateExecutable())
-            {
-                var config = $@"<?xml version=""1.0"" encoding=""utf-8""?>
-<configuration>
-  <appSettings>
-    <add key=""sph:ApplicationName"" value=""{ConfigurationManager.ApplicationName}"" />
-  </appSettings>
-</configuration>";
-                File.WriteAllText($"{ConfigurationManager.CompilerOutputPath}\\{AssemblyName}.config", config);
-            }
             return await this.CompileAsync(port, options);
         }
 
