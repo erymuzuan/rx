@@ -106,7 +106,7 @@ namespace Bespoke.Sph.Domain
                         m_client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(""Bearer"", token);
 
                         var path = ConfigurationManager.GetEnvironmentVariable(""{Name}_Path"") ?? {Path.ToVerbatim()};
-                        var m_watcher = new FileSystemWatcher(path, {Filter.ToVerbatim()});
+                        m_watcher = new FileSystemWatcher(path, {Filter.ToVerbatim()});
                         m_watcher.EnableRaisingEvents = true;
                         m_watcher.Created += FswChanged;
 
