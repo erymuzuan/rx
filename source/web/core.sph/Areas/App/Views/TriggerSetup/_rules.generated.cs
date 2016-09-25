@@ -128,19 +128,28 @@ WriteLiteral(">Not StartsWith</option>\r\n                    <option");
 
 WriteLiteral(" value=\"NotEndsWith\"");
 
-WriteLiteral(">Not EndsWith</option>\r\n                </select>\r\n            </td>\r\n           " +
-" <td>\r\n");
+WriteLiteral(">Not EndsWith</option>\r\n                    <option");
+
+WriteLiteral(" value=\"IsNull\"");
+
+WriteLiteral(">Is Null</option>\r\n                    <option");
+
+WriteLiteral(" value=\"IsNotNull\"");
+
+WriteLiteral(">Is Not Null</option>\r\n                </select>\r\n            </td>\r\n            " +
+"<td>\r\n                <!-- ko if : binaryOperator -->\r\n\r\n\r\n");
 
 WriteLiteral("                ");
 
             
-            #line 35 "..\..\Areas\App\Views\TriggerSetup\_rules.cshtml"
-           Write(Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Right" }));
+            #line 40 "..\..\Areas\App\Views\TriggerSetup\_rules.cshtml"
+           Write(Html.Partial("_TriggerFieldDropDown", new TypeModel {Path = "Right"}));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n            </td>\r\n            <td>\r\n                <a");
+WriteLiteral("\r\n\r\n                <!-- /ko -->\r\n\r\n            </td>\r\n            <td>\r\n        " +
+"        <a");
 
 WriteLiteral(" rel=\"nofollow\"");
 
