@@ -15,6 +15,61 @@ namespace Bespoke.Sph.Domain
 {
     public static class JsonSerializerService
     {
+
+        public static string GetJsonSchema(this PropertyInfo prop)
+        {
+            var elements = new Dictionary<string, string>();
+            var code = new StringBuilder();
+            var type = prop.PropertyType;
+            elements.Add("type", $@"""{type.Name.ToLowerInvariant()}""");
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                type = Nullable.GetUnderlyingType(type);
+            }
+            if (type == typeof(DateTime))
+            {
+                elements["type"] = @"""string""";
+                elements.AddIfNotExist("format", @"""date-time""");
+            }
+
+            if (type == typeof(int))
+            {
+                elements["type"] = @"""integer""";
+            }
+            if (type == typeof(decimal))
+            {
+                elements["type"] = @"""number""";
+            }
+
+            if (type == typeof(bool))
+            {
+                elements["type"] = @"""boolean""";
+            }
+
+            if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                type = Nullable.GetUnderlyingType(prop.PropertyType);
+                if (type == typeof(DateTime))
+                    elements.AddIfNotExist("format", @"""date-time""");
+                else if (type.BaseType == typeof(Enum))
+                    elements.AddIfNotExist("enum", "[" + Enum.GetNames(type).ToString(",", x => $@"""{x}""") + "]");
+
+                elements["type"] = $@"[{elements["type"]}, ""null""]";
+            }
+
+            if (type.BaseType == typeof(Enum))
+            {
+                elements.AddIfNotExist("enum", "[" + Enum.GetNames(type).ToString(",", x => $@"""{x}""") + "]");
+            }
+       
+
+
+            code.Append($@" ""{prop.Name}"": {{
+");
+            code.JoinAndAppendLine(elements.Keys, ",\r\n", x => $@"""{x}"" : {elements[x]}");
+            code.Append("}");
+            return code.ToString();
+        }
         public static JsonSchema GetJsonSchemaFromObject2(Type type)
         {
             var generator = new JsonSchemaGenerator();
@@ -231,7 +286,7 @@ namespace Bespoke.Sph.Domain
                     {
                         return JsonConvert.DeserializeObject<T>(File.ReadAllText(file), setting);
                     }
-                    catch (IOException e) when(e.Message.Contains("because it is being used by another process"))
+                    catch (IOException e) when (e.Message.Contains("because it is being used by another process"))
                     {
                         Thread.Sleep(500);
                         return file.DeserializeFromJsonFile<T>();

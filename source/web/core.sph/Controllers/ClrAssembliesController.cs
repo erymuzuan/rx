@@ -141,6 +141,36 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
         [HttpGet]
+        [Route("{type}/object-schema")]
+        public IHttpActionResult GetObjectSchema(string type)
+        {
+            var t = Strings.GetType(type);
+            if (null == t)
+            {
+                string message = $"Cannot find {type} in your {ConfigurationManager.WebPath}/bin or {ConfigurationManager.CompilerOutputPath}, Please build it if you have not done so";
+
+                ObjectBuilder.GetObject<ILogger>()
+                    .Log(new LogEntry(new Exception(message)));
+                return NotFound(message);
+
+            }
+
+            var schema = new StringBuilder();
+            var properties = from p in t.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                             where p.DeclaringType != typeof(DomainObject)
+                             && p.DeclaringType != typeof(Entity)
+                             select p.GetJsonSchema();
+            
+            schema.Append($@"
+{{
+  ""type"": ""object"",
+  ""properties"": {{
+   {properties.ToString(",\r\n")}
+  }}
+}}");
+            return Json(schema.ToString());
+        }
+        [HttpGet]
         [Route("{type}/json-schema")]
         public IHttpActionResult Schema(string type)
         {
