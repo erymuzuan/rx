@@ -13,7 +13,7 @@ namespace domain.test
         public static dynamic CreateCustomerInstance(Type type)
         {
             dynamic customer = Activator.CreateInstance(type);
-            customer.FullName = NAuto.GetRandomString(8, 18, CharacterSetType.Alpha, Spaces.Middle);
+            customer.FirstName = NAuto.GetRandomString(8, 18, CharacterSetType.Alpha, Spaces.Middle);
             customer.Age = NAuto.GetRandomInteger(25, 65);
             customer.Gender = new[] { "Male", "Female" }.OrderBy(f => Guid.NewGuid()).First();
             customer.Address.State =
@@ -22,7 +22,7 @@ namespace domain.test
             customer.Address.Locality = new[] { "Rural", "Urban", "Surburb" }.OrderBy(f => Guid.NewGuid()).First();
             customer.RegisteredDate = DateTime.Today.AddDays(-NAuto.GetRandomInteger(50, 500));
 
-            customer.IsPriority = customer.FullName.Length % 2 == 0;
+            customer.IsPriority = customer.FirstName.Length % 2 == 0;
             customer.Contact.Name = NAuto.GetRandomString(8, 18, CharacterSetType.Alpha, Spaces.Middle);
             customer.Address.Street1 = NAuto.GetRandomString(8, 18, CharacterSetType.Alpha, Spaces.Middle);
             return customer;
