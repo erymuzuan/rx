@@ -10,6 +10,7 @@
     /// &lt;reference path="~/scripts/knockout-3.4.0.debug.js" /&gt;
     /// &lt;reference path="~/Scripts/underscore.js" /&gt;
     /// &lt;reference path="~/Scripts/moment.js" /&gt;
+    /// &lt;reference path="~/Scripts/require.js" /&gt;
 
     var bespoke = bespoke || {};
     bespoke.sph = bespoke.sph  || {};
@@ -37,9 +38,18 @@
               </xsl:for-each>
               <xsl:apply-templates select="xs:complexType/xs:complexContent/xs:extension"/>
 
+              var context = require("services/datacontext");
               if (optionOrWebid &amp;&amp; typeof optionOrWebid === "object") {
               for (var n in optionOrWebid) {
                 if (optionOrWebid.hasOwnProperty(n)) {
+                    // array
+                    if (ko.isObservable(v[n]) &amp;&amp; 'push' in v[n]) {
+                      var values = optionOrWebid[n].$values || optionOrWebid[n];
+                      if(_(values).isArray()){
+                        v[n](_(values).map(function(ai){ return context.toObservable(ai);}));
+                        continue;
+                      }
+                    }
                     if (ko.isObservable(v[n])) {
                       v[n](optionOrWebid[n]);
                     }
@@ -70,11 +80,20 @@
               <!-- Element -->
               <xsl:apply-templates select="xs:complexType/xs:all/xs:element"/>isBusy : ko.observable(false),
               WebId : ko.observable()
-              };
+              },
+              context = require("services/datacontext");
               if (optionOrWebid &amp;&amp; typeof optionOrWebid === "object") {
               for (var n in optionOrWebid) {
                 if (optionOrWebid.hasOwnProperty(n)) {
-                    if (typeof model[n] === "function") {
+                    if (ko.isObservable(model[n]) &amp;&amp; 'push' in model[n]) {
+                        var values = optionOrWebid[n].$values || optionOrWebid[n];
+                        if(_(values).isArray()){
+                          model[n](_(values).map(function(ai){ return context.toObservable(ai);}));
+                          continue;
+                        }
+                    }
+                    
+                    if (ko.isObservable(model[n])) {
                     model[n](optionOrWebid[n]);
                     }
                   }
@@ -101,6 +120,9 @@
       <!-- attribute-->
       var model =  {
       "$type" : "Bespoke.Sph.Domain.<xsl:value-of select="@name"/>, domain.sph",
+      <xsl:if test="@bspk:entity">
+        Id : ko.observable("0"),
+      </xsl:if>
       <xsl:for-each select="xs:attribute">
         <xsl:value-of select="@name"/> : ko.observable(<xsl:value-of select="bspk:GetJsDefaultValue(@type, @nillable)"/>),
       </xsl:for-each>
