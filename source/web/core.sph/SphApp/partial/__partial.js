@@ -1813,11 +1813,11 @@ bespoke.sph.domain.RouteParameterFieldPartial = function (model) {
 
 
 
-bespoke.sph.domain.RulePartial = function () {
+bespoke.sph.domain.RulePartial = function (model) {
 
-    var system = require('durandal/system'),
+    const system = require("durandal/system"),
         showFieldDialog = function (accessor, field, path) {
-            require(['viewmodels/' + path, 'durandal/app'], function (dialog, app2) {
+            require([`viewmodels/${path}`, "durandal/app"], function (dialog, app2) {
                 dialog.field(field);
 
 
@@ -1832,23 +1832,34 @@ bespoke.sph.domain.RulePartial = function () {
             });
         },
         addField = function (accessor, type) {
-            var field = new bespoke.sph.domain[type + 'Field'](system.guid());
-            showFieldDialog(accessor, field, 'field.' + type.toLowerCase());
+            const field = new bespoke.sph.domain[type + "Field"](system.guid());
+            showFieldDialog(accessor, field, "field." + type.toLowerCase());
         },
         editField = function (field, accessor) {
             return function () {
-                var fieldType = ko.unwrap(field.$type),
+                const fieldType = ko.unwrap(field.$type),
                     clone = ko.mapping.fromJS(ko.mapping.toJS(field)),
                     pattern = /Bespoke\.Sph\.Domain\.(.*?)Field,/,
                     type = pattern.exec(fieldType)[1];
 
 
-                showFieldDialog(accessor, clone, 'field.' + type.toLowerCase());
+                showFieldDialog(accessor, clone, "field." + type.toLowerCase());
 
             };
-        };
+        },
+        binaryOperator = ko.computed(function() {
+            if (ko.unwrap(model.Operator) === "IsNull") {
+                return false;
+            }
+            if (ko.unwrap(model.Operator) === "IsNotNull") {
+                return false;
+            }
 
-    var vm = {
+            return true;
+        });
+
+    const vm = {
+        binaryOperator: binaryOperator,
         addField: addField,
         editField: editField
 

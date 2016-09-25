@@ -184,11 +184,12 @@ namespace subscriber.entities
         private string[] CreateIndexSql(EntityDefinition item, string applicationName)
         {
             var members = this.GetFilterableMembers("", item.MemberCollection);
-            var sql = from member in members.OfType<SimpleMember>()
+            var sql = from m in members.OfType<SimpleMember>()
+                      let column = m.FullName ?? m.Name
                       select
                           $@"
-CREATE NONCLUSTERED INDEX [{member.Name}_index]
-ON [{applicationName}].[{item.Name}] ([{member.Name}]) ";
+CREATE NONCLUSTERED INDEX [{column}_index]
+ON [{applicationName}].[{item.Name}] ([{column}]) ";
 
             return sql.ToArray();
 
@@ -212,8 +213,8 @@ ON [{applicationName}].[{item.Name}] ([{member.Name}]) ";
             var members = this.GetFilterableMembers("", item.MemberCollection);
             foreach (var member in members.OfType<SimpleMember>())
             {
-                // TODO : #4510 If SQL server 2013 version 13 and above is used Filtered member should be computed column
-                Console.WriteLine($"SQL Server version {version} ");
+                // TODO : #4510 If SQL server version 13 and above is used,  Filtered member should be computed column
+                Console.WriteLine($@"SQL Server version {version} ");
                 sql.AppendLine($",[{member.FullName}] {GetSqlType(member.TypeName)} {(member.IsNullable ? "" : "NOT")} NULL");
             }
             sql.AppendLine(",[Json] VARCHAR(MAX)");

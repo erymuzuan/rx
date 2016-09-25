@@ -10,10 +10,14 @@
 
 
 define(["services/datacontext", "services/logger", "plugins/router"],
-    function (context, logger, router) {
-        var list = ko.observableArray(),
+    function (context) {
+        const list = ko.observableArray(),
             severityOptions = ko.observableArray(),
             selectedSeverities = ko.observableArray(),
+            sourceOptions = ko.observableArray(),
+            selectedSources= ko.observableArray(),
+            logOptions = ko.observableArray(),
+            selectedLogs= ko.observableArray(),
             logId = ko.observable(),
             selectedComputers = ko.observableArray(),
             timeFrom = ko.observable(moment().subtract(7, "days").format()),
@@ -29,48 +33,6 @@ define(["services/datacontext", "services/logger", "plugins/router"],
 
                 });
             },
-            getKeysAsync = function (field) {
-                var tcs = new $.Deferred(),
-                    agg = {
-                        "aggs": {
-                            "category": {
-                                "terms": {
-                                    "field": field,
-                                    "size": 0
-                                }
-                            }
-                        },
-                        "fields": [
-                            "computer"
-                        ]
-                    };
-                context.searchAsync("log", agg)
-                 .then(function (result) {
-                     var buckets = result.aggregations.category.buckets;
-                     tcs.resolve(buckets);
-                 });
-
-                return tcs.promise();
-            },
-            searchById = function () {
-                return $.getJSON("/management-api/logs/" + ko.unwrap(logId))
-                    .done(function (r) {
-                        openDetails(r);
-                    });
-            },
-            activate = function () {
-
-                getKeysAsync("severity").done(severityOptions);
-
-                return getKeysAsync("computer")
-                    .then(computerOptions);
-            },
-            attached = function (view) {
-                $(view).find("form#filter-logs-form").one("submite", function (e) {
-                    e.preventDefault();
-                    searchById();
-                });
-            },
             query = ko.observable({
                 "sort": [
                  {
@@ -80,8 +42,51 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                  }
                 ]
             }),
+            getKeysAsync = function (field) {
+                const tcs = new $.Deferred(),
+                    agg = {
+                            "category": {
+                                "terms": {
+                                    "field": field,
+                                    "size": 0
+                                }
+                            }
+                        },
+                    filteredAgg = ko.toJS(query);
+                filteredAgg.aggs = agg;
+                filteredAgg.fields = ["computer"];
+
+                context.searchAsync("log", filteredAgg)
+                 .then(function (result) {
+                     const buckets = result.aggregations.category.buckets;
+                     tcs.resolve(buckets);
+                 });
+
+                return tcs.promise();
+            },
+            searchById = function () {
+                return $.getJSON(`/management-api/logs/${ko.unwrap(logId)}`)
+                    .done(function (r) {
+                        openDetails(r);
+                    });
+            },
+            activate = function () {
+
+                getKeysAsync("severity").done(severityOptions);
+                getKeysAsync("source").done(sourceOptions);
+                getKeysAsync("log").done(logOptions);
+
+                return getKeysAsync("computer")
+                    .then(computerOptions);
+            },
+            attached = function (view) {
+                $(view).find("form#filter-logs-form").one("submit", function (e) {
+                    e.preventDefault();
+                    searchById();
+                });
+            },
             executeQuery = function () {
-                var q = {
+                const q = {
                     "query": {
                         "bool": {
                             "must": []
@@ -94,24 +99,23 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                          }
                      }
                     ]
-                };
+                },
+                    pushTerms =function(term, options) {
+                        const selecteditems = ko.unwrap(options),
+                            qt = {
+                                "terms": {
+                                }
+                            };
+                        qt.terms[term] = selecteditems;
+                        if (selecteditems.length > 0) {
+                            q.query.bool.must.push(qt);
+                        }
+                    };
+                pushTerms("computer", selectedComputers);
+                pushTerms("severity", selectedSeverities);
+                pushTerms("source", selectedSources);
+                pushTerms("log", selectedLogs);
 
-                var computers = ko.unwrap(selectedComputers);
-                if (computers.length > 0) {
-                    q.query.bool.must.push({
-                        "terms": {
-                            "computer": computers
-                        }
-                    });
-                }
-                var severities = ko.unwrap(selectedSeverities);
-                if (severities.length > 0) {
-                    q.query.bool.must.push({
-                        "terms": {
-                            "severity": severities
-                        }
-                    });
-                }
                 if (ko.unwrap(timeFrom) && ko.unwrap(timeTo)) {
                     q.query.bool.must.push({
                         "range": {
@@ -123,24 +127,32 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     });
                 }
 
-
                 query(q);
+
             };
 
         selectedComputers.subscribe(executeQuery, null, "arrayChange");
         selectedSeverities.subscribe(executeQuery, null, "arrayChange");
+        selectedSources.subscribe(executeQuery, null, "arrayChange");
+        selectedLogs.subscribe(executeQuery, null, "arrayChange");
         timeFrom.subscribe(executeQuery);
         timeTo.subscribe(executeQuery);
+        query.subscribe(activate);
 
 
-        var vm = {
+
+        const vm = {
             logId: logId,
             searchById: searchById,
             openDetails: openDetails,
             computerOptions: computerOptions,
             severityOptions: severityOptions,
+            sourceOptions: sourceOptions,
             selectedComputers: selectedComputers,
             selectedSeverities: selectedSeverities,
+            selectedSources: selectedSources,
+            logOptions: logOptions,
+            selectedLogs: selectedLogs,
             timeFrom: timeFrom,
             timeTo: timeTo,
             query: query,

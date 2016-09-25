@@ -87,7 +87,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                             if(!entityId || entityId === ""0""){{
                                 return Task.fromResult({{ WebId: system.guid() }}); 
                             }}
-                           return context.get(""/api/{ed.Plural.ToLowerInvariant()}/"" + entityId);
+                           return context.get(""/api/{ed.Plural.ToIdFormat()}/"" + entityId);
                        }}).then(function (b,  textStatus, xhr) {{
                             
                             if(xhr) {{
@@ -103,7 +103,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                              entity(new bespoke.{ns}.domain.{ed.Name}(b[0]||b));
                        }}, function (e) {{
                          if (e.status == 404) {{
-                            app.showMessage(""Sorry, but we cannot find any {ed.Name} with location : "" + ""/api/{ed.Plural.ToLowerInvariant()}/"" + entityId, ""{ConfigurationManager.ApplicationFullName}"", [""OK""]);
+                            app.showMessage(""Sorry, but we cannot find any {ed.Name} with location : "" + ""/api/{ed.Plural.ToIdFormat()}/"" + entityId, ""{ConfigurationManager.ApplicationFullName}"", [""OK""]);
                          }}
                        }}).always(function () {{
                            if (typeof partial.activate === ""function"") {{
@@ -121,7 +121,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
 
 
-            var operation = context.LoadOneFromSources<OperationEndpoint>(x => x.Name == form.Operation);
+            var operation = context.LoadOneFromSources<OperationEndpoint>(x => x.Name == form.Operation && x.Entity == ed.Name);
             if (null != operation)
             {
                 var api = GenerateApiOperationCode(operation, form.OperationMethod);

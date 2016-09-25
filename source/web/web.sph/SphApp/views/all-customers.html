@@ -1,49 +1,22 @@
 <h1>All customers</h1>
 <div class="row">
     <div class="col-md-8">
-        <button class="btn btn-link pull-right" data-bind="visible: chartFiltered, click: clearChartFilter">
-            <i class="fa fa-times"></i>
-            Clear chart's filter
-        </button>
-        <table class="table table-striped"
-               data-bind="filter : {path:'tbody>tr'}, searchPaging :{ query: query, map : map, entity : 'Customer', list:list}">
+        <table class="table table-striped" data-bind="queryPaging :{ query: query, map : map, list:list}">
             <thead>
-            <tr>
-                <th data-i18n="FullName">FullName</th>
-                <th>Street1</th>
-                <th>State</th>
-                <th>Age</th>
-                <th>Gender</th>
-            </tr>
+                <tr>
+                    <th>Account No</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                </tr>
             </thead>
             <tbody data-bind="foreach :list">
-            <tr data-bind="">
-
-                <td>
-                    <a data-bind="attr : {href:'#add-customer-form' + '/' + Id, title:'FullName' }">
-                        <i class="fa fa-tachometer"></i>
-                        <img src="/sph/image/store/ad40513e-c237-4187-be0a-a879ffcf98e1" alt="FullName"/>
-                        <span data-bind="text:FullName"></span>
-                    </a>
-                </td>
-                <td>
-                    <a data-bind="attr : {href:'#customer-form-2' + '/' + CustomerId, title:'Street1' }">
-                        <i class="fa fa-book"></i>
-                        <img src="/sph/image/store/4f161e7d-cb33-4648-a72b-2244acffb1a3" alt="Street1"/>
-                        <span data-bind="text:Address.Street1"></span>
-                    </a>
-                </td>
-                <td data-bind="text:Address.State"></td>
-                <td data-bind="text:Age"></td>
-                <td data-bind="text:Gender"></td>
-
-
-            </tr>
+                <tr data-bind="">
+                    <td data-bind="text:AccountNo"></td>
+                    <td data-bind="text:FirstName"></td>
+                    <td data-bind="text:LastName"></td>
+                </tr>
             </tbody>
         </table>
-        <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy"/>
+        <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy" />
     </div>
-
-    <!-- ko compose : {view : '_chart.panel'}-->
-    <!-- /ko -->
 </div>

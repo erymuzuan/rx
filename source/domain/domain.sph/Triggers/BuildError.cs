@@ -97,10 +97,18 @@ namespace Bespoke.Sph.Domain
 
         public int GetHashCode(BuildError obj)
         {
-            return obj.ItemWebId.GetHashCode() ^
-                obj.Message.GetHashCode() ^
-                obj.Line.GetHashCode() ^
-                obj.FileName.GetHashCode();
+            if (null == obj) return 0;
+            try
+            {
+                return obj.ItemWebId.GetHashCode() ^
+                       obj.Message.GetHashCode() ^
+                       obj.Line.GetHashCode() ^
+                       obj.FileName.GetHashCode();
+            }
+            catch 
+            {
+                return 0;
+            }
         }
     }
 }

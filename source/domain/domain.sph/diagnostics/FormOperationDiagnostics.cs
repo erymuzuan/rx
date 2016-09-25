@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Domain.diagnostics
             var errors = new List<BuildError>();
             if (string.IsNullOrWhiteSpace(form.Operation))
                 errors.Add(new BuildError(form.Id, "No API operation is selected"));
-            if (string.IsNullOrWhiteSpace(form.DeleteOperationSuccessMesage) && string.IsNullOrWhiteSpace(form.OperationSuccessNavigateUrl))
+            if (string.IsNullOrWhiteSpace(form.OperationSuccessMesage) && string.IsNullOrWhiteSpace(form.OperationSuccessNavigateUrl))
                 errors.Add(new BuildError(form.Id, "API operation do not specify success message or navigate Uri"));
             return Task.FromResult(errors.ToArray());
         }
