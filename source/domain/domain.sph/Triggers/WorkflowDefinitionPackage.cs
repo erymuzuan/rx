@@ -69,7 +69,7 @@ namespace Bespoke.Sph.Domain
             ZipFile.CreateFromDirectory(path, zip);
             var zd = new BinaryStore
             {
-                Id = SequentialGuid.NewSequentialGuid().ToString(),
+                Id = Strings.GenerateId(),
                 Content = File.ReadAllBytes(zip),
                 Extension = ".zip",
                 FileName = $"wd_{wd.Id}_{wd.Version}.zip",
