@@ -19,11 +19,17 @@ namespace Bespoke.Sph.Domain
                 var assembly = Assembly.Load(this.AdapterAssembly);
                 Console.WriteLine(assembly);
             }
+            catch (ArgumentException)
+            {
+                result.Errors.Add(new BuildError(this.WebId, $"[SendActivity] : Cannot find custom entity assembly \"{this.AdapterAssembly}\" for {this.Name}"));
+            }
             catch (FileNotFoundException)
             {
                 result.Errors.Add(new BuildError(this.WebId, $"[SendActivity] : Cannot find custom entity assembly \"{this.AdapterAssembly}\" for {this.Name}"));
-
             }
+            if (string.IsNullOrEmpty(this.NextActivityWebId))
+                result.Errors.Add(new BuildError(this.WebId, $"[SendActivity] : You'll have to define the next activity for {this.Name}"));
+
             result.Result = result.Errors.Count == 0;
             return result;
         }
@@ -37,6 +43,11 @@ namespace Bespoke.Sph.Domain
 
             var vrb = wd.VariableDefinitionCollection.SingleOrDefault(d => d.Name == this.ReturnValuePath);
             var code = new StringBuilder();
+            var methodName = this.Method;
+            // TODO :see if it's a generic method
+            if (methodName == "ExecuteScalarAsync" && null != vrb)
+                methodName = $"ExecuteScalarAsync<{Strings.GetType(vrb.TypeName).ToCSharp()}>";
+
 
 
             foreach (var cs in this.InitializingCorrelationSetCollection)
@@ -65,7 +76,7 @@ namespace Bespoke.Sph.Domain
                     code.AppendLine("           try");
                     code.AppendLine("           {");
                     code.AppendLine("               Console.WriteLine(\"Trying for {0} time\", tries);");
-                    code.AppendLine($"               var result = await adapter.{Method}(this.{ArgumentPath});");
+                    code.AppendLine($"               var result = await adapter.{methodName}(this.{ArgumentPath});");
                     if (null != vrb)
                     {
                         var type = Strings.GetType(vrb.TypeName).ToCSharp();
@@ -82,7 +93,7 @@ namespace Bespoke.Sph.Domain
             }
             else
             {
-                code.AppendLine($"        var response = await adapter.{Method}(this.{ArgumentPath});");
+                code.AppendLine($"        var response = await adapter.{methodName}(this.{ArgumentPath});");
                 if (null != vrb)
                 {
                     var type = Strings.GetType(vrb.TypeName).ToCSharp();

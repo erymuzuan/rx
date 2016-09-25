@@ -121,7 +121,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
 
 
-            var operation = context.LoadOneFromSources<OperationEndpoint>(x => x.Name == form.Operation);
+            var operation = context.LoadOneFromSources<OperationEndpoint>(x => x.Name == form.Operation && x.Entity == ed.Name);
             if (null != operation)
             {
                 var api = GenerateApiOperationCode(operation, form.OperationMethod);

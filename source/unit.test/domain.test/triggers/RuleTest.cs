@@ -44,6 +44,20 @@ namespace domain.test.triggers
             var result = rule.Execute(new RuleContext(customer));
             Assert.True(result);
         }
+        [Fact]
+        [Trait("Field", "Constant")]
+        public void IsNull()
+        {
+            var customer = this.GetCustomerInstance();
+            var rule = new Rule
+                {
+                    Left = new DocumentField { Name = "AccountNo", Path = "AccountNo", Type = typeof(string) },
+                    Operator = Operator.IsNull
+                };
+
+            var result = rule.Execute(new RuleContext(customer));
+            Assert.True(result);
+        }
 
         [Fact]
         public void Contains()

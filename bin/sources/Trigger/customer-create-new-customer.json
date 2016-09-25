@@ -1,0 +1,90 @@
+{
+  "$type": "Bespoke.Sph.Domain.Trigger, domain.sph",
+  "RuleCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Rule, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.Rule, domain.sph",
+        "Left": {
+          "$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
+          "XPath": "",
+          "NamespacePrefix": "",
+          "TypeName": "",
+          "Path": "AccountNo",
+          "Name": "AccountNo",
+          "Note": "",
+          "WebId": "482df4ac-9b5c-412a-ec2f-a0170f6855c2"
+        },
+        "Right": {
+          "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+          "TypeName": "System.String, mscorlib",
+          "Value": "AW",
+          "Name": "AW",
+          "Note": "",
+          "WebId": "c9aca401-0c7a-43e1-fe36-d907fdb6e50c"
+        },
+        "Operator": "IsNull",
+        "WebId": "9cac25f2-f211-4b17-ff15-e3ba6d4f6495"
+      }
+    ]
+  },
+  "ActionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CustomAction, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.StartWorkflowAction, domain.sph",
+        "WorkflowDefinitionId": "get-new-customer-account-no-from-adventure-works",
+        "Name": null,
+        "Version": 1,
+        "WorkflowTriggerMapCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.WorkflowTriggerMap, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.WorkflowTriggerMap, domain.sph",
+              "VariablePath": "RxCustomer",
+              "Field": {
+                "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
+                "CodeNamespace": "ffb955c57f",
+                "Script": "item",
+                "Name": "item",
+                "Note": "",
+                "WebId": "b955c57f-3b19-43b8-8192-9ed8d0d123cc"
+              },
+              "WebId": "53b8a5b3-6411-433e-9ff5-436ac2c91249"
+            }
+          ]
+        },
+        "Title": "Get new customer account no from AdventureWorks",
+        "IsActive": true,
+        "TriggerId": null,
+        "Note": null,
+        "WebId": "f0ea368d-4d2f-4017-ef92-5ea946108191"
+      }
+    ]
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "RequeueFilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ExceptionFilter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "Create new customer",
+  "Entity": "Customer",
+  "TypeOf": "Bespoke.DevV1.Customers.Domain.Customer, DevV1.Customer",
+  "Note": "",
+  "IsActive": true,
+  "IsFiredOnAdded": true,
+  "IsFiredOnDeleted": false,
+  "IsFiredOnChanged": false,
+  "FiredOnOperations": "",
+  "ClassName": "CustomerCreateNewCustomerTriggerSubscriber",
+  "CodeNamespace": "Bespoke.DevV1.TriggerSubscribers",
+  "CreatedBy": "admin",
+  "Id": "customer-create-new-customer",
+  "CreatedDate": "2016-09-25T09:40:31.0328449+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-09-25T10:36:09.9223298+08:00",
+  "WebId": "48837cd9-9c8a-4671-9807-a2d7590acced"
+}

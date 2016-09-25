@@ -6846,6 +6846,8 @@ namespace Bespoke.Sph.Domain
         Neq,
         NotStartsWith,
         NotEndsWith,
+        IsNull,
+        IsNotNull,
 
     }
 

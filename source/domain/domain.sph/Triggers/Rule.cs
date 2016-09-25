@@ -13,6 +13,11 @@ namespace Bespoke.Sph.Domain
         public bool Execute(RuleContext context)
         {
             var left = this.Left.GetValue(context);
+            if (Operator == Operator.IsNull)
+                return left == null;
+            if (Operator == Operator.IsNotNull)
+                return left != null;
+
             var right = this.Right.GetValue(context);
 
             if (null == left) return false;
