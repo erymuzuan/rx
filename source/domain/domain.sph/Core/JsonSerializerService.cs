@@ -19,9 +19,14 @@ namespace Bespoke.Sph.Domain
         public static string GetJsonSchema(this PropertyInfo prop)
         {
             var elements = new Dictionary<string, string>();
+
+            elements.AddIfNotExist("required", "true");
+            elements.Add("type", string.Empty);
+
+
             var code = new StringBuilder();
             var type = prop.PropertyType;
-            elements.Add("type", $@"""{type.Name.ToLowerInvariant()}""");
+
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
                 type = Nullable.GetUnderlyingType(type);
@@ -32,6 +37,10 @@ namespace Bespoke.Sph.Domain
                 elements.AddIfNotExist("format", @"""date-time""");
             }
 
+            if (type == typeof(string))
+            {
+                elements["type"] = @"[""string"", ""null""]";
+            }
             if (type == typeof(int))
             {
                 elements["type"] = @"""integer""";
@@ -61,7 +70,31 @@ namespace Bespoke.Sph.Domain
             {
                 elements.AddIfNotExist("enum", "[" + Enum.GetNames(type).ToString(",", x => $@"""{x}""") + "]");
             }
-       
+
+            // most likely IList
+            if (string.IsNullOrWhiteSpace(elements["type"]) && type.IsGenericType)
+            {
+                // TODO : Need a more robust way to check for IEnumerable<>
+                var array = type.GetGenericTypeDefinition().GetInterfaces().Any(x => x.FullName == "System.Collections.IList");
+                if (array)
+                {
+                    var children = from p in type.GenericTypeArguments[0].GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                                   where p.DeclaringType != typeof(DomainObject)
+                                   select p.GetJsonSchema();
+                    elements["type"] = @"[""array"", ""null""]";
+                    elements.Add("items", "{" + children.ToString(",\r\n", x => $"{x}") + "}");
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(elements["type"]))
+            {
+                var children = from p in type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                               where p.DeclaringType != typeof(DomainObject)
+                               select p.GetJsonSchema();
+                elements.AddIfNotExist("required", "true");
+                elements["type"] = @"[""object"", ""null""]";
+                elements.Add("properties", "{" + children.ToString(",\r\n", x => $"{x}") + "}");
+            }
 
 
             code.Append($@" ""{prop.Name}"": {{
