@@ -33,7 +33,7 @@ namespace Bespoke.Sph.Domain
 
         public override string GenerateCode()
         {
-            return string.Format("item.{0}", this.Path);
+            return $"item.{this.Path}";
         }
     }
 }
