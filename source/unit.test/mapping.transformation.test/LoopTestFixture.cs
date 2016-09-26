@@ -2,14 +2,14 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
+using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 namespace mapping.transformation.test
 {
-    [TestClass]
     public class LoopTestFixture
     {
-        [TestMethod]
+        [Fact]
         public async Task SimpleCollection()
         {
             var sourceType = Assembly.LoadFrom(@".\rsc.RilekWeb.dll").GetType("rsc.Adapters.PdrmServices.PostRilekRilekPdrmResponse");
@@ -101,7 +101,7 @@ namespace mapping.transformation.test
                 WebId = "__loopToDest",
                 Destination = "OffenceCollection",
                 Functoid = loop.WebId,
-                DestinationTypeName = "Bespoke.rsc_1.Domain.Offence, rsc.Driver"
+                DestinationTypeName = ""
             };
             td.MapCollection.Add(loopToDest);
 
@@ -111,7 +111,7 @@ namespace mapping.transformation.test
             var sourceFiles = td.SaveSources(sourceCodes);
             var cr = await td.CompileAsync(options, sourceFiles);
             Assert.IsTrue(cr.Result, "Cannot compile : " + cr.Errors);
-            var mapType = Assembly.LoadFrom(cr.Output).GetType(ConfigurationManager.ApplicationName + ".Integrations.Transforms." + td.Name);
+            var mapType = Assembly.LoadFrom(cr.Output).GetType(td.FullTypeName);
             dynamic map = Activator.CreateInstance(mapType);
 
 

@@ -155,19 +155,7 @@ namespace Bespoke.Sph.Web.Controllers
 
             }
 
-            var schema = new StringBuilder();
-            var properties = from p in t.GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                             where p.DeclaringType != typeof(DomainObject)
-                             && p.DeclaringType != typeof(Entity)
-                             select p.GetJsonSchema();
-            
-            schema.Append($@"
-{{
-  ""type"": ""object"",
-  ""properties"": {{
-   {properties.ToString(",\r\n")}
-  }}
-}}");
+            var schema = t.GetJsonSchema();
             return Json(schema.ToString());
         }
         [HttpGet]

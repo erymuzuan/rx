@@ -33,10 +33,10 @@ bespoke.sph.domain.TransformDefinitionPage = function (no, name) {
  * @param{{ItemWebId:function, FileName:string}} item
  */
 define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_ko.mapping", objectbuilders.app, objectbuilders.router, "services/app",
-        "knockout", "bespoke", "underscore", "jquery", "jsPlumb"],
-    function (context, logger, system, koMapping, app, router, app2, ko, bespoke, _, $) {
+    "jsPlumb"],
+    function (context, logger, system, koMapping, app, router, app2) {
 
-        var td = ko.observable(new bespoke.sph.domain.TransformDefinition({Id: "0"})),
+        var td = ko.observable(new bespoke.sph.domain.TransformDefinition({ Id: "0" })),
             pages = ko.observableArray(),
             currentPage = ko.observable(),
             hideUnconnectedNodes = ko.observable(false),
@@ -49,92 +49,92 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             sourceSchema = ko.observable(),
             destinationSchema = ko.observable(),
             activate = function (id) {
-            id = id || "0";
-            if (id === "0") {
-                td(new bespoke.sph.domain.TransformDefinition({
-                    Name: "New Mapping Definition",
-                    WebId: system.guid()
-                }));
-                return true;
-            }
+                id = id || "0";
+                if (id === "0") {
+                    td(new bespoke.sph.domain.TransformDefinition({
+                        Name: "New Mapping Definition",
+                        WebId: system.guid()
+                    }));
+                    return true;
+                }
 
 
-            var query = String.format("Id eq '{0}'", id);
-            return $.getJSON("/api/transform-definitions/" + id + "/designer")
-                .then(function (settingPage) {
-                    if (settingPage) {
-                        const items = settingPage.map(v => ko.mapping.fromJS(v));
-                        pages(items);
-                    }
-                    return $.get("/api/transform-definitions/functoids");
-                })
-                .then(function (list) {
-                    functoidToolboxItems(list.$values);
-                    return context.loadOneAsync("TransformDefinition", query);
-                })
-                .then(function (b) {
+                var query = String.format("Id eq '{0}'", id);
+                return $.getJSON("/api/transform-definitions/" + id + "/designer")
+                    .then(function (settingPage) {
+                        if (settingPage) {
+                            const items = settingPage.map(v => ko.mapping.fromJS(v));
+                            pages(items);
+                        }
+                        return $.get("/api/transform-definitions/functoids");
+                    })
+                    .then(function (list) {
+                        functoidToolboxItems(list.$values);
+                        return context.loadOneAsync("TransformDefinition", query);
+                    })
+                    .then(function (b) {
 
-                    _(b.FunctoidCollection()).each(function (v) {
-                        v.designer = ko.observable({
-                            FontAwesomeIcon: "",
-                            "BootstrapIcon": "",
-                            "PngIcon": "",
-                            Category: ""
+                        _(b.FunctoidCollection()).each(function (v) {
+                            v.designer = ko.observable({
+                                FontAwesomeIcon: "",
+                                "BootstrapIcon": "",
+                                "PngIcon": "",
+                                Category: ""
+                            });
                         });
+                        td(b);
+                        if (pages().length === 0) {
+
+                            const pg = new bespoke.sph.domain.TransformDefinitionPage(1, "Page 1");
+                            pg.functoids(_(b.FunctoidCollection()).map(function (v) {
+                                return ko.unwrap(v.WebId);
+                            }));
+                            pg.mappings(_(b.MapCollection()).map(v => ko.unwrap(v.WebId)));
+                            pages.push(pg);
+                        }
+
+                        originalEntity = ko.toJSON(td);
+                        return context.get(`/api/assemblies/${b.OutputTypeName()}/object-schema`);
+
+                    })
+                    .then(function (s) {
+                        destinationSchema(s);
+                        if (td().InputTypeName()) {
+                            return context.get(`/api/assemblies/${td().InputTypeName()}/object-schema`);
+                        }
+                        return context.post(ko.toJSON(td), "/api/transform-definitions/object-schema");
+
+                    })
+                    .then(sourceSchema)
+                    .fail(function (a, b, text) {
+                        console.error(a);
+                        // console.error(b);
+                        logger.error(text);
                     });
-                    td(b);
-                    if (pages().length === 0) {
 
-                        const pg = new bespoke.sph.domain.TransformDefinitionPage(1, "Page 1");
-                        pg.functoids(_(b.FunctoidCollection()).map(function (v) {
-                            return ko.unwrap(v.WebId);
-                        }));
-                        pg.mappings(_(b.MapCollection()).map(v => ko.unwrap(v.WebId)));
-                        pages.push(pg);
-                    }
-
-                    originalEntity = ko.toJSON(td);
-                    return context.get(`/api/assemblies/${b.OutputTypeName()}/json-schema`);
-
-                })
-                .then(function (s) {
-                    destinationSchema(s);
-                    if (td().InputTypeName()) {
-                        return context.get(`/api/assemblies/${td().InputTypeName()}/json-schema`);
-                    }
-                    return context.post(ko.toJSON(td), "/api/transform-definitions/json-schema");
-
-                })
-                .then(sourceSchema)
-                .fail(function (a, b, text) {
-                    console.error(a);
-                    // console.error(b);
-                    logger.error(text);
-                });
-
-        };
+            };
         var isJsPlumbReady,
             jsPlumbInstance = null,
             changingPage = false,
-            connectorStyle = {strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4},
+            connectorStyle = { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 },
             initializeFunctoid = function (fnc) {
                 const element = $(`#${fnc.WebId()}`);
                 jsPlumbInstance.makeSource(element, {
                     filter: ".fep",
-                    endPoint: ["Rectangle", {width: 10, height: 10}],
+                    endPoint: ["Rectangle", { width: 10, height: 10 }],
                     anchor: "RightMiddle",
                     connector: ["Straight"],
-                    connectorStyle: {strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4}
+                    connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 }
                 });
 
                 var anchorOptions = ["LeftMiddle", "LeftTop", "LeftBottom"];
                 if (fnc.ArgumentCollection().length) {
                     jsPlumbInstance.makeTarget(element, {
-                        dropOptions: {hoverClass: "dragHover"},
+                        dropOptions: { hoverClass: "dragHover" },
                         anchors: anchorOptions,
                         maxConnections: fnc.ArgumentCollection().length,
                         onMaxConnections: function (info, e) {
-                            alert("Maximum connections (" + info.maxConnections + ") reached" + e);
+                            app2.showMessage(`Maximum connections (${info.maxConnections}) reached${e}`);
                         }
                     });
                 }
@@ -174,8 +174,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 isJsPlumbReady = true;
 
                 var instance = jsPlumb.getInstance({
-                    Endpoint: ["Rectangle", {width: 10, height: 10}],
-                    HoverPaintStyle: {strokeStyle: "#1e8151", lineWidth: 2},
+                    Endpoint: ["Rectangle", { width: 10, height: 10 }],
+                    HoverPaintStyle: { strokeStyle: "#1e8151", lineWidth: 2 },
                     ConnectionOverlays: [
                         ["Arrow", {
                             location: 1,
@@ -313,37 +313,47 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             },
             drawSchemaTree = function () {
                 var icon = function (item) {
-                        var type = item.type,
-                            format = item.format;
-                        if (typeof type === "object") {
-                            type = type[0];
-                        }
-                        if (format === "date-time") {
-                            return "glyphicon glyphicon-calendar";
-                        }
-                        if (type === "string") {
-                            return "glyphicon glyphicon-bold";
-                        }
-                        if (type === "integer") {
-                            return "fa fa-sort-numeric-asc";
-                        }
-                        if (type === "object") {
-                            return "fa fa-building-o";
-                        }
-                        if (type === "number") {
-                            return "glyphicon glyphicon-usd";
-                        }
-                        if (type === "boolean") {
-                            return "glyphicon glyphicon-ok";
-                        }
-                        if (type === "array") {
-                            return "fa fa-list";
-                        }
-                        return "";
-                    },
+                    var type = item.type,
+                        format = item.format;
+                    if (typeof type === "object") {
+                        type = type[0];
+                    }
+                    if (format === "date-time") {
+                        return "glyphicon glyphicon-calendar";
+                    }
+                    if (type === "string") {
+                        return "glyphicon glyphicon-bold";
+                    }
+                    if (type === "integer") {
+                        return "fa fa-sort-numeric-asc";
+                    }
+                    if (type === "object") {
+                        return "fa fa-building-o";
+                    }
+                    if (type === "number") {
+                        return "glyphicon glyphicon-usd";
+                    }
+                    if (type === "boolean") {
+                        return "glyphicon glyphicon-ok";
+                    }
+                    if (type === "array") {
+                        return "fa fa-list";
+                    }
+                    return "";
+                },
                     root = sourceSchema();
 
                 var sources = [],
+                    computeNodeText = function (side, branch, parent, key) {
+                        const prop = branch.properties[key],
+                            text = key + (prop.required === false ? " ?" : ""),
+                            type = _.isArray(prop.type) ? prop.type[0] : prop.type;
+
+                        if (type !== "array") return text;
+                        if (side === "source-field-")
+                            return `${text} <i class="fa fa-circle-thin" style="margin-left:10px" id="${side + parent + key}"></i>`;
+                        return ` <i class="fa fa-circle-thin" style="margin-right:5px" id="${side + parent + key}"></i>${text}`;
+                    },
                     buildTree = function (side, branch, parent, items, parentNode) {
                         var findLeaf = function (k) {
                             "use strict";
@@ -352,11 +362,13 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         for (var key in branch.properties) {
                             if (branch.properties.hasOwnProperty(key)) {
 
-                                var leaf = {
-                                    id: side + parent + key,
-                                    icon: icon(branch.properties[key]),
-                                    text: key + (branch.properties[key].required === false ? " ?" : "")
-                                };
+                                const text = computeNodeText(side, branch, parent, key),
+                                    leafId =(side + parent + key),
+                                    leaf = {
+                                        id: text.indexOf("fa-circle-thin") > -1 ? `array${leafId}` : leafId ,
+                                        icon: icon(branch.properties[key]),
+                                        text: text
+                                    };
                                 if (parentNode)
                                     leaf.parent = parentNode.id;
                                 else
@@ -391,29 +403,29 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 buildTree("source-field-", root, "", sources);
 
                 $("#source-panel").jstree({
-                        'core': {
-                            'data': sources
-                        },
-                        "contextmenu": {
-                            items: [
-                                {
-                                    label: "Hide",
-                                    action: function () {
-                                        var parent = $(element).jstree("get_selected", true),
-                                            mb = parent[0].data;
-                                        console.log(mb);
-                                    }
+                    'core': {
+                        'data': sources
+                    },
+                    "contextmenu": {
+                        items: [
+                            {
+                                label: "Hide",
+                                action: function () {
+                                    var parent = $(element).jstree("get_selected", true),
+                                        mb = parent[0].data;
+                                    console.log(mb);
                                 }
-                            ]
-                        },
-                        "search": {
-                            "case_insensitive": true,
-                            "show_only_matches": true,
-                            "show_only_matches_children": true
-                        },
-                        "plugins": ["search", "contextmenu"]
+                            }
+                        ]
+                    },
+                    "search": {
+                        "case_insensitive": true,
+                        "show_only_matches": true,
+                        "show_only_matches_children": true
+                    },
+                    "plugins": ["search", "contextmenu"]
 
-                    })
+                })
                     .jstree("open_all")
                     .bind("after_open.jstree after_close.jstree", function () {
                         currentPage(currentPage());
@@ -423,31 +435,31 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 var destinations = [];
                 buildTree("destination-field-", destinationSchema(), "", destinations);
                 $("#destination-panel").jstree({
-                        'core': {
-                            'data': destinations
-                        },
-                        "contextmenu": {
-                            items: [
-                                {
-                                    label: "Hide",
-                                    action: function () {
-                                        var parent = $(element).jstree("get_selected", true),
-                                            mb = parent[0].data;
+                    'core': {
+                        'data': destinations
+                    },
+                    "contextmenu": {
+                        items: [
+                            {
+                                label: "Hide",
+                                action: function () {
+                                    var parent = $(element).jstree("get_selected", true),
+                                        mb = parent[0].data;
 
-                                        console.log(mb);
+                                    console.log(mb);
 
-                                    }
                                 }
-                            ]
-                        },
-                        "search": {
-                            "case_insensitive": true,
-                            "show_only_matches": true
-                        },
-                        "plugins": ["search", "contextmenu"]
+                            }
+                        ]
+                    },
+                    "search": {
+                        "case_insensitive": true,
+                        "show_only_matches": true
+                    },
+                    "plugins": ["search", "contextmenu"]
 
 
-                    })
+                })
                     .jstree("open_all")
                     .bind("after_open.jstree after_close.jstree", function () {
                         currentPage(currentPage());
@@ -570,8 +582,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                             }
                         },
                         items: {
-                            "rename": {name: "Rename", icon: "bug"},
-                            "delete": {name: "Delete", icon: "circle-o"}
+                            "rename": { name: "Rename", icon: "bug" },
+                            "delete": { name: "Delete", icon: "circle-o" }
                         }
                     });
                 });
@@ -663,8 +675,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
                                 // try build the tree for new item
                                 if (!td1.Id() || td1.Id() === "0") {
-                                    var inTask = context.post(ko.toJSON(td), "/api/transform-definitions/json-schema"),
-                                        outTask = context.get("/api/assemblies/" + td1.OutputTypeName() + "/json-schema");
+                                    const inTask = context.post(ko.toJSON(td), "/api/transform-definitions/object-schema"),
+                                        outTask = context.get(`/api/assemblies/${td1.OutputTypeName()}/object-schema`);
                                     $.when(inTask, outTask).done(function (input, output) {
                                         sourceSchema(input[0]);
                                         destinationSchema(output[0]);
@@ -679,7 +691,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 return tcs.promise();
             },
             viewFile = function (e) {
-                let file = e.FileName || e,
+                const file = e.FileName || e,
                     line = e.Line || 1;
                 const params = [
                         `height=${screen.height}`,
@@ -687,7 +699,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         "toolbar=0",
                         "location=0",
                         "fullscreen=yes"
-                    ].join(","),
+                ].join(","),
                     editor = window.open("/sph/editor/file?id=" + file.replace(/\\/g, "/") + "&line=" + line, "_blank", params);
                 editor.moveTo(0, 0);
             },
@@ -812,8 +824,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
             instance.deleteEveryEndpoint();
             // redraw everything here
-            const sourceWindows = jsPlumb.getSelector("#source-panel li.jstree-leaf");
-            const targetWindows = jsPlumb.getSelector("#destination-panel li.jstree-leaf");
+            const sourceWindows = jsPlumb.getSelector("#source-panel li.jstree-leaf, i.fa-circle-thin");
+            const targetWindows = jsPlumb.getSelector("#destination-panel li.jstree-leaf, i.fa-circle-thin");
 
 
             instance.makeSource(sourceWindows, {
@@ -824,11 +836,11 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
 
             instance.makeTarget(targetWindows, {
-                dropOptions: {hoverClass: "dragHover"},
+                dropOptions: { hoverClass: "dragHover" },
                 anchor: ["LeftMiddle"],
                 maxConnections: 1,
                 onMaxConnections: function (info, e) {
-                    alert("Maximum connections (" + info.maxConnections + ") reached" + e);
+                    app2.showMessage(`Maximum connections (${info.maxConnections}) reached${e}`);
                 }
             });
 
@@ -855,18 +867,18 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 const element = document.getElementById(ko.unwrap(item.WebId));
                 instance.makeSource(element, {
                     filter: ".fep",
-                    endPoint: ["Rectangle", {width: 10, height: 10}],
+                    endPoint: ["Rectangle", { width: 10, height: 10 }],
                     anchor: "RightMiddle",
                     connector: ["Straight"],
-                    connectorStyle: {strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4}
+                    connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 }
                 });
                 if (item.ArgumentCollection().length) {
                     instance.makeTarget(element, {
-                        dropOptions: {hoverClass: "dragHover"},
+                        dropOptions: { hoverClass: "dragHover" },
                         anchor: ["LeftMiddle"],
                         maxConnections: item.ArgumentCollection().length,
                         onMaxConnections: function (info, e) {
-                            alert("Maximum connections (" + info.maxConnections + ") reached" + e);
+                            app2.showMessage(`Maximum connections (${info.maxConnections}) reached${e}`);
                         }
                     });
                 }
@@ -936,9 +948,9 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         var conn2 = jsPlumbInstance.connect({
                             source: src,
                             target: target,
-                            paintStyle: {lineWidth: 1, strokeStyle: "rgba(190, 190, 190, 0.4)"},
+                            paintStyle: { lineWidth: 1, strokeStyle: "rgba(190, 190, 190, 0.4)" },
                             anchors: ["Right", "Left"],
-                            endpoint: ["Rectangle", {width: 10, height: 8}]
+                            endpoint: ["Rectangle", { width: 10, height: 8 }]
                         });
                         conn2.sf = f;
                         return;
@@ -947,7 +959,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
                     try {
 
-                        var conn = instance.connect({source: src, target: target, paintStyle: connectorStyle});
+                        var conn = instance.connect({ source: src, target: target, paintStyle: connectorStyle });
                         conn.sf = f;
                     }
                     catch (e) {
@@ -992,15 +1004,15 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         var conn2 = jsPlumbInstance.connect({
                             source: src,
                             target: target,
-                            paintStyle: {lineWidth: 1, strokeStyle: "rgba(190, 190, 190, 0.4)"},
+                            paintStyle: { lineWidth: 1, strokeStyle: "rgba(190, 190, 190, 0.4)" },
                             anchors: ["Right", "Left"],
-                            endpoint: ["Rectangle", {width: 10, height: 8}]
+                            endpoint: ["Rectangle", { width: 10, height: 8 }]
                         });
                         conn2.map = m;
                         return;
                     }
                     var label = "From : " + ko.unwrap(m.Source) + "<br>To : " + ko.unwrap(m.Destination),
-                        conn = jsPlumbInstance.connect({source: src, target: target, paintStyle: connectorStyle});
+                        conn = jsPlumbInstance.connect({ source: src, target: target, paintStyle: connectorStyle });
                     conn.bind("mouseenter", function (conn1) {
                         if (conn1.getOverlay("connLabel")) {
                             return;

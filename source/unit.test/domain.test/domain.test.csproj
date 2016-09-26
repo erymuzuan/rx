@@ -41,13 +41,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Common.Logging.2.3.1\lib\net40\Common.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="FileHelpers, Version=3.1.5.0, Culture=neutral, PublicKeyToken=3e0c08d59cc3d657, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FileHelpers.3.1.5\lib\net45\FileHelpers.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="GenericParsing">
-      <HintPath>..\..\..\lib\GenericParsing.dll</HintPath>
-    </Reference>
     <Reference Include="Humanizer, Version=1.37.7.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Humanizer.1.37.7\lib\portable-win+net40+sl50+wp8+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Humanizer.dll</HintPath>
       <Private>True</Private>
@@ -199,13 +192,7 @@
     <Compile Include="entities\ServiceContractTest.cs" />
     <Compile Include="entities\ValueObjectDefinitionCodeTest.cs" />
     <Compile Include="entities\QuerySortTest.cs" />
-    <Compile Include="receive.port.sqlserver\CodeGeneratorTest.cs" />
-    <Compile Include="receive.ports\CodeGeneratorTest.cs" />
-    <Compile Include="receive.ports\CodeWithHeaderTest.cs" />
-    <Compile Include="receive.ports\CsvOrderItem.cs" />
-    <Compile Include="receive.ports\CsvSalesOrder.cs" />
-    <Compile Include="receive.ports\MockExtensions.cs" />
-    <Compile Include="receive.ports\DelimitedTextParserTest.cs" />
+    <Compile Include="JsonSchemas\ObjectSchema.cs" />
     <Compile Include="WebApiControllerHelper.cs" />
     <Compile Include="MvcControllerHelper.cs" />
     <Compile Include="razor\RazorEngineTestFixture.cs" />
@@ -305,23 +292,6 @@
   <ItemGroup>
     <Analyzer Include="..\..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="soc.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="text-sapfi-20160809-150404-12.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="text-csv-with-escape.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="text-csv-with-label-children.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="with-labels.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

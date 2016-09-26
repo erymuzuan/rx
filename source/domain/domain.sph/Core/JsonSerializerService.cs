@@ -16,12 +16,34 @@ namespace Bespoke.Sph.Domain
     public static class JsonSerializerService
     {
 
+        public static string GetJsonSchema(this Type t)
+        {
+            var schema = new StringBuilder();
+            var properties = from p in t.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                             where p.DeclaringType != typeof(DomainObject)
+                             select p.GetJsonSchema();
+
+            schema.Append($@"
+{{
+  ""type"": ""object"",
+  ""properties"": {{
+   {properties.ToString(",\r\n")}
+  }}
+}}");
+            return schema.ToString();
+
+        }
         public static string GetJsonSchema(this PropertyInfo prop)
         {
             var elements = new Dictionary<string, string>();
+
+            elements.AddIfNotExist("required", "true");
+            elements.Add("type", string.Empty);
+
+
             var code = new StringBuilder();
             var type = prop.PropertyType;
-            elements.Add("type", $@"""{type.Name.ToLowerInvariant()}""");
+
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
                 type = Nullable.GetUnderlyingType(type);
@@ -32,11 +54,39 @@ namespace Bespoke.Sph.Domain
                 elements.AddIfNotExist("format", @"""date-time""");
             }
 
+            if (type == typeof(string))
+            {
+                elements["type"] = @"[""string"", ""null""]";
+            }
+            if (type == typeof(System.Xml.XmlDocument))
+            {
+                elements["type"] = @"[""string"", ""null""]";
+            }
             if (type == typeof(int))
             {
                 elements["type"] = @"""integer""";
             }
+            if (type == typeof(short))
+            {
+                elements["type"] = @"""integer""";
+            }
+            if (type == typeof(long))
+            {
+                elements["type"] = @"""integer""";
+            }
+            if (type == typeof(byte))
+            {
+                elements["type"] = @"""integer""";
+            }
             if (type == typeof(decimal))
+            {
+                elements["type"] = @"""number""";
+            }
+            if (type == typeof(float))
+            {
+                elements["type"] = @"""number""";
+            }
+            if (type == typeof(double))
             {
                 elements["type"] = @"""number""";
             }
@@ -61,7 +111,35 @@ namespace Bespoke.Sph.Domain
             {
                 elements.AddIfNotExist("enum", "[" + Enum.GetNames(type).ToString(",", x => $@"""{x}""") + "]");
             }
-       
+
+            // most likely IList
+            if (string.IsNullOrWhiteSpace(elements["type"]) && type.IsGenericType)
+            {
+                // TODO : Need a more robust way to check for IEnumerable<>
+                var array = type.GetGenericTypeDefinition().GetInterfaces().Any(x => x.FullName == "System.Collections.IList");
+                if (array)
+                {
+                    var children = from p in type.GenericTypeArguments[0].GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                                   where p.DeclaringType != typeof(DomainObject)
+                                   select p.GetJsonSchema();
+                    elements["type"] = @"[""array"", ""null""]";
+                    var items = $@"{{
+                        ""type"":[""object"", ""null""],
+                        ""properties"" : {{{ children.ToString(",\r\n", x => $"{x}")} }}
+                    }}";
+                    elements.Add("items", items);
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(elements["type"]))
+            {
+                var children = from p in type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                               where p.DeclaringType != typeof(DomainObject)
+                               select p.GetJsonSchema();
+                elements.AddIfNotExist("required", "true");
+                elements["type"] = @"[""object"", ""null""]";
+                elements.Add("properties", "{" + children.ToString(",\r\n", x => $"{x}") + "}");
+            }
 
 
             code.Append($@" ""{prop.Name}"": {{
