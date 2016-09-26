@@ -222,7 +222,6 @@
     <Compile Include="Ports\SqlServerRecordSetFormatter.cs" />
     <Compile Include="Ports\TextFieldMapping.cs" />
     <Compile Include="Ports\UriFieldMapping.cs" />
-    <Compile Include="SequentialGuid.cs" />
     <Compile Include="Codes\Class.cs" />
     <Compile Include="Codes\CodeExpression.cs" />
     <Compile Include="Codes\Method.cs" />
