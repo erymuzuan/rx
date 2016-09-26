@@ -42,8 +42,9 @@ namespace Bespoke.Sph.Domain
 
         public override string GenerateCode()
         {
-            if (this.Source.Contains("Collection."))
-                return string.Empty;
+            if (this.Source.Contains("-"))return string.Empty;
+            if (this.Destination.Contains("-"))return string.Empty;
+
             return string.Format("dest.{1} = item.{0};", this.Source, this.Destination);
         }
     }

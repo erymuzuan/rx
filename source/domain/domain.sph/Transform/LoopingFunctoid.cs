@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Bespoke.Sph.Domain
@@ -32,8 +33,28 @@ namespace Bespoke.Sph.Domain
                 .SingleOrDefault(f => f.Functoid == this.WebId);
 
             if (null == dd2) throw new InvalidOperationException("Cannot determine the destination loop");
-            var childType = dd2.DestinationType;
-            if (null == childType) throw new InvalidOperationException("The type is not valid for destination child " + dd2.DestinationTypeName);
+            var destinationType = dd2.DestinationType;
+            if (null == destinationType)
+            {
+                // try to look for in the destination object
+                var paths = dd2.Destination.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+                PropertyInfo prop = null;
+                var root = this.TransformDefinition.OutputType;
+                foreach (var path in paths)
+                {
+                    prop = root.GetProperty(path);
+                    root = prop.PropertyType;
+                }
+                if (null != prop)
+                {
+                    if (prop.PropertyType.IsGenericType)
+                    {
+                        destinationType = prop.PropertyType.GenericTypeArguments[0];
+                    }
+                }
+
+            }
+            if (null == destinationType) throw new InvalidOperationException("The type is not valid for destination child " + dd2.DestinationTypeName);
 
             code.AppendLine($"var val{Index} = from r in item.{source.Field}");
 
@@ -56,13 +77,19 @@ var styles4 = System.Globalization.NumberStyles.None;
             code.Append(string.Join("\r\n", functoidStatements));
 
 
-            code.AppendLine($"               select new {childType.FullName} {{");
+            code.AppendLine($"               select new {destinationType.FullName} {{");
 
             var directMaps = this.TransformDefinition.MapCollection.OfType<DirectMap>()
                 .Where(d => d.Source.StartsWith(source.Field));
             foreach (var map in directMaps)
             {
-                code.AppendLinf("{0} = r.{1},", map.Destination.Replace(dd2.Destination + ".", ""), map.Source.Replace(source.Field + ".", ""));
+                var destinationProperty = map.Destination.Replace(dd2.Destination + ".", "");
+                destinationProperty = destinationProperty.Replace(dd2.Destination + "-", "");
+
+                var sourceProperty = map.Source.Replace(source.Field + ".", "");
+                sourceProperty = sourceProperty.Replace(source.Field + "-", "");
+
+                code.AppendLine($"{destinationProperty} = r.{ sourceProperty},");
             }
 
             var functoidMaps = this.TransformDefinition.MapCollection.OfType<FunctoidMap>()
