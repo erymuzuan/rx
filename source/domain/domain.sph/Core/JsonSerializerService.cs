@@ -16,6 +16,23 @@ namespace Bespoke.Sph.Domain
     public static class JsonSerializerService
     {
 
+        public static string GetJsonSchema(this Type t)
+        {
+            var schema = new StringBuilder();
+            var properties = from p in t.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                             where p.DeclaringType != typeof(DomainObject)
+                             select p.GetJsonSchema();
+
+            schema.Append($@"
+{{
+  ""type"": ""object"",
+  ""properties"": {{
+   {properties.ToString(",\r\n")}
+  }}
+}}");
+            return schema.ToString();
+
+        }
         public static string GetJsonSchema(this PropertyInfo prop)
         {
             var elements = new Dictionary<string, string>();
@@ -41,11 +58,35 @@ namespace Bespoke.Sph.Domain
             {
                 elements["type"] = @"[""string"", ""null""]";
             }
+            if (type == typeof(System.Xml.XmlDocument))
+            {
+                elements["type"] = @"[""string"", ""null""]";
+            }
             if (type == typeof(int))
             {
                 elements["type"] = @"""integer""";
             }
+            if (type == typeof(short))
+            {
+                elements["type"] = @"""integer""";
+            }
+            if (type == typeof(long))
+            {
+                elements["type"] = @"""integer""";
+            }
+            if (type == typeof(byte))
+            {
+                elements["type"] = @"""integer""";
+            }
             if (type == typeof(decimal))
+            {
+                elements["type"] = @"""number""";
+            }
+            if (type == typeof(float))
+            {
+                elements["type"] = @"""number""";
+            }
+            if (type == typeof(double))
             {
                 elements["type"] = @"""number""";
             }
@@ -82,7 +123,11 @@ namespace Bespoke.Sph.Domain
                                    where p.DeclaringType != typeof(DomainObject)
                                    select p.GetJsonSchema();
                     elements["type"] = @"[""array"", ""null""]";
-                    elements.Add("items", "{" + children.ToString(",\r\n", x => $"{x}") + "}");
+                    var items = $@"{{
+                        ""type"":[""object"", ""null""],
+                        ""properties"" : {{{ children.ToString(",\r\n", x => $"{x}")} }}
+                    }}";
+                    elements.Add("items", items);
                 }
             }
 
