@@ -13,13 +13,13 @@
 define(["plugins/dialog", "services/datacontext"],
     function (dialog, context) {
 
-        var isBusy = ko.observable(false),
+        const isBusy = ko.observable(false),
             id = ko.observable(),
             instance = ko.observable(),
             wd = ko.observable(),
             tracker = ko.observable(),
             loadWd = function (wf) {
-                var query = String.format("Id eq '{0}'", wf.WorkflowDefinitionId()),
+                const query = String.format("Id eq '{0}'", wf.WorkflowDefinitionId()),
                     tcs = new $.Deferred(),
                     wdTask = context.loadOneAsync("WorkflowDefinition", query),
                     trackerTask = context.loadOneAsync("Tracker", "WorkflowId eq '" + ko.unwrap(wf.Id) + "'");
@@ -35,13 +35,12 @@ define(["plugins/dialog", "services/datacontext"],
             },
             activate = function () {
 
-                var query = String.format("Id eq '{0}'", id()),
+                const query = String.format("Id eq '{0}'", id()),
                     tcs = new $.Deferred();
                 context.loadOneAsync("Workflow", query)
                     .done(function (b) {
-                        var wf = context.toObservable(b);
-                        instance(wf);
-                        loadWd(wf).done(tcs.resolve);
+                        instance(b);
+                        loadWd(b).done(tcs.resolve);
                     });
 
                 return tcs.promise();
