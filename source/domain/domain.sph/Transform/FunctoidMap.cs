@@ -35,7 +35,10 @@ namespace Bespoke.Sph.Domain
             if (this.Destination.Contains("Collection."))
                 return string.Empty;
 
-            return string.Format("dest.{1} = {0};", assigment, this.Destination);
+            if (this.Destination.StartsWith("array"))
+                return $"dest.{Destination.Replace("array", "")}.AddRange({assigment});";
+
+            return $"dest.{this.Destination} = {assigment};";
 
         }
     }
