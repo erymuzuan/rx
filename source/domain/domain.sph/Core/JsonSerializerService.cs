@@ -31,70 +31,43 @@ namespace Bespoke.Sph.Domain
   }}
 }}");
             return schema.ToString();
-
         }
+
         public static string GetJsonSchema(this PropertyInfo prop)
         {
             var elements = new Dictionary<string, string>();
+            var typeBags = new Dictionary<Type, string>
+            {
+                {typeof(string),"string"},
+                {typeof(DateTime),"string"},
+                {typeof(System.Xml.XmlDocument),"string"},
+                {typeof(int),"integer"},
+                {typeof(byte),"integer"},
+                {typeof(short),"integer"},
+                {typeof(long),"integer"},
+                {typeof(decimal),"number"},
+                {typeof(double),"integer"},
+                {typeof(float),"number"},
+                {typeof(bool),"boolean"},
+            };
+            var formatBags = new Dictionary<Type, string>
+            {
+                {typeof(DateTime),"date-time"}
+            };
 
-            elements.AddIfNotExist("required", "true");
-            elements.Add("type", string.Empty);
 
 
-            var code = new StringBuilder();
             var type = prop.PropertyType;
-
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
                 type = Nullable.GetUnderlyingType(type);
             }
-            if (type == typeof(DateTime))
-            {
-                elements["type"] = @"""string""";
-                elements.AddIfNotExist("format", @"""date-time""");
-            }
-
-            if (type == typeof(string))
-            {
-                elements["type"] = @"[""string"", ""null""]";
-            }
-            if (type == typeof(System.Xml.XmlDocument))
-            {
-                elements["type"] = @"[""string"", ""null""]";
-            }
-            if (type == typeof(int))
-            {
-                elements["type"] = @"""integer""";
-            }
-            if (type == typeof(short))
-            {
-                elements["type"] = @"""integer""";
-            }
-            if (type == typeof(long))
-            {
-                elements["type"] = @"""integer""";
-            }
-            if (type == typeof(byte))
-            {
-                elements["type"] = @"""integer""";
-            }
-            if (type == typeof(decimal))
-            {
-                elements["type"] = @"""number""";
-            }
-            if (type == typeof(float))
-            {
-                elements["type"] = @"""number""";
-            }
-            if (type == typeof(double))
-            {
-                elements["type"] = @"""number""";
-            }
-
-            if (type == typeof(bool))
-            {
-                elements["type"] = @"""boolean""";
-            }
+            elements.AddIfNotExist("required", "true");
+            elements.Add("type", string.Empty);
+            if (typeBags.ContainsKey(type))
+                elements["type"] =$@"""{typeBags[type]}""";
+            if (formatBags.ContainsKey(type))
+                elements.AddIfNotExist("format", $@"""{formatBags[type]}""");
 
             if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
@@ -119,15 +92,32 @@ namespace Bespoke.Sph.Domain
                 var array = type.GetGenericTypeDefinition().GetInterfaces().Any(x => x.FullName == "System.Collections.IList");
                 if (array)
                 {
-                    var children = from p in type.GenericTypeArguments[0].GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                                   where p.DeclaringType != typeof(DomainObject)
-                                   select p.GetJsonSchema();
-                    elements["type"] = @"[""array"", ""null""]";
-                    var items = $@"{{
+                    var itemType = type.GenericTypeArguments[0];
+                    if (itemType.IsClass && itemType != typeof(string))
+                    {
+                        var children = from p in itemType.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                                       where p.DeclaringType != typeof(DomainObject)
+                                       select p.GetJsonSchema();
+                        elements["type"] = @"[""array"", ""null""]";
+                        var items = $@"{{
                         ""type"":[""object"", ""null""],
                         ""properties"" : {{{ children.ToString(",\r\n", x => $"{x}")} }}
                     }}";
-                    elements.Add("items", items);
+                        elements.Add("items", items);
+
+                    }
+                    else
+                    {
+                        // TODO, now get back the type
+                        elements["type"] = @"[""array"", ""null""]";
+                        var items = $@"{{
+                        ""type"":[""{typeBags[itemType]}"", ""null""]
+                    }}";
+                        elements.Add("items", items);
+
+                    }
+
+
                 }
             }
 
@@ -142,6 +132,7 @@ namespace Bespoke.Sph.Domain
             }
 
 
+            var code = new StringBuilder();
             code.Append($@" ""{prop.Name}"": {{
 ");
             code.JoinAndAppendLine(elements.Keys, ",\r\n", x => $@"""{x}"" : {elements[x]}");

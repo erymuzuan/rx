@@ -412,6 +412,7 @@
     <Compile Include="Transform\Map.cs" />
     <Compile Include="Transform\NowFunctoid.cs" />
     <Compile Include="Transform\SourceFunctoid.cs" />
+    <Compile Include="Transform\SplitFunctoid.cs" />
     <Compile Include="Transform\StringConcateFunctoid.cs">
       <DependentUpon>Functoid.cs</DependentUpon>
     </Compile>
