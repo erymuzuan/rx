@@ -5275,21 +5275,6 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private bool m_IsAsync;
-        public bool IsAsync
-        {
-            get
-            {
-                return m_IsAsync;
-            }
-            set
-            {
-                m_IsAsync = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
         ///<summary>
         /// 
         ///</summary>
