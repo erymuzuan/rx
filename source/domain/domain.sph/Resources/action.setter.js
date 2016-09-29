@@ -14,7 +14,7 @@
 define(["plugins/dialog", objectbuilders.system],
     function (dialog, system) {
 
-        var action = ko.observable(new bespoke.sph.domain.SetterAction(system.guid())),
+        const action = ko.observable(new bespoke.sph.domain.SetterAction(system.guid())),
             activate = function () {
                 //action(new bespoke.sph.domain.SetterAction(system.guid()));
             },
@@ -23,17 +23,17 @@ define(["plugins/dialog", objectbuilders.system],
                     $(view).find("#setter-action-title").focus();
                 }, 500);
             },
-        okClick = function (data, ev) {
+            okClick = function (data, ev) {
             if (bespoke.utils.form.checkValidity(ev.target)) {
                 dialog.close(this, "OK");
             }
 
-        },
+            },
             cancelClick = function () {
                 dialog.close(this, "Cancel");
             };
 
-        var vm = {
+        const vm = {
             activate: activate,
             attached: attached,
             action: action,
