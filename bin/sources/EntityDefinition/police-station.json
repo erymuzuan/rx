@@ -526,6 +526,30 @@
               "AllowMultiple": false,
               "DefaultValue": null,
               "WebId": "3e354a49-b360-426a-cba9-e9151c5c8592"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Titles",
+              "AllowMultiple": true,
+              "DefaultValue": null,
+              "WebId": "0738492c-16a6-4aab-a1a3-d140a7dc7bea"
             }
           ]
         },
@@ -645,6 +669,6 @@
   "Id": "police-station",
   "CreatedDate": "2016-04-09T08:54:04.9571202+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-05-04T15:49:31.5475743+08:00",
+  "ChangedDate": "2016-09-27T07:53:11.2781088+08:00",
   "WebId": "55f4503f-3d76-41d5-b404-93eed7762124"
 }

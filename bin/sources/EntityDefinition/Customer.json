@@ -32,6 +32,30 @@
         "TypeName": "System.String, mscorlib",
         "IsNullable": false,
         "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 1,
+        "FullName": null,
+        "PropertyAttribute": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Titles",
+        "AllowMultiple": true,
+        "DefaultValue": null,
+        "WebId": "d327e8e1-1d4e-4c95-c371-21465619ba3d"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": false,
         "IsAnalyzed": true,
         "IsFilterable": true,
         "IsExcludeInAll": false,
@@ -1085,6 +1109,6 @@
   "Id": "customer",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-25T08:35:44.2619919+08:00",
+  "ChangedDate": "2016-09-27T07:53:47.8048637+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }

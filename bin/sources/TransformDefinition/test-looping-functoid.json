@@ -1,0 +1,207 @@
+{
+  "$type": "Bespoke.Sph.Domain.TransformDefinition, domain.sph",
+  "MapCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Map, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.FunctoidMap, domain.sph",
+        "__uuid": "",
+        "Functoid": "e5f591d9-cd65-4920-ac8b-75175221dee7",
+        "Destination": "Contact.AttachmentCollection",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "a5d6920d-a86c-4874-bc19-e676c7931b9d"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Policemen.Name",
+        "TypeName": "",
+        "Destination": "Contact.AttachmentCollection-Title",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "395afb07-f92c-4763-b52b-51e98092f590"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Policemen.Rank",
+        "TypeName": "",
+        "Destination": "Contact.AttachmentCollection-Extension",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "e2a8d367-3405-4598-fbde-8a1ee4a3052b"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Policemen.Age",
+        "TypeName": "",
+        "Destination": "Contact.AttachmentCollection-Size",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "957351cc-d9dd-4a0b-e49e-575ff42b88ed"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Name",
+        "TypeName": "",
+        "Destination": "FirstName",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "1b310e28-3cba-41ee-ec6a-7725aa08fd1e"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "No",
+        "TypeName": "",
+        "Destination": "AccountNo",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "6f963464-4d20-47de-fffe-52942da8655e"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.FunctoidMap, domain.sph",
+        "__uuid": "",
+        "Functoid": "6f39e8ed-4cea-4428-a79c-9eb256ed19a7",
+        "Destination": "arrayTitles",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "bb287a4b-a63e-435b-d4b6-3ac441e67a9b"
+      }
+    ]
+  },
+  "FunctoidCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Functoid, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.LoopingFunctoid, domain.sph",
+        "ArgumentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FunctoidArg, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.FunctoidArg, domain.sph",
+              "Name": "sourceCollection",
+              "TypeName": "System.Object, mscorlib",
+              "Description": null,
+              "Label": null,
+              "Comment": null,
+              "IsOptional": false,
+              "Functoid": "b1a5a371-1b6c-4626-bc13-648322717d8a",
+              "Constant": null,
+              "Default": null,
+              "WebId": null
+            }
+          ]
+        },
+        "Name": null,
+        "OutputTypeName": null,
+        "Label": null,
+        "Comment": null,
+        "X": 245.0,
+        "Y": 427.0,
+        "WebId": "e5f591d9-cd65-4920-ac8b-75175221dee7"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SourceFunctoid, domain.sph",
+        "Field": "Policemen",
+        "ArgumentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FunctoidArg, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "",
+        "OutputTypeName": "",
+        "Label": "",
+        "Comment": "",
+        "X": 0.0,
+        "Y": 0.0,
+        "WebId": "b1a5a371-1b6c-4626-bc13-648322717d8a"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SplitFunctoid, domain.sph",
+        "ArgumentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FunctoidArg, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.FunctoidArg, domain.sph",
+              "Name": "value",
+              "TypeName": "System.Object, mscorlib",
+              "Description": null,
+              "Label": null,
+              "Comment": null,
+              "IsOptional": false,
+              "Functoid": "fd53ad71-1912-45dc-c43f-da13c7448afb",
+              "Constant": null,
+              "Default": null,
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.FunctoidArg, domain.sph",
+              "Name": "delimiter",
+              "TypeName": "System.String, mscorlib",
+              "Description": null,
+              "Label": null,
+              "Comment": null,
+              "IsOptional": true,
+              "Functoid": null,
+              "Constant": null,
+              "Default": ",",
+              "WebId": null
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.FunctoidArg, domain.sph",
+              "Name": "type",
+              "TypeName": "System.String, mscorlib",
+              "Description": null,
+              "Label": null,
+              "Comment": null,
+              "IsOptional": true,
+              "Functoid": null,
+              "Constant": null,
+              "Default": "System.String, mscorlib",
+              "WebId": null
+            }
+          ]
+        },
+        "Name": null,
+        "OutputTypeName": null,
+        "Label": null,
+        "Comment": null,
+        "X": 181.0,
+        "Y": 165.0,
+        "WebId": "6f39e8ed-4cea-4428-a79c-9eb256ed19a7"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SourceFunctoid, domain.sph",
+        "Field": "Category",
+        "ArgumentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FunctoidArg, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "",
+        "OutputTypeName": "",
+        "Label": "",
+        "Comment": "",
+        "X": 0.0,
+        "Y": 0.0,
+        "WebId": "fd53ad71-1912-45dc-c43f-da13c7448afb"
+      }
+    ]
+  },
+  "InputCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "TestLoopingFunctoid",
+  "Description": "",
+  "InputTypeName": "Bespoke.DevV1.PoliceStations.Domain.PoliceStation, DevV1.PoliceStation",
+  "OutputTypeName": "Bespoke.DevV1.Customers.Domain.Customer, DevV1.Customer",
+  "IsPublished": true,
+  "CreatedBy": "admin",
+  "Id": "test-looping-functoid",
+  "CreatedDate": "2016-09-26T07:41:35.4675919+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-09-27T08:23:18.7527207+08:00",
+  "WebId": "043364a9-9a3d-40f0-b6ef-9dbb03754493"
+}

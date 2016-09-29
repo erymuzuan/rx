@@ -1,8 +1,7 @@
 ﻿define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp,
         objectbuilders.dialog, objectbuilders.config, "services/_ko.list",
         "jquery", "ko", "String", "bespoke", "underscore", "Task"],
-    function (context, logger, router, system, app, eximp, dialog, config, kolist,
-            $, ko,String, bespoke, _, Task) {
+    function (context, logger, router, system, app, eximp, dialog, config, kolist,$, ko) {
 
         "use strict";
         var errors = ko.observableArray(),
