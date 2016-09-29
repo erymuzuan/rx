@@ -21,24 +21,18 @@
         "Name": "SetSelectAccountNoSql",
         "TryScope": null,
         "CatchScope": null,
+        "Note": "Set select statement to get the AccoutNo from AdventureWorks",
         "WebId": "21c2381f-cca3-4269-984c-eede6f3dc540"
       },
       {
         "$type": "Bespoke.Sph.Domain.UpdateEntityActivity, domain.sph",
         "Entity": "customer",
         "EntityIdPath": "RxCustomer.Id",
-        "UseVariable": null,
-        "IsUsingVariable": false,
+        "UseVariable": "RxCustomer",
+        "IsUsingVariable": true,
         "PropertyMappingCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PropertyMapping, domain.sph]], domain.sph",
-          "$values": [
-            {
-              "$type": "Bespoke.Sph.Domain.SimpleMapping, domain.sph",
-              "Source": "AvAccountNo",
-              "Destination": "AccountNo",
-              "WebId": "41a704ed-6b62-4b9a-a8d4-6679764a6ad5"
-            }
-          ]
+          "$values": []
         },
         "IsAsync": false,
         "ExecutedCode": null,
@@ -46,15 +40,16 @@
         "TypeName": "UpdateEntity",
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
-          "X": 112,
-          "Y": 654,
+          "X": 110,
+          "Y": 728,
           "WebId": null
         },
         "IsInitiator": false,
-        "NextActivityWebId": "61afc54d-d61d-4d9e-be77-38372bdce742",
+        "NextActivityWebId": "096bdc82-47e9-4ab0-e477-029c4184be4f",
         "Name": "UpdateAccountNo",
         "TryScope": null,
         "CatchScope": null,
+        "Note": "Save the RxCustomer into RX database",
         "WebId": "96661f07-8b99-40b8-8ebb-bee9210bf4b0"
       },
       {
@@ -64,8 +59,8 @@
         "Method": "UspUpdateRxIdAsync",
         "AdapterAssembly": "DevV1.AdventureWorks",
         "IsSynchronous": false,
-        "ArgumentPath": "AvCustomer",
-        "ReturnValuePath": null,
+        "ArgumentPath": "UpdateAdvRequest",
+        "ReturnValuePath": "",
         "ExceptionFilterCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ExceptionFilter, domain.sph]], domain.sph",
           "$values": []
@@ -84,8 +79,8 @@
         "TypeName": "Send",
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
-          "X": 784,
-          "Y": 688,
+          "X": 776,
+          "Y": 397,
           "WebId": null
         },
         "IsInitiator": false,
@@ -93,6 +88,7 @@
         "Name": "UpdateRxId",
         "TryScope": null,
         "CatchScope": null,
+        "Note": "Execute the SPROC, ignore the return value",
         "WebId": "93958b8d-70e6-4303-f064-d34ac42ea863"
       },
       {
@@ -103,7 +99,7 @@
         "AdapterAssembly": "DevV1.AdventureWorks",
         "IsSynchronous": false,
         "ArgumentPath": "GetAccountNoSql",
-        "ReturnValuePath": "AvAccountNo",
+        "ReturnValuePath": "AwAccountNo",
         "ExceptionFilterCollection": {
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ExceptionFilter, domain.sph]], domain.sph",
           "$values": []
@@ -123,14 +119,15 @@
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
           "X": 112,
-          "Y": 422,
+          "Y": 379,
           "WebId": null
         },
         "IsInitiator": false,
-        "NextActivityWebId": "96661f07-8b99-40b8-8ebb-bee9210bf4b0",
+        "NextActivityWebId": "775112f7-2836-416a-fb1e-abf42d361d58",
         "Name": "GetAwAccountNo",
         "TryScope": null,
         "CatchScope": null,
+        "Note": "Execute SQL command using Send activity, and save the AccountNo returned into the RxCustomer.AccountNo field",
         "WebId": "54408ba9-ea99-4d87-f944-c7191643b4cf"
       },
       {
@@ -142,54 +139,72 @@
         "TypeName": "End",
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
-          "X": 783,
-          "Y": 864,
+          "X": 775,
+          "Y": 650,
           "WebId": null
         },
         "IsInitiator": false,
         "NextActivityWebId": null,
-        "Name": "End_4",
+        "Name": "Done",
         "TryScope": null,
         "CatchScope": null,
+        "Note": "Finish",
         "WebId": "79f2817d-9e7a-444b-d2aa-f4f788e96239"
       },
       {
-        "$type": "Bespoke.Sph.Domain.SendActivity, domain.sph",
-        "PortType": null,
-        "Adapter": "Bespoke.DevV1.Adapters.AdventureWorks.CustomerAdapter",
-        "Method": "LoadOneAsync",
-        "AdapterAssembly": "DevV1.AdventureWorks",
-        "IsSynchronous": false,
-        "ArgumentPath": "AwCustomerId",
-        "ReturnValuePath": "AvCustomer",
-        "ExceptionFilterCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ExceptionFilter, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "InitializingCorrelationSetCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-          "$values": []
-        },
-        "FollowingCorrelationSetCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-          "$values": []
+        "$type": "Bespoke.Sph.Domain.MappingActivity, domain.sph",
+        "MappingDefinition": "DevV1.Integrations.Transforms.WorkflowToUpdateRxIdRequest",
+        "DestinationType": null,
+        "OutputPath": "UpdateAdvRequest",
+        "MappingSourceCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MappingSource, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.MappingSource, domain.sph",
+              "TypeName": "",
+              "Variable": "RxCustomer",
+              "WebId": "Input Path"
+            }
+          ]
         },
         "IsAsync": false,
         "ExecutedCode": null,
         "ExecutingCode": null,
-        "TypeName": "Send",
+        "TypeName": "Mapping",
         "WorkflowDesigner": {
           "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
-          "X": 784,
-          "Y": 179,
+          "X": 776,
+          "Y": 121,
           "WebId": null
         },
         "IsInitiator": false,
         "NextActivityWebId": "93958b8d-70e6-4303-f064-d34ac42ea863",
-        "Name": "GetCustomer",
+        "Name": "CreateSprocRequest",
         "TryScope": null,
         "CatchScope": null,
-        "WebId": "61afc54d-d61d-4d9e-be77-38372bdce742"
+        "Note": "Create a request object to send to AdventureWorks sproc to update the RXId",
+        "WebId": "096bdc82-47e9-4ab0-e477-029c4184be4f"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ExpressionActivity, domain.sph",
+        "Expression": "RxCustomer.AccountNo = this.AwAccountNo;",
+        "IsAsync": false,
+        "ExecutedCode": null,
+        "ExecutingCode": null,
+        "TypeName": "Expression",
+        "WorkflowDesigner": {
+          "$type": "Bespoke.Sph.Domain.WorkflowDesigner, domain.sph",
+          "X": 112,
+          "Y": 550,
+          "WebId": null
+        },
+        "IsInitiator": false,
+        "NextActivityWebId": "96661f07-8b99-40b8-8ebb-bee9210bf4b0",
+        "Name": "AssignAccountNoToRxCustomer",
+        "TryScope": null,
+        "CatchScope": null,
+        "Note": "Assign the newly created account no to Rx customer, so we could save it using UpdateRecord and map in into a sproc latter",
+        "WebId": "775112f7-2836-416a-fb1e-abf42d361d58"
       }
     ]
   },
@@ -206,34 +221,11 @@
         "WebId": "e5081a4e-8d83-43c0-b2bc-4b8297d8bddc"
       },
       {
-        "$type": "Bespoke.Sph.Domain.ClrTypeVariable, domain.sph",
-        "Assembly": "",
-        "CanInitiateWithDefaultConstructor": true,
-        "Name": "AvCustomer",
-        "TypeName": "Bespoke.DevV1.Adapters.AdventureWorks.Customer, DevV1.AdventureWorks",
-        "DefaultValue": "",
-        "WebId": "4bc0fe26-ea0a-43ad-a2f2-df04075a43e4"
-      },
-      {
         "$type": "Bespoke.Sph.Domain.SimpleVariable, domain.sph",
         "Name": "GetAccountNoSql",
         "TypeName": "System.String, mscorlib",
         "DefaultValue": "",
         "WebId": "a554419a-b42c-4d37-9127-b8c8f3243b3f"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.SimpleVariable, domain.sph",
-        "Name": "AvAccountNo",
-        "TypeName": "System.String, mscorlib",
-        "DefaultValue": "",
-        "WebId": "1b32eeb8-e754-4c65-b16f-3ecb491a4ba5"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.SimpleVariable, domain.sph",
-        "Name": "AwCustomerId",
-        "TypeName": "System.Int32, mscorlib",
-        "DefaultValue": "",
-        "WebId": "8683bd55-b9a3-47a9-cd31-f2d5fb38bd85"
       },
       {
         "$type": "Bespoke.Sph.Domain.ClrTypeVariable, domain.sph",
@@ -243,6 +235,13 @@
         "TypeName": "Bespoke.DevV1.Adapters.AdventureWorks.UspUpdateRxIdRequest, DevV1.AdventureWorks",
         "DefaultValue": "",
         "WebId": "07ddfacc-c68d-47cd-9951-0ea198bc0dca"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleVariable, domain.sph",
+        "Name": "AwAccountNo",
+        "TypeName": "System.String, mscorlib",
+        "DefaultValue": "",
+        "WebId": "3318b3b8-739c-4a7a-c6ad-e9ea847df088"
       }
     ]
   },
@@ -266,6 +265,17 @@
         "FullName": "DevV1.AdventureWorks, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
         "Version": "0.0.0.0",
         "Location": "E:\\project\\work\\rx.v1\\source\\web\\web.sph\\bin\\DevV1.AdventureWorks.dll",
+        "IsGac": false,
+        "IsStrongName": false,
+        "RuntimeVersion": "v4.0.30319",
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
+        "Name": "DevV1.WorkflowToUpdateRxIdRequest",
+        "FullName": "DevV1.WorkflowToUpdateRxIdRequest, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "Version": "0.0.0.0",
+        "Location": "F:\\project\\work\\rx.v1\\source\\web\\web.sph\\bin\\DevV1.WorkflowToUpdateRxIdRequest.dll",
         "IsGac": false,
         "IsStrongName": false,
         "RuntimeVersion": "v4.0.30319",
@@ -295,6 +305,6 @@
   "Id": "get-new-customer-account-no-from-adventure-works",
   "CreatedDate": "2016-09-25T08:57:10.0243214+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-25T12:09:38.2132615+08:00",
+  "ChangedDate": "2016-09-29T08:54:04.2364353+08:00",
   "WebId": "7cd75e70-9b83-4357-baae-26a77d11b73f"
 }

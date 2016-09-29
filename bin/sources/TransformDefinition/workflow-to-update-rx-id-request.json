@@ -7,7 +7,7 @@
         "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
         "Source": "AccountNo",
         "TypeName": "",
-        "Destination": "accountNumber",
+        "Destination": "AccountNumber",
         "SourceTypeName": "",
         "DestinationTypeName": "",
         "WebId": "432b5863-5f31-4a69-e35f-8ac2b2ec4af1"
@@ -16,7 +16,7 @@
         "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
         "Source": "Id",
         "TypeName": "",
-        "Destination": "rxId",
+        "Destination": "RxId",
         "SourceTypeName": "",
         "DestinationTypeName": "",
         "WebId": "3906af40-370b-4593-8e1d-91cafa3b9d7b"
@@ -39,11 +39,11 @@
   "Description": "",
   "InputTypeName": "Bespoke.DevV1.Customers.Domain.Customer, DevV1.Customer",
   "OutputTypeName": "Bespoke.DevV1.Adapters.AdventureWorks.UspUpdateRxIdRequest, DevV1.AdventureWorks",
-  "IsPublished": false,
+  "IsPublished": true,
   "CreatedBy": "admin",
   "Id": "workflow-to-update-rx-id-request",
   "CreatedDate": "2016-09-25T12:12:01.1172908+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-25T12:12:49.5384321+08:00",
+  "ChangedDate": "2016-09-25T21:12:37.3554776+08:00",
   "WebId": "b7994d76-d0ae-4209-ab9e-83bcb2e4d0f2"
 }
