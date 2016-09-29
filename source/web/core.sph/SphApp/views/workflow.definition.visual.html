@@ -27,7 +27,8 @@
 
         <div class="activity w" tabindex="0" data-bind="style : {'left': WorkflowDesigner().X() + 'px','top': WorkflowDesigner().Y() + 'px'},
                 attr : {id : WebId},
-                css : {'start-actvity2': IsInitiator(), 'selected-activity' : selected }">
+                css : {'start-actvity2': IsInitiator(), 'selected-activity' : selected },
+                tooltip : (ko.unwrap(Note) || '')">
             <div data-bind="visible:hasError" class="error">
                 <i class="fa fa-exclamation-circle fa-2x"></i>
             </div>
@@ -286,6 +287,10 @@
 
             <div class="tab-pane" id="properties">
                 <form class="form" data-bind="with : $root.selectedActivity">
+                    <div class="form-group">
+                        <label for="selected-activity-type">Note</label>
+                        <textarea data-bind="value:Note" class="form-control" id="selected-activity-description" placeholder="Note...."></textarea>
+                    </div>
                     <div class="form-group">
                         <label for="selected-activity-type">Type</label>
                         <input type="text" data-bind="value:$type" readonly="readonly" class="form-control" id="selected-activity-type" placeholder="Activity name......">
