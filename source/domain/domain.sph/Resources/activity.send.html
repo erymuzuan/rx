@@ -55,9 +55,10 @@
                     <div class="form-group">
                         <label for="return-value-path" class="col-sm-3 control-label">Return Value Path</label>
                         <div class="col-sm-9">
-                            <select class="form-control" id="return-value-path" data-bind="value:ReturnValuePath,
-                                    optionsCaption : '[Select a return path(optional)]',
-                                    options: $root.variableOptions"></select>
+                            <input class="form-control" id="return-value-path" 
+                                   data-bind="value:ReturnValuePath, typeahead : $root.wd().Id()"
+                                   pattern="^[A-Za-z_][A-Za-z0-9_.]*$" 
+                                   type="text"/>
                         </div>
                     </div>
                     <div class="form-group">

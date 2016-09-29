@@ -9,7 +9,7 @@
 define(["services/datacontext", "services/logger", "plugins/dialog", objectbuilders.config, objectbuilders.system],
     function (context, logger, dialog, config, system) {
 
-        var methodOptions = ko.observableArray(),
+        const methodOptions = ko.observableArray(),
             adapterAssemblyOptions = ko.observableArray(),
             adapterOptions = ko.observableArray(),
             variableOptions = ko.observableArray(),
@@ -19,13 +19,11 @@ define(["services/datacontext", "services/logger", "plugins/dialog", objectbuild
             isBusy = ko.observable(false),
             activate = function () {
 
-                variableOptions(_(wd().VariableDefinitionCollection()).map(function (v) {
-                    return ko.unwrap(v.Name);
-                }));
+                variableOptions(wd().VariableDefinitionCollection().map(v => ko.unwrap(v.Name)));
                 var tcs = new $.Deferred();
                 $.get("/api/assemblies")
                     .done(function (b) {
-                        var assemblies = _(b).chain()
+                        const assemblies = _(b).chain()
                             .filter(function (v) {
                                 return v.Name.indexOf(config.applicationName) > -1;
                             })
@@ -37,16 +35,14 @@ define(["services/datacontext", "services/logger", "plugins/dialog", objectbuild
                         adapterAssemblyOptions(assemblies);
 
                         // for existing activity
-                        var act = activity();
+                        const act = activity();
                         if (act.AdapterAssembly()) {
-                            var getTypeTask = $.get("/api/assemblies/" + act.AdapterAssembly() + "/types"),
-                                getAdapterTask = $.get("/api/assemblies/" + act.AdapterAssembly() + "/types/" + act.Adapter() + "/methods");
+                            const getTypeTask = $.get(`/api/assemblies/${act.AdapterAssembly()}/types`),
+                                getAdapterTask = $.get(`/api/assemblies/${act.AdapterAssembly()}/types/${act.Adapter()}/methods`);
 
                             $.when(getTypeTask, getAdapterTask)
                                .done(function (b1, b2) {
-                                   var adpterTypes = _(b1[0] || b1).map(function (v) {
-                                       return v.TypeName;
-                                   });
+                                   const adpterTypes = (b1[0] || b1).map(v =>  v.TypeName);
                                    adapterOptions(adpterTypes);
                                    methodOptions(b2[0]);
                                    tcs.resolve(true);
@@ -62,28 +58,24 @@ define(["services/datacontext", "services/logger", "plugins/dialog", objectbuild
             attached = function () {
 
                 activity().AdapterAssembly.subscribe(function (dll) {
-                    $.get("/api/assemblies/" + dll + "/types")
+                    $.get(`/api/assemblies/${dll}/types`)
                    .done(function (b) {
-                       var adpterTypes = _(b).map(function (v) {
-                           return v.TypeName;
-                       });
+                       const adpterTypes = b.map(v =>  v.TypeName);
                        adapterOptions(adpterTypes);
                    });
                 });
                 activity().Adapter.subscribe(function (type) {
-                    $.get("/api/assemblies/" + activity().AdapterAssembly() + "/types/" + type + "/methods")
+                    $.get(`/api/assemblies/${activity().AdapterAssembly()}/types/${type}/methods`)
                    .done(function (b) {
                        methodOptions(b);
                    });
                 });
                 selectedMethod.subscribe(function (m) {
-                    var method = (m || { Name: "" }).Name;
+                    const method = (m || { Name: "" }).Name;
                     activity().Method(method);
                 });
 
-                var sm = methodOptions().find(function(v) {
-                    return v.Name === activity().Method();
-                });
+                const sm = methodOptions().find(v =>  v.Name === activity().Method());
                 selectedMethod(sm);
             },
             okClick = function (data, ev) {
@@ -103,7 +95,7 @@ define(["services/datacontext", "services/logger", "plugins/dialog", objectbuild
                 activity().ExceptionFilterCollection.remove(filter);
             };
 
-        var vm = {
+        const vm = {
             selectedMethod: selectedMethod,
             variableOptions: variableOptions,
             adapterAssemblyOptions: adapterAssemblyOptions,
