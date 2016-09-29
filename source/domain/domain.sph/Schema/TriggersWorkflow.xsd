@@ -180,6 +180,8 @@
 			<xs:enumeration value="Neq"/>
 			<xs:enumeration value="NotStartsWith"/>
 			<xs:enumeration value="NotEndsWith"/>
+			<xs:enumeration value="IsNull"/>
+			<xs:enumeration value="IsNotNull"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="CustomAction">
