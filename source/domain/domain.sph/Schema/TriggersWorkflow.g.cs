@@ -6290,6 +6290,11 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameCatchScope = "CatchScope";
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_note;
+        public const string PropertyNameNote = "Note";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private WorkflowDesigner m_workflowDesigner
                 = new WorkflowDesigner();
 
@@ -6411,6 +6416,27 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_catchScope;
+            }
+        }
+
+
+
+        public string Note
+        {
+            set
+            {
+                if (m_note == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNote, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_note = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_note;
             }
         }
 
