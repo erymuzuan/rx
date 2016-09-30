@@ -5,7 +5,7 @@ objectbuilders.app],
 
 function(context, logger, router, system, validation, eximp, dialog, watcher, config, app) {
 
-    var entity = ko.observable(new bespoke.DevV1_salesOrder.domain.SalesOrder(system.guid())),
+    var entity = ko.observable(new bespoke.DevV1_surchargeAddOn.domain.SurchargeAddOn(system.guid())),
         errors = ko.observableArray(),
         form = ko.observable(new bespoke.sph.domain.EntityForm()),
         watching = ko.observable(false),
@@ -16,14 +16,14 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
         activate = function(entityId) {
             id(entityId);
             var tcs = new $.Deferred();
-            context.loadOneAsync("EntityForm", "Route eq 'sales-order-details'")
+            context.loadOneAsync("EntityForm", "Route eq 'new-surcharge-add-lookup'")
                 .then(function(f) {
                 form(f);
-                return watcher.getIsWatchingAsync("SalesOrder", entityId);
+                return watcher.getIsWatchingAsync("SurchargeAddOn", entityId);
             })
                 .then(function(w) {
                 watching(w);
-                return $.getJSON("i18n/" + config.lang + "/sales-order-details");
+                return $.getJSON("i18n/" + config.lang + "/new-surcharge-add-lookup");
             })
                 .then(function(n) {
                 i18n = n[0];
@@ -32,7 +32,7 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
                         WebId: system.guid()
                     });
                 }
-                return context.get("/api/sales-orders/" + entityId);
+                return context.get("/api/surcharge-add-ons/" + entityId);
             }).then(function(b, textStatus, xhr) {
 
                 if (xhr) {
@@ -45,10 +45,10 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
                         headers["If-Modified-Since"] = lastModified;
                     }
                 }
-                entity(new bespoke.DevV1_salesOrder.domain.SalesOrder(b[0] || b));
+                entity(new bespoke.DevV1_surchargeAddOn.domain.SurchargeAddOn(b[0] || b));
             }, function(e) {
                 if (e.status == 404) {
-                    app.showMessage("Sorry, but we cannot find any SalesOrder with location : " + "/api/sales-orders/" + entityId, "Engineering Team Development", ["OK"]);
+                    app.showMessage("Sorry, but we cannot find any SurchargeAddOn with location : " + "/api/surcharge-add-ons/" + entityId, "Engineering Team Development", ["OK"]);
                 }
             }).always(function() {
                 if (typeof partial.activate === "function") {
@@ -63,7 +63,7 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
 
         },
 
-        defaultCommand = function() {
+        defaultSurchargeAndAddonCommand = function() {
 
             if (!validation.valid()) {
                 return Task.fromResult(false);
@@ -72,7 +72,7 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
             var data = ko.mapping.toJSON(entity),
                 tcs = new $.Deferred();
 
-            context.patch(data, "/api/sales-orders/" + ko.unwrap(entity().Id) + "", headers)
+            context.post(data, "/api/surcharge-addons/", headers)
                 .fail(function(response) {
                 var result = response.responseJSON;
                 errors.removeAll();
@@ -98,7 +98,7 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
         },
         attached = function(view) {
             // validation
-            validation.init($('#sales-order-details-form'), form());
+            validation.init($('#new-surcharge-add-lookup-form'), form());
 
             if (typeof partial.attached === "function") {
                 partial.attached(view);
@@ -116,17 +116,17 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
             });
         },
         saveCommand = function() {
-            return defaultCommand()
+            return defaultSurchargeAndAddonCommand()
                 .then(function(result) {
                 if (result.success) {
-                    return app.showMessage("Submitted", ["OK"]);
+                    return app.showMessage("Done", ["OK"]);
                 } else {
                     return Task.fromResult(false);
                 }
             })
                 .then(function(result) {
                 if (result) {
-                    router.navigate("soc-sales-orders");
+                    router.navigate("all-surcharges-and-addons");
                 }
             });
         };
@@ -139,15 +139,6 @@ function(context, logger, router, system, validation, eximp, dialog, watcher, co
         entity: entity,
         errors: errors,
         toolbar: {
-            emailCommand: {
-                entity: "SalesOrder",
-                id: id
-            },
-
-            printCommand: {
-                entity: 'SalesOrder',
-                id: id
-            },
             saveCommand: saveCommand,
             canExecuteSaveCommand: ko.computed(function() {
                 if (typeof partial.canExecuteSaveCommand === "function") {
