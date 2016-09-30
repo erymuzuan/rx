@@ -10,7 +10,23 @@
   },
   "SetterActionChildCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.SetterActionChild, domain.sph",
+        "Path": "Id",
+        "Field": {
+          "$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
+          "XPath": "",
+          "NamespacePrefix": "",
+          "TypeName": "",
+          "Path": "Code",
+          "Name": "Code",
+          "Note": "",
+          "WebId": "7ab66df6-ca03-4dc7-a51a-9c3a335e3f73"
+        },
+        "WebId": "c6803a81-b73c-4b1a-bbe3-48284aaf35a0"
+      }
+    ]
   },
   "PatchPathCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PatchSetter, domain.sph]], domain.sph",
@@ -20,21 +36,21 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
     "$values": []
   },
-  "Name": "Default ItemCategory",
-  "Route": "default-itemcategory",
-  "IsHttpPut": false,
+  "Name": "DefaultItemCategory",
+  "Route": "",
+  "IsHttpPut": true,
   "IsHttpPatch": false,
-  "IsHttpPost": false,
-  "IsHttpDelete": false,
+  "IsHttpPost": true,
+  "IsHttpDelete": true,
   "Note": "",
   "Entity": "ItemCategory",
-  "Resource": "",
-  "IsPublished": false,
+  "Resource": "item-categories",
+  "IsPublished": true,
   "IsConflictDetectionEnabled": false,
   "CreatedBy": "admin",
   "Id": "item-category-default-item-category",
   "CreatedDate": "2016-09-30T10:06:36.2001843+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-30T10:06:36.2001843+08:00",
+  "ChangedDate": "2016-09-30T15:21:10.2924431+08:00",
   "WebId": "7c669122-e022-40aa-a21e-1f545d50e264"
 }
