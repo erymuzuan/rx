@@ -1,6 +1,6 @@
 {
   "$type": "Bespoke.Sph.Domain.QueryEndpoint, domain.sph",
-  "ControllerName": "ProductDefaultQueryEndpoint",
+  "ControllerName": "SurchargeAddOnDefaultSurchargesAndAddonsQueryEndpoint",
   "FilterCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
     "$values": []
@@ -12,7 +12,7 @@
         "$type": "Bespoke.Sph.Domain.Sort, domain.sph",
         "Path": "Code",
         "Direction": "Asc",
-        "WebId": "131c5349-26fc-437a-d519-3953c63c5262"
+        "WebId": "b85e937a-c3fa-4fe9-fa67-a6820741c9d6"
       }
     ]
   },
@@ -21,18 +21,18 @@
     "$values": []
   },
   "CacheProfile": "",
-  "Name": "Default",
+  "Name": "Default surcharges and addons",
   "Route": "",
   "IsReturnSource": "",
-  "Entity": "Product",
+  "Entity": "SurchargeAddOn",
   "Note": "",
   "IsPublished": true,
-  "Resource": "products",
+  "Resource": "surcharges-addons",
   "CacheFilter": null,
   "CreatedBy": "admin",
-  "Id": "default",
-  "CreatedDate": "2016-09-27T09:05:54.9506064+08:00",
+  "Id": "default-surcharges-and-addons",
+  "CreatedDate": "2016-09-30T08:22:33.7205568+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-30T07:08:17.2897244+08:00",
-  "WebId": "6d2eca1d-e4d4-43d0-a48f-4863ecf56786"
+  "ChangedDate": "2016-09-30T08:23:12.3033188+08:00",
+  "WebId": "04aea843-cfe8-4d86-dc45-5c7a61d3ef19"
 }

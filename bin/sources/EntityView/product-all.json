@@ -101,7 +101,7 @@
   "Entity": "Product",
   "Partial": null,
   "Template": null,
-  "DisplayOnDashboard": false,
+  "DisplayOnDashboard": true,
   "Endpoint": "default",
   "CreatedBy": "admin",
   "Id": "product-all",

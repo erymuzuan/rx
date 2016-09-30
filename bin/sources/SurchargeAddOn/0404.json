@@ -1,0 +1,16 @@
+{
+  "$type": "Bespoke.DevV1.SurchargeAddOns.Domain.SurchargeAddOn, DevV1.SurchargeAddOn",
+  "Code": "0404",
+  "ServiceCode": "04",
+  "TypeCode": "04",
+  "ServiceName": "Insurance",
+  "Name": "High",
+  "SnbCode": "V02",
+  "Type": "Surcharge",
+  "CreatedBy": "admin",
+  "Id": "0404",
+  "CreatedDate": "2016-09-30T08:55:09.4571211+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-09-30T08:55:09.4426097+08:00",
+  "WebId": "00e977ba-0d51-440b-f8cf-9476a2bfaf4a"
+}

@@ -9,33 +9,16 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
           "$values": []
         },
-        "Path": "IposDocumentTimeStamp",
-        "Header": "Ipos Document Time Stamp",
-        "Sort": "",
-        "IsLinkColumn": false,
-        "FormRoute": null,
-        "IconCssClass": "",
-        "IconStoreId": "",
-        "Format": "date:{0}",
-        "RouteValueField": "",
-        "WebId": "106e7f03-6673-46c9-f530-737125766707"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
-        "ConditionalFormattingCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Path": "SoldtoPartyAccNo",
-        "Header": "Soldto Party Acc No",
+        "Path": "Code",
+        "Header": "Code",
         "Sort": "",
         "IsLinkColumn": true,
-        "FormRoute": "sales-order-details",
-        "IconCssClass": "fa fa-file-text-o",
+        "FormRoute": "surcharge-add-lookup-details",
+        "IconCssClass": "fa fa-credit-card-alt",
         "IconStoreId": "",
         "Format": "text:{0}",
-        "RouteValueField": "Id",
-        "WebId": "d9e7b5bb-cbeb-4237-b530-2faa7e4ac83d"
+        "RouteValueField": "Code",
+        "WebId": "cebda1d9-0b6d-42d9-aa64-e636cd211bf6"
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
@@ -43,8 +26,8 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
           "$values": []
         },
-        "Path": "BranchCode",
-        "Header": "Branch Code",
+        "Path": "ServiceName",
+        "Header": "Service Name",
         "Sort": "",
         "IsLinkColumn": false,
         "FormRoute": null,
@@ -52,7 +35,7 @@
         "IconStoreId": "",
         "Format": "text:{0}",
         "RouteValueField": "",
-        "WebId": "201ce636-d5f8-4cdd-f880-f2819f71251b"
+        "WebId": "94bd9b7e-78c8-4b7f-a8e6-2f37528df7fc"
       },
       {
         "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
@@ -60,8 +43,8 @@
           "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
           "$values": []
         },
-        "Path": "IposNumber",
-        "Header": "Ipos Number",
+        "Path": "Name",
+        "Header": "Name",
         "Sort": "",
         "IsLinkColumn": false,
         "FormRoute": null,
@@ -69,7 +52,24 @@
         "IconStoreId": "",
         "Format": "text:{0}",
         "RouteValueField": "",
-        "WebId": "d80c8524-1236-455e-87bf-6db160e15227"
+        "WebId": "10066a59-b3b1-47ee-e2ab-a90e4c753986"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        "ConditionalFormattingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ConditionalFormatting, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Path": "SnbCode",
+        "Header": "Snb Code",
+        "Sort": "",
+        "IsLinkColumn": false,
+        "FormRoute": null,
+        "IconCssClass": "",
+        "IconStoreId": "",
+        "Format": "text:{0}",
+        "RouteValueField": "",
+        "WebId": "0da493f4-fb15-4659-b03f-6b52ca180e5a"
       }
     ]
   },
@@ -88,25 +88,25 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
     "$values": []
   },
-  "IconClass": "glyphicon glyphicon-list",
-  "IconStoreId": "f7b01687-6349-43f4-95b3-e3be285bbcc9",
-  "EntityDefinitionId": "sales-order",
-  "Name": "Soc sales orders",
-  "Route": "soc-sales-orders",
+  "IconClass": "fa fa-cc-mastercard",
+  "IconStoreId": "1212785e-1ed5-4f66-a1e3-143c2d3d3724",
+  "EntityDefinitionId": "surcharge-add-on",
+  "Name": "All surcharges and addons",
+  "Route": "all-surcharges-and-addons",
   "Note": "",
   "IsPublished": true,
   "Visibilty": "",
-  "TileColour": "bred",
+  "TileColour": "borange",
   "CountMessage": "",
-  "Entity": "SalesOrder",
+  "Entity": "SurchargeAddOn",
   "Partial": "",
   "Template": null,
   "DisplayOnDashboard": true,
-  "Endpoint": "all-sales-orders",
+  "Endpoint": "default-surcharges-and-addons",
   "CreatedBy": "admin",
-  "Id": "sales-order-soc-sales-orders",
-  "CreatedDate": "2016-09-24T11:58:24.2008898+08:00",
+  "Id": "surcharge-add-on-all-surcharges-and-addons",
+  "CreatedDate": "2016-09-30T08:27:02.6739251+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-30T07:34:38.8318794+08:00",
-  "WebId": "c43ebc4a-bd48-4981-b02a-5ecd5fb5528a"
+  "ChangedDate": "2016-09-30T08:49:07.9759553+08:00",
+  "WebId": "c2db18ac-8781-430b-f247-5d06cb3fa72f"
 }
