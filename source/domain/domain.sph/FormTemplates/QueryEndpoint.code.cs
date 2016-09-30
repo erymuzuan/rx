@@ -123,7 +123,7 @@ namespace Bespoke.Sph.Domain
         private Method GenerateCountAction()
         {
             var code = new StringBuilder();
-            var route = $"{this.GetRoute()}/_count".Replace("//", "/");
+            var route = $"{this.GetRoute()}/_metadata/_count".Replace("//", "/");
 
             code.AppendLine("       [HttpGet]");
             code.AppendLine($"       [GetRoute(\"{route}\")]");
