@@ -140,7 +140,7 @@ namespace Bespoke.Sph.Web.Controllers
         //[RxSourceOutputCache(SourceType = typeof(EntityView))]
         [Route("{entity}/dashboard")]
         [HttpGet]
-        public async Task<IHttpActionResult> Dashboard(string id)
+        public async Task<IHttpActionResult> Dashboard(string entity)
         {
             var user = User.Identity.Name;
             var views =
@@ -148,7 +148,7 @@ namespace Bespoke.Sph.Web.Controllers
                 let v = f.DeserializeFromJsonFile<EntityView>()
                 where v.IsPublished
                 && v.DisplayOnDashboard
-                && string.Equals(v.EntityDefinitionId, id, StringComparison.InvariantCultureIgnoreCase)
+                && string.Equals(v.EntityDefinitionId, entity, StringComparison.InvariantCultureIgnoreCase)
                 select v;
 
             var list = new ObjectCollection<EntityView>();
@@ -168,7 +168,7 @@ namespace Bespoke.Sph.Web.Controllers
             }
 
             var jsonViews = string.Join(",", list.Select(c => c.ToJsonString(Newtonsoft.Json.Formatting.Indented)));
-            return Ok($"[{jsonViews}]");
+            return Json($"[{jsonViews}]");
         }
     }
 }
