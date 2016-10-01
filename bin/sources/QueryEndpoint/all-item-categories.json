@@ -26,13 +26,13 @@
   "IsReturnSource": "",
   "Entity": "ItemCategory",
   "Note": "",
-  "IsPublished": false,
+  "IsPublished": true,
   "Resource": "item-categories",
   "CacheFilter": null,
   "CreatedBy": "admin",
   "Id": "all-item-categories",
   "CreatedDate": "2016-09-30T15:14:50.5634103+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-30T15:15:14.1233493+08:00",
+  "ChangedDate": "2016-10-01T08:32:35.1120336+08:00",
   "WebId": "684e0586-b64e-4465-bd59-d96ceff7b8cf"
 }
