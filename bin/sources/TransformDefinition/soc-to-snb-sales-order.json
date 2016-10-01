@@ -119,6 +119,15 @@
         "SourceTypeName": "",
         "DestinationTypeName": "",
         "WebId": "9d0f4a73-4160-4e94-e25d-7e8bdc1d5c38"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Consignments.SumInsured",
+        "TypeName": "",
+        "Destination": "Body.Consignments-SumInsured",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "c7d0fd1a-7817-4f93-ca9b-0a75dc6b92c3"
       }
     ]
   },
@@ -350,6 +359,6 @@
   "Id": "soc-to-snb-sales-order",
   "CreatedDate": "2016-09-24T12:37:21.6298726+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-10-01T18:10:40.3600004+08:00",
+  "ChangedDate": "2016-10-01T18:44:50.6065426+08:00",
   "WebId": "4b09fdb5-3707-4f5a-9e1d-bfeeae890776"
 }

@@ -2312,6 +2312,30 @@
                           "IsExcludeInAll": false,
                           "Boost": 0,
                           "FullName": null,
+                          "PropertyAttribute": "[JsonProperty(\"SumInsured\")]",
+                          "MemberCollection": {
+                            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                            "$values": []
+                          },
+                          "FieldPermissionCollection": {
+                            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                            "$values": []
+                          },
+                          "Name": "SumInsured",
+                          "AllowMultiple": false,
+                          "DefaultValue": null,
+                          "WebId": "280a4088-e825-406d-c2d6-f998db3969d8"
+                        },
+                        {
+                          "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+                          "TypeName": "System.Decimal, mscorlib",
+                          "IsNullable": false,
+                          "IsNotIndexed": false,
+                          "IsAnalyzed": false,
+                          "IsFilterable": false,
+                          "IsExcludeInAll": false,
+                          "Boost": 0,
+                          "FullName": null,
                           "PropertyAttribute": "[JsonProperty(\"ActualWeight\")]",
                           "MemberCollection": {
                             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
@@ -3331,6 +3355,6 @@
   "Id": "snb-web-new-account",
   "CreatedDate": "2016-09-11T09:12:56.5762714+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-10-01T18:09:51.7712579+08:00",
+  "ChangedDate": "2016-10-01T18:42:09.6464787+08:00",
   "WebId": "9f1e0de5-ac68-4f43-a0dc-68a340e00b84"
 }
