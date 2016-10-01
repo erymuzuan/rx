@@ -10,7 +10,25 @@ namespace Bespoke.DevV1.Integrations.Transforms
         private static List<Bespoke.DevV1.Products.Domain.Product> m_products = new List<Bespoke.DevV1.Products.Domain.Product>();
         private static List<Bespoke.DevV1.SurchargeAddOns.Domain.SurchargeAddOn> m_surcharges = new List<Bespoke.DevV1.SurchargeAddOns.Domain.SurchargeAddOn>();
         private static List<Bespoke.DevV1.ItemCategories.Domain.ItemCategory> m_categories = new List<Bespoke.DevV1.ItemCategories.Domain.ItemCategory>();
-
+        public static IEnumerable<string> Split(string value, int length)
+        {
+        	if(string.IsNullOrWhiteSpace(value))
+        		yield break;
+        	if(value.Length < length)
+        		yield break;
+        	var c = 0;
+        	while (c < value.Length)
+        	{
+        		if (value.Length % length != 0) 
+        		{
+        			if(c + length > value.Length)
+        			yield break;
+        		}
+        		var item = value.Substring(c, length);
+        		c +=length;
+        		yield return item;
+        	}
+        }
         partial void BeforeTransform(Bespoke.DevV1.SalesOrders.Domain.SalesOrder item, Bespoke.DevV1.Adapters.SnbWebNewAccount.PostSalesOrdersRequest destination)
         {
             var context = new SphDataContext();
@@ -47,16 +65,26 @@ namespace Bespoke.DevV1.Integrations.Transforms
             {
                 var source = item.Consignments.Single(x => x.ConNoteNumberParent == con.ConNoteNo);
                 
+                // SNB need category name, not the bloody sequence, while soc use creepy code
                 var cat = m_categories.Where(x => x.Code == source.ItemCategoryType).LastOrDefault();
                 if(null != cat)
                     con.ItemCategory = cat.Name;
-
-                var surcharges = m_surcharges.Where(x => x.Code == source.SurchargeCode).Select(x => x.SnbCode).ToArray();
-                con.Surcharges.AddRange(surcharges);
-
-                var services = m_surcharges.Where(x => x.Code == source.ValueAdded).Select(x => x.SnbCode).ToArray();
-                con.ValueAddedServices.AddRange(services);
                 
+                // in soc, surchages in presented in a multiple of 4, e.g. 0101|1101 , no | of course 
+                foreach(var code in Split(source.SurchargeCode, 4))
+                {
+                    var code1 = code;
+                    var surcharges = m_surcharges.Where(x => x.Code == code1).Select(x => x.SnbCode).ToArray();
+                    con.Surcharges.AddRange(surcharges);
+                }
+
+                // in soc, value added in presented in a multiple of 4, e.g. 0101|1101, no | of cource 
+                foreach(var code in Split(source.ValueAdded, 4))
+                {
+                    var code1 = code;
+                    var services = m_surcharges.Where(x => x.Code == code1).Select(x => x.SnbCode).ToArray();
+                    con.ValueAddedServices.AddRange(services);
+                }
                 
                 con.ProductCode = m_products.Where(x => x.SocCode == source.ProductCodeMaterial).Select(x => x.Code).LastOrDefault() ?? "-";
                 
@@ -72,7 +100,6 @@ namespace Bespoke.DevV1.Integrations.Transforms
                     }
                 }
                 
-                //con.SenderPostcode
             }
             
             
