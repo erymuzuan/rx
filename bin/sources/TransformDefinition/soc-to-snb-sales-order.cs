@@ -63,11 +63,12 @@ namespace Bespoke.DevV1.Integrations.Transforms
                 // split the dimensions
                 if(!string.IsNullOrWhiteSpace(source.VolumetricDimension))
                 {
-                    var dimensions = source.VolumetricDimension.Split(new []{"X"}, System.StringSplitOptions.RemoveEmptyEntries);
+                    var dimensions = source.VolumetricDimension.Split(new []{"X", "x"}, System.StringSplitOptions.RemoveEmptyEntries);
                     if(dimensions.Length == 3)
                     {
-                        con.Length = decimal.Parse(dimensions[0]);
+                        con.Width = decimal.Parse(dimensions[0]);
                         con.Height = decimal.Parse(dimensions[1]);
+                        con.Length = decimal.Parse(dimensions[2]);
                     }
                 }
                 
