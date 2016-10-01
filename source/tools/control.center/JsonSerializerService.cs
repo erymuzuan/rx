@@ -1,11 +1,8 @@
 using System;
-using System.Linq;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Serialization;
 
 
@@ -13,83 +10,6 @@ namespace Bespoke.Sph.Domain
 {
     public static class JsonSerializerService
     {
-        public static JsonSchema GetJsonSchemaFromObject2(Type type)
-        {
-            var schemaGenerator = new JsonSchemaGenerator();
-            var jSchema = schemaGenerator.Generate(type);
-            jSchema = MapSchemaTypes(jSchema, type);
-
-            return jSchema;
-        }
-        private static JsonSchema MapSchemaTypes(JsonSchema jSchema, Type type)
-        {
-            foreach (var js in jSchema.Properties)
-            {
-                Type fieldType = type.GetProperty(js.Key).PropertyType;
-
-                if (fieldType.IsGenericType
-                    && fieldType.GetGenericTypeDefinition() == typeof(Nullable<>))
-                {
-                    Type underlyingType = Nullable.GetUnderlyingType(fieldType);
-                    if (underlyingType == typeof(DateTime))
-                        js.Value.Format = "date-time";
-                    else if (underlyingType.BaseType == typeof(Enum))
-                        js.Value.Enum = new JArray(Enum.GetNames(underlyingType));
-                }
-                else if (fieldType == typeof(DateTime))
-                {
-                    js.Value.Format = "date-time";
-                }
-                else if (fieldType.BaseType == typeof(Enum))
-                {
-                    js.Value.Enum = new JArray(Enum.GetNames(fieldType));
-                }
-                else if (js.Value.Items != null && js.Value.Items.Any())
-                {
-                    foreach (var item in js.Value.Items)
-                    {
-                        var arg = fieldType.GetGenericArguments();
-                        if (arg.Any())
-                            fieldType = arg[0];
-
-                        MapSchemaTypes(item, fieldType);
-                    }
-                }
-                else if (js.Value.Properties != null && js.Value.Properties.Any())
-                {
-                    MapSchemaTypes(js.Value, fieldType);
-                }
-            }
-            return jSchema;
-        }
-
-        public static JsonSchema GetJsonSchemaFromObject(Type type)
-        {
-            var schemaGenerator = new JsonSchemaGenerator();
-            JsonSchema jSchema = schemaGenerator.Generate(type);
-
-            foreach (var js in jSchema.Properties)
-            {
-                Type fieldType = type.GetProperty(js.Key).PropertyType;
-
-                if (fieldType.IsGenericType
-                    && fieldType.GetGenericTypeDefinition() == typeof(Nullable<>))
-                {
-                    Type underlyingType = Nullable.GetUnderlyingType(fieldType);
-                    if (underlyingType == typeof(DateTime))
-                        js.Value.Format = "date-time";
-                    else if (underlyingType.BaseType == typeof(Enum))
-                        js.Value.Enum = new JArray(Enum.GetNames(underlyingType));
-                }
-                else if (fieldType == typeof(DateTime))
-                {
-                    js.Value.Format = "date-time";
-                }
-            }
-
-            return jSchema;
-        }
-
         /// <summary>
         /// Clone object, deep copy
         /// </summary>
@@ -129,7 +49,7 @@ namespace Bespoke.Sph.Domain
             if (null == stream) throw new ArgumentNullException(nameof(stream));
             using (var sr = new StreamReader(stream))
             {
-                string result = sr.ReadToEnd();
+                var result = sr.ReadToEnd();
                 return JsonConvert.DeserializeObject<T>(result, setting);
             }
         }
