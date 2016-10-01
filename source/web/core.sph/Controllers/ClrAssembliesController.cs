@@ -158,24 +158,7 @@ namespace Bespoke.Sph.Web.Controllers
             var schema = t.GetJsonSchema();
             return Json(schema.ToString());
         }
-        [HttpGet]
-        [Route("{type}/json-schema")]
-        public IHttpActionResult Schema(string type)
-        {
-            var t = Strings.GetType(type);
-            if (null == t)
-            {
-                string message = $"Cannot find {type} in your {ConfigurationManager.WebPath}/bin or {ConfigurationManager.CompilerOutputPath}, Please build it if you have not done so";
-
-                ObjectBuilder.GetObject<ILogger>()
-                    .Log(new LogEntry(new Exception(message)));
-                return NotFound(message);
-
-            }
-
-            var schema = JsonSerializerService.GetJsonSchemaFromObject(t);
-            return Json(schema.ToString());
-        }
+   
 
         [HttpGet]
         [Route("{dll}/types/{type}/json-schema")]
@@ -189,7 +172,7 @@ namespace Bespoke.Sph.Web.Controllers
             sb.AppendLine("     \"types\":[\"object\", null],");
             sb.AppendLine("     \"properties\": {");
             var schemes = from t in cts
-                          let sc = JsonSerializerService.GetJsonSchemaFromObject(t)
+                          let sc = t.GetJsonSchema()
                           select $@"""{t.Name}"" : {sc}";
             sb.AppendLine(string.Join(", ", schemes));
             sb.AppendLine("     }");
