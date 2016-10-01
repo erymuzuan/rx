@@ -2094,6 +2094,30 @@
                           "IsAnalyzed": false,
                           "IsFilterable": false,
                           "IsExcludeInAll": false,
+                          "Boost": 2,
+                          "FullName": null,
+                          "PropertyAttribute": "[JsonProperty(\"SenderName\")]",
+                          "MemberCollection": {
+                            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                            "$values": []
+                          },
+                          "FieldPermissionCollection": {
+                            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                            "$values": []
+                          },
+                          "Name": "SenderName",
+                          "AllowMultiple": false,
+                          "DefaultValue": null,
+                          "WebId": "b62c1e54-c3f9-467b-c302-aba26fe88cf2"
+                        },
+                        {
+                          "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+                          "TypeName": "System.String, mscorlib",
+                          "IsNullable": false,
+                          "IsNotIndexed": false,
+                          "IsAnalyzed": false,
+                          "IsFilterable": false,
+                          "IsExcludeInAll": false,
                           "Boost": 0,
                           "FullName": null,
                           "PropertyAttribute": "[JsonProperty(\"SenderStreet1\")]",
@@ -3307,6 +3331,6 @@
   "Id": "snb-web-new-account",
   "CreatedDate": "2016-09-11T09:12:56.5762714+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-10-01T14:53:21.9271525+08:00",
+  "ChangedDate": "2016-10-01T18:09:51.7712579+08:00",
   "WebId": "9f1e0de5-ac68-4f43-a0dc-68a340e00b84"
 }

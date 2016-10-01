@@ -110,6 +110,15 @@
         "SourceTypeName": "",
         "DestinationTypeName": "",
         "WebId": "c10ff1d0-9a80-4957-9d43-2c24fe792316"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Consignments.SubAccountRef",
+        "TypeName": "",
+        "Destination": "Body.Consignments-SenderName",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "9d0f4a73-4160-4e94-e25d-7e8bdc1d5c38"
       }
     ]
   },
@@ -341,6 +350,6 @@
   "Id": "soc-to-snb-sales-order",
   "CreatedDate": "2016-09-24T12:37:21.6298726+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-10-01T15:04:09.9866603+08:00",
+  "ChangedDate": "2016-10-01T18:10:40.3600004+08:00",
   "WebId": "4b09fdb5-3707-4f5a-9e1d-bfeeae890776"
 }
