@@ -43,26 +43,32 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         entity(b);
 
 
-                        context.getListAsync("OperationEndpoint", "Entity eq '" + ko.unwrap(b.Name) + "'", "Name").done(operationsOption);
-                        context.getListAsync("OperationEndpoint", "IsHttpDelete eq true and Entity eq '" + ko.unwrap(b.Name) + "'", "Name").done(deleteOperationsOption);
+                        context.getListAsync("OperationEndpoint", `Entity eq '${ko.unwrap(b.Name)}'`, "Name").done(operationsOption);
+                        context.getListAsync("OperationEndpoint", `IsHttpDelete eq true and Entity eq '${ko.unwrap(b.Name)}'`, "Name").done(deleteOperationsOption);
                         var collectionMembers = [],
                             findCollectionMembers = function (list) {
                                 _(list).each(function (v) { console.log(ko.unwrap(v.Name) + "->" + ko.unwrap(v.TypeName)); });
-                                var temp = _(list).chain()
-                                    .filter(function (v) {
-                                        return ko.unwrap(v.TypeName) === "System.Array, mscorlib";
-                                    })
+                                const temp = _(list).chain()
+                                    .filter(v => ko.unwrap(v.AllowMultiple))
                                     .map(function (v) {
+
+                                        var ns = "";
+                                        for (let ns1 in bespoke) {
+                                            if (bespoke.hasOwnProperty(ns1)) {
+                                                if (ns1.toLowerCase() === `${config.applicationName.toLowerCase()}_${entity().Name().toLowerCase()}`) {
+                                                    ns = ns1;
+                                                    break;
+                                                }
+                                            }
+                                        }
                                         return {
-                                            "text": ko.unwrap(v.Name).replace("Collection", ""),
-                                            "value": "bespoke." + config.applicationName + "_" + entity().Id() + ".domain." + ko.unwrap(v.Name).replace("Collection", "")
+                                            "text": ko.unwrap(v.TypeName),
+                                            "value": `bespoke.${ns}.domain.${ko.unwrap(v.TypeName)}`
                                         };
                                     })
                                     .value();
-                                _(temp).each(function (v) { collectionMembers.push(v); });
-                                _(list).each(function (v) {
-                                    findCollectionMembers(v.MemberCollection());
-                                });
+                                _(temp).each(v => collectionMembers.push(v));
+                                _(list).each(v =>  findCollectionMembers(v.MemberCollection()));
                             };
                         findCollectionMembers(b.MemberCollection());
                         collectionMemberOptions(collectionMembers);
