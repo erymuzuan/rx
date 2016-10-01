@@ -104,7 +104,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("{id}/execute-test")]
         public  async Task<IHttpActionResult> ExecuteMappingTest(string id, [JsonBody]TransformDefinition mapDefinition)
         {
-            string file = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(TransformDefinition)}\\{id}.test"; var context = new SphDataContext();
+            string file = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(TransformDefinition)}\\{id}.test";
             if (!System.IO.File.Exists(file))
                 return NotFound("You have yet to create an input for the test map");
 
@@ -206,7 +206,7 @@ namespace Bespoke.Sph.Web.Controllers
             if (!string.IsNullOrWhiteSpace(map.InputTypeName))
             {
                 var type = Strings.GetType(map.InputTypeName);
-                var schema = JsonSerializerService.GetJsonSchemaFromObject(type);
+                var schema = type.GetJsonSchema();
                 return Json(schema);
             }
 
@@ -215,7 +215,7 @@ namespace Bespoke.Sph.Web.Controllers
             sb.AppendLine("     \"types\":[\"object\", null],");
             sb.AppendLine("     \"properties\": {");
             var schemes = from t in map.InputCollection
-                          let sc = JsonSerializerService.GetJsonSchemaFromObject(t.Type)
+                          let sc = t.Type.GetJsonSchema()
                           select $@"""{t.Name}"" : {sc}";
             sb.AppendLine(string.Join(", ", schemes));
             sb.AppendLine("     }");

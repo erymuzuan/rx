@@ -7,8 +7,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
 
 
 namespace Bespoke.Sph.Domain
@@ -139,128 +137,7 @@ namespace Bespoke.Sph.Domain
             code.Append("}");
             return code.ToString();
         }
-        public static JsonSchema GetJsonSchemaFromObject2(Type type)
-        {
-            var generator = new JsonSchemaGenerator();
-            var schema = generator.Generate(type);
-            schema = MapSchemaTypes(schema, type);
-
-            return schema;
-        }
-        private static JsonSchema MapSchemaTypes(JsonSchema schema, Type type)
-        {
-            foreach (var prop in schema.Properties)
-            {
-                var fieldType = type.GetProperty(prop.Key).PropertyType;
-
-                if (fieldType.IsGenericType
-                    && fieldType.GetGenericTypeDefinition() == typeof(Nullable<>))
-                {
-                    var underlyingType = Nullable.GetUnderlyingType(fieldType);
-                    if (underlyingType == typeof(DateTime))
-                        prop.Value.Format = "date-time";
-                    else if (underlyingType.BaseType == typeof(Enum))
-                        prop.Value.Enum = new JArray(Enum.GetNames(underlyingType).Cast<object>());
-                }
-                else if (fieldType == typeof(DateTime))
-                {
-                    prop.Value.Format = "date-time";
-                }
-                else if (fieldType.BaseType == typeof(Enum))
-                {
-                    prop.Value.Enum = new JArray(Enum.GetNames(fieldType).Cast<object>());
-                }
-                else if (prop.Value.Items != null && prop.Value.Items.Any())
-                {
-                    foreach (var item in prop.Value.Items)
-                    {
-                        var arg = fieldType.GetGenericArguments();
-                        if (arg.Any())
-                            fieldType = arg[0];
-
-                        MapSchemaTypes(item, fieldType);
-                    }
-                }
-                else if (prop.Value.Properties != null && prop.Value.Properties.Any())
-                {
-                    MapSchemaTypes(prop.Value, fieldType);
-                }
-            }
-            return schema;
-        }
-
-        public static JsonSchema GetJsonSchemaFromObject(Type type)
-        {
-            var generator = new JsonSchemaGenerator();
-            var schema = generator.Generate(type);
-
-            foreach (var jp in schema.Properties)
-            {
-                var prop = type.GetProperty(jp.Key);
-                if (null == prop) continue;
-
-                if (prop.PropertyType.IsGenericType
-                    && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
-                {
-                    jp.Value.Required = false;
-                    var underlyingType = Nullable.GetUnderlyingType(prop.PropertyType);
-                    if (underlyingType == typeof(DateTime))
-                        jp.Value.Format = "date-time";
-                    else if (underlyingType.BaseType == typeof(Enum))
-                        jp.Value.Enum = new JArray(Enum.GetNames(underlyingType).Cast<object>());
-
-                }
-                else if (prop.PropertyType == typeof(DateTime))
-                {
-                    jp.Value.Format = "date-time";
-                }
-
-                if (prop.PropertyType.Namespace == type.Namespace)
-                {
-                    SetJsonSchemaDateTimeFormat(prop, jp);
-                }
-                if (prop.PropertyType.Namespace == typeof(Entity).Namespace)
-                {
-                    SetJsonSchemaDateTimeFormat(prop, jp);
-                }
-            }
-
-            return schema;
-        }
-
-        private static void SetJsonSchemaDateTimeFormat(PropertyInfo parentProperty, KeyValuePair<string, JsonSchema> parentSchema)
-        {
-            if (null == parentSchema.Value.Properties) return;
-            foreach (var jp in parentSchema.Value.Properties)
-            {
-                var prop = parentProperty.PropertyType.GetProperty(jp.Key);
-                if (null == prop) continue;
-
-                if (prop.PropertyType.IsGenericType
-                    && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
-                {
-                    var underlyingType = Nullable.GetUnderlyingType(prop.PropertyType);
-                    if (underlyingType == typeof(DateTime))
-                        jp.Value.Format = "date-time";
-                    else if (underlyingType.BaseType == typeof(Enum))
-                        jp.Value.Enum = new JArray(Enum.GetNames(underlyingType).Cast<object>());
-                }
-                else if (prop.PropertyType == typeof(DateTime))
-                {
-                    jp.Value.Format = "date-time";
-                }
-
-                if (prop.PropertyType.Namespace == parentProperty.PropertyType.Namespace)
-                {
-                    SetJsonSchemaDateTimeFormat(prop, jp);
-                }
-                if (prop.PropertyType.Namespace == typeof(Entity).Namespace)
-                {
-                    SetJsonSchemaDateTimeFormat(prop, jp);
-                }
-            }
-
-        }
+       
 
         /// <summary>
         /// Clone object, deep copy

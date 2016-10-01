@@ -2,10 +2,10 @@
 
 define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp, objectbuilders.dialog, objectbuilders.config],
     function (context, logger, router, system, app, eximp, dialog, config) {
-
-        var errors = ko.observableArray(),
+        let originalEntity = "",
+            partialEditor = null;
+        const errors = ko.observableArray(),
             warnings = ko.observableArray(),
-            originalEntity = "",
             collectionMemberOptions = ko.observableArray(),
             formElements = ko.observableArray(),
             entityOptions = ko.observableArray(),
@@ -43,22 +43,28 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                         var collectionMembers = [],
                             findCollectionMembers = function (list) {
-                                _(list).each(function (v) { console.log(ko.unwrap(v.Name) + "->" + ko.unwrap(v.TypeName)); });
-                                var temp = _(list).chain()
-                                    .filter(function (v) {
-                                        return ko.unwrap(v.TypeName) === "System.Array, mscorlib";
-                                    })
+
+                                const temp = _(list).chain()
+                                    .filter(v => ko.unwrap(v.AllowMultiple))
                                     .map(function (v) {
+
+                                        var ns = "";
+                                        for (let ns1 in bespoke) {
+                                            if (bespoke.hasOwnProperty(ns1)) {
+                                                if (ns1.toLowerCase() === `${config.applicationName.toLowerCase()}_${entity().Name().toLowerCase()}`) {
+                                                    ns = ns1;
+                                                    break;
+                                                }
+                                            }
+                                        }
                                         return {
-                                            "text": ko.unwrap(v.Name).replace("Collection", ""),
-                                            "value": "bespoke." + config.applicationName + "_" + entity().Id() + ".domain." + ko.unwrap(v.Name).replace("Collection", "")
+                                            "text": ko.unwrap(v.TypeName),
+                                            "value": `bespoke.${ns}.domain.${ko.unwrap(v.TypeName)}`
                                         };
                                     })
                                     .value();
-                                _(temp).each(function (v) { collectionMembers.push(v); });
-                                _(list).each(function (v) {
-                                    findCollectionMembers(v.MemberCollection());
-                                });
+                                temp.forEach(v => collectionMembers.push(v));
+                                list.forEach(v =>  findCollectionMembers(v.MemberCollection()));
                             };
                         findCollectionMembers(b.MemberCollection());
                         collectionMemberOptions(collectionMembers);
@@ -67,7 +73,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
 
                 if (formid !== "0") {
-                    context.loadOneAsync("FormDialog", "Id eq '" + formid + "'")
+                    context.loadOneAsync("FormDialog", `Id eq '${formid}'`)
                     .done(function (f) {
                         _(f.FormDesign().FormElementCollection()).each(function (v) {
                             v.isSelected = ko.observable(false);
@@ -115,7 +121,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                 // delete selected element when [delete] key is pressed
                 $(view).on("keyup", "div.selected-form-element", function (e) {
-                    if (e.keyCode === 46 && typeof selectedFormElement() != "undefined") {
+                    if (e.keyCode === 46 && typeof selectedFormElement() !== "undefined") {
                         removeFormElement(selectedFormElement());
                     }
                 });
@@ -206,6 +212,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     $("#template-form-designer>form").sortable("destroy");
                     //rebuild
                     fd.FormElementCollection(elements);
+                    // ReSharper disable once VariableUsedInInnerScopeBeforeDeclared
                     initDesigner();
                     $("#template-form-designer>form li.ui-draggable").remove();
                     selectedFormElement(fe);
@@ -295,22 +302,22 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 }
                 $("#form-designer-toolbox .nav-tabs a[href='#fields-settings']").tab("show");
 
-                var elementSelectedPosition = $(".selected-form-element").position();
-                var propertiesPaddingTop = (elementSelectedPosition.top < 95) ? 0 : elementSelectedPosition.top - 95;
+                const elementSelectedPosition = $(".selected-form-element").position(),
+                    propertiesPaddingTop = elementSelectedPosition.top < 95 ? 0 : elementSelectedPosition.top - 95;
                 $("#fields-settings").css("padding-top", propertiesPaddingTop);
             },
             publish = function () {
-                var fd = ko.unwrap(form().FormDesign);
+                const fd = ko.unwrap(form().FormDesign);
                 // get the sorted element
-                var elements = _($("#template-form-designer>form>div")).map(function (div) {
+                const elements = _($("#template-form-designer>form>div")).map(function (div) {
                     return ko.dataFor(div);
                 });
                 fd.FormElementCollection(elements);
 
 
-                var data = ko.mapping.toJSON(form);
+                const data = ko.mapping.toJSON(form);
 
-                return context.post(data, "/api/form-dialogs/" + ko.unwrap(form().Id) + "/publish")
+                return context.post(data, `/api/form-dialogs/${ko.unwrap(form().Id)}/publish`)
                     .then(function (result) {
                         if (result.success) {
                             logger.info(result.message);
@@ -405,7 +412,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(form);
 
-                context.post(data, "/api/form-dialogs/"+ ko.unwrap(form().Id)+"/depublish")
+                context.post(data, "/api/form-dialogs/" + ko.unwrap(form().Id) + "/depublish")
                     .then(function (result) {
                         if (result.success) {
                             logger.info(result.message);
@@ -424,7 +431,6 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     });
                 return tcs.promise();
             },
-            partialEditor = null,
             editCode = function () {
                 if (null === partialEditor || partialEditor.closed) {
                     var partial = "partial/" + form().Route();
@@ -438,7 +444,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
             };
 
-        var vm = {
+        const vm = {
             errors: errors,
             warnings: warnings,
             collectionMemberOptions: collectionMemberOptions,
