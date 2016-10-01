@@ -94,13 +94,14 @@ var styles4 = System.Globalization.NumberStyles.None;
 
             var functoidMaps = this.TransformDefinition.MapCollection.OfType<FunctoidMap>()
                 .Where(f => !string.IsNullOrWhiteSpace(f.Destination))
-                .Where(f => f.Destination.StartsWith(dd2.Destination + "."))
+                .Where(f => f.Destination.StartsWith(dd2.Destination + "-"))
                 .ToList();
             foreach (var map in functoidMaps)
             {
                 var fnct = map.GetFunctoid(this.TransformDefinition);
                 var assignmentCode = fnct.GenerateAssignmentCode();
-                code.AppendLinf("{0} = {1},", map.Destination.Replace(dd2.Destination + ".", ""), assignmentCode);
+                var destinationProperty = map.Destination.Replace(dd2.Destination + "-", "");
+                code.AppendLine($"{destinationProperty} = {assignmentCode},");
             }
 
             code.AppendLine("};");

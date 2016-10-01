@@ -61,33 +61,33 @@ namespace Bespoke.Sph.Domain
 
             var connection = this["connection"].GetFunctoid(this.TransformDefinition).GenerateAssignmentCode();
 
-            code.AppendLinf("object __result{0} = null;", this.Index);
-            code.AppendLinf("var __connectionString{0} =  @{1};", this.Index, connection);
+            code.AppendLine($"object __result{Index} = null;");
+            code.AppendLine($"var __connectionString{Index} =  @{connection};");
 
-            code.AppendLinf("const string __text{0} = \"{1}\";", this.Index, this.SqlText);
+            code.AppendLine($"const string __text{Index} = {SqlText.ToVerbatim()};");
 
 
-            code.AppendLinf("using(var __conn = new {1}(__connectionString{0}))", this.Index, typeof(SqlConnection).FullName);
-            code.AppendLinf("using(var __cmd = new {1}(__text{0},__conn))", this.Index, typeof(SqlCommand).FullName);
+            code.AppendLine($"using(var __conn{Index} = new System.Data.SqlClient.SqlConnection(__connectionString{Index}))");
+            code.AppendLine($"using(var __cmd{Index} = new System.Data.SqlClient.SqlCommand(__text{Index},__conn{Index}))");
             code.AppendLine("{");
             if (this.SqlText.Contains("@value1"))
-                code.AppendLine("   __cmd.Parameters.AddWithValue(\"@value1\"," + value1 + ".ToDbNull());");
+                code.AppendLine($"   __cmd{Index}.Parameters.AddWithValue(\"@value1\",{value1}.ToDbNull());");
             if (this.SqlText.Contains("@value2"))
-                code.AppendLine("   __cmd.Parameters.AddWithValue(\"@value2\"," + value2 + ".ToDbNull());");
+                code.AppendLine($"   __cmd{Index}.Parameters.AddWithValue(\"@value2\",{value2}.ToDbNull());");
             if (this.SqlText.Contains("@value3"))
-                code.AppendLine("   __cmd.Parameters.AddWithValue(\"@value3\"," + value3 + ".ToDbNull());");
+                code.AppendLine($"   __cmd{Index}.Parameters.AddWithValue(\"@value3\",{value3}.ToDbNull());");
             if (this.SqlText.Contains("@value4"))
-                code.AppendLine("   __cmd.Parameters.AddWithValue(\"@value4\"," + value4 + ".ToDbNull());");
+                code.AppendLine($"   __cmd{Index}.Parameters.AddWithValue(\"@value4\",{value4}.ToDbNull());");
 
 
-            code.AppendLine("       await __conn.OpenAsync();");
-            code.AppendLinf("       __result{0} = await __cmd.ExecuteScalarAsync();", this.Index);
+            code.AppendLine($"       await __conn{Index}.OpenAsync();");
+            code.AppendLine($"       __result{Index} = await __cmd{Index}.ExecuteScalarAsync();");
 
             var defaultValue = this.DefaultValue;
             if (this.OutputTypeName == "System.String, mscorlib")
                 defaultValue = $"\"{this.DefaultValue}\"";
 
-            code.AppendLinf("       if(__result{0} == DBNull.Value || null == __result{0}) __result{0} = {1};", this.Index, defaultValue);
+            code.AppendLine($"       if(__result{Index} == DBNull.Value || null == __result{Index}) __result{Index} = {defaultValue};");
 
             code.AppendLine("}");
 
