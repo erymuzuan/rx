@@ -106,6 +106,7 @@ namespace Bespoke.Sph.Domain
                     }}
                     yield return record;
                 }}
+                yield return record;
 
 ";
         }
@@ -143,6 +144,7 @@ namespace Bespoke.Sph.Domain
                     }} 
                     {childRecordCode}         
                 }}");
+            code.AppendLine("yield return record;");
 
             return code.ToString();
         }
