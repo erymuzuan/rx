@@ -43,6 +43,8 @@
                     <th>ValueAdded</th>
                     <th>SurchargeCode</th>
                     <th>ItemCategoryType</th>
+                    <th>Dimension</th>
+                    <th>Weight</th>
             </tr>
         </thead>
         <tbody data-bind="foreach :Consignments">
@@ -53,6 +55,8 @@
                     <td data-bind="text:ValueAdded"></td>
                     <td data-bind="text:SurchargeCode"></td>
                     <td data-bind="text:ItemCategoryType"></td>
+                    <td data-bind="text:VolumetricDimension"></td>
+                    <td data-bind="text:VolumetricWeight"></td>
             </tr>
         </tbody>
     </table>
