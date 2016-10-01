@@ -30,10 +30,13 @@ namespace Bespoke.Sph.Domain
             var fnt = this.GetFunctoid(this.TransformDefinition);
             var assigment = fnt.GenerateAssignmentCode();
             if (string.IsNullOrWhiteSpace(assigment)) return string.Empty;
-            if (assigment.Contains("Collection."))
+            if (assigment.Contains("-"))
                 return string.Empty;
-            if (this.Destination.Contains("Collection."))
+            if (this.Destination.Contains("-"))
+            {
+                // TODO : should go inside the loop functoid
                 return string.Empty;
+            }
 
             if (this.Destination.StartsWith("array"))
                 return $"dest.{Destination.Replace("array", "")}.AddRange({assigment});";
