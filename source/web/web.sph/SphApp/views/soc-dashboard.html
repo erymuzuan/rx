@@ -467,6 +467,10 @@ Dashboard Stats
 
   </style>
 
+  <h3 class="page-title">
+	SOC Middleware Dashboard
+</h3>
+
 <div id="entity-view-list" class="row" data-bind="foreach: views">
   <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
     <div data-bind="attr : {'class': 'dashboard-stat ' + $root.getMetronicColor(TileColour) }">
@@ -487,11 +491,17 @@ Dashboard Stats
   </div>
 </div>
 
-
 <div class="row">
 
   
+<h4 class="page-title">
+	      <a class="btn btn-link pull-left" title="Refresh event logs" data-bind="click: refreshEventLogs">
+          <i class="fa fa-refresh"></i>
+        <a>Event logs 
+</h4>
+
     <div class="col-lg-8">
+
         <table class="table table-striped" data-bind="
                filter :{path:'tbody>tr'},
             searchPaging: {

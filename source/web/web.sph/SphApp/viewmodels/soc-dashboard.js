@@ -12,25 +12,22 @@ function(context, logger, router) {
         charts = ko.observableArray([]),
         views = ko.observableArray([]),
         entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
-        logQuery = {"query":{"bool":{"must":[{"terms":{"source":["postsalesorders"]}}]}},"sort":[{"time":{"order":"desc"}}],"from":0,"size":20},       
+        logQuery = ko.observable({"query":{"bool":{"must":[{"terms":{"source":["postsalesorders"]}}]}},"sort":[{"time":{"order":"desc"}}],"from":0,"size":20}),       
         activate = function() {
-            var query = String.format("Name eq '{0}'", 'Product'),
+            var query = String.format("Name eq '{0}'", 'SalesOrder'),
                 tcs = new $.Deferred(),
-                chartsQuery = String.format("Entity eq 'Product' and IsDashboardItem eq 1"),
-                formsQuery = String.format("EntityDefinitionId eq 'product' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
-                surchageFormsQuery = String.format("EntityDefinitionId eq 'surcharge-add-on' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
+                chartsQuery = String.format("Entity eq 'SalesOrder' and IsDashboardItem eq 1"),
+                formsQuery = String.format("EntityDefinitionId eq 'SalesOrder' and IsPublished eq 1 and IsAllowedNewItem eq 1"),
                 edTask = context.loadOneAsync("EntityDefinition", query),
                 chartsTask = context.loadAsync("EntityChart", chartsQuery),
                 formsTask = context.loadAsync("EntityForm", formsQuery),
-                surchageFormsTask = context.loadAsync("EntityForm", surchageFormsQuery),
-                reportTask = context.loadAsync("ReportDefinition", "[DataSource.EntityName] eq 'Product'"),
-                viewsTask = $.get("/api/entity-views/product/dashboard"),//
-                salesOrderViewsTask =$.get("/api/entity-views/sales-order/dashboard"),
-                surchargeViewsTask =$.get("/api/entity-views/surcharge-add-on/dashboard") ;
+                reportTask = context.loadAsync("ReportDefinition", "[DataSource.EntityName] eq 'SalesOrder'"),
+                viewsTask = $.get("/api/entity-views/sales-order/dashboard"),
+                queryEndpointTask = context.loadAsync("QueryEndpoint", "Entity eq 'SalesOrder'");
 
 
-            $.when(edTask, formsTask, viewsTask, reportTask, chartsTask, salesOrderViewsTask, surchargeViewsTask, surchageFormsTask)
-                .done(function(b, formsLo, viewsLo, reportsLo, chartsLo, salesOrderViewsLo, surchargeViewsLo, surchageFormsLo) {
+            $.when(edTask, formsTask, viewsTask, reportTask, chartsTask, queryEndpointTask)
+                .done(function(b, formsLo, viewsLo, reportsLo, chartsLo, queryEndpointLo) {
                 entity(b);
                 var getFormCommand = function(v) {
                     return {
@@ -43,9 +40,7 @@ function(context, logger, router) {
                     };
                 },
                  formsCommands = formsLo.itemCollection.map(getFormCommand),
-                 surchargeFormsCommands = surchageFormsLo.itemCollection.map(getFormCommand);
-
-                 surchargeFormsCommands.forEach(v => formsCommands.push(v));
+                 queryEndpoints = queryEndpointLo.itemCollection;
 
 
                 charts(chartsLo.itemCollection);
@@ -54,48 +49,29 @@ function(context, logger, router) {
                  if(_.isArray(viewsLo) && _.isArray(viewsLo[0])){
                     views(viewsLo[0]);
                  }
-                 if(_.isArray(salesOrderViewsLo) && _.isArray(salesOrderViewsLo[0])){
-                     salesOrderViewsLo[0].forEach(v => views.push(v));
-                 }
-                 if(_.isArray(surchargeViewsLo) && _.isArray(surchargeViewsLo[0])){
-                     surchargeViewsLo[0].forEach(v => views.push(v));
-                 }
-                 //surchargeViewsLo
 
                 // get counts
-                _(views()).each(function(v) {
+                views().forEach(function(v) {
                     v.CountMessage = ko.observable("....");
                     let tm = setInterval(function() {
                         v.CountMessage(v.CountMessage() == "...." ? "..." : "....");
                     }, 250);
 
-                    let route = "products";
-                    if(v.Endpoint === "all-sales-orders"){
-                        route = "sales-orders";
-                    }
-                    if(v.Endpoint === "default-surcharges-and-addons"){
-                        route = "surcharges-addons";
-                    }
+                    const endpoint = queryEndpoints.find(x => ko.unwrap(x.Id) == v.Endpoint),
+                        temp = ko.unwrap(endpoint.Route),
+                        route = temp ? `/${temp}` : "";
                     
-                    $.get(`/api/${route}/_metadata/_count/`)
+                    $.get(`/api/sales-orders${route}/_metadata/_count/`)
                         .done(function(c) {
                         clearInterval(tm);
                         v.CountMessage(c._count);
                     });
                 });
 
-                vm.toolbar.commands(formsCommands);
+                //vm.toolbar.commands(formsCommands);
                 tcs.resolve(true);
             });
 
-            // TODO : get views
-
-            // TODO: get recent items
-
-            //TODO : reports
-
-            // TODO : tools
-            //http://i.imgur.com/OZ6mSFq.png
 
             return tcs.promise();
         },
@@ -154,10 +130,14 @@ function(context, logger, router) {
 
             }
             return "blue-madison";
+        },
+        refreshEventLogs = function(){
+            logQuery({"query":{"bool":{"must":[{"terms":{"source":["postsalesorders"]}}]}},"sort":[{"time":{"order":"desc"}}],"from":0,"size":20});
         };
 
     var vm = {
         isBusy: isBusy,
+        refreshEventLogs:refreshEventLogs,
         logQuery : logQuery,
         openDetails: openDetails,
         logs : ko.observableArray(),
