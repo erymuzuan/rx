@@ -56,6 +56,51 @@
         "SourceTypeName": "",
         "DestinationTypeName": "",
         "WebId": "8794e98c-0d32-4ca6-e879-e12cab70c631"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Consignments.ShiptoPartyPostcode",
+        "TypeName": "",
+        "Destination": "Body.Consignments-ReceiverPostCode",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "07c827f1-8c71-4b6a-b02f-d8920484274f"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Consignments.CountryCode",
+        "TypeName": "",
+        "Destination": "Body.Consignments-ReceiverCountryCode",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "3518a17b-e870-4a6d-a944-0d9031d45af3"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Consignments.ConNoteNumberParent",
+        "TypeName": "",
+        "Destination": "Body.Consignments-ConNoteNo",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "f0af0c7a-4d19-4f68-d56c-7f69bb72ed4e"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Consignments.Weight",
+        "TypeName": "",
+        "Destination": "Body.Consignments-ActualWeight",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "db183b25-c4c6-417a-8db5-ddc0868214a1"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.FunctoidMap, domain.sph",
+        "__uuid": "",
+        "Functoid": "d2e9ac36-f08f-48ab-ed05-62947ff7d03e",
+        "Destination": "Body.Consignments",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "d055ed6f-76ac-4229-9491-de82b7110db3"
       }
     ]
   },
@@ -74,9 +119,52 @@
         "OutputTypeName": null,
         "Label": null,
         "Comment": null,
-        "X": 249.0,
-        "Y": 314.0,
+        "X": 271.0,
+        "Y": 687.0,
         "WebId": "1705c1cf-84f2-44cc-92c7-cfd54e63e6f0"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.LoopingFunctoid, domain.sph",
+        "ArgumentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FunctoidArg, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.FunctoidArg, domain.sph",
+              "Name": "sourceCollection",
+              "TypeName": "System.Object, mscorlib",
+              "Description": null,
+              "Label": null,
+              "Comment": null,
+              "IsOptional": false,
+              "Functoid": "88c0f439-699b-42cd-a751-b58341dc587f",
+              "Constant": null,
+              "Default": null,
+              "WebId": null
+            }
+          ]
+        },
+        "Name": null,
+        "OutputTypeName": null,
+        "Label": null,
+        "Comment": null,
+        "X": 305.0,
+        "Y": 74.0,
+        "WebId": "d2e9ac36-f08f-48ab-ed05-62947ff7d03e"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SourceFunctoid, domain.sph",
+        "Field": "Consignments",
+        "ArgumentCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FunctoidArg, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "",
+        "OutputTypeName": "",
+        "Label": "",
+        "Comment": "",
+        "X": 0.0,
+        "Y": 0.0,
+        "WebId": "88c0f439-699b-42cd-a751-b58341dc587f"
       }
     ]
   },
@@ -108,6 +196,17 @@
         "IsStrongName": false,
         "RuntimeVersion": "v4.0.30319",
         "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
+        "Name": "DevV1.ItemCategory",
+        "FullName": "DevV1.ItemCategory, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "Version": "0.0.0.0",
+        "Location": "C:\\project\\work\\sph\\source\\web\\web.sph\\bin\\DevV1.ItemCategory.dll",
+        "IsGac": false,
+        "IsStrongName": false,
+        "RuntimeVersion": "v4.0.30319",
+        "WebId": null
       }
     ]
   },
@@ -120,6 +219,6 @@
   "Id": "soc-to-snb-sales-order",
   "CreatedDate": "2016-09-24T12:37:21.6298726+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-30T10:37:15.204781+08:00",
+  "ChangedDate": "2016-10-01T10:46:04.7585654+08:00",
   "WebId": "4b09fdb5-3707-4f5a-9e1d-bfeeae890776"
 }
