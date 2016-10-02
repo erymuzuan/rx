@@ -24,6 +24,21 @@ bespoke.sph.domain.Adapters.RestApiReceiveLocation = function (model) {
     v.Headers = ko.observableArray(),
     v["$type"] = "Bespoke.Sph.Integrations.Adapters.RestApiReceiveLocation, restapi.adapter";
 
+    v.InProcess.subscribe(function(rx) {
+        if (rx) {
+            v.SubmitEndpoint("-");
+            v.SubmitMethod("-");
+        } else {
+            v.SubmitEndpoint("");
+            v.SubmitMethod("");
+        }
+    });
+
+    if (v.InProcess()) {
+        v.SubmitEndpoint("-");
+        v.SubmitMethod("-");
+    }
+
     var context = require("services/datacontext");
     if (model && typeof model === "object") {
         for (let n in model) {
