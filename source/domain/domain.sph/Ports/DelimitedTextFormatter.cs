@@ -106,8 +106,6 @@ namespace Bespoke.Sph.Domain
                     }}
                     yield return record;
                 }}
-                yield return record;
-
 ";
         }
         private string GenerateProcessCodeDetailsWithTag(ReceivePort port)

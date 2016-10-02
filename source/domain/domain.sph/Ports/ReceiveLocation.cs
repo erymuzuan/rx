@@ -166,12 +166,14 @@ namespace Bespoke.Sph.Domain
         {
             var list = new List<Class>();
             var watcher = new Class { Name = Name.ToPascalCase(), Namespace = CodeNamespace, BaseClass = "IReceiveLocation, IDisposable" };
+            watcher.AddNamespaceImport<DateTime, DomainObject>();
             list.Add(watcher);
             await InitializeServiceClassAsync(watcher, port);
             watcher.AddMethod(GenerateStartMethod(port).Result);
             watcher.AddMethod(GenerateStopMethod(port).Result);
             watcher.AddMethod(GeneratePauseMethod(port).Result);
             watcher.AddMethod(GenerateResumeMethod(port).Result);
+            watcher.AddMethod(GenerateDisposeMethod(port).Result);
 
             var logger = this.GenerateLoggerClass(port);
             list.Add(logger);
@@ -183,18 +185,18 @@ namespace Bespoke.Sph.Domain
         protected virtual Class GenerateLoggerClass(ReceivePort port)
         {
             var logger = new Class { Name = "LocationLogger", Namespace = this.CodeNamespace, BaseClass = "ILogger" };
-            logger.AddNamespaceImport<DomainObject, DateTime>();
+            logger.AddNamespaceImport<DomainObject, DateTime, Task>();
 
             var code = new StringBuilder();
             code.AppendLine($@"
 
         public Task LogAsync(LogEntry entry)
         {{
-            return ObjectBuilder.LogAsync(entry);
+            return ObjectBuilder.GetObject<ILogger>().LogAsync(entry);
         }}
         public void Log(LogEntry entry)
         {{
-            ObjectBuilder.Log(entry);          
+            ObjectBuilder.GetObject<ILogger>().Log(entry);          
         }}
 
 ");
@@ -209,13 +211,17 @@ namespace Bespoke.Sph.Domain
         {
             return Task.FromResult(new Method { Code = "public bool Stop(){ return true;}" });
         }
-        protected virtual Task<Method> GenerateStopMethod(ReceivePort port)
+        protected virtual Task<Method> GenerateDisposeMethod(ReceivePort port)
         {
-            return Task.FromResult(new Method { Code = "public bool Stop(){ return true;}" });
+            return Task.FromResult(new Method { Code = "public void Dispose(){}" });
         }
         protected virtual Task<Method> GenerateStartMethod(ReceivePort port)
         {
             return Task.FromResult(new Method { Code = "public bool Start(){ return true;}" });
+        }
+        protected virtual Task<Method> GenerateStopMethod(ReceivePort port)
+        {
+            return Task.FromResult(new Method { Code = "public bool Stop(){ return true;}" });
         }
         protected virtual Task<Method> GeneratePauseMethod(ReceivePort port)
         {

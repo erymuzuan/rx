@@ -3313,8 +3313,8 @@
     <Content Include="SphApp\views\_field.mapping.header.delimitedtext.html" />
     <Content Include="SphApp\views\_field.mapping.uri.html" />
     <Content Include="SphApp\views\_field.mapping.header.html" />
-    <Content Include="SphApp\views\_formatter.wizard.sqlserverrecordset.html" />
-    <Content Include="SphApp\views\_fomatter.wizard.delimitedtext.html" />
+    <EmbeddedResource Include="SphApp\views\_formatter.wizard.sqlserverrecordset.html" />
+    <EmbeddedResource Include="SphApp\views\_formatter.wizard.delimitedtext.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>

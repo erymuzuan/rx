@@ -152,6 +152,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             errors(result.Errors);
                             logger.error("There are errors in your schema, !!!");
                         }
+                    }).fail(function(e) {
+                        const result = e.responseJSON;
+                        errors(result.Errors);
+                        logger.error("There are errors in your schema, !!!");
                     });
             },
             removeAsync = function () {

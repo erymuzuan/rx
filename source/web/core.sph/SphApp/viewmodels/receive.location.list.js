@@ -6,7 +6,7 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 
-define(["services/new-item", "services/datacontext", objectbuilders.logger, objectbuilders.app], function (addItemService, context, logger, app) {
+define(["services/new-item", "services/datacontext", objectbuilders.logger, objectbuilders.app, "viewmodels/_developers.log"], function (addItemService, context, logger, app, developersPanel) {
 
     const list = ko.observableArray(),
         errors = ko.observableArray(),
@@ -27,13 +27,13 @@ define(["services/new-item", "services/datacontext", objectbuilders.logger, obje
                 }).then(options);
 
         },
-            getDesigner = function ($type) {
-                const item = _(options()).find(v => ko.unwrap(v.location.$type) === ko.unwrap($type));
-                if (item.designer) {
-                    return item.designer;
-                }
-                return {};
-            },
+        getDesigner = function ($type) {
+            const item = _(options()).find(v => ko.unwrap(v.location.$type) === ko.unwrap($type));
+            if (item.designer) {
+                return item.designer;
+            }
+            return {};
+        },
         map = function (loc) {
             const designer = getDesigner(loc.$type),
                 port = _(portOptions()).find(x => ko.unwrap(x.Id) === ko.unwrap(loc.ReceivePort)),
@@ -120,25 +120,31 @@ define(["services/new-item", "services/datacontext", objectbuilders.logger, obje
                     if (result.success) {
                         logger.info(result.message);
                         errors.removeAll();
-                    } else {
-
-                        errors(result.Errors);
-                        logger.error("There are errors in your receive location, !!!");
                     }
+                }).fail(function (e) {
+                    const result = e.responseJSON;
+
+                    const logs = result.Errors.map(c =>({
+                        time: "",
+                        message:  `${c.Message} (${c.Line})`,
+                        severity: "Error",
+                        buildError :c
+
+                    }));
+                    developersPanel.list(logs);
                 });
         },
         removeLocations = function () {
             const tcs = new $.Deferred();
 
             app.showMessage("Are you sure you want to remove these Receive Locations", "Rx Developer", ["Yes", "No"])
-                .done(function(dialogResult) {
+                .done(function (dialogResult) {
                     if (dialogResult === "Yes") {
-
                         const tasks = selectedLocations()
                             .map(v => context.sendDelete(`/receive-locations/${ko.unwrap(v.Id)}`));
 
                         $.when.apply($, tasks)
-                            .done(function() {
+                            .done(function () {
                                 selectedLocations().forEach(v => list.remove(v));
                                 tcs.resolve(true);
                             });
@@ -151,7 +157,7 @@ define(["services/new-item", "services/datacontext", objectbuilders.logger, obje
         },
         package = function (location) {
             isBusy(true);
-            return context.get( `/receive-locations/${ko.unwrap(location.Id)}/package`)
+            return context.get(`/receive-locations/${ko.unwrap(location.Id)}/package`)
                 .then(function (result) {
                     isBusy(false);
                     if (result.success) {
@@ -176,7 +182,7 @@ define(["services/new-item", "services/datacontext", objectbuilders.logger, obje
             const tcs = new $.Deferred(),
                 tasks = selectedLocations().map(publish);
 
-            $.when(tasks).done(function() { tcs.resolve(true) });
+            $.when(tasks).done(function () { tcs.resolve(true) });
 
             return tcs.promise();
         };

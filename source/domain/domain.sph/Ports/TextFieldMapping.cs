@@ -81,7 +81,7 @@ namespace Bespoke.Sph.Domain
 
         protected virtual string GenerateReadNullableDateTime(string rawName)
         {
-            return $@"        return DateTime.ParseExact({rawName},{Converter.ToVerbatim()}, System.Globalization.CultureInfo.InvariantCulture);";
+            return $@"        return System.DateTime.ParseExact({rawName},{Converter.ToVerbatim()}, System.Globalization.CultureInfo.InvariantCulture);";
         }
 
         protected virtual string GenerateReadNullableString(string rawName)
@@ -133,7 +133,7 @@ namespace Bespoke.Sph.Domain
 
         protected virtual string GenerateReadDateTimeExpression(string rawName)
         {
-            return $"DateTime.ParseExact({rawName}, {Converter.ToVerbatim()}, System.Globalization.CultureInfo.InvariantCulture)";
+            return $"System.DateTime.ParseExact({rawName}, {Converter.ToVerbatim()}, System.Globalization.CultureInfo.InvariantCulture)";
         }
         protected virtual string GenerateReadStringExpression(string rawName)
         {
