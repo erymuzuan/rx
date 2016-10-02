@@ -12,7 +12,7 @@ bespoke.sph = bespoke.sph || {};
 bespoke.sph.domain = bespoke.sph.domain || {};
 
 bespoke.sph.domain.LogEntry = function (optionOrWebid) {
-    var model = {
+    const model = {
         severity: ko.observable(""),
         log: ko.observable(""),
         source: ko.observable(""),
@@ -49,7 +49,9 @@ bespoke.sph.domain.LogEntry = function (optionOrWebid) {
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.config],
 	function (context, logger, router, config) {
 	    "use strict";
-	    var outputLogsSetting = "output.logs.setting",
+
+	    let ws = null;
+	    const outputLogsSetting = "output.logs.setting",
             isBusy = ko.observable(false),
             mute = ko.observable(false),
 		    logs = ko.observableArray().extend({ rateLimit: 250 }),
@@ -106,17 +108,16 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		        });
 		        list(temp);
 		    },
-		    ws = null,
-		scroll = function () {
+		    scroll = function () {
 		    var elem = document.getElementById("developers-log-footer");
 		    elem.scrollTop = elem.scrollHeight;
 		},
-		clear = function () {
+		    clear = function () {
 		    logs([]);
 		    list([]);
 		    console.clear();
 		},
-        cleanup = function () {
+            cleanup = function () {
             setInterval(function () {
                 var temp = logs(),
                     count = temp.length,
@@ -131,7 +132,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 scroll();
             }, 10000);
         },
-	    runFilter = function (entry) {
+	        runFilter = function (entry) {
 
 	        var message = ko.unwrap(entry.message);
 	        if (entry.log === "WebServer") {
@@ -163,13 +164,13 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
 	        return true;
 	    },
-		start = function () {
-		    var tcs = new $.Deferred(),
-				support = "MozWebSocket" in window ? "MozWebSocket" : ("WebSocket" in window ? "WebSocket" : null);
+		    start = function () {
+		        var tcs = new $.Deferred(),
+				    support = "MozWebSocket" in window ? "MozWebSocket" : ("WebSocket" in window ? "WebSocket" : null);
 
-		    if (support === null) {
-		        logger.error("No WebSocket support for console notification");
-		    }
+		        if (support === null) {
+		            logger.error("No WebSocket support for console notification");
+		        }
 
 		    logs.push(new bespoke.sph.domain.LogEntry({ message: "* Connecting to server on port " + setting().port() + "....", time: "[" + moment().format("HH:mm:ss") + "]", severity: "Info" }));
 		    // create a new websocket and connect
@@ -283,14 +284,14 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
 		    return tcs.promise();
 		},
-        logDisplaySetting = function(prop, propName) {
-            var key = "developers.log." + propName;
-            prop(localStorage.getItem(key) === "true");
-            prop.subscribe(function (m) {
-                localStorage.setItem(key, m);
-            });
-        },
-		activate = function () {
+            logDisplaySetting = function(prop, propName) {
+                var key = "developers.log." + propName;
+                prop(localStorage.getItem(key) === "true");
+                prop.subscribe(function (m) {
+                    localStorage.setItem(key, m);
+                });
+            },
+		    activate = function () {
 
 		    logDisplaySetting(mute, "mute");
 		    logDisplaySetting(info, "info");
@@ -310,156 +311,173 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		            setting().port(parseInt(port));
 		        });
 		},
-		attached = function (view) {
-		    if (config.roles.indexOf("developers") < 0) {
-		        $("#developers-log-panel").hide();
-		        return;
-		    }
-		    start();
-		    error.subscribe(filter);
-		    warning.subscribe(filter);
-		    info.subscribe(filter);
-		    verbose.subscribe(filter);
-		    critical.subscribe(filter);
-		    log.subscribe(filter);
-		    debug.subscribe(filter);
-		    var self = this;
-		    logs.subscribe(function (changes) {
+            attached = function (view) {
+	            if (config.roles.indexOf("developers") < 0) {
+		            $("#developers-log-panel").hide();
+		            return;
+	            }
+	            start();
+	            error.subscribe(filter);
+	            warning.subscribe(filter);
+	            info.subscribe(filter);
+	            verbose.subscribe(filter);
+	            critical.subscribe(filter);
+	            log.subscribe(filter);
+	            debug.subscribe(filter);
+	            var self = this;
+	            logs.subscribe(function (changes) {
 
-		        // For this example, we'll just print out the change info
-		        _(changes).each(function (v) {
+		            // For this example, we'll just print out the change info
+		            _(changes).each(function (v) {
 
 
-		            if (v.status !== "added") {
-		                return;
-		            }
-		            var entry = v.value,
-		                severity = ko.unwrap(entry.severity);
-		            if (typeof self[severity.toLowerCase()] === "function" && self[severity.toLocaleLowerCase()]()) {
-		                list.push(entry);
-		            }
-		        });
+		                if (v.status !== "added") {
+		                    return;
+		                }
+		                var entry = v.value,
+		                    severity = ko.unwrap(entry.severity);
+		                if (typeof self[severity.toLowerCase()] === "function" && self[severity.toLocaleLowerCase()]()) {
+		                    list.push(entry);
+		                }
+		            });
 
-		    }, null, "arrayChange");
+	            }, null, "arrayChange");
 
-		    $("#developers-log-panel-collapse", view).on("click", function (e) {
-		        e.preventDefault();
-		        $("#developers-log-panel > div.tabbable").hide();
-		        $("#developers-log-panel").css("bottom", "0");
-		        $("#developers-log-panel").css("left", "0");
-		        $("#developers-log-panel").css("position", "fixed");
-		        $("#developers-log-panel").css("width", "100%");
-		        $("#developers-log-panel").css("background-color", "transparent");
+	            $("#developers-log-panel-collapse", view).on("click", function (e) {
+		            e.preventDefault();
+		            $("#developers-log-panel > div.tabbable").hide();
+		            $("#developers-log-panel").css("bottom", "0");
+		            $("#developers-log-panel").css("left", "0");
+		            $("#developers-log-panel").css("position", "fixed");
+		            $("#developers-log-panel").css("width", "100%");
+		            $("#developers-log-panel").css("background-color", "transparent");
 
-		        $("#content").css({
-		            "margin-left": "",
-		            "height": "",
-		            "overflow-y": "",
-		            "min-height": "",
-		            "max-height": ""
-		        });
+		            $("#content").css({
+		                "margin-left": "",
+		                "height": "",
+		                "overflow-y": "",
+		                "min-height": "",
+		                "max-height": ""
+		            });
 
-		    });
-		    var expand = function () {
-		        var dev = $("#developers-log-panel").height(),
-                    top = $(window).height(),
-                    height = top - dev - 90; //TODO: WHERE's the magic no coming from
-		        $("#content").css({
-		            "margin-left": 0,
-		            "height": "100%",
-		            "overflow-y": "scroll",
-		            "max-height": height,
-		            "min-height": height
-		        });
-		    };
-		    $("#developers-log-panel-expand", view).on("click", function (e) {
-		        e.preventDefault();
-		        $("#developers-log-panel > div.tabbable").show();
-		        //$("#developers-log-panel").css("bottom", "0px");
-		        $("#developers-log-panel").css("left", "");
-		        $("#developers-log-panel").css("position", "");
-		        $("#developers-log-panel").css("width", "");
-		        $("#developers-log-panel").css("background-color", "whitesmoke");
-		        $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+	            });
+	            var expand = function () {
+		            var dev = $("#developers-log-panel").height(),
+                        top = $(window).height(),
+                        height = top - dev - 90; //TODO: WHERE's the magic no coming from
+		            $("#content").css({
+		                "margin-left": 0,
+		                "height": "100%",
+		                "overflow-y": "scroll",
+		                "max-height": height,
+		                "min-height": height
+		            });
+	            };
+	            $("#developers-log-panel-expand", view).on("click", function (e) {
+		            e.preventDefault();
+		            $("#developers-log-panel > div.tabbable").show();
+		            //$("#developers-log-panel").css("bottom", "0px");
+		            $("#developers-log-panel").css("left", "");
+		            $("#developers-log-panel").css("position", "");
+		            $("#developers-log-panel").css("width", "");
+		            $("#developers-log-panel").css("background-color", "whitesmoke");
+		            $("html, body").animate({ scrollTop: $(document).height() }, 1000);
 
-		        expand();
-
-		    }).trigger("click");
-		    $(window).resize(function () {
-		        if ($("#developers-log-panel > div.tabbable:visible").length > 0) {
 		            expand();
-		        }
-		    });
 
-		    $(document).on("keyup", function (e) {
-		        if (e.shiftKey & e.ctrlKey && (e.keyCode === 76)) {
-		            clear();
-		        }
-		    });
+	            }).trigger("click");
+	            $(window).resize(function () {
+		            if ($("#developers-log-panel > div.tabbable:visible").length > 0) {
+		                expand();
+		            }
+	            });
+
+	            $(document).on("keyup", function (e) {
+		            if (e.shiftKey & e.ctrlKey && (e.keyCode === 76)) {
+		                clear();
+		            }
+	            });
 
 
-		},
-		stop = function () {
-		    ws.close();
-		},
-		showSettingDialog = function () {
-		    require(["viewmodels/output.setting.dialog", "durandal/app"], function (dialog, app2) {
-		        dialog.setting(setting());
+            },
+            stop = function () {
+	            ws.close();
+            },
+            showSettingDialog = function () {
+	            require(["viewmodels/output.setting.dialog", "durandal/app"], function (dialog, app2) {
+		            dialog.setting(setting());
 
-		        app2.showDialog(dialog)
-                    .done(function (result) {
-                        if (!result) return;
-                        if (result === "OK") {
-                            setting(dialog.setting());
-                            localStorage.setItem(outputLogsSetting, ko.toJSON(dialog.setting));
-                        }
-                    });
-
-		    });
-		},
-	    viewStackTrace = function (log) {
-	        require(["viewmodels/error.log.detail.dialog", "durandal/app"], function (dialog, app2) {
-	            dialog.log(log);
-
-	            app2.showDialog(dialog)
-                    .done(function (result) {
-                        if (!result) return;
-                        if (result === "OK") {
-                        }
-                    });
-
-	        });
-	    },
-	    clearLogsFilter = function () {
-
-	    },
-	        showControlCenter = function () {
-	            ws.send("POST /bring-to-view:");
-	        },
-	        deployOutputFiles = function () {
-	            var files = _(ko.unwrap(outputFiles)).map(function (v) { return v.outputFile; });
-	            ws.send("POST /deploy:" + files.join(";"));
-	            outputFiles([]);
-
-	            // once deployed, wait few seconds and issue a web request to restart the server
-	            var query = "Key eq 'Departments'",
-                    tcs = new $.Deferred();
-	            var refresh = setInterval(function () {
-	                context.loadAsync("Setting", query)
-                        .fail(function () {
-
-                        })
-                        .done(function () {
-                            clearInterval(refresh);
-                            if (tcs.state() !== "resolved") {
-                                start().done(tcs.resolve);
+		            app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                setting(dialog.setting());
+                                localStorage.setItem(outputLogsSetting, ko.toJSON(dialog.setting));
                             }
                         });
 
-	            }, 2000);
-	            return tcs.promise();
+	            });
+            },
+            viewFile = function (e) {
+                const file = e.FileName || e;
+                const line = e.Line || 1;
+                const params = [
+                    `height=${screen.height}`,
+                    `width=${screen.width}`,
+                    "toolbar=0",
+                    "location=0",
+                    "fullscreen=yes"
+                ].join(",");
+                const editor = window.open(`/sph/editor/file?id=${file.replace(/\\/g, "/")}&line=${line}`, "_blank", params);
+                editor.moveTo(0, 0);
+            },
+            viewStackTrace = function (logEntry) {
+                if (typeof logEntry.buildError === "object") {
+                    viewFile(logEntry.buildError);
+                    return;
+                }
+	            require(["viewmodels/error.log.detail.dialog", "durandal/app"], function (dialog, app2) {
+	                dialog.log(logEntry);
 
-	        },
+	                app2.showDialog(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                            }
+                        });
+
+	            });
+            },
+            clearLogsFilter = function () {
+
+            },
+	        showControlCenter = function () {
+	                ws.send("POST /bring-to-view:");
+	            },
+	        deployOutputFiles = function () {
+	                var files = _(ko.unwrap(outputFiles)).map(function (v) { return v.outputFile; });
+	                ws.send("POST /deploy:" + files.join(";"));
+	                outputFiles([]);
+
+	                // once deployed, wait few seconds and issue a web request to restart the server
+	                var query = "Key eq 'Departments'",
+                        tcs = new $.Deferred();
+	                var refresh = setInterval(function () {
+	                    context.loadAsync("Setting", query)
+                            .fail(function () {
+
+                            })
+                            .done(function () {
+                                clearInterval(refresh);
+                                if (tcs.state() !== "resolved") {
+                                    start().done(tcs.resolve);
+                                }
+                            });
+
+	                }, 2000);
+	                return tcs.promise();
+
+	            },
 	        selectAllOutputFiles = function () {
 
 	        },
@@ -467,21 +485,22 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 	            outputFiles([]);
 	        };
 
-	    filterText.subscribe(function (text) {
-	        if (!text) {
-	            list(logs());
-	            return;
-	        }
-	        var temp = _(logs()).filter(function (v) {
-	            return ko.unwrap(v.message).toLowerCase().indexOf(text.toLowerCase()) > -1;
-	        });
-	        list(temp);
-	    });
+            filterText.subscribe(function (text) {
+	            if (!text) {
+	                list(logs());
+	                return;
+	            }
+	            var temp = _(logs()).filter(function (v) {
+	                return ko.unwrap(v.message).toLowerCase().indexOf(text.toLowerCase()) > -1;
+	            });
+	            list(temp);
+            });
 
 	    setTimeout(cleanup, 500);
-	    var vm = {
+	    const vm = {
 	        isBusy: isBusy,
 	        mute: mute,
+	        viewFile: viewFile,
 	        visible: config.roles.indexOf("developers") > -1,
 	        list: list,
 	        subscribers: subscribers,
