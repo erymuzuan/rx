@@ -183,3 +183,4 @@ source/web/core.sph/bower_components/
 /bin/database
 /bin/services
 /bin/packages
+/snippets/web.api.receive.location/web.api.receive.location
