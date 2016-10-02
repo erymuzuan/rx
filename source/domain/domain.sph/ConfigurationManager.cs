@@ -120,7 +120,7 @@ namespace Bespoke.Sph.Domain
 
         }
 
-        public static ReferencedAssembly GetPackage(string name, string version = "", string framework="net45")
+        public static ReferencedAssembly GetPackage(string name, string version = "", string framework = "net45", string assemblyName = "")
         {
             var folder = $"{GetPath("packages", "packages")}";
             if (!Directory.Exists(folder)) return null;
@@ -128,6 +128,8 @@ namespace Bespoke.Sph.Domain
             if (null == lib) return null;
             if (string.IsNullOrWhiteSpace(version))
                 version = Path.GetDirectoryName(lib)?.Replace(name + ".", "");
+
+            if (string.IsNullOrWhiteSpace(assemblyName)) assemblyName = name;
 
             var package = new ReferencedAssembly
             {
@@ -137,7 +139,7 @@ namespace Bespoke.Sph.Domain
                 RuntimeVersion = framework,
                 FullName = "",
                 IsGac = false,
-                Location = $@"{folder}\{name}.{version}\lib\{framework}\{name}.dll"
+                Location = $@"{folder}\{name}.{version}\lib\{framework}\{assemblyName}.dll"
             };
 
             return package;
