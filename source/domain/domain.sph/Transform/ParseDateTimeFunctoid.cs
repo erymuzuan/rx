@@ -88,7 +88,7 @@ namespace Bespoke.Sph.Domain
 
         public override string GenerateAssignmentCode()
         {
-            return string.Format("DateTime.ParseExact(value{0}, format{0}, culture{0}, style{0})", this.Index);
+            return string.Format("System.DateTime.ParseExact(value{0}, format{0}, culture{0}, style{0})", this.Index);
         }
         public override string GetEditorView()
         {
