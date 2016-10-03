@@ -2528,7 +2528,7 @@
                           "IsExcludeInAll": false,
                           "Boost": 0,
                           "FullName": null,
-                          "PropertyAttribute": "[JsonProperty(\"Length\")]",
+                          "PropertyAttribute": "[JsonProperty(\"Width\")]",
                           "MemberCollection": {
                             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                             "$values": []
@@ -2537,10 +2537,10 @@
                             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
                             "$values": []
                           },
-                          "Name": "Length",
+                          "Name": "Width",
                           "AllowMultiple": false,
                           "DefaultValue": null,
-                          "WebId": "3143c7d8-3c94-46d3-893b-699211daae36"
+                          "WebId": "6bc63f79-68e1-4e54-bcbb-b8ed8b47dd35"
                         },
                         {
                           "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
@@ -2576,7 +2576,7 @@
                           "IsExcludeInAll": false,
                           "Boost": 0,
                           "FullName": null,
-                          "PropertyAttribute": "[JsonProperty(\"Width\")]",
+                          "PropertyAttribute": "[JsonProperty(\"Length\")]",
                           "MemberCollection": {
                             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
                             "$values": []
@@ -2585,10 +2585,10 @@
                             "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
                             "$values": []
                           },
-                          "Name": "Width",
+                          "Name": "Length",
                           "AllowMultiple": false,
                           "DefaultValue": null,
-                          "WebId": "6bc63f79-68e1-4e54-bcbb-b8ed8b47dd35"
+                          "WebId": "3143c7d8-3c94-46d3-893b-699211daae36"
                         },
                         {
                           "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
@@ -3403,6 +3403,6 @@
   "Id": "snb-web-new-account",
   "CreatedDate": "2016-09-11T09:12:56.5762714+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-10-03T16:06:08.1933636+08:00",
+  "ChangedDate": "2016-10-04T06:21:26.7607875+08:00",
   "WebId": "9f1e0de5-ac68-4f43-a0dc-68a340e00b84"
 }
