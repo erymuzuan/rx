@@ -12,12 +12,12 @@
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, "services/new-item", "services/app"],
   function (context, logger, router, system, newItemService, app) {
       "use strict";
-      var triggers = ko.observableArray(),
+      let solutionExplorerToggleButton = null;
+      const triggers = ko.observableArray(),
         selected = ko.observable(),
         wds = ko.observableArray(),
         transforms = ko.observableArray(),
         isBusy = ko.observable(true),
-        solutionExplorerToggleButton = null,
         activate = function () {
             return true;
         },
@@ -180,6 +180,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             $(document).on("keyup", function (e) {
                 if (e.ctrlKey && (e.keyCode === 188 || e.keyCode === 192)) {
                     solutionExplorerToggleButton.trigger("click");
+                    if ($("#search-solution-tree").is(":visible")) {
+                        $("#search-solution-tree").focus().select();
+                    }
                 }
             });
 
@@ -196,7 +199,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         };
 
-      var vm = {
+      const vm = {
           attached: attached,
           click: click,
           singleClick: singleClick,
@@ -207,8 +210,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
           activate: activate,
           newItemService: newItemService
       };
-
-
+      
       return vm;
 
   });
