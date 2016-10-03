@@ -19,7 +19,12 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
     ko.bindingHandlers.restApiAdapterTree = {
         init: function (element, valueAccessor) {
 
-            var system = require(objectbuilders.system),
+            let tree = null,
+                nullableSubscription = null,
+                allowMultipleSubscription = null,
+                nameSubscription = null,
+                typeNameSubscription = null;
+            const system = require(objectbuilders.system),
                 app = require(objectbuilders.app),
                 value = valueAccessor(),
                 adapter = value.adapter,
@@ -47,7 +52,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                     }],
                 computeNodeText = function (mbr) {
                     const field = ko.toJS(mbr),
-                        multiple = field.AllowMultiple ? "<i class='fa fa-list-ul column-icon' style='margin-right:5px;color:green' title='Allow multiple'></i> " : "",
+                        multiple = field.AllowMultiple ? "<i class='fa fa-ellipsis-h column-icon' style='margin-right:5px;color:darkorange' title='Allow multiple'></i> " : "",
                         nullable = field.IsNullable ? "<i class='fa fa-question column-icon' style='margin-right:5px;color:green' title='Nullalbe'></i> " : "",
                         extraQueryString = field.$type === "Bespoke.Sph.Integrations.Adapters.QueryStringMember, restapi.adapter" ? " <i class='fa fa-info-circle column-icon' style='margin-left:5px;color:orange' title='Extra query string parameter added by user'></i>" : "",
                         extraHeader = field.$type === "Bespoke.Sph.Integrations.Adapters.HttpHeaderMember, restapi.adapter" ? " <i class='fa fa-plus-circle column-icon' style='margin-left:5px;color:orange' title='Extra header added by user'></i>" : "",
@@ -67,9 +72,6 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                         }
                     });
                 },
-                nullableSubscription = null,
-                nameSubscription = null,
-                typeNameSubscription = null,
                 mapTable = function (v) {
                     const table = ko.toJS(v),
                         columns = _(v.ColumnCollection()).map(function (col) {
@@ -130,8 +132,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
 
                     const createNode = function (t) {
                         const complex = ko.unwrap(t.$type) === "Bespoke.Sph.Domain.ComplexMember, domain.sph",
-                            allowMultiple = ko.unwrap(t.AllowMultiple),
-                            icon = complex ? (allowMultiple ? "array" : "object") : ko.unwrap(t.TypeName),
+                            icon = complex ? "object" : ko.unwrap(t.TypeName),
                             members = _(t.MemberCollection()).map(createNode),
                             webid = ko.unwrap(t.WebId) || system.guid();
 
@@ -140,7 +141,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
 
                         return {
                             id: webid,
-                            text: complex ? t.Name() : computeNodeText(t),
+                            text: computeNodeText(t),
                             type: icon,
                             data: t,
                             children: members
@@ -171,7 +172,6 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                         }]
                     };
                 },
-                tree = null,
                 loadJsTree = function () {
                     jsTreeData[0].children = adapter().TableDefinitionCollection().map(mapTable);
                     jsTreeData[1].children = adapter().OperationDefinitionCollection().map(mapOperation);
@@ -182,7 +182,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                             if (typeof member !== "function") {
                                 return;
                             }
-                            disposeSubscriptions(nameSubscription, typeNameSubscription, nullableSubscription);
+                            disposeSubscriptions(nameSubscription, typeNameSubscription, nullableSubscription, allowMultipleSubscription);
 
                             const $node = selected.node,
                                  field = $node.data,
@@ -214,6 +214,10 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                 // type
                                 if (ko.isObservable(field.TypeName)) {
                                     typeNameSubscription = field.TypeName.subscribe(t => ref.set_type($node, t));
+                                }
+                                // allow multiple
+                                if (ko.isObservable(field.AllowMultiple)) {
+                                    allowMultipleSubscription = field.AllowMultiple.subscribe(nodeTextChanged);
                                 }
                             }
 
@@ -556,9 +560,9 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
 
             adapter().TableDefinitionCollection.subscribe(function (changes) {
                 console.log(changes);
-                var tables = _(changes).filter(function (c) {
-                    return c.status === "added";
-                }),
+                const  tables = _(changes).filter(function (c) {
+                            return c.status === "added";
+                    }),
                     children = _(tables).map(function (c) {
                         return mapTable(c.value);
                     });
@@ -573,9 +577,9 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
 
             adapter().OperationDefinitionCollection.subscribe(function (changes) {
                 console.log(changes);
-                var operations = _(changes).filter(function (c) {
-                    return c.status === "added";
-                }),
+                const operations = _(changes).filter(function (c) {
+                        return c.status === "added";
+                    }),
                     children = _(operations).map(function (c) {
                         return mapOperation(c.value);
                     });
