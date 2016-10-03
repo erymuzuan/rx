@@ -128,6 +128,24 @@
         "SourceTypeName": "",
         "DestinationTypeName": "",
         "WebId": "c7d0fd1a-7817-4f93-ca9b-0a75dc6b92c3"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Consignments.MpsIndicator",
+        "TypeName": "",
+        "Destination": "Body.Consignments-MpsIndicator",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "10cd97ae-30ba-422d-8831-2b4681c89dae"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "Consignments.ConNoteNumberChild",
+        "TypeName": "",
+        "Destination": "Body.Consignments-ChildConNoteNo",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "2b361cbd-7144-4f0e-ed9b-5caa8b61eabb"
       }
     ]
   },
@@ -359,6 +377,6 @@
   "Id": "soc-to-snb-sales-order",
   "CreatedDate": "2016-09-24T12:37:21.6298726+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-10-01T18:44:50.6065426+08:00",
+  "ChangedDate": "2016-10-03T11:21:51.4282008+08:00",
   "WebId": "4b09fdb5-3707-4f5a-9e1d-bfeeae890776"
 }

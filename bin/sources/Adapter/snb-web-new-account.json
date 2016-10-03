@@ -2469,6 +2469,54 @@
                           "AllowMultiple": false,
                           "DefaultValue": null,
                           "WebId": "6bc63f79-68e1-4e54-bcbb-b8ed8b47dd35"
+                        },
+                        {
+                          "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+                          "TypeName": "System.String, mscorlib",
+                          "IsNullable": true,
+                          "IsNotIndexed": false,
+                          "IsAnalyzed": false,
+                          "IsFilterable": false,
+                          "IsExcludeInAll": false,
+                          "Boost": 0,
+                          "FullName": "",
+                          "PropertyAttribute": null,
+                          "MemberCollection": {
+                            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                            "$values": []
+                          },
+                          "FieldPermissionCollection": {
+                            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                            "$values": []
+                          },
+                          "Name": "MpsIndicator",
+                          "AllowMultiple": false,
+                          "DefaultValue": null,
+                          "WebId": "59c49e05-26ec-431b-aabe-78b40d84c653"
+                        },
+                        {
+                          "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+                          "TypeName": "System.String, mscorlib",
+                          "IsNullable": true,
+                          "IsNotIndexed": false,
+                          "IsAnalyzed": false,
+                          "IsFilterable": false,
+                          "IsExcludeInAll": false,
+                          "Boost": 0,
+                          "FullName": "",
+                          "PropertyAttribute": null,
+                          "MemberCollection": {
+                            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                            "$values": []
+                          },
+                          "FieldPermissionCollection": {
+                            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                            "$values": []
+                          },
+                          "Name": "ChildConNoteNo",
+                          "AllowMultiple": false,
+                          "DefaultValue": null,
+                          "WebId": "62b82683-652d-40a6-8473-637cb8721d0c"
                         }
                       ]
                     },
@@ -3355,6 +3403,6 @@
   "Id": "snb-web-new-account",
   "CreatedDate": "2016-09-11T09:12:56.5762714+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-10-01T18:42:09.6464787+08:00",
+  "ChangedDate": "2016-10-03T11:56:40.9384055+08:00",
   "WebId": "9f1e0de5-ac68-4f43-a0dc-68a340e00b84"
 }
