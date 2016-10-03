@@ -3189,6 +3189,59 @@ bespoke.sph.domain.DelimitedTextFormatter = function (optionOrWebid) {
 
 
 
+bespoke.sph.domain.SqlServerRecordSetFormatter = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.TextFormatter(optionOrWebid);
+
+    v.RecordReaderIndex = ko.observable(0);
+
+    v.Server = ko.observable("");
+
+    v.Database = ko.observable("");
+
+    v.Trusted = ko.observable(false);
+
+    v.UserId = ko.observable("");
+
+    v.Password = ko.observable("");
+
+    v.Query = ko.observable("");
+
+    v["$type"] = "Bespoke.Sph.Domain.SqlServerRecordSetFormatter, domain.sph";
+
+    v.SqlServerRecordSetCollection = ko.observableArray([]);
+
+    var context = require("services/datacontext");
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                // array
+                if (ko.isObservable(v[n]) && 'push' in v[n]) {
+                    var values = optionOrWebid[n].$values || optionOrWebid[n];
+                    if (_(values).isArray()) {
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
+                        continue;
+                    }
+                }
+                if (ko.isObservable(v[n])) {
+                    v[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.SqlServerRecordSetFormatterPartial) {
+        return _(v).extend(new bespoke.sph.domain.SqlServerRecordSetFormatterPartial(v, optionOrWebid));
+    }
+    return v;
+};
+
+
+
 bespoke.sph.domain.JsonTextFormatter = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.TextFormatter(optionOrWebid);
@@ -3486,6 +3539,49 @@ bespoke.sph.domain.UriFieldMapping = function (optionOrWebid) {
         return _(v).extend(new bespoke.sph.domain.UriFieldMappingPartial(v, optionOrWebid));
     }
     return v;
+};
+
+
+
+bespoke.sph.domain.SqlServerRecordSet = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.SqlServerRecordSet, domain.sph",
+        FieldName: ko.observable(""),
+        SqlServerDataType: ko.observable(""),
+        TypeName: ko.observable(""),
+        SampleValue: ko.observable(""),
+        IsNullable: ko.observable(false),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    },
+    context = require("services/datacontext");
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                if (ko.isObservable(model[n]) && 'push' in model[n]) {
+                    var values = optionOrWebid[n].$values || optionOrWebid[n];
+                    if (_(values).isArray()) {
+                        model[n](_(values).map(function (ai) { return context.toObservable(ai); }));
+                        continue;
+                    }
+                }
+
+                if (ko.isObservable(model[n])) {
+                    model[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.SqlServerRecordSetPartial) {
+        return _(model).extend(new bespoke.sph.domain.SqlServerRecordSetPartial(model, optionOrWebid));
+    }
+    return model;
 };
 
 

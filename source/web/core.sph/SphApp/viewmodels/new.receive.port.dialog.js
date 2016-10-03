@@ -15,11 +15,11 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
     function (dialog, context, system) {
 
         const port = ko.observable(new bespoke.sph.domain.ReceivePort({
-            TextFormatter: {
-                Name: ko.observable(),
-                SampleStoreId: ko.observable()
-            }
-        })),
+                TextFormatter: {
+                    Name: ko.observable(),
+                    SampleStoreId: ko.observable()
+                }
+            })),
             delimiterOptions = ko.observableArray([
             {
                 text: "csv(,)",
@@ -41,6 +41,11 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
             isPositional = ko.observable(false),
             activate = function () {
                 return true;
+            },
+            attached = function(view) {
+                setTimeout(function () {
+                    $("#port-name").focus();
+                }, 500);
             },
             backEnable = ko.computed(function () {
                 return ko.unwrap(page) > 1;
@@ -86,6 +91,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
         const vm = {
             delimiterOptions : delimiterOptions,
             activate: activate,
+            attached: attached,
             port: port,
             id: id,
             backClick: backClick,
