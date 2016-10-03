@@ -27,6 +27,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                 searchInput = $(ko.unwrap(value.searchTextBox)),
                 addOperation = value.addOperation,
                 member = value.selected,
+                crumbs = value.crumbs || ko.observalbe(),
                 jsTreeData = [{
                     id: "table-node",
                     text: "Resources",
@@ -54,7 +55,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                         bracket = displayName ? " [" : "",
                         bracket2 = displayName ? "]" : "";
 
-                    return  multiple +  nullable + field.Name + bracket + displayName + bracket2 + extraHeader + extraQueryString;
+                    return multiple + nullable + field.Name + bracket + displayName + bracket2 + extraHeader + extraQueryString;
 
 
                 },
@@ -187,6 +188,13 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                  field = $node.data,
                                  ref = $(element).jstree(true),
                                  $index = $node.original.$index;
+                            const crumbs1 = selected.node.parents
+                                .reverse()
+                                .map(x =>ref.get_node(x))
+                                .filter(x => typeof x.text === "string")
+                                .map(x => x.text)
+                                .reduce((trails, cur) => `${trails} &gt; ${cur}`) + ` &gt; ${$node.text}`;
+                            crumbs(crumbs1);
                             if ($node.type === "default") {
                                 return;
                             }
@@ -265,6 +273,47 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                 "items": function ($node) {
                                     console.log($node);
                                     const ref = tree,
+                                        simpleMenu = {
+                                            label: "Add Simple Child",
+                                            action: function () {
+                                                const child = new bespoke.sph.domain.SimpleMember({ WebId: system.guid(), TypeName: "System.String, mscorlib", Name: "Member_Name", FullName: "" }),
+                                                    parent = $(element).jstree("get_selected", true),
+                                                    mb = parent[0].data,
+                                                    newNode = { state: "open", type: "System.String, mscorlib", text: "Member_Name", data: child };
+
+                                                child.FullName = ko.observable("");
+                                                const nn = ref.create_node($node, newNode);
+                                                mb.MemberCollection.push(child);
+
+                                                ref.deselect_node([parent]);
+                                                ref.select_node(nn);
+
+                                                return true;
+
+
+                                            }
+                                        },
+                                    complexChildMenu = {
+                                        label: "Add Complex Child",
+                                        action: function () {
+                                            const child = new bespoke.sph.domain.ComplexMember({ WebId: system.guid(), Name: "Member_Name" }),
+                                                parent = $(element).jstree("get_selected", true),
+                                                mb = parent[0].data,
+                                                newNode = { state: "open", type: "Bespoke.Sph.Domain.ComplexMember, domain.sph", text: "Member_Name", data: child };
+
+
+
+                                            const nn = ref.create_node($node, newNode);
+                                            mb.MemberCollection.push(child);
+
+                                            ref.deselect_node([parent]);
+                                            ref.select_node(nn);
+
+                                            return true;
+
+
+                                        }
+                                    },
                                         removeMenu = {
                                             label: "Remove",
                                             action: function () {
@@ -363,9 +412,9 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                     if ($node.id.startsWith("operation-")) {
                                         return [{
                                             label: "Remove",
-                                            action: function() {
+                                            action: function () {
                                                 app.showMessage("Are you sure you want to remove this endpoint", "RX Developers", ["Yes", "No"])
-                                                    .done(function(dialogResult) {
+                                                    .done(function (dialogResult) {
                                                         if (dialogResult === "Yes") {
                                                             adapter().OperationDefinitionCollection.remove(data);
                                                             // remove the node
@@ -382,6 +431,18 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                     if (dataJs.$type === "Bespoke.Sph.Integrations.Adapters.HttpHeaderMember, restapi.adapter") {
                                         return [removeMenu];
                                     }
+                                    if (dataJs.$type === "Bespoke.Sph.Domain.SimpleMember, domain.sph") {
+                                        return [removeMenu];
+                                    }
+
+                                    if (dataJs.Name === "Body") {
+                                        return [simpleMenu, complexChildMenu];
+                                    }
+                                    if (dataJs.$type === "Bespoke.Sph.Domain.ComplexMember, domain.sph") {
+                                        return [simpleMenu, complexChildMenu, removeMenu];
+                                    }
+
+
                                     return [];
 
                                 }
@@ -467,7 +528,6 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                 }
                             },
                             "search": {
-                                "case_sensitive": false,
                                 "show_only_matches": true,
                                 "show_only_matches_children": true,
                                 "search_callback": function (text, node) {
@@ -556,19 +616,18 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                 }
             });
 
-            var clearSearch = $(`<a class="pull-right" id="clear-search" href="javascript:;" style="margin-top: -27px;margin-right: 8px" title="Clear search text">
+            const clearSearch = $(`<a class="pull-right" id="clear-search" href="javascript:;" style="margin-top: -27px;margin-right: 8px" title="Clear search text">
                 <i class="fa fa-times" style="color: grey"></i>
                 </a>`),
                 search = _.debounce(function () {
-                    var text = $(this).val();
-
+                    const text = searchInput.val();
                     if (!text) {
                         $(element).jstree("clear_search");
-                    } else {
-                        var f = `""${text}""`;
-                        console.log(f);
-                        $(element).jstree("search", f);
+                        return;
                     }
+                    const f = `""${text}""`;
+                    console.log(f);
+                    $(element).jstree("search", f);
                 }, 400);
             clearSearch.click(function () {
                 $(element).jstree("clear_search");
@@ -579,5 +638,5 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
 
         }
     };
-    
+
 });

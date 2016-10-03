@@ -41,307 +41,297 @@
 </div>
 
 
+<div></div>
 <div class="row">
     <div class="row col-lg-8 col-md-8">
-
-        <div class="col-lg-8 col-md-7 col-sm-6">
-            <div class="form-group">
-                <label class="control-label" for="search-textbox-restapi"></label>
-                <input type="search" placeholder="Search...." id="search-textbox-restapi" class="form-control" />
-
-            </div>
-            <div id="table-tree" style="overflow-y: scroll; min-height: 400px"
-                 data-bind="restApiAdapterTree :{ adapter:adapter, selected: $root.selected, addOperation:$root.addOperation, searchTextBox :'#search-textbox-sqladapter'}">
-                <h3>This is where the tre view goes</h3>
-            </div>
-        </div>
-
-
-
-        <div class="col-lg-4 col-md-5 col-sm-6" data-bind="with:selected ">
-            <!-- ko if : typeof WebId === "function" -->
-            <div class="form-group">
-                <small data-bind="text:WebId"></small>
-            </div>
-            <!-- /ko -->
-            <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Integrations.Adapters.RestApiOperationDefinition, restapi.adapter" -->
-            <div class="form-group">
-                <label for="op-name">Name</label>
-                <input class="form-control" id="op-name" name="member.name" type="text" required data-bind="value: Name" />
-            </div>
-            <div class="form-group">
-                <label for="complex-member-name">Http Method</label>
-                <input class="form-control" id="op-http-method" readonly="readonly" name="op-http-method" type="text" required data-bind="value: HttpMethod" />
-            </div>
-            <div class="form-group">
-                <label for="op-base-address">Url</label>
-                <textarea class="form-control" id="op-base-address" readonly="readonly" name="op-base-address" type="text" required data-bind="value: BaseAddress" ></textarea>
-            </div>
-
-            <!-- /ko -->
-            <!-- ko if : typeof ErrorRetry === "function" -->
-            <h6>Error retries</h6>
-            <form data-bind="with:ErrorRetry">
-                <!-- ko ifnot : ko.isObservable($parent.IsEnabled) -->
+        <div class="row"><div class="form-group">
+    <small class="label label-info" data-bind="html:$root.crumbs"></small>
+</div></div>
+        <div class="row">
+            <div class="col-lg-8 col-md-7 col-sm-6">
                 <div class="form-group">
-                    <label class="control-label">
-                        Enable
-                        <input type="checkbox" data-bind="checked:IsEnabled" />
-                    </label>
+                    <label class="control-label" for="search-textbox-restapi"></label>
+                    <input type="search" placeholder="Search...." id="search-textbox-restapi" class="form-control" />
+
                 </div>
+                <div id="table-tree" style="overflow-y: scroll; min-height: 400px;max-height: 420px"
+                     data-bind="restApiAdapterTree :{ adapter:adapter, selected: $root.selected, addOperation:$root.addOperation, searchTextBox :'#search-textbox-restapi' , crumbs : $root.crumbs}">
+                    <h3>This is where the tre view goes</h3>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-5 col-sm-6" data-bind="with:selected ">
+
+                <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Integrations.Adapters.RestApiOperationDefinition, restapi.adapter" -->
+                <div class="form-group">
+                    <label for="op-name">Name</label>
+                    <input class="form-control" id="op-name" name="member.name" type="text" required data-bind="value: Name" />
+                </div>
+                <div class="form-group">
+                    <label for="complex-member-name">Http Method</label>
+                    <input class="form-control" id="op-http-method" readonly="readonly" name="op-http-method" type="text" required data-bind="value: HttpMethod" />
+                </div>
+                <div class="form-group">
+                    <label for="op-base-address">Url</label>
+                    <textarea class="form-control" id="op-base-address" readonly="readonly" name="op-base-address" type="text" required data-bind="value: BaseAddress"></textarea>
+                </div>
+
                 <!-- /ko -->
-                <!-- ko if : $parent.IsEnabled -->
-                <div class="form-group">
-                    <label class="control-label">
-                        Enable..
-                        <input type="checkbox" data-bind="checked:IsEnabled, enable : $parent.IsEnabled" />
-                    </label>
-                </div>
+                <!-- ko if : typeof ErrorRetry === "function" -->
+                <h6>Error retries</h6>
+                <form data-bind="with:ErrorRetry">
+                    <!-- ko ifnot : ko.isObservable($parent.IsEnabled) -->
+                    <div class="form-group">
+                        <label class="control-label">
+                            Enable
+                            <input type="checkbox" data-bind="checked:IsEnabled" />
+                        </label>
+                    </div>
+                    <!-- /ko -->
+                    <!-- ko if : $parent.IsEnabled -->
+                    <div class="form-group">
+                        <label class="control-label">
+                            Enable..
+                            <input type="checkbox" data-bind="checked:IsEnabled, enable : $parent.IsEnabled" />
+                        </label>
+                    </div>
+                    <!-- /ko -->
+
+                    <div class="form-group">
+                        <label for="retry-count" class="control-label">Attempt</label>
+                        <input type="number" max="50"
+                               data-bind="value: Attempt, enable :IsEnabled, tooltip:'Enable retry for your database call, the min value is 2, in an Exception is thrown, after the number of retry count you set, the execution will stop and exception is propagated to the call stack'"
+                               min="2"
+                               placeholder="Set the number if retries if the invocation throws any exception"
+                               class="form-control" id="retry-count">
+                    </div>
+                    <div class="form-group">
+                        <label for="retry-interval" class="control-label">Wait</label>
+                        <input type="number" step="10" max="50000"
+                               data-bind="value: Wait, enable :IsEnabled, tooltip:'The time in ms, the code will wait before attempting the next retry. The default is 500ms'"
+                               placeholder="The interval between retries in ms"
+                               class="form-control" id="retry-interval">
+                    </div>
+                    <div class="form-group">
+                        <label for="retry-interval" class="control-label">Algorithm</label>
+                        <select data-bind="value: Algorithm, enable :IsEnabled, tooltip:'Connstant - set to your interval value, Liner = interval * n, Exponential = interval * (2^n), n is the retry attempt'"
+                                class="form-control" id="retry-wait">
+                            <option value="Constant">Constant</option>
+                            <option value="Linear">Linear</option>
+                            <option value="Exponential">Exponential</option>
+                        </select>
+                    </div>
+                </form>
+
                 <!-- /ko -->
+                <!-- ko if :  ko.unwrap($type) === "Bespoke.Sph.Domain.ComplexMember, domain.sph"-->
+                <form class="form" role="form" data-bind="visible:Name()">
+                    <div class="form-group">
+                        <label for="complex-member-name">Name</label>
+                        <input class="form-control" id="complex-member-name" name="member.name" type="text" required data-bind="value: Name" readonly="readonly" />
+                    </div>
+                    <div class="form-group">
+                        <label for="complex-type-name">Type Name</label>
+                        <input class="form-control" readonly="readonly" pattern="^[A-Za-z][A-Za-z0-9]*$" placeholder="The type name for this member" id="complex-type-name" name="member.name" type="text" required data-bind="value: TypeName, tooltip:'Type name is used for class name in your generated code so this member will a property named with the Name and of type TypeName'" />
+                    </div>
+
+
+                </form>
+                <!-- /ko -->
+                <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.SimpleMember, domain.sph"-->
+                <form class="form" role="form" data-bind="visible:Name()">
+                    <div class="form-group">
+                        <label for="member_name">Name</label>
+                        <input class="form-control" id="member_name" name="member.name" type="text" required pattern="^[A-Z][A-Za-z0-9_]*$" data-bind="value: Name" title="The value will be used for C# code generation" />
+                    </div>
+                    <div class="form-group">
+                        <label for="member_name">Actual Name</label>
+                        <input class="form-control" id="member-fullname" name="member.fullname" type="text" required data-bind="value: FullName" readonly="readonly" title="The value is the actual item property from the request/response object" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="member-type">Type</label>
+
+                        <select class="form-control" id="member-type" data-bind="value:TypeName">
+                            <option value="">[Please Select]</option>
+                            <option value="System.String, mscorlib">String</option>
+                            <option value="System.Int32, mscorlib">Integer</option>
+                            <option value="System.Decimal, mscorlib">Decimal</option>
+                            <option value="System.DateTime, mscorlib">DateTime</option>
+                            <option value="System.Boolean, mscorlib">Boolean</option>
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox">
+                            <input data-bind="checked: IsNullable, disable: ko.unwrap(AllowMultiple)" id="member-nullable" type="checkbox" name="IsNullable" />
+                            Nullable
+                        </label>
+                    </div>
+
+                </form>
+
+                <!-- /ko-->
+                <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Integrations.Adapters.HttpHeaderMember, restapi.adapter"-->
+                <form class="form" role="form" data-bind="visible:Name()">
+                    <div class="form-group">
+                        <label for="http-header-name">Name</label>
+                        <input class="form-control" id="http-header-name" name="member.name" type="text" required data-bind="value: Name"
+                               pattern="^[A-Z][A-Za-z0-9_]*$"
+                               title="The value will be used for C# code generation" />
+                    </div>
+                    <div class="form-group">
+                        <label for="http-header-fullname">Full Name</label>
+                        <input class="form-control" id="http-header-fullname" name="member.fullname" type="text" required data-bind="value: FullName" title="The value is the actual item property from the request/response object" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="http-header-type">Type</label>
+                        <select class="form-control" id="http-header-type" data-bind="value:TypeName">
+                            <option value="">[Please Select]</option>
+                            <option value="System.String, mscorlib">String</option>
+                            <option value="System.Int32, mscorlib">Integer</option>
+                            <option value="System.Decimal, mscorlib">Decimal</option>
+                            <option value="System.DateTime, mscorlib">DateTime</option>
+                            <option value="System.Boolean, mscorlib">Boolean</option>
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox">
+                            <input data-bind="checked: AllowMultiple" id="http-header-allowmultiple" type="checkbox" name="AllowMultiple" />
+                            Allow multiple
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox">
+                            <input data-bind="checked: IsNullable, disable: ko.unwrap(AllowMultiple)" id="http-header-nullable" type="checkbox" name="IsNullable" />
+                            Nullable
+                        </label>
+                    </div>
+
+                </form>
+
+                <!-- /ko-->
+                <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Integrations.Adapters.QueryStringMember, restapi.adapter"-->
+                <form class="form" role="form" data-bind="visible:Name()">
+                    <div class="form-group">
+                        <label for="member_name">Name</label>
+                        <input class="form-control" id="query-string-name" name="member.name" type="text" required pattern="^[A-Z][A-Za-z0-9_]*$" data-bind="value: Name" title="The value will be used for C# code generation" />
+                    </div>
+                    <div class="form-group">
+                        <label for="member_name">Full Name</label>
+                        <input class="form-control" id="query-string-fullname" name="member.fullname" type="text" required data-bind="value: FullName" title="The value is the actual item property from the request/response object" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="member-type">Type</label>
+
+                        <select class="form-control" id="query-string-type" data-bind="value:TypeName">
+                            <option value="">[Please Select]</option>
+                            <option value="System.String, mscorlib">String</option>
+                            <option value="System.Int32, mscorlib">Integer</option>
+                            <option value="System.Decimal, mscorlib">Decimal</option>
+                            <option value="System.DateTime, mscorlib">DateTime</option>
+                            <option value="System.Boolean, mscorlib">Boolean</option>
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox">
+                            <input data-bind="checked: IsNullable, disable: ko.unwrap(AllowMultiple)" id="query-string-nullable" type="checkbox" name="IsNullable" />
+                            Nullable
+                        </label>
+                    </div>
+
+                </form>
+
+                <!-- /ko-->
+                <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Integrations.Adapters.RouteParameterMember, restapi.adapter"-->
+                <form class="form" role="form" data-bind="visible:Name()">
+                    <div class="form-group">
+                        <label for="route-parameter-name">Name</label>
+                        <input class="form-control" id="route-parameter-name" name="member.name" type="text" required pattern="^[A-Z][A-Za-z0-9_]*$" data-bind="value: Name" title="The value will be used for C# code generation" />
+                    </div>
+                    <div class="form-group">
+                        <label for="route-parameter-fullname">Full Name</label>
+                        <input class="form-control" id="route-parameter-fullname" name="member.fullname" type="text" required data-bind="value: FullName" title="The value is the actual item property from the request/response object" />
+                    </div>
+                    <div class="form-group">
+                        <label for="route-parameter-fullname">Converter</label>
+                        <input class="form-control" id="route-parameter-converter" name="member.fullname" type="text" data-bind="value: Converter" title="How do you want to format the value to string" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="route-parameter-type">Type</label>
+
+                        <select class="form-control" id="route-parameter-type" data-bind="value:TypeName">
+                            <option value="">[Please Select]</option>
+                            <option value="System.String, mscorlib">String</option>
+                            <option value="System.Int32, mscorlib">Integer</option>
+                            <option value="System.Decimal, mscorlib">Decimal</option>
+                            <option value="System.DateTime, mscorlib">DateTime</option>
+                            <option value="System.Boolean, mscorlib">Boolean</option>
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox">
+                            <input data-bind="checked: IsNullable, disable: ko.unwrap(AllowMultiple)" id="query-string-nullable" type="checkbox" name="IsNullable" />
+                            Nullable
+                        </label>
+                    </div>
+
+                </form>
+
+                <!-- /ko-->
+                <!-- ko if : typeof DefaultValue === "function" && ko.isObservable(DefaultValue) -->
 
                 <div class="form-group">
-                    <label for="retry-count" class="control-label">Attempt</label>
-                    <input type="number" max="50"
-                           data-bind="value: Attempt, enable :IsEnabled, tooltip:'Enable retry for your database call, the min value is 2, in an Exception is thrown, after the number of retry count you set, the execution will stop and exception is propagated to the call stack'"
-                           min="2"
-                           placeholder="Set the number if retries if the invocation throws any exception"
-                           class="form-control" id="retry-count">
-                </div>
-                <div class="form-group">
-                    <label for="retry-interval" class="control-label">Wait</label>
-                    <input type="number" step="10" max="50000"
-                           data-bind="value: Wait, enable :IsEnabled, tooltip:'The time in ms, the code will wait before attempting the next retry. The default is 500ms'"
-                           placeholder="The interval between retries in ms"
-                           class="form-control" id="retry-interval">
-                </div>
-                <div class="form-group">
-                    <label for="retry-interval" class="control-label">Algorithm</label>
-                    <select data-bind="value: Algorithm, enable :IsEnabled, tooltip:'Connstant - set to your interval value, Liner = interval * n, Exponential = interval * (2^n), n is the retry attempt'"
-                            class="form-control" id="retry-wait">
-                        <option value="Constant">Constant</option>
-                        <option value="Linear">Linear</option>
-                        <option value="Exponential">Exponential</option>
-                    </select>
-                </div>
-            </form>
+                    <label for="default-value" class="control-label">Default Value</label>
+                    <button disabled style="margin-left: 7px" class="btn btn-link" data-bind="visible:AllowMultiple">[Select a value] <i class="fa fa-caret-down"></i></button>
+                    <div class="btn-group" id="default-value" data-bind="visible :!ko.unwrap(AllowMultiple)">
+                        <a data-bind="with : DefaultValue, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
+                            <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+                            <!-- ko text : Name -->
+                            <!-- /ko -->
+                            <i class="fa fa-caret-down"></i>
+                        </a>
 
-            <!-- /ko -->
-            
-            <!-- ko if :  ko.unwrap($type) === "Bespoke.Sph.Domain.ComplexMember, domain.sph"-->
-            <form class="form" role="form" data-bind="visible:Name()">
-                <div class="form-group">
-                    <label for="complex-member-name">Name</label>
-                    <input class="form-control" id="complex-member-name" name="member.name" type="text" required data-bind="value: Name" readonly="readonly" />
-                </div>
-                <div class="form-group">
-                    <label for="complex-type-name">Type Name</label>
-                    <input class="form-control" readonly="readonly" pattern="^[A-Za-z][A-Za-z0-9]*$" placeholder="The type name for this member" id="complex-type-name" name="member.name" type="text" required data-bind="value: TypeName, tooltip:'Type name is used for class name in your generated code so this member will a property named with the Name and of type TypeName'" />
-                </div>
+                        <ul class="dropdown-menu">
+                            <li data-bind="with : DefaultValue">
+                                <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent, $data, $parent.DefaultValue)">
+                                    <i class="fa fa-edit"></i>
+                                    Edit Default Value
+                                </a>
+                            </li>
+                            <li data-bind="with : DefaultValue">
+                                <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.removeField.call($parent, $data, $parent.DefaultValue)">
+                                    <i class="fa fa-times"></i>
+                                    Remove Default Value
+                                </a>
+                            </li>
 
-
-            </form>
-            <!-- /ko -->
-            
-            <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Domain.SimpleMember, domain.sph"-->
-            <form class="form" role="form" data-bind="visible:Name()">
-                <div class="form-group">
-                    <label for="member_name">Name</label>
-                    <input class="form-control" id="member_name" name="member.name" type="text" required pattern="^[A-Z][A-Za-z0-9_]*$" data-bind="value: Name" title="The value will be used for C# code generation" />
-                </div>
-                <div class="form-group">
-                    <label for="member_name">Actual Name</label>
-                    <input class="form-control" id="member-fullname" name="member.fullname" type="text" required data-bind="value: FullName" readonly="readonly" title="The value is the actual item property from the request/response object" />
-                </div>
-
-                <div class="form-group">
-                    <label for="member-type">Type</label>
-
-                    <select class="form-control" id="member-type" data-bind="value:TypeName">
-                        <option value="">[Please Select]</option>
-                        <option value="System.String, mscorlib">String</option>
-                        <option value="System.Int32, mscorlib">Integer</option>
-                        <option value="System.Decimal, mscorlib">Decimal</option>
-                        <option value="System.DateTime, mscorlib">DateTime</option>
-                        <option value="System.Boolean, mscorlib">Boolean</option>
-                    </select>
+                            <li>
+                                <a data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.DefaultValue" href="#">
+                                    <img src="/images/ConstantField.png" alt="constantfield" class="pull-left" />
+                                    + Constant Field
+                                </a>
+                            </li>
+                            <li>
+                                <a data-bind="unwrapClick: addField,field : 'Function', accessor : $data.DefaultValue" href="#">
+                                    <img src="/images/FunctionField.png" alt="FunctionField" class="pull-left" />
+                                    + Function Field
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
 
                 </div>
-                <div class="form-group">
-                    <label class="checkbox">
-                        <input data-bind="checked: IsNullable, disable: ko.unwrap(AllowMultiple)" id="member-nullable" type="checkbox" name="IsNullable" />
-                        Nullable
-                    </label>
-                </div>
 
-            </form>
-
-            <!-- /ko-->
-            
-
-            <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Integrations.Adapters.HttpHeaderMember, restapi.adapter"-->
-            <form class="form" role="form" data-bind="visible:Name()">
-                <div class="form-group">
-                    <label for="http-header-name">Name</label>
-                    <input class="form-control" id="http-header-name" name="member.name" type="text" required data-bind="value: Name"
-                           pattern="^[A-Z][A-Za-z0-9_]*$"
-                           title="The value will be used for C# code generation" />
-                </div>
-                <div class="form-group">
-                    <label for="http-header-fullname">Full Name</label>
-                    <input class="form-control" id="http-header-fullname" name="member.fullname" type="text" required data-bind="value: FullName" title="The value is the actual item property from the request/response object" />
-                </div>
-
-                <div class="form-group">
-                    <label for="http-header-type">Type</label>
-                    <select class="form-control" id="http-header-type" data-bind="value:TypeName">
-                        <option value="">[Please Select]</option>
-                        <option value="System.String, mscorlib">String</option>
-                        <option value="System.Int32, mscorlib">Integer</option>
-                        <option value="System.Decimal, mscorlib">Decimal</option>
-                        <option value="System.DateTime, mscorlib">DateTime</option>
-                        <option value="System.Boolean, mscorlib">Boolean</option>
-                    </select>
-
-                </div>
-                <div class="form-group">
-                    <label class="checkbox">
-                        <input data-bind="checked: AllowMultiple" id="http-header-allowmultiple" type="checkbox" name="AllowMultiple" />
-                        Allow multiple
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label class="checkbox">
-                        <input data-bind="checked: IsNullable, disable: ko.unwrap(AllowMultiple)" id="http-header-nullable" type="checkbox" name="IsNullable" />
-                        Nullable
-                    </label>
-                </div>
-
-            </form>
-
-            <!-- /ko-->
-            
-
-            <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Integrations.Adapters.QueryStringMember, restapi.adapter"-->
-            <form class="form" role="form" data-bind="visible:Name()">
-                <div class="form-group">
-                    <label for="member_name">Name</label>
-                    <input class="form-control" id="query-string-name" name="member.name" type="text" required pattern="^[A-Z][A-Za-z0-9_]*$" data-bind="value: Name" title="The value will be used for C# code generation" />
-                </div>
-                <div class="form-group">
-                    <label for="member_name">Full Name</label>
-                    <input class="form-control" id="query-string-fullname" name="member.fullname" type="text" required data-bind="value: FullName" title="The value is the actual item property from the request/response object" />
-                </div>
-
-                <div class="form-group">
-                    <label for="member-type">Type</label>
-
-                    <select class="form-control" id="query-string-type" data-bind="value:TypeName">
-                        <option value="">[Please Select]</option>
-                        <option value="System.String, mscorlib">String</option>
-                        <option value="System.Int32, mscorlib">Integer</option>
-                        <option value="System.Decimal, mscorlib">Decimal</option>
-                        <option value="System.DateTime, mscorlib">DateTime</option>
-                        <option value="System.Boolean, mscorlib">Boolean</option>
-                    </select>
-
-                </div>
-                <div class="form-group">
-                    <label class="checkbox">
-                        <input data-bind="checked: IsNullable, disable: ko.unwrap(AllowMultiple)" id="query-string-nullable" type="checkbox" name="IsNullable" />
-                        Nullable
-                    </label>
-                </div>
-
-            </form>
-
-            <!-- /ko-->
-            
-            
-            <!-- ko if : ko.unwrap($type) === "Bespoke.Sph.Integrations.Adapters.RouteParameterMember, restapi.adapter"-->
-            <form class="form" role="form" data-bind="visible:Name()">
-                <div class="form-group">
-                    <label for="route-parameter-name">Name</label>
-                    <input class="form-control" id="route-parameter-name" name="member.name" type="text" required pattern="^[A-Z][A-Za-z0-9_]*$" data-bind="value: Name" title="The value will be used for C# code generation" />
-                </div>
-                <div class="form-group">
-                    <label for="route-parameter-fullname">Full Name</label>
-                    <input class="form-control" id="route-parameter-fullname" name="member.fullname" type="text" required data-bind="value: FullName" title="The value is the actual item property from the request/response object" />
-                </div>
-                <div class="form-group">
-                    <label for="route-parameter-fullname">Converter</label>
-                    <input class="form-control" id="route-parameter-converter" name="member.fullname" type="text" data-bind="value: Converter" title="How do you want to format the value to string" />
-                </div>
-
-                <div class="form-group">
-                    <label for="route-parameter-type">Type</label>
-
-                    <select class="form-control" id="route-parameter-type" data-bind="value:TypeName">
-                        <option value="">[Please Select]</option>
-                        <option value="System.String, mscorlib">String</option>
-                        <option value="System.Int32, mscorlib">Integer</option>
-                        <option value="System.Decimal, mscorlib">Decimal</option>
-                        <option value="System.DateTime, mscorlib">DateTime</option>
-                        <option value="System.Boolean, mscorlib">Boolean</option>
-                    </select>
-
-                </div>
-                <div class="form-group">
-                    <label class="checkbox">
-                        <input data-bind="checked: IsNullable, disable: ko.unwrap(AllowMultiple)" id="query-string-nullable" type="checkbox" name="IsNullable" />
-                        Nullable
-                    </label>
-                </div>
-
-            </form>
-
-            <!-- /ko-->
-            
-            
-            <!-- ko if : typeof DefaultValue === "function" && ko.isObservable(DefaultValue) -->
-
-            <div class="form-group">
-                <label for="default-value" class="control-label">Default Value</label>
-                <button disabled style="margin-left: 7px" class="btn btn-link" data-bind="visible:AllowMultiple">[Select a value] <i class="fa fa-caret-down"></i></button>
-                <div class="btn-group" id="default-value" data-bind="visible :!ko.unwrap(AllowMultiple)">
-                    <a data-bind="with : DefaultValue, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
-                        <img data-bind="fieldImage : $type" class="pull-left" alt="." />
-                        <!-- ko text : Name -->
-                        <!-- /ko -->
-                        <i class="fa fa-caret-down"></i>
-                    </a>
-
-                    <ul class="dropdown-menu">
-                        <li data-bind="with : DefaultValue">
-                            <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent, $data, $parent.DefaultValue)">
-                                <i class="fa fa-edit"></i>
-                                Edit Default Value
-                            </a>
-                        </li>
-                        <li data-bind="with : DefaultValue">
-                            <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.removeField.call($parent, $data, $parent.DefaultValue)">
-                                <i class="fa fa-times"></i>
-                                Remove Default Value
-                            </a>
-                        </li>
-
-                        <li>
-                            <a data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.DefaultValue" href="#">
-                                <img src="/images/ConstantField.png" alt="constantfield" class="pull-left" />
-                                + Constant Field
-                            </a>
-                        </li>
-                        <li>
-                            <a data-bind="unwrapClick: addField,field : 'Function', accessor : $data.DefaultValue" href="#">
-                                <img src="/images/FunctionField.png" alt="FunctionField" class="pull-left" />
-                                + Function Field
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
+                <!-- /ko -->
             </div>
 
-            <!-- /ko -->
         </div>
 
     </div>

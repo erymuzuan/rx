@@ -25,6 +25,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
         const isBusy = ko.observable(false),
             adapter = ko.observable(),
             selected = ko.observable(),
+            crumbs = ko.observable(),
             errors = ko.observableArray(),
             validations = ko.observableArray(),
             changes = ko.observableArray(),
@@ -175,6 +176,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             canDeactivate: canDeactivate,
             viewFile: viewFile,
             selected: selected,
+            crumbs: crumbs,
             toolbar: {
                 saveCommand: saveAsync,
                 removeCommand: removeAdapter,
