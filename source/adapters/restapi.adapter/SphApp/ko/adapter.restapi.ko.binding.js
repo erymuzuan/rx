@@ -251,11 +251,11 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                         if (!target) {
                                             return false;
                                         }
-                                        var columnsParent = target.text === "Columns" || target.type === "Bespoke.Sph.Domain.ComplexMember, domain.sph";
-                                        if (!columnsParent) return false;
+                                        console.log(`Dragged into target '${target.text}', id:'${target.id}', type : '${target.type}'`);
+                                        const bodyParent = target.text === "Body" || target.type === "array";
+                                        if (!bodyParent) return false;
                                         if (target.id !== node.parent) return false;
 
-                                        //console.log("dragged into target %s , and id ",target.text, target.id);
 
                                         return true;
                                     }
@@ -266,6 +266,12 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                             },
                             "dnd": {
                                 "is_draggable": function (node) {
+                                    if (!node.data.$type) {
+                                        return false;
+                                    }
+                                    if (node.data.$type === "Bespoke.Sph.Domain.SimpleMember, domain.sph") {
+                                        return true;
+                                    }
                                     return node.id.startsWith("column-");
                                 }
                             },
@@ -299,9 +305,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                             const child = new bespoke.sph.domain.ComplexMember({ WebId: system.guid(), Name: "Member_Name" }),
                                                 parent = $(element).jstree("get_selected", true),
                                                 mb = parent[0].data,
-                                                newNode = { state: "open", type: "Bespoke.Sph.Domain.ComplexMember, domain.sph", text: "Member_Name", data: child };
-
-
+                                                newNode = { state: "open", type: "object", text: "Member_Name", data: child };
 
                                             const nn = ref.create_node($node, newNode);
                                             mb.MemberCollection.push(child);
