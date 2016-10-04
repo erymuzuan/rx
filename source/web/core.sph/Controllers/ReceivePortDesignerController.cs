@@ -57,6 +57,7 @@ namespace Bespoke.Sph.Web.Controllers
                 return Created($"/receive-ports/{port.Id}/publish", new { success = true });
             return Ok(new { success = true });
         }
+
         [HttpPost]
         [PostRoute("{id}/generate-entity-definition")]
         public async Task<IHttpActionResult> GenerateEntityDefinitionAsync([JsonBody]ReceivePort port, string id)
