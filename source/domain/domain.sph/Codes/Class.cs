@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -42,7 +43,7 @@ namespace Bespoke.Sph.Domain.Codes
             }
             set { m_fileName = value; }
         }
-        
+
 
         public bool IsPartial { get; set; }
 
@@ -82,10 +83,15 @@ namespace Bespoke.Sph.Domain.Codes
             if (!string.IsNullOrWhiteSpace(m_code))
                 return m_code;
             var code = new StringBuilder();
+            var imported = new List<string>();
             foreach (var @import in this.ImportCollection)
             {
                 var directive = @import.StartsWith("using ") ? $"{@import};" : $"using {@import};";
-                code.AppendLine(directive.Replace(";;", ";"));
+                var importUsing = directive.Replace(";;", ";");
+                if (imported.Contains(importUsing)) continue;
+
+                code.AppendLine(importUsing);
+                imported.Add(importUsing);
             }
             code.AppendLine();
             code.AppendLine($"namespace {Namespace}");
