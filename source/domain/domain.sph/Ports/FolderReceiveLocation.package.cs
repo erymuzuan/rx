@@ -83,13 +83,24 @@ namespace Bespoke.Sph.Domain
   <startup>
     <supportedRuntime version=""v4.0"" sku="".NETFramework,Version=v4.6.1"" />
   </startup>
-  <nlog>
+  <nlog
+      xmlns=""http://www.nlog-project.org/schemas/NLog.xsd""
+      xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
     <targets>
-      <target name=""text"" type=""File"" fileName=""c:\logs\{Name}.log""/>
-      <target name=""console"" type=""Console"" />
+        <!-- Log in a separate thread, possibly queueing up to
+        5000 messages. When the queue overflows, discard any
+        extra messages -->
+
+        <target name=""file"" xsi:type=""AsyncWrapper"" queueLimit=""5000"" overflowAction=""Discard"">
+            <target xsi:type=""File"" fileName=""${{basedir}}/logs/${{shortdate}}.log"" />
+        </target>
+    
+        <target name=""error"" type=""File"" fileName=""${{basedir}}/logs/${{shortdate}}.error.log""/>
+        <target name=""console"" type=""Console"" />
     </targets>
     <rules>
-      <logger name=""*"" minlevel=""Debug"" writeTo=""text,console"" />
+      <logger name=""*"" minlevel=""Debug"" writeTo=""file,console"" />
+      <logger name=""*"" minlevel=""Error"" writeTo=""error"" />
     </rules>
   </nlog>
 </configuration>";
@@ -101,6 +112,7 @@ Param(
        [switch]$Uninstall = $false,
        [string]$DropFolder = '{Path}'
      )
+$env:RX_{ConfigurationManager.ApplicationName}_{Name}_ArchiveLocation=""{ArchiveLocation}""
 $env:RX_{ConfigurationManager.ApplicationName}_{Name}_JwtToken=""{JwtToken}""
 $env:RX_{ConfigurationManager.ApplicationName}_{Name}_Path=$DropFolder
 & .\{AssemblyName} run
@@ -126,11 +138,12 @@ start your command prompt with Administrator account, or elevated command prompt
 
 ## Configuration
 Change your {AssemblyName}.config file to add additional logger, or change the path to default file logger
+Refer to NLog at ![https://github.com/NLog/NLog](NLog GitHub page) for more info on logging with NLog
 
 ";
             File.WriteAllText($"{zipPath}\\{AssemblyName}.config", config);
             File.WriteAllText($"{zipPath}\\start.ps1", ps1);
-            File.WriteAllText($"{zipPath}\\readme.txt", readme);
+            File.WriteAllText($"{zipPath}\\README.txt", readme);
         }
 
 

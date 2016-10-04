@@ -17,6 +17,9 @@
                             <a href="#location-endpoints" data-toggle="tab">Endpoints</a>
                         </li>
                         <li>
+                            <a href="#location-archive" data-toggle="tab">Archival</a>
+                        </li>
+                        <li>
                             <a href="#location-security" data-toggle="tab">Security</a>
                         </li>
                     </ul>
@@ -193,7 +196,19 @@
                             </form>
 
                         </div>
-
+                        
+                        <div id="location-archive" class="tab-pane">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="location-archive-folder" class="col-lg-2 control-label">Archived Folder</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" data-bind="value: ArchiveLocation"
+                                               placeholder="The location for the archived folder"
+                                               class="form-control" id="location-archive-folder">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
