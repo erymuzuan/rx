@@ -88,7 +88,6 @@ namespace Bespoke.Sph.Domain
             var created = GenerateFileCreatedMethod(port);
             watcher.AddMethod(new Method { Code = created });
             watcher.AddMethod(WaitForReadyCode());
-            watcher.AddMethod(DisposeCode());
 
             return Task.FromResult(0);
 
@@ -140,7 +139,7 @@ namespace Bespoke.Sph.Domain
             return Task.FromResult(new Method { Code = code.ToString() });
         }
 
-        private static string DisposeCode()
+        protected override Task<Method> GenerateDisposeMethod(ReceivePort port)
         {
             var code = new StringBuilder();
             code.AppendLine(@"
@@ -152,8 +151,11 @@ namespace Bespoke.Sph.Domain
                 m_client = null;
             }
             ");
-            return code.ToString();
+            var method = new Method {Code = code.ToString()};
+            return Task.FromResult(method);
         }
+
+
 
         protected override Class GenerateLoggerClass(ReceivePort port)
         {
@@ -245,7 +247,7 @@ namespace Bespoke.Sph.Domain
             foreach(var r in records)
             {{
                 number ++;
-                
+                if(null == r) continue; // we got an exception reading the record
                 var request = new StringContent(r.ToJson());
                 request.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(""application/json"");
 
@@ -263,19 +265,25 @@ namespace Bespoke.Sph.Domain
                     continue;
                 }}
                 var response = pr.Result;
-                if (!response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {{
-                    logger.Log(new LogEntry{{ Message = $""Non success status code line {{number}} : {{response.StatusCode}}"", Severity = Severity.Warning}});
+                    Console.Write($""\r{{number}} : {{response.StatusCode}}\t"");
+                    logger.Log(new LogEntry{{Message = $""Line :{{number}} , StatusCode : {{(int)response.StatusCode}}"" , Severity = Severity.Info}});
                 }}
-                Console.Write($""\r{{number}} : {{response.StatusCode}}\t"");
-                logger.Log(new LogEntry{{Message = $""{{number}} : "" + response.StatusCode , Severity = Severity.Info}});
+                else
+                {{
+                    var warn = new LogEntry{{ Message = $""Non success status code line line {{number}}, StatusCode :{{(int)response.StatusCode}}"", Severity = Severity.Warning}};
+                    warn.Details = $""{{fileInfo.FullName}}:{{number}}"";
+                    logger.Log(warn);
+                    // TODO : we know the use might attempt to resubmit the non 2XX response                
+                }}
             }}
 
 
             Console.WriteLine();
             logger.Log(new LogEntry{{ Message = $""Done processing {{file}}"", Severity = Severity.Info }});
 
-            var archivedFolder = ConfigurationManager.GetEnvironmentVariable(""{Name}ArchiveFolder"");
+            var archivedFolder = ConfigurationManager.GetEnvironmentVariable(""{Name}ArchiveLocation"");
             if (!string.IsNullOrWhiteSpace(archivedFolder) && Directory.Exists(archivedFolder))
                 File.Move(wip, Path.Combine(archivedFolder, Path.GetFileName(file)));
             else
