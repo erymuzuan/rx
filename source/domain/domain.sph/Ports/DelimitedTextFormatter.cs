@@ -98,11 +98,13 @@ namespace Bespoke.Sph.Domain
                     try
                     {{
                         record = engine.ReadString(normalized)[0]; 
-                        this.ProcessHeader(record);                     
+                        this.ProcessHeader(record);
+                        System.Diagnostics.Debug.Assert(record.ToJson() != null, ""Fail to serialize to json"");                  
                     }}
                     catch (Exception e)
                     {{
-                        Logger.Log(new LogEntry(e){{ Message = $""Exception reading line {{count}}""}});
+                        Logger.Log(new LogEntry(e, new []{{ $""line : {{count}}"", $""{{Uri}}"", line}}){{ Message = $""Exception reading line {{count}}""}});
+                        record = null;
                     }}
                     yield return record;
                 }}
