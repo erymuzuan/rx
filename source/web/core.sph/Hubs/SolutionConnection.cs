@@ -60,6 +60,7 @@ namespace Bespoke.Sph.Web.Hubs
 
                 if (hasItem && null != this.ItemsProviders)
                 {
+                    WaitReadyAsync(e.FullPath).Wait(1500);
                     var tasks = this.ItemsProviders.Select(x => x.GetItemAsync(e.FullPath));
                     var items = Task.WhenAll(tasks).Result;
                     item = items.FirstOrDefault(x => null != x);
@@ -78,6 +79,34 @@ namespace Bespoke.Sph.Web.Hubs
                 this.Connection?.Broadcast(new LogEntry(exception));
             }
 
+        }
+
+        public async Task WaitReadyAsync(string fileName)
+        {
+            while (true)
+            {
+                try
+                {
+                    using (Stream stream = File.Open(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
+                    {
+                        Console.WriteLine($"Output file {fileName} ready. " + stream);
+                        break;
+                    }
+                }
+                catch (FileNotFoundException ex)
+                {
+                    Console.WriteLine($"Output file {fileName} not yet ready ({ex.Message})");
+                }
+                catch (IOException ex)
+                {
+                    Console.WriteLine($"Output file {fileName} not yet ready ({ex.Message})");
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    Console.WriteLine($"Output file {fileName} not yet ready ({ex.Message})");
+                }
+                await Task.Delay(500);
+            }
         }
 
         private SolutionItem GetSolution()
