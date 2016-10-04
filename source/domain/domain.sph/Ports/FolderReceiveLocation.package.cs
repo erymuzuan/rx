@@ -99,7 +99,8 @@ namespace Bespoke.Sph.Domain
         <target name=""console"" type=""Console"" />
     </targets>
     <rules>
-      <logger name=""*"" minlevel=""Debug"" writeTo=""file,console"" />
+      <logger name=""*"" minlevel=""Trace"" writeTo=""console"" />
+      <logger name=""*"" minlevel=""Info"" maxlevel=""Warn"" writeTo=""file"" />
       <logger name=""*"" minlevel=""Error"" writeTo=""error"" />
     </rules>
   </nlog>
