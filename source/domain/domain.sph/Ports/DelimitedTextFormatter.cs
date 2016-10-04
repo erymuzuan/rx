@@ -16,6 +16,13 @@ namespace Bespoke.Sph.Domain
             return $@"[DelimitedRecord(""{Delimiter}"")]";
         }
 
+        public override string GetRecordMetadataCode()
+        {
+            return @"[FieldHidden]private int m_lineNumber;
+public int GetLineNumber(){ return m_lineNumber;}
+internal void SetLineNumber(int line){ m_lineNumber = line;}";
+        }
+
         public override async Task<Class> GetPortClassAsync(ReceivePort port)
         {
             var type = await base.GetPortClassAsync(port);
@@ -99,6 +106,7 @@ namespace Bespoke.Sph.Domain
                     {{
                         record = engine.ReadString(normalized)[0]; 
                         this.ProcessHeader(record);
+                        record.SetLineNumber(count++);
                         System.Diagnostics.Debug.Assert(record.ToJson() != null, ""Fail to serialize to json"");                  
                     }}
                     catch (Exception e)
@@ -124,23 +132,54 @@ namespace Bespoke.Sph.Domain
                 childRecordCode.Append($@"
                     if(line.StartsWith({row.RowTag.ToVerbatim()}))
                     {{
-                        var {itemName} = {itemName}Engine.ReadString(normalized)[0];
-                        record.{row.Name}.Add({itemName});
+                        try
+                        {{
+                            var {itemName} = {itemName}Engine.ReadString(normalized)[0];                            
+                            System.Diagnostics.Debug.Assert(consignment.ToJson() != null, ""Fail to serialize to json"");
+                            if(!hasError)
+                                record.{row.Name}.Add({itemName});
+                        }}
+                        catch (Exception e)
+                        {{
+                            Logger.Log(new LogEntry(e, new[] {{ $""line : {{count}}"", $""{{Uri}}"", line }}) {{ Message = $""Exception reading line {{count}}"" }});
+                            hasError = true;
+                        }}
                     }}
                 ");
             }
 
-            code.AppendLine($@"{port.Entity} record = null;");
+            code.AppendLine($@"{port.Entity} record = null;
+            var count = 0;
+            var hasError = false;");
             code.AppendLine($@"
                 foreach(var line in lines)
                 {{
+                    count++;
                     {normalized}
-                    if(line.StartsWith({RecordTag.ToVerbatim()}) && null != record)
-                         yield return record;                 
-                    if(line.StartsWith({RecordTag.ToVerbatim()}))
+                    if (line.StartsWith({RecordTag.ToVerbatim()}) && hasError) // starts - new line and the previous record is error
                     {{
-                        record = engine.ReadString(normalized)[0];
-                        this.ProcessHeader(record);
+                        record = null;
+                        yield return record;
+                    }}
+                    if(line.StartsWith({RecordTag.ToVerbatim()}) && null != record)
+                         yield return record;    
+
+                    if (line.StartsWith({RecordTag.ToVerbatim()}))
+                    {{
+                        hasError = false;
+                        try
+                        {{
+                            record = engine.ReadString(normalized)[0];
+                            this.ProcessHeader(record);
+                            record.SetLineNumber(count++);
+                            System.Diagnostics.Debug.Assert(record.ToJson() != null, ""Fail to serialize to json"");
+                        }}
+                        catch (Exception e)
+                        {{
+                            Logger.Log(new LogEntry(e, new[] {{ $""line : {{count}}"", $""{{Uri}}"", line }}) {{ Message = $""Exception reading line {{count}}"" }});
+                            hasError = true;
+                        }}   
+
                     }} 
                     {childRecordCode}         
                 }}");

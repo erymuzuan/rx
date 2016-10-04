@@ -58,6 +58,10 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
+        public virtual string GetRecordMetadataCode()
+        {
+            return "";
+        }
     }
 
     public partial class HtmlTextFormatter : TextFormatter { }

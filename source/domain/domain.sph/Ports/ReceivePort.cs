@@ -22,6 +22,7 @@ namespace Bespoke.Sph.Domain
             var options = new CompilerOptions { IsDebug = true };
             return await this.CompileAsync(options);
         }
+
         private async Task<WorkflowCompilerResult> CompileAsync(CompilerOptions options)
         {
             var classes = (await this.GenerateCodeAsync()).ToArray();
@@ -106,7 +107,8 @@ namespace Bespoke.Sph.Domain
             var record = new Class { Name = this.Entity.ToPascalCase(), Namespace = this.CodeNamespace };
             record.AddNamespaceImport<DateTime, FileInfo, FileHelpers.FieldAlignAttribute, JsonIgnoreAttribute>();
             record.AddNamespaceImport<DomainObject, IEnumerable<object>, System.Globalization.CultureInfo>();
-            
+            record.AddMethod(this.TextFormatter.GetRecordMetadataCode());
+
             record.AttributeCollection.Add(TextFormatter.GetRecordAttribute());
             classes.Add(record);
 

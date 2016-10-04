@@ -265,15 +265,13 @@ namespace Bespoke.Sph.Domain
                     continue;
                 }}
                 var response = pr.Result;
-                if (response.IsSuccessStatusCode)
+                Console.Write($""\r{{number}} : {{response.StatusCode}}\t"");
+                logger.Log(new LogEntry{{Message = $""Record: {{number}}({{r.GetLineNumber()}}) , StatusCode: {{(int)response.StatusCode}}"" , Severity = Severity.Debug}});
+
+                if (!response.IsSuccessStatusCode)
                 {{
-                    Console.Write($""\r{{number}} : {{response.StatusCode}}\t"");
-                    logger.Log(new LogEntry{{Message = $""Line :{{number}} , StatusCode : {{(int)response.StatusCode}}"" , Severity = Severity.Info}});
-                }}
-                else
-                {{
-                    var warn = new LogEntry{{ Message = $""Non success status code line line {{number}}, StatusCode :{{(int)response.StatusCode}}"", Severity = Severity.Warning}};
-                    warn.Details = $""{{fileInfo.FullName}}:{{number}}"";
+                    var warn = new LogEntry{{ Message = $""Non success status code record {{number}}({{r.GetLineNumber()}}), StatusCode: {{(int)response.StatusCode}}"", Severity = Severity.Warning}};
+                    warn.Details = $""{{fileInfo.FullName}}:{{number}}({{r.GetLineNumber()}})"";
                     logger.Log(warn);
                     // TODO : we know the use might attempt to resubmit the non 2XX response                
                 }}
@@ -281,7 +279,7 @@ namespace Bespoke.Sph.Domain
 
 
             Console.WriteLine();
-            logger.Log(new LogEntry{{ Message = $""Done processing {{file}}"", Severity = Severity.Info }});
+            logger.Log(new LogEntry{{ Message = $""Done processing {{file}} with {{number}} record(s)"", Severity = Severity.Info }});
 
             var archivedFolder = ConfigurationManager.GetEnvironmentVariable(""{Name}ArchiveLocation"");
             if (!string.IsNullOrWhiteSpace(archivedFolder) && Directory.Exists(archivedFolder))
