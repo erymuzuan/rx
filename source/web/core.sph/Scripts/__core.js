@@ -548,7 +548,7 @@ ko.bindingHandlers.tree = {
             recurseChildMember = function (node) {
                 node.children = _(node.data.MemberCollection()).map(function (v) {
 
-                    var type = getNodeMemberType(v);
+                    const type = getNodeMemberType(v);
                     return {
                         text: v.Name(),
                         state: "open",
