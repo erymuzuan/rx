@@ -1492,6 +1492,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DiffPane.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Print\Index.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Index.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shared\DisplayTemplates\Button.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -3510,6 +3515,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Entity.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Print\Index.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Index.generated.cs</LastGenOutput>
     </Content>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
