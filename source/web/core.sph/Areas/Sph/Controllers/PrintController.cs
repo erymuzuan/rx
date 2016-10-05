@@ -7,17 +7,16 @@ using Bespoke.Sph.Web.ViewModels;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
+    [RoutePrefix("print-out")]
     public class PrintController : Controller
     {
-        public async Task<ActionResult> Index(int id, string entity)
+        [Route("{entity}/{id}")]
+        public async Task<ActionResult> Index(string entity, string id)
         {
             var vm = new PrintViewModel();
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Name == entity);
-            var form =
-                await
-                    context.LoadOneAsync<EntityForm>(
-                        f => f.EntityDefinitionId == ed.Id && f.IsDefault == true);
+            var form = await context.LoadOneAsync<EntityForm>(f => f.EntityDefinitionId == ed.Id && f.IsDefault == true);
             vm.FormDesign = form.FormDesign;
 
 
@@ -25,7 +24,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var sqlAssembly = Assembly.Load("sql.repository");
             var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
 
-            var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + ed.Name);
+            var edAssembly = Assembly.Load($"{ConfigurationManager.ApplicationName}.{ed.Name}");
             var edTypeName = $"{ed.CodeNamespace}.{ed.Name}";
             var edType = edAssembly.GetType(edTypeName);
             if (null == edType)

@@ -14,24 +14,19 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("")]
         public async Task<ActionResult> Save()
         {
-            var et = this.GetRequestJson<EmailTemplate>();
-            if (et.IsNewItem && !string.IsNullOrWhiteSpace(et.WebId))
-                et.Id = et.WebId;
-            if (et.IsNewItem && string.IsNullOrWhiteSpace(et.WebId))
-            {
-                et.Id = Guid.NewGuid().ToString();
-                et.WebId = et.Id;
-            }
-
-
+            var template = this.GetRequestJson<EmailTemplate>();
+            if (template.IsNewItem)
+                template.Id = template.Name.ToIdFormat();
+            
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
-                session.Attach(et);
+                session.Attach(template);
                 await session.SubmitChanges("Save");
             }
-            return Json(new { success = true, status = "OK", id = et.Id });
+            return Json(new { success = true, status = "OK", id = template.Id });
         }
+
         [HttpPost]
         [Route("publish")]
         public async Task<ActionResult> Publish()
@@ -53,6 +48,7 @@ namespace Bespoke.Sph.Web.Controllers
             return Json(new { success = true, status = "OK", message = "Your template has been successfully published", id = template.Id });
 
         }
+
         [HttpPost]
         [Route("test")]
         public async Task<ActionResult> Test()
@@ -61,6 +57,8 @@ namespace Bespoke.Sph.Web.Controllers
             var template = this.GetRequestJson<EmailTemplate>();
             template.IsPublished = true;
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Name == template.Entity);
+
+           
 
             var buildValidation = await template.ValidateBuildAsync(ed);
             if (!buildValidation.Result)

@@ -13,7 +13,7 @@
 define(["services/datacontext", "services/logger", objectbuilders.system, "knockout", "jquery"],
     function (context, logger, system, ko) {
 
-        var template = ko.observable(new bespoke.sph.domain.EmailTemplate(system.guid())),
+        const template = ko.observable(new bespoke.sph.domain.EmailTemplate(system.guid())),
             entityOptions = ko.observableArray(),
             errors = ko.observableArray(),
             isBusy = ko.observable(false),
@@ -29,6 +29,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "knock
                     entityOptions(types);
                     if (b) {
                         template(b);
+                    } else {
+                        template(new bespoke.sph.domain.EmailTemplate(system.guid()));
                     }
                     tcs.resolve(true);
                 });
@@ -43,7 +45,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "knock
                 isBusy(true);
 
                 context.post(data, "email-template")
-                    .then(function ({id}) {
+                    .then(function (id) {
                         isBusy(false);
                         template().Id(id);
                         tcs.resolve(id);
@@ -56,7 +58,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "knock
                     data = ko.mapping.toJSON(template);
                 isBusy(true);
 
-                context.post(data, "/email-template")
+                context.post(data, `/email-template/publish`)
                     .then(function (result) {
                         isBusy(false);
                         if (result.success) {
@@ -95,7 +97,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "knock
                 return tcs.promise();
             };
 
-        var vm = {
+        const vm = {
             errors: errors,
             entityOptions: entityOptions,
             template: template,
