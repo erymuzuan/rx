@@ -115,13 +115,13 @@
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\__domain.js" />
-    <Content Include="SphApp\ko\adapter.restapi.ko.binding.js" />
-    <Content Include="SphApp\schemas\adapter.restapi.operation.js" />
-    <Content Include="SphApp\schemas\adapter.restapi.receive.location.js" />
-    <Content Include="SphApp\viewmodels\adapter.restapi.add.operation.dialog.js" />
-    <Content Include="SphApp\viewmodels\adapter.restapi.js" />
-    <Content Include="SphApp\views\adapter.restapi.add.operation.dialog.html" />
-    <Content Include="SphApp\views\adapter.restapi.html" />
+    <EmbeddedResource Include="SphApp\ko\adapter.restapi.ko.binding.js" />
+    <EmbeddedResource Include="SphApp\schemas\adapter.restapi.operation.js" />
+    <EmbeddedResource Include="SphApp\schemas\adapter.restapi.receive.location.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\adapter.restapi.add.operation.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\adapter.restapi.js" />
+    <EmbeddedResource Include="SphApp\views\adapter.restapi.add.operation.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\adapter.restapi.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

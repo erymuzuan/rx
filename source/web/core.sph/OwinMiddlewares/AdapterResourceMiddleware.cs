@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,7 +34,7 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
             var paths = ctx.Request.Path.Value.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
             var folder = "";
             if (paths.Length > 1)
-                folder = "\\" + string.Join("\\", paths.Take(paths.Length - 1));
+                folder =  string.Join("\\", paths.Take(paths.Length - 1));
             var fileName = paths.Last() ?? "";
             if (!fileName.StartsWith("adapter."))
             {
@@ -47,7 +46,7 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
             var contentType = "text/plain";
             if (!string.IsNullOrWhiteSpace(fileName)) contentType = MimeMapping.GetMimeMapping(Path.GetExtension(fileName));
 
-            var file = $"{ConfigurationManager.WebPath}\\{m_namespace}{folder}\\{fileName}";
+            var file = $"{ConfigurationManager.WebPath}\\{m_namespace}\\{folder}\\{fileName}";
             // for development of adapters, so we don't need to compile
             if (!File.Exists(file)) file = file.Replace("web\\web.sph", $"adapters\\{adapterName}.adapter");
             if (File.Exists(file))
