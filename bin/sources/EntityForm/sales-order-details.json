@@ -585,7 +585,7 @@
               {
                 "$type": "Bespoke.Sph.Domain.ListViewColumn, domain.sph",
                 "Label": "Weight",
-                "Path": "VolumetricWeight",
+                "Path": "Weight",
                 "Input": {
                   "$type": "Bespoke.Sph.Domain.TextBox, domain.sph",
                   "DefaultValue": "",
@@ -733,6 +733,6 @@
   "Id": "sales-order-details",
   "CreatedDate": "2016-09-24T12:03:16.004232+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-10-01T15:01:37.8695555+08:00",
+  "ChangedDate": "2016-10-04T15:37:59.0058919+08:00",
   "WebId": "3cb747c7-badb-4d71-cd16-0ff79e6af56f"
 }
