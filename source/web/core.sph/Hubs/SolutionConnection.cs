@@ -42,7 +42,7 @@ namespace Bespoke.Sph.Web.Hubs
 
 
         private readonly ConcurrentBag<string> m_connections = new ConcurrentBag<string>();
-        private void SourceChanged(object sender, FileSystemEventArgs e)
+        private async void SourceChanged(object sender, FileSystemEventArgs e)
         {
             if (e.FullPath.Contains("BinaryStores")) return;
             try
@@ -60,9 +60,9 @@ namespace Bespoke.Sph.Web.Hubs
 
                 if (hasItem && null != this.ItemsProviders)
                 {
-                    WaitReadyAsync(e.FullPath).Wait(1500);
+                    await WaitReadyAsync(e.FullPath);
                     var tasks = this.ItemsProviders.Select(x => x.GetItemAsync(e.FullPath));
-                    var items = Task.WhenAll(tasks).Result;
+                    var items = await Task.WhenAll(tasks);
                     item = items.FirstOrDefault(x => null != x);
                     if (null != item)
                     {
@@ -72,11 +72,15 @@ namespace Bespoke.Sph.Web.Hubs
                 }
 
                 var conns = m_connections.ToArray();
-                this.Connection?.Send(conns.ToList(), item);
+                var send = this.Connection?.Send(conns.ToList(), item);
+                if (send != null)
+                    await send;
             }
             catch (Exception exception)
             {
-                this.Connection?.Broadcast(new LogEntry(exception));
+                var broadcast = this.Connection?.Broadcast(new LogEntry(exception));
+                if (broadcast != null)
+                    await broadcast;
             }
 
         }
