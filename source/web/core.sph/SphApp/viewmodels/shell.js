@@ -85,16 +85,14 @@ define(["durandal/system", "services/system", "plugins/router", "services/logger
 
             print = function (commandParameter) {
                 var parameter = typeof commandParameter === "function" ? commandParameter() : commandParameter,
-                    url = String.format("/sph/print/{0}/{1}", parameter.entity, +parameter.id());
+                    url = String.format("/print-out/{0}/{1}", parameter.entity, parameter.id());
                 window.open(url);
                 return Task.fromResult(true);
             },
             email = function (commandParameter) {
                 var parameter = typeof commandParameter === "function" ? commandParameter() : commandParameter,
-                    url = String.format("/sph/print/{0}/{1}", parameter.entity, +parameter.id()),
+                    url = String.format("/sph/print/{0}/{1}", parameter.entity, parameter.id()),
                     tcs = new $.Deferred();
-
-
 
                 require(["viewmodels/email.entity.dialog", "durandal/app"], function (dialog, app2) {
                     dialog.entity(parameter.entity);
