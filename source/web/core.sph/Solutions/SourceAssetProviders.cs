@@ -27,8 +27,36 @@ namespace Bespoke.Sph.Web.Solutions
             return Task.FromResult(node);
         }
 
+        public async Task WaitReadyAsync(string fileName)
+        {
+            while (true)
+            {
+                try
+                {
+                    using (Stream stream = File.Open(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
+                    {
+                        Console.WriteLine($"Output file {fileName} ready. " + stream);
+                        break;
+                    }
+                }
+                catch (FileNotFoundException ex)
+                {
+                    Console.WriteLine($"Output file {fileName} not yet ready ({ex.Message})");
+                }
+                catch (IOException ex)
+                {
+                    Console.WriteLine($"Output file {fileName} not yet ready ({ex.Message})");
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    Console.WriteLine($"Output file {fileName} not yet ready ({ex.Message})");
+                }
+                await Task.Delay(500);
+            }
+        }
         protected virtual T GetSolutionItem(string file)
         {
+            WaitReadyAsync(file).Wait(2500);
             var item = file.DeserializeFromJsonFile<T>();
             return item;
         }
