@@ -32,11 +32,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             get
             {
-                if (m_prefetchCount != 1) return m_prefetchCount;
-                var config = ConfigurationManager.AppSettings[$"rx:{this.GetType().FullName}:PrefetchCount"];
-                int count;
-                if (int.TryParse(config, out count))
-                    return Convert.ToUInt16(count);
                 return m_prefetchCount;
             }
             set { m_prefetchCount = value; }

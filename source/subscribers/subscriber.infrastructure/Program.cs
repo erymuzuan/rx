@@ -73,11 +73,10 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     this.NotificationService.Write("Starts..." + mt.FullName);
                     try
                     {
-
+                        mt.PrefetchCount = config.PrefetchCount ?? 1;
                         var worker = StartSubscriber(mt, m_connection);
                         if (null != worker)
                         {
-                            worker.PrefetchCount = config.PrefetchCount ?? 1;
                             list.Add(worker);
                         }
                         else
@@ -97,7 +96,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         private SubscriberConfig GetConfig(SubscriberMetadata mt)
         {
-            return m_startOptions.LastOrDefault(x => x.FullName == mt.FullName && Path.GetFileName(mt.Assembly) == x.Assembly);
+            return m_startOptions.LastOrDefault(x => x.FullName == mt.FullName && Path.GetFileNameWithoutExtension(mt.Assembly) == x.Assembly);
         }
 
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
@@ -117,12 +116,13 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         private Subscriber StartSubscriber(SubscriberMetadata metadata, IConnection connection)
         {
+            
             var dll = Path.GetFileNameWithoutExtension(metadata.Assembly);
             if (string.IsNullOrWhiteSpace(dll)) return null;
             var subs = Activator.CreateInstance(dll, metadata.FullName).Unwrap() as Subscriber;
             if (null == subs) return null;
             subs.NotificicationService = this.NotificationService;
-
+            subs.PrefetchCount = metadata.PrefetchCount;
             subs.Run(connection);
 
             return subs;

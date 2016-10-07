@@ -10,5 +10,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         public string Name { get; set; }
         public int Instance { get; set; } = 1;
         public string QueueName { get; set; }
+        public ushort PrefetchCount { get; set; }
     }
 }
