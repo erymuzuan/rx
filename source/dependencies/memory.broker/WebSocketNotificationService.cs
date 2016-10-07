@@ -199,5 +199,11 @@ namespace Bespoke.Sph.Messaging
             SendMessage(log);
 
         }
+
+        public void WriteWarnig(string message)
+        {
+            var log = new LogEntry { Message = message, Severity = Severity.Warning, Time = DateTime.Now };
+            SendMessage(log);
+        }
     }
 }

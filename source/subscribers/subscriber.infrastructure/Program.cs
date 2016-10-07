@@ -12,6 +12,12 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 {
     public class Program
     {
+        private readonly SubscriberConfig[] m_startOptions;
+
+        public Program(params SubscriberConfig[] startOptions)
+        {
+            m_startOptions = startOptions;
+        }
         private INotificationService m_notificationService;
         private static INotificationService m_notificationService2;
         public string Password { get; set; }
@@ -55,7 +61,14 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
             Parallel.ForEach(subscribersMetadata, (mt, c) =>
             {
-                for (var i = 0; i < mt.Instance; i++)
+                // Get the worker service instance, for this subscriber
+                var config = this.GetConfig(mt);
+                if (null == config) return;
+
+                var count = config.InstancesCount ?? 1;
+                mt.Instance = count;
+
+                for (var i = 0; i < count; i++)
                 {
                     this.NotificationService.Write("Starts..." + mt.FullName);
                     try
@@ -64,6 +77,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                         var worker = StartSubscriber(mt, m_connection);
                         if (null != worker)
                         {
+                            worker.PrefetchCount = config.PrefetchCount ?? 1;
                             list.Add(worker);
                         }
                         else
@@ -74,16 +88,16 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     }
                     catch (Exception e)
                     {
-                        this.NotificationService.Write(e.ToString());
+                        this.NotificationService.WriteError(e, $"Fail to start {mt.Name}");
                     }
                 }
             });
-
-
             m_stopping = false;
+        }
 
-
-
+        private SubscriberConfig GetConfig(SubscriberMetadata mt)
+        {
+            return m_startOptions.LastOrDefault(x => x.FullName == mt.FullName && Path.GetFileName(mt.Assembly) == x.Assembly);
         }
 
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)

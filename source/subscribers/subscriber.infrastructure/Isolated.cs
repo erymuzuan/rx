@@ -12,8 +12,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             var setup = AppDomain.CurrentDomain.SetupInformation;
             setup.ApplicationBase = ConfigurationManager.SubscriberPath;
 
-            m_domain = AppDomain.CreateDomain("Isolated:" + Guid.NewGuid(),
-                null, setup);
+            m_domain = AppDomain.CreateDomain("Isolated:" + Guid.NewGuid(),null, setup);
 
             var type = typeof(T);
             Value = (T)m_domain.CreateInstanceFromAndUnwrap(type.Assembly.Location, type.FullName);

@@ -1,7 +1,10 @@
 ﻿using System;
-using System.Configuration;
+using System.IO;
+using System.Linq;
 using System.ServiceProcess;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
+using INotificationService = Bespoke.Sph.SubscribersInfrastructure.INotificationService;
 
 namespace workers.windowsservice.runner
 {
@@ -16,13 +19,27 @@ namespace workers.windowsservice.runner
         protected override void OnStart(string[] args)
         {
             INotificationService logger = new EventLogNotification();
-            m_program = new Program
+            var configName = ConfigurationManager.AppSettings["sph:WorkersConfig"];
+            var configFile = $"{ConfigurationManager.SphSourceDirectory}\\SubscriberConfigs\\{configName}.json";
+            if (!File.Exists(configFile))
             {
-                HostName = ConfigurationManager.AppSettings["sph:RabbitMqHost"] ?? "localhost",
-                UserName = ConfigurationManager.AppSettings["sph:RabbitMqUserName"] ?? "guest",
-                Password = ConfigurationManager.AppSettings["sph:RabbitMqPassword"] ?? "guest",
-                Port = int.Parse(ConfigurationManager.AppSettings["sph:RabbitMqPort"] ?? "5672"),
-                VirtualHost = ConfigurationManager.AppSettings["sph:RabbitMqVhost"] ?? "Dev",
+                logger.WriteError($@"Cannot find subscribers config in '{configFile}'");
+                var controller = ServiceController.GetServices(this.ServiceName).First();
+                controller.Stop();
+                controller.WaitForStatus(ServiceControllerStatus.Stopped);
+
+                return;
+
+            }
+            var options = configFile.DeserializeFromJsonFile<WorkersConfig>();
+
+            m_program = new Program(options.SubscriberConfigs.ToArray())
+            {
+                HostName = ConfigurationManager.RabbitMqHost,
+                UserName = ConfigurationManager.RabbitMqUserName,
+                Password = ConfigurationManager.RabbitMqPassword,
+                Port = ConfigurationManager.RabbitMqPort,
+                VirtualHost = ConfigurationManager.RabbitMqVirtualHost,
                 NotificationService = logger
 
             };

@@ -104,5 +104,22 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 }
             }
         }
+
+        public void WriteWarnig(string message)
+        {
+            lock (m_lock)
+            {
+
+                try
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.WriteLine(message);
+                }
+                finally
+                {
+                    Console.ResetColor();
+                }
+            }
+        }
     }
 }

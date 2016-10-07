@@ -43,5 +43,10 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
             this.WriteError(message.ToString());
         }
+
+        public void WriteWarnig(string message)
+        {
+            File.AppendAllText(LogFile, $"Warning : {message}\r\n");
+        }
     }
 }

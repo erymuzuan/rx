@@ -53,7 +53,17 @@ namespace workers.console.runner
 
             var title = string.Format("Connecting to {2}:{3}@{0}:{1}", host, port, userName, password);
             log.Write(Console.Title = title);
-            var program = new Program
+
+            var configName = ParseArg("config") ?? "dev";
+            var configFile = $"{ConfigurationManager.SphSourceDirectory}\\SubscriberConfigs\\{configName}.json";
+            if (!File.Exists(configFile))
+            {
+                Console.WriteLine($"Cannot find subscribers config in '{configFile}'");
+                return -1;
+            }
+            var options = configFile.DeserializeFromJsonFile<WorkersConfig>();
+
+            var program = new Program(options.SubscriberConfigs.ToArray())
             {
                 HostName = host,
                 UserName = userName,

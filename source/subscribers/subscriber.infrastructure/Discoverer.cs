@@ -64,14 +64,13 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                         where t.IsMarshalByRef &&
                         !t.IsAbstract &&
                         t.FullName.EndsWith("Subscriber")
-                        let count = ConfigurationManager.AppSettings[$"sph:{t.FullName}:Instance"]
-                        let instance = string.IsNullOrWhiteSpace(count) ? 1 : int.Parse(count)
+                        let instance = (Subscriber)Activator.CreateInstance(t)
                         select new SubscriberMetadata
                         {
                             Assembly = fullFilePath,
                             FullName = t.FullName,
                             Name = Path.GetFileNameWithoutExtension(dll),
-                            Instance = instance
+                            QueueName = instance.QueueName
                         })
                     .ToArray();
 
