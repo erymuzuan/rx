@@ -32,12 +32,21 @@ namespace Bespoke.Sph.Domain
             @class.ImportCollection.AddRange(m_importDirectives);
             var list = new ObjectCollection<Class> { @class };
 
-            if (this.TreatDataAsSource)
+            if (this.Transient)
             {
-                var es = this.StoreInElasticsearch ?? true ? "true" : "false";
-                var db = this.StoreInDatabase ?? true ? "true" : "false";
-                @class.AttributeCollection.Add($"  [StoreAsSource(IsElasticsearch={es}, IsSqlDatabase={db})]");
+                this.StoreInDatabase = false;
+                // for elasticsearch, use the value from user
             }
+            else
+            {
+                this.StoreInElasticsearch = true;
+                this.StoreInDatabase = true;
+            }
+            var es = this.StoreInElasticsearch ?? true ? "true" : "false";
+            var db = this.StoreInDatabase ?? true ? "true" : "false";
+            var source = this.TreatDataAsSource ? "true" : "false";
+            @class.AttributeCollection.Add($"  [PersistenceOption(IsElasticsearch={es}, IsSqlDatabase={db}, IsSource={source})]");
+
 
             var ctor = new StringBuilder();
             // ctor

@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    [StoreAsSource(HasDerivedTypes = true)]
+    [PersistenceOption(HasDerivedTypes = true,IsSource = true)]
     public partial class OperationEndpoint : Entity
     {
 

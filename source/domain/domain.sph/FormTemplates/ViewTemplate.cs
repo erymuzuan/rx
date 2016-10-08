@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    [StoreAsSource]
+    [PersistenceOption(IsSource = true)]
     public partial class ViewTemplate : Entity
     {
         private readonly string m_html;

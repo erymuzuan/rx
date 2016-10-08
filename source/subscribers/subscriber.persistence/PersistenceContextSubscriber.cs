@@ -103,7 +103,7 @@ namespace Bespoke.Sph.Persistence
 
 
         }
-        private async Task<IEnumerable<Entity>> GetPreviousItems(IEnumerable<Entity> items)
+        private async Task<Entity[]> GetPersistedItems(IEnumerable<Entity> items)
         {
             var list = new ObjectCollection<Entity>();
             foreach (var item in items)
@@ -111,19 +111,18 @@ namespace Bespoke.Sph.Persistence
                 var o1 = item;
                 var type = item.GetEntityType();
 
-                var source = StoreAsSourceAttribute.GetAttribute(type);
-                if (null != source)
+                var option = item.GetPersistenceOption();
+                if (option.IsSource)
                 {
                     var file = $"{ConfigurationManager.SphSourceDirectory}\\{type.Name}\\{item.Id}.json";
                     if (!File.Exists(file))
                         continue;
-
                     var old = File.ReadAllText(file).DeserializeFromJson<Entity>();
                     list.Add(old);
 
                     continue;
                 }
-
+                if (!option.IsSqlDatabase) continue;
 
                 var reposType = typeof(IRepository<>).MakeGenericType(type);
                 var repos = ObjectBuilder.GetObject(reposType);
@@ -134,7 +133,7 @@ namespace Bespoke.Sph.Persistence
 
 
             }
-            return list;
+            return list.ToArray();
         }
 
         private async void Received(object sender, ReceivedMessageArgs e)
@@ -163,49 +162,34 @@ namespace Bespoke.Sph.Persistence
                 return;
             }
 
-            try
+            this.WriteMessage("{0} for {1}", headers.Operation, "item".ToQuantity(entities.Count));
+            foreach (var item in entities)
             {
-                this.WriteMessage("{0} for {1}", headers.Operation, "item".ToQuantity(entities.Count));
-                foreach (var item in entities)
-                {
-                    this.WriteMessage("{0} for {1}{{ Id : \"{2}\"}}", headers.Operation, item.GetType().Name, item.Id);
-                }
-                foreach (var item in deletedItems)
-                {
-                    this.WriteMessage("Deleting({0}) {1}{{ Id : \"{2}\"}}", headers.Operation, item.GetType().Name, item.Id);
-                }
+                this.WriteMessage("{0} for {1}{{ Id : \"{2}\"}}", headers.Operation, item.GetType().Name, item.Id);
+            }
+            foreach (var item in deletedItems)
+            {
+                this.WriteMessage("Deleting({0}) {1}{{ Id : \"{2}\"}}", headers.Operation, item.GetType().Name, item.Id);
+            }
 
-                // get changes to items
-                var previous = await GetPreviousItems(entities);
-                var logs = (from r in entities
-                            let e1 = previous.SingleOrDefault(t => t.Id == r.Id)
-                            where null != e1
-                            let diffs = (new ChangeGenerator().GetChanges(e1, r))
-                            let logId = Guid.NewGuid().ToString()
-                            select new AuditTrail(diffs)
-                            {
-                                Operation = operation,
-                                DateTime = DateTime.Now,
-                                User = headers.Username,
-                                Type = r.GetType().Name,
-                                EntityId = r.Id,
-                                Id = logId,
-                                WebId = logId,
-                                Note = "-"
-                            }).ToArray();
-                var addedItems = (from r in entities
-                                  let e1 = previous.SingleOrDefault(t => t.Id == r.Id)
-                                  where null == e1
-                                  select r).ToArray();
-                var changedItems = (from r in entities
-                                    let e1 = previous.SingleOrDefault(t => t.Id == r.Id)
-                                    where null != e1
-                                    select r).ToArray();
+            try
+            {  // get changes to items
+                var previous = await GetPersistedItems(entities);
+                var logs = ComputeChanges(entities, previous, operation, headers);
+                var addedItems = GetAddedItems(entities, previous);
+                var changedItems = GetChangedItems(entities, previous);
                 entities.AddRange(logs);
 
+                var persistedEntities = from r in entities
+                                        let opt = r.GetPersistenceOption()
+                                        where opt.IsSqlDatabase
+                                        select r;
+                var deletedEntities = from r in deletedItems
+                                      let opt = r.GetPersistenceOption()
+                                      where opt.IsSqlDatabase
+                                      select r;
 
-
-                var so = await persistence.SubmitChanges(entities, deletedItems, null, headers.Username)
+                var so = await persistence.SubmitChanges(persistedEntities.ToArray(), deletedEntities.ToArray(), null, headers.Username)
                 .ConfigureAwait(false);
                 Trace.WriteIf(null != so.Exeption, so.Exeption);
 
@@ -254,6 +238,43 @@ namespace Bespoke.Sph.Persistence
             {
                 Interlocked.Decrement(ref m_processing);
             }
+        }
+
+        private static IEnumerable<Entity> GetChangedItems(IEnumerable<Entity> entities, Entity[] previous)
+        {
+            return (from r in entities
+                    let e1 = previous.SingleOrDefault(t => t.Id == r.Id)
+                    where null != e1
+                    select r).ToArray();
+        }
+
+        private static IEnumerable<Entity> GetAddedItems(IEnumerable<Entity> entities, Entity[] previous)
+        {
+            return (from r in entities
+                    let e1 = previous.SingleOrDefault(t => t.Id == r.Id)
+                    where null == e1
+                    select r).ToArray();
+        }
+
+        private static AuditTrail[] ComputeChanges(IEnumerable<Entity> current, IEnumerable<Entity> previous, string operation, MessageHeaders headers)
+        {
+            var logs = (from r in current
+                        let e1 = previous.SingleOrDefault(t => t.Id == r.Id)
+                        where null != e1
+                        let diffs = (new ChangeGenerator().GetChanges(e1, r))
+                        let logId = Guid.NewGuid().ToString()
+                        select new AuditTrail(diffs)
+                        {
+                            Operation = operation,
+                            DateTime = DateTime.Now,
+                            User = headers.Username,
+                            Type = r.GetType().Name,
+                            EntityId = r.Id,
+                            Id = logId,
+                            WebId = logId,
+                            Note = "-"
+                        }).ToArray();
+            return logs;
         }
 
         private async Task<bool> InsertImportDataAsync(Entity[] entities, int retry, int wait)

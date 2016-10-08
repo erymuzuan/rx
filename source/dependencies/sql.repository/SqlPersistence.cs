@@ -52,15 +52,15 @@ namespace Bespoke.Sph.SqlRepository
                 sql.AppendLine();
                 foreach (var item in addedList)
                 {
-                    var source = item.GetType().GetCustomAttribute<StoreAsSourceAttribute>();
-                    if (null != source && !source.IsSqlDatabase)
+                    var option = item.GetPersistenceOption();
+                    if (!option.IsSqlDatabase)
                         continue;
 
                     if (string.IsNullOrWhiteSpace(item.WebId)) item.WebId = Strings.GenerateId();
                     if (string.IsNullOrWhiteSpace(item.Id)) item.Id = Strings.GenerateId();
 
                     count++;
-                    int count1 = count;
+                    var count1 = count;
                     var entityType = item.GetEntityType();
 
                     var metadataType = metadataProvider.GetTable(entityType.Name);
@@ -105,8 +105,8 @@ namespace Bespoke.Sph.SqlRepository
                 foreach (var item in deletedList)
                 {
                     var entityType = this.GetEntityType(item);
-                    var source = entityType.GetCustomAttribute<StoreAsSourceAttribute>();
-                    if (null != source && !source.IsSqlDatabase)
+                    var option = entityType.GetCustomAttribute<PersistenceOptionAttribute>();
+                    if (!option.IsSqlDatabase)
                         continue;
 
                     count++;

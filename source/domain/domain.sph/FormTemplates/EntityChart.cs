@@ -1,6 +1,6 @@
 namespace Bespoke.Sph.Domain
 {
-    [StoreAsSource]
+    [PersistenceOption(IsSource = true)]
     public partial class EntityChart : Entity
     {
         public override string ToString()

@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 namespace Bespoke.Sph.Domain
 {
     [DebuggerDisplay("Name = {Name}, Formatter={Formatter}")]
-    [StoreAsSource(HasDerivedTypes = true)]
+    [PersistenceOption(HasDerivedTypes = true, IsSource = true)]
     public partial class ReceivePort : Entity
     {
         public async Task<WorkflowCompilerResult> CompileAsync()

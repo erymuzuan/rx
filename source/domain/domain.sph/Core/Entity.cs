@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -32,17 +33,26 @@ namespace Bespoke.Sph.Domain
         {
             return Task.FromResult(new List<ValidationError>().AsEnumerable());
         }
-
+        private static readonly ConcurrentDictionary<Type, Type> m_entityTypeLookup = new ConcurrentDictionary<Type, Type>();
         public Type GetEntityType()
         {
-            var item = this;
-            var type = item.GetType();
+            var type = this.GetType();
+            if (m_entityTypeLookup.ContainsKey(type))
+                return m_entityTypeLookup[type];
+
             var attr = type.GetCustomAttribute<EntityTypeAttribute>();
-            if (null != attr) return attr.Type;
-            return type;
+            if (null == attr) return type;
+            
+            m_entityTypeLookup.TryAdd(type, attr.Type);
+            return attr.Type;
         }
 
-        
+        public PersistenceOptionAttribute GetPersistenceOption()
+        {
+            return PersistenceOptionAttribute.GetAttribute(this.GetType());
+        }
+
+
 
         public ValidationResult ValidateBusinessRule(IEnumerable<BusinessRule> businessRules)
         {

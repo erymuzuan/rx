@@ -2,7 +2,7 @@
 
 namespace Bespoke.Sph.Domain
 {
-    [StoreAsSource]
+    [PersistenceOption(IsSource = true)]
     public partial class DocumentTemplate : Entity
     {
         public Task<BuildValidationResult> ValidateBuildAsync(EntityDefinition ed)

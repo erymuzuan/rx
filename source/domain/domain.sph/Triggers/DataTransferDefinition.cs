@@ -1,6 +1,6 @@
 namespace Bespoke.Sph.Domain
 {
-    [StoreAsSource(HasDerivedTypes = true)]
+    [PersistenceOption(HasDerivedTypes = true, IsSource = true)]
     public partial class DataTransferDefinition : Entity
     {
         

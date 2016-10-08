@@ -315,6 +315,16 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-1 col-md-11">
+                                <div class="checkbox">
+                                    <label data-bind="tooltip : 'When use for messaging infrastructure, you have the option to keep the data temporarily in readonly store'">
+                                        <input data-bind="checked: StoreInElasticsearch, enable : Transient" id="es-data" type="checkbox" name="StoreInElasticsearch" />
+                                        Read store
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
 
 
                     </form>

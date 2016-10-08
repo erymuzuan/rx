@@ -75,7 +75,7 @@ namespace subscriber.entities
                                 .Replace($"Bespoke.{ConfigurationManager.ApplicationName}_{ed.Id}.Domain", ed.CodeNamespace)
                                 .Replace($"{ed.CodeNamespace}.HomeAddress", $"{ed.CodeNamespace}.CustomHomeAddress");
                             this.WriteMessage("Migrating {0} : {1}", name, id);
-                            var setting = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All};
+                            var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
                             dynamic ent = JsonConvert.DeserializeObject(json, setting);
                             ent.Id = id;
 
@@ -116,17 +116,17 @@ namespace subscriber.entities
             using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) })
             {
                 var response = await client.PostAsync(url, content);
-                if (null != response)
-                {
-                    Console.Write($"{url} : {response.StatusCode}");
-                }
+                response.EnsureSuccessStatusCode();
             }
             Console.ResetColor();
 
 
         }
+
         protected override async Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
+            if (item.StoreInElasticsearch.HasValue && item.StoreInElasticsearch.Value == false) return;
+
             // compare
             var map = item.GetElasticsearchMapping();
             if (this.Compare(item, map)) return;
@@ -136,6 +136,11 @@ namespace subscriber.entities
             if (result)
             {
                 this.SaveMap(item, map);
+
+                // verify that the SQL is enabled for this EntityDefinition
+                if (item.Transient) return;
+                if (item.StoreInDatabase.HasValue && item.StoreInDatabase.Value == false) return;
+
                 this.SaveMigrationMarker(item);
             }
 

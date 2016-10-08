@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Bespoke.Sph.Domain
 {
     [DebuggerDisplay("Name = {Name}")]
-    [StoreAsSource(HasDerivedTypes = true)]
+    [PersistenceOption(HasDerivedTypes = true, IsSource = true)]
     public partial class ValueObjectDefinition : Entity
     {
         public void Save()

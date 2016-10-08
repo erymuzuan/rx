@@ -47,6 +47,21 @@ namespace domain.test.reports
         {
             throw new NotImplementedException();
         }
+
+        public Task<int> GetCountAsync(Expression<Func<T, bool>> query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<TResult>> GetListAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TResult> GetMaxAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)
+        {
+            throw new NotImplementedException();
+        }
     }
     class MockRepository<T> : IRepository<T> where T : Entity
     {

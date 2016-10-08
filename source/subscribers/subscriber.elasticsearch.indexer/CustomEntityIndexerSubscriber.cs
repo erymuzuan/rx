@@ -23,6 +23,8 @@ namespace Bespoke.Sph.ElasticSearch
             var content = new StringContent(json);
             if (item.IsSystemType()) return;// just custom entity
 
+            var option = item.GetPersistenceOption();
+            if (!option.IsElasticsearch) return;
 
             var type1 = item.GetType();
             var type = type1.Name.ToLowerInvariant();
@@ -84,7 +86,7 @@ namespace Bespoke.Sph.ElasticSearch
             ph.AddOrReplace(MessageHeaders.SPH_TRYCOUNT, count);
 
             var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
-            await publisher.PublishChanges(headers.Operation, new[] {item}, new AuditTrail[] {}, ph);
+            await publisher.PublishChanges(headers.Operation, new[] { item }, new AuditTrail[] { }, ph);
         }
 
         protected override void OnStop()

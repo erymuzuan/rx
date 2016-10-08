@@ -80,8 +80,8 @@ namespace Bespoke.Sph.Messaging
             {
                 var type = item.GetEntityType();
                 var o1 = item;
-                var source = StoreAsSourceAttribute.GetAttribute(type);
-                if (null != source)
+                var option = PersistenceOptionAttribute.GetAttribute(type);
+                if (option?.IsSource ?? false)
                 {
                     var file = $"{ConfigurationManager.SphSourceDirectory}\\{type.Name}\\{item.Id}.json";
                     if (!File.Exists(file))

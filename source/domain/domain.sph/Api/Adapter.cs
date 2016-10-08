@@ -15,7 +15,7 @@ using Bespoke.Sph.Domain.Properties;
 
 namespace Bespoke.Sph.Domain.Api
 {
-    [StoreAsSource(HasDerivedTypes = true)]
+    [PersistenceOption(HasDerivedTypes = true,IsSource = true)]
     public abstract partial class Adapter
     {
         public string[] SaveSources(IEnumerable<Class> classes, string folder)

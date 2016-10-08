@@ -7,7 +7,7 @@ define([], function () {
 "CompilerHelper",
 "ConfigurationManager",
 "DictionaryHelper",
-"StoreAsSourceAttribute",
+"PersistenceOptionAttribute",
 "ValidationError",
 "Attachment",
 "AuditTrail",

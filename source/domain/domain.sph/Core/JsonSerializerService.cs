@@ -63,7 +63,7 @@ namespace Bespoke.Sph.Domain
             elements.AddIfNotExist("required", "true");
             elements.Add("type", string.Empty);
             if (typeBags.ContainsKey(type))
-                elements["type"] =$@"""{typeBags[type]}""";
+                elements["type"] = $@"""{typeBags[type]}""";
             if (formatBags.ContainsKey(type))
                 elements.AddIfNotExist("format", $@"""{formatBags[type]}""");
 
@@ -137,7 +137,7 @@ namespace Bespoke.Sph.Domain
             code.Append("}");
             return code.ToString();
         }
-       
+
 
         /// <summary>
         /// Clone object, deep copy
@@ -210,6 +210,8 @@ namespace Bespoke.Sph.Domain
                 }
             }
         }
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -217,14 +219,17 @@ namespace Bespoke.Sph.Domain
         /// <returns></returns>
         public static T DeserializeFromJsonFile<T>(this string file) where T : Entity
         {
+            var option = PersistenceOptionAttribute.GetAttribute<T>();
+            if (null == option)
+                throw new InvalidOperationException(typeof(T) + " does not have PersistenceOptionAttribute");
+            if (!option.IsSource)
+                throw new InvalidOperationException(typeof(T) + " does not have PersistenceOptionAttribute set to IsSource=true");
             if (!File.Exists(file))
                 throw new ArgumentException("Cannot find file " + file, nameof(file));
             try
             {
-                var source = StoreAsSourceAttribute.GetAttribute<T>();
-                if (null == source)
-                    throw new InvalidOperationException(typeof(T) + " does not have StoreAsSourceAttribute");
-                var readAllText = source.HasDerivedTypes;
+
+                var readAllText = option.HasDerivedTypes;
                 if (readAllText)
                 {
                     var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };

@@ -250,34 +250,43 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("{name}/contents")]
         public async Task<ActionResult> TruncateData(string name)
         {
-            // delete the elasticsearch data
-            using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) })
+            var context = new SphDataContext();
+            var ed = context.LoadOneFromSources<EntityDefinition>(x => x.Name == name);
+
+            if (ed.StoreInElasticsearch ?? false)
             {
-                var message = new HttpRequestMessage(HttpMethod.Delete,
-                    $"{ConfigurationManager.ElasticSearchIndex}/{name.ToLowerInvariant()}/_query")
+                // delete the elasticsearch data
+                using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) })
                 {
-                    Content = new StringContent(
-@"{
+                    var message = new HttpRequestMessage(HttpMethod.Delete,
+                        $"{ConfigurationManager.ElasticSearchIndex}/{name.ToLowerInvariant()}/_query")
+                    {
+                        Content = new StringContent(
+    @"{
    ""query"": {
       ""match_all"": {}
    }
 }")
-                };
-                await client.SendAsync(message);
+                    };
+                    await client.SendAsync(message);
+                }
+
             }
 
-            // truncate SQL Table
-            using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
-            using (var truncateCommand = new SqlCommand($"TRUNCATE TABLE [{ConfigurationManager.ApplicationName}].[{name}]", conn))
-            using (var dbccCommand = new SqlCommand($"DBCC SHRINKDATABASE ({ConfigurationManager.ApplicationName})", conn))
+            if (!ed.Transient)
             {
-                await conn.OpenAsync();
+                // truncate SQL Table
+                using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
+                using (var truncateCommand = new SqlCommand($"TRUNCATE TABLE [{ConfigurationManager.ApplicationName}].[{name}]", conn))
+                using (var dbccCommand = new SqlCommand($"DBCC SHRINKDATABASE ({ConfigurationManager.ApplicationName})", conn))
+                {
+                    await conn.OpenAsync();
 
-                await truncateCommand.ExecuteNonQueryAsync();
-                await dbccCommand.ExecuteNonQueryAsync();
+                    await truncateCommand.ExecuteNonQueryAsync();
+                    await dbccCommand.ExecuteNonQueryAsync();
+                }
             }
-
-            return Json(new {success = true, message = "Data has been truncated", status = "OK"});
+            return Json(new { success = true, message = "Data has been truncated", status = "OK" });
 
         }
 

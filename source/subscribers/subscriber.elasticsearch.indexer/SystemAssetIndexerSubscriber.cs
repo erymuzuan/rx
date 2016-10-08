@@ -1,6 +1,5 @@
 using System;
 using System.Net.Http;
-using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
@@ -14,10 +13,10 @@ namespace Bespoke.Sph.ElasticSearch
         public override string QueueName => "system_asset_es_indexer";
         public override string[] RoutingKeys => new[] { "#.added.#", "#.changed.#", "#.delete.#" };
         private HttpClient m_client;
-        private  TrackerIndexer m_trackerIndexer;
+        private TrackerIndexer m_trackerIndexer;
         protected override void OnStart()
         {
-            m_client = new HttpClient {BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost)};
+            m_client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) };
             m_trackerIndexer = new TrackerIndexer(m_client);
             base.OnStart();
         }
@@ -31,9 +30,8 @@ namespace Bespoke.Sph.ElasticSearch
             var content = new StringContent(json);
             var type = item.GetType();
             if (!item.IsSystemType()) return;// just custom entity
-            var source = item.GetType().GetCustomAttribute(typeof(StoreAsSourceAttribute));
-            if (null != source) return;
-
+            var option = item.GetPersistenceOption();
+            if (!option.IsElasticsearch) return;
 
             if (type == typeof(Tracker))
             {

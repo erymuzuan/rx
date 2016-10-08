@@ -2,7 +2,7 @@
 
 namespace Bespoke.Sph.Domain
 {
-    [StoreAsSource(IsElasticsearch = true)]
+    [PersistenceOption(IsElasticsearch = true,IsSource = true)]
     public partial class QuotaPolicy : Entity { }
     public partial class RateLimit : DomainObject { }
     public partial class QuotaLimit : DomainObject { }

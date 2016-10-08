@@ -75,4 +75,11 @@
       $(BuildDependsOn);CopyOutputDirClientAndWeb
     </BuildDependsOn>
   </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetDir)$(TargetName).dll $(SolutionDir)source\web\web.sph\bin
+copy $(TargetDir)$(TargetName).pdb $(SolutionDir)source\web\web.sph\bin
+
+copy $(TargetDir)$(TargetName).dll $(SolutionDir)bin\subscribers
+copy $(TargetDir)$(TargetName).pdb $(SolutionDir)bin\subscribers</PostBuildEvent>
+  </PropertyGroup>
 </Project>

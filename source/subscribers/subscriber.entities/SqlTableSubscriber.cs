@@ -57,6 +57,9 @@ namespace subscriber.entities
 
         protected override async Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
+            if (item.Transient) return;
+            if (item.StoreInDatabase.HasValue && item.StoreInDatabase.Value == false) return;
+
             var connectionString = ConfigurationManager.SqlConnectionString;
             var applicationName = ConfigurationManager.ApplicationName;
             var tableExistSql =

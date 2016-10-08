@@ -14,10 +14,12 @@ namespace subscriber.version.control
             "#.changed.#",
             "#.deleted.#"
         };
-        
+
         protected override async Task ProcessMessage(Entity item, MessageHeaders header)
         {
             if (null == item) return;
+            var option = item.GetPersistenceOption();
+            if (!option.IsSource) return;
 
             var type = item.GetEntityType();
 
@@ -50,7 +52,7 @@ namespace subscriber.version.control
                     await wd.ProcessItem(item as WorkflowDefinition);
                 return;
             }
-            
+
 
             if (type == typeof(EntityView))
             {
@@ -72,11 +74,8 @@ namespace subscriber.version.control
                 return;
             }
 
-            var sourceAttribute = StoreAsSourceAttribute.GetAttribute(type);
-            if (null == sourceAttribute) return;
 
             var provider = new EntitySourceProvider();
-
 
             if (header.Crud == CrudOperation.Deleted)
                 await provider.RemoveItem(item);

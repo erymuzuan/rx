@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
@@ -9,6 +13,9 @@ namespace Bespoke.Sph.Domain
         Task<string> SearchAsync(string query);
         Task<string> SearchAsync(string query, string queryString);
         Task<int> GetCountAsync(string query, string queryString);
+        Task<int> GetCountAsync(Expression<Func<T, bool>> query);
+        Task<IEnumerable<TResult>> GetListAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector);
+        Task<TResult> GetMaxAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector);
     }
 
     public class LoadData<T> where T : Entity

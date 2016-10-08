@@ -99,8 +99,8 @@ namespace Bespoke.Sph.Domain
 
         public async Task<T> LoadOneAsync<T>(Expression<Func<T, bool>> predicate) where T : Entity
         {
-            var storeAsSource = StoreAsSourceAttribute.GetAttribute<T>();
-            if (null != storeAsSource)
+            var option = PersistenceOptionAttribute.GetAttribute<T>();
+            if (null != option && option.IsSource)
                 return this.LoadOneFromSources(predicate);
 
 
@@ -111,8 +111,8 @@ namespace Bespoke.Sph.Domain
         }
         public T LoadOne<T>(Expression<Func<T, bool>> predicate) where T : Entity
         {
-            var storeAsSource = StoreAsSourceAttribute.GetAttribute<T>();
-            if (null != storeAsSource)
+            var option = PersistenceOptionAttribute.GetAttribute<T>();
+            if (null != option && option.IsSource)
                 return this.LoadOneFromSources(predicate);
 
             var provider = ObjectBuilder.GetObject<QueryProvider>();
@@ -135,15 +135,27 @@ namespace Bespoke.Sph.Domain
 
         public async Task<int> GetCountAsync<T>(Expression<Func<T, bool>> predicate) where T : Entity
         {
-            var source = StoreAsSourceAttribute.GetAttribute<T>();
-            if (null != source && !source.IsSqlDatabase)
+            var option = PersistenceOptionAttribute.GetAttribute<T>();
+            if (null == option) return 0;
+            if (option.IsSource)
             {
                 var list = LoadFromSources(predicate);
                 return list.Count();
             }
-            var query = Translate(predicate);
-            var repos = ObjectBuilder.GetObject<IRepository<T>>();
-            return await repos.GetCountAsync(query).ConfigureAwait(false);
+            if (option.IsSqlDatabase)
+            {
+                var query = Translate(predicate);
+                var repos = ObjectBuilder.GetObject<IRepository<T>>();
+                return await repos.GetCountAsync(query).ConfigureAwait(false);
+            }
+            if (option.IsElasticsearch)
+            {
+                var readOnlyStore = ObjectBuilder.GetObject<IReadonlyRepository<T>>();
+                return await readOnlyStore.GetCountAsync(predicate);
+            }
+
+            return 0;
+
         }
 
         public async Task<bool> GetAnyAsync<T>(IQueryable<T> query) where T : Entity
@@ -221,23 +233,35 @@ namespace Bespoke.Sph.Domain
             where T : Entity
             where TResult : struct
         {
-            var source = StoreAsSourceAttribute.GetAttribute<T>();
-            if (null != source && !source.IsSqlDatabase)
+            var options = PersistenceOptionAttribute.GetAttribute<T>();
+            if (null == options)
+                throw new Exception($"The type {typeof(T).FullName} didn't have storage option specified");
+            if (options.IsSource)
             {
                 var list = this.LoadFromSources(predicate).ToArray();
                 return !list.Any() ? default(TResult) : list.Max(selector.Compile());
             }
+            if (options.IsSqlDatabase)
+            {
+                var query = Translate(predicate);
+                var repos = ObjectBuilder.GetObject<IRepository<T>>();
+                return await repos.GetMaxAsync(query, selector);
+            }
+            if (options.IsElasticsearch)
+            {
 
-            var query = Translate(predicate);
-            var repos = ObjectBuilder.GetObject<IRepository<T>>();
-            return await repos.GetMaxAsync(query, selector);
+                var readOnlyRepos = ObjectBuilder.GetObject<IReadonlyRepository<T>>();
+                return await readOnlyRepos.GetMaxAsync(predicate, selector).ConfigureAwait(false);
+            }
+            throw new Exception($"The type {typeof(T).FullName} didn't have storage option specified");
+
         }
 
         public async Task<TResult> GetMaxAsync<T, TResult>(IQueryable<T> query, Expression<Func<T, TResult>> selector)
             where T : Entity
             where TResult : struct
         {
-            
+
             var repos = ObjectBuilder.GetObject<IRepository<T>>();
             return await repos.GetMaxAsync(query, selector);
         }
@@ -262,18 +286,31 @@ namespace Bespoke.Sph.Domain
         public async Task<IEnumerable<TResult>> GetListAsync<T, TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)
             where T : Entity
         {
-            var source = StoreAsSourceAttribute.GetAttribute<T>();
-            if (null != source && !source.IsSqlDatabase)
+            var options = PersistenceOptionAttribute.GetAttribute<T>();
+            if (null == options)
+                throw new Exception($"The type {typeof(T).FullName} didn't have storage option specified");
+
+            if (options.IsSource)
             {
                 var list = LoadFromSources(predicate)
                     .Select(selector.Compile());
                 return list;
             }
-            var provider = ObjectBuilder.GetObject<QueryProvider>();
-            var query = new Query<T>(provider).Where(predicate);
+            if (options.IsSqlDatabase)
+            {
+                var provider = ObjectBuilder.GetObject<QueryProvider>();
+                var query = new Query<T>(provider).Where(predicate);
 
-            var repos = ObjectBuilder.GetObject<IRepository<T>>();
-            return await repos.GetListAsync(query, selector).ConfigureAwait(false);
+                var repos = ObjectBuilder.GetObject<IRepository<T>>();
+                return await repos.GetListAsync(query, selector).ConfigureAwait(false);
+            }
+            if (options.IsElasticsearch)
+            {
+                var readOnlyRepos = ObjectBuilder.GetObject<IReadonlyRepository<T>>();
+                return await readOnlyRepos.GetListAsync(predicate, selector).ConfigureAwait(false);
+            }
+
+            throw new Exception($"The type {typeof(T).FullName} didn't have storage option specified");
         }
 
 

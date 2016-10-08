@@ -21,7 +21,7 @@ using Polly;
 namespace Bespoke.Sph.Domain
 {
     [DebuggerDisplay("Name = {Name}")]
-    [StoreAsSource(HasDerivedTypes = true)]
+    [PersistenceOption(HasDerivedTypes = true, IsSource = true)]
     public partial class EntityDefinition : Entity
     {
         // reserved names

@@ -26,9 +26,12 @@ namespace Bespoke.Sph.WebApi
         public override HttpParameterBinding GetBinding(HttpParameterDescriptor parameter)
         {
             var entity = typeof(Entity);
-            var storeAsSource = parameter.ParameterType.GetCustomAttribute(typeof(StoreAsSourceAttribute));
-            if(null == storeAsSource)
-                return parameter.BindAsError("Wrong parameter type, Only those type that have StoreAsSourceAttibute");
+            var persistenceOption =(PersistenceOptionAttribute) parameter.ParameterType.GetCustomAttribute(typeof(PersistenceOptionAttribute));
+            if(null == persistenceOption)
+                return parameter.BindAsError("Wrong parameter type, Only those type that have PersistenceOptionAttribute");
+
+            if(!persistenceOption.IsSource)
+                return parameter.BindAsError("Wrong parameter type, Only those type that have IsSource = true");
 
             if (entity.IsAssignableFrom(parameter.ParameterType))
             {

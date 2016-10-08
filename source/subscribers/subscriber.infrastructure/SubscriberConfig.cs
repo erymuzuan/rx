@@ -2,7 +2,7 @@
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {
-    [StoreAsSource]
+    [PersistenceOption(IsSource = true, IsSqlDatabase = false, IsElasticsearch = false)]
     public class WorkersConfig : Entity
     {
         public string Name { get; set; }
@@ -12,8 +12,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         public ObjectCollection<SubscriberConfig> SubscriberConfigs { get; set; } = new ObjectCollection<SubscriberConfig>();
     }
-    
-    public class SubscriberConfig 
+
+    public class SubscriberConfig
     {
         public ushort? InstancesCount { get; set; }
         public ushort? PrefetchCount { get; set; }

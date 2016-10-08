@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -100,6 +102,21 @@ namespace Bespoke.Sph.ElasticsearchRepository
             var count = jo.SelectToken("$.hits.total").Value<int>();
             return count;
 
+        }
+
+        public Task<int> GetCountAsync(Expression<Func<T, bool>> query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<TResult>> GetListAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TResult> GetMaxAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)
+        {
+            throw new NotImplementedException();
         }
 
         public void Dispose()
