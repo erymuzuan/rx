@@ -184,10 +184,15 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.PowerShell.5.ReferenceAssemblies.1.0.0\lib\net4\System.Management.Automation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -2740,7 +2745,10 @@
     <EmbeddedResource Include="SphApp\viewmodels\_data.import.history.js" />
     <EmbeddedResource Include="SphApp\viewmodels\_data.import.schedule.js" />
     <EmbeddedResource Include="SphApp\viewmodels\transform.definition.edit.js" />
-    <Content Include="SphApp\viewmodels\receive.port.header.field.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\management.web.server.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\management.deployment.environment.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\new.dsc.config.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\receive.port.header.field.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\receive.port.uri.field.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\restapi.receive.location.dialog.js" />
     <EmbeddedResource Include="SphApp\viewmodels\sqlserver.receive.location.dialog.js" />
@@ -3315,8 +3323,11 @@
     <EmbeddedResource Include="SphApp\views\_api.management.request.list.html" />
     <EmbeddedResource Include="SphApp\views\new.receive.location.dialog.html" />
     <EmbeddedResource Include="SphApp\viewmodels\workers.management.js" />
-    <Content Include="SphApp\viewmodels\worker.config.dialog.js" />
-    <Content Include="SphApp\views\receive.location.folder.html" />
+    <EmbeddedResource Include="SphApp\viewmodels\worker.config.dialog.js" />
+    <EmbeddedResource Include="SphApp\views\management.deployment.environment.html" />
+    <EmbeddedResource Include="SphApp\views\management.web.server.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\new.dsc.config.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\receive.location.folder.html" />
     <EmbeddedResource Include="SphApp\views\receive.location.list.html" />
     <EmbeddedResource Include="SphApp\views\view.sample.file.dialog.html" />
     <EmbeddedResource Include="SphApp\views\_field.mapping.header.delimitedtext.html" />
@@ -3325,7 +3336,7 @@
     <EmbeddedResource Include="SphApp\views\_formatter.wizard.sqlserverrecordset.html" />
     <EmbeddedResource Include="SphApp\views\_formatter.wizard.delimitedtext.html" />
     <EmbeddedResource Include="SphApp\views\workers.management.html" />
-    <Content Include="SphApp\views\worker.config.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\worker.config.dialog.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>

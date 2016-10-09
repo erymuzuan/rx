@@ -1,0 +1,56 @@
+﻿<div class="row">
+    <h1>
+        <i class="icon-fire"></i>
+        Your deployment landscapes
+    </h1>
+</div>
+<table class="table table-striped" data-bind="filter : {path:'tbody>tr'},
+    serverPaging : {
+        entity : 'DscConfig',
+        list : list
+    }">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Environment</th>
+            <th>Created On</th>
+            <th>Changed On</th>
+            <th>Published</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach :list">
+        <tr>
+            <td>
+                <div class="btn-group">
+                    <a title="Click to specify your value" class="btn btn-link dropdown dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+                        <!-- ko text : Name  -->
+                        <!-- /ko -->
+
+                        <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li data-bind2="click : $root.edit">
+
+                            <a data-bind="attr : {href:'#/dsc.environment/' + ko.unwrap(Id)}">
+                                <i class="fa fa-edit"></i>
+                                Edit
+                            </a>
+                        </li>
+
+                    
+                    </ul>
+                </div>
+
+            </td>
+            <td data-bind="text:Name"></td>
+            <td data-bind="text:Environment"></td>
+            <td data-bind="date:CreatedDate"></td>
+            <td data-bind="date:ChangedDate"></td>
+            <td>
+                <i class="fa fa-check" data-bind2="visible:IsPublished"></i>
+            </td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
