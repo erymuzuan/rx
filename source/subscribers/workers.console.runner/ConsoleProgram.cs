@@ -54,8 +54,9 @@ namespace workers.console.runner
             var title = string.Format("Connecting to {2}:{3}@{0}:{1}", host, port, userName, password);
             log.Write(Console.Title = title);
 
-            var configName = ParseArg("config") ?? "dev";
-            var configFile = $"{ConfigurationManager.SphSourceDirectory}\\SubscriberConfigs\\{configName}.json";
+            var envName = ParseArg("env") ?? "dev";
+            var configName = ParseArg("config") ?? "all";
+            var configFile = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(WorkersConfig)}\\{envName}.{configName}.json";
             if (!File.Exists(configFile))
             {
                 Console.WriteLine($"Cannot find subscribers config in '{configFile}'");
@@ -97,7 +98,7 @@ namespace workers.console.runner
             Console.WriteLine("{0} seconds taken to start the console", span.TotalSeconds);
             Console.WriteLine("Welcome to [SPH] Type ctrl + c to quit at any time.");
 
-        
+
             stopFlag.WaitOne();
             return 0;
         }

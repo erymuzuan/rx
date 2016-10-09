@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<xs:schema xmlns="http://www.bespoke.com.my/" xmlns:bs="http://www.bespoke.com.my/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bespoke.com.my/" elementFormDefault="qualified" attributeFormDefault="unqualified" id="StationSchema">
+	<xs:element name="WorkersConfig"  bs:entity="true">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="SubscriberConfigs">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="SubscriberConfig" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="IsEnabled" type="xs:boolean" use="required"/>
+			<xs:attribute name="Environment" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SubscriberConfig">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="InstancesCount" type="xs:int" nillable="true"/>
+				<xs:element name="PrefetchCount" type="xs:int" nillable="true"/>
+				<xs:element name="Priority" type="xs:int" nillable="true"/>
+			</xs:all>
+			<xs:attribute name="QueueName" type="xs:string" use="required"/>
+			<xs:attribute name="FullName" type="xs:string" use="required"/>
+			<xs:attribute name="Assembly" type="xs:string" use="required"/>
+			<xs:attribute name="TypeName" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

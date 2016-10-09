@@ -141,7 +141,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     if (sql0.indexOf(a) <= -1)
                         model().SelectStatement(sql1);
 
-                    if (!(model().Entity())) {
+                    if (!model().Entity()) {
                         return Task.fromResult(0);
                     }
                     return context.loadAsync("TransformDefinition")

@@ -20,7 +20,8 @@ namespace workers.windowsservice.runner
         {
             INotificationService logger = new EventLogNotification();
             var configName = ConfigurationManager.AppSettings["sph:WorkersConfig"];
-            var configFile = $"{ConfigurationManager.SphSourceDirectory}\\SubscriberConfigs\\{configName}.json";
+            var env = ConfigurationManager.GetEnvironmentVariable("Environment");
+            var configFile = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(WorkersConfig)}\\{env}.{configName}.json";
             if (!File.Exists(configFile))
             {
                 logger.WriteError($@"Cannot find subscribers config in '{configFile}'");

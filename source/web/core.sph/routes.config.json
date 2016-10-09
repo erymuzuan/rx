@@ -462,6 +462,20 @@
   {
     "role": "administrators",
     "groupName": "Admin",
+    "route": "workers.management",
+    "moduleId": "viewmodels/workers.management",
+    "title": "Rx Workers Management",
+    "nav": true,
+    "icon": "icon-fire",
+    "caption": "Workers details",
+    "settings": null,
+    "isAdminPage": false,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "administrators",
+    "groupName": "Admin",
     "route": "endpoints.quota.policy",
     "moduleId": "viewmodels/endpoints.quota.policy",
     "title": "Endpoints Quota Policy",

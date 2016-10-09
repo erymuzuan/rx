@@ -1156,6 +1156,7 @@
     <Compile Include="Helpers\WebCacheManager.cs" />
     <Compile Include="Hubs\AuditTrailConnection.cs" />
     <Compile Include="Hubs\DataImportHub.cs" />
+    <Compile Include="Hubs\DeploymentHub.cs" />
     <Compile Include="Hubs\ErrorHandlingPipelineModule.cs" />
     <Compile Include="Hubs\SolutionConnection.cs" />
     <Compile Include="Hubs\MessageConnection.cs" />
@@ -2318,6 +2319,7 @@
       <DependentUpon>__prototypes.js</DependentUpon>
     </Content>
     <Content Include="SphApp\schemas\adapter.api.g.js" />
+    <EmbeddedResource Include="SphApp\schemas\rx.management.g.js" />
     <Content Include="SphApp\schemas\sph.domain.g.js" />
     <EmbeddedResource Include="SphApp\schemas\trigger.workflow.g.js" />
     <EmbeddedResource Include="SphApp\services\app.js" />
@@ -3312,6 +3314,8 @@
     <EmbeddedResource Include="SphApp\views\_api.management.request.charts.html" />
     <EmbeddedResource Include="SphApp\views\_api.management.request.list.html" />
     <EmbeddedResource Include="SphApp\views\new.receive.location.dialog.html" />
+    <EmbeddedResource Include="SphApp\viewmodels\workers.management.js" />
+    <Content Include="SphApp\viewmodels\worker.config.dialog.js" />
     <Content Include="SphApp\views\receive.location.folder.html" />
     <EmbeddedResource Include="SphApp\views\receive.location.list.html" />
     <EmbeddedResource Include="SphApp\views\view.sample.file.dialog.html" />
@@ -3320,6 +3324,8 @@
     <EmbeddedResource Include="SphApp\views\_field.mapping.header.html" />
     <EmbeddedResource Include="SphApp\views\_formatter.wizard.sqlserverrecordset.html" />
     <EmbeddedResource Include="SphApp\views\_formatter.wizard.delimitedtext.html" />
+    <EmbeddedResource Include="SphApp\views\workers.management.html" />
+    <Content Include="SphApp\views\worker.config.dialog.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>

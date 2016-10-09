@@ -73,7 +73,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     this.NotificationService.Write("Starts..." + mt.FullName);
                     try
                     {
-                        mt.PrefetchCount = config.PrefetchCount ?? 1;
+                        mt.PrefetchCount = (ushort)(config.PrefetchCount ?? 1);
                         var worker = StartSubscriber(mt, m_connection);
                         if (null != worker)
                         {
@@ -116,7 +116,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         private Subscriber StartSubscriber(SubscriberMetadata metadata, IConnection connection)
         {
-            
+
             var dll = Path.GetFileNameWithoutExtension(metadata.Assembly);
             if (string.IsNullOrWhiteSpace(dll)) return null;
             var subs = Activator.CreateInstance(dll, metadata.FullName).Unwrap() as Subscriber;
