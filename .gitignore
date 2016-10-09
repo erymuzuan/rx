@@ -184,3 +184,5 @@ source/web/core.sph/bower_components/
 /bin/services
 /bin/packages
 /snippets/web.api.receive.location/web.api.receive.location
+env.devv1.s305.ps1
+StartIisExpressProxy.bat
