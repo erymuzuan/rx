@@ -2,7 +2,7 @@
   "name": "dev",
   "description": "Development on local machines",
   "isEnabled": true,
-  "machineName": ".",
+  "environment": "1mdb",
   "subscriberConfigs": [
     {
       "instancesCount": 1,

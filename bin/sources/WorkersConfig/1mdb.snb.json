@@ -2,11 +2,11 @@
   "name": "snb",
   "description": "Development on local machines",
   "isEnabled": true,
-  "machineName": ".",
+  "environment": "1mdb",
   "subscriberConfigs": [
     {
-      "instancesCount": 3,
-      "prefetchCount": 1,
+      "instancesCount": 10,
+      "prefetchCount": 5,
       "priority": 0,
       "queueName": "trigger_subs_sales-order-post-snb",
       "fullName": "Bespoke.DevV1.TriggerSubscribers.SalesOrderPostSnbTriggerSubscriber",

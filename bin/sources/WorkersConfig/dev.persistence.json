@@ -2,7 +2,7 @@
   "name": "persistence",
   "description": "Development on local machines",
   "isEnabled": true,
-  "machineName": ".",
+  "environment": "dev",
   "subscriberConfigs": [
     {
       "instancesCount": 4,
