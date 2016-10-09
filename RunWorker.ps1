@@ -1,5 +1,8 @@
 ﻿Param(
-       [switch]$InMemory = $false
+       [switch]$InMemory = $false,
+       [switch]$Debug = $false,
+       [string]$config = "dev"
+       
      )
 
 $WorkingDirectory = $PWD
@@ -44,6 +47,9 @@ copy source\web\web.sph\bin\System.Web.Mvc.dll bin\subscribers
 ls -Filter *.config -Path .\bin\subscribers | Remove-Item
 ls -Filter *.xml -Path .\bin\subscribers | Remove-Item
 
-
-& .\bin\subscribers.host\workers.console.runner.exe /log:console
+if($Debug -ne $false){
+  & .\bin\subscribers.host\workers.console.runner.exe /log:console /config:$config /debug
+}else{
+   & .\bin\subscribers.host\workers.console.runner.exe /log:console /config:$config
+}
     

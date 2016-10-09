@@ -20,3 +20,6 @@ $machine = ($env:COMPUTERNAME).Replace("-","_")
 [System.Environment]::SetEnvironmentVariable("RX_DEVV1_ElasticsearchNodeName","node_$machine" + "_DevV1", "Process")
 [System.Environment]::SetEnvironmentVariable("RABBITMQ_BASE","$RxHome\rabbitmq_base", "Process")
 [System.Environment]::SetEnvironmentVariable("PATH","$env:Path;$RxHome\rabbitmq_server\sbin", "Process")
+
+[System.Environment]::SetEnvironmentVariable("RX_DEVV1_BromConnectionString", "Data Source=S301\DEV2016;Initial Catalog=PittisNonCore;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False", "Process")
+[System.Environment]::SetEnvironmentVariable("RX_DEVV1_SnbWebNewAccount_BaseAddress", "http://eryken2.asuscomm.com:8086", "Process")
