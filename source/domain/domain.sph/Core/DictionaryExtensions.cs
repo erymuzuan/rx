@@ -5,7 +5,7 @@ namespace Bespoke.Sph.Domain
     /// <summary>
     /// Just helper for the Dictionary object
     /// </summary>
-    public static class DictionaryHelper
+    public static class DictionaryExtensions
     {
         /// <summary>
         /// Add a new key-value, if not exist, else will replace the value

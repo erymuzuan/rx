@@ -33,7 +33,7 @@ namespace domain.test.razor
             var ldap = ObjectBuilder.GetObject<IDirectoryService>();
             var razor = new RazorEngine();
             var result = await razor.GenerateAsync("My name is @Model.Name created by @ViewBag.UserName on @DateTime.Today.ToString(\"f\")", new { Name = "Erymuzuan" });
-            Assert.Equal(string.Format("My name is Erymuzuan created by {0} on {1:f}", ldap.CurrentUserName, DateTime.Today), result);
+            Assert.Equal($"My name is Erymuzuan created by {ldap.CurrentUserName} on {DateTime.Today:f}", result);
         }
 
     }

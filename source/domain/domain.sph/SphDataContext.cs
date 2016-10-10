@@ -89,7 +89,7 @@ namespace Bespoke.Sph.Domain
             var so = new SubmitOperation { Token = Guid.NewGuid().ToString() };
             headers.AddOrReplace("sph.token", so.Token);
             headers.AddOrReplace("sph.timestamp", DateTime.Now.ToString("s"));
-            headers.AddOrReplace("username", ObjectBuilder.GetObject<IDirectoryService>().CurrentUserName);
+            headers.AddIfNotExist("username", ObjectBuilder.GetObject<IDirectoryService>().CurrentUserName);
 
             await publisher.SubmitChangesAsync(operation, session.AttachedCollection, session.DeletedCollection, headers)
                 .ConfigureAwait(false);

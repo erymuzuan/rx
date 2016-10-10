@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Security;
 using Bespoke.Sph.Domain;
-using Monads.NET;
 
 namespace Bespoke.Sph.DirectoryServices
 {
@@ -26,13 +25,17 @@ namespace Bespoke.Sph.DirectoryServices
         {
             get
             {
-                var user = HttpContext.Current.With(c => c.User)
-                    .With(u => u.Identity)
-                    .With(i => i.Name);
+                string user;
+                var context = HttpContext.Current.GetOwinContext();
+                if (null != context)
+                {
+                    user = context.Request.User.Identity.Name;
+                    if (!string.IsNullOrEmpty(user)) return user;
+                }
+
+                user = HttpContext.Current?.User.Identity.Name;
                 if (!string.IsNullOrWhiteSpace(user)) return user;
-                user = Membership
-                    .GetUser()
-                    .With(u => u.UserName);
+                user = Membership.GetUser()?.UserName;
                 if (!string.IsNullOrWhiteSpace(user)) return user;
 
                 if (Thread.CurrentPrincipal.Identity.IsAuthenticated)

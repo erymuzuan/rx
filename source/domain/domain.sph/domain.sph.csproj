@@ -203,6 +203,7 @@
     <Compile Include="Business\Designation.cs" />
     <Compile Include="Business\EmailTemplate.cs" />
     <Compile Include="Business\Photo.cs" />
+    <Compile Include="Core\DictionaryExtensions.cs" />
     <Compile Include="diagnostics\FormDeleteOperationDiagnostics.cs" />
     <Compile Include="diagnostics\FormOperationDiagnostics.cs" />
     <Compile Include="diagnostics\LocationEndpointDiagnostics.cs" />
@@ -230,7 +231,6 @@
     <Compile Include="Codes\Property.cs" />
     <Compile Include="Compilers\CompilerHelper.cs" />
     <Compile Include="ConfigurationManager.cs" />
-    <Compile Include="Core\DictionaryHelper.cs" />
     <Compile Include="Core\PersistenceOptionAttribute.cs" />
     <Compile Include="Core\ValidationError.cs" />
     <Compile Include="Business\Attachment.cs" />
