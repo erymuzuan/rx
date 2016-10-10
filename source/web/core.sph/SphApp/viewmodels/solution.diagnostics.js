@@ -11,7 +11,7 @@
 define(["services/datacontext", "services/logger", "plugins/router"],
     function (context, logger, router) {
 
-        var errors = ko.observableArray(),
+        const errors = ko.observableArray(),
             warnings = ko.observableArray(),
             jsTreeData = {
                 text: "Diagnostics",
@@ -54,17 +54,17 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 });
             },
             recurseChildMember = function (node) {
-                var list = [],
+                const list = [],
                     addWarning = v => warnings.push(v),
                     addError = v => errors.push(v);
 
-                for (var d in node.data) {
+                for (let d in node.data) {
                     if (!node.data.hasOwnProperty(d)) {
                         continue;
                     }
-                    var item = node.data[d];
-                    _(item.Warnings).each(addWarning());
-                    _(item.Errors).each(addError);
+                    const item = node.data[d];
+                    item.Warnings.forEach(addWarning);
+                    item.Errors.forEach(addError);
 
 
                     var errorsCount = item.Errors.length > 0,
@@ -88,16 +88,16 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     });
                 }
                 node.children = list;
-                _(node.children).each(addWarnings);
-                _(node.children).each(addErrors);
+                node.children.forEach(addWarnings);
+                node.children.forEach(addErrors);
 
             },
             draw = function (diagnostics) {
 
                 warnings([]);
                 errors([]);
-                var list = [];
-                for (var d in diagnostics) {
+                const list = [];
+                for (let d in diagnostics) {
                     if (diagnostics.hasOwnProperty(d)) {
                         list.push({
                             text: d,
@@ -108,13 +108,13 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                     }
                 }
                 jsTreeData.children = list;
-                _(jsTreeData.children).each(recurseChildMember);
+                jsTreeData.children.forEach(recurseChildMember);
 
                 $("#diagnostics-tree").jstree({
                     "core": {
                         "animation": 0,
                         "check_callback": true,
-                        "themes": {"stripes": true},
+                        "themes": { "stripes": true },
                         'data': jsTreeData
                     },
                     "contextmenu": {
@@ -172,7 +172,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 return context.post(ko.toJSON({}), "/solution/diagnostics").done(draw);
             };
 
-        var vm = {
+        const vm = {
             errors: errors,
             warnings: warnings,
             isBusy: isBusy,
