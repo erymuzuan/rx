@@ -202,7 +202,14 @@ foreach($ucon in $rubbishConfigs)
         Remove-Item $ucon
     }
 }
-ls -Path "$output\elasticsearch\logs" -Filter *.* | Remove-Item
+#Nuget and packages
+mkdir $output\.nuget
+Get-ChildItem -Filter *.* -Path ".\bin\.nuget" `
+| Copy-Item -Destination "$output\.nuget" -Force -Recurse
+mkdir $output\packages
+Get-ChildItem -Filter *.* -Path ".\bin\packages" `
+| Copy-Item -Destination "$output\packages" -Force -Recurse
+
 
 #iis express and config
 mkdir $output\config
@@ -223,6 +230,7 @@ del $output\elasticsearch\config\elasticsearch.yml
 copy .\bin\elasticsearch.template.yml $output\elasticsearch\config\elasticsearch.yml -Force
 
 
+ls -Path "$output\elasticsearch\logs" -Filter *.* | Remove-Item
 
 #rabbitmq_server
 mkdir $output\rabbitmq_server
@@ -300,12 +308,12 @@ ls -Path $output -Recurse -Filter Common.Logging.pdb | Remove-Item
 ls -Path $output -Recurse -Filter Humanizer.pdb | Remove-Item
 ls -Path $output -Recurse -Filter Common.Logging.Core.pdb | Remove-Item
 ls -Path $output -Recurse -Filter Spring.Core.pdb | Remove-Item
-ls $output\tools | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
-ls $output\control.center | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
-ls $output\subscribers.host | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
-ls $output\subscribers.host | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
-ls $output\schedulers | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
-ls $output\web\bin | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
+ls $output\tools | ? { $_.Mode.StartsWith('d----')} | Remove-Item -Force -Recurse
+ls $output\control.center | ? { $_.Mode.StartsWith('d----')} | Remove-Item -Force -Recurse
+ls $output\subscribers.host | ? { $_.Mode.StartsWith('d----')} | Remove-Item -Force -Recurse
+ls $output\subscribers.host | ? { $_.Mode.StartsWith('d----')} | Remove-Item -Force -Recurse
+ls $output\schedulers | ? { $_.Mode.StartsWith('d----')} | Remove-Item -Force -Recurse
+ls $output\web\bin | ? { $_.Mode.StartsWith('d----')} | Remove-Item -Force -Recurse
 Remove-Item $output\elasticsearch\data -Force -Recurse
 ls -Path $output -Recurse -Filter DevV1.*.dll | Remove-Item
 ls -Path $output -Recurse -Filter DevV1.*.pdb | Remove-Item
