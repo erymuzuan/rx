@@ -397,7 +397,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return tcs.promise();
             },
             editTable = function (table) {
-                require(["viewmodels/_adapter.sqlserver.table.dialog", "durandal/app"],
+                require(["viewmodels/adapter.sqlserver.table.dialog", "durandal/app"],
                     function (dialog, app2) {
                         dialog.table(context.clone(table));
                         app2.showDialog(dialog)
@@ -411,7 +411,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     });
             },
             addTable = function () {
-                require(["viewmodels/_adapter.sqlserver.add.table.dialog", "durandal/app"],
+                require(["viewmodels/adapter.sqlserver.add.table.dialog", "durandal/app"],
                     function (dialog, app2) {
                         dialog.adapter(adapter());
                         app2.showDialog(dialog)
@@ -429,7 +429,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 adapter().TableDefinitionCollection.remove(table);
             },
             addOperation = function () {
-                require(["viewmodels/_adapter.sqlserver.add.operation.dialog", "durandal/app"],
+                require(["viewmodels/adapter.sqlserver.add.operation.dialog", "durandal/app"],
                     function (dialog, app2) {
                         dialog.adapter(adapter());
                         app2.showDialog(dialog)

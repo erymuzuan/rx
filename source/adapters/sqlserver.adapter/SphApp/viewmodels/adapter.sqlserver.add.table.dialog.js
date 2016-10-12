@@ -8,7 +8,7 @@
 /// <reference path="../schema/sph.domain.g.js" />
 
 
-define(['plugins/dialog', "services/datacontext", "knockout", "jquery"],
+define(["plugins/dialog", "services/datacontext", "knockout", "jquery"],
     function (dialog, context, ko, $) {
 
         var tables = ko.observableArray(),
