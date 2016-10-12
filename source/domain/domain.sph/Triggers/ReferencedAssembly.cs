@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -45,6 +46,18 @@ namespace Bespoke.Sph.Domain
     }
     public partial class ReferencedAssembly : DomainObject
     {
-
+        public string GetAssemblyLocation()
+        {
+            if (File.Exists(this.Location))
+                return this.Location;
+            var file = Path.GetFileName(this.Location);
+            var web = $"{ConfigurationManager.WebPath}\\bin\\{file}";
+            if (File.Exists(web))
+                return web;
+            var output = $"{ConfigurationManager.CompilerOutputPath}\\{file}";
+            if (File.Exists(output))
+                return output;
+            throw new Exception($"Cannot find any '{file}'");
+        }
     }
 }

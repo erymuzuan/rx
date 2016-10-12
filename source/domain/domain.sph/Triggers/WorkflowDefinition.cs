@@ -190,7 +190,7 @@ namespace Bespoke.Sph.Domain
                     .Where(u => !File.Exists($"{ConfigurationManager.WebPath}\\bin\\{Path.GetFileName(u.Location)}"))
                     .Where(u => !File.Exists($"{ConfigurationManager.CompilerOutputPath}\\{Path.GetFileName(u.Location)}"))
                     .ToList()
-                    .ForEach(u => parameters.ReferencedAssemblies.Add(u.Location));
+                    .ForEach(u => parameters.ReferencedAssemblies.Add(u.GetAssemblyLocation()));
 
 
                 // custom entities

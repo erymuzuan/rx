@@ -14,7 +14,7 @@ using System.ComponentModel.Composition;
 
 namespace Bespoke.Sph.Domain
 {
-    [PersistenceOption(HasDerivedTypes = true,IsSource = true)]
+    [PersistenceOption(HasDerivedTypes = true, IsSource = true)]
     public partial class Trigger : Entity
     {
         [ImportMany(typeof(IBuildDiagnostics))]
@@ -37,7 +37,7 @@ namespace Bespoke.Sph.Domain
 
             result.Errors.AddRange(errors);
             result.Warnings.AddRange(warnings);
-            
+
             result.Result = result.Errors.Count == 0;
 
             return result;
@@ -103,7 +103,7 @@ namespace Bespoke.Sph.Domain
                 }
                 foreach (var ra in this.ReferencedAssemblyCollection)
                 {
-                    parameters.ReferencedAssemblies.Add(ra.Location);
+                    parameters.ReferencedAssemblies.Add(ra.GetAssemblyLocation());
                 }
 
                 var result = !string.IsNullOrWhiteSpace(sourceFile) ? provider.CompileAssemblyFromFile(parameters, sourceFile)
@@ -126,7 +126,7 @@ namespace Bespoke.Sph.Domain
         {
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Name == this.Entity);
-            if(null == ed)
+            if (null == ed)
                 throw new FileNotFoundException($"Cannot load {this.Entity}.json file from {ConfigurationManager.SphSourceDirectory}\\EntityDefinition");
 
 

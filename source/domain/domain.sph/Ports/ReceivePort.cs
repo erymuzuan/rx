@@ -54,7 +54,7 @@ namespace Bespoke.Sph.Domain
                 }
                 foreach (var ra in this.ReferencedAssemblyCollection)
                 {
-                    parameters.ReferencedAssemblies.Add(ra.Location);
+                    parameters.ReferencedAssemblies.Add(ra.GetAssemblyLocation());
                 }
 
                 var result = provider.CompileAssemblyFromFile(parameters, sources);

@@ -44,7 +44,8 @@ namespace Bespoke.Sph.Domain
         public BuildError(string message, int line, string text)
         {
             this.Message = message;
-            this.Code = ExtractSnippets(text, line);
+            if (!string.IsNullOrWhiteSpace(text))
+                this.Code = ExtractSnippets(text, line);
         }
 
         private string ExtractSnippets(string text, int line)
@@ -105,7 +106,7 @@ namespace Bespoke.Sph.Domain
                        obj.Line.GetHashCode() ^
                        obj.FileName.GetHashCode();
             }
-            catch 
+            catch
             {
                 return 0;
             }
