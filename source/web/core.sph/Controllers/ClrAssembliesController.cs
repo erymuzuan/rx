@@ -156,9 +156,9 @@ namespace Bespoke.Sph.Web.Controllers
             }
 
             var schema = t.GetJsonSchema();
-            return Json(schema.ToString());
+            return Json(schema);
         }
-   
+
 
         [HttpGet]
         [Route("{dll}/types/{type}/json-schema")]
@@ -182,18 +182,23 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpGet]
         [Route("{dll}/types")]
-        public IHttpActionResult GetTypes(string dll)
+        public IHttpActionResult GetTypes(string dll,
+            [FromUri(Name = "includeAdapter")]bool includeAdapter = false,
+            [FromUri(Name = "includeInternal")]bool includeInternal = false,
+            [FromUri(Name = "includeGeneric")]bool includeGeneric = false)
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            var refAssemblies = from a in assemblies
-                                let name = a.GetName()
-                                where a.IsDynamic == false
-                                      && !Ignores.Any(x => name.Name.StartsWith(x))
-                                select a;
+            var refAssemblies = assemblies.AsQueryable()
+                .Select(a => new { a, name = a.GetName() })
+                .Where(t => t.a.IsDynamic == false && !Ignores.Any(x => t.name.Name.StartsWith(x)))
+                .Select(t => t.a);
             var assembly = refAssemblies.FirstOrDefault(x => x.GetName().Name == dll);
             if (null == assembly) return NotFound("Cannot find assembly " + dll);
 
-            var types = assembly.GetTypes()
+            var types = assembly.GetTypes().AsQueryable()
+                .WhereIf(x => !x.Name.EndsWith("Adapter"), !includeAdapter)
+                .WhereIf(x => x.IsPublic, !includeInternal)
+                .WhereIf(x => !x.IsGenericType, !includeGeneric)
                 .Where(m_typePredicate);
             return Json(types.Select(x => new
             {
@@ -274,7 +279,7 @@ namespace Bespoke.Sph.Web.Controllers
                        {
                            x.Name,
                            RetVal = $"{x.ReturnType}",
-                           IsAsync = x.ReturnType?.BaseType == typeof(Task),
+                           IsAsync = x.ReturnType.BaseType == typeof(Task),
                            x.IsGenericMethod,
                            x.IsGenericMethodDefinition,
                            x.IsStatic,
@@ -283,7 +288,7 @@ namespace Bespoke.Sph.Web.Controllers
                            {
                                p.Name,
                                Type = $"{p.ParameterType}",//?.GetShortAssemblyQualifiedName(),
-                               TypeName =p.ParameterType.GetShortAssemblyQualifiedName(),
+                               TypeName = p.ParameterType.GetShortAssemblyQualifiedName(),
                                p.IsOut,
                                p.IsRetval,
                                p.IsIn
