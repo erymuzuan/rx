@@ -145,6 +145,13 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     this.IsBusy = false;
                 }
 
+                if (!responseJson.Contains("vnext"))
+                {
+                    if (!silent)
+                        MessageBox.Show("The response content is not as expected. \r\nIf you are behing a proxy, please set the proxy setting in <system.net> ", Strings.Title, MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    return;
+                }
                 var jo = JObject.Parse(responseJson);
                 var vnext = jo.SelectToken("$.vnext").Value<int>();
                 if (vnext > build)

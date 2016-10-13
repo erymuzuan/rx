@@ -39,7 +39,7 @@ namespace Bespoke.Sph.ControlCenter.Model
                 Password = this.Password ?? "guest",
                 HostName = this.Host ?? "localhost",
                 Port = this.Port == 0 ? 5672 : this.Port,
-                VirtualHost = this.VirtualHost ?? "DevV1"
+                VirtualHost = this.VirtualHost ?? ConfigurationManager.ApplicationName
             };
             Action send = () =>
             {
