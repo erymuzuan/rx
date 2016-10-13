@@ -26,7 +26,7 @@ namespace Bespoke.Sph.DirectoryServices
             get
             {
                 string user;
-                var context = HttpContext.Current.GetOwinContext();
+                var context = HttpContext.Current?.GetOwinContext();
                 if (null != context)
                 {
                     user = context.Request.User.Identity.Name;
