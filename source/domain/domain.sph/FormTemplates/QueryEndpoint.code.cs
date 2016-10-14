@@ -402,7 +402,7 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\webapi.common.dll");
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\System.Web.Http.dll");
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll");
-                parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + $@"\bin\{ConfigurationManager.ApplicationName}.{Entity}.dll");
+                parameters.ReferencedAssemblies.Add(ConfigurationManager.CompilerOutputPath + $@"\{ConfigurationManager.ApplicationName}.{Entity}.dll");
 
                 var folder = $"{ConfigurationManager.GeneratedSourceDirectory}\\QueryEndpoint.{Entity}.{this.Name}";
                 if (!Directory.Exists(folder))
