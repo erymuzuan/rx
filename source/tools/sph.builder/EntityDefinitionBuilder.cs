@@ -39,6 +39,41 @@ namespace Bespoke.Sph.SourceBuilders
 
         }
 
+        private async Task CompileDependencies(EntityDefinition ed)
+        {
+            await ed.ServiceContract.CompileAsync(ed);
+            foreach (var src in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{nameof(OperationEndpoint)}", "*.json"))
+            {
+                var oe = src.DeserializeFromJsonFile<OperationEndpoint>();
+                if (oe.Entity != ed.Name) continue;
+                var builder = new OperationEndpointBuilder();
+                await builder.RestoreAsync(oe);
+            }
+            foreach (var src in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{nameof(QueryEndpoint)}", "*.json"))
+            {
+                Console.WriteLine("QueryEndpoint " + Path.GetFileName(src));
+                var qe = src.DeserializeFromJsonFile<QueryEndpoint>();
+                if (qe.Entity != ed.Name) continue;
+                var builder = new QueryEndpointBuilder();
+                await builder.RestoreAsync(qe);
+            }
+            foreach (var src in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{nameof(ReceivePort)}", "*.json"))
+            {
+                var port = src.DeserializeFromJsonFile<ReceivePort>();
+                if (port.Entity != ed.Name) continue;
+                var builder = new ReceivePortBuilder();
+                await builder.RestoreAsync(port);
+
+                foreach (var rsrc in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{nameof(ReceiveLocation)}", "*.json"))
+                {
+                    var loc = rsrc.DeserializeFromJsonFile<ReceiveLocation>();
+                    if (loc.ReceivePort != port.Id) continue;
+                    var locBuilder = new ReceiveLocationBuilder();
+                    await locBuilder.RestoreAsync(loc);
+                }
+            }
+        }
+
         private async Task DeleteElasticSearchType(EntityDefinition ed)
         {
             using (var client = new HttpClient())
@@ -49,7 +84,7 @@ namespace Bespoke.Sph.SourceBuilders
             }
         }
 
-        public async override Task RestoreAsync(EntityDefinition ed)
+        public override async Task RestoreAsync(EntityDefinition ed)
         {
             await this.DeleteElasticSearchType(ed);
 
@@ -123,7 +158,7 @@ namespace Bespoke.Sph.SourceBuilders
                         Console.WriteLine($"{ent.Id} -> {response.StatusCode}");
                     }
                 }
-
+                await this.CompileDependencies(ed);
                 return;
             }
 
@@ -143,6 +178,7 @@ namespace Bespoke.Sph.SourceBuilders
                 await subs.MigrateDataAsync(ed);
             }
 
+            await this.CompileDependencies(ed);
             Console.WriteLine(@"Deploying : {0}", ed.Name);
 
         }

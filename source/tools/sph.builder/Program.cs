@@ -133,6 +133,23 @@ namespace Bespoke.Sph.SourceBuilders
                 {
                     await BuildAsync<Trigger, TriggerBuilder>(json);
                 }
+                if (type == typeof(OperationEndpoint))
+                {
+                    await BuildAsync<OperationEndpoint, OperationEndpointBuilder>(json);
+                }
+                if (type == typeof(QueryEndpoint))
+                {
+                    await BuildAsync<QueryEndpoint, QueryEndpointBuilder>(json);
+                }
+                if (type == typeof(ReceiveLocation))
+                {
+                    await BuildAsync<ReceiveLocation, ReceiveLocationBuilder>(json);
+                }
+                if (type == typeof(ReceivePort))
+                {
+                    await BuildAsync<ReceivePort, ReceivePortBuilder>(json);
+                }
+
             }
         }
 
