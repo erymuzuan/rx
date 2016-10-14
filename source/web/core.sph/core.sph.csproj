@@ -3760,7 +3760,9 @@
     <Content Include="kendo\styles\textures\stripe6.png" />
     <Content Include="kendo\styles\textures\transparency.png" />
     <Content Include="kendo\styles\textures\transtexture.png" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
