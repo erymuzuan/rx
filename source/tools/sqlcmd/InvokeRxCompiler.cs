@@ -21,6 +21,10 @@ namespace Bespoke.Sph.Powershells
             m_sources.Add("Trigger", new string[] { });
             m_sources.Add("WorkflowDefinition", new string[] { });
             m_sources.Add("TransformDefinition", new string[] { });
+            m_sources.Add("ReceiveLocation", new string[] { });
+            m_sources.Add("ReceivePort", new string[] { });
+            m_sources.Add("QueryEndpoint", new string[] { });
+            m_sources.Add("OperationEndpoint", new string[] { });
             m_sources.Add("Adapter", new string[] { });
 
         }
