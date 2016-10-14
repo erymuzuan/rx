@@ -99,7 +99,7 @@ namespace Bespoke.Sph.Web.Controllers
             var sqlAssembly = Assembly.Load("sql.repository");
             var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
 
-            var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + ed.Name);
+            var edAssembly = Assembly.Load($"{ConfigurationManager.ApplicationName}.{ed.Name}");
             var edTypeName = $"{ed.CodeNamespace}.{ed.Name}";
             var edType = edAssembly.GetType(edTypeName);
             if (null == edType)

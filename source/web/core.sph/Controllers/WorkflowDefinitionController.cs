@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -11,6 +9,7 @@ using System.Web.Http;
 using System.Xml.Linq;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.WebApi;
+using Mono.Cecil;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
@@ -223,46 +222,33 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             "App_global",
             "App_Code",
-            "App_Web"
+            "App_Web",
+            "ff",
+            "subscriber"
         };
 
         [HttpGet]
         [Route("assemblies")]
         public IHttpActionResult GetLoadedAssemblies()
         {
-            var assesmblies = AppDomain.CurrentDomain.GetAssemblies();
-            var refAssemblies = (from a in assesmblies
-                                 where a.IsDynamic == false
-                                 let name = a.GetName()
-                                 where !Ignores.Any(x => name.Name.StartsWith(x))
-                                 let web = ConfigurationManager.WebPath + "\\bin\\" + Path.GetFileName(a.Location)
-                                 let path = System.IO.File.Exists(web) ? web : a.Location
+            var files = Directory.GetFiles($"{ConfigurationManager.CompilerOutputPath}", "*.dll")
+                    .Concat(Directory.GetFiles($"{ConfigurationManager.WebPath}\\bin", "*.dll"))
+                    .Concat(Directory.GetFiles($"{ConfigurationManager.Home}\\packages", "*.dll", SearchOption.AllDirectories));
+
+            var assesmblies = files.Select(AssemblyDefinition.ReadAssembly);
+            var refAssemblies = (from d in assesmblies
+                                 let a = d.MainModule
+                                 where !Ignores.Any(x => d.Name.Name.StartsWith(x))
                                  select new ReferencedAssembly
                                  {
-                                     Version = name.Version.ToString(),
-                                     FullName = name.FullName,
-                                     IsGac = a.GlobalAssemblyCache,
-                                     RuntimeVersion = a.ImageRuntimeVersion,
-                                     Location = path,
-                                     Name = name.Name
+                                     Version = d.Name.Version.ToString(),
+                                     FullName = d.FullName,
+                                     IsGac = false,
+                                     RuntimeVersion = a.RuntimeVersion,
+                                     Location = a.FullyQualifiedName,
+                                     Name = d.Name.Name
                                  }).ToList();
-            var outputs = from f in Directory.GetFiles(ConfigurationManager.CompilerOutputPath, "*.dll")
-                          let fn = Path.GetFileNameWithoutExtension(f)
-                          where !fn.StartsWith("ff") && !fn.StartsWith("subscriber")
-                          && refAssemblies.All(x => x.Name != fn)
-                          let dll = Assembly.ReflectionOnlyLoadFrom(f)
-                          let name = dll.GetName()
-                          select new ReferencedAssembly
-                          {
-                              Version = name.Version.ToString(),
-                              FullName = name.FullName,
-                              IsGac = false,
-                              RuntimeVersion = dll.ImageRuntimeVersion,
-                              Location = f,
-                              Name = fn
-                          };
 
-            refAssemblies.AddRange(outputs);
 
             return Json(refAssemblies.ToArray());
         }

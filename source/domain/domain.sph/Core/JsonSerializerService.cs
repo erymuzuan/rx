@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
-using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Mono.Cecil;
 using Newtonsoft.Json;
 
 
@@ -14,11 +14,11 @@ namespace Bespoke.Sph.Domain
     public static class JsonSerializerService
     {
 
-        public static string GetJsonSchema(this Type t)
+        public static string GetJsonSchema(this TypeDefinition t)
         {
             var schema = new StringBuilder();
-            var properties = from p in t.GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                             where p.DeclaringType != typeof(DomainObject)
+            var properties = from p in t.Properties
+                             where p.DeclaringType.FullName != typeof(DomainObject).FullName
                              select p.GetJsonSchema();
 
             schema.Append($@"
@@ -31,103 +31,142 @@ namespace Bespoke.Sph.Domain
             return schema.ToString();
         }
 
-        public static string GetJsonSchema(this PropertyInfo prop)
+        public static string GetJsonSchema(this PropertyDefinition prop)
         {
             var elements = new Dictionary<string, string>();
-            var typeBags = new Dictionary<Type, string>
+            var typeBags = new Dictionary<string, string>
             {
-                {typeof(string),"string"},
-                {typeof(DateTime),"string"},
-                {typeof(System.Xml.XmlDocument),"string"},
-                {typeof(int),"integer"},
-                {typeof(byte),"integer"},
-                {typeof(short),"integer"},
-                {typeof(long),"integer"},
-                {typeof(decimal),"number"},
-                {typeof(double),"integer"},
-                {typeof(float),"number"},
-                {typeof(bool),"boolean"},
+                {typeof(string).FullName,"string"},
+                {typeof(DateTime).FullName,"string"},
+                {typeof(System.Xml.XmlDocument).FullName,"string"},
+                {typeof(int).FullName,"integer"},
+                {typeof(byte).FullName,"integer"},
+                {typeof(short).FullName,"integer"},
+                {typeof(long).FullName,"integer"},
+                {typeof(decimal).FullName,"number"},
+                {typeof(double).FullName,"integer"},
+                {typeof(float).FullName,"number"},
+                {typeof(bool).FullName,"boolean"},
             };
-            var formatBags = new Dictionary<Type, string>
+            var formatBags = new Dictionary<string, string>
             {
-                {typeof(DateTime),"date-time"}
+                {typeof(DateTime).FullName,"date-time"}
             };
-
 
 
             var type = prop.PropertyType;
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            TypeDefinition td = type as TypeDefinition;
+            //Console.WriteLine(type.GetType().FullName + ": " + prop.Name);
+            var nullable = typeof(Nullable<>).FullName;
+            var generic = type as GenericInstanceType;
+            var genericElementType = generic?.ElementType.FullName;
+            if (null != generic && genericElementType == nullable)
             {
-                type = Nullable.GetUnderlyingType(type);
+                type = generic.GenericArguments.First();
+                Console.WriteLine("Nullable of type " + type.FullName);
             }
             elements.AddIfNotExist("required", "true");
             elements.Add("type", string.Empty);
-            if (typeBags.ContainsKey(type))
-                elements["type"] = $@"""{typeBags[type]}""";
-            if (formatBags.ContainsKey(type))
-                elements.AddIfNotExist("format", $@"""{formatBags[type]}""");
+            if (typeBags.ContainsKey(type.FullName))
+                elements["type"] = $@"""{typeBags[type.FullName]}""";
+            if (formatBags.ContainsKey(type.FullName))
+                elements.AddIfNotExist("format", $@"""{formatBags[type.FullName]}""");
 
-            if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
+            if (null != generic && genericElementType == nullable)
             {
-                type = Nullable.GetUnderlyingType(prop.PropertyType);
-                if (type == typeof(DateTime))
+                type = generic.GenericArguments.First();
+                td = type as TypeDefinition;
+
+                if (typeof(DateTime).IsOfType(type))
+                {
                     elements.AddIfNotExist("format", @"""date-time""");
-                else if (type.BaseType == typeof(Enum))
-                    elements.AddIfNotExist("enum", "[" + Enum.GetNames(type).ToString(",", x => $@"""{x}""") + "]");
+                }
+                if (null != td && td.BaseType.IsOfType(typeof(Enum)))
+                {
+                    elements.AddIfNotExist("enum", "[" + td.Fields.Where(x => x.HasConstant).Select(x => x.Name).ToString(",", x => $@"""{x}""") + "]");
+                    elements["type"] = @"""string""";
+                }
 
                 elements["type"] = $@"[{elements["type"]}, ""null""]";
             }
 
-            if (type.BaseType == typeof(Enum))
+            if (null != td && td.BaseType.IsOfType(typeof(Enum)))
             {
-                elements.AddIfNotExist("enum", "[" + Enum.GetNames(type).ToString(",", x => $@"""{x}""") + "]");
+                elements.AddIfNotExist("enum", "[" + td.Fields.Where(x => x.HasConstant).Select(x => x.Name).ToString(",", x => $@"""{x}""") + "]");
             }
 
-            // most likely IList
-            if (string.IsNullOrWhiteSpace(elements["type"]) && type.IsGenericType)
+            // most likely IList, or so
+            if (string.IsNullOrWhiteSpace(elements["type"]) && null != generic)
             {
-                // TODO : Need a more robust way to check for IEnumerable<>
-                var array = type.GetGenericTypeDefinition().GetInterfaces().Any(x => x.FullName == "System.Collections.IList");
+                // TODO : Need a more robust way to check for IEnumerable<>, may be use reflection here mate, since most likely this is
+                // from domain.sph or some assembly that already been loaded
+                var array = true;
                 if (array)
                 {
-                    var itemType = type.GenericTypeArguments[0];
-                    if (itemType.IsClass && itemType != typeof(string))
+                    var itemType = generic.GenericArguments.First();
+                    td = type as TypeDefinition;
+                    if (!itemType.IsOfType(typeof(string)) && !itemType.IsPrimitive/* and IsClass*/)
                     {
-                        var children = from p in itemType.GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                                       where p.DeclaringType != typeof(DomainObject)
-                                       select p.GetJsonSchema();
-                        elements["type"] = @"[""array"", ""null""]";
-                        var items = $@"{{
-                        ""type"":[""object"", ""null""],
-                        ""properties"" : {{{ children.ToString(",\r\n", x => $"{x}")} }}
-                    }}";
-                        elements.Add("items", items);
-
+                        if (null == td && prop.DeclaringType.Scope == itemType.Scope)
+                        {
+                            td = prop.DeclaringType.Module.Types.Single(x => x.FullName == itemType.FullName);
+                        }
+                        else
+                        {
+                            var probingPaths = new[]
+                            {
+                                $@"{ConfigurationManager.WebPath}\bin\{itemType.Scope.Name}.dll",
+                                $@"{ConfigurationManager.CompilerOutputPath}\{itemType.Scope.Name}.dll",
+                                $@"{ConfigurationManager.SubscriberPath}\{itemType.Scope.Name}.dll"
+                            };
+                            var ca = probingPaths
+                                .Where(File.Exists)
+                                .Select(AssemblyDefinition.ReadAssembly)
+                                .FirstOrDefault();
+                            
+                            if (null == ca)
+                                throw new FileNotFoundException($"Cannot fild {itemType.Scope.Name}.dll in web\\bin, output and subscribers");
+                            td = ca.MainModule.Types.Single(x => x.FullName == itemType.FullName);
+                        }
+                        
+                        if (null != td)
+                        {
+                            var children = from p in td.Properties
+                                           where p.DeclaringType.FullName != typeof(DomainObject).FullName
+                                           select p.GetJsonSchema();
+                            elements["type"] = @"[""array"", ""null""]";
+                            var items = $@"{{
+					""type"":[""object"", ""null""],
+					""properties"" : {{{ children.ToString(",\r\n", x => $"{x}")} }}
+				}}";
+                            elements.Add("items", items);
+                        }
                     }
                     else
                     {
                         // TODO, now get back the type
                         elements["type"] = @"[""array"", ""null""]";
                         var items = $@"{{
-                        ""type"":[""{typeBags[itemType]}"", ""null""]
-                    }}";
+					""type"":[""{typeBags[itemType.FullName]}"", ""null""]
+				}}";
                         elements.Add("items", items);
 
                     }
-
-
                 }
             }
 
-            if (string.IsNullOrWhiteSpace(elements["type"]))
+
+            if (null != td && string.IsNullOrWhiteSpace(elements["type"]))
             {
-                var children = from p in type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                               where p.DeclaringType != typeof(DomainObject)
+                var children = from p in td.Properties
+                                   //where p.DeclaringType != typeof(DomainObject)
                                select p.GetJsonSchema();
                 elements.AddIfNotExist("required", "true");
                 elements["type"] = @"[""object"", ""null""]";
                 elements.Add("properties", "{" + children.ToString(",\r\n", x => $"{x}") + "}");
             }
+
+
 
 
             var code = new StringBuilder();

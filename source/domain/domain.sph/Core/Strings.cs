@@ -10,6 +10,7 @@ using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
+using Mono.Cecil;
 
 namespace Bespoke.Sph.Domain
 {
@@ -517,6 +518,18 @@ namespace Bespoke.Sph.Domain
             t = dll.GetType(splits.First().Trim());
             return t;
         }
+        public static TypeDefinition GetTypeDefinition(string typeName)
+        {
+            var splits = typeName.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+            var fullName = splits.FirstOrDefault().ToEmptyString().Trim();
+            var assemblyName = splits.LastOrDefault().ToEmptyString().Trim();
+            var path = $"{ConfigurationManager.CompilerOutputPath}\\{assemblyName}.dll";
+
+            var assembly = AssemblyDefinition.ReadAssembly(path);
+            var type = assembly.MainModule.Types.FirstOrDefault(x => x.FullName == fullName);
+            return type;
+        }
+
         public static object ToDbNull(this object value)
         {
             var xml = value as XmlDocument;

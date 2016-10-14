@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.WebApi;
+using Mono.Cecil;
+using Mono.Cecil.Rocks;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -74,7 +74,7 @@ namespace Bespoke.Sph.Web.Controllers
             $"{ConfigurationManager.ApplicationName}.OperationEndpoint."
         };
 
-        private readonly Func<Type, bool> m_typePredicate = x => x.IsClass && x.IsPublic
+        private readonly Func<TypeDefinition, bool> m_typePredicate = x => x.IsClass && x.IsPublic
                                                          && !x.IsInterface
                                                          && !x.IsAbstract
                                                          && !x.Name.EndsWith("Controller");
@@ -89,17 +89,15 @@ namespace Bespoke.Sph.Web.Controllers
             var json = this.CacheManager.Get<string>(KEY);
             if (null != json) return Json(json);
 
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var assemblies = LoadAssemblyDefinitions();
             var refAssemblies = (from a in assemblies
-                                 let name = a.GetName()
-                                 where a.IsDynamic == false
-                                       && !Ignores.Any(x => name.Name.StartsWith(x))
+                                 let module = a.MainModule
                                  select new
                                  {
-                                     Version = name.Version.ToString(),
-                                     name.FullName,
-                                     name.Name,
-                                     Types = a.GetTypes()
+                                     Version = a.Name.Version.ToString(),
+                                     a.FullName,
+                                     a.Name.Name,
+                                     Types = module.Types
                                          .Where(m_typePredicate)
                                          .Select(x => new
                                          {
@@ -108,33 +106,7 @@ namespace Bespoke.Sph.Web.Controllers
                                          }).ToArray()
                                  }).ToArray();
 
-            var assemblies2 = Directory.GetFiles(ConfigurationManager.CompilerOutputPath, "*.dll")
-                .Select(Path.GetFileNameWithoutExtension)
-                .Where(d => !refAssemblies.Select(x => x.Name).Contains(d))
-                .Where(d => !Ignores.Any(d.StartsWith))
-                .Where(d => !d.StartsWith("subscriber"))
-                .Where(d => !d.StartsWith("workflow"))
-                .Select(d => Path.Combine(ConfigurationManager.CompilerOutputPath, d + ".dll"))
-                .Select(Assembly.LoadFile);
-            var refAssemblies2 = from a in assemblies2
-                                 let name = a.GetName()
-                                 where a.IsDynamic == false
-                                       && !Ignores.Any(x => name.Name.StartsWith(x))
-                                 select new
-                                 {
-                                     Version = name.Version.ToString(),
-                                     name.FullName,
-                                     name.Name,
-                                     Types = a.GetTypes()
-                                         .Where(m_typePredicate)
-                                         .Select(x => new
-                                         {
-                                             x.Namespace,
-                                             x.Name
-                                         }).ToArray()
-                                 };
-
-            var result = refAssemblies.Concat(refAssemblies2).OrderBy(x => x.Name).ToArray();
+            var result = refAssemblies.OrderBy(x => x.Name).ToArray();
             json = result.ToJson();
             this.CacheManager.Insert(KEY, json, TimeSpan.FromSeconds(300));
             return Json(json);
@@ -144,7 +116,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("{type}/object-schema")]
         public IHttpActionResult GetObjectSchema(string type)
         {
-            var t = Strings.GetType(type);
+            var t = Strings.GetTypeDefinition(type);
             if (null == t)
             {
                 string message = $"Cannot find {type} in your {ConfigurationManager.WebPath}/bin or {ConfigurationManager.CompilerOutputPath}, Please build it if you have not done so";
@@ -187,18 +159,14 @@ namespace Bespoke.Sph.Web.Controllers
             [FromUri(Name = "includeInternal")]bool includeInternal = false,
             [FromUri(Name = "includeGeneric")]bool includeGeneric = false)
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            var refAssemblies = assemblies.AsQueryable()
-                .Select(a => new { a, name = a.GetName() })
-                .Where(t => t.a.IsDynamic == false && !Ignores.Any(x => t.name.Name.StartsWith(x)))
-                .Select(t => t.a);
-            var assembly = refAssemblies.FirstOrDefault(x => x.GetName().Name == dll);
+            var assemblies = LoadAssemblyDefinitions();
+            var assembly = assemblies.FirstOrDefault(x => x.Name.Name == dll);
             if (null == assembly) return NotFound("Cannot find assembly " + dll);
 
-            var types = assembly.GetTypes().AsQueryable()
+            var types = assembly.MainModule.Types.AsQueryable()
                 .WhereIf(x => !x.Name.EndsWith("Adapter"), !includeAdapter)
                 .WhereIf(x => x.IsPublic, !includeInternal)
-                .WhereIf(x => !x.IsGenericType, !includeGeneric)
+                .WhereIf(x => !x.HasGenericParameters, !includeGeneric)
                 .Where(m_typePredicate);
             return Json(types.Select(x => new
             {
@@ -206,6 +174,17 @@ namespace Bespoke.Sph.Web.Controllers
                 TypeName = x.FullName,
                 x.Name
             }).ToArray());
+        }
+
+        private static IEnumerable<AssemblyDefinition> LoadAssemblyDefinitions()
+        {
+            var files = Directory.GetFiles($"{ConfigurationManager.CompilerOutputPath}", "*.dll")
+                .Concat(Directory.GetFiles($"{ConfigurationManager.WebPath}\\bin", "*.dll"))
+                .Concat(Directory.GetFiles($"{ConfigurationManager.Home}\\packages", "*.dll", SearchOption.AllDirectories))
+                .Where(x => !Ignores.Any(f => (Path.GetFileName(x) ?? f).StartsWith(f)));
+
+            var assemblies = files.Select(AssemblyDefinition.ReadAssembly);
+            return assemblies;
         }
 
         [HttpGet]
@@ -241,16 +220,11 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
 
-        private static Type FindType(string dll, string type)
+        private static TypeDefinition FindType(string dll, string type)
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            var refAssemblies = from a in assemblies
-                                let name = a.GetName()
-                                where a.IsDynamic == false
-                                      && !Ignores.Any(x => name.Name.StartsWith(x))
-                                select a;
-            var assembly = refAssemblies.SingleOrDefault(x => x.GetName().Name == dll);
-            return assembly?.GetType(type);
+            var assemblies = LoadAssemblyDefinitions();
+            var assembly = assemblies.SingleOrDefault(x => x.Name.Name == dll);
+            return assembly?.MainModule.Types.SingleOrDefault(x => x.Name == type);
         }
 
 
@@ -261,8 +235,8 @@ namespace Bespoke.Sph.Web.Controllers
             var clrType = FindType(dll, type);
             if (null == clrType)
                 return NotFound($"Cannot load type '{type}' in {dll}");
-            var methods = clrType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static)
-                            .Where(x => null != x)
+            var methods = clrType.GetMethods()
+                            .Where(x => x.IsPublic)
                             .ToList()
                             .Where(x => !string.IsNullOrWhiteSpace(x.Name))
                             .ToList()
@@ -270,27 +244,24 @@ namespace Bespoke.Sph.Web.Controllers
                             .Where(x => !x.Name.StartsWith("set_"))
                             .Where(x => !x.Name.StartsWith("add_"))
                             .Where(x => !x.Name.StartsWith("remove_"))
-                            .Where(x => x.DeclaringType != typeof(object))
-                            .Where(x => x.DeclaringType != typeof(DomainObject));
+                            .Where(x => x.DeclaringType.FullName != typeof(object).FullName)
+                            .Where(x => x.DeclaringType.FullName != typeof(DomainObject).FullName);
 
 
-            var list = from x in methods
+            var list = from m in methods
                        select new
                        {
-                           x.Name,
-                           RetVal = $"{x.ReturnType}",
-                           IsAsync = x.ReturnType.BaseType == typeof(Task),
-                           x.IsGenericMethod,
-                           x.IsGenericMethodDefinition,
-                           x.IsStatic,
-                           IsVoid = x.ReturnType == typeof(void),
-                           Parameters = x.GetParameters().Select(p => new
+                           m.Name,
+                           RetVal = m.ReturnType.FullName,
+                           IsVoid = m.ReturnType.FullName == "System.Void",
+                           IsGenericMethod = m.HasGenericParameters,
+                           Parameters = m.Parameters.Select(p => new
                            {
                                p.Name,
-                               Type = $"{p.ParameterType}",//?.GetShortAssemblyQualifiedName(),
-                               TypeName = p.ParameterType.GetShortAssemblyQualifiedName(),
+                               Type = $"{p.ParameterType}",
+                               TypeName = p.ParameterType.FullName + ", " + p.ParameterType.Scope.Name,
                                p.IsOut,
-                               p.IsRetval,
+                               p.IsReturnValue,
                                p.IsIn
                            })
                        };

@@ -198,32 +198,7 @@ namespace Bespoke.Sph.Web.Controllers
 
 
         }
-
-        [HttpPost]
-        [Route("json-schema")]
-        public IHttpActionResult Schema([JsonBody]TransformDefinition map)
-        {
-            if (!string.IsNullOrWhiteSpace(map.InputTypeName))
-            {
-                var type = Strings.GetType(map.InputTypeName);
-                var schema = type.GetJsonSchema();
-                return Json(schema);
-            }
-
-            var sb = new StringBuilder();
-            sb.AppendLine("{");
-            sb.AppendLine("     \"types\":[\"object\", null],");
-            sb.AppendLine("     \"properties\": {");
-            var schemes = from t in map.InputCollection
-                          let sc = t.Type.GetJsonSchema()
-                          select $@"""{t.Name}"" : {sc}";
-            sb.AppendLine(string.Join(", ", schemes));
-            sb.AppendLine("     }");
-            sb.AppendLine("}");
-            return Json(sb.ToString());
-        }
-
-
+        
         [HttpGet]
         [Route("functoid/js")]
         public IHttpActionResult GetFunctoidDesignerViewModel([FromUri]string type)
