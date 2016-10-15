@@ -48,9 +48,9 @@ namespace Bespoke.Sph.Domain.Api
             var pk = "\"\"";
             if (null != this.PrimaryKey)
                 pk = this.PrimaryKey.Name;
-            var toString = $"public override string ToString(){{ return \"{Name}:\" + {pk};}}";
+            var toString = $"public override string ToString(){{ return \"{Name}:\" + {pk.ToPascalCase()};}}";
             adapteClass.MethodCollection.Add(new Method { Code = toString });
-            
+
             var properties = this.ColumnCollection.Select(x => new Property { Code = x.GeneratedCode() }).ToList();
             var lookupProperties = from c in this.ColumnCollection
                                    where c.LookupColumnTable.IsEnabled
@@ -75,6 +75,6 @@ namespace Bespoke.Sph.Domain.Api
         [JsonIgnore]
         public string ClassAttribute { get; set; }
 
-        
+
     }
 }
