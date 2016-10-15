@@ -19,7 +19,7 @@ namespace domain.test.triggers
     public class AssemblyActionTextFixture
     {
 
-        private MockRepository<EntityDefinition> m_efMock;
+        private readonly MockRepository<EntityDefinition> m_efMock;
         private readonly MockPersistence m_persistence = new MockPersistence();
 
         public AssemblyActionTextFixture()
@@ -248,8 +248,8 @@ namespace Dev.SampleTriggers
 public string Name{get;set;}}";
             var tree = CSharpSyntaxTree.ParseText(CODE);
 
-            project.AddDocument("trigger.cs", tree.GetText());
-
+            var document = project.AddDocument("trigger.cs", tree.GetText());
+            Assert.NotNull(document);
 
             var res = Formatter.Format(tree.GetRoot(), ws);
             Assert.Equal(

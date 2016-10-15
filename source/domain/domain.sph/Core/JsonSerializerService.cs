@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -13,19 +14,18 @@ namespace Bespoke.Sph.Domain
 {
     public static class JsonSerializerService
     {
-
         public static string GetJsonSchema(this TypeDefinition t)
         {
-            var schema = new StringBuilder();
-            var properties = from p in t.Properties
-                             where p.DeclaringType.FullName != typeof(DomainObject).FullName
-                             select p.GetJsonSchema();
+            var elements = from p in t.LoadProperties()
+                           where p.DeclaringType.FullName != typeof(DomainObject).FullName
+                           select p.GetJsonSchema();
 
+            var schema = new StringBuilder();
             schema.Append($@"
 {{
   ""type"": ""object"",
   ""properties"": {{
-   {properties.ToString(",\r\n")}
+   {elements.ToString(",\r\n")}
   }}
 }}");
             return schema.ToString();
@@ -55,8 +55,7 @@ namespace Bespoke.Sph.Domain
 
 
             var type = prop.PropertyType;
-            TypeDefinition td = type as TypeDefinition;
-            //Console.WriteLine(type.GetType().FullName + ": " + prop.Name);
+            var td = type as TypeDefinition;
             var nullable = typeof(Nullable<>).FullName;
             var generic = type as GenericInstanceType;
             var genericElementType = generic?.ElementType.FullName;
@@ -98,10 +97,9 @@ namespace Bespoke.Sph.Domain
             // most likely IList, or so
             if (string.IsNullOrWhiteSpace(elements["type"]) && null != generic)
             {
-                // TODO : Need a more robust way to check for IEnumerable<>, may be use reflection here mate, since most likely this is
-                // from domain.sph or some assembly that already been loaded
-                var array = true;
-                if (array)
+                var propertyType = type.LoadTypeDefinition();
+                var array = propertyType?.HasInterface(typeof(IList));
+                if (array ?? false)
                 {
                     var itemType = generic.GenericArguments.First();
                     td = type as TypeDefinition;
@@ -109,26 +107,8 @@ namespace Bespoke.Sph.Domain
                     {
                         if (null == td && prop.DeclaringType.Scope == itemType.Scope)
                         {
-                            td = prop.DeclaringType.Module.Types.Single(x => x.FullName == itemType.FullName);
+                            td = itemType.LoadTypeDefinition();
                         }
-                        else
-                        {
-                            var probingPaths = new[]
-                            {
-                                $@"{ConfigurationManager.WebPath}\bin\{itemType.Scope.Name}.dll",
-                                $@"{ConfigurationManager.CompilerOutputPath}\{itemType.Scope.Name}.dll",
-                                $@"{ConfigurationManager.SubscriberPath}\{itemType.Scope.Name}.dll"
-                            };
-                            var ca = probingPaths
-                                .Where(File.Exists)
-                                .Select(AssemblyDefinition.ReadAssembly)
-                                .FirstOrDefault();
-                            
-                            if (null == ca)
-                                throw new FileNotFoundException($"Cannot fild {itemType.Scope.Name}.dll in web\\bin, output and subscribers");
-                            td = ca.MainModule.Types.Single(x => x.FullName == itemType.FullName);
-                        }
-                        
                         if (null != td)
                         {
                             var children = from p in td.Properties

@@ -5,7 +5,11 @@ using Bespoke.Sph.Domain;
 
 namespace assembly.test
 {
-    public class AssemblyClassToTest
+    public class TestClassBase
+    {
+        public string BaseStringProperty { get; set; }
+    }
+    public class AssemblyClassToTest : TestClassBase
     {
 
         public static void VoidStaticMethod()

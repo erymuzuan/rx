@@ -63,6 +63,13 @@
     <Content Include="DevV1.Customer.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetDir)$(TargetName).dll $(SolutionDir)bin\output
+copy $(TargetDir)$(TargetName).pdb $(SolutionDir)bin\output
+
+copy $(TargetDir)$(TargetName).dll $(SolutionDir)source\web\web.sph\bin
+copy $(TargetDir)$(TargetName).pdb $(SolutionDir)source\web\web.sph\bin</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
