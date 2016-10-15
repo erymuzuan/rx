@@ -22,7 +22,6 @@ namespace Bespoke.Sph.Domain
         public static IEnumerable<PropertyDefinition> LoadProperties(this TypeDefinition currentType)
         {
             var properties = new List<PropertyDefinition>();
-
             while (null != currentType)
             {
                 properties.AddRange(currentType.Properties);

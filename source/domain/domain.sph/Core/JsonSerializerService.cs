@@ -111,7 +111,7 @@ namespace Bespoke.Sph.Domain
                         }
                         if (null != td)
                         {
-                            var children = from p in td.Properties
+                            var children = from p in td.LoadProperties()
                                            where p.DeclaringType.FullName != typeof(DomainObject).FullName
                                            select p.GetJsonSchema();
                             elements["type"] = @"[""array"", ""null""]";
@@ -138,8 +138,8 @@ namespace Bespoke.Sph.Domain
 
             if (null != td && string.IsNullOrWhiteSpace(elements["type"]))
             {
-                var children = from p in td.Properties
-                                   //where p.DeclaringType != typeof(DomainObject)
+                var children = from p in td.LoadProperties()
+                                   where p.DeclaringType.FullName != typeof(DomainObject).FullName
                                select p.GetJsonSchema();
                 elements.AddIfNotExist("required", "true");
                 elements["type"] = @"[""object"", ""null""]";
