@@ -32,7 +32,8 @@ namespace Bespoke.Sph.Web.Controllers
             "workflows","Antlr3.Runtime","core.sph", "web.sph", "mscorlib",
             "DiffPlex","Common.Logging","EntityFramework","App_global", "Mono.Math",
             "Humanizer","ImageResizer","windows",
-            "Invoke","Monads",
+            "NLog", "Topshelf","Thinktecture",
+            "Invoke","Monads","Mono","JWT",
             "NCrontab","Newtonsoft",
             "RazorGenerator","RazorEngine",
             "Antlr3",
@@ -54,6 +55,7 @@ namespace Bespoke.Sph.Web.Controllers
             "SMDiagnostics",
             "RazorEngine",
             "http.adapter",
+            "restapi.adapter",
             "mysql.adapter",
             "oracle.adapter",
             "sqlserver.adapter",
@@ -80,7 +82,18 @@ namespace Bespoke.Sph.Web.Controllers
                                                          && !x.Name.EndsWith("Controller");
 
 
+        private class AssemblyDefinitionComparer :IEqualityComparer<AssemblyDefinition>
+        {
+            public bool Equals(AssemblyDefinition x, AssemblyDefinition y)
+            {
+                return x.Name.Name.Equals(y.Name.Name, StringComparison.InvariantCultureIgnoreCase);
+            }
 
+            public int GetHashCode(AssemblyDefinition obj)
+            {
+                return obj.Name.Name.GetHashCode();
+            }
+        }
         [HttpGet]
         [Route("")]
         public IHttpActionResult Assemblies()
@@ -89,7 +102,7 @@ namespace Bespoke.Sph.Web.Controllers
             var json = this.CacheManager.Get<string>(KEY);
             if (null != json) return Json(json);
 
-            var assemblies = LoadAssemblyDefinitions();
+            var assemblies = LoadAssemblyDefinitions().Distinct(new AssemblyDefinitionComparer()).OrderBy(x => x.Name.Name);
             var refAssemblies = (from a in assemblies
                                  let module = a.MainModule
                                  select new
