@@ -149,13 +149,13 @@ Get-ChildItem -Filter *.sql -Path $WorkingCopy\database\Table `
 
 #elastic search mappings
 $esindex = $ElasticSearchHost + "/" + $ApplicationName.ToLowerInvariant() + "_sys"
-Invoke-WebRequest -Method Put -Body "" -Uri $esindex  -ContentType "application/javascript"
+Invoke-WebRequest -Method Put -Body "" -Uri $esindex  -ContentType "application/javascript" -UseBasicParsing
 
 Get-ChildItem -Filter *.json -Path .\database\mapping `
 | %{
     $mappingUri = $esindex + "/" + $_.Name.ToLowerInvariant().Replace(".json", "") + "/_mapping"
     Write-Debug "Creating elastic search mapping for $mappingUri"
-    Invoke-WebRequest -Method PUT -Uri $mappingUri -InFile $_.FullName -ContentType "application/javascript"
+    Invoke-WebRequest -Method PUT -Uri $mappingUri -InFile $_.FullName -ContentType "application/javascript" -UseBasicParsing
 }
 
 Get-ChildItem -Filter *.template -Path .\database\mapping `
@@ -166,7 +166,7 @@ Get-ChildItem -Filter *.template -Path .\database\mapping `
     $templateJson = $templateContent.Replace("<<application_name>>", $ApplicationName.ToLowerInvariant());
 
     Write-Debug "Creating elasticsearch index template for $templateName"
-    Invoke-WebRequest -Method PUT -Uri $templateUri -ContentType "application/javascript" -Body $templateJson
+    Invoke-WebRequest -Method PUT -Uri $templateUri -ContentType "application/javascript" -Body $templateJson -UseBasicParsing
 }
 
 
