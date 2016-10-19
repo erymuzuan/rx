@@ -47,13 +47,27 @@ namespace subscriber.entities
 
         public async Task MigrateDataAsync(EntityDefinition ed)
         {
+            if (ed.Transient) return;
             Console.ForegroundColor = ConsoleColor.Yellow;
             var name = ed.Name;
             Console.WriteLine(name);
             this.WriteMessage("Starting data migration for " + name);
             var connectionString = ConfigurationManager.SqlConnectionString;
             var applicationName = ConfigurationManager.ApplicationName;
-
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand($"SELECT COUNT(*) FROM [{applicationName}].[{name}]", conn))
+            {
+                await conn.OpenAsync();
+                try
+                {
+                    var rows = await cmd.ExecuteScalarAsync();
+                    Console.WriteLine($@"There are {rows} rows in [{applicationName}].[{name}]");
+                }
+                catch (SqlException)
+                {
+                    return;
+                }
+            }
 
             var taskBuckets = new List<Task>();
 

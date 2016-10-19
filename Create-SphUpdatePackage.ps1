@@ -299,31 +299,31 @@ if((Test-Path("$output\tools\bin\roslyn")) -eq $false)
     copy .\source\web\web.sph\bin\roslyn\* $output\tools\bin\roslyn\
 }
 
-ls -Path $output -Recurse -Filter assembly.test.* | Remove-Item
-ls -Path $output -Recurse -Filter GalaSoft.*.pdb | Remove-Item
-ls -Path $output -Recurse -Filter Microsoft.*.pdb | Remove-Item
-ls -Path $output -Recurse -Filter sqlmembership.directoryservices.dll.config | Remove-Item
-ls -Path $output -Recurse -Filter DiffPlex.pdb | Remove-Item
-ls -Path $output -Recurse -Filter SQLSpatialTools.pdb | Remove-Item
-ls -Path $output -Recurse -Filter Humanizer.pdb | Remove-Item
-ls -Path $output -Recurse -Filter Common.Logging.pdb | Remove-Item
-ls -Path $output -Recurse -Filter Humanizer.pdb | Remove-Item
-ls -Path $output -Recurse -Filter Common.Logging.Core.pdb | Remove-Item
-ls -Path $output -Recurse -Filter Spring.Core.pdb | Remove-Item
-ls -Path $output -Recurse -Filter Invoke.Docx.* | Remove-Item
-ls -Path $output -Recurse -Filter SQLSpatialTools.* | Remove-Item
-ls $output\tools | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
-ls $output\control.center | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
-ls $output\subscribers | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
-ls $output\subscribers.host | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
-ls $output\schedulers | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
-ls $output\web\bin | ? { $_.Mode -eq 'd----'} | Remove-Item -Force -Recurse
-ls -Path $output -Recurse -Filter DevV1.*.dll | Remove-Item
-ls -Path $output -Recurse -Filter DevV1.*.pdb | Remove-Item
-ls $output\web\App_Data\i18n | ? {$_.Name.StartsWith("options") -eq $false} | Remove-Item
-ls $output\control.center\controlcenter.vshost.* | Remove-Item
-ls $output\control.center -Filter *.json | Remove-Item
-ls $output\control.center -Filter *.manifest | Remove-Item
+ls -Path $output -Recurse -Filter assembly.test.* | Remove-Item -Force
+ls -Path $output -Recurse -Filter GalaSoft.*.pdb | Remove-Item -Force
+ls -Path $output -Recurse -Filter Microsoft.*.pdb | Remove-Item -Force
+ls -Path $output -Recurse -Filter sqlmembership.directoryservices.dll.config | Remove-Item -Force
+ls -Path $output -Recurse -Filter DiffPlex.pdb | Remove-Item -Force
+ls -Path $output -Recurse -Filter SQLSpatialTools.pdb | Remove-Item -Force
+ls -Path $output -Recurse -Filter Humanizer.pdb | Remove-Item -Force
+ls -Path $output -Recurse -Filter Common.Logging.pdb | Remove-Item -Force
+ls -Path $output -Recurse -Filter Humanizer.pdb | Remove-Item -Confirm
+ls -Path $output -Recurse -Filter Common.Logging.Core.pdb | Remove-Item -Force
+ls -Path $output -Recurse -Filter Spring.Core.pdb | Remove-Item -Force
+ls -Path $output -Recurse -Filter Invoke.Docx.* | Remove-Item -Force
+ls -Path $output -Recurse -Filter SQLSpatialTools.* | Remove-Item -Confirm
+ls $output\tools | ? { $_.Mode.StartsWith('d----') -eq $true} | Remove-Item -Force -Recurse -Force
+ls $output\control.center | ? { $_.Mode.StartsWith('d----') -eq $true} | Remove-Item -Force -Recurse -Force
+ls $output\subscribers | ? { $_.Mode.StartsWith('d----') -eq $true} | Remove-Item -Force -Recurse -Force
+ls $output\subscribers.host | ? { $_.Mode.StartsWith('d----') -eq $true} | Remove-Item -Force -Recurse -Force
+ls $output\schedulers | ? { $_.Mode.StartsWith('d----') -eq $true} | Remove-Item -Force -Recurse -Force
+ls $output\web\bin | ? { $_.Mode.StartsWith('d----') -eq $true} | Remove-Item -Force -Recurse -Force
+ls -Path $output -Recurse -Filter DevV1.*.dll | Remove-Item -Force
+ls -Path $output -Recurse -Filter DevV1.*.pdb | Remove-Item -Force
+ls $output\web\App_Data\i18n | ? {$_.Name.StartsWith("options") -eq $false} | Remove-Item -Force
+ls $output\control.center\controlcenter.vshost.* | Remove-Item -Force
+ls $output\control.center -Filter *.json | Remove-Item -Force
+ls $output\control.center -Filter *.manifest | Remove-Item -Force
 
 
 
