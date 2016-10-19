@@ -60,7 +60,8 @@ namespace Bespoke.Sph.Messaging
             }
             if (useTable)
             {
-                code.AppendLine($"var adapter = new {adapter.CodeNamespace}.{Table}Adapter();");
+                var table = adapter.TableDefinitionCollection.Single(x => x.Name == this.Table);
+                code.AppendLine($"var adapter = new {adapter.CodeNamespace}.{table.ClrName}Adapter();");
                 code.AppendLine($"var response = await adapter.{Crud}Async(source);");
             }
             code.AppendLine("return response;");
