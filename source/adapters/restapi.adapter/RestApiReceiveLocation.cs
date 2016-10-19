@@ -132,8 +132,9 @@ namespace Bespoke.Sph.Integrations.Adapters
         public async Task<IHttpActionResult> Create([{port.Name}{port.Formatter}Binding]IEnumerable<{port.CodeNamespace}.{port.Entity}> list)
         {{
             var entities = from i in list
-                             let json = i.ToJson()
-                             select json.DeserializeFromJson<{ed.TypeName}>();
+                           where null != i
+                           let json = i.ToJson()
+                           select json.DeserializeFromJson<{ed.TypeName}>();
 
             var context = new SphDataContext();
             using (var session = context.OpenSession())
