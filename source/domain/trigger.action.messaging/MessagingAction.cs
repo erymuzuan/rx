@@ -47,7 +47,7 @@ namespace Bespoke.Sph.Messaging
             var map = context.LoadOne<TransformDefinition>(x => x.Id == this.OutboundMap);
             var adapter = context.LoadOne<Adapter>(x => x.Name == this.Adapter);
                         
-            code.AppendLine($"var map = new {map.CodeNamespace}.{map.Name}();");
+            code.AppendLine($"var map = new {map.CodeNamespace}.{map.ClassName}();");
             code.AppendLine("var source = await map.TransformAsync(item);");
             var useOperation = string.IsNullOrWhiteSpace(this.Table) && !string.IsNullOrWhiteSpace(this.Operation);
             var useTable = !string.IsNullOrWhiteSpace(this.Table) && !string.IsNullOrWhiteSpace(this.Crud);
