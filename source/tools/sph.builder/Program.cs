@@ -184,8 +184,8 @@ namespace Bespoke.Sph.SourceBuilders
 
 
             // TODO : we got bugs here, why can't we compile adapters with just *.json file
-            //var adapterBuilder = new AdapterBuilder();
-            //await adapterBuilder.RestoreAllAsync();
+            var adapterBuilder = new AdapterBuilder();
+            await adapterBuilder.RestoreAllAsync();
 
             // NOTE : since map normally depends on adapter, this could fail miserably
             var mapBuilder = new TransformDefinitionBuilder();
@@ -206,8 +206,10 @@ namespace Bespoke.Sph.SourceBuilders
             await roleBuilder.RestoreAllAsync();
 
             DeployCompiledBinaries(Path.Combine(ConfigurationManager.WebPath, "bin"));
+            DeployCompiledBinaries(Path.Combine(ConfigurationManager.WebPath, "bin"), "workflows.*");
             DeployCompiledBinaries(ConfigurationManager.SchedulerPath);
-            DeployCompiledBinaries(ConfigurationManager.SubscriberPath);
+            DeployCompiledBinaries(ConfigurationManager.SubscriberPath, "subscriber.trigger.*");
+            DeployCompiledBinaries(ConfigurationManager.SubscriberPath, "workflows.*");
             DeployCompiledBinaries(ConfigurationManager.ToolsPath);
 
         }
@@ -230,11 +232,13 @@ namespace Bespoke.Sph.SourceBuilders
                 .Where(f => Path.GetFileName(f) != "subscriber.trigger.pdb")
                 .ToList().ForEach(File.Delete);
         }
-        private static void DeployCompiledBinaries(string folder)
+        private static void DeployCompiledBinaries(string folder, string pattern = null)
         {
-            Directory.GetFiles(ConfigurationManager.CompilerOutputPath, ".*.dll")
+            if (string.IsNullOrWhiteSpace(pattern))
+                pattern = $"{ConfigurationManager.ApplicationName}.*";
+            Directory.GetFiles(ConfigurationManager.CompilerOutputPath, $"{pattern}.dll")
                 .ToList().ForEach(x => File.Copy(x, $"{folder}\\{Path.GetFileName(x)}", true));
-            Directory.GetFiles(ConfigurationManager.CompilerOutputPath, ".*.pdb")
+            Directory.GetFiles(ConfigurationManager.CompilerOutputPath, $"{pattern}.pdb")
                 .ToList().ForEach(x => File.Copy(x, $"{folder}\\{Path.GetFileName(x)}", true));
         }
 
