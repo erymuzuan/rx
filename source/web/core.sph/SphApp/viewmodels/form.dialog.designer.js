@@ -12,15 +12,15 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             form = ko.observable(new bespoke.sph.domain.FormDialog({ WebId: system.guid() })),
             selectedFormElement = ko.observable(),
-            activate = function (entityid, formid) {
+            activate = function (entityDefinition, formid) {
 
-                var query = String.format("Id eq '{0}'", entityid),
+                const query = `Name eq '${entityDefinition}'`,
                     tcs = new $.Deferred();
 
 
                 context.getListAsync("EntityDefinition", null, "Name")
                     .then(function (entities) {
-                        var list = _(entities).map(function (v) {
+                        const list = _(entities).map(function (v) {
                             return {
                                 text: v,
                                 value: v
@@ -92,7 +92,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     }, 500);
                 }
 
-                form().Entity(entityid);
+                form().Entity(entityDefinition);
 
                 return tcs.promise();
 

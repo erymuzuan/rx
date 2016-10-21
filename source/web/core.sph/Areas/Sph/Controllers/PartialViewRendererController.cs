@@ -11,12 +11,12 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var context = new SphDataContext();
             var view = await context.LoadOneAsync<PartialView>(f => f.Route == id);
-            var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Id == view.Entity);
+            var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Name == view.Entity);
 
-            var vm = new PartialViewRendererViewModel { View= view, EntityDefinition = ed };
+            var vm = new PartialViewRendererViewModel { View = view, EntityDefinition = ed };
             return View(vm);
         }
-        
-        
+
+
     }
 }

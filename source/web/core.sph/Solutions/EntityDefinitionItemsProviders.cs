@@ -15,13 +15,17 @@ namespace Bespoke.Sph.Web.Solutions
             if (parent != typeof(T).Name) return Task.FromResult(default(SolutionItem));
             dynamic item = this.GetSolutionItem(file);
             if (null == item) return Task.FromResult(default(SolutionItem));
+            string edName = item.Entity;
+            var context = new SphDataContext();
+            var ed = context.LoadOneFromSources<EntityDefinition>(x => x.Name == edName);
+
             var node = new SolutionItem
             {
                 id = $"__{typeof(T).Name}__{Path.GetFileNameWithoutExtension(file)}",
                 text = this.GetName(item),
                 url = this.GetUrl(item),
                 icon = this.Icon,
-                type = parent
+                type = ed.Id
             };
             return Task.FromResult(node);
         }
