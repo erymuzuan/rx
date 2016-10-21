@@ -41,7 +41,7 @@ namespace Bespoke.Sph.ElasticSearchLogger
         }
         public void Log(LogEntry entry)
         {
-            this.LogAsync(entry).ContinueWith(_ => { });
+            this.LogAsync(entry).ContinueWith(_ => { }).ConfigureAwait(false);
         }
         private static StringContent GetJsonContent(LogEntry entry)
         {
