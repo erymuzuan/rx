@@ -8,12 +8,11 @@
 /// <reference path="~/SphApp/schemas/sph.domain.g.js" />
 /// <reference path="~/SphApp/objectbuilders.js" />
 
-define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app,"services/new-item"],
-    function (context, logger, router, app,addItemService) {
+define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app, "services/new-item"],
+    function (context, logger, router, app, addItemService) {
 
-        var adapterOptions = ko.observableArray(),
+        const adapterOptions = ko.observableArray(),
             getAdapterType = function (adapter) {
-
                 return /^.*?,(.*?).adapter/.exec(ko.unwrap(adapter.$type))[1].trim();
             },
             isBusy = ko.observable(false),
@@ -27,11 +26,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 });
                 return tcs.promise();
             },
-            attached = function (view) {
+            attached = function () {
 
             },
             getDesigner = function ($type) {
-                var item = _(adapterOptions()).find(function (v) {
+                const item = _(adapterOptions()).find(function (v) {
                     return ko.unwrap(v.adapter.$type) === ko.unwrap($type);
                 });
                 if (item.designer) {
@@ -41,10 +40,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             remove = function (p) {
                 var tcs = new $.Deferred();
-                app.showMessage("Are you sure you want to remove " + p.Name() + ", this action cannot be undone", "Rx Developer", ["Yes", "No"])
+                app.showMessage(`Are you sure you want to remove ${p.Name()}, this action cannot be undone`, "Rx Developer", ["Yes", "No"])
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
-                            context.send(null, "/adapter/" + p.Id(), "DELETE")
+                            context.send(null, `/adapter/${p.Id()}`, "DELETE")
                                 .done(function () {
                                     tcs.resolve();
                                     adapters.remove(p);
@@ -56,7 +55,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return tcs.promise();
             };
 
-        var vm = {
+        const vm = {
             remove: remove,
             adapterOptions: adapterOptions,
             getAdapterType: getAdapterType,
@@ -65,10 +64,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             isBusy: isBusy,
             activate: activate,
             attached: attached,
-            toolbar : {
-                 addNewCommand: function() {
-                return addItemService.addAdapterAsync();
-            }
+            toolbar: {
+                addNewCommand: function () {
+                    return addItemService.addAdapterAsync();
+                },
+                commands : ko.observableArray()
             }
         };
 

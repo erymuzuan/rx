@@ -1,14 +1,15 @@
 ﻿<div class="row">
     <h1>
         <i class="fa fa-clipboard"></i>
-        The list of custom entities
+        Shared value objects
     </h1>
 </div>
 <table class="table table-striped" data-bind="filter : {path:'tbody>tr'},
     serverPaging : {
         entity : 'ValueObjectDefinition',
         query : 'Id ne \'\'',
-        list : entities
+        list : entities,
+        enableReload : true
     }">
     <thead>
         <tr>

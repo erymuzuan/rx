@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -12,7 +12,7 @@
 define(["services/datacontext", "services/logger", "services/new-item"],
     function (context, logger, addItemService) {
 
-        var entities = ko.observableArray(),
+        const entities = ko.observableArray(),
             isBusy = ko.observable(false),
             activate = function () {
 
@@ -52,7 +52,7 @@ define(["services/datacontext", "services/logger", "services/new-item"],
 
             };
 
-        var vm = {
+        const vm = {
             isBusy: isBusy,
             activate: activate,
             attached: attached,
@@ -62,7 +62,8 @@ define(["services/datacontext", "services/logger", "services/new-item"],
                 importCommand: uploadPackage,
                 addNewCommand: function () {
                     return addItemService.addEntityDefinitionAsync();
-                }
+                },
+                commands: ko.observableArray()
             }
         };
 
