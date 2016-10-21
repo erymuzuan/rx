@@ -5,7 +5,8 @@ var sourcemaps = require("gulp-sourcemaps"),
     useref = require("gulp-useref"),
     gulpif = require("gulp-if"),
     uglify = require("gulp-uglify"),
-    notify = require("gulp-notify");
+    notify = require("gulp-notify"),
+    babel = require('gulp-babel');
 // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 // core.js
 var sources = [
@@ -26,18 +27,18 @@ var sources = [
 
 watchList.push({name:"core.js",sources: sources, tasks : ["core.js"]});
 
-gulp.task("core.min.js", function(){
+gulp.task("core.min.js",["core.js"], function(){
 
     return gulp.src(sources)
         .pipe(sourcemaps.init())
-        .pipe(uglify())
+        .pipe(babel({presets: ["babili"]}))
         .pipe(concat("__core.min.js"))
         .pipe(sourcemaps.write("./"))
         .pipe(useref())
         .pipe(gulp.dest("./source/web/core.sph/Scripts"));
 });
 
-gulp.task("core.js",["core.min.js"], function(){
+gulp.task("core.js", function(){
     return gulp.src(sources)
         .pipe(concat("__core.js"))
         .pipe(gulp.dest("./source/web/core.sph/Scripts"))
