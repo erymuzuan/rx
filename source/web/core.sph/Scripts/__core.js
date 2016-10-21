@@ -2239,14 +2239,20 @@ ko.bindingHandlers.serverPaging = {
                      });
             };
 
-        if (enableReload  && hasCommands) {
-            viewModel.toolbar.commands.push({
-                command: function() {
-                    return changed(1,20);
-                },
-                caption: "Reload",
-                icon: "bowtie-icon bowtie-navigate-refresh"
-            });
+        if (enableReload && hasCommands) {
+            const commandId = "server-paging-reload",
+                reloadCommand = viewModel.toolbar.commands().find(x => x.id === commandId);
+            if (!reloadCommand) {
+                viewModel.toolbar.commands.push({
+                    command: function () {
+                        return changed(1, 20);
+                    },
+                    caption: "Reload",
+                    icon: "bowtie-icon bowtie-navigate-refresh",
+                    id: commandId
+                });
+
+            }
         }
 
         if (enableReload && !hasCommands) {
