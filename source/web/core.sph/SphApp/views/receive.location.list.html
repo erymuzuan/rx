@@ -25,7 +25,7 @@
     <div class="col-md-2"></div>
     <!-- /ko-->
 </div>
-<table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'ReceiveLocation', list: list, map :map}">
+<table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'ReceiveLocation', list: list, map :map , enableReload : true }">
     <thead>
         <tr>
             <th></th>
@@ -110,7 +110,7 @@
                 <a href="javascript:;" data-bind="attr : {href:'#receive.port.designer/' + ko.unwrap(ReceivePort)},text: portName"></a>
             </td>
             <td>
-                <a href="javascript:;" data-bind="attr : {href:'#entity.details/' + ko.unwrap(entityId)},text: portName"></a>
+                <a href="javascript:;" data-bind="attr : {href:'#entity.details/' + ko.unwrap(entityId)},text: entity"></a>
 
             </td>
             <td>

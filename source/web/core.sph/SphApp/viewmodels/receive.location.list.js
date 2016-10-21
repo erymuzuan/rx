@@ -126,9 +126,9 @@ define(["services/new-item", "services/datacontext", objectbuilders.logger, obje
 
                     const logs = result.Errors.map(c =>({
                         time: "",
-                        message:  `${c.Message} (${c.Line})`,
+                        message: `${c.Message} (${c.Line})`,
                         severity: "Error",
-                        buildError :c
+                        buildError: c
 
                     }));
                     developersPanel.list(logs);
@@ -204,7 +204,8 @@ define(["services/new-item", "services/datacontext", objectbuilders.logger, obje
         removeLocations: removeLocations,
         getDesigner: getDesigner,
         toolbar: {
-            addNewCommand: addItemService.addReceiveLocation
+            addNewCommand: addItemService.addReceiveLocation,
+            commands : ko.observableArray()
         }
     };
 
