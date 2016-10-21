@@ -10,9 +10,8 @@
 
 define(["services/datacontext", "services/logger", "plugins/dialog"],
     function (context, logger, dialog) {
-
-        var self = this,
-            icons = ko.observableArray(),
+        let self = this;
+        const icons = ko.observableArray(),
             icon = ko.observable(),
             activate = function () {
 
@@ -21,7 +20,7 @@ define(["services/datacontext", "services/logger", "plugins/dialog"],
                 self = this;
                 $(view).on("click", "div.fa-hover>a", function (e) {
                     e.preventDefault();
-                    icon("fa fa-" + $(this).text().replace(" (alias)", "").trim());
+                    icon(`fa fa-${$(this).text().replace(" (alias)", "").trim()}`);
                     console.log(icon());
                     dialog.close(self, "OK");
 
@@ -36,7 +35,7 @@ define(["services/datacontext", "services/logger", "plugins/dialog"],
                     }else{
                         css = span.text();
                     }
-                    icon("glyphicon " + css.trim());
+                    icon(`glyphicon ${css.trim()}`);
                     console.log(icon());
                     dialog.close(self, "OK");
 
@@ -50,7 +49,7 @@ define(["services/datacontext", "services/logger", "plugins/dialog"],
                 dialog.close(this, "Cancel");
             };
 
-        var vm = {
+        const vm = {
             attached: attached,
             activate: activate,
             icon: icon,
