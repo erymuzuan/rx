@@ -160,6 +160,73 @@ namespace Bespoke.Sph.Domain
             );
         }
 
+        public static string ToClrIdentifier(this string value, string strategy = "")
+        {
+            switch (strategy)
+            {
+                case "Auto":
+                    return value.ToClrAuto();
+                case "camel":
+                    return value.ToCamelCase();
+                case "_":
+                    return value.ToIdFormat().Replace("-", "_");
+                // default to Pascal since the previous code just take Pascal 
+                //case "pascal":
+                default:
+                    return value.ToPascalCase();
+            }
+        }
+
+        public static string ToClrAuto(this string text)
+        {
+            var camel = text.SplitCamelCase();
+            var sb = new StringBuilder(camel);
+            var norms = new[]
+            {
+                ".",
+                "-",
+                "_",
+                ",",
+                "'",
+                ";",
+                ":",
+                "~",
+                "`",
+                "!",
+                "@",
+                "#",
+                "$",
+                "%",
+                "^",
+                "&",
+                "*",
+                "(",
+                ")",
+                "+",
+                "=",
+                "{",
+                "[",
+                "}",
+                "]",
+                "|",
+                "\\",
+                " ",
+                "\"",
+                "/",
+                "?",
+                "__",
+                "__",
+                "__",
+            };
+            foreach (var norm in norms)
+            {
+                sb.Replace(norm, "_");
+            }
+            if (sb.Length > 0 && sb[0] == '_')
+                sb.Remove(0, 1);
+
+            return sb.ToString();
+        }
         public static string ToIdFormat(this string text)
         {
             var camel = text.SplitCamelCase();

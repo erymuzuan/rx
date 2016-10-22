@@ -1212,6 +1212,11 @@ namespace Bespoke.Sph.Domain.Api
         public const string PropertyNameColumnDisplayNameStrategy = "ColumnDisplayNameStrategy";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_columnClrNameStrategy;
+        public const string PropertyNameColumnClrNameStrategy = "ColumnClrNameStrategy";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -1302,8 +1307,36 @@ namespace Bespoke.Sph.Domain.Api
         }
 
 
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        [Required]
+        public string ColumnClrNameStrategy
+        {
+            set
+            {
+                if (String.Equals(m_columnClrNameStrategy, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameColumnClrNameStrategy, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_columnClrNameStrategy = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_columnClrNameStrategy;
+            }
+        }
+
+
 
     }
+
+    
 
     ///<summary>
     /// 

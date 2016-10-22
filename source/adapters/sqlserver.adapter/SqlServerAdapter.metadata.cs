@@ -64,7 +64,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         private async Task<IEnumerable<Change>> RefreshTableMetadataAsync(TableDefinition table, ConcurrentBag<TableDefinition> deletedTables)
         {
-            var db = await this.GetTableOptionDetailsAsync(table.Schema, table.Name);
+            var db = await this.GetTableOptionDetailsAsync(this,table.Schema, table.Name);
             if (null == db)
             {
                 deletedTables.Add(table);
@@ -391,7 +391,9 @@ SELECT
 
             return list;
         }
-        public async Task<TableDefinition> GetTableOptionDetailsAsync(string schema, string name)
+
+
+        public async Task<TableDefinition> GetTableOptionDetailsAsync(Adapter adapter, string schema, string name)
         {
 
             const string SQL = @"
@@ -431,8 +433,9 @@ AND
                         AllowRead = true,
                         AllowUpdate = true,
                         IsSelected = false,
-                        Type = "U"
+                        Type = "U",
                     };
+                    table.ComputeClrName(adapter);
 
                     await ReadColumnsAsync(conn, table);
                     var primaryKeyTask = ReadPrimaryKeysAsync(conn, table);

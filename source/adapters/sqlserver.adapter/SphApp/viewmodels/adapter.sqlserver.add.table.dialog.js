@@ -45,26 +45,27 @@ define(["plugins/dialog", "services/datacontext", "knockout", "jquery"],
                 $(view).on("click", "input[type=checkbox].table-checkbox", function (e) {
                     var table = ko.dataFor(this);
 
-                    var adp = ko.toJS(adapter),
+                    const adp = ko.toJS(adapter),
                         server = ko.unwrap(adp.Server),
                         database = ko.unwrap(adp.Database),
                         trusted = ko.unwrap(adp.TrustedConnection),
                         userid = ko.unwrap(adp.UserId),
                         password = ko.unwrap(adp.Password),
                         strategy = ko.unwrap(adp.ColumnDisplayNameStrategy),
-                        url = trusted ? "" : "&trusted=false&userid=" + userid + "&password=" + password;
+                        clr = ko.unwrap(adp.ColumnClrNameStrategy),
+                        url = trusted ? "" : `&trusted=false&userid=${userid}&password=${password}`;
                     if ($(this).is(":checked")) {
                         isBusy(true);
-                        $.getJSON("/sqlserver-adapter/table-options/" + table.Schema + "/" + table.Name + "/?server=" + server + "&database=" + database + "&strategy=" + strategy + url)
+                        $.getJSON(`/sqlserver-adapter/table-options/${table.Schema}/${table.Name}/?server=${server}&database=${database}&strategy=${strategy}&clr=${clr}${url}`)
                             .done(function (result) {
-                                var tr = context.toObservable(result);
+                                const tr = context.toObservable(result);
                                 tr.IsSelected(true);
                                 selectedTables.push(tr);
                                 isBusy(false);
                             });
 
                     } else {
-                        var tr = _(selectedTables()).find(function (v) {
+                        const tr = _(selectedTables()).find(function (v) {
                             return ko.unwrap(v.Name) === ko.unwrap(table.Name) && ko.unwrap(v.Schema) === ko.unwrap(table.Schema);
                         });
                         if (tr)

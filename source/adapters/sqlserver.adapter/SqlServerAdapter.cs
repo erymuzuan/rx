@@ -286,7 +286,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             // WHERE clause is in the primary key
             foreach (var pk in table.PrimaryKeyCollection)
             {
-                code.AppendLine($"               cmd.Parameters.AddWithValue(\"@{pk}\", item.{pk.ToPascalCase()});");
+                code.AppendLine($"               cmd.Parameters.AddWithValue(\"@{pk}\", item.{pk.ToClrIdentifier(this.ColumnClrNameStrategy)});");
             }
 
             code.AppendLine("               await conn.OpenAsync();");
@@ -473,7 +473,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                             where !c.IsComplex
                             let dbVal = $@"reader[""{c.Name}""]"
                             let statement = c.GenerateValueStatementCode(dbVal)
-                            let statementCode = string.IsNullOrWhiteSpace(statement)? "" : statement + "\r\n"
+                            let statementCode = string.IsNullOrWhiteSpace(statement) ? "" : statement + "\r\n"
                             select $"{statementCode}item.{c.ClrName} = {c.GenerateValueAssignmentCode(dbVal)};";
             code.JoinAndAppendLine(readCodes, "\r\n");
 

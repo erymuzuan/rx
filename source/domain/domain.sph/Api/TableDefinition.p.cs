@@ -5,7 +5,7 @@ namespace Bespoke.Sph.Domain.Api
 {
     public partial class TableDefinition : DomainObject
     {
-        public string ClrName => Name.ToPascalCase();
+        public string ClrName { get; set; }
         [JsonIgnore]
         public Column PrimaryKey
         {
@@ -19,6 +19,29 @@ namespace Bespoke.Sph.Domain.Api
         public override string ToString()
         {
             return this.Name;
+        }
+
+        public string ComputeClrName(Adapter adapter)
+        {
+            var name = $"{Schema}.{Name}";
+            switch (adapter.ColumnClrNameStrategy)
+            {
+                case "Auto":
+                    this.ClrName = name.ToClrAuto();
+                    break;
+                case "camel":
+                    this.ClrName = name.ToCamelCase();
+                    break;
+                case "_":
+                    this.ClrName = name.ToIdFormat().Replace("-", "_");
+                    break;
+                // default to Pascal since the previous code just take Pascal 
+                //case "pascal":
+                default:
+                    this.ClrName = name.ToPascalCase();
+                    break;
+            }
+            return this.ClrName;
         }
 
 
