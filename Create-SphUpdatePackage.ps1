@@ -188,7 +188,7 @@ foreach($ucon in $rubbishConfigs)
         Remove-Item $ucon
     }
 }
-ls -Filter *.7z -Path $output  -Recurse | Remove-Item
+ls -Filter *.7z -Path $output  -Recurse | Remove-Item -Recurse -Filter
 ls
 
 #control.center
@@ -210,18 +210,18 @@ Get-ChildItem -Filter *.* -Path ".\source\elasticsearch\mapping" `
 Get-Item -Path .\bin\build\subscribers\subscriber.trigger.* `
 | ? { $_.Name.EndsWith("trigger.dll") -eq $false} `
 | ? { $_.Name.EndsWith("trigger.pdb") -eq $false} `
-| Remove-Item
+| Remove-Item -Force -Recurse
 
 # remove workers service runner - just run the workser console runner
-ls -Path $output\subscribers.host -Filter workers.windowsservice.runner.* | Remove-Item
+ls -Path $output\subscribers.host -Filter workers.windowsservice.runner.* | Remove-Item -Recurse -Force
 
 Write-Host ""
 
 Write-Host ""
 
 # remove unused and big files
-ls -Path "$output\control.center" -Filter *.xml | Remove-Item
-ls -Path $output -Recurse -Filter Spring.Core.pdb | Remove-Item
+ls -Path "$output\control.center" -Filter *.xml | Remove-Item -Force -Recurse
+ls -Path $output -Recurse -Filter Spring.Core.pdb | Remove-Item -Force -Recurse
 
 $commonLibraries = @("Telerik", "Roslyn.Services", "Microsoft", "Oracle.ManagedDataAccess",
 "SuperSocket",
@@ -258,10 +258,10 @@ $commonLibraries = @("Telerik", "Roslyn.Services", "Microsoft", "Oracle.ManagedD
 foreach($lib in $commonLibraries)
 {
     Write-Host "Deleting $lib.*"
-    ls -Path $output -Recurse -Filter "$lib*.dll" | Remove-Item
-    ls -Path $output -Recurse -Filter "$lib*.pdb" | Remove-Item
-    ls -Path $output -Recurse -Filter "$lib*.xml" | Remove-Item   
-
+    ls -Path $output -Recurse -Filter "$lib*.dll" | Remove-Item -Recurse -Force
+    ls -Path $output -Recurse -Filter "$lib*.pdb" | Remove-Item -Recurse -Force
+    ls -Path $output -Recurse -Filter "$lib*.xml" | Remove-Item -Force -Recurse
+    
 }
 
 Write-Host "You'll need to manually copy any new NuGet packages to each individual folders" -ForegroundColor Yellow -NoNewline  
@@ -281,11 +281,11 @@ ls -Path $output\tools -Recurse -Filter *.resources.dll
 ls -Path $output\schedulers -Recurse -Filter *.resources.dll
 ls -Path $output\control.center -Recurse -Filter *.resources.dll
 
-ls $output\web\bin\ -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles().Count -eq 0} | Remove-Item -Confirm
-ls $output\subscribers.host -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles().Count -eq 0} | Remove-Item -Confirm
-ls $output\tools -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles().Count -eq 0} | Remove-Item -Confirm
-ls $output\schedulers -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles().Count -eq 0} | Remove-Item -Confirm
-ls $output\control.center -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles().Count -eq 0} | Remove-Item -Confirm
+ls $output\web\bin\ -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles().Count -eq 0} | Remove-Item -Recurse -Force
+ls $output\subscribers.host -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles().Count -eq 0} | Remove-Item -Recurse -Force
+ls $output\tools -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles().Count -eq 0} | Remove-Item -Recurse -Force
+ls $output\schedulers -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles().Count -eq 0} | Remove-Item -Recurse -Force
+ls $output\control.center -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles().Count -eq 0} | Remove-Item -Recurse -Force
 
 if((Test-Path("$output\web\bin\roslyn")) -eq $false)
 {
@@ -312,15 +312,15 @@ ls -Path $output -Recurse -Filter Common.Logging.Core.pdb | Remove-Item -Force
 ls -Path $output -Recurse -Filter Spring.Core.pdb | Remove-Item -Force
 ls -Path $output -Recurse -Filter Invoke.Docx.* | Remove-Item -Force
 ls -Path $output -Recurse -Filter SQLSpatialTools.* | Remove-Item -Confirm
-ls $output\tools | ? { $_.Mode.StartsWith('d----') -eq $true} | Remove-Item -Force -Recurse -Force
-ls $output\control.center | ? { $_.Mode.StartsWith('d----') -eq $true} | Remove-Item -Force -Recurse -Force
-ls $output\subscribers | ? { $_.Mode.StartsWith('d----') -eq $true} | Remove-Item -Force -Recurse -Force
-ls $output\subscribers.host | ? { $_.Mode.StartsWith('d----') -eq $true} | Remove-Item -Force -Recurse -Force
-ls $output\schedulers | ? { $_.Mode.StartsWith('d----') -eq $true} | Remove-Item -Force -Recurse -Force
-ls $output\web\bin | ? { $_.Mode.StartsWith('d----') -eq $true} | Remove-Item -Force -Recurse -Force
+ls $output\tools | ? { $_.Mode.StartsWith('d----') -eq $true} | Remove-Item -Force -Recurse
+ls $output\control.center | ? { $_.Mode.StartsWith('d----') -eq $true} | Remove-Item -Force -Recurse
+ls $output\subscribers | ? { $_.Mode.StartsWith('d----') -eq $true} | Remove-Item -Force -Recurse
+ls $output\subscribers.host | ? { $_.Mode.StartsWith('d----') -eq $true} | Remove-Item -Force -Recurse
+ls $output\schedulers | ? { $_.Mode.StartsWith('d----') -eq $true} | Remove-Item -Force -Recurse
+ls $output\web\bin | ? { $_.Mode.StartsWith('d----') -eq $true} | Remove-Item -Force -Recurse
 ls -Path $output -Recurse -Filter DevV1.*.dll | Remove-Item -Force
 ls -Path $output -Recurse -Filter DevV1.*.pdb | Remove-Item -Force
-ls $output\web\App_Data\i18n | ? {$_.Name.StartsWith("options") -eq $false} | Remove-Item -Force
+ls $output\web\App_Data\i18n | ? {$_.Name.StartsWith("options") -eq $false} | Remove-Item -Force -Recurse
 ls $output\control.center\controlcenter.vshost.* | Remove-Item -Force
 ls $output\control.center -Filter *.json | Remove-Item -Force
 ls $output\control.center -Filter *.manifest | Remove-Item -Force
@@ -359,7 +359,7 @@ $updateJson = @"
 	"update-script" : "$Build.ps1"
 }
 "@
-$updateJson > .\deployment\$previous.json
+$updateJson | Out-File .\deployment\$previous.json -Encoding ascii
 
 $versionBuildJson = @"
 {
