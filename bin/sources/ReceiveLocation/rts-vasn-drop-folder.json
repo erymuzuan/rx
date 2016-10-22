@@ -1,0 +1,31 @@
+{
+  "$type": "Bespoke.Sph.Domain.FolderReceiveLocation, domain.sph",
+  "Path": "d:\\temp\\vasn-drop",
+  "CredentialUserName": null,
+  "ChangeExtension": true,
+  "CredentialPassword": null,
+  "Filter": "sa_vasn_*txt.log",
+  "ArchiveLocation": null,
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "RtsVasnDropFolder",
+  "IsActive": true,
+  "ValidationEndpoint": null,
+  "ValidationMethod": "",
+  "SubmitEndpoint": "default-post-vasn",
+  "SubmitMethod": "POST",
+  "InvalidEndpoint": null,
+  "InvalidMethod": "",
+  "ErrorEndpoint": null,
+  "ErrorMethod": "",
+  "JwtToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYWRtaW4iLCJyb2xlcyI6WyJhZG1pbmlzdHJhdG9ycyIsImRldmVsb3BlcnMiXSwiZW1haWwiOjE0ODMxNDI0MDAsInN1YiI6ImQ2MTc0NmUwLTdhZmMtNDhjYS04OTVmLWQzZDAzOWQ4ZDI4MSIsIm5iZiI6MTQ5MDUwMzE1MiwiaWF0IjoxNDc0ODY0NzUyLCJleHAiOjE0ODMxNDI0MDAsImF1ZCI6IkRldlYxIn0.50WRticwNzLXL3sHdJsBsdhulOQqhPJlYATxm-amFfw",
+  "ReceivePort": "rts-vasn",
+  "CreatedBy": "admin",
+  "Id": "rts-vasn-drop-folder",
+  "CreatedDate": "2016-10-22T15:15:12.7585494+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-10-22T15:20:00.7459822+08:00",
+  "WebId": "15021574-8d83-4252-964d-695ee99955e2"
+}
