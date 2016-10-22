@@ -13,6 +13,7 @@ namespace Bespoke.Sph.Messaging
         public string Adapter { get; set; }
         public string Operation { get; set; }
         public string Table { get; set; }
+        public string Schema { get; set; }
         public string Crud { get; set; }
         public int? Retry { get; set; }
         /// <summary>
