@@ -305,8 +305,10 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             code.AppendLine("           get ");
             code.AppendLine("           {");
-            code.AppendLinf("               var conn = ConfigurationManager.ConnectionStrings[\"{0}\"];", this.Name);
+            code.AppendLine($@"               var conn = ConfigurationManager.ConnectionStrings[""{Name}""];");
             code.AppendLine("               if(null != conn)return conn.ConnectionString;");
+            code.AppendLine($@"             var conn2 = ConfigurationManager.GetEnvironmentVariable(""{Name}ConnectionString"");");
+            code.AppendLine("               if(null != conn)return conn2;");
             code.AppendLinf("               return @\"{0}\";", this.ConnectionString);
             code.AppendLine("           }");
             code.AppendLine("       }");
