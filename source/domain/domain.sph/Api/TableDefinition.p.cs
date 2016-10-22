@@ -24,7 +24,7 @@ namespace Bespoke.Sph.Domain.Api
         public string ComputeClrName(Adapter adapter)
         {
             var name = $"{Schema}.{Name}";
-            switch (adapter.ColumnClrNameStrategy)
+            switch (adapter.ClrNameStrategy)
             {
                 case "Auto":
                     this.ClrName = name.ToClrAuto();

@@ -286,7 +286,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             // WHERE clause is in the primary key
             foreach (var pk in table.PrimaryKeyCollection)
             {
-                code.AppendLine($"               cmd.Parameters.AddWithValue(\"@{pk}\", item.{pk.ToClrIdentifier(this.ColumnClrNameStrategy)});");
+                code.AppendLine($"               cmd.Parameters.AddWithValue(\"@{pk}\", item.{pk.ToClrIdentifier(this.ClrNameStrategy)});");
             }
 
             code.AppendLine("               await conn.OpenAsync();");

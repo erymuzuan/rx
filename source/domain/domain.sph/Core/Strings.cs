@@ -179,8 +179,7 @@ namespace Bespoke.Sph.Domain
 
         public static string ToClrAuto(this string text)
         {
-            var camel = text.SplitCamelCase();
-            var sb = new StringBuilder(camel);
+            var sb = new StringBuilder(text);
             var norms = new[]
             {
                 ".",

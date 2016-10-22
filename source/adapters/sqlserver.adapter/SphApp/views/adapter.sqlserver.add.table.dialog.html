@@ -9,28 +9,27 @@
             </div>
             <div class="modal-body">
 
-        
-
-
-                <table id="table-options-panel" class="table table-condensed table-striped table-hover" 
-                    data-bind="filter: {path: 'tbody>tr'}">
-                    <thead>
-                    <tr>
-                        <th>Table</th>
-                        <th></th>
-                    </tr>
+                <table id="table-options-panel" style="width: 570px" class="table table-condensed table-striped table-hover"
+                       data-bind="filter: {path: 'tbody>tr'}">
+                    <thead style="display: block">
+                        <tr>
+                            <th>
+                                <span style="width: 500px">Table</span>
+                            </th>
+                            <th>Type</th>
+                        </tr>
                     </thead>
-                    <tbody style="max-height: 450px;overflow-y: scroll;display: block" data-bind="foreach :tables">
+                    <tbody style="height: 450px; overflow-y: auto; overflow-x: hidden;display: block" data-bind="foreach :tables">
                         <tr>
                             <td>
-                                <label>
-                                    <input type="checkbox" class="table-checkbox" data-bind="attr : {'name':'table-' + Name}, checked: IsSelected"/>
+                                <label style="width: 500px">
+                                    <input type="checkbox" class="table-checkbox" data-bind="attr : {'name':'table-' + Name}, checked: IsSelected" />
                                     <!-- ko text: Schema --><!-- /ko -->.<!-- ko text: Name --><!-- /ko -->
                                 </label>
                             </td>
                             <td data-bind="text: Type"></td>
                         </tr>
-              
+
                     </tbody>
                 </table>
 

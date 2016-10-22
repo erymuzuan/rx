@@ -83,7 +83,7 @@ namespace Bespoke.Sph.Domain.Api
                 }
             }
 
-            col.ClrName = col.Name.ToClrIdentifier(adapter.ColumnClrNameStrategy);
+            col.ClrName = col.Name.ToClrIdentifier(adapter.ClrNameStrategy);
             return col;
         }
 

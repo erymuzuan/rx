@@ -295,7 +295,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 UserId = user,
                 Password = password,
                 ColumnDisplayNameStrategy = strategy,
-                ColumnClrNameStrategy = clr
+                ClrNameStrategy = clr
             };
 
             var table = await adapter.GetTableOptionDetailsAsync(adapter, schema, name);

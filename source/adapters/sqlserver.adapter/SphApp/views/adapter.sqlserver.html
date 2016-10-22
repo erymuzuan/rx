@@ -451,11 +451,11 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="name">Column CLR Name Strategy</label>
-                            <select class="form-control" type="text" id="column-clr-name-strategy"
+                            <label for="clr-name-strategy">CLR Name Strategy</label>
+                            <select class="form-control" type="text" id="clr-name-strategy"
                                     placeholder="Adapter name"
                                     pattern="^[A-Z][A-Za-z0-9_]*$"
-                                    data-bind="value:ColumnClrNameStrategy">
+                                    data-bind="value:ClrNameStrategy, tooltip:'Specify the strategy which the object name generation will be in CLR/C# code'">
                                 <option value=""></option>
                                 <option value="Pascal">Pascal</option>
                                 <option value="Auto">Auto</option>

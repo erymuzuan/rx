@@ -48,7 +48,7 @@ namespace Bespoke.Sph.Domain.Api
             var pk = "\"\"";
             if (null != this.PrimaryKey)
                 pk = this.PrimaryKey.Name;
-            var toString = $"public override string ToString(){{ return \"{Name}:\" + {pk.ToClrIdentifier(adapter.ColumnClrNameStrategy)};}}";
+            var toString = $"public override string ToString(){{ return \"{Name}:\" + {pk.ToClrIdentifier(adapter.ClrNameStrategy)};}}";
             adapteClass.MethodCollection.Add(new Method { Code = toString });
 
             var properties = this.ColumnCollection.Select(x => new Property { Code = x.GeneratedCode() }).ToList();
