@@ -25,7 +25,7 @@ namespace Bespoke.Sph.Web.Solutions
                 text = this.GetName(item),
                 url = this.GetUrl(item),
                 icon = this.Icon,
-                type = ed.Id
+                type = ed?.Id
             };
             return Task.FromResult(node);
         }
