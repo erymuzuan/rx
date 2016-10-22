@@ -2,7 +2,7 @@
 <html>
   <head>
       <meta charset="utf-8" />
-      <title>10322</title>
+      <title>10326</title>
       <style>.markdown-preview:not([data-use-github-style]) { padding: 2em; font-size: 1.2em; color: rgb(171, 178, 191); overflow: auto; background-color: rgb(40, 44, 52); }
 .markdown-preview:not([data-use-github-style]) > :first-child { margin-top: 0px; }
 .markdown-preview:not([data-use-github-style]) h1, .markdown-preview:not([data-use-github-style]) h2, .markdown-preview:not([data-use-github-style]) h3, .markdown-preview:not([data-use-github-style]) h4, .markdown-preview:not([data-use-github-style]) h5, .markdown-preview:not([data-use-github-style]) h6 { line-height: 1.2; margin-top: 1.5em; margin-bottom: 0.5em; color: rgb(255, 255, 255); }
@@ -108,6 +108,9 @@
 .spell-check-misspelling .region {
   border-bottom: 2px dotted rgba(255, 51, 51, 0.75);
 }
+.spell-check-corrections {
+  width: 25em !important;
+}
 
 pre.editor-colors,
 .host {
@@ -146,6 +149,23 @@ pre.editor-colors .indent-guide,
 pre.editor-colors .wrap-guide,
 .host .wrap-guide {
   background-color: rgba(171, 178, 191, 0.15);
+}
+pre.editor-colors .find-result .region.region.region,
+.host .find-result .region.region.region,
+pre.editor-colors .current-result .region.region.region,
+.host .current-result .region.region.region {
+  border-radius: 0px;
+  background-color: rgba(82, 139, 255, 0.24);
+  transition: border-color 0.4s;
+}
+pre.editor-colors .find-result .region.region.region,
+.host .find-result .region.region.region {
+  border: 2px solid transparent;
+}
+pre.editor-colors .current-result .region.region.region,
+.host .current-result .region.region.region {
+  border: 2px solid #528bff;
+  transition-duration: .1s;
 }
 pre.editor-colors .gutter .line-number,
 .host .gutter .line-number {
@@ -190,6 +210,9 @@ pre.editor-colors .fold-marker:after,
 .comment {
   color: #5c6370;
   font-style: italic;
+}
+.comment .markup.link {
+  color: #5c6370;
 }
 .entity.name.type {
   color: #e5c07b;
@@ -353,6 +376,9 @@ pre.editor-colors .fold-marker:after,
 .meta.tag {
   color: #abb2bf;
 }
+.underline {
+  text-decoration: underline;
+}
 .none {
   color: #abb2bf;
 }
@@ -378,14 +404,17 @@ pre.editor-colors .fold-marker:after,
   color: #c678dd;
   font-style: italic;
 }
+.markup.heading {
+  color: #e06c75;
+}
 .markup.heading .punctuation.definition.heading {
   color: #61afef;
 }
+.markup.link {
+  color: #c678dd;
+}
 .markup.inserted {
   color: #98c379;
-}
-.markup.list {
-  color: #e06c75;
 }
 .markup.quote {
   color: #d19a66;
@@ -407,14 +436,11 @@ pre.editor-colors .fold-marker:after,
 .source.gfm .markup {
   -webkit-font-smoothing: auto;
 }
-.source.gfm .markup.heading {
-  color: #e06c75;
-}
-.source.gfm .markup.link {
-  color: #c678dd;
-}
 .source.gfm .link .entity {
   color: #61afef;
+}
+.source.go .storage.type.string {
+  color: #c678dd;
 }
 .source.ini .keyword.other.definition.ini {
   color: #e06c75;
@@ -425,11 +451,26 @@ pre.editor-colors .fold-marker:after,
 .source.java .storage.type {
   color: #e5c07b;
 }
+.source.java .keyword.operator.instanceof {
+  color: #c678dd;
+}
 .source.java-properties .meta.key-pair {
   color: #e06c75;
 }
 .source.java-properties .meta.key-pair > .punctuation {
   color: #abb2bf;
+}
+.source.js .keyword.operator {
+  color: #56b6c2;
+}
+.source.js .keyword.operator.delete,
+.source.js .keyword.operator.in,
+.source.js .keyword.operator.of,
+.source.js .keyword.operator.instanceof,
+.source.js .keyword.operator.new,
+.source.js .keyword.operator.typeof,
+.source.js .keyword.operator.void {
+  color: #c678dd;
 }
 .source.json .meta.structure.dictionary.json > .string.quoted.json {
   color: #e06c75;
@@ -458,35 +499,19 @@ pre.editor-colors .fold-marker:after,
 }
 </style>
   </head>
-  <body class='markdown-preview'><p>#Release Note for 10322</p>
-<h2 id="notable-new-features">Notable new features</h2>
+  <body class='markdown-preview' data-use-github-style><h1 id="release-note">Release Note</h1>
+<h2 id="10326">10326</h2>
+<p>Minor bugs fixes releases</p>
+<h3 id="bugs-fixes">Bugs fixes</h3>
 <ul>
-<li>ComplexMember</li>
-<li>Simple Member</li>
-<li>ValueObject Member</li>
-<li>Endpoints</li>
+<li>FormDialog - use Entity name instead of Id</li>
+<li>PartialForm use Entity name instead of Id</li>
+<li>Solution Explorer - use Entity Id for parent type</li>
 </ul>
-<h2 id="other-new-features">Other new features</h2>
+<h3 id="other-improvements">Other improvements</h3>
 <ul>
-<li>Feature 1</li>
-<li>Feature 2</li>
-<li>etc</li>
-</ul>
-<p>##Major Updates</p>
-<p>###Major update item 1</p>
-<ul>
-<li>description</li>
-<li>description</li>
-</ul>
-<p>###Major update item 2</p>
-<ul>
-<li>description</li>
-<li>description
-s</li>
-</ul>
-<h2 id="bugs-fixes">Bugs fixes</h2>
-<ul>
-<li>bugNo - title</li>
-<li>bugNo - title</li>
+<li>Using bowtie css for icons</li>
+<li>List console such as Transform Definition List, Entity List gets reload command for <code>serverPaging</code> binding handler</li>
+<li>Use gulp-babel with babili preset to minify ES2015 files</li>
 </ul></body>
 </html>
