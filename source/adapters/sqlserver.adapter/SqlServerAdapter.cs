@@ -286,7 +286,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             // WHERE clause is in the primary key
             foreach (var pk in table.PrimaryKeyCollection)
             {
-                code.AppendLine($"               cmd.Parameters.AddWithValue(\"@{pk}\", item.{pk.ToPascalCase()});");
+                code.AppendLine($"               cmd.Parameters.AddWithValue(\"@{pk}\", item.{pk.ToClrIdentifier(this.ClrNameStrategy)});");
             }
 
             code.AppendLine("               await conn.OpenAsync();");
@@ -305,8 +305,10 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             code.AppendLine("           get ");
             code.AppendLine("           {");
-            code.AppendLinf("               var conn = ConfigurationManager.ConnectionStrings[\"{0}\"];", this.Name);
+            code.AppendLine($@"               var conn = ConfigurationManager.ConnectionStrings[""{Name}""];");
             code.AppendLine("               if(null != conn)return conn.ConnectionString;");
+            code.AppendLine($@"             var conn2 = ConfigurationManager.GetEnvironmentVariable(""{Name}ConnectionString"");");
+            code.AppendLine("               if(null != conn)return conn2;");
             code.AppendLinf("               return @\"{0}\";", this.ConnectionString);
             code.AppendLine("           }");
             code.AppendLine("       }");
@@ -473,7 +475,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                             where !c.IsComplex
                             let dbVal = $@"reader[""{c.Name}""]"
                             let statement = c.GenerateValueStatementCode(dbVal)
-                            let statementCode = string.IsNullOrWhiteSpace(statement)? "" : statement + "\r\n"
+                            let statementCode = string.IsNullOrWhiteSpace(statement) ? "" : statement + "\r\n"
                             select $"{statementCode}item.{c.ClrName} = {c.GenerateValueAssignmentCode(dbVal)};";
             code.JoinAndAppendLine(readCodes, "\r\n");
 

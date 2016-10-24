@@ -40,45 +40,61 @@ define(["plugins/dialog", "services/datacontext", "knockout", "jquery"],
                         tables(list);
 
                     });
-            },
-            attached = function (view) {
-                $(view).on("click", "input[type=checkbox].table-checkbox", function (e) {
-                    var table = ko.dataFor(this);
+            };
+        const attached = function (view) {
 
-                    var adp = ko.toJS(adapter),
-                        server = ko.unwrap(adp.Server),
-                        database = ko.unwrap(adp.Database),
-                        trusted = ko.unwrap(adp.TrustedConnection),
-                        userid = ko.unwrap(adp.UserId),
-                        password = ko.unwrap(adp.Password),
-                        strategy = ko.unwrap(adp.ColumnDisplayNameStrategy),
-                        url = trusted ? "" : "&trusted=false&userid=" + userid + "&password=" + password;
-                    if ($(this).is(":checked")) {
-                        isBusy(true);
-                        $.getJSON("/sqlserver-adapter/table-options/" + table.Schema + "/" + table.Name + "/?server=" + server + "&database=" + database + "&strategy=" + strategy + url)
-                            .done(function (result) {
-                                var tr = context.toObservable(result);
-                                tr.IsSelected(true);
-                                selectedTables.push(tr);
-                                isBusy(false);
-                            });
+            const $table = $(view).find("table#table-options-panel"),
+                $bodyCells = $table.find("tbody tr:first").children();
 
-                    } else {
-                        var tr = _(selectedTables()).find(function (v) {
-                            return ko.unwrap(v.Name) === ko.unwrap(table.Name) && ko.unwrap(v.Schema) === ko.unwrap(table.Schema);
+            // Get the tbody columns width array
+            var colWidth = $bodyCells.map(function () {
+                return $(this).width();
+            }).get();
+
+            // Set the width of thead columns
+            $table.find("thead tr").children().each(function (i, v) {
+                $(v).width(colWidth[i]);
+            });
+            setTimeout(function() {
+                $(view).find("input.search-query").focus().select();
+            }, 500);
+            $(view).on("click", "input[type=checkbox].table-checkbox", function (e) {
+                var table = ko.dataFor(this);
+
+                const adp = ko.toJS(adapter),
+                    server = ko.unwrap(adp.Server),
+                    database = ko.unwrap(adp.Database),
+                    trusted = ko.unwrap(adp.TrustedConnection),
+                    userid = ko.unwrap(adp.UserId),
+                    password = ko.unwrap(adp.Password),
+                    strategy = ko.unwrap(adp.ColumnDisplayNameStrategy),
+                    clr = ko.unwrap(adp.ClrNameStrategy),
+                    url = trusted ? "" : `&trusted=false&userid=${userid}&password=${password}`;
+                if ($(this).is(":checked")) {
+                    isBusy(true);
+                    $.getJSON(`/sqlserver-adapter/table-options/${table.Schema}/${table.Name}/?server=${server}&database=${database}&strategy=${strategy}&clr=${clr}${url}`)
+                        .done(function (result) {
+                            const tr = context.toObservable(result);
+                            tr.IsSelected(true);
+                            selectedTables.push(tr);
+                            isBusy(false);
                         });
-                        if (tr)
-                            selectedTables.remove(tr);
-                    }
-                });
-            },
-            okClick = function (data, ev) {
+
+                } else {
+                    const tr = _(selectedTables()).find(function (v) {
+                        return ko.unwrap(v.Name) === ko.unwrap(table.Name) && ko.unwrap(v.Schema) === ko.unwrap(table.Schema);
+                    });
+                    if (tr)
+                        selectedTables.remove(tr);
+                }
+            });
+        };
+        var okClick = function (data, ev) {
                 dialog.close(this, "OK");
             },
             cancelClick = function () {
                 dialog.close(this, "Cancel");
             };
-
         return {
             activate: activate,
             attached: attached,

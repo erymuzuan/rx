@@ -15,7 +15,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var context = new SphDataContext();
             var dialog = await context.LoadOneAsync<FormDialog>(f => f.Route == id);
-            var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Id == dialog.Entity);
+            var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Name == dialog.Entity);
 
             var vm = new DialogRendererViewModel { Dialog = dialog, EntityDefinition = ed };
             return View(vm);
@@ -26,10 +26,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         {
             var context = new SphDataContext();
             var dlg = await context.LoadOneAsync<FormDialog>(f => f.Route == id);
-            var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Id == dlg.Entity);
+            var ed = await context.LoadOneAsync<EntityDefinition>(f => f.Name == dlg.Entity);
 
             var model = new DialogRendererViewModel { Dialog = dlg, EntityDefinition = ed };
-            var ns = ConfigurationManager.ApplicationName + "_" + model.EntityDefinition.Id;
+            var ns = ConfigurationManager.ApplicationName + "_" + model.EntityDefinition.Name.ToCamelCase();
             var typeCtor = $"bespoke.{ns}.domain.{model.EntityDefinition.Name}(system.guid())";
 
             var script = new StringBuilder();
@@ -56,8 +56,8 @@ define([""plugins / dialog"", objectbuilders.datacontext],
                 attached = function(view){
                     // DOM manipulation
                 }; ");
-       
-            
+
+
             // viewmodel
             script.AppendLine(@"
             var vm = {");
@@ -70,8 +70,8 @@ define([""plugins / dialog"", objectbuilders.datacontext],
                                         item: item,
                                         errors: errors
                     };");
-    
-       
+
+
             script.AppendLine(@"
             return vm;
         }});");
@@ -80,6 +80,6 @@ define([""plugins / dialog"", objectbuilders.datacontext],
 
 
         }
-        
+
     }
 }

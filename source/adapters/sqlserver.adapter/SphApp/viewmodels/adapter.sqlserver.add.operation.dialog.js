@@ -13,21 +13,21 @@
  *
  */
 
-define(['plugins/dialog', "services/datacontext", "knockout", "underscore"],
-    function(dialog, context, ko, _) {
+define(["plugins/dialog", "services/datacontext", "knockout", "underscore"],
+    function (dialog, context, ko, _) {
 
-        var operations = ko.observableArray(),
+        const operations = ko.observableArray(),
             isBusy = ko.observable(false),
             schema = ko.observable(),
             name = ko.observable(),
             adapter = ko.observable(),
             selectedOperations = ko.observableArray(),
-            getType = function(op){
+            getType = function (op) {
 
                 var typeName = ko.unwrap(op.$type),
                     type = "";
-                switch(typeName){
-                    case  "Bespoke.Sph.Integrations.Adapters.TableValuedFunction, sqlserver.adapter":
+                switch (typeName) {
+                    case "Bespoke.Sph.Integrations.Adapters.TableValuedFunction, sqlserver.adapter":
                         type = "table-valued-functions";
                         break;
                     case "Bespoke.Sph.Integrations.Adapters.ScalarValuedFunction, sqlserver.adapter":
@@ -49,24 +49,40 @@ define(['plugins/dialog', "services/datacontext", "knockout", "underscore"],
                     trusted = ko.unwrap(adp.TrustedConnection),
                     userid = ko.unwrap(adp.UserId),
                     password = ko.unwrap(adp.Password),
-                    url = trusted ? "" : "&trusted=false&userid=" + userid+ "&password=" + password;
+                    url = trusted ? "" : "&trusted=false&userid=" + userid + "&password=" + password;
                 return $.getJSON("/sqlserver-adapter/operation-options?server=" + server + "&database=" + database + url)
-                .done(function(result){
-                    var list = _(result).filter(function(v){
-                            var f = _(adapter().OperationDefinitionCollection())
-                                .find(function(x){
-                                    return ko.unwrap(x.Name) === ko.unwrap(v.Name) && ko.unwrap(v.Schema) === ko.unwrap(x.Schema);
+                .done(function (result) {
+                    const list = _(result).filter(function (v) {
+                        const f = _(adapter().OperationDefinitionCollection())
+                            .find(function (x) {
+                                return ko.unwrap(x.Name) === ko.unwrap(v.Name) && ko.unwrap(v.Schema) === ko.unwrap(x.Schema);
 
-                                });
-                            return !f;
+                            });
+                        return !f;
                     });
                     operations(list);
 
                 });
             },
-            attached = function(view){
-                $(view).on("click","input[type=checkbox].operation-checkbox", function(e){
-                    var operation = ko.dataFor(this),
+            attached = function (view) {
+
+                const $table = $(view).find("table#table-options-panel"),
+                    $bodyCells = $table.find("tbody tr:first").children();
+
+                // Get the tbody columns width array
+                var colWidth = $bodyCells.map(function () {
+                    return $(this).width();
+                }).get();
+
+                // Set the width of thead columns
+                $table.find("thead tr").children().each(function (i, v) {
+                    $(v).width(colWidth[i]);
+                });
+                setTimeout(() =>
+                    $(view).find("input.search-query").focus(),
+                    500);
+                $(view).on("click", "input[type=checkbox].operation-checkbox", function (e) {
+                    const operation = ko.dataFor(this),
                         adp = ko.unwrap(adapter),
                         server = ko.unwrap(adp.Server),
                         database = ko.unwrap(adp.Database),
@@ -74,45 +90,46 @@ define(['plugins/dialog', "services/datacontext", "knockout", "underscore"],
                         userid = ko.unwrap(adp.UserId),
                         password = ko.unwrap(adp.Password),
                         strategy = ko.unwrap(adp.ColumnDisplayNameStrategy),
-                        url = trusted ? "" : "&trusted=false&userid=" + userid+ "&password=" + password,
+                        clr = ko.unwrap(adp.ClrNameStrategy),
+                        url = trusted ? "" : `&trusted=false&userid=${userid}&password=${password}`,
                         type = ko.unwrap(operation.ObjectType);
 
 
-                    if($(this).is(":checked")){
+                    if ($(this).is(":checked")) {
                         isBusy();
-                        $.getJSON("/sqlserver-adapter/operation-options/" +  type + "/" +  operation.Schema + "/" + operation.Name +"?server=" + server + "&database=" + database+ "&strategy=" + strategy + url)
-                                .done(function(result){
-                                    var tr = context.toObservable(result);
+                        $.getJSON(`/sqlserver-adapter/operation-options/${type}/${operation.Schema}/${operation.Name}?server=${server}&database=${database}&strategy=${strategy}&clr=${clr}${url}`)
+                                .done(function (result) {
+                                    const tr = context.toObservable(result);
                                     selectedOperations.push(tr);
                                     isBusy(false);
                                 });
 
-                    }else{
-                        var tr = _(selectedOperations()).find(function(v){
-                            return ko.unwrap(v.Name) === operation.Name  && ko.unwrap(v.Schema) === operation.Schema;
+                    } else {
+                        const tr = _(selectedOperations()).find(function (v) {
+                            return ko.unwrap(v.Name) === operation.Name && ko.unwrap(v.Schema) === operation.Schema;
                         });
-                        if(tr)
+                        if (tr)
                             selectedOperations.remove(tr);
                     }
                 });
             },
-            okClick = function(data, ev) {
-                dialog.close(this, "OK");                
+            okClick = function (data, ev) {
+                dialog.close(this, "OK");
             },
-            cancelClick = function() {
+            cancelClick = function () {
                 dialog.close(this, "Cancel");
             };
 
-        var vm = {
-            activate : activate,
-            attached : attached,
-            isBusy : isBusy,
-            getType : getType,
-            operations : operations,
-            selectedOperations : selectedOperations,
-            adapter : adapter,
-            name : name,
-            schema : schema,
+        const vm = {
+            activate: activate,
+            attached: attached,
+            isBusy: isBusy,
+            getType: getType,
+            operations: operations,
+            selectedOperations: selectedOperations,
+            adapter: adapter,
+            name: name,
+            schema: schema,
             okClick: okClick,
             cancelClick: cancelClick
         };

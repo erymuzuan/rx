@@ -1,4 +1,4 @@
-﻿/// <reference path="../Scripts/jquery-2.1.1.intellisense.js" />
+﻿/// <reference path="../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../Scripts/require.js" />
@@ -9,16 +9,17 @@
 
 
 
-define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuilders.system],
+define(["services/datacontext", 'services/logger', 'plugins/dialog', objectbuilders.system],
     function (context, logger, dialog, system) {
 
         bespoke.sph.domain.MessagingAction = function (optionOrWebid) {
 
-            var v = new bespoke.sph.domain.CustomAction(optionOrWebid);
+            const v = new bespoke.sph.domain.CustomAction(optionOrWebid);
             v.OutboundMap = ko.observable();
             v.Adapter = ko.observable();
             v.Operation = ko.observable();
             v.Table = ko.observable();
+            v.Schema = ko.observable();
             v.Crud = ko.observable();
             v.Retry = ko.observable();
             v.RetryInterval = ko.observable();
@@ -44,60 +45,54 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
 
 
 
-        var action = ko.observable(new bespoke.sph.domain.MessagingAction(system.guid())),
+        const action = ko.observable(new bespoke.sph.domain.MessagingAction(system.guid())),
             trigger = ko.observable(),
             mappingOptions = ko.observableArray(),
             adapterOptions = ko.observableArray(),
             operationOptions = ko.observableArray(),
             tableOptions = ko.observableArray(),
             crudOptions = ko.observableArray(),
-            activate = function () {
-                var query = String.format("InputTypeName eq '{0}'", trigger().TypeOf()),
-                    tcs = new $.Deferred();
+            populateOptions = function (name) {
+                const adapter = _(adapterOptions()).find(v => ko.unwrap(v.Name) === name),
+                    operations = _(adapter.OperationDefinitionCollection()).map(v => ko.unwrap(v.Name)),
+                    tables = _(adapter.TableDefinitionCollection()).map(v =>({ name: ko.unwrap(v.Name), schema: ko.unwrap(v.Schema), text: `${ko.unwrap(v.Schema)}.${ko.unwrap(v.Name)}` }));
 
-                context.loadAsync("Adapter", "Id ne '0'")
-                    .then(function (lo) {
-                        adapterOptions(lo.itemCollection);
-                        tcs.resolve(true);
-                    });
+                tableOptions(tables);
+                operationOptions(operations);
+                crudOptions(["Insert", "Update", "Delete"]);
+            },
+            activate = function () {
+                const query = (`InputTypeName eq '${trigger().TypeOf()}'`);
+
                 context.loadAsync("TransformDefinition", query)
                     .then(function (lo) {
                         mappingOptions(lo.itemCollection);
                     });
-                return tcs.promise();
+
+                return context.loadAsync("Adapter", "Id ne '0'")
+                    .then(function (lo) {
+                        adapterOptions(lo.itemCollection);
+                        const name = action().Adapter();
+                        if (name) {
+                            populateOptions(name);
+                        }
+                    });
 
             },
             attached = function (view) {
-                action().Adapter.subscribe(function(name) {
-                    var adapter = _(adapterOptions()).find(function(v) {
-                        return ko.unwrap(v.Name) === name;
-                    });
-                    var operations = _(adapter.OperationDefinitionCollection()).map(function(v) {
-                        return ko.unwrap(v.Name);
-                    });
-                    operationOptions(operations);
-                    var tables = _(adapter.TableDefinitionCollection()).map(function(v) {
-                        return ko.unwrap(v.Name);
-                    });
-                    tableOptions(tables);
-                    crudOptions(['Insert', 'Update', 'Delete']);
-                });
+                setTimeout(() => $(view).find("input#title-option").focus(), 500);
+                action().Adapter.subscribe(populateOptions);
             },
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
-                    //var wd = _(wdOptions()).find(function (v) {
-                    //    return ko.unwrap(v.WorkflowDefinitionId) == ko.unwrap(action().WorkflowDefinitionId);
-                    //});
-                    //action().Title(ko.unwrap(wd.Name));
                     dialog.close(this, "OK");
                 }
-
             },
             cancelClick = function () {
                 dialog.close(this, "Cancel");
             };
 
-        var vm = {
+        const vm = {
             trigger: trigger,
             action: action,
             mappingOptions: mappingOptions,

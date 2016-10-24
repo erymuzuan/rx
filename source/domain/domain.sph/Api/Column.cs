@@ -83,6 +83,7 @@ namespace Bespoke.Sph.Domain.Api
                 }
             }
 
+            col.ClrName = col.Name.ToClrIdentifier(adapter.ClrNameStrategy);
             return col;
         }
 
@@ -92,7 +93,7 @@ namespace Bespoke.Sph.Domain.Api
         {
             return new ColumnMetadata(this) + " // - " + this.GetType().FullName;
         }
-        public string ClrName => this.Name.ToPascalCase();
+        public string ClrName { get; set; }
         [JsonIgnore]
         public string LookupClrName => $"{this.LookupColumnTable.Name}{ClrName}Lookup".ToPascalCase();
 

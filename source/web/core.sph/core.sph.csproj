@@ -1739,6 +1739,7 @@
     <EmbeddedResource Include="SphApp\objectbuilders.js" />
     <EmbeddedResource Include="Content\32px.png" />
     <EmbeddedResource Include="Content\40px.png" />
+    <Content Include="Content\bowtie-codepen.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <EmbeddedResource Include="fonts\fontawesome-webfont.svg" />
@@ -2191,6 +2192,8 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_advanced.generated.cs</LastGenOutput>
     </Content>
+    <EmbeddedResource Include="Content\bowtie.ttf" />
+    <EmbeddedResource Include="Content\bowtie.woff" />
     <None Include="Scripts\jquery-2.2.0.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.0.js" />
     <Content Include="Scripts\jquery-2.2.0.min.js" />

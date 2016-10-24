@@ -21,3 +21,24 @@ gulp.task('md', function () {
         .pipe(markdown(options))
         .pipe(gulp.dest('./source/web/web.sph/docs/'));
 });
+
+
+
+var sources2 = ['./deployment/*.md'],
+  options2 = {
+    gfm:true,
+    highlight: function (code, lang, callback) {
+    require('pygmentize-bundled')({ lang: lang, format: 'csharp', python :"D:\project\tools\Python\Python35-32\python.exe" }, code, function (err, result) {
+      callback(err, result);
+    });
+  }
+};
+
+
+watchList.push({name:'release-note-md',sources: sources2, tasks : ['release-note-md']});
+
+gulp.task('release-note-md', function () {
+    return gulp.src(['./deployment/*.md'])
+        .pipe(markdown(options))
+        .pipe(gulp.dest('./deployment/'));
+});

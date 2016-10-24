@@ -15,9 +15,9 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             severityOptions = ko.observableArray(),
             selectedSeverities = ko.observableArray(),
             sourceOptions = ko.observableArray(),
-            selectedSources= ko.observableArray(),
+            selectedSources = ko.observableArray(),
             logOptions = ko.observableArray(),
-            selectedLogs= ko.observableArray(),
+            selectedLogs = ko.observableArray(),
             logId = ko.observable(),
             selectedComputers = ko.observableArray(),
             timeFrom = ko.observable(moment().subtract(7, "days").format()),
@@ -45,13 +45,13 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             getKeysAsync = function (field) {
                 const tcs = new $.Deferred(),
                     agg = {
-                            "category": {
-                                "terms": {
-                                    "field": field,
-                                    "size": 0
-                                }
+                        "category": {
+                            "terms": {
+                                "field": field,
+                                "size": 0
                             }
-                        },
+                        }
+                    },
                     filteredAgg = ko.toJS(query);
                 filteredAgg.aggs = agg;
                 filteredAgg.fields = ["computer"];
@@ -100,7 +100,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                      }
                     ]
                 },
-                    pushTerms =function(term, options) {
+                    pushTerms = function (term, options) {
                         const selecteditems = ko.unwrap(options),
                             qt = {
                                 "terms": {
@@ -159,7 +159,21 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             list: list,
             isBusy: isBusy,
             activate: activate,
-            attached: attached
+            attached: attached,
+            toolbar: {
+                saveCommand: function () { },
+                removeCommand: function () { },
+                commands: ko.observableArray([
+                    {
+                        command: function () {
+                           // return changed(1, 20);
+                        },
+                        caption: "Reload",
+                        icon: "bowtie-icon bowtie-navigate-refresh",
+                        id: ""
+                    }
+                ])
+            }
         };
 
         return vm;

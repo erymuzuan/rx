@@ -4,7 +4,8 @@ var sourcemaps = require("gulp-sourcemaps"),
     concat = require("gulp-concat"),
     useref = require("gulp-useref"),
     gulpif = require("gulp-if"),
-    uglify = require("gulp-uglify");
+    uglify = require("gulp-uglify"),
+    babel = require('gulp-babel');
 // ----------------------------------------------------------------------
 
 
@@ -20,7 +21,7 @@ gulp.task("partial.min.js",["partial.js"], function(){
 
     return gulp.src(sources)
         .pipe(sourcemaps.init())
-        .pipe(uglify())
+        .pipe(babel({ presets: ["babili"] }))
         .pipe(concat("__partial.min.js"))
         .pipe(sourcemaps.write("./"))
         .pipe(useref())

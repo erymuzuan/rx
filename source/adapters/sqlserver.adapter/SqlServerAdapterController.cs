@@ -283,6 +283,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             [FromUri(Name = "database")] string database,
             [FromUri(Name = "trusted")] bool trusted = true,
             [FromUri(Name = "strategy")] string strategy = null,
+            [FromUri(Name = "clr")] string clr = null,
             [FromUri(Name = "userid")] string user = "",
             [FromUri(Name = "password")] string password = "")
         {
@@ -293,10 +294,11 @@ namespace Bespoke.Sph.Integrations.Adapters
                 TrustedConnection = trusted,
                 UserId = user,
                 Password = password,
-                ColumnDisplayNameStrategy = strategy
+                ColumnDisplayNameStrategy = strategy,
+                ClrNameStrategy = clr
             };
 
-            var table = await adapter.GetTableOptionDetailsAsync(schema, name);
+            var table = await adapter.GetTableOptionDetailsAsync(adapter, schema, name);
             if (null == table) return NotFound($"No object with name {schema}.{name} found in {server}.{database}");
 
             var ds = ObjectBuilder.GetObject<IDeveloperService>();
@@ -336,6 +338,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             [FromUri(Name = "database")] string database,
             [FromUri(Name = "trusted")] bool trusted = true,
             [FromUri(Name = "strategy")] string strategy = null,
+            [FromUri(Name = "clr")] string clr = null,
             [FromUri(Name = "userid")] string user = "",
             [FromUri(Name = "password")] string password = "")
         {
@@ -346,7 +349,8 @@ namespace Bespoke.Sph.Integrations.Adapters
                 TrustedConnection = trusted,
                 UserId = user,
                 Password = password,
-                ColumnDisplayNameStrategy = strategy
+                ColumnDisplayNameStrategy = strategy,
+                ClrNameStrategy = clr
             };
 
             var operation = await adapter.CreateAsync(type, schema, name);

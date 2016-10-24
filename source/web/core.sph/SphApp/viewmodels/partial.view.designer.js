@@ -17,9 +17,9 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             form = ko.observable(new bespoke.sph.domain.PartialView({ WebId: system.guid() })),
             selectedFormElement = ko.observable(),
-            activate = function (entityid, formid) {
+            activate = function (edName, formid) {
 
-                const query = String.format("Id eq '{0}'", entityid),
+                const query = `Name eq '${edName}'`,
                     tcs = new $.Deferred();
 
 
@@ -88,7 +88,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     }, 500);
                 }
 
-                form().Entity(entityid);
+                form().Entity(edName);
 
                 return tcs.promise();
 

@@ -1,5 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-1.9.1.intellisense.js" />
-/// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/__common.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -8,17 +8,18 @@
 
 define(["services/new-item"], function (addItemService) {
 
-    var activate = function () {
+    const activate = function () {
         return true;
     };
 
-    var vm = {
+    const vm = {
         activate: activate,
         triggerCollection: ko.observableArray([]),
         toolbar: {
-            addNewCommand: function() {
+            addNewCommand: function () {
                 return addItemService.addTriggerAsync();
-            }
+            },
+            commands: ko.observableArray()
         }
     };
 

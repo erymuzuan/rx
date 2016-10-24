@@ -1,0 +1,76 @@
+{
+  "$type": "Bespoke.Sph.Domain.Trigger, domain.sph",
+  "RuleCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Rule, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ActionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CustomAction, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Messaging.MessagingAction, trigger.action.messaging",
+        "OutboundMap": "rts-vas-to-oal-vasn-event-new",
+        "Adapter": "Oal",
+        "Operation": null,
+        "Table": "vasn_event_new",
+        "Crud": "Insert",
+        "Retry": 5,
+        "RetryInterval": 500,
+        "RetryIntervalTimeSpan": 1,
+        "Title": "InsertToOal_vasn_event_new",
+        "IsActive": true,
+        "TriggerId": null,
+        "Note": null,
+        "WebId": "f6e27d14-d008-4fab-8386-8e71ff0f84a3"
+      }
+    ]
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
+        "Name": "DevV1.RtsVas_to_oal_vasn_event_new",
+        "FullName": "DevV1.RtsVas_to_oal_vasn_event_new, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "Version": "0.0.0.0",
+        "Location": "C:\\project\\work\\sph\\bin\\output\\DevV1.RtsVas_to_oal_vasn_event_new.dll",
+        "IsGac": false,
+        "IsStrongName": false,
+        "RuntimeVersion": "v4.0.30319",
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
+        "Name": "DevV1.Oal",
+        "FullName": "DevV1.Oal, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "Version": "0.0.0.0",
+        "Location": "C:\\project\\work\\sph\\bin\\output\\DevV1.Oal.dll",
+        "IsGac": false,
+        "IsStrongName": false,
+        "RuntimeVersion": "v4.0.30319",
+        "WebId": null
+      }
+    ]
+  },
+  "RequeueFilterCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ExceptionFilter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "Transfer vasn to oal",
+  "Entity": "Vasn",
+  "TypeOf": "Bespoke.DevV1.Vasns.Domain.Vasn, DevV1.Vasn",
+  "Note": "",
+  "IsActive": true,
+  "IsFiredOnAdded": true,
+  "IsFiredOnDeleted": false,
+  "IsFiredOnChanged": false,
+  "FiredOnOperations": "",
+  "ClassName": "VasnTransferVasnToOalTriggerSubscriber",
+  "CodeNamespace": "Bespoke.DevV1.TriggerSubscribers",
+  "CreatedBy": "admin",
+  "Id": "vasn-transfer-vasn-to-oal",
+  "CreatedDate": "2016-10-22T17:20:16.7338083+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-10-22T17:54:45.6322612+08:00",
+  "WebId": "1a1e5de1-ed46-4073-a475-419260fa9f18"
+}

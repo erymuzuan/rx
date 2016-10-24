@@ -80,6 +80,8 @@ namespace Bespoke.Sph.Integrations.Adapters
             changes.OfType<ColumnChange>().ToList().ForEach(x => x.Table = $"[{Schema}].[{Name}]");
             return changes;
         }
+
+
         public override string ToString()
         {
             return $"[{Schema}].[{Name}]";

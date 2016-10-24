@@ -1,4 +1,4 @@
-﻿/// <reference path="/Scripts/jquery-2.1.3.intellisense.js" />
+﻿/// <reference path="/Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="/Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="/Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="/Scripts/require.js" />
@@ -11,7 +11,7 @@
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app, "services/new-item"],
     function (context, logger, router, app, addItemService) {
 
-        var isBusy = ko.observable(false),
+        const isBusy = ko.observable(false),
             mappings = ko.observableArray(),
             activate = function () {
                 return true;
@@ -36,7 +36,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return tcs.promise();
             };
 
-        var vm = {
+        const vm = {
             remove: remove,
             mappings: mappings,
             isBusy: isBusy,
@@ -45,7 +45,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             toolbar: {
                 addNewCommand: function () {
                     return addItemService.addTransformDefinitionAsync();
-                }
+                },
+                commands: ko.observableArray()
             }
         };
 

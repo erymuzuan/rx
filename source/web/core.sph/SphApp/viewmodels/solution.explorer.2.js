@@ -58,14 +58,14 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return;
             }
 
-            var tree =  $("#solution-explorer-panel").jstree(true);
+            const tree =  $("#solution-explorer-panel").jstree(true);
             if(solution.changedType === "Deleted"){
-                var deletedNode = tree.get_node($("#" + solution.id)),
+                const deletedNode = tree.get_node($(`#${solution.id}`)),
                     deleted = tree.delete_node(deletedNode);
-                console.log("Node " + solution.id + " deleted : " + deleted, deletedNode);
+                console.log(`Node ${solution.id} deleted : ${deleted}`, deletedNode);
             }
             if(solution.changedType === "Created"){
-                var parent = tree.get_node($("#" + solution.type)),
+                const parent = tree.get_node($(`#${solution.type}`)),
                     data =  {
                         id: solution.id,
                         text: solution.text,
@@ -77,15 +77,15 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     },
                     nn = { id: solution.id, parent: solution.type, icon: solution.icon, state: "open", text: solution.text, data: data },
                     itemNode = tree.create_node(parent, nn);
-                console.log("Created new node " + solution.id + " created : ", itemNode);
+                console.log(`Created new node ${solution.id} created : `, itemNode);
             }
 
 
             if(solution.changedType === "Changed"){
-                var changedNode = tree.get_node($("#" + solution.id));
+                const changedNode = tree.get_node($(`#${solution.id}`));
 
                 tree.rename_node(changedNode, solution.text);
-                console.log("Rename node " + solution.id + " : ", changedNode);
+                console.log(`Rename node ${solution.id} : `, changedNode);
             }
 
             if (!solution.itemCollection) {

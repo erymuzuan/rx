@@ -1,7 +1,7 @@
 ﻿/// <reference path="../objectbuilders.js" />
 /// <reference path="../services/cultures.my.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="/Scripts/jquery-2.1.3.intellisense.js" />
+/// <reference path="/Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="/Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="/Scripts/require.js" />
 /// <reference path="/Scripts/string.js" />
@@ -9,7 +9,7 @@
 
 define([objectbuilders.datacontext, objectbuilders.cultures, objectbuilders.logger, "services/new-item"],
     function (context, cultures, logger, addItemService) {
-        var
+        const definitions = ko.observableArray(),
             activate = function () {
                 return true;
             },
@@ -28,25 +28,26 @@ define([objectbuilders.datacontext, objectbuilders.cultures, objectbuilders.logg
                             logger.error(e.response.message);
                             return;
                         }
-                        var uploaded = e.operation === "upload";
+                        const uploaded = e.operation === "upload";
                         if (uploaded) {
-                            var wd = e.response.wd,
+                            const wd = e.response.wd,
                                 o = context.toObservable(wd);
-                            vm.definitions.push(o);
+                            definitions.push(o);
                         }
                     }
                 });
             };
 
 
-        var vm = {
+        const vm = {
             activate: activate,
             attached: attached,
-            definitions: ko.observableArray(),
+            definitions:definitions,
             toolbar: {
                 addNewCommand: function () {
                     return addItemService.addWorkflowDefinitionAsync();
-                }
+                },
+                commands: ko.observableArray()
             },
             cultures: cultures
         };

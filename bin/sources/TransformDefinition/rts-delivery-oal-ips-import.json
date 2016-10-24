@@ -1,0 +1,40 @@
+{
+  "$type": "Bespoke.Sph.Domain.TransformDefinition, domain.sph",
+  "MapCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Map, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "AuthorizedName",
+        "TypeName": "",
+        "Destination": "retention_reason",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "518f71e8-3913-45cf-f723-9bac0b7fbe00"
+      }
+    ]
+  },
+  "FunctoidCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Functoid, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "InputCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "RtsDelivery_oal_ips_import",
+  "Description": "",
+  "InputTypeName": "Bespoke.DevV1.Deliveries.Domain.Delivery, DevV1.Delivery",
+  "OutputTypeName": "Bespoke.DevV1.Adapters.Oal.IpsImport, DevV1.Oal",
+  "IsPublished": true,
+  "CreatedBy": "admin",
+  "Id": "rts-delivery-oal-ips-import",
+  "CreatedDate": "2016-10-22T10:41:10.8959473+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2016-10-22T10:41:22.8466516+08:00",
+  "WebId": "cd8b1fb4-413f-446c-a9f7-7ce510f96350"
+}

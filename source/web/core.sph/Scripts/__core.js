@@ -2196,6 +2196,8 @@ ko.bindingHandlers.serverPaging = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
         var value = valueAccessor(),
             entity = value.entity,
+            enableReload = value.enableReload,
+            hasCommands = ko.isObservable((viewModel.toolbar || {}).commands),
             query = value.query,
             list = value.list,
             map = value.map,
@@ -2225,7 +2227,7 @@ ko.bindingHandlers.serverPaging = {
             },
             changed = function (page, size) {
                 startLoad();
-                context.loadAsync({
+                return context.loadAsync({
                     entity: entity,
                     page: page,
                     size: size,
@@ -2236,6 +2238,26 @@ ko.bindingHandlers.serverPaging = {
                          endLoad();
                      });
             };
+
+        if (enableReload && hasCommands) {
+            const commandId = "server-paging-reload",
+                reloadCommand = viewModel.toolbar.commands().find(x => x.id === commandId);
+            if (!reloadCommand) {
+                viewModel.toolbar.commands.push({
+                    command: function () {
+                        return changed(1, 20);
+                    },
+                    caption: "Reload",
+                    icon: "bowtie-icon bowtie-navigate-refresh",
+                    id: commandId
+                });
+
+            }
+        }
+
+        if (enableReload && !hasCommands) {
+            console.error("Please provide a toolbar with commands : ko.observableArray(), in your viewModel");
+        }
 
         $element.after($pagerPanel).after($spinner)
             .fadeTo("slow", 0.33);
