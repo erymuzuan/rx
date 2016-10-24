@@ -210,7 +210,6 @@ namespace Bespoke.Sph.SourceBuilders
             DeployCompiledBinaries(ConfigurationManager.SchedulerPath);
             DeployCompiledBinaries(ConfigurationManager.SubscriberPath, "subscriber.trigger.*");
             DeployCompiledBinaries(ConfigurationManager.SubscriberPath, "workflows.*");
-            DeployCompiledBinaries(ConfigurationManager.ToolsPath);
 
         }
 
