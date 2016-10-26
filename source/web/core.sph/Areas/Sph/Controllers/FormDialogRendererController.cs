@@ -35,10 +35,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var script = new StringBuilder();
             script.AppendLine(
                 $@"
-define([""plugins / dialog"", objectbuilders.datacontext],
-        function (dialog, context) {{
+define([""plugins/dialog"", objectbuilders.datacontext, objectbuilders.system],
+        function (dialog, context, system) {{
 
-            var item = ko.observable(new {typeCtor}),
+            var entity = ko.observable(new {typeCtor}),
                 errors = ko.observableArray(),
                 activate = function () {{
                     // activation, you can also return a promise
@@ -67,14 +67,14 @@ define([""plugins / dialog"", objectbuilders.datacontext],
             }
             script.AppendLine(@"    activate: activate,
                                         attached: attached,
-                                        item: item,
+                                        entity : entity,
                                         errors: errors
                     };");
 
 
             script.AppendLine(@"
             return vm;
-        }});");
+            });");
 
             return Content(script.ToString(), MimeMapping.GetMimeMapping($"{dlg.Route}.js"), Encoding.UTF8);
 
