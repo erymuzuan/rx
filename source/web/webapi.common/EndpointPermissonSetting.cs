@@ -103,7 +103,7 @@ namespace Bespoke.Sph.WebApi
         /// <param name="claims"></param>
         public void AddParentClaims(params ClaimSetting[] claims)
         {
-            var list = new List<ClaimSetting>();
+            var list = new List<ClaimSetting>(this.Claims);
             foreach (var c in claims)
             {
                 var cs = c;
