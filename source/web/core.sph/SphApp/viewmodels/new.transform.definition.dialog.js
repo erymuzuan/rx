@@ -10,7 +10,7 @@
 define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
     function (dialog, context, system) {
 
-        var td = ko.observable(),
+        const td = ko.observable(),
             allowMultipleSource = ko.observable(false),
             assemblyOptions = ko.observableArray(),
             inputTypeOptions = ko.observableArray(),
@@ -21,13 +21,15 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
             id = ko.observable(),
             activate = function () {
                 td(new bespoke.sph.domain.TransformDefinition());
+                selectedInputAssembly(null);
+                selectedOutputAssembly(null);
 
                 return context.get("/api/assemblies")
                     .then(function (list) {
                         assemblyOptions(list);
                         var types = [];
                         _(list).each(function (v) {
-                            var items = v.Types.map(function (x) {
+                            const items = v.Types.map(function (x) {
                                 x.Assembly = v.Name;
                                 x.FullName = x.Namespace + "." + x.Name + ", " + v.Name;
                                 return x;
@@ -36,21 +38,21 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                         });
                         typeOptions(types);
 
-                        var input = ko.unwrap(td().InputTypeName),
+                        const input = ko.unwrap(td().InputTypeName),
                             output = ko.unwrap(td().OutputTypeName);
                         if (input) {
                             selectedInputAssembly(/, (.*)/.exec(input)[1]);
                         }
                         if (output) {
                             selectedOutputAssembly(/, (.*)/.exec(output)[1]);
-                            return context.get("/api/assemblies/" + selectedOutputAssembly() + "/types");
+                            return context.get(`/api/assemblies/${selectedOutputAssembly()}/types`);
                         }
                         return Task.fromResult([]);
 
                     }).then(function (list) {
                         outputTypeOptions(list);
                         if (selectedInputAssembly()) {
-                            return context.get("/api/assemblies/" + selectedInputAssembly() + "/types");
+                            return context.get(`/api/assemblies/${selectedInputAssembly()}/types`);
                         }
                         return Task.fromResult([]);
                     })
@@ -69,7 +71,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
 
                 $(view).on("click", "a.fa-angle-double-down", function (e) {
                     e.preventDefault();
-                    var arg = ko.dataFor(this);
+                    const arg = ko.dataFor(this);
                     td().InputCollection.push(new bespoke.sph.domain.MethodArg({
                         TypeName: arg.FullName,
                         Name: arg.Name,
@@ -78,7 +80,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                 });
                 $(view).on("click", "a.fa-times", function (e) {
                     e.preventDefault();
-                    var arg = ko.dataFor(this);
+                    const arg = ko.dataFor(this);
                     td().InputCollection.remove(arg);
                 });
 
@@ -99,11 +101,11 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
 
 
                 selectedInputAssembly.subscribe(function (dll) {
-                    return context.get("/api/assemblies/" + dll + "/types")
+                    return context.get(`/api/assemblies/${dll}/types`)
                         .then(inputTypeOptions);
                 });
                 selectedOutputAssembly.subscribe(function (dll) {
-                    return context.get("/api/assemblies/" + dll + "/types")
+                    return context.get(`/api/assemblies/${dll}/types`)
                         .then(outputTypeOptions);
                 });
 
@@ -139,7 +141,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                 dialog.close(this, "Cancel");
             };
 
-        var vm = {
+        const vm = {
             td: td,
             allowMultipleSource: allowMultipleSource,
             assemblyOptions: assemblyOptions,

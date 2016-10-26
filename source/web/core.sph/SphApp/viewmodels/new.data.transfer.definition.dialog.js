@@ -14,10 +14,10 @@
 define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
     function (dialog, context, system) {
 
-        var dtd = ko.observable(),
+        const dtd = ko.observable(),
             id = ko.observable(),
             activate = function () {
-                var dlg = new bespoke.sph.domain.DataTransferDefinition({ "WebId": system.guid(), "IgnoreMessaging": true, "BatchSize": 40 });
+                const dlg = new bespoke.sph.domain.DataTransferDefinition({ "WebId": system.guid(), "IgnoreMessaging": true, "BatchSize": 40 });
                 dlg.IgnoreMessaging(true);
                 dtd(dlg);
                 return true;
@@ -46,7 +46,7 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                 }, 500);
             };
 
-        var vm = {
+        const vm = {
             dtd: dtd,
             activate: activate,
             attached: attached,
