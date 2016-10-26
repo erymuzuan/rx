@@ -180,7 +180,9 @@ namespace Bespoke.Sph.Web.Controllers
                 .WhereIf(x => !x.Name.EndsWith("Adapter"), !includeAdapter)
                 .WhereIf(x => x.IsPublic, !includeInternal)
                 .WhereIf(x => !x.HasGenericParameters, !includeGeneric)
-                .Where(m_typePredicate);
+                .Where(m_typePredicate)
+                .OrderBy(x => x.FullName);
+
             return Json(types.Select(x => new
             {
                 FullName = x.FullName + ", " + dll,
