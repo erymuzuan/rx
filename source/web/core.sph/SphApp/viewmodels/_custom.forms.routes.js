@@ -74,7 +74,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     app2.showDialog(dialog)
                         .done(function (result) {
                             if (result === "OK") {
-                                context.post(ko.toJSON(dialog.route), "/custom-form/route")
+                                context.post(ko.toJSON(dialog.route), "/custom-forms/route")
                                 .done(function () {
                                     list.remove(route);
                                     list.push(dialog.route());
