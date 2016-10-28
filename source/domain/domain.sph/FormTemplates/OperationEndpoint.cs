@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    [PersistenceOption(HasDerivedTypes = true,IsSource = true)]
+    [PersistenceOption(HasDerivedTypes = true, IsSource = true)]
     public partial class OperationEndpoint : Entity
     {
 
@@ -341,7 +341,7 @@ namespace Bespoke.Sph.Domain
         public string GetDeleteRoute()
         {
             var route = !string.IsNullOrWhiteSpace(this.Route) ? $"{this.Route.ToLowerInvariant()}/" : "";
-            if (route.Contains("{id}")) return route;
+            if (route.Contains("{id")) return route;
             return route + "{id}";
         }
 

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.WebApi;
+using Humanizer;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -69,6 +70,7 @@ namespace Bespoke.Sph.Web.Controllers
                 Name = "Default",
                 IsHttpPost = true,
                 Route = "",
+                Resource = port.Entity.Pluralize().ToIdFormat(),
                 Id = $"default-post-{port.Entity.ToIdFormat()}"
             };
             var context = new SphDataContext();
