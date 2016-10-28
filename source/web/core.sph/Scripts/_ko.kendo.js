@@ -984,6 +984,8 @@ ko.bindingHandlers.searchPaging = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
         var value = valueAccessor(),
             entity = value.entity,
+            enableReload = value.enableReload,
+            hasCommands = ko.isObservable((viewModel.toolbar || {}).commands),
             query = value.query,
             executedQuery = value.query || value.initialQuery || {},
             list = value.list,
@@ -1103,6 +1105,26 @@ ko.bindingHandlers.searchPaging = {
             });
         }
 
+
+        if (enableReload && hasCommands) {
+            const commandId = "search-paging-reload",
+                reloadCommand = viewModel.toolbar.commands().find(x => x.id === commandId);
+            if (!reloadCommand) {
+                viewModel.toolbar.commands.push({
+                    command: function () {
+                        return changed(1, 20);
+                    },
+                    caption: "Reload",
+                    icon: "bowtie-icon bowtie-navigate-refresh",
+                    id: commandId
+                });
+
+            }
+        }
+
+        if (enableReload && !hasCommands) {
+            console.error("Please provide a toolbar with commands : ko.observableArray(), in your viewModel");
+        }
         //exposed the search function
         query.search = search;
         query.filterAndSearch = filterAndSearch;
