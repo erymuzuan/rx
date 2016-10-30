@@ -48,6 +48,8 @@ namespace Bespoke.Sph.Web.Api
                 case "receiveport": return SelectSystemObjectProperty<ReceivePort>(column, filter);
                 case "receivelocation": return SelectSystemObjectProperty<ReceiveLocation>(column, filter);
             }
+
+            // TODO : get it from elasticsearch
             var translator = new OdataSqlTranslator(column, table);
             var sql = translator.Scalar(filter);
             return await ExecuteListAsync(sql);
