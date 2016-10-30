@@ -28,7 +28,8 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var context = new SphDataContext();
 
-            var ed = await context.LoadOneAsync<EntityDefinition>(w => w.Id == id);
+            var ed = await context.LoadOneAsync<EntityDefinition>(w => w.Id == id) ??
+                     context.LoadOneFromSources<EntityDefinition>(w => w.Name == id);
             if (null == ed) return new HttpNotFoundResult("Cannot find EntityDefinition with Id = " + id);
             var list = ed.GetMembersPath();
             return Json(list, JsonRequestBehavior.AllowGet);
