@@ -11,16 +11,16 @@ namespace Bespoke.Sph.Domain
         {
             var errors = new List<BuildError>();
             if (string.IsNullOrWhiteSpace(this.Entity))
-                errors.Add(new BuildError(this.WebId, string.Format("[EntityLookupElement] -> Entity type cannot be empty for {0}", this.Label)));
+                errors.Add(new BuildError(this.WebId,$"[EntityLookupElement] -> Entity type cannot be empty for {this.Label}"));
 
             if (string.IsNullOrWhiteSpace(this.ValueMemberPath))
-                errors.Add(new BuildError(this.WebId, string.Format("[EntityLookupElement] -> ValueMemberPath cannot be empty for {0}", this.Label)));
+                errors.Add(new BuildError(this.WebId,$"[EntityLookupElement] -> ValueMemberPath cannot be empty for {this.Label}"));
 
             if (string.IsNullOrWhiteSpace(this.DisplayMemberPath)&& string.IsNullOrWhiteSpace(this.DisplayTemplate))
-                errors.Add(new BuildError(this.WebId, string.Format("[EntityLookupElement] -> DispalyTemplate or DisplayMemberPath cannot be empty for {0}", this.Label)));
+                errors.Add(new BuildError(this.WebId,$"[EntityLookupElement] -> DispalyTemplate or DisplayMemberPath cannot be empty for {this.Label}"));
 
             if (!string.IsNullOrWhiteSpace(this.DisplayMemberPath) && !string.IsNullOrWhiteSpace(this.DisplayTemplate))
-                errors.Add(new BuildError(this.WebId, string.Format("[EntityLookupElement] -> DispalyTemplate and DisplayMemberPath cannot be both set for {0}", this.Label)));
+                errors.Add(new BuildError(this.WebId,$"[EntityLookupElement] -> DispalyTemplate and DisplayMemberPath cannot be both set for {this.Label}"));
 
           
             return errors.ToArray();
