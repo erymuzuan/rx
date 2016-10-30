@@ -119,24 +119,33 @@ ko.bindingHandlers.money = {
                 return parseInt(allBindings.decimal);
             },
             textbox = $(element),
-            val = parseFloat(ko.unwrap(value) || "0"),
-            fm = val.toFixed(decimal()).replace(/./g, function (c, i, a) {
-                return i && c !== "." && !((a.length - i) % 3) ? "," + c : c;
-            });
+            initBinding = function () {
+                var val = parseFloat(ko.unwrap(value) || "0"),
+                    fm = val.toFixed(decimal())
+                        .replace(/./g,
+                            function(c, i, a) {
+                                return i && c !== "." && !((a.length - i) % 3) ? "," + c : c;
+                            });
+                if (element.tagName.toLowerCase() === "span") {
+                    textbox.text(fm);
+                    return;
+                }
 
+                textbox.val(fm);
 
-        if (element.tagName.toLowerCase() === "span") {
-            textbox.text(fm);
-            return;
+                textbox.on("blur", function () {
+                    var tv = $(this).val().replace(/,/g, "");
+                    console.log(tv);
+                    value(parseFloat(tv));
+                });
+
+            };
+        initBinding();
+
+        if (ko.isObservable(value)) {
+            value.subscribe(initBinding);
         }
 
-        textbox.val(fm);
-
-        textbox.on("blur", function () {
-            var tv = $(this).val().replace(/,/g, "");
-            console.log(tv);
-            value(parseFloat(tv));
-        });
 
     },
     update: function (element, valueAccessor, allBindingsAccessor) {

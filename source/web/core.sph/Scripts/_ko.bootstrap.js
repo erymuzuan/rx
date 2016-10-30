@@ -124,9 +124,9 @@ ko.bindingHandlers.autocomplete = {
          query = ko.unwrap(va.query),
          ttl = va.ttl || 300000,
          allBindings = allBindingsAccessor(),
-         url = String.format("/list?table={0}&column={1}&filter={2}", entity, field, query),
+         url = String.format("/api/list?table={0}&column={1}&filter={2}", entity, field, query),
          suggestions = new Bloodhound({
-             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+             datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
              queryTokenizer: Bloodhound.tokenizers.whitespace,
              prefetch: {
                  url: url,

@@ -960,26 +960,25 @@ ko.bindingHandlers.typeaheadUrl = {
 };
 ko.bindingHandlers.entityTypeaheadPath = {
     init: function (element, valueAccessor, allBindingsAccessor) {
-        var value = valueAccessor(),
+        const value = valueAccessor(),
             context = require(objectbuilders.datacontext),
             config = require(objectbuilders.config),
             allBindings = allBindingsAccessor(),
             idOrName = ko.unwrap(valueAccessor()) || window.typeaheadEntity,
             setup = function (options) {
-                String.prototype.toCamelCase = function () {
-                    return this.replace(/^([A-Z])|\s(\w)/g, function (match, p1, p2, offset) {
+               const toCamelCase = function (text) {
+                    return text.replace(/^([A-Z])|\s(\w)/g, function (match, p1, p2, offset) {
                         if (p2) return p2.toUpperCase();
                         return p1.toLowerCase();
                     });
-                };
+               };
 
-
-                var name = options.name || options,
+                const name = options.name || options,
                     eid = options.id || options,
-                    camel = name.toCamelCase();
+                    camel = toCamelCase(name);
 
                 var ed = ko.toJS(bespoke[config.applicationName + "_" + camel].domain[name]());
-                var input = $(element),
+                const input = $(element),
                          div = $("<div></div>").css({
                              'height': "28px"
                          });
@@ -992,14 +991,14 @@ ko.bindingHandlers.entityTypeaheadPath = {
                 });
 
                 c.setText(ko.unwrap(allBindings.value));
-                for (var ix in ed) {
+                for (let ix in ed) {
                     if (ed.hasOwnProperty(ix)) {
                         if (ix === "$type") continue;
                         if (ix === "addChildItem") continue;
                         if (ix === "removeChildItem") continue;
                         if (ix === "Empty") continue;
                         if (ix === "WebId") continue;
-                        c.options.push("" + ix);
+                        c.options.push(`${ix}`);
                     }
                 }
                 c.options.sort();
@@ -1008,7 +1007,7 @@ ko.bindingHandlers.entityTypeaheadPath = {
                 c.onChange = function (text) {
                     if (text.lastIndexOf(".") === text.length - 1) {
                         c.options = [];
-                        var props = text.split(".");
+                        const props = text.split(".");
 
                         currentObject = ed;
                         _(props).each(function (v) {
@@ -1050,7 +1049,7 @@ ko.bindingHandlers.entityTypeaheadPath = {
 
 
         if (idOrName) {
-            context.loadOneAsync("EntityDefinition", "Name eq '" + idOrName + "' OR id eq '" + idOrName + "'", "Id")
+            context.loadOneAsync("EntityDefinition", `Name eq '${idOrName}' OR id eq '${idOrName}'`, "Id")
                 .done(function (edf) {
                     setup({ name: edf.Name(), id: edf.Id() });
                 });
@@ -1433,24 +1432,33 @@ ko.bindingHandlers.money = {
                 return parseInt(allBindings.decimal);
             },
             textbox = $(element),
-            val = parseFloat(ko.unwrap(value) || "0"),
-            fm = val.toFixed(decimal()).replace(/./g, function (c, i, a) {
-                return i && c !== "." && !((a.length - i) % 3) ? "," + c : c;
-            });
+            initBinding = function () {
+                var val = parseFloat(ko.unwrap(value) || "0"),
+                    fm = val.toFixed(decimal())
+                        .replace(/./g,
+                            function(c, i, a) {
+                                return i && c !== "." && !((a.length - i) % 3) ? "," + c : c;
+                            });
+                if (element.tagName.toLowerCase() === "span") {
+                    textbox.text(fm);
+                    return;
+                }
 
+                textbox.val(fm);
 
-        if (element.tagName.toLowerCase() === "span") {
-            textbox.text(fm);
-            return;
+                textbox.on("blur", function () {
+                    var tv = $(this).val().replace(/,/g, "");
+                    console.log(tv);
+                    value(parseFloat(tv));
+                });
+
+            };
+        initBinding();
+
+        if (ko.isObservable(value)) {
+            value.subscribe(initBinding);
         }
 
-        textbox.val(fm);
-
-        textbox.on("blur", function () {
-            var tv = $(this).val().replace(/,/g, "");
-            console.log(tv);
-            value(parseFloat(tv));
-        });
 
     },
     update: function (element, valueAccessor, allBindingsAccessor) {
@@ -2593,9 +2601,9 @@ ko.bindingHandlers.autocomplete = {
          query = ko.unwrap(va.query),
          ttl = va.ttl || 300000,
          allBindings = allBindingsAccessor(),
-         url = String.format("/list?table={0}&column={1}&filter={2}", entity, field, query),
+         url = String.format("/api/list?table={0}&column={1}&filter={2}", entity, field, query),
          suggestions = new Bloodhound({
-             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+             datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
              queryTokenizer: Bloodhound.tokenizers.whitespace,
              prefetch: {
                  url: url,
