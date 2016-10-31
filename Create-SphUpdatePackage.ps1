@@ -380,4 +380,29 @@ Write-Host "Press [ENTER] to continue uploaded  to ftp " -NoNewline -ForegroundC
 Read-Host
 
 
-& .\Ftp-SphUpdatePackage.ps1 -Build $Build -Channel $Channel
+
+$Authentication = Get-ODAuthentication -ClientID "288ab228-361e-417f-bba2-eb2e6b17d618"
+$AuthToken=$Authentication.access_token
+Add-ODItem -AccessToken $AuthToken -Path "/Public/rx-patches" -LocalFile ".\$Build.7z"
+$OdItem = Get-ODItemProperty -AccessToken $AuthToken -Path "/Public/rx-patches/$Build.7z"
+$OdItemId = $OdItem.id
+
+
+# The OD module didn't have support for create shared link yet
+$CreateLink = Invoke-WebRequest -Method Post -Uri "https://api.onedrive.com/v1.0/drive/items/$OdItemId/action.createLink" -UseBasicParsing -Body '{	"type": "view",	"scope" :"anonymous"}' -Headers @{ 
+"Authorization" = "Bearer $AuthToken" 
+ "Content-Type" = "application/json"
+ }
+$Link = $CreateLink.Content
+$JsonContent = ConvertFrom-Json $Link
+$SharedLink = $JsonContent.link.webUrl
+
+Write-Host "This is the patch shared link on OneDrive"
+Write-Host $SharedLink -ForegroundColor Cyan
+
+
+Write-Host "Done uploading to OneDrive"
+
+
+
+& .\Deploy.Update.Package.Ken2.ps1 -Build $Build
