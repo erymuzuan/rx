@@ -22,7 +22,7 @@ namespace mapping.transformation.test
             var code = new StringBuilder();
             // functoids statement
             var sorted = new List<Functoid>(mapping.FunctoidCollection);
-            sorted.Sort(new FunctoidDependencyComparer());
+            sorted.Sort(new FunctoidDependencyComparer(mapping));
             var functoidStatements = from f in sorted
                                      let statement = f.GenerateStatementCode()
                                      where !string.IsNullOrWhiteSpace(statement)
@@ -53,7 +53,7 @@ namespace mapping.transformation.test
 
             // functoids statement
             var sorted = new List<Functoid>(mapping.FunctoidCollection);
-            sorted.Sort(new FunctoidDependencyComparer());
+            sorted.Sort(new FunctoidDependencyComparer(mapping));
 
             Assert.AreEqual(config, sorted[0]);
             Assert.AreEqual(sql, sorted[1]);

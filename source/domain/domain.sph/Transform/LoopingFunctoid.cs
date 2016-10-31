@@ -59,7 +59,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine($"var val{Index} = from r in item.{source.Field}");
 
             var sorted = new List<Functoid>(this.TransformDefinition.FunctoidCollection);
-            sorted.Sort(new FunctoidDependencyComparer());
+            sorted.Sort(new FunctoidDependencyComparer(this.TransformDefinition));
 
             /*
 var val4 = item.SamanCollection.Compoun;

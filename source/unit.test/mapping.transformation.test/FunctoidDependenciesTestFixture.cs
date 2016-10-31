@@ -33,8 +33,11 @@ namespace mapping.transformation.test
             parseDouble.Initialize();
             parseDouble["value"].Functoid = format1.WebId;
 
+            var map = new TransformDefinition();
+
             var list = new List<Functoid> {source, parseDouble, format1};
-            list.Sort(new FunctoidDependencyComparer());
+            map.FunctoidCollection.AddRange(list);
+            list.Sort(new FunctoidDependencyComparer(map));
             var code = string.Join(",", list.Select(x => x.WebId));
             Assert.AreEqual("source,format1,parseDouble", code);
 

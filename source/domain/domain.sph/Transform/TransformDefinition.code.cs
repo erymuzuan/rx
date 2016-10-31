@@ -184,7 +184,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("               this.BeforeTransform(item, dest);");
             // functoids statement
             var sorted = new List<Functoid>(this.FunctoidCollection);
-            sorted.Sort(new FunctoidDependencyComparer());
+            sorted.Sort(new FunctoidDependencyComparer(this));
             var functoidStatements = from f in sorted
                                      let statement = f.GenerateStatementCode()
                                      where !string.IsNullOrWhiteSpace(statement)
