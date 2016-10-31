@@ -106,7 +106,7 @@ internal void SetLineNumber(int line){ m_lineNumber = line;}";
                     {{
                         record = engine.ReadString(normalized)[0]; 
                         this.ProcessHeader(record);
-                        record.SetLineNumber(count++);
+                        record.SetLineNumber(count);
                         System.Diagnostics.Debug.Assert(record.ToJson() != null, ""Fail to serialize to json"");                  
                     }}
                     catch (Exception e)
@@ -171,7 +171,7 @@ internal void SetLineNumber(int line){ m_lineNumber = line;}";
                         {{
                             record = engine.ReadString(normalized)[0];
                             this.ProcessHeader(record);
-                            record.SetLineNumber(count++);
+                            record.SetLineNumber(count);
                             System.Diagnostics.Debug.Assert(record.ToJson() != null, ""Fail to serialize to json"");
                         }}
                         catch (Exception e)
