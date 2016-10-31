@@ -46,12 +46,53 @@ namespace Bespoke.Sph.Integrations.Adapters
             return list;
         }
 
+
+        protected override Class GenerateLoggerClass(ReceivePort port)
+        {
+            var logger = new Class { Name = "LocationLogger", Namespace = this.CodeNamespace, BaseClass = "ILogger" };
+            logger.AddNamespaceImport<DomainObject, DateTime, Task>();
+
+            var code = new StringBuilder();
+            code.AppendLine($@"
+
+        public LocationLogger(){{}}
+        private ILogger m_logger;
+        public System.Collections.Generic.IList<LogEntry> Entries {{get;}} = new System.Collections.Generic.List<LogEntry>();
+
+        public LocationLogger(ILogger logger)
+        {{
+            m_logger = logger;
+        }}
+
+        public Task LogAsync(LogEntry entry)
+        {{
+            this.Entries.Add(entry);
+            if(null != m_logger) m_logger.LogAsync(entry);
+            return ObjectBuilder.GetObject<ILogger>().LogAsync(entry);
+        }}
+
+        public void Log(LogEntry entry)
+        {{
+            this.Entries.Add(entry);
+            if(null != m_logger) m_logger.Log(entry);
+            ObjectBuilder.GetObject<ILogger>().Log(entry);          
+        }}
+
+");
+
+            logger.AddMethod(new Method { Code = code.ToString() });
+
+
+            return logger;
+        }
+
+
         private Class GenerateParameterBindingClass(ReceivePort port)
         {
             var bind = new Class { Name = $@"{port.Name}{port.Formatter}ParameterBinding", Namespace = CodeNamespace, BaseClass = "HttpParameterBinding" };
             bind.AddNamespaceImport<DateTime, DomainObject>();
             bind.AddNamespaceImport<System.Web.Http.Controllers.HttpParameterBinding, System.Web.Http.ParameterBindingAttribute, System.Web.Http.Metadata.ModelMetadataProvider>();
-            bind.AddNamespaceImport<Stream,Task, CancellationToken>();
+            bind.AddNamespaceImport<Stream, Task, CancellationToken>();
             var code = new StringBuilder();
             code.AppendLine($@" 
         public {port.Name}{port.Formatter}ParameterBinding(HttpParameterDescriptor parameter) : base(parameter)
@@ -61,12 +102,14 @@ namespace Bespoke.Sph.Integrations.Adapters
         public override async Task ExecuteBindingAsync(ModelMetadataProvider metadataProvider,
             HttpActionContext actionContext, CancellationToken cancellationToken)
         {{
+            if(Descriptor.ParameterName == ""logs"")return;
             var request = actionContext.Request;
             var stream = await request.Content.ReadAsStreamAsync();
             var text = GetRequestBody(stream);
             var lines = text.Split(new[] {{ ""\r\n"", ""\n"" }}, StringSplitOptions.RemoveEmptyEntries);
 
-            var port = new {port.CodeNamespace}.{port.TypeName}(new LocationLogger());
+            var logger = new LocationLogger();
+            var port = new {port.CodeNamespace}.{port.TypeName}(logger);
             port.AddHeader(""CreationTime"", $""{{DateTime.Now:s}}"");
             port.AddHeader(""DirectoryName"", $""{{actionContext.Request.RequestUri}}"");
             port.AddHeader(""Length"", $""{{actionContext.Request.Content.Headers.ContentLength}}"");
@@ -81,6 +124,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             var list = port.Process(lines);
             actionContext.ActionArguments[Descriptor.ParameterName] = list;
+            actionContext.ActionArguments[""logs""] = logger.Entries;
 
         }}
 
@@ -114,14 +158,12 @@ namespace Bespoke.Sph.Integrations.Adapters
         private Class GenerateControllerClass(ReceivePort port)
         {
             var route = this.Route.StartsWith("~/") ? this.Route.Replace("~/", "") : this.Route;
-            var controller = new Class { Name = $"{Name}Controller", Namespace = CodeNamespace ,BaseClass = "BaseApiController" };
+            var controller = new Class { Name = $"{Name}Controller", Namespace = CodeNamespace, BaseClass = "BaseApiController" };
             controller.AddNamespaceImport<DateTime, FileInfo, DomainObject, IEnumerable<object>>();
             controller.AddNamespaceImport<Task, System.Web.Http.ApiController, WebApi.BaseApiController>();
             controller.ImportCollection.AddRange("System.Linq");
             controller.AttributeCollection.Add($@"[RoutePrefix(""{route}"")]");
-
-
-
+            
             var context = new SphDataContext();
             var ed = context.LoadOneFromSources<EntityDefinition>(x => x.Name == port.Entity);
 
@@ -129,12 +171,14 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine($@"   
         [HttpPost]
         [PostRoute("""")]
-        public async Task<IHttpActionResult> Create([{port.Name}{port.Formatter}Binding]IEnumerable<{port.CodeNamespace}.{port.Entity}> list)
+        public async Task<IHttpActionResult> Create(
+            [{port.Name}{port.Formatter}Binding]IEnumerable<{port.CodeNamespace}.{port.Entity}> list,
+            [{port.Name}{port.Formatter}Binding]IEnumerable<LogEntry> logs = null)
         {{
-            var entities = from i in list
+            var entities = (from i in list
                            where null != i
                            let json = i.ToJson()
-                           select json.DeserializeFromJson<{ed.TypeName}>();
+                           select json.DeserializeFromJson<{ed.TypeName}>()).ToList();
 
             var context = new SphDataContext();
             using (var session = context.OpenSession())
@@ -162,8 +206,13 @@ namespace Bespoke.Sph.Integrations.Adapters
                 await session.SubmitChanges(""{SubmitEndpoint}"", headers);
 
             }}
-
-            return Created($""{{ConfigurationManager.BaseUrl}}/api/rts/{{Strings.GenerateId()}}"", new {{ success = true }});
+            var errors = (from e in logs
+                         select new 
+                            {{
+                                message = e.Message,                                
+                                details = e.Details.Substring(38, e.Details.IndexOf("" =========================="") - 38).Trim()
+                            }}).ToList();
+            return Created($""{{ConfigurationManager.BaseUrl}}/api/rts/{{Strings.GenerateId()}}"", new {{ success = true, message = $""{{entities.Count}} lines successfully imported and {{errors.Count}} lines has errors"" ,rows = entities.Count, errors}});
         }}");
             controller.AddMethod(new Method { Code = code.ToString() });
 
