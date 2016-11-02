@@ -400,7 +400,6 @@
     <Compile Include="Ports\TextFormatter.cs" />
     <Compile Include="Schema\RxManagement.g.cs" />
     <Compile Include="Transform\AddDaysFunctoid.cs" />
-    <Compile Include="Transform\FunctoidDependencyComparer.cs" />
     <Compile Include="Transform\LoopingFunctoid.cs" />
     <Compile Include="Transform\ParseBooleanFunctoid.cs">
       <DependentUpon>Functoid.cs</DependentUpon>

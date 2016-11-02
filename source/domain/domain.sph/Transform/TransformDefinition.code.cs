@@ -183,30 +183,31 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("               var dest =  new {0}();", this.OutputType.FullName);
             code.AppendLine("               this.BeforeTransform(item, dest);");
             // functoids statement
-            var sorted = new List<Functoid>(this.FunctoidCollection);
-            sorted.Sort(new FunctoidDependencyComparer(this));
-            var functoidStatements = from f in sorted
+
+            var functoidStatements = from f in this.FunctoidCollection.OrderBy(x =>x)
                                      let statement = f.GenerateStatementCode()
                                      where !string.IsNullOrWhiteSpace(statement)
                                      && (!statement.Contains("Collection.") || (f.GetType() == typeof(LoopingFunctoid)))
-                                     select string.Format("\r\n{4}//{0}:{1}:{2}\r\n{4}{3}", f.Name, f.GetType().Name, f.WebId, statement, GAP);
+                                     select $@"
+{GAP}//{f.Name}:{f.GetType().Name}:{f.WebId}
+{GAP}{statement}";
             code.AppendLine(string.Concat(functoidStatements.ToArray()));
             code.AppendLine();
 
             var mappingCodes = from m in this.MapCollection
                                select $@"{GAP}//NoName:Map:{m.WebId}
 {GAP}{m.GenerateCode()}";
-            code.JoinAndAppendLine(mappingCodes,"\r\n");
+            code.JoinAndAppendLine(mappingCodes, "\r\n");
             code.AppendLine();
 
             code.AppendLine("               this.AfterTransform(item, dest);");
 
             var asyncCode = CodeExpression.Load(code).HasAsyncAwait;
-            code.AppendLinf(asyncCode ? 
-                "               return dest;" : 
+            code.AppendLinf(asyncCode ?
+                "               return dest;" :
                 "               return Task.FromResult(dest);");
 
-            methodDeclaration.AppendLine($"           public{ (asyncCode? " async" : "") } Task<{this.OutputType.FullName}> TransformAsync({args})");
+            methodDeclaration.AppendLine($"           public{ (asyncCode ? " async" : "") } Task<{this.OutputType.FullName}> TransformAsync({args})");
             methodDeclaration.AppendLine("           {");
             methodDeclaration.Append(code);
 
