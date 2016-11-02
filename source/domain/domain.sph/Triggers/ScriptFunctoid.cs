@@ -14,6 +14,10 @@ namespace Bespoke.Sph.Domain
     [DesignerMetadata(Name = "C# code", Description = "C# custom code, should provide return type and return statement for the output targer", FontAwesomeIcon = "stumbleupon", Category = FunctoidCategory.COMMON)]
     public partial class ScriptFunctoid : Functoid
     {
+        public override bool Initialize()
+        {
+            return true;
+        }
 
         [XmlIgnore]
         [JsonIgnore]
@@ -45,20 +49,24 @@ namespace Bespoke.Sph.Domain
             code.AppendLine();
             code.AppendLine();
 
-            var asyncLambda = CodeExpression.Load(this.Expression).HasAsyncAwait;
-            code.AppendLine(asyncLambda
-                ? $"               Func<{{SOURCE_TYPE}}, Task<{this.OutputType.ToCSharp()}>> {Name} = async (d) =>"
-                : $"               Func<{{SOURCE_TYPE}}, {this.OutputType.ToCSharp()}> {Name} = d =>");
+            var asyncLambda = CodeExpression.Load(this.Expression).HasAsyncAwait ? "async " : "";
+            var funcGenericArgs = this.ArgumentCollection.Select(x => x.Type.ToCSharp()).ToList();
+            funcGenericArgs.Add(this.OutputType.ToCSharp());
 
-            code.AppendLine("                                           {");
-            code.AppendLine("                                               " + this.Expression);
-            code.AppendLine("                                           };");
+            code.Append("Func<");
+            code.JoinAndAppend(funcGenericArgs, ", ");
+            code.Append($"> {Name} = {asyncLambda}(");
+            code.JoinAndAppend(this.ArgumentCollection, ",", x => x.Name);
+            code.Append(") =>");
+            code.AppendLine("{");
+            code.AppendLine(this.Expression);
+            code.AppendLine("};");
+
             return code.ToString();
+
+
+
         }
-
-
-
-
 
         public override string GenerateAssignmentCode()
         {
@@ -67,17 +75,24 @@ namespace Bespoke.Sph.Domain
             if (!block.Contains("return")) return this.Expression;
 
             var asyncLambda = CodeExpression.Load(this.Expression).HasAsyncAwait;
-            return asyncLambda ? $"await {this.Name}(item)" : $"{this.Name}(item)";
+            var code = new StringBuilder();
+            if (asyncLambda)
+                code.Append("await ");
+            code.Append($"{Name}(");
+            code.JoinAndAppend(this.ArgumentCollection, ", ", x => this[x.Name].GetFunctoid(this.TransformDefinition).GenerateAssignmentCode());
+
+            code.AppendLine(")");
+
+            return code.ToString();
+
         }
-
-
 
         public override string GetEditorViewModel()
         {
 
             return @"
-define(['services/datacontext', 'services/logger', 'plugins/dialog'],
-    function (context, logger, dialog) {
+define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuilders.system],
+    function (context, logger, dialog, system) {
         var functoid = ko.observable(),
             okClick = function (data, ev) {
                 dialog.close(this, 'OK');
@@ -102,12 +117,23 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
                             w.close();
                         };
                     
+            },
+            addArg = function(){
+                var arg = new bespoke.sph.domain.FunctoidArg(system.guid());
+                functoid().ArgumentCollection.push(arg);
+            },
+            removeArg = function(arg){
+                return function(){
+                    functoid().ArgumentCollection.remove(arg);
+                };
             };
             var vm = {
                 functoid: functoid,
                 edit: edit,
                 okClick: okClick,
-                cancelClick: cancelClick
+                cancelClick: cancelClick,
+                addArg : addArg,
+                removeArg : removeArg
                 };
             return vm;
 });";
@@ -115,7 +141,8 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
 
         public override string GetEditorView()
         {
-            return @"
+            //lang  html
+            var html = @"
 <section class=""view-model-modal"" id=""script-functoid-editor-dialog"">
     <div class=""modal-dialog"">
         <div class=""modal-content"">
@@ -142,12 +169,61 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
                                 <option value=""System.DateTime, mscorlib"">DateTime</option>
                                 <option value=""System.Int32, mscorlib"">Integer</option>
                                 <option value=""System.Decimal, mscorlib"">Decimal</option>
+                                <option value=""System.Double, mscorlib"">Double</option>
+                                <option value=""System.Single, mscorlib"">Single</option>
                                 <option value=""System.Boolean, mscorlib"">Boolean</option>
                                 <option value=""System.Nullable`1[[System.DateTime, mscorlib]], mscorlib"">DateTime Nullable</option>
                                 <option value=""System.Nullable`1[[System.Int32, mscorlib]], mscorlib"">Integer Nullable</option>
                                 <option value=""System.Nullable`1[[System.Decimal, mscorlib]], mscorlib"">Decimal Nullable</option>
                                 <option value=""System.Nullable`1[[System.Boolean, mscorlib]], mscorlib"">Boolean Nullable</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class=""form-group"">
+                        <label for=""args"" class=""col-lg-2 control-label"">Args</label>
+                        <div class=""col-lg-9"">
+                            <table class=""table table-striped"">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind=""foreach : ArgumentCollection"">
+                                    <tr>
+                                        <td>
+                                	        <input class=""form-control"" data-bind=""value: Name"" required />
+                                        </td>
+                                        <td>
+                                            <select required class=""form-control"" data-bind=""value: TypeName"">
+                                                <option value=""System.String, mscorlib"">String</option>
+                                                <option value=""System.DateTime, mscorlib"">DateTime</option>
+                                                <option value=""System.Int32, mscorlib"">Integer</option>
+                                                <option value=""System.Decimal, mscorlib"">Decimal</option>
+                                                <option value=""System.Double, mscorlib"">Double</option>
+                                                <option value=""System.Single, mscorlib"">Single</option>
+                                                <option value=""System.Boolean, mscorlib"">Boolean</option>
+                                                <option value=""System.Nullable`1[[System.DateTime, mscorlib]], mscorlib"">DateTime Nullable</option>
+                                                <option value=""System.Nullable`1[[System.Int32, mscorlib]], mscorlib"">Integer Nullable</option>
+                                                <option value=""System.Nullable`1[[System.Decimal, mscorlib]], mscorlib"">Decimal Nullable</option>
+                                                <option value=""System.Nullable`1[[System.Boolean, mscorlib]], mscorlib"">Boolean Nullable</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <a href=""javascript:;"" data-bind=""click: $root.removeArg.call($parent, $data)"">
+                                                <i class=""fa fa-trash-o""></a>
+                                            </a>
+                                        </td>
+                               
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <a class=""btn btn-link"" href=""javascript:;"" data-bind=""click : $root.addArg"">
+                                <i class=""fa fa-plus-circle""></i>
+                                Add an argument
+                            </a>
+                        
                         </div>
                     </div>
                     <div class=""form-group"">
@@ -183,6 +259,8 @@ return new DateTime(2015,1,1);
     </div>
 </section>
 ";
+
+            return html;
         }
 
 
