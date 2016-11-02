@@ -212,7 +212,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                                         </td>
                                         <td>
                                             <a href=""javascript:;"" data-bind=""click: $root.removeArg.call($parent, $data)"">
-                                                <i class=""fa fa-trash-o""></a>
+                                                <i class=""fa fa-trash-o""></i>
                                             </a>
                                         </td>
                                
