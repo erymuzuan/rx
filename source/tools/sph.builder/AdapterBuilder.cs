@@ -1,10 +1,12 @@
 using System;
+using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Newtonsoft.Json;
+using Console = Colorful.Console;
 
 namespace Bespoke.Sph.SourceBuilders
 {
@@ -17,12 +19,11 @@ namespace Bespoke.Sph.SourceBuilders
             foreach (var adapter in list)
             {
                 await RestoreAsync(adapter);
-
             }
         }
 
 
-        private async  Task CompileAsync(Adapter item)
+        private async Task CompileAsync(Adapter item)
         {
             var folder = $"{ConfigurationManager.GeneratedSourceDirectory}\\{item.Name}";
             if (!Directory.Exists(folder))
@@ -43,15 +44,15 @@ namespace Bespoke.Sph.SourceBuilders
                 options.ReferencedAssembliesLocation.Add(dll);
             }
 
-
             var result = await item.CompileAsync();
-            result.Errors.ForEach(Console.WriteLine);
+            if (result.Errors.Count > 0)
+            {
+                Console.WriteLine($" ============== {result.Errors.Count} errors ===============");
+                result.Errors.ForEach(x => Console.WriteLine(x, Color.Red));
+            }
 
         }
 
-     
-
-        
         public override async Task RestoreAsync(Adapter adapter)
         {
             Console.WriteLine("Compiling : {0} ", adapter.Name);
@@ -61,14 +62,12 @@ namespace Bespoke.Sph.SourceBuilders
             }
             catch (Exception e)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Failed to compile Adapter {0}", adapter.Name);
+                Console.WriteLine("Failed to compile Adapter {0}", adapter.Name, Color.Red);
                 Console.WriteLine(e.Message);
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine(e.StackTrace);
+                Console.WriteLine(e.StackTrace, Color.Yellow);
                 Console.ResetColor();
             }
-         
+
 
         }
     }
