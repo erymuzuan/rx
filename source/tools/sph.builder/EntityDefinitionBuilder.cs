@@ -42,35 +42,53 @@ namespace Bespoke.Sph.SourceBuilders
         private async Task CompileDependencies(EntityDefinition ed)
         {
             await ed.ServiceContract.CompileAsync(ed);
-            foreach (var src in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{nameof(OperationEndpoint)}", "*.json"))
+            var operationEndpointFolder = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(OperationEndpoint)}";
+            if (Directory.Exists(operationEndpointFolder))
             {
-                var oe = src.DeserializeFromJsonFile<OperationEndpoint>();
-                if (oe.Entity != ed.Name) continue;
-                var builder = new OperationEndpointBuilder();
-                await builder.RestoreAsync(oe);
-            }
-            foreach (var src in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{nameof(QueryEndpoint)}", "*.json"))
-            {
-                Console.WriteLine("QueryEndpoint " + Path.GetFileName(src));
-                var qe = src.DeserializeFromJsonFile<QueryEndpoint>();
-                if (qe.Entity != ed.Name) continue;
-                var builder = new QueryEndpointBuilder();
-                await builder.RestoreAsync(qe);
-            }
-            foreach (var src in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{nameof(ReceivePort)}", "*.json"))
-            {
-                var port = src.DeserializeFromJsonFile<ReceivePort>();
-                if (port.Entity != ed.Name) continue;
-                var builder = new ReceivePortBuilder();
-                await builder.RestoreAsync(port);
-
-                foreach (var rsrc in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{nameof(ReceiveLocation)}", "*.json"))
+                foreach (var src in Directory.GetFiles(operationEndpointFolder, "*.json"))
                 {
-                    var loc = rsrc.DeserializeFromJsonFile<ReceiveLocation>();
-                    if (loc.ReceivePort != port.Id) continue;
-                    var locBuilder = new ReceiveLocationBuilder();
-                    await locBuilder.RestoreAsync(loc);
+                    var oe = src.DeserializeFromJsonFile<OperationEndpoint>();
+                    if (oe.Entity != ed.Name) continue;
+                    var builder = new OperationEndpointBuilder();
+                    await builder.RestoreAsync(oe);
                 }
+
+            }
+
+            var queryEndpointFolder = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(QueryEndpoint)}";
+            if (Directory.Exists(queryEndpointFolder))
+            {
+                foreach (var src in Directory.GetFiles(queryEndpointFolder, "*.json"))
+                {
+                    Console.WriteLine("QueryEndpoint " + Path.GetFileName(src));
+                    var qe = src.DeserializeFromJsonFile<QueryEndpoint>();
+                    if (qe.Entity != ed.Name) continue;
+                    var builder = new QueryEndpointBuilder();
+                    await builder.RestoreAsync(qe);
+                }
+            }
+
+            var receivePortFolder = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(ReceivePort)}";
+            if (Directory.Exists(receivePortFolder))
+            {
+                foreach (var src in Directory.GetFiles(receivePortFolder, "*.json"))
+                {
+                    var port = src.DeserializeFromJsonFile<ReceivePort>();
+                    if (port.Entity != ed.Name) continue;
+                    var builder = new ReceivePortBuilder();
+                    await builder.RestoreAsync(port);
+
+                    var receiveLocationFolder = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(ReceiveLocation)}";
+                    if (!Directory.Exists(receiveLocationFolder)) continue;
+                    foreach (var rsrc in Directory.GetFiles(receiveLocationFolder, "*.json"))
+                    {
+                        var loc = rsrc.DeserializeFromJsonFile<ReceiveLocation>();
+                        if (loc.ReceivePort != port.Id) continue;
+                        var locBuilder = new ReceiveLocationBuilder();
+                        await locBuilder.RestoreAsync(loc);
+                    }
+                }
+
             }
         }
 
@@ -138,15 +156,18 @@ namespace Bespoke.Sph.SourceBuilders
 
                     }
 
-                    var files = Directory.
-                    GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{ed.Name}", "*.json");
+
+                    var sourcesFolder = $"{ConfigurationManager.SphSourceDirectory}\\{ed.Name}";
+                    if (!Directory.Exists(sourcesFolder))
+                        Directory.CreateDirectory(sourcesFolder);
+
+                    var files = Directory.GetFiles(sourcesFolder, "*.json");
                     foreach (var f in files)
                     {
                         var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
                         dynamic ent = JsonConvert.DeserializeObject(File.ReadAllText(f), setting);
                         ent.Id = Path.GetFileNameWithoutExtension(f);
                         await builder.InsertAsync(ent);
-
 
                         var setting2 = new JsonSerializerSettings();
                         var json = JsonConvert.SerializeObject(ent, setting2);
