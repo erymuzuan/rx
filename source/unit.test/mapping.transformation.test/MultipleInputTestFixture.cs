@@ -10,6 +10,8 @@ namespace mapping.transformation.test
     [TestClass]
     public class MultipleInputTestFixture
     {
+        private readonly ScriptFuncoidTest m_scriptFuncoidTest = new ScriptFuncoidTest();
+
         [TestInitialize]
         public void Setup()
         {
@@ -19,7 +21,7 @@ namespace mapping.transformation.test
 
         private dynamic CreateEntityInstance(string typeName)
         {
-            var type = Assembly.LoadFrom(@".\DevV1." + typeName +".dll").GetType("Bespoke.DevV1_" + typeName.ToLower() +".Domain." + typeName);
+            var type = Assembly.LoadFrom(@".\DevV1." + typeName + ".dll").GetType("Bespoke.DevV1_" + typeName.ToLower() + ".Domain." + typeName);
             dynamic instance = Activator.CreateInstance(type);
             return instance;
         }
@@ -31,7 +33,7 @@ namespace mapping.transformation.test
             var patient = this.CreateEntityInstance("Patient");
             patient.FullName = "Erymuzuan Mustapa";
             patient.Mrn = "ABC123";
-            patient.CreatedDate = new DateTime(2000,1,1);
+            patient.CreatedDate = new DateTime(2000, 1, 1);
 
             var district = this.CreateEntityInstance("District");
             district.Name = "Tanah Merah";
@@ -49,9 +51,9 @@ namespace mapping.transformation.test
                 Description = "Just a description",
                 OutputType = customerType
             };
-            td.InputCollection.Add(new MethodArg {Name="Patient", Type = patient.GetType()});
-            td.InputCollection.Add(new MethodArg {Name="District", Type = district.GetType()});
-            td.InputCollection.Add(new MethodArg {Name="State", Type = state.GetType()});
+            td.InputCollection.Add(new MethodArg { Name = "Patient", Type = patient.GetType() });
+            td.InputCollection.Add(new MethodArg { Name = "District", Type = district.GetType() });
+            td.InputCollection.Add(new MethodArg { Name = "State", Type = state.GetType() });
 
             td.FunctoidCollection.Add(new ConstantFunctoid
             {

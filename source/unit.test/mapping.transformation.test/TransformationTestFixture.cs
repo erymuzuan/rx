@@ -98,7 +98,7 @@ namespace mapping.transformation.test
                 OutputTypeName = GetTypeName(PATIENT),
                 Id = NAME.ToIdFormat()
             };
-            Console.WriteLine($"Id =>{td.Id}");
+            Console.WriteLine($@"Id => {td.Id}");
             string partia;
             td.GeneratePartialCode(out partia);
             td.FunctoidCollection.Add(new ConstantFunctoid

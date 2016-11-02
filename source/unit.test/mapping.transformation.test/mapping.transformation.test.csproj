@@ -133,6 +133,7 @@
     <Compile Include="DatabaseLookupTestFixture.cs" />
     <Compile Include="FunctoidComparerTestFixture.cs" />
     <Compile Include="MultipleInputTestFixture.cs" />
+    <Compile Include="ScriptFuncoidTest.cs" />
     <Compile Include="TransformationTestFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FunctoidDependenciesTestFixture.cs" />
