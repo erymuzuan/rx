@@ -17,6 +17,8 @@ namespace Bespoke.Sph.Integrations.Adapters
          Name = "restapi")]
     public class RestApiReceiveLocation : ReceiveLocation
     {
+        public bool BufferAllRows { get; set; }
+        public bool RejectPartial { get; set; }
         public string BaseAddress { get; set; }
         public string ContentType { get; set; }
         public string InboundMapping { get; set; }
@@ -167,6 +169,16 @@ namespace Bespoke.Sph.Integrations.Adapters
             var context = new SphDataContext();
             var ed = context.LoadOneFromSources<EntityDefinition>(x => x.Name == port.Entity);
 
+
+            var reject = "";
+            if (this.RejectPartial)
+            {
+                reject =
+                $@"if(errors.Count > 0)
+                {{
+                    return Invalid((System.Net.HttpStatusCode)422, new {{ success = false, message = $""{{list.Count( x => null != x)}} lines correctly parsed but there are {{errors.Count}} lines with errors"", errors}});
+                }}";
+            }
             var code = new StringBuilder();
             code.AppendLine($@"   
         [HttpPost]
@@ -175,10 +187,19 @@ namespace Bespoke.Sph.Integrations.Adapters
             [{port.Name}{port.Formatter}Binding]IEnumerable<{port.CodeNamespace}.{port.Entity}> list,
             [{port.Name}{port.Formatter}Binding]IEnumerable<LogEntry> logs = null)
         {{
+
             var entities = (from i in list
                            where null != i
                            let json = i.ToJson()
                            select json.DeserializeFromJson<{ed.TypeName}>()).ToList();
+
+            var errors = (from e in (logs ?? Array.Empty<LogEntry>())
+                         select new 
+                            {{
+                                message = e.Exception?.Message.Replace(""Line: 1 "", "" ""),                                
+                                details = e.Details.Substring(38, e.Details.IndexOf("" =========================="") - 38).Trim()
+                            }}).ToList();
+            {reject}
 
             var context = new SphDataContext();
             using (var session = context.OpenSession())
@@ -206,12 +227,6 @@ namespace Bespoke.Sph.Integrations.Adapters
                 await session.SubmitChanges(""{SubmitEndpoint}"", headers);
 
             }}
-            var errors = (from e in logs
-                         select new 
-                            {{
-                                message = e.Message,                                
-                                details = e.Details.Substring(38, e.Details.IndexOf("" =========================="") - 38).Trim()
-                            }}).ToList();
             return Created($""{{ConfigurationManager.BaseUrl}}/api/rts/{{Strings.GenerateId()}}"", new {{ success = true, message = $""{{entities.Count}} lines successfully imported and {{errors.Count}} lines has errors"" ,rows = entities.Count, errors}});
         }}");
             controller.AddMethod(new Method { Code = code.ToString() });
