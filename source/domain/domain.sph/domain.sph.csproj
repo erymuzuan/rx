@@ -237,6 +237,7 @@
     <Compile Include="Ports\FolderReceiveLocation.package.cs" />
     <Compile Include="Ports\HeaderFieldMapping.cs" />
     <Compile Include="Ports\HeaderFieldMember.cs" />
+    <Compile Include="Ports\IReceiveLocation.cs" />
     <Compile Include="Ports\ReceiveLocation.cs" />
     <Compile Include="Ports\SqlServerReceiveLocation.cs" />
     <Compile Include="Ports\SqlServerRecordSetFormatter.cs" />

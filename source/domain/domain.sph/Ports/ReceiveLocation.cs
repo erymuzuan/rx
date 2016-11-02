@@ -17,14 +17,6 @@ using Polly;
 
 namespace Bespoke.Sph.Domain
 {
-    public interface IReceiveLocation
-    {
-        bool Start();
-        bool Stop();
-        void Pause();
-        void Resume();
-    }
-
     [DebuggerDisplay("Name = {Name}")]
     [PersistenceOption(HasDerivedTypes = true,IsSource = true)]
     public partial class ReceiveLocation : Entity
