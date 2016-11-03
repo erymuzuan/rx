@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Newtonsoft.Json;
+using Polly;
 using static System.IO.File;
 
 namespace subscriber.entities
@@ -129,8 +130,12 @@ namespace subscriber.entities
 
             using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) })
             {
-                var response = await client.PostAsync(url, content);
-                response.EnsureSuccessStatusCode();
+                var c = client;
+                var pr = await Policy.Handle<HttpRequestException>()
+                    .WaitAndRetryAsync(5, x => TimeSpan.FromMilliseconds(Math.Pow(2, x) * 500))
+                    .ExecuteAndCaptureAsync(async () => await c.PostAsync(url, content));
+                if (null != pr.FinalException)
+                    pr.Result.EnsureSuccessStatusCode();
             }
             Console.ResetColor();
 
