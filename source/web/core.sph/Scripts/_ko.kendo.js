@@ -119,24 +119,33 @@ ko.bindingHandlers.money = {
                 return parseInt(allBindings.decimal);
             },
             textbox = $(element),
-            val = parseFloat(ko.unwrap(value) || "0"),
-            fm = val.toFixed(decimal()).replace(/./g, function (c, i, a) {
-                return i && c !== "." && !((a.length - i) % 3) ? "," + c : c;
-            });
+            initBinding = function () {
+                var val = parseFloat(ko.unwrap(value) || "0"),
+                    fm = val.toFixed(decimal())
+                        .replace(/./g,
+                            function(c, i, a) {
+                                return i && c !== "." && !((a.length - i) % 3) ? "," + c : c;
+                            });
+                if (element.tagName.toLowerCase() === "span") {
+                    textbox.text(fm);
+                    return;
+                }
 
+                textbox.val(fm);
 
-        if (element.tagName.toLowerCase() === "span") {
-            textbox.text(fm);
-            return;
+                textbox.on("blur", function () {
+                    var tv = $(this).val().replace(/,/g, "");
+                    console.log(tv);
+                    value(parseFloat(tv));
+                });
+
+            };
+        initBinding();
+
+        if (ko.isObservable(value)) {
+            value.subscribe(initBinding);
         }
 
-        textbox.val(fm);
-
-        textbox.on("blur", function () {
-            var tv = $(this).val().replace(/,/g, "");
-            console.log(tv);
-            value(parseFloat(tv));
-        });
 
     },
     update: function (element, valueAccessor, allBindingsAccessor) {
@@ -984,6 +993,8 @@ ko.bindingHandlers.searchPaging = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
         var value = valueAccessor(),
             entity = value.entity,
+            enableReload = value.enableReload,
+            hasCommands = ko.isObservable((viewModel.toolbar || {}).commands),
             query = value.query,
             executedQuery = value.query || value.initialQuery || {},
             list = value.list,
@@ -1103,6 +1114,26 @@ ko.bindingHandlers.searchPaging = {
             });
         }
 
+
+        if (enableReload && hasCommands) {
+            const commandId = "search-paging-reload",
+                reloadCommand = viewModel.toolbar.commands().find(x => x.id === commandId);
+            if (!reloadCommand) {
+                viewModel.toolbar.commands.push({
+                    command: function () {
+                        return changed(1, 20);
+                    },
+                    caption: "Reload",
+                    icon: "bowtie-icon bowtie-navigate-refresh",
+                    id: commandId
+                });
+
+            }
+        }
+
+        if (enableReload && !hasCommands) {
+            console.error("Please provide a toolbar with commands : ko.observableArray(), in your viewModel");
+        }
         //exposed the search function
         query.search = search;
         query.filterAndSearch = filterAndSearch;

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Codes;
+using Microsoft.CodeAnalysis.CSharp;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
@@ -14,6 +15,10 @@ namespace Bespoke.Sph.Domain
     [DesignerMetadata(Name = "C# code", Description = "C# custom code, should provide return type and return statement for the output targer", FontAwesomeIcon = "stumbleupon", Category = FunctoidCategory.COMMON)]
     public partial class ScriptFunctoid : Functoid
     {
+        public override bool Initialize()
+        {
+            return true;
+        }
 
         [XmlIgnore]
         [JsonIgnore]
@@ -33,6 +38,17 @@ namespace Bespoke.Sph.Domain
             var errors = (await base.ValidateAsync()).ToList();
             if (string.IsNullOrWhiteSpace(this.Name))
                 errors.Add("Name", "Script's name cannot be empty", this.WebId);
+
+            // make sure all args are valid C# identifier
+            foreach (var arg in this.ArgumentCollection)
+            {
+                var kind = SyntaxFacts.GetKeywordKind(arg.Name);
+                if (kind.ToString().EndsWith("Keyword"))
+                    errors.Add($"arg.{arg.Name}", $"{arg.Name} is a C# reserved keyword and cannot be used as argument name", this.WebId);
+                var valid = SyntaxFacts.IsValidIdentifier(arg.Name);
+                if (!valid)
+                    errors.Add($"arg.{arg.Name}", $"{arg.Name} is not a valid C# identifier for argument name", this.WebId);
+            }
             return errors;
         }
 
@@ -45,20 +61,24 @@ namespace Bespoke.Sph.Domain
             code.AppendLine();
             code.AppendLine();
 
-            var asyncLambda = CodeExpression.Load(this.Expression).HasAsyncAwait;
-            code.AppendLine(asyncLambda
-                ? $"               Func<{{SOURCE_TYPE}}, Task<{this.OutputType.ToCSharp()}>> {Name} = async (d) =>"
-                : $"               Func<{{SOURCE_TYPE}}, {this.OutputType.ToCSharp()}> {Name} = d =>");
+            var asyncLambda = CodeExpression.Load(this.Expression).HasAsyncAwait ? "async " : "";
+            var funcGenericArgs = this.ArgumentCollection.Select(x => x.Type.ToCSharp()).ToList();
+            funcGenericArgs.Add(this.OutputType.ToCSharp());
 
-            code.AppendLine("                                           {");
-            code.AppendLine("                                               " + this.Expression);
-            code.AppendLine("                                           };");
+            code.Append("Func<");
+            code.JoinAndAppend(funcGenericArgs, ", ");
+            code.Append($"> {Name} = {asyncLambda}(");
+            code.JoinAndAppend(this.ArgumentCollection, ",", x => x.Name);
+            code.Append(") =>");
+            code.AppendLine("{");
+            code.AppendLine(this.Expression);
+            code.AppendLine("};");
+
             return code.ToString();
+
+
+
         }
-
-
-
-
 
         public override string GenerateAssignmentCode()
         {
@@ -67,17 +87,24 @@ namespace Bespoke.Sph.Domain
             if (!block.Contains("return")) return this.Expression;
 
             var asyncLambda = CodeExpression.Load(this.Expression).HasAsyncAwait;
-            return asyncLambda ? $"await {this.Name}(item)" : $"{this.Name}(item)";
+            var code = new StringBuilder();
+            if (asyncLambda)
+                code.Append("await ");
+            code.Append($"{Name}(");
+            code.JoinAndAppend(this.ArgumentCollection, ", ", x => this[x.Name].GetFunctoid(this.TransformDefinition).GenerateAssignmentCode());
+
+            code.AppendLine(")");
+
+            return code.ToString();
+
         }
-
-
 
         public override string GetEditorViewModel()
         {
-
+            //language=javascript
             return @"
-define(['services/datacontext', 'services/logger', 'plugins/dialog'],
-    function (context, logger, dialog) {
+define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuilders.system],
+    function (context, logger, dialog, system) {
         var functoid = ko.observable(),
             okClick = function (data, ev) {
                 dialog.close(this, 'OK');
@@ -102,12 +129,23 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
                             w.close();
                         };
                     
+            },
+            addArg = function(){
+                var arg = new bespoke.sph.domain.FunctoidArg(system.guid());
+                functoid().ArgumentCollection.push(arg);
+            },
+            removeArg = function(arg){
+                return function(){
+                    functoid().ArgumentCollection.remove(arg);
+                };
             };
             var vm = {
                 functoid: functoid,
                 edit: edit,
                 okClick: okClick,
-                cancelClick: cancelClick
+                cancelClick: cancelClick,
+                addArg : addArg,
+                removeArg : removeArg
                 };
             return vm;
 });";
@@ -115,7 +153,8 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
 
         public override string GetEditorView()
         {
-            return @"
+            //language=html
+            var html = @"
 <section class=""view-model-modal"" id=""script-functoid-editor-dialog"">
     <div class=""modal-dialog"">
         <div class=""modal-content"">
@@ -142,12 +181,65 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
                                 <option value=""System.DateTime, mscorlib"">DateTime</option>
                                 <option value=""System.Int32, mscorlib"">Integer</option>
                                 <option value=""System.Decimal, mscorlib"">Decimal</option>
+                                <option value=""System.Double, mscorlib"">Double</option>
+                                <option value=""System.Single, mscorlib"">Single</option>
                                 <option value=""System.Boolean, mscorlib"">Boolean</option>
-                                <option value=""System.Nullable`1[[System.DateTime, mscorlib]], mscorlib"">DateTime Nullable</option>
-                                <option value=""System.Nullable`1[[System.Int32, mscorlib]], mscorlib"">Integer Nullable</option>
-                                <option value=""System.Nullable`1[[System.Decimal, mscorlib]], mscorlib"">Decimal Nullable</option>
-                                <option value=""System.Nullable`1[[System.Boolean, mscorlib]], mscorlib"">Boolean Nullable</option>
+                                <option value=""System.Nullable`1[[System.DateTime, mscorlib]], mscorlib"">Nullable DateTime</option>
+                                <option value=""System.Nullable`1[[System.Int32, mscorlib]], mscorlib"">Nullable Integer</option>
+                                <option value=""System.Nullable`1[[System.Double, mscorlib]], mscorlib"">Nullable Double</option>
+                                <option value=""System.Nullable`1[[System.Single, mscorlib]], mscorlib"">Nullable Single</option>
+                                <option value=""System.Nullable`1[[System.Decimal, mscorlib]], mscorlib"">Nullable Decimal</option>
+                                <option value=""System.Nullable`1[[System.Boolean, mscorlib]], mscorlib"">Nullable Boolean</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class=""form-group"">
+                        <label for=""args"" class=""col-lg-2 control-label"">Args</label>
+                        <div class=""col-lg-9"">
+                            <table class=""table table-striped"">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind=""foreach : ArgumentCollection"">
+                                    <tr>
+                                        <td>
+                                	        <input class=""form-control"" data-bind=""value: Name"" pattern=""^[a-z_@][A-Za-z0-9_]*$"" title=""valid C# identifier, with this pattern ^[a-z_@][A-Za-z0-9_]*$"" required />
+                                        </td>
+                                        <td>
+                                            <select required class=""form-control"" data-bind=""value: TypeName"">
+                                                <option value=""System.String, mscorlib"">String</option>
+                                                <option value=""System.DateTime, mscorlib"">DateTime</option>
+                                                <option value=""System.Int32, mscorlib"">Integer</option>
+                                                <option value=""System.Decimal, mscorlib"">Decimal</option>
+                                                <option value=""System.Double, mscorlib"">Double</option>
+                                                <option value=""System.Single, mscorlib"">Single</option>
+                                                <option value=""System.Boolean, mscorlib"">Boolean</option>
+                                                <option value=""System.Nullable`1[[System.DateTime, mscorlib]], mscorlib"">Nullable DateTime</option>
+                                                <option value=""System.Nullable`1[[System.Int32, mscorlib]], mscorlib"">Nullable Integer</option>
+                                                <option value=""System.Nullable`1[[System.Double, mscorlib]], mscorlib"">Nullable Double</option>
+                                                <option value=""System.Nullable`1[[System.Single, mscorlib]], mscorlib"">Nullable Single</option>
+                                                <option value=""System.Nullable`1[[System.Decimal, mscorlib]], mscorlib"">Nullable Decimal</option>
+                                                <option value=""System.Nullable`1[[System.Boolean, mscorlib]], mscorlib"">Nullable Boolean</option> 
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <a href=""javascript:;"" data-bind=""click: $root.removeArg.call($parent, $data)"" title=""Remove the argument"">
+                                                <i class=""fa fa-trash-o""></i>
+                                            </a>
+                                        </td>
+                               
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <a class=""btn btn-link"" href=""javascript:;"" data-bind=""click : $root.addArg"">
+                                <i class=""fa fa-plus-circle""></i>
+                                Add an argument
+                            </a>
+                        
                         </div>
                     </div>
                     <div class=""form-group"">
@@ -183,6 +275,8 @@ return new DateTime(2015,1,1);
     </div>
 </section>
 ";
+
+            return html;
         }
 
 

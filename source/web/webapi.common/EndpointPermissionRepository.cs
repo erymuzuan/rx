@@ -139,6 +139,15 @@ namespace Bespoke.Sph.WebApi
             list.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(EntityView), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
             list.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(EntityChart), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
             list.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(AuditTrail), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
+            list.Add(new EndpointPermissonSetting { Parent = "System", Controller = "List", Action = "Index", Claims = Array.Empty<ClaimSetting>() });
+            list.Add(new EndpointPermissonSetting { Parent = "System", Controller = "List", Action = "Distinct", Claims = Array.Empty<ClaimSetting>() });
+            list.Add(new EndpointPermissonSetting { Parent = "System", Controller = "List", Action = "Tuple", Claims = Array.Empty<ClaimSetting>() });
+            list.Add(new EndpointPermissonSetting { Parent = "System", Controller = "Aggregate", Action = "Scalar", Claims = Array.Empty<ClaimSetting>() });
+            list.Add(new EndpointPermissonSetting { Parent = "System", Controller = "Aggregate", Action = "Sum", Claims = Array.Empty<ClaimSetting>() });
+            list.Add(new EndpointPermissonSetting { Parent = "System", Controller = "Aggregate", Action = "Count", Claims = Array.Empty<ClaimSetting>() });
+            list.Add(new EndpointPermissonSetting { Parent = "System", Controller = "Aggregate", Action = "Average", Claims = Array.Empty<ClaimSetting>() });
+            list.Add(new EndpointPermissonSetting { Parent = "System", Controller = "Aggregate", Action = "Max", Claims = Array.Empty<ClaimSetting>() });
+            list.Add(new EndpointPermissonSetting { Parent = "System", Controller = "Aggregate", Action = "Min", Claims = Array.Empty<ClaimSetting>() });
             list.Add(new EndpointPermissonSetting { Parent = "Custom", Claims = Array.Empty<ClaimSetting>() });
 
             return list.Where(x => null != x);

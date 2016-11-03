@@ -11,16 +11,19 @@ namespace mapping.transformation.test
         [TestMethod]
         public void CompareFormatAndParseDouble()
         {
+            var map = new TransformDefinition();
             var source = new ConstantFunctoid
             {
                 WebId = "source",
                 Value = "SOURCE",
-                Type = typeof(string)
+                Type = typeof(string),
+                TransformDefinition = map
             };
 
             var format1 = new FormattingFunctoid
             {
                 WebId = "format1",
+                TransformDefinition = map
             };
             format1.Initialize();
             format1["value"].Functoid = source.WebId;
@@ -28,14 +31,17 @@ namespace mapping.transformation.test
             var parseDouble = new ParseDoubleFunctoid
             {
                 Name = "parseDouble",
-                WebId = "parseDouble"
+                WebId = "parseDouble",
+                TransformDefinition = map
             };
             parseDouble.Initialize();
             parseDouble["value"].Functoid = format1.WebId;
+            
+            var list = new List<Functoid> { source, parseDouble, format1 };
+            map.FunctoidCollection.AddRange(list);
 
-            var list = new List<Functoid> {source, parseDouble, format1};
-            list.Sort(new FunctoidDependencyComparer());
-            var code = string.Join(",", list.Select(x => x.WebId));
+            var sorted = list.OrderBy(x => x);
+            var code = string.Join(",", sorted.Select(x => x.WebId));
             Assert.AreEqual("source,format1,parseDouble", code);
 
         }

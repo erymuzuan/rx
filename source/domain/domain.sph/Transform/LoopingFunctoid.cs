@@ -58,13 +58,7 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine($"var val{Index} = from r in item.{source.Field}");
 
-            var sorted = new List<Functoid>(this.TransformDefinition.FunctoidCollection);
-            sorted.Sort(new FunctoidDependencyComparer());
-
-            /*
-var val4 = item.SamanCollection.Compoun;
-var styles4 = System.Globalization.NumberStyles.None;
-             * */
+            var sorted = new List<Functoid>(this.TransformDefinition.FunctoidCollection.OrderBy(x =>x));
             var functoidStatements = (from f in sorted
                                       where f.GetType() != typeof(LoopingFunctoid)
                                       let statement = f.GenerateStatementCode()
@@ -116,6 +110,24 @@ var styles4 = System.Globalization.NumberStyles.None;
         public override string GenerateAssignmentCode()
         {
             return string.Empty;
+        }
+        public override bool? DependsOn(Functoid functoid)
+        {
+            if (functoid is LoopingFunctoid)
+                return string.Compare(functoid.WebId, this.WebId, StringComparison.Ordinal) == 1; // so that the result is consistent
+
+            //var source = this["sourceCollection"].GetFunctoid(this.TransformDefinition) as SourceFunctoid;
+            //if (null == source) return false;
+            //var dependentsFunctoid = (from f in this.TransformDefinition.FunctoidCollection
+            //                          where f.GetType() != typeof(LoopingFunctoid)
+            //                          let statement = f.GenerateStatementCode()
+            //                          where !string.IsNullOrWhiteSpace(statement)
+            //                          && statement.Contains(source.Field)
+            //                          select f
+            //                 ).ToList();
+
+            //return dependentsFunctoid.Any(x => x.WebId == functoid.WebId);
+            return true;
         }
     }
 }

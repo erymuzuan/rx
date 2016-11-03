@@ -1,9 +1,10 @@
 using System;
+using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Newtonsoft.Json;
+using Console = Colorful.Console;
 
 namespace Bespoke.Sph.SourceBuilders
 {
@@ -16,12 +17,11 @@ namespace Bespoke.Sph.SourceBuilders
             foreach (var m in maps)
             {
                 await RestoreAsync(m);
-
             }
         }
 
 
-        private async  Task CompileAsync(TransformDefinition map)
+        private async Task CompileAsync(TransformDefinition map)
         {
             var options = new CompilerOptions
             {
@@ -39,30 +39,32 @@ namespace Bespoke.Sph.SourceBuilders
             var codes = map.GenerateCode();
             var sources = map.SaveSources(codes);
             var result = await map.CompileAsync(options, sources);
-            result.Errors.ForEach(Console.WriteLine);
+            if (result.Errors.Count > 0)
+            {
+                Console.WriteLine($" ============== {result.Errors.Count} errors ===============");
+                result.Errors.ForEach(x => Console.WriteLine(x, Color.Red));
+            }
 
         }
 
-     
 
-        
+
+
         public override async Task RestoreAsync(TransformDefinition map)
         {
             Console.WriteLine("Compiling : {0} ", map.Name);
             try
             {
-               await this.CompileAsync(map);
+                await this.CompileAsync(map);
             }
             catch (Exception e)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Failed to compile TransformDefinition {0}", map.Name);
+                Console.WriteLine("Failed to compile TransformDefinition {0}", map.Name, Color.Red);
                 Console.WriteLine(e.Message);
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine(e.StackTrace);
+                Console.WriteLine(e.StackTrace, Color.Yellow);
                 Console.ResetColor();
             }
-         
+
 
         }
     }

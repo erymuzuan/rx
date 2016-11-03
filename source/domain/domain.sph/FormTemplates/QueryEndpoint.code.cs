@@ -187,8 +187,9 @@ namespace Bespoke.Sph.Domain
                                    [ModifiedSince]ModifiedSinceHeader modifiedSince," + parameterlist.ToString(" ");
 
             code.AppendLine($@"       public async Task<IHttpActionResult> GetAction({parameters}");
-            code.AppendLine(@"                                   [FromUri(Name=""page"")]int page=1,");
-            code.AppendLine(@"                                   [FromUri(Name=""size"")]int size=20)");
+            code.AppendLine(@"                                   [FromUri(Name=""q"")]string q = null,");
+            code.AppendLine(@"                                   [FromUri(Name=""page"")]int page = 1,");
+            code.AppendLine(@"                                   [FromUri(Name=""size"")]int size = 20)");
             code.Append("       {");
             foreach (var p in routeParameterFields)
             {
@@ -209,6 +210,8 @@ namespace Bespoke.Sph.Domain
             }
             code.Append($@"
             var queryString = $""from={{size * (page - 1)}}&size={{size}}"";
+            if(!string.IsNullOrWhiteSpace(q))
+                queryString += $""&q={{q}}"";
 
             var repos = ObjectBuilder.GetObject<IReadonlyRepository<{Entity}>>();
             var response = await repos.SearchAsync(query, queryString);

@@ -237,6 +237,7 @@
     <Compile Include="Ports\FolderReceiveLocation.package.cs" />
     <Compile Include="Ports\HeaderFieldMapping.cs" />
     <Compile Include="Ports\HeaderFieldMember.cs" />
+    <Compile Include="Ports\IReceiveLocation.cs" />
     <Compile Include="Ports\ReceiveLocation.cs" />
     <Compile Include="Ports\SqlServerReceiveLocation.cs" />
     <Compile Include="Ports\SqlServerRecordSetFormatter.cs" />
@@ -400,7 +401,6 @@
     <Compile Include="Ports\TextFormatter.cs" />
     <Compile Include="Schema\RxManagement.g.cs" />
     <Compile Include="Transform\AddDaysFunctoid.cs" />
-    <Compile Include="Transform\FunctoidDependencyComparer.cs" />
     <Compile Include="Transform\LoopingFunctoid.cs" />
     <Compile Include="Transform\ParseBooleanFunctoid.cs">
       <DependentUpon>Functoid.cs</DependentUpon>

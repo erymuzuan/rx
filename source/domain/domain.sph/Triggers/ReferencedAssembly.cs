@@ -54,13 +54,12 @@ namespace Bespoke.Sph.Domain
             if (File.Exists(output))
                 return output;
 
-            var web = $"{ConfigurationManager.WebPath}\\bin\\{file}";
-            if (File.Exists(web))
-                return web;
-
             if (File.Exists(this.Location))
                 return this.Location;
 
+            var web = $"{ConfigurationManager.WebPath}\\bin\\{file}";
+            if (File.Exists(web))
+                return web;
             throw new Exception($"Cannot find any '{file}'");
         }
     }

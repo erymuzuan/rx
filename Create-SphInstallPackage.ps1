@@ -2,7 +2,8 @@
        [int]$Build = 0,
        [string]$Drop = '01',
        [switch]$PreRelease = $false,
-       [string]$ToolsDirectory = "c:\project\tools"
+       [string]$ToolsDirectory = "c:\project\tools",
+       [switch]$UploadToOneDrive
      )
 
 
@@ -378,3 +379,15 @@ if($compressed -eq 'q')
 
 #compress
 & 7za a -t7z ".\sph.package.1.0.$Build-$Drop.7z" ".\bin\build\*"
+
+
+
+Write-Host "Done compressing" -ForegroundColor Cyan
+if($UploadToOneDrive.IsPresent)
+{
+    $Authentication = Get-ODAuthentication -ClientID "288ab228-361e-417f-bba2-eb2e6b17d618"
+    $AuthToken=$Authentication.access_token
+    Add-ODItem -AccessToken $AuthToken -Path "/Public/rx-drops" -LocalFile ".\sph.package.1.0.$Build-$Drop.7z"
+
+    Write-Host "Done uploading to OneDrive"
+}

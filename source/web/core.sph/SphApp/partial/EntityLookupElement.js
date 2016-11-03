@@ -12,7 +12,7 @@ bespoke.sph.domain.EntityLookupElementPartial = function () {
 
     var editDisplayTemplate = function () {
         var self = this,
-            w = window.open("/sph/editor/ace?mode=javascript", "_blank", "height=" + screen.height + ",width=" + screen.width + ",toolbar=0,location=0,fullscreen=yes"),
+            w = window.open("/sph/editor/ace?mode=javascript", "_blank", `height=${screen.height},width=${screen.width},toolbar=0,location=0,fullscreen=yes`),
             wdw = w.window || w,
             init = function () {
                 wdw.code = ko.unwrap(self.Command);

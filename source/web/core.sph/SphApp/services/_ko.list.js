@@ -8,35 +8,37 @@
 
 define([objectbuilders.datacontext, objectbuilders.logger], function (context, logger) {
 
-
-    var intiFilter = function (element, options, search) {
+    var initQueryFilter = function (element, options, search) {
         var path = options.path,
+            placeholder = options.placeholder || "Filter....",
             tooltip = options.tooltip || "Type to filter current page or type and [ENTER] to apply _all in remote query",
             $element = $(element),
-            $filterInput = $("<input data-toggle=\"tooltip\" title=\"" + tooltip + "\" type=\"search\" class=\"search-query input-medium form-control\" placeholder=\"Filter.. \">"),
+            $filterInput = $("<input data-toggle=\"tooltip\" title=\"" + tooltip + "\" type=\"search\" class=\"search-query input-medium form-control\" placeholder=\"" + placeholder + "\">"),
             $serverLoadButton = $("<a href='/#' title='Carian server'><i class='add-on icon-search'></i><a>"),
             $form = $("<form class='form-search row'>" +
-                " <div class='input-group pull-right' style='width:300px'>" +
-                "<span class='input-group-addon'>" +
-                " <span class='glyphicon glyphicon-remove'></span>" +
-                "</span> " +
+                "   <div class='input-group pull-right' style='width:300px'>" +
+                '       <div class="input-icon">' +
+                '           <i class="fa fa-search fa-fw"></i>' +
+                "           <span class='input-group-btn'>" +
+                '               <button id="clear-search" class="btn btn-success" type="button"><i class="fa fa-times fa-fw"></i></button>' +
+                "           </span> " +
                 "</div>" +
                 " </form>");
 
 
-        $form.find("span.input-group-addon").before($filterInput);
+        $form.find("span.input-group-btn").before($filterInput);
         $form.find("span.glyphicon-remove").after($serverLoadButton);
         $element.before($form);
 
         $form.submit(function (e) {
             e.preventDefault();
-            var filter = $filterInput.val().toLowerCase(),
+            var filter = $filterInput.val(),
                 tcs = new $.Deferred();
             if (!filter) {
                 return tcs.promise();
             }
             if (typeof search === "function") {
-                return search("_all:" + filter);
+                return search(filter);
             }
             return tcs.promise();
         });
@@ -48,10 +50,10 @@ define([objectbuilders.datacontext, objectbuilders.logger], function (context, l
                 filter = $filterInput.val().toLowerCase();
             $rows.each(function () {
                 var $tr = $(this),
-                    text = $tr.text().toLowerCase().trim();
+                    text = $tr.text().trim().toLowerCase();
                 if (!text) {
                     $("input", $tr).each(function (i, v) { text += " " + $(v).val() });
-                    text = text.toLowerCase().trim();
+                    text = text.trim().toLowerCase();
                 }
                 if (text.indexOf(filter) > -1) {
                     $tr.show();
@@ -64,7 +66,7 @@ define([objectbuilders.datacontext, objectbuilders.logger], function (context, l
         },
         throttled = _.throttle(dofilter, 800);
 
-        $filterInput.on("keyup", throttled).siblings("span.input-group-addon")
+        $filterInput.on("keyup", throttled).siblings("span.input-group-btn")
             .click(function () {
                 $filterInput.val("");
                 dofilter();
@@ -161,13 +163,16 @@ define([objectbuilders.datacontext, objectbuilders.logger], function (context, l
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
             var value = valueAccessor(),
                 query = value.query,
+                enableReload = value.enableReload,
+                hasCommands = ko.isObservable((viewModel.toolbar || {}).commands),
                 executedQuery = null,
                 list = value.list,
                 map = value.map,
+                filterTooltip = value.filterTooltip,
+                filterPlaceholder = value.filterPlaceholder,
                 pagerHidden = value.pagerHidden || false,
                 searchButton = value.searchButton,
                 $element = $(element),
-                logger = require("services/logger"),
                 cultures = require(objectbuilders.cultures),
                 $pagerPanel = $("<div></div>"),
                 $spinner = $("<img src=\"/Images/spinner-md.gif\" alt=\"loading\" class=\"absolute-center\" />"),
@@ -194,18 +199,20 @@ define([objectbuilders.datacontext, objectbuilders.logger], function (context, l
                     if (map) {
                         items = _(items).map(map);
                     }
+
+                    if (ko.isObservable(list) && typeof list.push === "function") {
+                        list.removeAll();
+                        list(items);
+                    }
                     if (typeof list === "string") {
                         viewModel[list](items);
-                    }
-                    if (typeof list === "function") {
-                        list(items);
                     }
                 },
                 pageChanged = function (page, size) {
                     startLoad();
-                    var url = query + "?page=" + (page || 1) + "&size=" + (size || 20);
+                    var url = ko.unwrap(query) + "?page=" + (page || 1) + "&size=" + (size || 20);
                     if (executedQuery) url += "&q=" + executedQuery;
-                    $.getJSON(url)
+                    return $.getJSON(url)
                          .then(function (lo) {
                              setItemsSource(lo._results);
                              endLoad();
@@ -214,8 +221,8 @@ define([objectbuilders.datacontext, objectbuilders.logger], function (context, l
                 search = function (page, size) {
                     var tcs1 = new $.Deferred();
                     startLoad();
-                    var url = query + "?page=" + (page || 1) + "&size=" + (size || 20);
-                    if (query.indexOf("?") > -1) url = query + "&page=" + (page || 1) + "&size=" + (size || 20);
+                    var url = ko.unwrap(query) + "?page=" + (page || 1) + "&size=" + (size || 20);
+                    if (ko.unwrap(query).indexOf("?") > -1) url = ko.unwrap(query) + "&page=" + (page || 1) + "&size=" + (size || 20);
                     if (executedQuery) url += "&q=" + executedQuery;
                     $.getJSON(url)
                         .then(function (lo) {
@@ -250,7 +257,7 @@ define([objectbuilders.datacontext, objectbuilders.logger], function (context, l
                 filter = ko.unwrap(value.filter) || {};
 
             //exposed the search function
-            intiFilter(element, { path: filter.path || 'tbody>tr' }, filterAndSearch);
+            initQueryFilter(element, { path: filter.path || "tbody>tr", placeholder: filterPlaceholder, tooltip: filterTooltip }, filterAndSearch);
 
             $element.after($pagerPanel).after($spinner)
                 .fadeTo("slow", 0.33);
@@ -269,6 +276,29 @@ define([objectbuilders.datacontext, objectbuilders.logger], function (context, l
 
 
             search(ko.toJS(executedQuery));
+
+
+
+            if (enableReload && hasCommands) {
+                const commandId = "server-paging-reload",
+                    reloadCommand = viewModel.toolbar.commands().find(x => x.id === commandId);
+                if (!reloadCommand) {
+                    viewModel.toolbar.commands.push({
+                        command: function () {
+                            executedQuery = "";
+                            return filterAndSearch();
+                        },
+                        caption: "Reload",
+                        icon: "fa fa-refresh",
+                        id: commandId
+                    });
+
+                }
+            }
+
+            if (enableReload && !hasCommands) {
+                console.error("Please provide a toolbar with commands : ko.observableArray(), in your viewModel");
+            }
             return {
                 search: search,
                 filterAndSearch: filterAndSearch

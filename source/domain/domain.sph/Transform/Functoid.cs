@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace Bespoke.Sph.Domain
 {
     [DebuggerDisplay("WebId = {WebId}, Type={GetType().Name}")]
-    public partial class Functoid : DomainObject
+    public partial class Functoid : DomainObject, IComparable<Functoid>
     {
         public const string DESIGNER_CONTRACT = "FunctoidDesigner";
         [JsonIgnore]
@@ -58,7 +58,7 @@ namespace Bespoke.Sph.Domain
                      {
                          PropertyName = a.Name,
                          ErrorLocation = this.WebId,
-                         Message = string.Format("[{0}] Functoid is null -{1}", a.Name, this.GetType().Name)
+                         Message = $"[{a.Name}] Functoid is null -{this.GetType().Name}"
                      };
             errors.AddRange(nf);
             var vfTasks = from a in this.ArgumentCollection
@@ -123,6 +123,53 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
     </div>
 </section>
 ";
+        }
+
+        protected IList<string> GetDependentFunctoids(string id)
+        {
+            var list = new List<string>();
+            var functoid = this.TransformDefinition.FunctoidCollection.SingleOrDefault(f => f.WebId == id);
+            if (null == functoid) return list;
+            foreach (var xid in functoid.ArgumentCollection.Select(a => a.Functoid))
+            {
+                list.Add(xid);
+                var child = GetDependentFunctoids(xid);
+                list.AddRange(child);
+            }
+
+            return list;
+        }
+        public virtual bool? DependsOn(Functoid y)
+        {
+            if (this.WebId == y.WebId) return null;
+
+            var type = y.GetType();
+            var dependsOnMethodInfo = type.GetMethod(nameof(DependsOn));
+            if (dependsOnMethodInfo.DeclaringType != typeof(Functoid))
+            {
+                return !y.DependsOn(this);
+            }
+
+            var args = this.GetDependentFunctoids(this.WebId);
+            var yargs = this.GetDependentFunctoids(y.WebId);
+
+            if (args.Contains(y.WebId)) return true;
+            if (yargs.Contains(this.WebId)) return false;
+
+            return null;
+
+        }
+
+        public int CompareTo(Functoid other)
+        {
+            var depends = this.DependsOn(other);
+            if (null == depends) return 0;
+            return depends.Value ? 1 : -1;
+        }
+
+        public override string ToString()
+        {
+            return $"{this.GetType().Name} - {this.WebId}";
         }
     }
 }

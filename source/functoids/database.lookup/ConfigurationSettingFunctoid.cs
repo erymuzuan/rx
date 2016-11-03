@@ -25,6 +25,9 @@ namespace Bespoke.Sph.Domain
                 return $"var __config{Index} = ConfigurationManager.AppSettings[\"{Key}\"];";
             throw new InvalidOperationException("Cannot recognized section " + this.Section);
         }
+        
+
+
         public override string GetEditorView()
         {
             return database.lookup.Properties.Resources.ConfigView;

@@ -130,6 +130,10 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     var ff = typeof (IRepository<>).MakeGenericType(edType);
                     bags.AddOrReplace(ff, repository);
                 }
+                catch (FileLoadException e)
+                {
+                    Debug.WriteLine(e);
+                }
                 catch (FileNotFoundException e)
                 {
                     Debug.WriteLine(e);

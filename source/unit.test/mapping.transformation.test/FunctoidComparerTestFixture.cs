@@ -21,42 +21,52 @@ namespace mapping.transformation.test
 
             var code = new StringBuilder();
             // functoids statement
-            var sorted = new List<Functoid>(mapping.FunctoidCollection);
-            sorted.Sort(new FunctoidDependencyComparer());
+            var sorted = new List<Functoid>(mapping.FunctoidCollection.OrderBy(x =>x));
             var functoidStatements = from f in sorted
                                      let statement = f.GenerateStatementCode()
                                      where !string.IsNullOrWhiteSpace(statement)
                                      && (!statement.Contains("Collection.") || (f.GetType() == typeof(LoopingFunctoid)))
-                                     select string.Format("\r\n{4}//{0}:{1}:{2}\r\n{4}{3}", f.Name, f.GetType().Name, f.WebId, statement, " ");
+                                     select $@"
+    //{f.Name}:{f.GetType().Name}:{f.WebId}
+    {statement}";
             code.AppendLine(string.Concat(functoidStatements.ToArray()));
             code.AppendLine();
-            StringAssert.Contains(code.ToString(), "hrmis_pdrmk");
+
         }
 
         [TestMethod]
         public void Sort()
         {
-            var sql = new SqlServerLookup { WebId = "A", SqlText = "SELECT MAX(Id) FROM dbo.Patient" };
-            sql.Initialize();
-            sql["connection"].Functoid = "B";
 
-            var config = new ConfigurationSettingFunctoid { WebId = "B", Section = "ConnectionString", Key = "His"};
+            var formatting = new FormattingFunctoid {WebId = "formatting", Name = "Formatting"};
+            formatting.Initialize();
+            formatting["value"].Functoid = "sql01";
+
+            var sql01 = new SqlServerLookup { WebId = "sql01", SqlText = "SELECT MAX(Id) FROM dbo.Patient" };
+            sql01.Initialize();
+            sql01["connection"].Functoid = "conn";
+
+            var sql02 = new SqlServerLookup { WebId = "sql02", SqlText = "SELECT MAX(Id) FROM dbo.Patient" };
+            sql02.Initialize();
+            sql02["connection"].Functoid = "conn";
+
+            var config = new ConfigurationSettingFunctoid { WebId = "conn", Section = "ConnectionString", Key = "His" };
 
             var mapping = new TransformDefinition();
-            mapping.AddFunctoids(sql, config);
+            mapping.AddFunctoids(formatting, sql01, sql02, config);
             mapping.FunctoidCollection.Select((x, i) => x.Index = i).ToList().ForEach(x => { });
             mapping.FunctoidCollection.ForEach(x => x.TransformDefinition = mapping);
             mapping.MapCollection.ForEach(x => x.TransformDefinition = mapping);
-           
-            Assert.AreEqual(sql, mapping.FunctoidCollection[0]);
-            Assert.AreEqual(config, mapping.FunctoidCollection[1]);
-
+            
             // functoids statement
-            var sorted = new List<Functoid>(mapping.FunctoidCollection);
-            sorted.Sort(new FunctoidDependencyComparer());
+            var sorted = new List<Functoid>(mapping.FunctoidCollection)
+                .OrderBy(x => x).ToList();
+            //sorted.OrderBy(x => x.DependsOn());
 
-            Assert.AreEqual(config, sorted[0]);
-            Assert.AreEqual(sql, sorted[1]);
+
+            Assert.IsTrue(sorted.IndexOf(formatting) > sorted.IndexOf(sql01), "Formatting should come after sql01");
+            Assert.IsTrue(sorted.IndexOf(sql01) > sorted.IndexOf(config), "sql01 should come after config");
+            Assert.IsTrue(sorted.IndexOf(sql02) > sorted.IndexOf(config), "sql02 should come after config");
 
         }
     }

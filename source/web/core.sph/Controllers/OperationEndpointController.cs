@@ -18,8 +18,16 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<IHttpActionResult> Save([JsonBody]OperationEndpoint endpoint)
         {
             var context = new SphDataContext();
+
+            var ed = context.LoadOneFromSources<EntityDefinition>(x => x.Name == endpoint.Entity);
+            if (null == ed)
+                return NotFound($"Cannot find Entity {endpoint.Entity}");
+
             var baru = string.IsNullOrWhiteSpace(endpoint.Id) || endpoint.Id == "0";
-            if (baru) endpoint.Id = $"{endpoint.Entity} {endpoint.Name}".ToIdFormat();
+            if (baru) { endpoint.Id = $"{endpoint.Entity} {endpoint.Name}".ToIdFormat();}
+            if (string.IsNullOrWhiteSpace(endpoint.Resource))
+                endpoint.Resource = ed.Plural.ToIdFormat();
+
 
             using (var session = context.OpenSession())
             {

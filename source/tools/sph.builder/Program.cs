@@ -170,14 +170,6 @@ namespace Bespoke.Sph.SourceBuilders
                 Directory.CreateDirectory(ConfigurationManager.CompilerOutputPath);
 
 
-            // TODO : remove all from output and apps
-            //RemoveExistingCompiledBinaries(ConfigurationManager.CompilerOutputPath);
-            //RemoveExistingCompiledBinaries(Path.Combine(ConfigurationManager.WebPath, "bin"));
-            //RemoveExistingCompiledBinaries(ConfigurationManager.SchedulerPath);
-            //RemoveExistingCompiledBinaries(ConfigurationManager.SubscriberPath);
-            //RemoveExistingCompiledBinaries(ConfigurationManager.ToolsPath);
-            RemoveExistingCompiledBinaries(@"c:\\non-existens");
-
             var edBuilder = new EntityDefinitionBuilder();
             edBuilder.Initialize();
             await edBuilder.RestoreAllAsync();
@@ -204,42 +196,10 @@ namespace Bespoke.Sph.SourceBuilders
             var roleBuilder = new DesignationBuilder();
             roleBuilder.Initialize();
             await roleBuilder.RestoreAllAsync();
-
-            DeployCompiledBinaries(Path.Combine(ConfigurationManager.WebPath, "bin"));
-            DeployCompiledBinaries(Path.Combine(ConfigurationManager.WebPath, "bin"), "workflows.*");
-            DeployCompiledBinaries(ConfigurationManager.SchedulerPath);
-            DeployCompiledBinaries(ConfigurationManager.SubscriberPath, "subscriber.trigger.*");
-            DeployCompiledBinaries(ConfigurationManager.SubscriberPath, "workflows.*");
+            
 
         }
 
-        private static void RemoveExistingCompiledBinaries(string folder)
-        {
-            if (!Directory.Exists(folder)) return;
-            Directory.GetFiles(folder, $"{ConfigurationManager.ApplicationName}.*.dll")
-                .ToList().ForEach(File.Delete);
-            Directory.GetFiles(folder, $"{ConfigurationManager.ApplicationName}.*.pdb")
-                .ToList().ForEach(File.Delete);
-            Directory.GetFiles(folder, "workflows.*.dll")
-                .ToList().ForEach(File.Delete);
-            Directory.GetFiles(folder, "workflows.*.pdb")
-                .ToList().ForEach(File.Delete);
-            Directory.GetFiles(folder, "subscriber.trigger.*.dll")
-                .Where(f => Path.GetFileName(f) != "subscriber.trigger.dll")
-                .ToList().ForEach(File.Delete);
-            Directory.GetFiles(folder, "subscriber.trigger.*.pdb")
-                .Where(f => Path.GetFileName(f) != "subscriber.trigger.pdb")
-                .ToList().ForEach(File.Delete);
-        }
-        private static void DeployCompiledBinaries(string folder, string pattern = null)
-        {
-            if (string.IsNullOrWhiteSpace(pattern))
-                pattern = $"{ConfigurationManager.ApplicationName}.*";
-            Directory.GetFiles(ConfigurationManager.CompilerOutputPath, $"{pattern}.dll")
-                .ToList().ForEach(x => File.Copy(x, $"{folder}\\{Path.GetFileName(x)}", true));
-            Directory.GetFiles(ConfigurationManager.CompilerOutputPath, $"{pattern}.pdb")
-                .ToList().ForEach(x => File.Copy(x, $"{folder}\\{Path.GetFileName(x)}", true));
-        }
 
         public static void WriteMessage(this string message, Color color)
         {
