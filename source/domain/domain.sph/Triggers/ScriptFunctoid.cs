@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Codes;
+using Microsoft.CodeAnalysis.CSharp;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
@@ -37,6 +38,17 @@ namespace Bespoke.Sph.Domain
             var errors = (await base.ValidateAsync()).ToList();
             if (string.IsNullOrWhiteSpace(this.Name))
                 errors.Add("Name", "Script's name cannot be empty", this.WebId);
+
+            // make sure all args are valid C# identifier
+            foreach (var arg in this.ArgumentCollection)
+            {
+                var kind = SyntaxFacts.GetKeywordKind(arg.Name);
+                if (kind.ToString().EndsWith("Keyword"))
+                    errors.Add($"arg.{arg.Name}", $"{arg.Name} is a C# reserved keyword and cannot be used as argument name", this.WebId);
+                var valid = SyntaxFacts.IsValidIdentifier(arg.Name);
+                if (!valid)
+                    errors.Add($"arg.{arg.Name}", $"{arg.Name} is not a valid C# identifier for argument name", this.WebId);
+            }
             return errors;
         }
 
@@ -89,7 +101,7 @@ namespace Bespoke.Sph.Domain
 
         public override string GetEditorViewModel()
         {
-
+            //language=javascript
             return @"
 define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuilders.system],
     function (context, logger, dialog, system) {
@@ -141,7 +153,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
 
         public override string GetEditorView()
         {
-            //lang  html
+            //language=html
             var html = @"
 <section class=""view-model-modal"" id=""script-functoid-editor-dialog"">
     <div class=""modal-dialog"">
@@ -172,10 +184,12 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                                 <option value=""System.Double, mscorlib"">Double</option>
                                 <option value=""System.Single, mscorlib"">Single</option>
                                 <option value=""System.Boolean, mscorlib"">Boolean</option>
-                                <option value=""System.Nullable`1[[System.DateTime, mscorlib]], mscorlib"">DateTime Nullable</option>
-                                <option value=""System.Nullable`1[[System.Int32, mscorlib]], mscorlib"">Integer Nullable</option>
-                                <option value=""System.Nullable`1[[System.Decimal, mscorlib]], mscorlib"">Decimal Nullable</option>
-                                <option value=""System.Nullable`1[[System.Boolean, mscorlib]], mscorlib"">Boolean Nullable</option>
+                                <option value=""System.Nullable`1[[System.DateTime, mscorlib]], mscorlib"">Nullable DateTime</option>
+                                <option value=""System.Nullable`1[[System.Int32, mscorlib]], mscorlib"">Nullable Integer</option>
+                                <option value=""System.Nullable`1[[System.Double, mscorlib]], mscorlib"">Nullable Double</option>
+                                <option value=""System.Nullable`1[[System.Single, mscorlib]], mscorlib"">Nullable Single</option>
+                                <option value=""System.Nullable`1[[System.Decimal, mscorlib]], mscorlib"">Nullable Decimal</option>
+                                <option value=""System.Nullable`1[[System.Boolean, mscorlib]], mscorlib"">Nullable Boolean</option>
                             </select>
                         </div>
                     </div>
@@ -193,7 +207,7 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                                 <tbody data-bind=""foreach : ArgumentCollection"">
                                     <tr>
                                         <td>
-                                	        <input class=""form-control"" data-bind=""value: Name"" required />
+                                	        <input class=""form-control"" data-bind=""value: Name"" pattern=""^[a-z_@][A-Za-z0-9_]*$"" title=""valid C# identifier, with this pattern ^[a-z_@][A-Za-z0-9_]*$"" required />
                                         </td>
                                         <td>
                                             <select required class=""form-control"" data-bind=""value: TypeName"">
@@ -204,14 +218,16 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                                                 <option value=""System.Double, mscorlib"">Double</option>
                                                 <option value=""System.Single, mscorlib"">Single</option>
                                                 <option value=""System.Boolean, mscorlib"">Boolean</option>
-                                                <option value=""System.Nullable`1[[System.DateTime, mscorlib]], mscorlib"">DateTime Nullable</option>
-                                                <option value=""System.Nullable`1[[System.Int32, mscorlib]], mscorlib"">Integer Nullable</option>
-                                                <option value=""System.Nullable`1[[System.Decimal, mscorlib]], mscorlib"">Decimal Nullable</option>
-                                                <option value=""System.Nullable`1[[System.Boolean, mscorlib]], mscorlib"">Boolean Nullable</option>
+                                                <option value=""System.Nullable`1[[System.DateTime, mscorlib]], mscorlib"">Nullable DateTime</option>
+                                                <option value=""System.Nullable`1[[System.Int32, mscorlib]], mscorlib"">Nullable Integer</option>
+                                                <option value=""System.Nullable`1[[System.Double, mscorlib]], mscorlib"">Nullable Double</option>
+                                                <option value=""System.Nullable`1[[System.Single, mscorlib]], mscorlib"">Nullable Single</option>
+                                                <option value=""System.Nullable`1[[System.Decimal, mscorlib]], mscorlib"">Nullable Decimal</option>
+                                                <option value=""System.Nullable`1[[System.Boolean, mscorlib]], mscorlib"">Nullable Boolean</option> 
                                             </select>
                                         </td>
                                         <td>
-                                            <a href=""javascript:;"" data-bind=""click: $root.removeArg.call($parent, $data)"">
+                                            <a href=""javascript:;"" data-bind=""click: $root.removeArg.call($parent, $data)"" title=""Remove the argument"">
                                                 <i class=""fa fa-trash-o""></i>
                                             </a>
                                         </td>
