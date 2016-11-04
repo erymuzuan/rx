@@ -33,12 +33,8 @@ namespace Bespoke.Sph.SourceBuilders
             if (!System.IO.Directory.Exists(options.SourceCodeDirectory))
                 System.IO.Directory.CreateDirectory(options.SourceCodeDirectory);
 
-            Console.WriteLine($"Compiling trigger : {item.Name} ......");
             var result = await item.CompileAsync(options).ConfigureAwait(false);
-            Console.WriteLine(result.Errors.Count > 0
-                ? $" ================ {result.Errors} errors , 1 failed =================="
-                : " ================ 0 errors , 1 succeeded ==================", Color.Cyan);
-            result.Errors.ForEach(x => Console.WriteLine(x, Color.Red));
+            ReportBuildStatus(result);
 
         }
 

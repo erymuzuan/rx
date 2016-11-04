@@ -13,21 +13,21 @@ namespace Bespoke.Sph.SourceBuilders
             var endpoints = this.GetItems();
             foreach (var item in endpoints)
             {
-                await this.Compile(item);
+                await this.CompileAsync(item);
             }
         }
 
         public override async Task RestoreAsync(QueryEndpoint item)
         {
-            await this.Compile(item);
+            await this.CompileAsync(item).ConfigureAwait(false);
         }
 
-        private async Task Compile(QueryEndpoint item)
+        private async Task CompileAsync(QueryEndpoint item)
         {
             var ed = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\{item.Entity.ToIdFormat()}.json".DeserializeFromJsonFile<EntityDefinition>();
-            var result = await item.CompileAsync(ed);
-            result.Errors.ForEach(Console.WriteLine);
-            
+            var result = await item.CompileAsync(ed).ConfigureAwait(false);
+            ReportBuildStatus(result);
+
         }
 
     }

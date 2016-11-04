@@ -15,9 +15,15 @@ namespace Bespoke.Sph.SourceBuilders
 {
     public static class Program
     {
-        private static void DrawProgressBar(int complete, int maxVal, int barSize, char progressCharacter)
+        private static void DrawProgressBar<T>(int complete, int maxVal = 100, int barSize = 10, char progressCharacter = '-')
         {
+            var sourcePath = ConfigurationManager.SphSourceDirectory + $"\\{typeof(T).Name}";
+            if (!Directory.Exists(sourcePath))
+                Directory.CreateDirectory(sourcePath);
+            var current = complete + Directory.GetFiles(sourcePath, "*.json", SearchOption.AllDirectories).Length;
+            Console.WriteLine( $"Progress ... {progressCharacter}{barSize}{maxVal}{current}", Color.DarkGray);
         }
+
         static void Main(string[] args)
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
@@ -171,57 +177,39 @@ namespace Bespoke.Sph.SourceBuilders
             if (!Directory.Exists(ConfigurationManager.CompilerOutputPath))
                 Directory.CreateDirectory(ConfigurationManager.CompilerOutputPath);
 
-
-            var jsonFiles = Directory.GetFiles(ConfigurationManager.SphSourceDirectory, "*.json", SearchOption.AllDirectories);
-            DrawProgressBar(0, jsonFiles.Length, 250, '-');
-
+            DrawProgressBar<EntityDefinition>(40);
             var edBuilder = new EntityDefinitionBuilder();
             edBuilder.Initialize();
             await edBuilder.RestoreAllAsync();
 
-            var current = Directory.GetFiles(ConfigurationManager.SphSourceDirectory + "\\EntityDefinition", "*.json", SearchOption.AllDirectories).Length;
-            DrawProgressBar(current, jsonFiles.Length, 250, '-');
 
             // TODO : we got bugs here, why can't we compile adapters with just *.json file
+            DrawProgressBar<Adapter>(50);
             var adapterBuilder = new AdapterBuilder();
             await adapterBuilder.RestoreAllAsync();
 
-            current += Directory.GetFiles(ConfigurationManager.SphSourceDirectory + "\\Adapter", "*.json", SearchOption.AllDirectories).Length;
-            DrawProgressBar(current, jsonFiles.Length, 250, '-');
-
             // NOTE : since map normally depends on adapter, this could fail miserably
+            DrawProgressBar<TransformDefinition>(60);
             var mapBuilder = new TransformDefinitionBuilder();
             mapBuilder.Initialize();
             await mapBuilder.RestoreAllAsync();
 
-            current += Directory.GetFiles(ConfigurationManager.SphSourceDirectory + $"\\{nameof(TransformDefinition)}", "*.json", SearchOption.AllDirectories).Length;
-            DrawProgressBar(current, jsonFiles.Length, 250, '-');
-
             // NOTE : and WorkflowDefinition may depends on adapter/map, this could fail
+            DrawProgressBar<WorkflowDefinition>(70);
             var wdBuilder = new WorkflowDefinitionBuilder();
             wdBuilder.Initialize();
             await wdBuilder.RestoreAllAsync();
-            current += Directory.GetFiles(ConfigurationManager.SphSourceDirectory + $"\\{nameof(WorkflowDefinition)}", "*.json", SearchOption.AllDirectories).Length;
-            DrawProgressBar(current, jsonFiles.Length, 250, '-');
 
+            DrawProgressBar<Trigger>(80);
             var triggerBuilder = new TriggerBuilder();
             triggerBuilder.Initialize();
             await triggerBuilder.RestoreAllAsync();
-            current += Directory.GetFiles(ConfigurationManager.SphSourceDirectory + $"\\{nameof(Trigger)}", "*.json", SearchOption.AllDirectories).Length;
-            DrawProgressBar(current, jsonFiles.Length, 250, '-');
 
+            DrawProgressBar<Designation>(100);
             var roleBuilder = new DesignationBuilder();
             roleBuilder.Initialize();
             await roleBuilder.RestoreAllAsync();
-
-            current += Directory.GetFiles(ConfigurationManager.SphSourceDirectory + $"\\{nameof(Designation)}", "*.json", SearchOption.AllDirectories).Length;
-            DrawProgressBar(current, jsonFiles.Length, 250, '-');
-
-
-            current = jsonFiles.Length;
-            DrawProgressBar(current, jsonFiles.Length, 250, '-');
-
-
+            
         }
 
 

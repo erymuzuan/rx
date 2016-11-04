@@ -39,11 +39,7 @@ namespace Bespoke.Sph.SourceBuilders
             var codes = map.GenerateCode();
             var sources = map.SaveSources(codes);
             var result = await map.CompileAsync(options, sources);
-            if (result.Errors.Count > 0)
-            {
-                Console.WriteLine($" ============== {result.Errors.Count} errors ===============");
-                result.Errors.ForEach(x => Console.WriteLine(x, Color.Red));
-            }
+            ReportBuildStatus(result);
 
         }
 
