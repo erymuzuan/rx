@@ -220,10 +220,19 @@ namespace Bespoke.Sph.Domain
 
 
             var count = 1;
+            var actions = this.ActionCollection
+                .Where(x => !string.IsNullOrWhiteSpace(x.WebId))
+                .Select(x => x.WebId)
+                .Distinct()
+                .Count();
+            if(actions != this.ActionCollection.Count)
+                throw new InvalidOperationException($"Your actions WebId is not unique");
             foreach (var ca in this.ActionCollection.Where(x => x.UseCode))
             {
+                if (string.IsNullOrWhiteSpace(ca.WebId))
+                    throw new InvalidOperationException($"You custom action '{ca.Title}' did not have a valid WebId");
                 var method = ca.Title.ToCsharpIdentitfier();
-                code.AppendLine($"           var ca{count} = m_trigger.ActionCollection.Single(x => x.Title == \"{method}\");");
+                code.AppendLine($"           var ca{count} = m_trigger.ActionCollection.Single(x => x.WebId == \"{ca.WebId}\");");
                 code.AppendLine($"           if(ca{count}.IsActive)");
                 code.AppendLine(ca.UseAsync
                     ? $"               await this.{method}(item);"
