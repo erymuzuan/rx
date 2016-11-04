@@ -15,12 +15,14 @@ namespace Bespoke.Sph.SourceBuilders
 {
     public static class Program
     {
-
+        private static void DrawProgressBar(int complete, int maxVal, int barSize, char progressCharacter)
+        {
+        }
         static void Main(string[] args)
         {
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException  ;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-            
+
             Console.WriteAscii("Reactive Developer 1.8", Color.Aqua);
             '-'.WriteFrame();
             " ".WriteMessage(Color.Bisque);
@@ -170,33 +172,55 @@ namespace Bespoke.Sph.SourceBuilders
                 Directory.CreateDirectory(ConfigurationManager.CompilerOutputPath);
 
 
+            var jsonFiles = Directory.GetFiles(ConfigurationManager.SphSourceDirectory, "*.json", SearchOption.AllDirectories);
+            DrawProgressBar(0, jsonFiles.Length, 250, '-');
+
             var edBuilder = new EntityDefinitionBuilder();
             edBuilder.Initialize();
             await edBuilder.RestoreAllAsync();
 
+            var current = Directory.GetFiles(ConfigurationManager.SphSourceDirectory + "\\EntityDefinition", "*.json", SearchOption.AllDirectories).Length;
+            DrawProgressBar(current, jsonFiles.Length, 250, '-');
 
             // TODO : we got bugs here, why can't we compile adapters with just *.json file
             var adapterBuilder = new AdapterBuilder();
             await adapterBuilder.RestoreAllAsync();
+
+            current += Directory.GetFiles(ConfigurationManager.SphSourceDirectory + "\\Adapter", "*.json", SearchOption.AllDirectories).Length;
+            DrawProgressBar(current, jsonFiles.Length, 250, '-');
 
             // NOTE : since map normally depends on adapter, this could fail miserably
             var mapBuilder = new TransformDefinitionBuilder();
             mapBuilder.Initialize();
             await mapBuilder.RestoreAllAsync();
 
+            current += Directory.GetFiles(ConfigurationManager.SphSourceDirectory + $"\\{nameof(TransformDefinition)}", "*.json", SearchOption.AllDirectories).Length;
+            DrawProgressBar(current, jsonFiles.Length, 250, '-');
+
             // NOTE : and WorkflowDefinition may depends on adapter/map, this could fail
             var wdBuilder = new WorkflowDefinitionBuilder();
             wdBuilder.Initialize();
             await wdBuilder.RestoreAllAsync();
+            current += Directory.GetFiles(ConfigurationManager.SphSourceDirectory + $"\\{nameof(WorkflowDefinition)}", "*.json", SearchOption.AllDirectories).Length;
+            DrawProgressBar(current, jsonFiles.Length, 250, '-');
 
             var triggerBuilder = new TriggerBuilder();
             triggerBuilder.Initialize();
             await triggerBuilder.RestoreAllAsync();
+            current += Directory.GetFiles(ConfigurationManager.SphSourceDirectory + $"\\{nameof(Trigger)}", "*.json", SearchOption.AllDirectories).Length;
+            DrawProgressBar(current, jsonFiles.Length, 250, '-');
 
             var roleBuilder = new DesignationBuilder();
             roleBuilder.Initialize();
             await roleBuilder.RestoreAllAsync();
-            
+
+            current += Directory.GetFiles(ConfigurationManager.SphSourceDirectory + $"\\{nameof(Designation)}", "*.json", SearchOption.AllDirectories).Length;
+            DrawProgressBar(current, jsonFiles.Length, 250, '-');
+
+
+            current = jsonFiles.Length;
+            DrawProgressBar(current, jsonFiles.Length, 250, '-');
+
 
         }
 
