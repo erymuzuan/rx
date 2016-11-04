@@ -187,7 +187,9 @@
     <PostBuildEvent>copy $(TargetDir)$(TargetName).* $(SolutionDir)source\web\web.sph\bin
 copy $(TargetDir)$(TargetName).* $(SolutionDir)bin\subscribers
 copy $(TargetDir)$(TargetName).* $(SolutionDir)bin\subscribers.host
-copy $(TargetDir)$(TargetName).* $(SolutionDir)bin\tools</PostBuildEvent>
+
+copy $(TargetDir)$(TargetName).dll %25RX_DEVV1_HOME%25\tools
+copy $(TargetDir)$(TargetName).pdb %25RX_DEVV1_HOME%25\tools</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
