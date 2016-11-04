@@ -1,11 +1,13 @@
 ﻿Param(
-       [int]$Build = 0,
+
+       [switch]$UploadToOneDrive,
        [string]$Drop = '01',
        [switch]$PreRelease = $false,
-       [string]$ToolsDirectory = "c:\project\tools",
-       [switch]$UploadToOneDrive
+       [string]$ToolsDirectory = "c:\project\tools"
      )
 
+$LastBuild = ls -Path .\deployment -Filter '1*.ps1' | sort -Descending Name | select -First 1 | % Name | % {$_.Replace(".ps1", "") }
+$Build = [System.Int32]::Parse($LastBuild) + 1
 
 Write-Host "Have you compiled your solution and published web.sph ? (y/n) : " -ForegroundColor Yellow -NoNewline
 $published = Read-Host
