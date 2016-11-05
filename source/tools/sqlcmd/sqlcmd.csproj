@@ -45,7 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DynParamQuotedString.cs" />
+    <Compile Include="GetProcessVariable.cs" />
     <Compile Include="InvokeRxCompiler.cs" />
+    <Compile Include="ProcessEnvironment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlCmd.cs" />
   </ItemGroup>
