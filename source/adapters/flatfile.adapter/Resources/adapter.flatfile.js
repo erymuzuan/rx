@@ -137,9 +137,9 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 saveCommand: save,
                 commands: ko.observableArray([
                     {
-                        caption: "Publish",
+                        caption: "Build",
                         icon: "fa fa-sign-in",
-                        command: publish,
+                        command: publish
                     }
                 ])
             }

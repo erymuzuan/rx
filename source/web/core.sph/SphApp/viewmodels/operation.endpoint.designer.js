@@ -165,7 +165,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 commands: ko.observableArray([
                             {
                                 command: publishAsync,
-                                caption: "Publish",
+                                caption: "Build",
                                 icon: "fa fa-sign-in",
                                 enable: ko.computed(function () {
                                     return entity().Id() && entity().Id() !== "0";

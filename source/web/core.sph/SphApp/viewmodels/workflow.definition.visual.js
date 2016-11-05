@@ -605,11 +605,6 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         command: compileAsync,
                         caption: "Build",
                         icon: "fa fa-gear"
-                    },
-                    {
-                        command: publishAsync,
-                        caption: "Publish",
-                        icon: "fa fa-sign-out"
                     }])
             }
         };

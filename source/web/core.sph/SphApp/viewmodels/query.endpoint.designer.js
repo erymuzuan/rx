@@ -190,7 +190,7 @@
                     }
                 },
                 {
-                    caption: "Publish",
+                    caption: "Build",
                     icon: "fa fa-sign-in",
                     command: publish,
                     enable: ko.computed(function () {

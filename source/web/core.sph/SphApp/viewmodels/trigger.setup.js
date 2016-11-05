@@ -220,7 +220,7 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
                     },
                     {
                         command: publishAsync,
-                        caption: "Publish",
+                        caption: "Build",
                         icon: "fa fa-sign-in",
                         enable: ko.computed(function () {
                             return ko.unwrap(trigger().Id);
