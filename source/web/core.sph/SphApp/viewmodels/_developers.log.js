@@ -312,7 +312,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
 		        return $.get("developer-service/environment-variables")
                     .done(function (result) {
-                        var port = result["RX_" + config.applicationName.toUpperCase() + "_LoggerWebSocketPort"];
+                        const port = result[`RX_${config.applicationName.toUpperCase()}_LoggerWebSocketPort`];
                         setting().port(parseInt(port));
                     });
 		    },

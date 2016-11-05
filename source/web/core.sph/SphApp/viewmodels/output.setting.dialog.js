@@ -10,8 +10,7 @@
 
 define(["plugins/dialog"],
     function (dialog) {
-
-        var setting = ko.observable(),
+        const setting = ko.observable(),
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
                     dialog.close(this, "OK");
@@ -22,7 +21,7 @@ define(["plugins/dialog"],
                 dialog.close(this, "Cancel");
             };
 
-        var vm = {
+        const vm = {
             setting: setting,
             okClick: okClick,
             cancelClick: cancelClick
