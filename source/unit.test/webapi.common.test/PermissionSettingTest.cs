@@ -7,6 +7,7 @@ namespace webapi.common.test
 {
     public class PermissionSettingTest
     {
+
         [Fact]
         public void BuildHierachy()
         {
@@ -17,17 +18,20 @@ namespace webapi.common.test
 
             eps.AddParentClaims(new ClaimSetting("email", "erymuzuan", "d"));
             Assert.Equal(1, eps.Claims.Length);
-            Assert.Equal("d", eps.Claims[0].Permission);
+            Assert.Equal("a", eps.Claims[0].Permission);
         }
         [Fact]
         public async Task CheckAccessAllowed()
         {
-            var eps = new EndpointPermissonSetting { Claims = new[]
+            var eps = new EndpointPermissonSetting
+            {
+                Claims = new[]
             {
                 new ClaimSetting(ClaimTypes.Role, "administrators", "a"),
                 new ClaimSetting(ClaimTypes.Role, "developers", "a")
-            
-            } };
+
+            }
+            };
             var claims = new[]
             {
                 new Claim(ClaimTypes.Role, "administrators"),
@@ -53,12 +57,15 @@ namespace webapi.common.test
         [Fact]
         public async Task CheckAccessDenied()
         {
-            var eps = new EndpointPermissonSetting { Claims = new[]
+            var eps = new EndpointPermissonSetting
+            {
+                Claims = new[]
             {
                 new ClaimSetting(ClaimTypes.Role, "administrators", "a"),
                 new ClaimSetting(ClaimTypes.Role, "developers", "d")
-            
-            } };
+
+            }
+            };
             var claims = new[]
             {
                 new Claim(ClaimTypes.Role, "administrators"),

@@ -11,15 +11,9 @@ namespace Bespoke.Sph.WebApi
 {
     public class EndpointPermissionRepository : IEndpointPermissionRepository
     {
-        private List<EndpointPermissonSetting> m_permissionTree;
 
         public Task<EndpointPermissonSetting> FindSettingsAsync(string controller, string action)
         {
-            if (null == m_permissionTree)
-            {
-                var tree = this.BuildPermissionTree();
-                m_permissionTree = new List<EndpointPermissonSetting>(tree);
-            }
 
             var cache = ObjectBuilder.GetObject<ICacheManager>();
             var savedSettings = cache.Get<EndpointPermissonSetting[]>(Constants.ENDPOINT_PERMISSIONS_CACHE_KEY);
@@ -34,8 +28,16 @@ namespace Bespoke.Sph.WebApi
             }
             if (null == savedSettings) savedSettings = Array.Empty<EndpointPermissonSetting>();
 
-            var parentName = m_permissionTree.FirstOrDefault(x => x.Controller == controller && x.Action == action)?.Parent ?? "Custom";
             var root = savedSettings.Single(x => !x.HasController && !x.HasAction && !x.HasParent);
+            var parentName = "Custom";
+            if (savedSettings.Any(x => x.Controller == controller))
+            {
+                parentName = savedSettings.Single(x => x.Controller == controller).Parent;
+            }
+            if (savedSettings.Any(x => x.Action == action && x.Controller == controller))
+            {
+                parentName = savedSettings.Single(x => x.Action == action && x.Controller == controller).Parent;
+            }
 
             var permission = new EndpointPermissonSetting { Controller = controller, Action = action, Claims = root.Claims };
 
@@ -61,8 +63,6 @@ namespace Bespoke.Sph.WebApi
             // get the root claims
             var rootPermission = savedSettings.Single(x => !x.HasAction && !x.HasController && !x.HasParent);
             permission.AddParentClaims(rootPermission.Claims);
-
-
 
             return Task.FromResult(permission);
         }
@@ -96,63 +96,6 @@ namespace Bespoke.Sph.WebApi
             return Task.FromResult(0);
         }
 
-        private IEnumerable<EndpointPermissonSetting> BuildPermissionTree()
-        {
-            var list = new List<EndpointPermissonSetting>();
-            var context = new SphDataContext();
-            var eds = context.LoadFromSources<EntityDefinition>().ToArray();
-            var searches = eds.Where(x => x.ServiceContract.FullSearchEndpoint.IsAllowed).Select(EndpointPermissionFactory.CreateSearch);
-            var odata = eds.Where(x => x.ServiceContract.OdataEndpoint.IsAllowed).Select(EndpointPermissionFactory.CreateOdata);
-            var getOneActions = eds.Where(x => x.ServiceContract.EntityResourceEndpoint.IsAllowed).Select(EndpointPermissionFactory.CreateGetOneById);
 
-            list.AddRange(searches);
-            list.AddRange(odata);
-            list.AddRange(getOneActions);
-
-            var queries = context.LoadFromSources<QueryEndpoint>().ToArray();
-            var getActions = queries.Select(EndpointPermissionFactory.CreateGetAction).ToList();
-            var getCounts = queries.Select(EndpointPermissionFactory.CreateGetCount).ToList();
-            list.AddRange(getCounts);
-            list.AddRange(getActions);
-
-            var operations = context.LoadFromSources<OperationEndpoint>().ToArray();
-            var put = operations.Where(x => x.IsHttpPut).Select(EndpointPermissionFactory.CreatePut);
-            var delete = operations.Where(x => x.IsHttpDelete).Select(EndpointPermissionFactory.CreateDelete);
-            var post = operations.Where(x => x.IsHttpPost).Select(EndpointPermissionFactory.CreatePost);
-            var patch = operations.Where(x => x.IsHttpPatch).Select(EndpointPermissionFactory.CreatePatch);
-
-            list.AddRange(put);
-            list.AddRange(delete);
-            list.AddRange(post);
-            list.AddRange(patch);
-
-            list.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(EntityForm), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(UserProfile), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(ReportDefinition), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(FormDialog), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(PartialView), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(WorkflowForm), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(Watcher), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(Message), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(EmailTemplate), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(DocumentTemplate), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(EntityView), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(EntityChart), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(AuditTrail), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "System", Controller = "List", Action = "Index", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "System", Controller = "List", Action = "Distinct", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "System", Controller = "List", Action = "Tuple", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "System", Controller = "Aggregate", Action = "Scalar", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "System", Controller = "Aggregate", Action = "Sum", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "System", Controller = "Aggregate", Action = "Count", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "System", Controller = "Aggregate", Action = "Average", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "System", Controller = "Aggregate", Action = "Max", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "System", Controller = "Aggregate", Action = "Min", Claims = Array.Empty<ClaimSetting>() });
-            list.Add(new EndpointPermissonSetting { Parent = "Custom", Claims = Array.Empty<ClaimSetting>() });
-
-            return list.Where(x => null != x);
-
-
-        }
     }
 }
