@@ -15,12 +15,20 @@ namespace Bespoke.Sph.SourceBuilders
 {
     public static class Program
     {
+        private static void DrawProgressBar<T>(int complete, int maxVal = 100, int barSize = 10, char progressCharacter = '-')
+        {
+            var sourcePath = ConfigurationManager.SphSourceDirectory + $"\\{typeof(T).Name}";
+            if (!Directory.Exists(sourcePath))
+                Directory.CreateDirectory(sourcePath);
+            var current = complete + Directory.GetFiles(sourcePath, "*.json", SearchOption.AllDirectories).Length;
+            Console.WriteLine( $"Progress ... {progressCharacter}{barSize}{maxVal}{current}", Color.DarkGray);
+        }
 
         static void Main(string[] args)
         {
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException  ;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-            
+
             Console.WriteAscii("Reactive Developer 1.8", Color.Aqua);
             '-'.WriteFrame();
             " ".WriteMessage(Color.Bisque);
@@ -169,35 +177,39 @@ namespace Bespoke.Sph.SourceBuilders
             if (!Directory.Exists(ConfigurationManager.CompilerOutputPath))
                 Directory.CreateDirectory(ConfigurationManager.CompilerOutputPath);
 
-
+            DrawProgressBar<EntityDefinition>(40);
             var edBuilder = new EntityDefinitionBuilder();
             edBuilder.Initialize();
             await edBuilder.RestoreAllAsync();
 
 
             // TODO : we got bugs here, why can't we compile adapters with just *.json file
+            DrawProgressBar<Adapter>(50);
             var adapterBuilder = new AdapterBuilder();
             await adapterBuilder.RestoreAllAsync();
 
             // NOTE : since map normally depends on adapter, this could fail miserably
+            DrawProgressBar<TransformDefinition>(60);
             var mapBuilder = new TransformDefinitionBuilder();
             mapBuilder.Initialize();
             await mapBuilder.RestoreAllAsync();
 
             // NOTE : and WorkflowDefinition may depends on adapter/map, this could fail
+            DrawProgressBar<WorkflowDefinition>(70);
             var wdBuilder = new WorkflowDefinitionBuilder();
             wdBuilder.Initialize();
             await wdBuilder.RestoreAllAsync();
 
+            DrawProgressBar<Trigger>(80);
             var triggerBuilder = new TriggerBuilder();
             triggerBuilder.Initialize();
             await triggerBuilder.RestoreAllAsync();
 
+            DrawProgressBar<Designation>(100);
             var roleBuilder = new DesignationBuilder();
             roleBuilder.Initialize();
             await roleBuilder.RestoreAllAsync();
             
-
         }
 
 

@@ -13,22 +13,22 @@ namespace Bespoke.Sph.SourceBuilders
             var endpoints = this.GetItems();
             foreach (var item in endpoints)
             {
-                await this.Compile(item);
+                await this.CompileAsync(item).ConfigureAwait(false);
             }
         }
 
         public override async Task RestoreAsync(ReceiveLocation item)
         {
-            await this.Compile(item);
+            await this.CompileAsync(item).ConfigureAwait(false);
         }
 
-        private async Task Compile(ReceiveLocation item)
+        private async Task CompileAsync(ReceiveLocation item)
         {
             var portSource = $"{ConfigurationManager.SphSourceDirectory}\\ReceivePort\\{item.ReceivePort.ToIdFormat()}.json";
             var port = portSource.DeserializeFromJsonFile<ReceivePort>();
-            var result = await item.CompileAsync(port);
-            result.Errors.ForEach(Console.WriteLine);
-            
+            var result = await item.CompileAsync(port).ConfigureAwait(false);
+            ReportBuildStatus(result);
+
         }
 
     }

@@ -205,7 +205,7 @@ namespace Bespoke.Sph.SourceBuilders
         }
 
 
-        private static Type CompileEntityDefinition(EntityDefinition ed)
+        private Type CompileEntityDefinition(EntityDefinition ed)
         {
             var options = new CompilerOptions
             {
@@ -220,7 +220,7 @@ namespace Bespoke.Sph.SourceBuilders
             var codes = ed.GenerateCode();
             var sources = ed.SaveSources(codes);
             var result = ed.Compile(options, sources);
-            result.Errors.ForEach(Console.WriteLine);
+            this.ReportBuildStatus(result);
 
             var assembly = Assembly.LoadFrom(result.Output);
             var type = assembly.GetType($"{ed.CodeNamespace}.{ed.Name}");

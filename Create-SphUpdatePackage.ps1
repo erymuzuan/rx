@@ -1,12 +1,13 @@
 ﻿Param(
        [Parameter(Position=0)]
-       [int]$Build ,
-       [Parameter(Position=1)]
        [ValidateSet('Production','Staging','Alpha')]
        [string]$Channel = 'Alpha'
      )
 
-if($Build -eq 0)
+$LastBuild = ls -Path .\deployment -Filter '1*.ps1' | sort -Descending Name | select -First 1 | % Name | % {$_.Replace(".ps1", "") }
+$Build = [System.Int32]::Parse($LastBuild) + 1
+
+if($Build -le 100)
 {
     Write-Host "Please specify the Build Number"
     exit;
@@ -373,10 +374,8 @@ $versionBuildJson > .\deployment\version.$Build.json
 #release note - copy from existing file, should maintains the UTF8 encoding
 copy .\deployment\release-note-template.md .\deployment\$Build.md
 
-
-
 Write-Host -ForegroundColor Yellow "NOW edit the .\deployment\$Build.ps1 and the Release Note($Build.md) to reflect any custom scripts needed to be run"
-Write-Host "Press [ENTER] to continue uploaded  to ftp " -NoNewline -ForegroundColor Yellow
+Write-Host "Press [ENTER] to continue uploaded  to OneDrive " -NoNewline -ForegroundColor Yellow
 Read-Host
 
 

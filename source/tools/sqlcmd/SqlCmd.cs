@@ -4,7 +4,8 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Management.Automation;
 
-namespace sqlcmd
+
+namespace Bespoke.Sph.Powershells
 {
     [Cmdlet(VerbsLifecycle.Invoke, "SqlCmdRx", DefaultParameterSetName = "TrustedConnection")]
     [OutputType(typeof(DataTable))]

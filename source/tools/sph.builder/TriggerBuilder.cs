@@ -1,6 +1,7 @@
-﻿using System;
+﻿using System.Drawing;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Console = Colorful.Console;
 
 namespace Bespoke.Sph.SourceBuilders
 {
@@ -13,21 +14,28 @@ namespace Bespoke.Sph.SourceBuilders
             var triggers = this.GetItems();
             foreach (var trigger in triggers)
             {
-                await this.Compile(trigger);
+                await this.CompileAsync(trigger);
             }
         }
 
         public override async Task RestoreAsync(Trigger item)
         {
-            await this.Compile(item);
+            await this.CompileAsync(item);
         }
 
-        private async Task Compile(Trigger item)
+        private async Task CompileAsync(Trigger item)
         {
-            var options = new CompilerOptions { IsDebug = true };
-            var result = await item.CompileAsync(options);
-            result.Errors.ForEach(Console.WriteLine);
-            
+            var options = new CompilerOptions
+            {
+                IsDebug = true,
+                SourceCodeDirectory = $"{ConfigurationManager.GeneratedSourceDirectory}\\Trigger.{item.Name}"
+            };
+            if (!System.IO.Directory.Exists(options.SourceCodeDirectory))
+                System.IO.Directory.CreateDirectory(options.SourceCodeDirectory);
+
+            var result = await item.CompileAsync(options).ConfigureAwait(false);
+            ReportBuildStatus(result);
+
         }
 
     }

@@ -25,8 +25,8 @@ namespace Bespoke.Sph.SourceBuilders
         private async Task Compile(ReceivePort item)
         {
             var result = await item.CompileAsync();
-            result.Errors.ForEach(Console.WriteLine);
-            
+            ReportBuildStatus(result);
+
         }
 
     }

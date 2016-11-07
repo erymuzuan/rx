@@ -1125,7 +1125,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                                 return false;
                             return true;
                         }),
-                        caption: "Publish",
+                        caption: "Build",
                         tooltip: "Generate and compile your TrasnformDefinition",
                         tooltipPlacement: "bottom",
                         icon: "fa fa-sign-out"

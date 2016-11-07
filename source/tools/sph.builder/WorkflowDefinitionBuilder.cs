@@ -15,10 +15,8 @@ namespace Bespoke.Sph.SourceBuilders
             foreach (var wd in workflowDefinitions)
             {
                 await RestoreAsync(wd);
-
             }
         }
-
 
         private void Compile(WorkflowDefinition item)
         {
@@ -36,24 +34,8 @@ namespace Bespoke.Sph.SourceBuilders
             {
                 options.ReferencedAssembliesLocation.Add(dll);
             }
-
-
             var result = item.Compile(options);
-            result.Errors.ForEach(Console.WriteLine);
-
-            this.Deploy(item);
-        }
-
-        private void Deploy(WorkflowDefinition item)
-        {
-            var dll = $"workflows.{item.Id}.{item.Version}.dll";
-            var pdb = $"workflows.{item.Id}.{item.Version}.pdb";
-            var dllFullPath = Path.Combine(ConfigurationManager.CompilerOutputPath, dll);
-            var pdbFullPath = Path.Combine(ConfigurationManager.CompilerOutputPath, pdb);
-
-            File.Copy(dllFullPath, ConfigurationManager.SubscriberPath + @"\" + dll, true);
-            File.Copy(pdbFullPath, ConfigurationManager.SubscriberPath + @"\" + pdb, true);
-
+            this.ReportBuildStatus(result);
         }
         
 

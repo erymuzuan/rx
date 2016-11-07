@@ -71,7 +71,7 @@ namespace Bespoke.Sph.Powershells
         public object GetDynamicParameters()
         {
             // Get 'Type' if found, otherwise get first unnamed value
-            string author = GetUnboundValue("Type", 0) as string;
+            var author = GetUnboundValue("Type", 0) as string;
             if (!string.IsNullOrEmpty(author))
             {
                 m_type = author.Trim('\'').Replace(
@@ -82,7 +82,7 @@ namespace Bespoke.Sph.Powershells
 
             var parameters = new RuntimeDefinedParameterDictionary();
 
-            bool isTypeParameterMandatory = true;
+            var isTypeParameterMandatory = true;
             if (!string.IsNullOrEmpty(m_type) && m_sources.ContainsKey(m_type))
             {
                 m_sources[m_type] = GetSources(m_type);
@@ -134,7 +134,7 @@ namespace Bespoke.Sph.Powershells
 
         object TryGetProperty(object instance, string fieldName)
         {
-            var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public;
+            const BindingFlags BINDING_FLAGS = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public;
 
             // any access of a null object returns null. 
             if (instance == null || string.IsNullOrEmpty(fieldName))
@@ -142,7 +142,7 @@ namespace Bespoke.Sph.Powershells
                 return null;
             }
 
-            var propertyInfo = instance.GetType().GetProperty(fieldName, bindingFlags);
+            var propertyInfo = instance.GetType().GetProperty(fieldName, BINDING_FLAGS);
 
             if (propertyInfo != null)
             {
@@ -157,7 +157,7 @@ namespace Bespoke.Sph.Powershells
             }
 
             // maybe it's a field
-            var fieldInfo = instance.GetType().GetField(fieldName, bindingFlags);
+            var fieldInfo = instance.GetType().GetField(fieldName, BINDING_FLAGS);
 
             if (fieldInfo != null)
             {

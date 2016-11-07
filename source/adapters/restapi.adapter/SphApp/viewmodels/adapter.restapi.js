@@ -182,7 +182,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 removeCommand: removeAdapter,
                 commands: ko.observableArray([
                     {
-                        caption: "Publish",
+                        caption: "Build",
                         icon: "fa fa-sign-in",
                         command: publishAsync,
                         tooltip: "Compile the adapter",

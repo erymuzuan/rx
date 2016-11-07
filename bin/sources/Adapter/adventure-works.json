@@ -2,7 +2,7 @@
   "$type": "Bespoke.Sph.Integrations.Adapters.SqlServerAdapter, sqlserver.adapter",
   "OdataTranslator": "OdataSqlTranslator",
   "Version": 2012,
-  "Server": ".\\DEV2016",
+  "Server": "S301\\DEV2016",
   "TrustedConnection": true,
   "UserId": "null",
   "Password": "null",
@@ -6872,10 +6872,11 @@
   "Name": "AdventureWorks",
   "Description": null,
   "ColumnDisplayNameStrategy": "camel",
+  "ClrNameStrategy": "",
   "CreatedBy": "admin",
   "Id": "adventure-works",
   "CreatedDate": "2016-06-23T07:55:43.2930618+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-25T12:06:55.8457657+08:00",
+  "ChangedDate": "2016-11-07T07:13:17.5614156+08:00",
   "WebId": "871a980f-855f-499e-a0a5-7d4aabaa3cc6"
 }

@@ -194,4 +194,8 @@
       $(BuildDependsOn);CopyOutputDirClientAndWeb
     </BuildDependsOn>
   </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetDir)$(TargetName).dll %25RX_DEVV1_WebPath%25\bin\
+copy $(TargetDir)$(TargetName).pdb %25RX_DEVV1_WebPath%25\bin\</PostBuildEvent>
+  </PropertyGroup>
 </Project>

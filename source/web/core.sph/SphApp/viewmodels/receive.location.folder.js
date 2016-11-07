@@ -183,7 +183,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 commands: ko.observableArray([
                     {
                         command: publishAsync,
-                        caption: "Publish",
+                        caption: "Build",
                         icon: "fa fa-sign-in"
                     },
                     {

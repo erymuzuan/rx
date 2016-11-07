@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using Microsoft.Owin;
 using Newtonsoft.Json;
@@ -30,6 +32,14 @@ namespace Bespoke.Sph.WebApi
             var token = headers?.FirstOrDefault();
             if (token == null)
             {
+                //TODO : not the web user, just those with null name, is it??
+                // var name = ctx.Request.User.Identity?.Name;
+                //if (string.IsNullOrWhiteSpace(name))
+                if (!(ctx.Request.User.Identity?.IsAuthenticated ?? false))
+                {
+                    var subject = ctx.Request.User.Identity as GenericIdentity;
+                    subject?.AddClaim(new Claim(ClaimTypes.Anonymous, "true", ClaimValueTypes.Boolean));
+                }
                 await m_next(environment);
                 return;
             }
@@ -42,7 +52,7 @@ namespace Bespoke.Sph.WebApi
                 ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 ctx.Response.ReasonPhrase = "Not Authorized";
 
-                ctx.Response.Write(JsonConvert.SerializeObject(new {message = "invalid authorization header"}));
+                ctx.Response.Write(JsonConvert.SerializeObject(new { message = "invalid authorization header" }));
                 return;
             }
 
