@@ -14,7 +14,6 @@ namespace Bespoke.Sph.WebApi
 
         public Task<EndpointPermissonSetting> FindSettingsAsync(string controller, string action)
         {
-
             var cache = ObjectBuilder.GetObject<ICacheManager>();
             var savedSettings = cache.Get<EndpointPermissonSetting[]>(Constants.ENDPOINT_PERMISSIONS_CACHE_KEY);
             if (null == savedSettings)
@@ -28,41 +27,30 @@ namespace Bespoke.Sph.WebApi
             }
             if (null == savedSettings) savedSettings = Array.Empty<EndpointPermissonSetting>();
 
-            var root = savedSettings.Single(x => !x.HasController && !x.HasAction && !x.HasParent);
             var parentName = "Custom";
-            if (savedSettings.Any(x => x.Controller == controller))
-            {
-                parentName = savedSettings.Single(x => x.Controller == controller).Parent;
-            }
+            if (savedSettings.Any(x => x.Controller == controller && !x.HasAction))
+                parentName = savedSettings.Last(x => x.Controller == controller).Parent;
+
             if (savedSettings.Any(x => x.Action == action && x.Controller == controller))
-            {
-                parentName = savedSettings.Single(x => x.Action == action && x.Controller == controller).Parent;
-            }
+                parentName = savedSettings.Last(x => x.Action == action && x.Controller == controller).Parent;
 
-            var permission = new EndpointPermissonSetting { Controller = controller, Action = action, Claims = root.Claims };
+            var permission = new EndpointPermissonSetting { Controller = controller, Action = action, Claims = Array.Empty<ClaimSetting>() };
 
-            // get the action permission
-            var actionPermission = savedSettings.SingleOrDefault(x => x.Parent == parentName && x.Controller == controller && x.Action == action);
-            if (null != actionPermission)
-            {
+            var actionPermission = savedSettings.LastOrDefault(x => x.Parent == parentName && x.Controller == controller && x.Action == action);
+            if (null != actionPermission?.Claims)
                 permission.AddParentClaims(actionPermission.Claims);
-            }
-            // get the controller
-            var controllerPermission = savedSettings.SingleOrDefault(x => x.Parent == parentName && x.Controller == controller && !x.HasAction);
-            if (null != controllerPermission)
-            {
-                permission.AddParentClaims(controllerPermission.Claims);
-            }
-            // get the parent claims settings
-            var parentPermission = savedSettings.SingleOrDefault(x => x.Parent == parentName && !x.HasController && !x.HasAction);
-            if (null != parentPermission)
-            {
-                permission.AddParentClaims(parentPermission.Claims);
-            }
 
-            // get the root claims
-            var rootPermission = savedSettings.Single(x => !x.HasAction && !x.HasController && !x.HasParent);
-            permission.AddParentClaims(rootPermission.Claims);
+            var controllerPermission = savedSettings.LastOrDefault(x => x.Parent == parentName && x.Controller == controller && !x.HasAction);
+            if (null != controllerPermission?.Claims)
+                permission.AddParentClaims(controllerPermission.Claims);
+
+            var parentPermission = savedSettings.LastOrDefault(x => x.Parent == parentName && !x.HasController && !x.HasAction);
+            if (null != parentPermission?.Claims)
+                permission.AddParentClaims(parentPermission.Claims);
+
+            var rootPermission = savedSettings.LastOrDefault(x => !x.HasAction && !x.HasController && !x.HasParent);
+            if (null != rootPermission?.Claims)
+                permission.AddParentClaims(rootPermission.Claims);
 
             return Task.FromResult(permission);
         }
