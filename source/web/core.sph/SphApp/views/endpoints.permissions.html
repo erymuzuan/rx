@@ -38,7 +38,7 @@
                 <div class="col-lg-4">
                     <input type="text" required class="form-control" data-bind="value:Value" />
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <!-- ko if : IsInherited -->
                     <select class="form-control" data-bind="value:Permission">
                         <option value="ia">Inherited allow</option>
@@ -53,6 +53,15 @@
                         <option value="a">Allow</option>
                         <option value="d">Deny</option>
                     </select>
+                    <!-- /ko -->
+                </div>
+                <div class="col-lg-1">
+                  
+
+                    <!-- ko if : !ko.unwrap(IsInherited) -->
+                    <a href="javascript:;" title="Remove claim" data-bind="click: $root.removeClaim.call($parent, $data)">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
                     <!-- /ko -->
                 </div>
             </div>

@@ -17,10 +17,10 @@
  *
  * @param {{fromResult: function}} Task
  */
-define(["services/datacontext", "services/logger", "plugins/router", "knockout", "jquery", "Task", "underscore"],
-    function (context, logger, router, ko, $, Task, _) {
+define([objectbuilders.app, "services/datacontext", "services/logger", "plugins/router", "knockout", "jquery", "Task", "underscore"],
+    function (app, context, logger, router, ko, $) {
         "use strict";
-        var isBusy = ko.observable(false),
+        const isBusy = ko.observable(false),
             operationEndpoints = ko.observableArray(),
             queryEndpoints = ko.observableArray(),
             entities = ko.observableArray(),
@@ -45,7 +45,6 @@ define(["services/datacontext", "services/logger", "plugins/router", "knockout",
                     .then(function (lo) {
                         wds(lo);
                         return $.getJSON("/management-api/adapter-endpoints");
-
                     })
                     .then(function (results) {
                         adapters(results);
@@ -77,7 +76,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "knockout",
                         var item = ko.mapping.fromJS(result);
                         // if no parent, controller and action is set, the api will return all settings
                         if (_(result).isArray()) {
-                            var defaultItem = _(result).find(v => !v.Parent && !v.Controller && !v.Action);
+                            const defaultItem = _(result).find(v => !v.Parent && !v.Controller && !v.Action);
                             item = ko.mapping.fromJS(defaultItem);
                         }
                         if (ko.isObservable(item.Parent)) {
@@ -121,7 +120,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "knockout",
                 };
             },
             hasImplementation = function (parent, controller, action) {
-                var perm = _(ko.unwrap(permissions)).find(function (v) {
+                const perm = _(ko.unwrap(permissions)).find(function (v) {
                     if (action) {
                         return v.Parent === ko.unwrap(parent) && v.Controller === ko.unwrap(controller) && v.Action === ko.unwrap(action);
                     }
@@ -139,10 +138,10 @@ define(["services/datacontext", "services/logger", "plugins/router", "knockout",
                 return "";
             },
             attached = function (view) {
-                var defaultItem = _(ko.unwrap(permissions)).find(v => !v.Parent && !v.Controller && !v.Action);
+                const defaultItem = _(ko.unwrap(permissions)).find(v => !v.Parent && !v.Controller && !v.Action);
                 selected(ko.mapping.fromJS(defaultItem));
 
-                var $panel = $(view).find("#endpoints-tree-panel"),
+                const $panel = $(view).find("#endpoints-tree-panel"),
                     root = {
                         parent: "#",
                         data: createTag(null, null, null),
@@ -157,7 +156,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "knockout",
                     items = [root];
                 _(ko.unwrap(entities)).each(function (v) {
 
-                    var serviceContractController = ko.unwrap(v.Name) + "ServiceContract",
+                    const serviceContractController = ko.unwrap(v.Name) + "ServiceContract",
                         entityNode = {
                             data: createTag(v.Name),
                             parent: "root",
@@ -226,7 +225,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "knockout",
                             }]
                     };
                     _(v.Children).each(function (c) {
-                        var action = {
+                        const action = {
                             data: createTag(v.Name, v.Name, c.Action),
                             text: c.Action,
                             icon: "fa fa-envelope"
@@ -250,16 +249,19 @@ define(["services/datacontext", "services/logger", "plugins/router", "knockout",
                         children: []
                     };
                     _(adp.Operations).each(function (op) {
-                        var action = {
+                        const action = {
                             data: createTag(adp.Name, adp.Name, op),
                             text: op,
+                            a_attr: {
+                                "class": hasImplementation(adp.Name, adp.Name, op)
+                            },
                             icon: "fa fa-bolt"
                         };
                         wdNode.children.push(action);
                     });
                     _(adp.Tables).each(function (table) {
 
-                        var actions = _(table.Actions).map(function(ctrlAction) {
+                        const actions = _(table.Actions).map(function(ctrlAction) {
                                 return {
                                     data: createTag(adp.Name, table.Name, ctrlAction),
                                     text: ctrlAction,
@@ -277,14 +279,39 @@ define(["services/datacontext", "services/logger", "plugins/router", "knockout",
                     root.children.push(wdNode);
                 });
 
+                //custom
+                const customs = permissions().filter(x => x.Parent === "Custom");
+                root.children.push({
+                    data: createTag("Custom"),
+                    id : "custom-tag",
+                    parent: "root",
+                    text: "Custom",
+                    icon: "fa fa-code",
+                    state: { opened: false },
+                    a_attr: {
+                        "class": hasImplementation("Custom")
+                    },
+                    children: customs.map(x =>({
+                        data: createTag("Custom", x.Controller),
+                        parent: "custom-tag",
+                        id: `custom-tag-${x.Controller}`,
+                        text: x.Controller,
+                        icon: "fa fa-code",
+                        state: { opened: false },
+                        a_attr: {
+                            "class": hasImplementation("Custom", x.Controller)
+                        }
+                    }))
+                });
+
                 _(queryEndpoints()).each(function (v) {
-                    var parent = _(root.children).find(k => k.text === ko.unwrap(v.Entity));
+                    const parent = _(root.children).find(k => k.text === ko.unwrap(v.Entity));
                     if (!parent) {
                         return;
                     }
 
 
-                    var qeController = ko.unwrap(v.ControllerName),
+                    const qeController = ko.unwrap(v.ControllerName),
                         q = {
                             data: createTag(v.Entity, qeController),
                             text: ko.unwrap(v.Name),
@@ -443,6 +470,17 @@ define(["services/datacontext", "services/logger", "plugins/router", "knockout",
 
 
                 return tcs.promise();
+            },
+            removeClaim = function (claim) {
+                const parent = this;
+                return function () {
+                    app.showMessage("Are you sure?", "Annoying", ["Yes", "No"])
+                        .done(function(dialogResult) {
+                            if (dialogResult === "Yes") {
+                                parent.Claims.remove(claim);
+                            }
+                        });
+                };
             };
 
         return {
@@ -453,6 +491,7 @@ define(["services/datacontext", "services/logger", "plugins/router", "knockout",
             isBusy: isBusy,
             activate: activate,
             attached: attached,
+            removeClaim: removeClaim,
             toolbar: {
                 saveCommand: save,
                 commands: ko.observableArray([
