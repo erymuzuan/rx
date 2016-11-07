@@ -27,7 +27,7 @@ namespace Bespoke.Sph.WebApi
             }
             if (null == savedSettings) savedSettings = Array.Empty<EndpointPermissonSetting>();
 
-            var parentName = "Custom";
+            var parentName = FindParentAsync(controller);
             if (savedSettings.Any(x => x.Controller == controller && !x.HasAction))
                 parentName = savedSettings.Last(x => x.Controller == controller).Parent;
 
@@ -53,6 +53,72 @@ namespace Bespoke.Sph.WebApi
                 permission.AddParentClaims(rootPermission.Claims);
 
             return Task.FromResult(permission);
+        }
+
+        private static readonly List<EndpointPermissonSetting> m_controllerParentList = new List<EndpointPermissonSetting>();
+        private static string FindParentAsync(string controller)
+        {
+            if (m_controllerParentList.Count == 0)
+            {
+                var context = new SphDataContext();
+                #region "fill in parents"
+                var eds = context.LoadFromSources<EntityDefinition>().ToArray();
+                var searches = eds.Where(x => x.ServiceContract.FullSearchEndpoint.IsAllowed).Select(EndpointPermissionFactory.CreateSearch);
+                var odata = eds.Where(x => x.ServiceContract.OdataEndpoint.IsAllowed).Select(EndpointPermissionFactory.CreateOdata);
+                var getOneActions = eds.Where(x => x.ServiceContract.EntityResourceEndpoint.IsAllowed).Select(EndpointPermissionFactory.CreateGetOneById);
+
+                m_controllerParentList.AddRange(searches);
+                m_controllerParentList.AddRange(odata);
+                m_controllerParentList.AddRange(getOneActions);
+
+                var queries = context.LoadFromSources<QueryEndpoint>().ToArray();
+                var getActions = queries.Select(EndpointPermissionFactory.CreateGetAction).ToList();
+                var getCounts = queries.Select(EndpointPermissionFactory.CreateGetCount).ToList();
+                m_controllerParentList.AddRange(getCounts);
+                m_controllerParentList.AddRange(getActions);
+
+                var receiveLocations = context.LoadFromSources<ReceiveLocation>().Select(EndpointPermissionFactory.CreateReceiveLocation)
+                    .Where(x => null != x);
+                m_controllerParentList.AddRange(receiveLocations);
+
+                var operations = context.LoadFromSources<OperationEndpoint>().ToArray();
+                var put = operations.Where(x => x.IsHttpPut).Select(EndpointPermissionFactory.CreatePut);
+                var delete = operations.Where(x => x.IsHttpDelete).Select(EndpointPermissionFactory.CreateDelete);
+                var post = operations.Where(x => x.IsHttpPost).Select(EndpointPermissionFactory.CreatePost);
+                var patch = operations.Where(x => x.IsHttpPatch).Select(EndpointPermissionFactory.CreatePatch);
+
+                m_controllerParentList.AddRange(put);
+                m_controllerParentList.AddRange(delete);
+                m_controllerParentList.AddRange(post);
+                m_controllerParentList.AddRange(patch);
+
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(EntityForm), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(UserProfile), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(ReportDefinition), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(FormDialog), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(PartialView), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(WorkflowForm), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(Watcher), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(Message), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(EmailTemplate), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(DocumentTemplate), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(EntityView), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(EntityChart), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Action = nameof(AuditTrail), Controller = "RxSystemApi", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Controller = "List", Action = "Index", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Controller = "List", Action = "Distinct", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Controller = "List", Action = "Tuple", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Controller = "Aggregate", Action = "Scalar", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Controller = "Aggregate", Action = "Sum", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Controller = "Aggregate", Action = "Count", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Controller = "Aggregate", Action = "Average", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Controller = "Aggregate", Action = "Max", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Controller = "Aggregate", Action = "Min", Claims = Array.Empty<ClaimSetting>() });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "Custom", Claims = Array.Empty<ClaimSetting>() });
+
+                #endregion
+            }
+            return m_controllerParentList.LastOrDefault(x => x.Controller == controller)?.Parent ?? "Custom";
         }
 
         public Task<IEnumerable<EndpointPermissonSetting>> LoadAsync()
