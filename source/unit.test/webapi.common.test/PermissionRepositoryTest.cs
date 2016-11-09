@@ -110,8 +110,8 @@ namespace webapi.common.test
             Assert.NotNull(setting);
 
             Assert.Equal(2, setting.Claims.Length);
-            Assert.Equal(ClaimTypes.Role, setting.Claims[0].Type);
-            Assert.Equal(ClaimTypes.Anonymous, setting.Claims[1].Type);
+            Assert.Equal(ClaimTypes.Anonymous, setting.Claims[0].Type);
+            Assert.Equal(ClaimTypes.Role, setting.Claims[1].Type);
         }
 
         [Fact]

@@ -14,7 +14,6 @@ namespace Bespoke.Sph.WebApi
 
         public Task<EndpointPermissonSetting> FindSettingsAsync(string controller, string action)
         {
-
             var cache = ObjectBuilder.GetObject<ICacheManager>();
             var savedSettings = cache.Get<EndpointPermissonSetting[]>(Constants.ENDPOINT_PERMISSIONS_CACHE_KEY);
             if (null == savedSettings)
@@ -28,43 +27,78 @@ namespace Bespoke.Sph.WebApi
             }
             if (null == savedSettings) savedSettings = Array.Empty<EndpointPermissonSetting>();
 
-            var root = savedSettings.Single(x => !x.HasController && !x.HasAction && !x.HasParent);
-            var parentName = "Custom";
-            if (savedSettings.Any(x => x.Controller == controller))
-            {
-                parentName = savedSettings.Single(x => x.Controller == controller).Parent;
-            }
+            var parentName = FindParentAsync(controller);
+            if (savedSettings.Any(x => x.Controller == controller && !x.HasAction))
+                parentName = savedSettings.Last(x => x.Controller == controller).Parent;
+
             if (savedSettings.Any(x => x.Action == action && x.Controller == controller))
-            {
-                parentName = savedSettings.Single(x => x.Action == action && x.Controller == controller).Parent;
-            }
+                parentName = savedSettings.Last(x => x.Action == action && x.Controller == controller).Parent;
 
-            var permission = new EndpointPermissonSetting { Controller = controller, Action = action, Claims = root.Claims };
+            var permission = new EndpointPermissonSetting { Controller = controller, Action = action, Claims = Array.Empty<ClaimSetting>() };
 
-            // get the action permission
-            var actionPermission = savedSettings.SingleOrDefault(x => x.Parent == parentName && x.Controller == controller && x.Action == action);
-            if (null != actionPermission)
-            {
+            var actionPermission = savedSettings.LastOrDefault(x => x.Parent == parentName && x.Controller == controller && x.Action == action);
+            if (null != actionPermission?.Claims)
                 permission.AddParentClaims(actionPermission.Claims);
-            }
-            // get the controller
-            var controllerPermission = savedSettings.SingleOrDefault(x => x.Parent == parentName && x.Controller == controller && !x.HasAction);
-            if (null != controllerPermission)
-            {
-                permission.AddParentClaims(controllerPermission.Claims);
-            }
-            // get the parent claims settings
-            var parentPermission = savedSettings.SingleOrDefault(x => x.Parent == parentName && !x.HasController && !x.HasAction);
-            if (null != parentPermission)
-            {
-                permission.AddParentClaims(parentPermission.Claims);
-            }
 
-            // get the root claims
-            var rootPermission = savedSettings.Single(x => !x.HasAction && !x.HasController && !x.HasParent);
-            permission.AddParentClaims(rootPermission.Claims);
+            var controllerPermission = savedSettings.LastOrDefault(x => x.Parent == parentName && x.Controller == controller && !x.HasAction);
+            if (null != controllerPermission?.Claims)
+                permission.AddParentClaims(controllerPermission.Claims);
+
+            var parentPermission = savedSettings.LastOrDefault(x => x.Parent == parentName && !x.HasController && !x.HasAction);
+            if (null != parentPermission?.Claims)
+                permission.AddParentClaims(parentPermission.Claims);
+
+            var rootPermission = savedSettings.LastOrDefault(x => !x.HasAction && !x.HasController && !x.HasParent);
+            if (null != rootPermission?.Claims)
+                permission.AddParentClaims(rootPermission.Claims);
 
             return Task.FromResult(permission);
+        }
+
+        private static readonly List<EndpointPermissonSetting> m_controllerParentList = new List<EndpointPermissonSetting>();
+        private static string FindParentAsync(string controller)
+        {
+            if (m_controllerParentList.Count == 0)
+            {
+                var context = new SphDataContext();
+                #region "fill in parents"
+                var eds = context.LoadFromSources<EntityDefinition>().ToArray();
+                var searches = eds.Where(x => x.ServiceContract.FullSearchEndpoint.IsAllowed).Select(EndpointPermissionFactory.CreateSearch);
+                var odata = eds.Where(x => x.ServiceContract.OdataEndpoint.IsAllowed).Select(EndpointPermissionFactory.CreateOdata);
+                var getOneActions = eds.Where(x => x.ServiceContract.EntityResourceEndpoint.IsAllowed).Select(EndpointPermissionFactory.CreateGetOneById);
+
+                m_controllerParentList.AddRange(searches);
+                m_controllerParentList.AddRange(odata);
+                m_controllerParentList.AddRange(getOneActions);
+
+                var queries = context.LoadFromSources<QueryEndpoint>().ToArray();
+                var getActions = queries.Select(EndpointPermissionFactory.CreateGetAction).ToList();
+                var getCounts = queries.Select(EndpointPermissionFactory.CreateGetCount).ToList();
+                m_controllerParentList.AddRange(getCounts);
+                m_controllerParentList.AddRange(getActions);
+
+                var receiveLocations = context.LoadFromSources<ReceiveLocation>().Select(EndpointPermissionFactory.CreateReceiveLocation)
+                    .Where(x => null != x);
+                m_controllerParentList.AddRange(receiveLocations);
+
+                var operations = context.LoadFromSources<OperationEndpoint>().ToArray();
+                var put = operations.Where(x => x.IsHttpPut).Select(EndpointPermissionFactory.CreatePut);
+                var delete = operations.Where(x => x.IsHttpDelete).Select(EndpointPermissionFactory.CreateDelete);
+                var post = operations.Where(x => x.IsHttpPost).Select(EndpointPermissionFactory.CreatePost);
+                var patch = operations.Where(x => x.IsHttpPatch).Select(EndpointPermissionFactory.CreatePatch);
+
+                m_controllerParentList.AddRange(put);
+                m_controllerParentList.AddRange(delete);
+                m_controllerParentList.AddRange(post);
+                m_controllerParentList.AddRange(patch);
+
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Controller = "RxSystemApi" });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Controller = "List" });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Controller = "Aggregate" });
+
+                #endregion
+            }
+            return m_controllerParentList.LastOrDefault(x => null != x && x.Controller == controller)?.Parent ?? "Custom";
         }
 
         public Task<IEnumerable<EndpointPermissonSetting>> LoadAsync()

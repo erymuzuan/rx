@@ -32,10 +32,8 @@ namespace Bespoke.Sph.WebApi
             var token = headers?.FirstOrDefault();
             if (token == null)
             {
-                //TODO : not the web user, just those with null name, is it??
-                // var name = ctx.Request.User.Identity?.Name;
-                //if (string.IsNullOrWhiteSpace(name))
-                if (!(ctx.Request.User.Identity?.IsAuthenticated ?? false))
+                var authenticated = ctx.Request.User.Identity?.IsAuthenticated ?? false;
+                if (!authenticated)
                 {
                     var subject = ctx.Request.User.Identity as GenericIdentity;
                     subject?.AddClaim(new Claim(ClaimTypes.Anonymous, "true", ClaimValueTypes.Boolean));

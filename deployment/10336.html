@@ -498,10 +498,49 @@ pre.editor-colors .fold-marker:after,
 .source.python .variable.parameter {
   color: #d19a66;
 }
+
+.markdown-preview[data-use-github-style] {
+    color: rgb(247, 247, 247);
+    background-color: rgb(56, 56, 56);
+}
+
+
+.markdown-preview[data-use-github-style] .highlight pre, .markdown-preview[data-use-github-style] pre {
+    background-color: rgb(51, 51, 51);
+}
+
+.markdown-preview[data-use-github-style] h1{
+    border-bottom-color: rgb(70, 70, 70);
+}
+
+.markdown-preview[data-use-github-style] h2{
+    border-bottom-color: rgb(70, 70, 70);
+}
+
+.markdown-preview[data-use-github-style] h3{
+    border-bottom-color: rgb(70, 70, 70);
+}
+
+.markdown-preview[data-use-github-style] h4{
+    border-bottom-color: rgb(70, 70, 70);
+}
 </style>
   </head>
   <body class='markdown-preview' data-use-github-style><h1 id="release-note">Release Note</h1>
-<h2 id="10336">10336</h2>
+<p>#10336</p>
+<ul>
+<li>web.api.common.dll</li>
+<li>domain.sph.dll</li>
+</ul>
+<h2 id="minor-updates">Minor updates</h2>
+<ul>
+<li><code>ScriptFunctoid</code> allow to use simple expression, so you don&#39;t have to type return statement for 1 line expression. e.g. <code>arg.Whatever</code> or <code>DateTime.Today.Year</code></li>
+</ul>
+<h2 id="bugs-fixes">Bugs fixes</h2>
+<ul>
+<li>WEB API Permission for System controllers</li>
+</ul>
+<h2 id="10335">10335</h2>
 <ul>
 <li>restapi.adapter.dll</li>
 <li>core.sph.dll</li>
@@ -513,23 +552,21 @@ pre.editor-colors .fold-marker:after,
 <ul>
 <li>WIP WEB API Permission for custom controllers</li>
 </ul>
-<h2 id="bugs-fixex">Bugs fixex</h2>
-<ul>
-<li>Anynomous claims</li>
-<li>When start web server from command line, use <code>Get-ProcessVariable</code> in sql.cmd module to get the <code>LoggerPort</code></li>
-</ul>
-<h2 id="10335">10335</h2>
 <h3 id="changed-assemblies">Changed assemblies</h3>
 <ul>
 <li>restapi.adapter.dll</li>
 <li>core.sph.dll</li>
 <li>domain.sph.dll</li>
 <li>sph.builder.exe</li>
+<li>web.api.common</li>
+<li>sql.cmd.dll</li>
 </ul>
 <h3 id="bugs-fixes">Bugs fixes</h3>
 <ul>
 <li>sph.builder error reporting, only errors will be in red, but this is not guaranteed since the build are running concurrently, so cross threading might happened and the console color might not be reset in time.</li>
 <li>designers for restapi ReceiveLocation is in <code>core.sph</code></li>
+<li>Anynomous claims</li>
+<li>When start web server from command line, use <code>Get-ProcessVariable</code> in sql.cmd module to get the <code>LoggerPort</code></li>
 </ul>
 <h2 id="10334">10334</h2>
 <h3 id="changed-assemblies">Changed assemblies</h3>

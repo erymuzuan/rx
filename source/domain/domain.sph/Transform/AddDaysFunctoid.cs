@@ -26,7 +26,6 @@ namespace Bespoke.Sph.Domain
             this.ArgumentCollection.Add(new FunctoidArg { Name = "date", Type = typeof(DateTime) });
             this.ArgumentCollection.Add(new FunctoidArg { Name = "value", Type = typeof(double) });
             return base.Initialize();
-
         }
 
 

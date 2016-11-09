@@ -34,6 +34,17 @@ namespace Bespoke.Sph.WebApi
                 Claims = Array.Empty<ClaimSetting>()
             };
         }
+        public static EndpointPermissonSetting CreateReceiveLocation(ReceiveLocation location)
+        {
+            var context = new SphDataContext();
+            var port = context.LoadOneFromSources<ReceivePort>(x => x.Name == location.ReceivePort);
+            if (null == port) return null;
+            return new EndpointPermissonSetting
+            {
+                Parent = port.Entity,
+                Controller = location.TypeName
+            };
+        }
         public static EndpointPermissonSetting[] CreateAdapter(Adapter adapter)
         {
             var list = new List<EndpointPermissonSetting>();
