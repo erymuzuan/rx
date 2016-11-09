@@ -17,10 +17,14 @@ namespace Bespoke.Sph.Domain
         {
             if (typeof(string) == this.Type)
                 return $"\"{Value}\"";
+            if (typeof(float) == this.Type)
+                return $"{Value}F";
             if (typeof(double) == this.Type)
                 return $"{Value}d";
             if (typeof(decimal) == this.Type)
                 return $"{Value}m";
+            if (typeof(long) == this.Type)
+                return $"{Value}L";
             if (typeof(DateTime) == this.Type)
                 return $"DateTime.Parse(\"{Value}\")";
 
@@ -53,17 +57,41 @@ namespace Bespoke.Sph.Domain
                 if (!decimal.TryParse($"{this.Value}", out val))
                     errors.Add(nameof(ConstantFunctoid), $"{this.Value} is not a valid decimal", this.WebId);
             }
+            if (typeof(float) == this.Type)
+            {
+                float val;
+                if (!float.TryParse($"{this.Value}", out val))
+                    errors.Add(nameof(ConstantFunctoid), $"{this.Value} is not a valid float", this.WebId);
+            }
             if (typeof(double) == this.Type)
             {
                 double val;
                 if (!double.TryParse($"{this.Value}", out val))
                     errors.Add(nameof(ConstantFunctoid), $"{this.Value} is not a valid double", this.WebId);
             }
+            if (typeof(byte) == this.Type)
+            {
+                byte val;
+                if (!byte.TryParse($"{this.Value}", out val))
+                    errors.Add(nameof(ConstantFunctoid), $"{this.Value} is not a valid System.Byte", this.WebId);
+            }
+            if (typeof(short) == this.Type)
+            {
+                short val;
+                if (!short.TryParse($"{this.Value}", out val))
+                    errors.Add(nameof(ConstantFunctoid), $"{this.Value} is not a valid short(System.Int16)", this.WebId);
+            }
             if (typeof(int) == this.Type)
             {
                 int val;
                 if (!int.TryParse($"{this.Value}", out val))
                     errors.Add(nameof(ConstantFunctoid), $"{this.Value} is not a valid int", this.WebId);
+            }
+            if (typeof(long) == this.Type)
+            {
+                long val;
+                if (!long.TryParse($"{this.Value}", out val))
+                    errors.Add(nameof(ConstantFunctoid), $"{this.Value} is not a valid long", this.WebId);
             }
             return errors;
         }
@@ -134,7 +162,12 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog'],
                             <select required class=""form-control"" id=""constant-field-typename"" name=""constant-field-typename"" data-bind=""value: TypeName"">
                                 <option value=""System.String, mscorlib"">String</option>
                                 <option value=""System.DateTime"">DateTime</option>
+                                <option value=""System.Byte, mscorlib"">Byte</option>
+                                <option value=""System.Int16, mscorlib"">Int32</option>
                                 <option value=""System.Int32, mscorlib"">Integer</option>
+                                <option value=""System.Int64, mscorlib"">Int64</option>
+                                <option value=""System.Single"">Single</option>
+                                <option value=""System.Double"">Double</option>
                                 <option value=""System.Decimal"">Decimal</option>
                                 <option value=""System.Boolean, mscorlib"">Boolean</option>
                             </select>
