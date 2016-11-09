@@ -55,12 +55,8 @@ namespace Bespoke.Sph.Domain
         public override string GenerateStatementCode()
         {
             var block = this.Expression;
-            if (!block.Contains("return")) return string.Empty;
 
             var code = new StringBuilder();
-            code.AppendLine();
-            code.AppendLine();
-
             var asyncLambda = CodeExpression.Load(this.Expression).HasAsyncAwait ? "async " : "";
             var funcGenericArgs = this.ArgumentCollection.Select(x => x.Type.ToCSharp()).ToList();
             funcGenericArgs.Add(this.OutputType.ToCSharp());
@@ -70,9 +66,19 @@ namespace Bespoke.Sph.Domain
             code.Append($"> {Name} = {asyncLambda}(");
             code.JoinAndAppend(this.ArgumentCollection, ",", x => x.Name);
             code.Append(") =>");
-            code.AppendLine("{");
-            code.AppendLine(this.Expression);
-            code.AppendLine("};");
+
+            // no return e.g item.Name.Length
+            if (!block.Contains("return"))
+            {
+                code.Append(this.Expression + ";");
+            }
+            else
+            {
+                code.Append($@"
+                {{
+                    {this.Expression}
+                }};");
+            }
 
             return code.ToString();
 
@@ -83,8 +89,6 @@ namespace Bespoke.Sph.Domain
         public override string GenerateAssignmentCode()
         {
             if (string.IsNullOrWhiteSpace(this.Name)) throw new InvalidOperationException("Name cannot be empty");
-            var block = this.Expression;
-            if (!block.Contains("return")) return this.Expression;
 
             var asyncLambda = CodeExpression.Load(this.Expression).HasAsyncAwait;
             var code = new StringBuilder();
@@ -93,7 +97,7 @@ namespace Bespoke.Sph.Domain
             code.Append($"{Name}(");
             code.JoinAndAppend(this.ArgumentCollection, ", ", x => this[x.Name].GetFunctoid(this.TransformDefinition).GenerateAssignmentCode());
 
-            code.AppendLine(")");
+            code.Append(")");
 
             return code.ToString();
 
@@ -178,18 +182,27 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                         <div class=""col-lg-9"">
                             <select required class=""form-control"" id=""constant-field-typename"" name=""constant-field-typename"" data-bind=""value: OutputTypeName"">
                                 <option value=""System.String, mscorlib"">String</option>
-                                <option value=""System.DateTime, mscorlib"">DateTime</option>
+                                <option value=""System.Byte, mscorlib"">Byte</option>
+                                <option value=""System.Int16, mscorlib"">Short</option>
                                 <option value=""System.Int32, mscorlib"">Integer</option>
+                                <option value=""System.Int64, mscorlib"">Long</option>
                                 <option value=""System.Decimal, mscorlib"">Decimal</option>
                                 <option value=""System.Double, mscorlib"">Double</option>
                                 <option value=""System.Single, mscorlib"">Single</option>
                                 <option value=""System.Boolean, mscorlib"">Boolean</option>
-                                <option value=""System.Nullable`1[[System.DateTime, mscorlib]], mscorlib"">Nullable DateTime</option>
-                                <option value=""System.Nullable`1[[System.Int32, mscorlib]], mscorlib"">Nullable Integer</option>
+                                <option value=""System.Guid, mscorlib"">Guid</option>
+                                <option value=""System.DateTime, mscorlib"">DateTime</option>
+                                <option value=""System.DateTimeOffset, mscorlib"">DateTimeOffset</option>
+                                <option value=""System.TimeSpan, mscorlib"">TimeSpan</option>
+                                <option value=""System.Nullable`1[[System.Byte, mscorlib]], mscorlib"">Nullable Byte</option>
+                                <option value=""System.Nullable`1[[System.Int16, mscorlib]], mscorlib"">Nullable Int16</option>
+                                <option value=""System.Nullable`1[[System.Int32, mscorlib]], mscorlib"">Nullable Int32</option>
+                                <option value=""System.Nullable`1[[System.Int64, mscorlib]], mscorlib"">Nullable Int64</option>
                                 <option value=""System.Nullable`1[[System.Double, mscorlib]], mscorlib"">Nullable Double</option>
                                 <option value=""System.Nullable`1[[System.Single, mscorlib]], mscorlib"">Nullable Single</option>
                                 <option value=""System.Nullable`1[[System.Decimal, mscorlib]], mscorlib"">Nullable Decimal</option>
                                 <option value=""System.Nullable`1[[System.Boolean, mscorlib]], mscorlib"">Nullable Boolean</option>
+                                <option value=""System.Nullable`1[[System.DateTime, mscorlib]], mscorlib"">Nullable DateTime</option>
                             </select>
                         </div>
                     </div>
