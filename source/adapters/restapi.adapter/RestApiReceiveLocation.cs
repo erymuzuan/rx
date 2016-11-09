@@ -95,6 +95,8 @@ namespace Bespoke.Sph.Integrations.Adapters
             bind.AddNamespaceImport<DateTime, DomainObject>();
             bind.AddNamespaceImport<System.Web.Http.Controllers.HttpParameterBinding, System.Web.Http.ParameterBindingAttribute, System.Web.Http.Metadata.ModelMetadataProvider>();
             bind.AddNamespaceImport<Stream, Task, CancellationToken>();
+
+            var lineCount = this.BufferAllRows ? @"port.AddHeader(""LineCount"", $""{lines.Length}"");" : "";
             var code = new StringBuilder();
             code.AppendLine($@" 
         public {port.Name}{port.Formatter}ParameterBinding(HttpParameterDescriptor parameter) : base(parameter)
@@ -123,6 +125,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             port.AddHeader(""Rx:MachineName"", Environment.GetEnvironmentVariable(""COMPUTERNAME""));
             port.AddHeader(""Rx:UserName"", Environment.GetEnvironmentVariable(""USERNAME""));
             port.Uri = actionContext.Request.RequestUri;
+            {lineCount}
 
             var list = port.Process(lines);
             actionContext.ActionArguments[Descriptor.ParameterName] = list;
