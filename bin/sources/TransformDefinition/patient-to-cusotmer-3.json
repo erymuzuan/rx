@@ -92,6 +92,15 @@
         "SourceTypeName": "",
         "DestinationTypeName": "",
         "WebId": "b0a1015b-4466-4b98-82e8-b1ff0097b5c7"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
+        "Source": "HomeAddress.Street",
+        "TypeName": "",
+        "Destination": "Address.Street1",
+        "SourceTypeName": "",
+        "DestinationTypeName": "",
+        "WebId": "08446992-3ede-4380-b990-ab19b2d3d095"
       }
     ]
   },
@@ -375,6 +384,6 @@
   "Id": "patient-to-cusotmer-3",
   "CreatedDate": "2015-07-16T14:16:47.7723717+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-11-09T07:59:11.2384443+08:00",
+  "ChangedDate": "2016-11-10T11:38:50.949964+08:00",
   "WebId": "e54967a0-0d78-4eb3-c6f3-420c702ec66e"
 }
