@@ -36,13 +36,14 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
     "jsPlumb"],
     function (context, logger, system, koMapping, app, router, app2) {
 
-        var td = ko.observable(new bespoke.sph.domain.TransformDefinition({ Id: "0" })),
+        let originalEntity = "";
+        const td = ko.observable(new bespoke.sph.domain.TransformDefinition({ Id: "0" })),
             pages = ko.observableArray(),
             currentPage = ko.observable(),
             hideUnconnectedNodes = ko.observable(false),
             functoidToolboxItems = ko.observableArray(),
+            functoidGroups = ko.observableArray(),
             functoids = ko.observableArray(),
-            originalEntity = "",
             errors = ko.observableArray(),
             isBusy = ko.observable(false),
             sourceMember = ko.observable(),
@@ -69,6 +70,18 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         return $.get("/api/transform-definitions/functoids");
                     })
                     .then(function (list) {
+                        list.$values.forEach(function (t) {
+                            let group = functoidGroups().find(x => x.Category === (t.designer.Category || "No category"));
+                            if (!group) {
+                                group = {
+                                    Category: t.designer.Category || "No category",
+                                    id: (t.designer.Category || "no-category").replace(/ /g, "-"),
+                                    functoids: ko.observableArray()
+                                };
+                                functoidGroups.push(group);
+                            }
+                            group.functoids.push(t);
+                        });
                         functoidToolboxItems(list.$values);
                         return context.loadOneAsync("TransformDefinition", query);
                     })
@@ -146,7 +159,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                     return;
                 }
 
-                var functoid = context.toObservable(ko.mapping.toJS(ko.dataFor(this).functoid)),
+                const functoid = context.toObservable(ko.mapping.toJS(ko.dataFor(this).functoid)),
                     x = arg.clientX,
                     y = arg.clientY,
                     canvas = $("#container-canvas"),
@@ -363,9 +376,9 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                             if (branch.properties.hasOwnProperty(key)) {
 
                                 const text = computeNodeText(side, branch, parent, key),
-                                    leafId =(side + parent + key),
+                                    leafId = (side + parent + key),
                                     leaf = {
-                                        id: text.indexOf("fa-circle-thin") > -1 ? `array${leafId}` : leafId ,
+                                        id: text.indexOf("fa-circle-thin") > -1 ? `array${leafId}` : leafId,
                                         icon: icon(branch.properties[key]),
                                         text: text
                                     };
@@ -1066,6 +1079,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             isBusy: isBusy,
             errors: errors,
             viewFile: viewFile,
+            functoidGroups: functoidGroups,
             functoids: functoids,
             functoidToolboxItems: functoidToolboxItems,
             activate: activate,
