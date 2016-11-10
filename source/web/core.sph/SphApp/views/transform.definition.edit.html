@@ -246,6 +246,10 @@
     .context-menu-accesskey {
         text-decoration: underline;
     }
+
+    .connected {
+        font-weight: bolder;
+    }
 </style>
 
 
@@ -332,8 +336,9 @@
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" data-bind="foreach : $root.functoidGroups">
 
             <div class="row">
-                <a role="button" class="btn btn-default col-md-12 col-lg-12" data-bind="text:Category, attr : {'href' : '#' + id, 'aria-controls' : id}" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapseOne">
-                    Collapsible Group Item #1
+                <a role="button" style="text-align: left;padding: 10px" class="btn btn-default col-md-12 col-lg-12" data-bind="attr : {'href' : '#' + id, 'aria-controls' : id}" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapseOne">
+                    <i class="fa fa-cogs" style="margin-right: 5px"></i>
+                    <strong data-bind="text:Category"></strong>
                 </a>
             </div>
 

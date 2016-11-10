@@ -36,7 +36,12 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
     "jsPlumb"],
     function (context, logger, system, koMapping, app, router, app2) {
 
-        let originalEntity = "";
+        let isJsPlumbReady,
+            jsPlumbInstance = null,
+            changingPage = false,
+            originalEntity = "";
+
+
         const td = ko.observable(new bespoke.sph.domain.TransformDefinition({ Id: "0" })),
             pages = ko.observableArray(),
             currentPage = ko.observable(),
@@ -61,7 +66,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
 
                 var query = String.format("Id eq '{0}'", id);
-                return $.getJSON("/api/transform-definitions/" + id + "/designer")
+                return $.getJSON(`/api/transform-definitions/${id}/designer`)
                     .then(function (settingPage) {
                         if (settingPage) {
                             const items = settingPage.map(v => ko.mapping.fromJS(v));
@@ -125,10 +130,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         logger.error(text);
                     });
 
-            };
-        var isJsPlumbReady,
-            jsPlumbInstance = null,
-            changingPage = false,
+            },
             connectorStyle = { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 },
             initializeFunctoid = function (fnc) {
                 const element = $(`#${fnc.WebId()}`);
@@ -368,11 +370,15 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                         return ` <i class="fa fa-circle-thin" style="margin-right:5px" id="${side + parent + key}"></i>${text}`;
                     },
                     buildTree = function (side, branch, parent, items, parentNode) {
-                        var findLeaf = function (k) {
+                        const findLeaf = function (k) {
                             "use strict";
-                            return v => ko.unwrap(v.SourceField) === side + parent + k;
+                            const path = (parent + k).replace(/-/g, ".");
+                            if (side === "source-field-")
+                                return v => ko.unwrap(v.Source) === path;
+                            return v => ko.unwrap(v.Destination) === path;
+
                         };
-                        for (var key in branch.properties) {
+                        for (let key in branch.properties) {
                             if (branch.properties.hasOwnProperty(key)) {
 
                                 const text = computeNodeText(side, branch, parent, key),
@@ -387,19 +393,25 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                                 else
                                     leaf.parent = "#";
                                 // see if there's any connection
-                                if (hideUnconnectedNodes()) {
-                                    var fl = findLeaf(key),
-                                        connected = _(td().MapCollection()).find(fl);
-                                    if (!connected) {
-                                        continue;
-                                    }
+                                const fl = findLeaf(key);
+                                let connected = td().MapCollection().find(fl);
+                                // if not in DirectMap, try Functoid SourceMap
+                                if (!connected) {
+                                    connected = td().FunctoidCollection().find(f => ko.unwrap(f.Field) === parent + key);
+                                }
 
+                                if (connected) {
+                                    leaf.a_attr = { "class": "connected" };
+                                    console.log(`Connected ${leaf.text}`, leaf);
+                                }
+                                if (ko.unwrap(hideUnconnectedNodes) && !connected) {
+                                    continue;
                                 }
 
 
                                 items.push(leaf);
 
-                                var type = branch.properties[key].type;
+                                let type = branch.properties[key].type;
                                 if (typeof type === "object") {
                                     type = type[0];
                                 }
@@ -823,6 +835,9 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 console.log(ko.toJS(page));
                 currentPage(page);
             };
+
+
+
         currentPage.subscribe(function (page) {
             if (!page) {
                 return;
@@ -880,7 +895,9 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 const element = document.getElementById(ko.unwrap(item.WebId));
                 instance.makeSource(element, {
                     filter: ".fep",
-                    endPoint: ["Rectangle", { width: 10, height: 10 }],
+                    endPoint: ["Rectangle", {
+                        width: 10, height: 10
+                    }],
                     anchor: "RightMiddle",
                     connector: ["Straight"],
                     connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 }
@@ -963,7 +980,9 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                             target: target,
                             paintStyle: { lineWidth: 1, strokeStyle: "rgba(190, 190, 190, 0.4)" },
                             anchors: ["Right", "Left"],
-                            endpoint: ["Rectangle", { width: 10, height: 8 }]
+                            endpoint: ["Rectangle", {
+                                width: 10, height: 8
+                            }]
                         });
                         conn2.sf = f;
                         return;
@@ -1019,7 +1038,9 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                             target: target,
                             paintStyle: { lineWidth: 1, strokeStyle: "rgba(190, 190, 190, 0.4)" },
                             anchors: ["Right", "Left"],
-                            endpoint: ["Rectangle", { width: 10, height: 8 }]
+                            endpoint: ["Rectangle", {
+                                width: 10, height: 8
+                            }]
                         });
                         conn2.map = m;
                         return;
@@ -1075,7 +1096,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             changingPage = false;
         });
 
-        var vm = {
+        const vm = {
             isBusy: isBusy,
             errors: errors,
             viewFile: viewFile,
@@ -1096,87 +1117,87 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             toolbar: {
                 saveCommand: save,
                 groupCommands: [
-                    {
-                        caption: "Test",
-                        commands: [
+                {
+                    caption: "Test",
+                    commands: [
 
-                            {
-                                command: testTransform,
-                                caption: "Test Mapping",
-                                icon: "fa fa-play",
-                                tooltip: "Test the generated mapping",
-                                tooltipPlacement: "bottom"
-                            },
-                            {
-                                command: editTestInput,
-                                caption: "Edit test input",
-                                icon: "fa fa-plus",
-                                tooltip: "Edit json representation of the test input",
-                                tooltipPlacement: "bottom"
-                            }
-                        ]
-                    }
+{
+    command: testTransform,
+    caption: "Test Mapping",
+    icon: "fa fa-play",
+    tooltip: "Test the generated mapping",
+    tooltipPlacement: "bottom"
+},
+{
+    command: editTestInput,
+    caption: "Edit test input",
+    icon: "fa fa-plus",
+    tooltip: "Edit json representation of the test input",
+    tooltipPlacement: "bottom"
+}
+                    ]
+                }
                 ],
                 commands: ko.observableArray([
-                    {
-                        command: editProp,
-                        caption: "Edit Properties",
-                        icon: "fa fa-table"
-                    },
-                    {
-                        command: validateAsync,
-                        caption: "Validate",
-                        icon: "fa fa-check"
-                    },
-                    {
-                        command: publishAsync,
-                        enable: ko.computed(function () {
-                            if (!td().Name())
-                                return false;
-                            if (td().Name() === "New Mapping Definition")
-                                return false;
-                            if (td().Name() === "0")
-                                return false;
-                            return true;
-                        }),
-                        caption: "Build",
-                        tooltip: "Generate and compile your TrasnformDefinition",
-                        tooltipPlacement: "bottom",
-                        icon: "fa fa-sign-out"
-                    },
-                    {
-                        command: generatePartialAsync,
-                        caption: "Edit Partial",
-                        icon: "fa fa-code",
-                        tooltip: "Generate C# partial code for before and after transform custom code",
-                        tooltipPlacement: "bottom",
-                        enable: ko.computed(function () {
-                            if (ko.unwrap(td().Id) === "0") {
-                                return false;
-                            }
-                            if (!ko.unwrap(td().Id)) {
-                                return false;
-                            }
-                            return true;
-                        })
-                    },
-                    {
-                        command: addPage,
-                        caption: "Add Page",
-                        icon: "fa fa-file-o"
-                    }
+                {
+                    command: editProp,
+                    caption: "Edit Properties",
+                    icon: "fa fa-table"
+                },
+                {
+                    command: validateAsync,
+                    caption: "Validate",
+                    icon: "fa fa-check"
+                },
+                {
+                    command: publishAsync,
+                    enable: ko.computed(function () {
+                        if (!td().Name())
+                            return false;
+                        if (td().Name() === "New Mapping Definition")
+                            return false;
+                        if (td().Name() === "0")
+                            return false;
+                        return true;
+                    }),
+                    caption: "Build",
+                    tooltip: "Generate and compile your TrasnformDefinition",
+                    tooltipPlacement: "bottom",
+                    icon: "fa fa-sign-out"
+                },
+                {
+                    command: generatePartialAsync,
+                    caption: "Edit Partial",
+                    icon: "fa fa-code",
+                    tooltip: "Generate C# partial code for before and after transform custom code",
+                    tooltipPlacement: "bottom",
+                    enable: ko.computed(function () {
+                        if (ko.unwrap(td().Id) === "0") {
+                            return false;
+                        }
+                        if (!ko.unwrap(td().Id)) {
+                            return false;
+                        }
+                        return true;
+                    })
+                },
+                {
+                    command: addPage,
+                    caption: "Add Page",
+                    icon: "fa fa-file-o"
+                }
                 ]),
                 htmlCommands: ko.observableArray([
-                    {
-                        html: "<input type=\"search\" id=\"search-box-source-tree\" style=\"width:200px; height:28px;padding:6px 12px\" placeholder=\"search source\">" +
-                        "<button title=\"Clear the source search box\" id=\"clear-search-box-source-tree-button\" class=\"btn btn-default\"><i class=\"fa fa-times\"></i></button>",
-                        icon: "fa fa-users"
-                    },
-                    {
-                        html: "<input type=\"search\" id=\"search-box-destination-tree\" style=\"width:200px; height:28px;padding:6px 12px\" placeholder=\"search destination\">" +
-                        "<button title=\"Clear the destination search box\" id=\"clear-search-box-destination-tree-button\" class=\"btn btn-default\"><i class=\"fa fa-times\"></i></button>",
-                        icon: "fa fa-users"
-                    }])
+                {
+                    html: "<input type=\"search\" id=\"search-box-source-tree\" style=\"width:200px; height:28px;padding:6px 12px\" placeholder=\"search source\">" +
+                    "<button title=\"Clear the source search box\" id=\"clear-search-box-source-tree-button\" class=\"btn btn-default\"><i class=\"fa fa-times\"></i></button>",
+                    icon: "fa fa-users"
+                },
+                {
+                    html: "<input type=\"search\" id=\"search-box-destination-tree\" style=\"width:200px; height:28px;padding:6px 12px\" placeholder=\"search destination\">" +
+                    "<button title=\"Clear the destination search box\" id=\"clear-search-box-destination-tree-button\" class=\"btn btn-default\"><i class=\"fa fa-times\"></i></button>",
+                    icon: "fa fa-users"
+                }])
             }
         };
 
