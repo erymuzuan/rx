@@ -95,6 +95,7 @@ namespace Bespoke.Sph.WebApi
                 m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Controller = "RxSystemApi" });
                 m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Controller = "List" });
                 m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Controller = "Aggregate" });
+                m_controllerParentList.Add(new EndpointPermissonSetting { Parent = "System", Controller = "DeveloperService" });
 
                 #endregion
             }
