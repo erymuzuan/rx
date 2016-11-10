@@ -330,33 +330,28 @@
 
 
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" data-bind="foreach : $root.functoidGroups">
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="headingOne">
-                    <h4 class="panel-title">
-                        <a role="button" data-bind="text:Category, attr : {'href' : '#' + id, 'aria-controls' : id}" data-toggle="collapse" data-parent="#accordion"  aria-expanded="false" aria-controls="collapseOne">
-                            Collapsible Group Item #1
-                        </a>
-                    </h4>
-                </div>
-                <div data-bind="attr : {'id':id, 'aria-labelledby' : id}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                    <div class="panel-body">
 
-                        <ul id="function-toolbox" class="list-group" data-bind="foreach :functoids">
-                            <li class="list-group-item">
-                                <div data-bind="with:designer">
-                                    <div class="toolbox-item" data-bind="visible: FontAwesomeIcon" style="display: inline-block">
-                                        <i data-bind="attr : {'class':'fa fa-' + FontAwesomeIcon + ' category-' + Category}"></i>
-                                    </div>
-                                    <div class="toolbox-item" data-bind="visible: BootstrapIcon" style="display: inline-block">
-                                        <i data-bind="attr : {'class':'glyphicon glyphicon-' + BootstrapIcon + ' category-' + Category}"></i>
-                                    </div>
-                                    <span data-bind="text:Name"></span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+            <div class="row">
+                <a role="button" class="btn btn-default col-md-12 col-lg-12" data-bind="text:Category, attr : {'href' : '#' + id, 'aria-controls' : id}" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapseOne">
+                    Collapsible Group Item #1
+                </a>
             </div>
+
+            <ul data-bind="attr : {'id':id, 'aria-labelledby' : id}, foreach :functoids" class="functoid-toolbox list-group panel-collapse collapse">
+                <li class="list-group-item">
+                    <div data-bind="with:designer">
+                        <div class="toolbox-item" data-bind="visible: FontAwesomeIcon" style="display: inline-block">
+                            <i data-bind="attr : {'class':'fa fa-' + FontAwesomeIcon + ' category-' + Category}"></i>
+                        </div>
+                        <div class="toolbox-item" data-bind="visible: BootstrapIcon" style="display: inline-block">
+                            <i data-bind="attr : {'class':'glyphicon glyphicon-' + BootstrapIcon + ' category-' + Category}"></i>
+                        </div>
+                        <span data-bind="text:Name"></span>
+                    </div>
+                </li>
+            </ul>
+
+
         </div>
 
 

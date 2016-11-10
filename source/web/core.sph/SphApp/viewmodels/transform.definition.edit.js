@@ -482,7 +482,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             },
             attached = function () {
 
-                $("ul#function-toolbox>li.list-group-item").draggable({
+                $("ul.functoid-toolbox>li.list-group-item").draggable({
                     helper: function () {
                         return $("<div></div>").addClass("dragHoverToolbox").append($(this).find("i").clone());
                     },
