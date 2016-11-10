@@ -32,6 +32,11 @@ namespace Bespoke.Sph.Domain
             return $"// NOT IMPLEMENTED => {this.GetType().Name}";
         }
 
+        public virtual Mono.Cecil.TypeReference GetOutputType()
+        {
+            return null;
+        }
+
 
         public new FunctoidArg this[string index]
         {
