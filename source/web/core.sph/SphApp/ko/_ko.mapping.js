@@ -237,11 +237,11 @@
                         });
                 }
                 if (link.hasClass("edit-functoid")) {
-                    var context = require(objectbuilders.datacontext),
-                        clone = context.toObservable(ko.mapping.toJS(functoid));
-                    var type = ko.unwrap(functoid.$type).toLowerCase();
+                    const context = require(objectbuilders.datacontext),
+                        clone = context.toObservable(ko.mapping.toJS(functoid)),
+                        type = ko.unwrap(functoid.$type).toLowerCase();
 
-                    require(["viewmodels/functoid." + type, "durandal/app"], function (dialog, app2) {
+                    require([`viewmodels/functoid.${type}`, "durandal/app"], function (dialog, app2) {
                         dialog.functoid(clone);
 
                         app2.showDialog(dialog)
