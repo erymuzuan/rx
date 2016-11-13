@@ -15,8 +15,11 @@
                 <form class="form-horizontal">
                     <div class="form-group">
                         <label for="sql-text" class="col-sm-2 control-label">Sql Text</label>
-                        <div class="col-sm-10">
-                            <textarea class="form-control" id="sql-text" placeholder="SQL Statement" data-bind="value: SqlText"></textarea>
+                        <div class="col-lg-10">
+                            <textarea class="form-control" id="sql-text"
+                                      rows="10"
+                                      placeholder="SQL Statement"
+                                      data-bind="value: SqlText"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -36,17 +39,17 @@
                                 <option value="System.DateTime, mscorlib">DateTime</option>
                                 <option value="System.DateTimeOffset, mscorlib">DateTimeOffset</option>
                                 <option value="System.TimeSpan, mscorlib">TimeSpan</option>
-                                <option value="System.Byte[], mscorlib">Byte Arra</option>
+                                <option value="System.Byte[], mscorlib">Byte Array</option>
                                 <option value="System.Xml.XmlDocument, System.Xml">Xml</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="default-value" class="col-lg-2 control-label">Default Value</label>
-                        <div class="col-lg-6">
+                        <div class="col-lg-9">
                             <input type="text" data-bind="value: DefaultValue"
                                    required
-                                   placeholder="Default value when the database lookup return null"
+                                   placeholder="Default value when the database lookup returns DbNull.Value(NULL)"
                                    class="form-control" id="default-value">
                         </div>
                     </div>
