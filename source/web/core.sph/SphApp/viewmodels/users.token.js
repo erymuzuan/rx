@@ -11,10 +11,10 @@
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app, "services/app"],
     function (context, logger, router, app, serviceApp) {
 
-        var isBusy = ko.observable(false),
+        const isBusy = ko.observable(false),
             tokens = ko.observableArray(),
             viewToken = function (v) {
-                return $.get("/api/auth-tokens/" + ko.unwrap(v.WebId))
+                return $.get(`/api/auth-tokens/${ko.unwrap(v.WebId)}`)
                     .done(function (t) {
                         serviceApp.prompt("Copy the token now", t, "Security token", true);
                     });
@@ -23,7 +23,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return app.showMessage("Are you sure you want to revoke this token, This action cannot be undone", "Reactive Develeoper", ["Yes", "No"])
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
-                            $.ajax({ type: "DELETE", url: "/api/auth-tokens/" + ko.unwrap(v.WebId) })
+                            $.ajax({ type: "DELETE", url: `/api/auth-tokens/${ko.unwrap(v.WebId)}` })
                                     .done(function () {
                                         logger.info("The token has been succesfully revoked");
                                         tokens.remove(v);
@@ -41,7 +41,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             activate = function () {
                 return $.getJSON("api/auth-tokens/")
                     .then(function (list) {
-                        var tokenList = _(list).map(map);
+                        const tokenList = list.map(map);
                         tokens(tokenList);
                     });
 
@@ -55,7 +55,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         .done(function (result) {
                             if (!result) return false;
                             if (result === "OK") {
-                                var tcs = new $.Deferred(),
+                                const tcs = new $.Deferred(),
                                     data = ko.toJSON(dialog.token);
                                 context.post(data, "/api/auth-tokens")
                                     .then(function (r) {
@@ -70,13 +70,20 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 });
             };
 
-        var vm = {
+        const vm = {
             isBusy: isBusy,
             tokens: tokens,
             activate: activate,
             map: map,
             attached: attached,
-            addToken: addToken
+            addToken: addToken,
+            toolbar: {
+                commands: ko.observableArray([{
+                    caption: "Reload",
+                    icon: "bowtie-icon bowtie-navigate-refresh",
+                    command: activate
+                }])
+            }
         };
 
         return vm;

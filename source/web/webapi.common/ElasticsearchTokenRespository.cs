@@ -29,10 +29,39 @@ namespace Bespoke.Sph.WebApi
 
         public Task<LoadOperation<AccessToken>> LoadAsync(string user, DateTime expiry, int page = 1, int size = 20)
         {
-            throw new NotImplementedException();
+            var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var seconds = Math.Round((expiry.ToUniversalTime() - unixEpoch).TotalSeconds);
+            var query = $@"
+{{
+    ""query"": {{
+        ""bool"": {{
+            ""must"": [
+               {{
+                  ""term"": {{
+                     ""user"": {{
+                        ""value"": ""{user}""
+                     }}
+                  }}
+               }},
+               {{
+                   ""range"": {{
+                      ""exp"": {{
+                         ""from"": {seconds}
+                      }}
+                   }}
+               }}
+            ]
+        }}
+    }},
+    ""from"": {(page - 1) * size},
+    ""size"": {size}
+}}
+";
+
+            return ExecuteSearchAsync(query);
         }
 
-        public async Task<LoadOperation<AccessToken>> LoadAsync(DateTime expiry, int page = 1, int size = 20)
+        public Task<LoadOperation<AccessToken>> LoadAsync(DateTime expiry, int page = 1, int size = 20)
         {
             var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             var seconds = Math.Round((expiry.ToUniversalTime() - unixEpoch).TotalSeconds);
@@ -50,6 +79,11 @@ namespace Bespoke.Sph.WebApi
                 }}
             ";
 
+           return ExecuteSearchAsync(query);
+        }
+
+        private async Task<LoadOperation<AccessToken>> ExecuteSearchAsync(string query)
+        {
             var request = new StringContent(query);
             var url = $"{ConfigurationManager.ElasticSearchSystemIndex}/access_token/_search";
 

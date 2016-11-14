@@ -196,7 +196,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         /// <param name="membershipProvider">membership provider</param>
         /// <param name="password">password to check</param>
         /// <returns>true if the password meets the req. complexity</returns>
-        static public bool CheckPasswordComplexity(MembershipProvider membershipProvider, string password)
+        public static bool CheckPasswordComplexity(MembershipProvider membershipProvider, string password)
         {
             if (string.IsNullOrEmpty(password)) return false;
             if (password.Length < membershipProvider.MinRequiredPasswordLength) return false;
