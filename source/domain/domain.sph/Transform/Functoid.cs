@@ -32,9 +32,12 @@ namespace Bespoke.Sph.Domain
             return $"// NOT IMPLEMENTED => {this.GetType().Name}";
         }
 
-        public virtual Mono.Cecil.TypeReference GetOutputType()
+        public virtual Type GetOutputType()
         {
-            return null;
+            if (string.IsNullOrWhiteSpace(this.OutputTypeName))
+                return null;
+            var type = Strings.GetType(this.OutputTypeName);
+            return type;
         }
 
 
