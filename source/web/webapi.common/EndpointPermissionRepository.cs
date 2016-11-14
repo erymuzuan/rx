@@ -99,7 +99,8 @@ namespace Bespoke.Sph.WebApi
 
                 #endregion
             }
-            return m_controllerParentList.LastOrDefault(x => null != x && x.Controller == controller)?.Parent ?? "Custom";
+            var me = m_controllerParentList.LastOrDefault(x => null != x && x.Controller == controller);
+            return null == me ? "Custom" : me.Parent;
         }
 
         public Task<IEnumerable<EndpointPermissonSetting>> LoadAsync()
