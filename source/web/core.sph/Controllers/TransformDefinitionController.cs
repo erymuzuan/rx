@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -102,36 +104,29 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("{id}/execute-test")]
-        public  async Task<IHttpActionResult> ExecuteMappingTest(string id, [JsonBody]TransformDefinition mapDefinition)
+        public async Task<IHttpActionResult> ExecuteMappingTest(string id, [JsonBody]TransformDefinition mapDefinition)
         {
-            string file = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(TransformDefinition)}\\{id}.test";
-            if (!System.IO.File.Exists(file))
-                return NotFound("You have yet to create an input for the test map");
-
-            var inputType = Type.GetType(mapDefinition.InputTypeName);
-            if (null == inputType)
-                return NotFound($"Cannot instantiate input type : {mapDefinition.InputTypeName}");
-
-            var mapType = Type.GetType($"{mapDefinition.FullTypeName}, {mapDefinition.AssemblyName}");
-            if (null == mapType)
-                return NotFound($"Cannot load your mapping type: {mapDefinition.FullTypeName} from {mapDefinition.AssemblyName}.dll");
-            var json = System.IO.File.ReadAllText(file);
-            dynamic input = JsonConvert.DeserializeObject(json, inputType);
-            dynamic mapping = Activator.CreateInstance(mapType);
-
-            try
+            var info = new ProcessStartInfo
             {
-                dynamic output = await mapping.TransformAsync(input);
-                var oj = JsonConvert.SerializeObject(output);
-                return Json(oj);
-            }
-            catch (Exception e)
+                FileName = $"{ConfigurationManager.ToolsPath}\\mapping.test.runner.exe",
+                WorkingDirectory = ConfigurationManager.ToolsPath,
+                Arguments = id,
+                CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden
+            };
+            var runner = Process.Start(info);
+            if (null == runner)
+                return NotFound("Cannot find test runner in tools directory");
+            var ok = runner.WaitForExit(15000);
+            if (ok && runner.ExitCode != -1)
+                return Json(System.IO.File.ReadAllText($"{ConfigurationManager.GeneratedSourceDirectory}\\TransformDefinition.test-output\\{runner.ExitCode}.json"));
+            await Task.Delay(500);
+            return Invalid(HttpStatusCode.InternalServerError, new
             {
-                var logger = ObjectBuilder.GetObject<ILogger>();
-                var entry = new LogEntry(e);
-                logger.Log(entry);
-                return Json(entry);
-            }
+                message = $"Status code is {runner.ExitCode}",
+                details = System.IO.File.ReadAllText($"{ConfigurationManager.GeneratedSourceDirectory}\\TransformDefinition.test-output\\error.json")
+            });
+
 
         }
 
@@ -198,7 +193,7 @@ namespace Bespoke.Sph.Web.Controllers
 
 
         }
-        
+
         [HttpGet]
         [Route("functoid/js")]
         public IHttpActionResult GetFunctoidDesignerViewModel([FromUri]string type)

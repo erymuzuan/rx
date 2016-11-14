@@ -786,7 +786,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 const uri = `/api/transform-definitions/${td().Id()}/execute-test`;
                 return context.post(ko.toJSON(td), uri)
                     .done(function (result) {
-                        var w = window.open("/sph/editor/ace?mode=javascript", "_blank", `height=${screen.height},width=${screen.width},toolbar=0,location=0,fullscreen=yes`);
+                        const w = window.open("/sph/editor/ace?mode=javascript", "_blank", `height=${screen.height},width=${screen.width},toolbar=0,location=0,fullscreen=yes`);
                         if (typeof input === "string") {
                             w.window.code = result;
                         } else {
