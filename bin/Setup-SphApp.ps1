@@ -179,6 +179,7 @@ $allConfigs = @("$WorkingCopy\web\web.config"
 , "$WorkingCopy\subscribers.host\workers.console.runner.exe.config"
 , "$WorkingCopy\subscribers.host\workers.windowsservice.runner.exe.config"
 , "$WorkingCopy\tools\sph.builder.exe.config"
+, "$WorkingCopy\tools\mapping.test.runner.exe.config"
 )
 
 
