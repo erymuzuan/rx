@@ -1,5 +1,7 @@
 using System;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -20,11 +22,11 @@ namespace Bespoke.Sph.WebApi
         {
             var content = new StringContent(token.ToJson());
             var index = ConfigurationManager.ElasticSearchSystemIndex;
-            var url = $"{ConfigurationManager.ElasticSearchHost}/{index}/access_token/{token.WebId}";
+            var url = $"{index}/access_token/{token.WebId}";
 
             var response = await m_client.PostAsync(url, content);
+            await this.AddSqlServerAsync(token);
             response.EnsureSuccessStatusCode();
-
         }
 
         public Task<LoadOperation<AccessToken>> LoadAsync(string user, DateTime expiry, int page = 1, int size = 20)
@@ -61,7 +63,7 @@ namespace Bespoke.Sph.WebApi
             return ExecuteSearchAsync(query);
         }
 
-        public Task<LoadOperation<AccessToken>> LoadAsync(DateTime expiry, int page = 1, int size = 20)
+        public async Task<LoadOperation<AccessToken>> LoadAsync(DateTime expiry, int page = 1, int size = 20)
         {
             var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             var seconds = Math.Round((expiry.ToUniversalTime() - unixEpoch).TotalSeconds);
@@ -79,7 +81,10 @@ namespace Bespoke.Sph.WebApi
                 }}
             ";
 
-           return ExecuteSearchAsync(query);
+            var lo = await ExecuteSearchAsync(query).ConfigureAwait(false);
+            lo.PageSize = size;
+            lo.CurrentPage = page;
+            return lo;
         }
 
         private async Task<LoadOperation<AccessToken>> ExecuteSearchAsync(string query)
@@ -109,11 +114,15 @@ namespace Bespoke.Sph.WebApi
 
             var lo = new LoadOperation<AccessToken>();
             lo.ItemCollection.AddRange(items);
+            lo.TotalRows = jo.SelectToken("$.hits.total").Value<int>();
             return lo;
         }
 
         public async Task<AccessToken> LoadOneAsync(string id)
         {
+            if (string.IsNullOrWhiteSpace(id))
+                throw new ArgumentNullException(nameof(id));
+
             var url = $"{ConfigurationManager.ElasticSearchSystemIndex}/access_token/{id}";
 
             var pr = await Policy.Handle<HttpRequestException>()
@@ -123,7 +132,12 @@ namespace Bespoke.Sph.WebApi
                 return null;
 
             var response = pr.Result;
-            if (!response.IsSuccessStatusCode) return null;
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                // look in sql server
+                return await LoadFromSqlServerAsync(id);
+
+            }
 
 
             var content = response.Content as StreamContent;
@@ -136,11 +150,66 @@ namespace Bespoke.Sph.WebApi
             return token;
         }
 
-        public async Task RemoveAsync(string id)
+        private async Task<AccessToken> LoadFromSqlServerAsync(string subject)
         {
-            var url = $"{ConfigurationManager.ElasticSearchSystemIndex}/access_token/{id}";
+            using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
+            using (var cmd = new SqlCommand("SELECT [Payload] FROM [Sph].[AccessToken] WHERE [Subject] = @Subject", conn))
+            {
+                cmd.Parameters.AddWithValue("@Subject", subject);
+                await conn.OpenAsync();
+                var json = await cmd.ExecuteScalarAsync();
+                if (json == DBNull.Value) return default(AccessToken);
+                if (string.IsNullOrWhiteSpace($"{json}")) return default(AccessToken);
 
+                return ((string)json).DeserializeFromJson<AccessToken>();
 
+            }
+        }
+        private async Task RemoveFromSqlServerAsync(string subject)
+        {
+            using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
+            using (var cmd = new SqlCommand("DELETE FROM [Sph].[AccessToken] WHERE [Subject] = @Subject", conn))
+            {
+                cmd.Parameters.AddWithValue("@Subject", subject);
+                await conn.OpenAsync();
+                await cmd.ExecuteNonQueryAsync();
+            }
+        }
+        private async Task AddSqlServerAsync(AccessToken token)
+        {
+            using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
+            using (var cmd = new SqlCommand(@"INSERT INTO [Sph].[AccessToken]
+           ([Subject]
+           ,[Email]
+           ,[UserName]
+           ,[Payload]
+           ,[ExpiryDate])
+     VALUES
+           (@Subject
+           ,@Email
+           ,@UserName
+           ,@Payload
+           ,@ExpiryDate)", conn))
+            {
+
+                cmd.Parameters.AddWithValue("@Subject", token.Subject);
+                cmd.Parameters.AddWithValue("@Email", token.Email);
+                cmd.Parameters.AddWithValue("@UserName", token.Username);
+                cmd.Parameters.AddWithValue("@Payload", token.ToJson());
+                cmd.Parameters.AddWithValue("@ExpiryDate", token.ExpiryDate);
+                await conn.OpenAsync();
+                var json = await cmd.ExecuteNonQueryAsync();
+                System.Diagnostics.Debug.Assert(json == 1, "1 row must be added");
+
+            }
+        }
+
+        public async Task RemoveAsync(string subject)
+        {
+            if (string.IsNullOrWhiteSpace(subject))
+                throw new ArgumentNullException(nameof(subject));
+
+            var url = $"{ConfigurationManager.ElasticSearchSystemIndex}/access_token/{subject}";
             var pr = await Policy.Handle<HttpRequestException>()
                             .WaitAndRetryAsync(10, x => TimeSpan.FromMilliseconds(Math.Pow(2, x) * 500))
                             .ExecuteAndCaptureAsync(async () => await m_client.DeleteAsync(url));
@@ -148,6 +217,7 @@ namespace Bespoke.Sph.WebApi
                 throw pr.FinalException;
 
             var response = pr.Result;
+            await RemoveFromSqlServerAsync(subject);
             response.EnsureSuccessStatusCode();
 
         }

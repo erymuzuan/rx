@@ -99,7 +99,10 @@ namespace Bespoke.Sph.WebApi
 
                 #endregion
             }
-            var me = m_controllerParentList.LastOrDefault(x => null != x && x.Controller == controller);
+            var me = m_controllerParentList
+                    .Where(x => null != x && x.Controller == controller)
+                    .ToList()
+                    .LastOrDefault();
             return null == me ? "Custom" : me.Parent;
         }
 

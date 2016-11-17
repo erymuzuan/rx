@@ -17,7 +17,6 @@ namespace Bespoke.Sph.WebApi
         {
             this.Email = user.Email;
             this.Username = user.UserName;
-            this.Subject = user.Id;
             this.Roles = roles;
 
             var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
@@ -25,9 +24,14 @@ namespace Bespoke.Sph.WebApi
             this.IssueAt = Math.Round((DateTime.UtcNow - unixEpoch).TotalSeconds);
             this.NotBefore = Math.Round((DateTime.UtcNow.AddMonths(6) - unixEpoch).TotalSeconds);
 
-
-            this.WebId = Guid.NewGuid().ToString();
+            this.WebId = DateTime.Now.Ticks + Guid.NewGuid().ToString().Substring(0, 8);
+            this.Subject = this.WebId;
+            this.ExpiryDate = expiry;
         }
+
+        [JsonIgnore]
+        public DateTime ExpiryDate { get; set; }
+
         [JsonProperty("email")]
         public string Email { get; set; }
         [JsonProperty("user")]
@@ -59,8 +63,8 @@ namespace Bespoke.Sph.WebApi
             {
                 {"user", this.Username},
                 {"roles", this.Roles},
-                {"email", this.Expiry},
-                {"sub", this.WebId},
+                {"email", this.Email},
+                {"sub", this.Subject},
                 {"nbf", this.NotBefore},
                 {"iat", this.IssueAt},
                 {"exp", this.Expiry},

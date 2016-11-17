@@ -11,10 +11,12 @@
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app, "services/app"],
     function (context, logger, router, app, serviceApp) {
 
+        let pager = null;
         const isBusy = ko.observable(false),
             tokens = ko.observableArray(),
+            totalRows = ko.observable(),
             viewToken = function (v) {
-                return $.get(`/api/auth-tokens/${ko.unwrap(v.WebId)}`)
+                return $.get(`/api/auth-tokens/${ko.unwrap(v.sub)}`)
                     .done(function (t) {
                         serviceApp.prompt("Copy the token now", t, "Security token", true);
                     });
@@ -23,7 +25,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return app.showMessage("Are you sure you want to revoke this token, This action cannot be undone", "Reactive Develeoper", ["Yes", "No"])
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
-                            $.ajax({ type: "DELETE", url: `/api/auth-tokens/${ko.unwrap(v.WebId)}` })
+                            $.ajax({ type: "DELETE", url: `/api/auth-tokens/${ko.unwrap(v.sub)}` })
                                     .done(function () {
                                         logger.info("The token has been succesfully revoked");
                                         tokens.remove(v);
@@ -40,14 +42,31 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             activate = function () {
                 return $.getJSON("api/auth-tokens/")
-                    .then(function (list) {
-                        const tokenList = list.map(map);
+                    .then(function (lo) {
+                        const tokenList = lo.ItemCollection.map(map);
                         tokens(tokenList);
+                        totalRows(lo.TotalRows);
                     });
-
             },
-            attached = function () {
+            attached = function (view) {
 
+                pager = new bespoke.utils.ServerPager({
+                    element: $(view).find("div#tokens-pager"),
+                    count: ko.unwrap(totalRows),
+                    changed: function (page, size) {
+                        return $.getJSON(`api/auth-tokens/?page=${page}&size=${size}`)
+                          .then(function (lo) {
+                              const tokenList = lo.ItemCollection.map(map);
+                              tokens(tokenList);
+                              totalRows(lo.TotalRows);
+                          });
+                    }
+                });
+                $(view).on("submit", "form.form-search", function (e) {
+                    e.preventDefault();
+                    const text = $(view).find("input.search-query").val();
+                    return context.get(`/api/auth-tokens/_search?q=${text}`);
+                });
             },
             addToken = function () {
                 require(["viewmodels/security.token.dialog", "durandal/app"], function (dialog, app2) {
@@ -69,6 +88,13 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                 });
             };
+
+        totalRows.subscribe(function (rows) {
+            console.log(`new pager ${rows}`);
+            if (pager) {
+                pager.update(rows);
+            }
+        });
 
         const vm = {
             isBusy: isBusy,

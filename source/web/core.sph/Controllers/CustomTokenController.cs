@@ -18,18 +18,14 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpGet]
         [Route("")]
-        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 20)
+        public async Task<IHttpActionResult> GetAll([FromUri(Name = "page")]int page = 1, [FromUri(Name = "size")]int size = 20)
         {
             var repos = ObjectBuilder.GetObject<ITokenRepository>();
             var lo = await repos.LoadAsync(DateTime.Today, page, size);
-            var tokens = from t in lo.ItemCollection
-                         select t.ToJson();
-            var json = $"[{string.Join(",", tokens)}]";
 
-            return Json(json);
+            return Json(lo);
         }
 
-        [Authorize(Roles = "administrators,developers")]
         [HttpPost]
         [Route("")]
         public async Task<IHttpActionResult> CreateTokenAsync([RequestBody]GetTokenModel model)
@@ -57,7 +53,16 @@ namespace Bespoke.Sph.Web.Controllers
 
         [Authorize(Roles = "administrators,developers")]
         [HttpGet]
-        [Route("{id:guid}")]
+        [Route("_search")]
+        public async Task<IHttpActionResult> SearchAsync([FromUri(Name = "q")]string query)
+        {
+            await Task.Delay(500);
+            return Json(new { message = "to be implemented" });
+        }
+
+        [Authorize(Roles = "administrators,developers")]
+        [HttpGet]
+        [Route("{id}")]
         public async Task<IHttpActionResult> GetTokenAsync(string id)
         {
             var repos = ObjectBuilder.GetObject<ITokenRepository>();
@@ -69,7 +74,7 @@ namespace Bespoke.Sph.Web.Controllers
 
         [Authorize(Roles = "administrators,developers")]
         [HttpDelete]
-        [Route("{id:guid}")]
+        [Route("{id}")]
         public async Task<IHttpActionResult> RemoveTokenAsync(string id)
         {
             var repos = ObjectBuilder.GetObject<ITokenRepository>();
