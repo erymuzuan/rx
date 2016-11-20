@@ -847,7 +847,8 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                                                 mb.MemberCollection.push(child);
                                                                 return true;
                                                             }
-                                                            if (parent.type === "request")
+                                                            const tag =( _.isArray(parent) && parent.length === 1) ? parent[0] : parent;
+                                                            if (tag.type === "request")
                                                                 operation.RequestMemberCollection.push(child);
                                                             else
                                                                 operation.ResponseMemberCollection.push(child);

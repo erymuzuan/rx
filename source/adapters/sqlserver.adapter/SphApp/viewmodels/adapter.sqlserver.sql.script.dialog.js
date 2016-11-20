@@ -11,44 +11,42 @@ var bespoke = bespoke || {};
 bespoke.sph = bespoke.sph || {};
 bespoke.sph.domain = bespoke.sph.domain || {};
 bespoke.sph.domain.Adapters = bespoke.sph.domain.Adapters || {};
-bespoke.sph.domain.Adapters.SqlScriptOperationDefinition = function() {
+bespoke.sph.domain.Adapters.SqlScriptOperationDefinition = function(webId) {
     const sqlStatement = ko.observable(),
         name = ko.observable(),
-        methodName = ko.observable(),
         requestMemberCollection = ko.observableArray(),
         responseMemberCollection = ko.observableArray(),
         schema = ko.observable(),
-        errorRetry = ko.observable(new bespoke.sph.domain.api.ErrorRetry()),
+        errorRetry = ko.observable(new bespoke.sph.domain.api.ErrorRetry({Algorithm : "Constant"})),
         useHttpGet = ko.observable(),
-        uuid = ko.observable();
+        uuid = ko.observable(webId);
 
     return {
         $type: "Bespoke.Sph.Integrations.Adapters.SqlScriptOperationDefinition, sqlserver.adapter",
         ObjectType: "SqlScript",
         Name : name,
         SqlStatement: sqlStatement,
-        MethodName: methodName,
+        MethodName: name,
         ResponseMemberCollection: responseMemberCollection,
         RequestMemberCollection : requestMemberCollection,
         UseHttpGet: useHttpGet,
         Schema : schema,
         ErrorRetry: errorRetry,
-        WebId: ko.observable(),
+        WebId: ko.observable(webId),
         Uuid : uuid
     };
 
 };
 
-define(["plugins/dialog"],
-    function (dialog) {
+define(["plugins/dialog", objectbuilders.system],
+    function (dialog, system) {
 
-        const script = ko.observable(new bespoke.sph.domain.Adapters.SqlScriptOperationDefinition()),
+        const script = ko.observable(new bespoke.sph.domain.Adapters.SqlScriptOperationDefinition(system.guid())),
             adapter = ko.observable(),
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
                     dialog.close(this, "OK");
                 }
-
             },
             cancelClick = function () {
                 dialog.close(this, "Cancel");
