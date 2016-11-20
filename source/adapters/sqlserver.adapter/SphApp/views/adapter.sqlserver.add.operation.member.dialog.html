@@ -1,0 +1,60 @@
+﻿
+<section class="view-model-modal" id="operation-member-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Operation Parameter</h3>
+            </div>
+            <div class="modal-body" data-bind="with: member">
+
+                <form class="form-horizontal" id="operation-member-dialog-form">
+                    <div class="form-group">
+                        <label for="name" class="col-lg-2 control-label">Name</label>
+                        <div class="col-lg-10">
+                            <input type="text" data-bind="value: name"
+                                   required pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                                   placeholder="The parameter name"
+                                   class="form-control" id="name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="type" class="col-lg-2 control-label">Type</label>
+                        <div class="col-lg-10">
+                            <select class="form-control" id="type" required data-bind="value:type, options : $root.typeOptions">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="length" class="col-lg-2 control-label">Length</label>
+                        <div class="col-lg-10">
+                            <input type="text" data-bind="value: length"
+                                   required pattern="^[0-9]{1,4}|MAX$"
+                                   placeholder="Parameter length, based on the data type, especially VARCHAR, CHAR, NVARCHAR and NCHAR"
+                                   class="form-control" id="length">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input data-bind="checked: nullable" id="nullable" type="checkbox" name="nullable"/>
+                                    Nullable
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="operation-member-dialog-form" data-dismiss="modal" type="submit" class="btn btn-default" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

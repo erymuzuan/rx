@@ -6866,6 +6866,209 @@
         "IsSelected": false,
         "Schema": "dbo",
         "WebId": "e4510693-6bbb-4bc4-97a7-da57ab5e4f9d"
+      },
+      {
+        "$type": "Bespoke.Sph.Integrations.Adapters.SqlScriptOperationDefinition, sqlserver.adapter",
+        "SqlStatement": "UPDATE Person.Person\nSET [FirstName] = @FirstName\nWHERE [BusinessEntityID] = @BusinessEntityID",
+        "ObjectType": "SqlScript",
+        "UseHttpGet": false,
+        "CodeNamespace": "Bespoke.DevV1.Adapters.AdventureWorks",
+        "Uuid": null,
+        "ParameterDefinition": {
+          "$type": "Bespoke.Sph.Domain.Api.ParameterDefinition, domain.sph",
+          "MemberCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+            "$values": []
+          },
+          "Name": null,
+          "IsRequest": false,
+          "IsResponse": false,
+          "CodeNamespace": null,
+          "WebId": null
+        },
+        "RequestMemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.NullableStringColumn, sqlserver.adapter",
+              "SqlType": "NVarChar",
+              "CanWrite": true,
+              "Length": 255,
+              "IsSelected": false,
+              "Unsupported": false,
+              "DbType": null,
+              "ClrName": "FirstName",
+              "IsPrimaryKey": false,
+              "IsVersion": false,
+              "IsModifiedDate": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "IsComplex": false,
+              "MimeType": null,
+              "Ignore": false,
+              "DisplayName": "FirstName",
+              "Order": 0,
+              "LookupColumnTable": {
+                "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
+                "IsEnabled": false,
+                "Table": null,
+                "Column": null,
+                "DbType": null,
+                "ValueColumn": null,
+                "KeyColumn": null,
+                "Name": null,
+                "TypeName": null,
+                "WebId": null
+              },
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "@FirstName",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "dbo-FirstName"
+            },
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.IntColumn, sqlserver.adapter",
+              "SqlType": "Int",
+              "CanWrite": true,
+              "Length": 0,
+              "IsSelected": false,
+              "Unsupported": false,
+              "DbType": null,
+              "ClrName": "BusinessEntityID",
+              "IsPrimaryKey": false,
+              "IsVersion": false,
+              "IsModifiedDate": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "IsComplex": false,
+              "MimeType": null,
+              "Ignore": false,
+              "DisplayName": "BusinessEntityID",
+              "Order": 0,
+              "LookupColumnTable": {
+                "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
+                "IsEnabled": false,
+                "Table": null,
+                "Column": null,
+                "DbType": null,
+                "ValueColumn": null,
+                "KeyColumn": null,
+                "Name": null,
+                "TypeName": null,
+                "WebId": null
+              },
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "@BusinessEntityID",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "dbo-BusinessEntityID"
+            }
+          ]
+        },
+        "ResponseMemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Integrations.Adapters.Columns.IntColumn, sqlserver.adapter",
+              "SqlType": "BigInt",
+              "CanWrite": true,
+              "Length": 0,
+              "IsSelected": false,
+              "Unsupported": false,
+              "DbType": null,
+              "ClrName": "@returnValue",
+              "IsPrimaryKey": false,
+              "IsVersion": false,
+              "IsModifiedDate": false,
+              "IsComputed": false,
+              "IsIdentity": false,
+              "IsComplex": false,
+              "MimeType": null,
+              "Ignore": false,
+              "DisplayName": "@return_value",
+              "Order": 0,
+              "LookupColumnTable": {
+                "$type": "Bespoke.Sph.Domain.Api.LookupColumnTable, domain.sph",
+                "IsEnabled": false,
+                "Table": null,
+                "Column": null,
+                "DbType": null,
+                "ValueColumn": null,
+                "KeyColumn": null,
+                "Name": null,
+                "TypeName": null,
+                "WebId": null
+              },
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "IsNotIndexed": false,
+              "IsAnalyzed": false,
+              "IsFilterable": false,
+              "IsExcludeInAll": false,
+              "Boost": 0,
+              "FullName": null,
+              "PropertyAttribute": null,
+              "MemberCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "FieldPermissionCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "@return_value",
+              "AllowMultiple": false,
+              "DefaultValue": null,
+              "WebId": "dbo-x"
+            }
+          ]
+        },
+        "ErrorRetry": {
+          "$type": "Bespoke.Sph.Domain.Api.ErrorRetry, domain.sph",
+          "Attempt": 5,
+          "IsEnabled": true,
+          "Wait": 500,
+          "Algorithm": "Exponential",
+          "WebId": null
+        },
+        "Name": "UpdatePersonName",
+        "MethodName": "UpdatePersonName",
+        "IsOneWay": false,
+        "IsSelected": false,
+        "Schema": "Person",
+        "WebId": null
       }
     ]
   },
@@ -6877,6 +7080,6 @@
   "Id": "adventure-works",
   "CreatedDate": "2016-06-23T07:55:43.2930618+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-11-07T07:13:17.5614156+08:00",
+  "ChangedDate": "2016-11-20T07:55:24.9910469+08:00",
   "WebId": "871a980f-855f-499e-a0a5-7d4aabaa3cc6"
 }

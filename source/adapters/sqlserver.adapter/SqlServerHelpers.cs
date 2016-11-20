@@ -53,7 +53,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         }
 
-        private static int GetScore(this IColumnGeneratorMetadata x, ColumnMetadata mt)
+        public static int GetScore(this IColumnGeneratorMetadata x, ColumnMetadata mt)
         {
             var score = 0;
 

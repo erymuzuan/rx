@@ -121,30 +121,30 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                 mapOperation = function (v) {
 
                     var createNode = function (t, isResponse) {
-                            var isResultSet = ko.unwrap(t.$type) === "Bespoke.Sph.Domain.ComplexMember, domain.sph",
-                                icon = isResultSet ? "Bespoke.Sph.Domain.ComplexMember, domain.sph" : ko.unwrap(t.TypeName),
-                                members = _(t.MemberCollection()).map(function (x) {
-                                    return {
-                                        id: `parameter-${ko.unwrap(x.WebId)}`,
-                                        text: calculateColumnName(x),
-                                        type: x.TypeName(),
-                                        data: x
-                                    };
-                                }),
-                                webid = ko.unwrap(t.WebId);
+                        var isResultSet = ko.unwrap(t.$type) === "Bespoke.Sph.Domain.ComplexMember, domain.sph",
+                            icon = isResultSet ? "Bespoke.Sph.Domain.ComplexMember, domain.sph" : ko.unwrap(t.TypeName),
+                            members = _(t.MemberCollection()).map(function (x) {
+                                return {
+                                    id: `parameter-${ko.unwrap(x.WebId)}`,
+                                    text: calculateColumnName(x),
+                                    type: x.TypeName(),
+                                    data: x
+                                };
+                            }),
+                            webid = ko.unwrap(t.WebId);
 
 
-                            if (ko.isObservable(t.WebId))
-                                t.WebId(webid);
+                        if (ko.isObservable(t.WebId))
+                            t.WebId(webid);
 
-                            return {
-                                id: (isResponse ? "parameter-" : "") + webid,
-                                text: isResultSet ? t.Name() : calculateColumnName(t),
-                                type: icon,
-                                data: t,
-                                children: members
-                            };
-                        },
+                        return {
+                            id: (isResponse ? "parameter-" : "") + webid,
+                            text: isResultSet ? t.Name() : calculateColumnName(t),
+                            type: icon,
+                            data: t,
+                            children: members
+                        };
+                    },
                         requests = _(v.RequestMemberCollection()).map(createNode),
                         responses = _(v.ResponseMemberCollection()).map(function (vt) {
                             return createNode(vt, true);
@@ -217,7 +217,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                         }
                                         var columnsParent = target.text === "Columns" || target.type === "Bespoke.Sph.Domain.ComplexMember, domain.sph";
                                         if (!columnsParent) return false;
-                                        if (target.id !== node.parent)return false;
+                                        if (target.id !== node.parent) return false;
 
                                         //console.log("dragged into target %s , and id ",target.text, target.id);
 
@@ -225,7 +225,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                     }
                                     return true;
                                 },
-                                "themes": {"stripes": true},
+                                "themes": { "stripes": true },
                                 'data': jsTreeData
                             },
                             "dnd": {
@@ -244,11 +244,11 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
 
                                                 if ($node.type === "U") {
                                                     adapter().TableDefinitionCollection.remove(function (v) {
-                                                        return ko.unwrap(v.Schema) == ko.unwrap($node.data.Schema) && ko.unwrap(v.Name) == ko.unwrap($node.data.Name);
+                                                        return ko.unwrap(v.Schema) === ko.unwrap($node.data.Schema) && ko.unwrap(v.Name) === ko.unwrap($node.data.Name);
                                                     });
                                                 } else {
                                                     adapter().OperationDefinitionCollection.remove(function (v) {
-                                                        return ko.unwrap(v.Schema) == ko.unwrap($node.data.Schema) && ko.unwrap(v.Name) == ko.unwrap($node.data.Name);
+                                                        return ko.unwrap(v.Schema) === ko.unwrap($node.data.Schema) && ko.unwrap(v.Name) === ko.unwrap($node.data.Name);
                                                     });
                                                 }
 
@@ -490,6 +490,9 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                 "IF": {
                                     "icon": "fa fa-th-list"
                                 },
+                                "SqlScript": {
+                                    "icon": "bowtie-icon bowtie-file-type-sql"
+                                },
                                 "System.String, mscorlib": {
                                     "icon": "glyphicon glyphicon-bold",
                                     "valid_children": []
@@ -587,8 +590,8 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
             adapter().TableDefinitionCollection.subscribe(function (changes) {
                 console.log(changes);
                 var tables = _(changes).filter(function (c) {
-                        return c.status === "added";
-                    }),
+                    return c.status === "added";
+                }),
                     children = _(tables).map(function (c) {
                         return mapTable(c.value);
                     });
@@ -604,8 +607,8 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
             adapter().OperationDefinitionCollection.subscribe(function (changes) {
                 console.log(changes);
                 var operations = _(changes).filter(function (c) {
-                        return c.status === "added";
-                    }),
+                    return c.status === "added";
+                }),
                     children = _(operations).map(function (c) {
                         return mapOperation(c.value);
                     });
@@ -620,7 +623,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
             $(element).on("click", "i.fa-square-o, i.fa-check-square-o", function () {
                 var id = $(this).parents("li").attr("id"),
                     node = tree.get_node(id);
-                if (!node)return;
+                if (!node) return;
 
                 var action = node.data;
 
@@ -684,7 +687,7 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                 member = value.selected,
                 createNode = function (v) {
 
-                    var icon = ko.unwrap(v.$type) === "Bespoke.Sph.Domain.ComplexMember, domain.sph" ? "Bespoke.Sph.Domain.ComplexMember, domain.sph" : ko.unwrap(v.TypeName);
+                    const icon = ko.unwrap(v.$type) === "Bespoke.Sph.Domain.ComplexMember, domain.sph" ? "Bespoke.Sph.Domain.ComplexMember, domain.sph" : ko.unwrap(v.TypeName);
                     return {
                         text: v.Name(),
                         state: "open",
@@ -766,16 +769,16 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                             "core": {
                                 "animation": 0,
                                 "check_callback": true,
-                                "themes": {"stripes": true},
+                                "themes": { "stripes": true },
                                 'data': jsTreeData
                             },
                             "contextmenu": {
                                 "items": function ($node) {
-                                    var $item = $node.data,
+                                    const $item = $node.data,
                                         addResultSet = {
                                             label: "Add result set",
                                             action: function () {
-                                                var text = `${name}Result1`,
+                                                const text = `${name}Result1`,
                                                     child = new bespoke.sph.domain.ComplexMember({
                                                         WebId: system.guid(),
                                                         AllowMultiple: true,
@@ -800,11 +803,15 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                                 sel = ref.create_node(sel, newNode);
                                                 if (sel) {
                                                     ref.edit(sel);
-                                                    if (mb && mb.MemberCollection) {
+                                                    if (mb && ko.isObservable(mb.MemberCollection)) {
                                                         mb.MemberCollection.push(child);
-                                                    } else {
-                                                        entity.MemberCollection.push(child);
+                                                        return true;
                                                     }
+                                                    if (parent.type === "request")
+                                                        operation.RequestMemberCollection.push(child);
+                                                    else
+                                                        operation.ResponseMemberCollection.push(child);
+
                                                     return true;
                                                 }
                                                 return false;
@@ -816,43 +823,53 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                         {
                                             label: "Add record",
                                             action: function () {
-                                                var child = {
-                                                        $type: "Bespoke.Sph.Integrations.Adapters.SprocResultMember, sqlserver.adapter",
-                                                        WebId: system.guid(),
-                                                        TypeName: ko.observable("System.String, mscorlib"),
-                                                        FieldName: ko.observable("Member_Name"),
-                                                        Name: ko.observable(""),
-                                                        DisplayName: ko.observable(""),
-                                                        SqlDbType: ko.observable(),
-                                                        IsNullable: ko.observable(false)
-                                                    },
-                                                    parent = $(element).jstree("get_selected", true),
+                                                const parent = $(element).jstree("get_selected", true),
                                                     mb = parent[0].data,
-                                                    newNode = {
-                                                        state: "open",
-                                                        type: ko.unwrap(child.TypeName),
-                                                        text: ko.unwrap(child.Name),
-                                                        data: child
+                                                    addChildRecord = function (child) {
+                                                        const newNode = {
+                                                            state: "open",
+                                                            type: ko.unwrap(child.TypeName),
+                                                            text: ko.unwrap(child.Name),
+                                                            data: child
+                                                        },
+                                                            ref = $(element).jstree(true);
+
+                                                        let sel = ref.get_selected();
+                                                        if (!sel.length) {
+                                                            return false;
+                                                        }
+                                                        sel = sel[0];
+                                                        sel = ref.create_node(sel, newNode);
+                                                        if (sel) {
+                                                            ref.edit(sel);
+                                                            // complex type
+                                                            if (mb && ko.isObservable(mb.MemberCollection)) {
+                                                                mb.MemberCollection.push(child);
+                                                                return true;
+                                                            }
+                                                            if (parent.type === "request")
+                                                                operation.RequestMemberCollection.push(child);
+                                                            else
+                                                                operation.ResponseMemberCollection.push(child);
+
+                                                            return true;
+                                                        }
+                                                        return false;
                                                     };
 
 
-                                                var ref = $(element).jstree(true),
-                                                    sel = ref.get_selected();
-                                                if (!sel.length) {
-                                                    return false;
-                                                }
-                                                sel = sel[0];
-                                                sel = ref.create_node(sel, newNode);
-                                                if (sel) {
-                                                    ref.edit(sel);
-                                                    if (mb && mb.MemberCollection) {
-                                                        mb.MemberCollection.push(child);
-                                                    } else {
-                                                        entity.MemberCollection.push(child);
-                                                    }
-                                                    return true;
-                                                }
-                                                return false;
+                                                require(["viewmodels/adapter.sqlserver.add.operation.member.dialog", "durandal/app"],
+                                                    function (dialog, app2) {
+                                                        dialog.adapter({});
+                                                        app2.showDialog(dialog)
+                                                            .done(function (result) {
+                                                                if (!result) return;
+                                                                if (result === "OK") {
+
+                                                                    addChildRecord(dialog.selectedMember());
+                                                                }
+                                                            });
+                                                    });
 
 
                                             }
@@ -865,16 +882,23 @@ define(["knockout", "objectbuilders", "underscore"], function (ko, objectbuilder
                                                     sel = ref.get_selected();
 
                                                 // now delete the member
-                                                var n = ref.get_selected(true)[0],
-                                                    p = ref.get_node($(`#${n.parent}`)),
-                                                    parentMember = p.data;
-                                                if (parentMember && typeof parentMember.MemberCollection === "function") {
-                                                    var child = _(parentMember.MemberCollection()).find(v=>ko.unwrap(v.WebId) === ko.unwrap(n.data.WebId));
-                                                    parentMember.MemberCollection.remove(child);
-                                                } else {
-                                                    var child2 = _(entity.MemberCollection()).find(v => v.WebId() === n.data.WebId());
-                                                    entity.MemberCollection.remove(child2);
+                                                const n = ref.get_selected(true)[0],
+                                                    parent = ref.get_node($(`#${n.parent}`));
+                                                if (parent.type === "request") {
+                                                    const child = operation.RequestMemberCollection().find(v=>ko.unwrap(v.WebId) === ko.unwrap(n.data.WebId));
+                                                    operation.RequestMemberCollection.remove(child);
                                                 }
+                                                if (parent.type === "response") {
+                                                    const child3 = operation.ResponseMemberCollection().find(v=>ko.unwrap(v.WebId) === ko.unwrap(n.data.WebId));
+                                                    operation.ResponseMemberCollection.remove(child3);
+                                                }
+
+                                                if (parent.type !== "response" && parent.type !== "request") {
+                                                    const complex = parent.data;
+                                                    const child2 = _(complex.MemberCollection()).find(v => v.WebId() === n.data.WebId());
+                                                    complex.MemberCollection.remove(child2);
+                                                }
+
 
                                                 if (!sel.length) {
                                                     return false;

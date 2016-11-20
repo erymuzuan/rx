@@ -170,6 +170,10 @@ namespace Bespoke.Sph.Integrations.Adapters
             if (null == sproc)
                 return NotFound($"Cannot find any sproc with name {name}");
 
+            var sql = adapter.OperationDefinitionCollection.OfType<SqlScriptOperationDefinition>().SingleOrDefault(x => x.Name == name);
+            if (null != sql)
+                return Ok(sql.SqlStatement, "text/plain");
+
             using (var conn = new SqlConnection(adapter.ConnectionString))
             using (var cmd = new SqlCommand("sp_helptext", conn))
             {
@@ -355,6 +359,46 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             var operation = await adapter.CreateAsync(type, schema, name);
             return Json(operation.ToJsonString());
+        }
+        [HttpGet]
+        [Route("operation-options/column-metadata")]
+        public IHttpActionResult GetSqlColumn(
+            [FromUri(Name = "type")] string type,
+            [FromUri(Name = "name")] string name, 
+            [FromUri(Name = "server")] string server,
+            [FromUri(Name = "database")] string database,
+            [FromUri(Name = "trusted")] bool trusted = true,
+            [FromUri(Name = "strategy")] string strategy = null,
+            [FromUri(Name = "clr")] string clr = null,
+            [FromUri(Name = "userid")] string user = "",
+            [FromUri(Name = "password")] string password = "",
+            [FromUri(Name = "length")] short length = 0,
+            [FromUri(Name = "nullable")] bool nullable = true)
+        {
+            var adapter = new SqlServerAdapter
+            {
+                Server = server,
+                Database = database,
+                TrustedConnection = trusted,
+                UserId = user,
+                Password = password,
+                ColumnDisplayNameStrategy = strategy,
+                ClrNameStrategy = clr
+            };
+
+            var developerService = ObjectBuilder.GetObject<SqlAdapterDeveloperService>();
+
+            var mt = new ColumnMetadata(new Column { Name = name, DbType = type, IsNullable = nullable, Length = length }, type);
+            var scores = (from g in developerService.ColumnGenerators
+                          let s = g.Metadata.GetScore(mt)
+                          where s >= 0
+                          orderby s descending
+                          select g).ToList();
+            var generator = scores.FirstOrDefault();
+            if (null == generator)
+                return NotFound($"Cannot find suitable generator for {mt}");
+            var column = generator.Value.Initialize(adapter,null,mt);
+            return Json(column.ToJsonString());
         }
 
 

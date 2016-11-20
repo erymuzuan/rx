@@ -239,7 +239,7 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var assemblies = LoadAssemblyDefinitions();
             var assembly = assemblies.SingleOrDefault(x => x.Name.Name == dll);
-            return assembly?.MainModule.Types.SingleOrDefault(x => x.Name == type);
+            return assembly?.MainModule.Types.SingleOrDefault(x => x.Name == type || x.FullName == type);
         }
 
 

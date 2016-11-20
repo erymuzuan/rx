@@ -219,9 +219,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             });
 
                             var valueList = _(options).map(function (v) {
-                                    var selected = ko.unwrap(lookup.ValueColumn) === v ? " selected" : "";
-                                    return '<option value="' + v + '"' + selected + '>' + v + "</option>";
-                                }),
+                                var selected = ko.unwrap(lookup.ValueColumn) === v ? " selected" : "";
+                                return '<option value="' + v + '"' + selected + '>' + v + "</option>";
+                            }),
                                 keyList = _(options).map(function (v) {
                                     var selected = ko.unwrap(lookup.KeyColumn) === v ? " selected" : "";
                                     return '<option value="' + v + '"' + selected + '>' + v + "</option>";
@@ -261,7 +261,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                     var table = ko.unwrap(column.LookupColumnTable().Table),
                         plain = ko.toJS(column.LookupColumnTable);
-                    if (!table)return;
+                    if (!table) return;
                     lookupColumnOptions([]);
                     console.log("Lookup table changes %s", table);
                     loadLookupColumnOptions(table, column.LookupColumnTable())
@@ -275,7 +275,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 });
                 $(view).on("change", "#lookup-table", function () {
                     var table = $(this).val();
-                    if (!table)return;
+                    if (!table) return;
                     console.log("Lookup table changes %s", table);
                     loadLookupColumnOptions(table, ko.dataFor(this));
 
@@ -351,7 +351,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         "toolbar=0",
                         "location=0",
                         "fullscreen=yes"
-                    ].join(","),
+                ].join(","),
                     editor = window.open("/sph/editor/file?id=" + file.replace(/\\/g, "/") + "&line=" + line, "_blank", params);
                 editor.moveTo(0, 0);
             },
@@ -443,11 +443,24 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             });
                     });
             },
+            addSqlScriptOperation = function () {
+                require(["viewmodels/adapter.sqlserver.sql.script.dialog", "durandal/app"],
+                    function (dialog, app2) {
+                        dialog.adapter(adapter());
+                        app2.showDialog(dialog)
+                            .done(function (result) {
+                                if (!result) return;
+                                if (result === "OK") {
+                                    adapter().OperationDefinitionCollection.push(dialog.script());
+                                }
+                            });
+                    });
+            },
             removeOperation = function (table) {
                 adapter().OperationDefinitionCollection.remove(table);
             },
             showFieldDialog = function (accessor, field, path) {
-                require(["viewmodels/" + path, "durandal/app"], function (dialog, app2) {
+                require([`viewmodels/${path}`, "durandal/app"], function (dialog, app2) {
                     dialog.field(field);
 
 
@@ -479,9 +492,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     showFieldDialog(self.Field, clone, "field." + type.toLowerCase());
                 };
             }
-            ;
+        ;
 
-        var vm = {
+        const vm = {
             errors: errors,
             validations: validations,
             changes: changes,
@@ -489,6 +502,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             addField: addField,
             editField: editField,
             addOperation: addOperation,
+            addSqlScriptOperation: addSqlScriptOperation,
             removeTable: removeTable,
             removeOperation: removeOperation,
             databaseOptions: databaseOptions,
@@ -514,7 +528,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         tooltip: "Connect to the adapter SQL Server instance",
                         enable: ko.computed(function () {
                             var adp = ko.unwrap(adapter);
-                            if (!adp)return false;
+                            if (!adp) return false;
                             return !ko.unwrap(connected) && ko.unwrap(adp.Server);
                         })
                     },
@@ -531,7 +545,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         command: publishAsync,
                         tooltip: "Compile the adapter",
                         enable: ko.computed(function () {
-                            if (!ko.unwrap(adapter))return false;
+                            if (!ko.unwrap(adapter)) return false;
                             return adapter().TableDefinitionCollection().length > 0 || adapter().OperationDefinitionCollection().length > 0;
                         })
                     }

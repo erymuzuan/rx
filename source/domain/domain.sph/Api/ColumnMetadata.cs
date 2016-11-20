@@ -16,7 +16,7 @@ namespace Bespoke.Sph.Domain.Api
         public short Length { get; private set; }
 
         private ColumnMetadata() { }
-        public ColumnMetadata(Column column)
+        public ColumnMetadata(Column column, string type = null)
         {
             Name = column.Name;
             WebId = column.WebId;
@@ -25,8 +25,8 @@ namespace Bespoke.Sph.Domain.Api
             IsComputed = column.IsComputed;
             Length = column.Length;
             IsPrimaryKey = column.IsPrimaryKey;
-
-
+            if (!string.IsNullOrWhiteSpace(type))
+                this.DbType = type;
         }
 
         public static ColumnMetadata Read(IDataReader reader)
@@ -34,7 +34,7 @@ namespace Bespoke.Sph.Domain.Api
             var mt = new ColumnMetadata();
             Console.WriteLine("");
             mt.WebId = reader["Id"].ToString();
-            mt.Name = (string) reader["Column"];
+            mt.Name = (string)reader["Column"];
             mt.DbType = (string)reader["Type"];
             mt.Length = Convert.ToInt16(reader["Length"]);
             mt.IsNullable = (bool)reader["IsNullable"];
@@ -42,12 +42,12 @@ namespace Bespoke.Sph.Domain.Api
             mt.IsComputed = (bool)reader["IsComputed"];
             return mt;
         }
-        public static ColumnMetadata Read(IDictionary<string,object> reader)
+        public static ColumnMetadata Read(IDictionary<string, object> reader)
         {
             var mt = new ColumnMetadata();
             Console.WriteLine("");
             mt.WebId = reader["Id"].ToString();
-            mt.Name = (string) reader["Column"];
+            mt.Name = (string)reader["Column"];
             mt.DbType = (string)reader["Type"];
             mt.Length = Convert.ToInt16(reader["Length"]);
             mt.IsNullable = (bool)reader["IsNullable"];

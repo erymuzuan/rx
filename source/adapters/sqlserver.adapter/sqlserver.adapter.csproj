@@ -92,6 +92,7 @@
     <Compile Include="ParameterNameExtensions.cs" />
     <Compile Include="SqlOperationDefinition.cs" />
     <Compile Include="SqlOperationFactory.cs" />
+    <Compile Include="SqlScriptOperationDefinition.cs" />
     <Compile Include="SqlServerAdapter.metadata.cs" />
     <Compile Include="SqlServerReceiveLocation.cs" />
     <Compile Include="SqlServerReceiveLocation.p.cs" />
@@ -168,6 +169,10 @@
     <EmbeddedResource Include="SphApp\views\adapter.sqlserver.add.operation.dialog.html" />
     <EmbeddedResource Include="SphApp\views\adapter.sqlserver.add.table.dialog.html" />
     <EmbeddedResource Include="SphApp\views\adapter.sqlserver.table.dialog.html" />
+    <EmbeddedResource Include="SphApp\viewmodels\adapter.sqlserver.add.operation.member.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\adapter.sqlserver.sql.script.dialog.js" />
+    <EmbeddedResource Include="SphApp\views\adapter.sqlserver.add.operation.member.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\adapter.sqlserver.sql.script.dialog.html" />
     <Content Include="_ko.adapter.sqlserver.js" />
     <EmbeddedResource Include="_sql.server.adapter.domain.js" />
   </ItemGroup>

@@ -43,14 +43,14 @@ define(["plugins/dialog", "services/datacontext", "knockout", "underscore"],
             activate = function () {
 
                 selectedOperations([]);
-                var adp = ko.unwrap(adapter),
+                const adp = ko.unwrap(adapter),
                     server = ko.unwrap(adp.Server),
                     database = ko.unwrap(adp.Database),
                     trusted = ko.unwrap(adp.TrustedConnection),
                     userid = ko.unwrap(adp.UserId),
                     password = ko.unwrap(adp.Password),
-                    url = trusted ? "" : "&trusted=false&userid=" + userid + "&password=" + password;
-                return $.getJSON("/sqlserver-adapter/operation-options?server=" + server + "&database=" + database + url)
+                    url = trusted ? "" : `&trusted=false&userid=${userid}&password=${password}`;
+                return $.getJSON(`/sqlserver-adapter/operation-options?server=${server}&database=${database}${url}`)
                 .done(function (result) {
                     const list = _(result).filter(function (v) {
                         const f = _(adapter().OperationDefinitionCollection())
