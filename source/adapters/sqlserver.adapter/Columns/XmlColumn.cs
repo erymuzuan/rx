@@ -27,7 +27,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
         
         public override string GenerateUpdateParameterValue(string commandName = "cmd", string itemIdentifier = "item")
         {
-            return $"{commandName}.Parameters.AddWithValue(\"@{ClrName}\", {itemIdentifier}.{ClrName}.OuterXml);";
+            return $"{commandName}.Parameters.AddWithValue(\"{ClrName.ToSqlParameter()}\", {itemIdentifier}.{ClrName}.OuterXml);";
 
         }
     }
