@@ -9,7 +9,11 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using RabbitMQ.Client;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using Humanizer;
+using Newtonsoft.Json.Linq;
+using Polly;
 
 namespace Bespoke.Sph.RabbitMqPublisher
 {
@@ -50,7 +54,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
         {
             headers.AddOrReplace("operation", operation);
             if (!this.IsOpened)
-                InitConnection();
+                await InitConnectionAsync();
 
 
 
@@ -111,14 +115,61 @@ namespace Bespoke.Sph.RabbitMqPublisher
             m_channel.BasicPublish(RETRY_EXCHANGE, string.Empty, props, body);
         }
 
-        private void InitConnection()
+        private readonly IList<string> m_nodes = new List<string> { ConfigurationManager.RabbitMqHost };
+        private async Task<string> GetRunningNodeAsync()
         {
+            var hosts = new Queue<string>(m_nodes);
+            var runningNodes = new List<string>();
+            while (hosts.Count > 0)
+            {
+                var host = hosts.Dequeue();
+                using (var handler = new HttpClientHandler { Credentials = new NetworkCredential(ConfigurationManager.RabbitMqUserName, ConfigurationManager.RabbitMqPassword) })
+                using (var client = new HttpClient(handler) { BaseAddress = new Uri($"{ConfigurationManager.RabbitMqManagementScheme}://{host}:{ConfigurationManager.RabbitMqManagementPort}") })
+                {
+                    try
+                    {
+                        client.Timeout = TimeSpan.FromMilliseconds(1500);
+                        var text = await client.GetStringAsync("/api/nodes");
+                        var nodes = JArray.Parse(text);
+                        var names = from j in nodes.OfType<JObject>()
+                                    let name = j.SelectToken("$.name").Value<string>()
+                                    select Strings.RegexSingleValue(name, "@(?<node>.*)", "node");
+                        m_nodes.Clear();
+                        names.ToList().ForEach(x => m_nodes.Add(x));
+
+
+                        runningNodes = (from j in nodes.OfType<JObject>()
+                                        let name = j.SelectToken("$.name").Value<string>()
+                                        where j.SelectToken("$.running").Value<bool>()
+                                        select Strings.RegexSingleValue(name, "@(?<node>.*)", "node")).ToList();
+                        break;
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+            }
+            return runningNodes.First();
+        }
+
+        private async Task InitConnectionAsync()
+        {
+            var pr = await Policy.Handle<InvalidOperationException>()
+                .WaitAndRetryAsync(5, x => TimeSpan.FromSeconds(5 * Math.Pow(2, x)))
+                .ExecuteAndCaptureAsync(async () => await GetRunningNodeAsync());
+            if (null != pr.FinalException)
+                throw new Exception("Ohhh shittt we're fucked!!!.... No running RabbitMq node is available", pr.FinalException);
+
+            var runningNode = pr.Result;
+            if (string.IsNullOrWhiteSpace(runningNode))
+                throw new Exception("You must have at least one node running");
 
             var factory = new ConnectionFactory
             {
                 UserName = ConfigurationManager.RabbitMqUserName,
                 Password = ConfigurationManager.RabbitMqPassword,
-                HostName = ConfigurationManager.RabbitMqHost,
+                HostName = runningNode,
                 Port = ConfigurationManager.RabbitMqPort,
                 VirtualHost = ConfigurationManager.RabbitMqVirtualHost
             };
@@ -158,7 +209,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
         private async Task SendMessage(string action, string operation, IEnumerable<Entity> items, IDictionary<string, object> headers, IEnumerable<AuditTrail> logs = null)
         {
             if (!this.IsOpened)
-                InitConnection();
+                await InitConnectionAsync();
 
             foreach (var item in items)
             {
