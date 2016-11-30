@@ -58,6 +58,12 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 Port = this.Port
             };
             m_connection = factory.CreateConnection();
+            m_connection.ConnectionShutdown += (o, e) =>
+            {
+                this.Stop();
+                //TODO : Get next available node if clustered??
+
+            };
 
             Parallel.ForEach(subscribersMetadata, (mt, c) =>
             {
@@ -94,6 +100,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             m_stopping = false;
         }
 
+
         private SubscriberConfig GetConfig(SubscriberMetadata mt)
         {
             return m_startOptions.LastOrDefault(x => x.FullName == mt.FullName && Path.GetFileNameWithoutExtension(mt.Assembly) == x.Assembly);
@@ -112,11 +119,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             throw new Exception("Cannot load " + subs);
         }
 
-
-
         private Subscriber StartSubscriber(SubscriberMetadata metadata, IConnection connection)
         {
-
             var dll = Path.GetFileNameWithoutExtension(metadata.Assembly);
             if (string.IsNullOrWhiteSpace(dll)) return null;
             var subs = Activator.CreateInstance(dll, metadata.FullName).Unwrap() as Subscriber;
@@ -160,12 +164,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             this.SubscriberCollection.Clear();
             if (null != m_connection)
             {
-                m_connection.Close();
+                if (m_connection.IsOpen)
+                    m_connection.Close();
                 m_connection.Dispose();
                 m_connection = null;
             }
-
-
 
         }
     }
