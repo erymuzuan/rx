@@ -14,7 +14,9 @@
             <tr>
                 <th>Date Time</th>
                 <th>Operation</th>
-                <th>Log Source</th>
+                <th>Computer</th>
+                <th>Log</th>
+                <th>Source</th>
             </tr>
             </thead>
             <tbody data-bind="foreach :list">
@@ -40,7 +42,9 @@
                         </a>
                     </td>
                     <td data-bind="text: (operation || '') + ': ' + message"></td>
+                    <td data-bind="text:computer"></td>
                     <td data-bind="text:log"></td>
+                    <td data-bind="text:source"></td>
                 </tr>
             </tbody>
         </table></div>
