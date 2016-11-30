@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Newtonsoft.Json;
+using Polly;
 
 namespace Bespoke.Sph.WebApi
 {
@@ -99,10 +100,17 @@ namespace Bespoke.Sph.WebApi
 
                 #endregion
             }
-            var me = m_controllerParentList
+
+            var pr = Polly.Policy.Handle<IndexOutOfRangeException>()
+                .WaitAndRetry(5, c => TimeSpan.FromMilliseconds(500))
+                .ExecuteAndCapture(() => m_controllerParentList
                     .Where(x => null != x && x.Controller == controller)
                     .ToList()
-                    .LastOrDefault();
+                    .LastOrDefault());
+            if (null != pr.FinalException)
+                throw pr.FinalException;
+
+            var me = pr.Result;
             return null == me ? "Custom" : me.Parent;
         }
 
