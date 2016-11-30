@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using RabbitMQ.Client;
+using EventLog = Bespoke.Sph.Domain.EventLog;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {
@@ -15,7 +16,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
     {
         private TaskCompletionSource<bool> m_stoppingTcs;
         protected abstract Task ProcessMessage(T item, MessageHeaders header);
-     
+
         public override void Run(IConnection connection)
         {
             var sw = new Stopwatch();
@@ -47,7 +48,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
             }
 
-  
+
             if (null != m_channel)
             {
                 m_channel.Close();
@@ -83,7 +84,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             const string DEAD_LETTER_QUEUE = "ms_dead_letter_queue";
 
             this.OnStart();
-         
+
             m_channel = connection.CreateModel();
 
             m_channel.ExchangeDeclare(EXCHANGE_NAME, ExchangeType.Topic, true);
@@ -128,23 +129,32 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             var body = e.Body;
             var json = await this.DecompressAsync(body);
             var header = new MessageHeaders(e);
+            var id = "";
             try
             {
                 var item = json.DeserializeFromJson<T>();
+                id = item.Id;
                 await ProcessMessage(item, header);
                 m_channel.BasicAck(e.DeliveryTag, false);
             }
             catch (Exception exc)
             {
-                this.WriteMessage("Error in {0}", this.GetType().Name);
-                this.WriteError(exc);
                 m_channel.BasicReject(e.DeliveryTag, false);
+                this.NotificicationService.WriteError(exc, "Exception is thrown in " + this.QueueName);
+                var logger = ObjectBuilder.GetObject<ILogger>();
+
+                var entry = new LogEntry(exc) { Source = this.QueueName, Log = EventLog.Subscribers };
+                entry.OtherInfo.Add("Type", typeof(T).Name);
+                entry.OtherInfo.Add("Id", id);
+                entry.OtherInfo.Add("Id2", id.Replace("-", ""));
+                logger.Log(entry);
             }
             finally
             {
                 Interlocked.Decrement(ref m_processing);
             }
         }
+
 
 
         private async Task<string> DecompressAsync(byte[] content)

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
+using EventLog = Bespoke.Sph.Domain.EventLog;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {
@@ -44,7 +45,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             {
                 this.NotificicationService.WriteError(exception, "Exception is thrown in " + this.QueueName);
                 var logger = ObjectBuilder.GetObject<ILogger>();
-                logger.Log(new LogEntry(exception));
+                logger.Log(new LogEntry(exception) { Source = this.QueueName , Log = EventLog.Subscribers});
             }
             catch (Exception e)
             {
@@ -127,7 +128,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     var reposType = sqlRepositoryType.MakeGenericType(edType);
                     var repository = Activator.CreateInstance(reposType);
 
-                    var ff = typeof (IRepository<>).MakeGenericType(edType);
+                    var ff = typeof(IRepository<>).MakeGenericType(edType);
                     bags.AddOrReplace(ff, repository);
                 }
                 catch (FileLoadException e)
