@@ -101,7 +101,7 @@ namespace Bespoke.Sph.WebApi
                 #endregion
             }
 
-            var pr = Polly.Policy.Handle<IndexOutOfRangeException>()
+            var pr = Policy.Handle<IndexOutOfRangeException>()
                 .WaitAndRetry(5, c => TimeSpan.FromMilliseconds(500))
                 .ExecuteAndCapture(() => m_controllerParentList
                     .Where(x => null != x && x.Controller == controller)
