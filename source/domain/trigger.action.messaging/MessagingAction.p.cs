@@ -16,6 +16,7 @@ namespace Bespoke.Sph.Messaging
         public string Schema { get; set; }
         public string Crud { get; set; }
         public int? Retry { get; set; }
+        public WaitAlgorithm RetryAlgorithm { get; set; }
         /// <summary>
         /// Interval in miliseconds
         /// </summary>

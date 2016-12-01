@@ -96,6 +96,8 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(Trigger).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(INotifyPropertyChanged).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(Polly.Policy).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(Task).Assembly.Location);
 
                 foreach (var ass in options.ReferencedAssembliesLocation)
                 {
@@ -149,6 +151,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("using " + typeof(int).Namespace + ";");
             code.AppendLine("using " + typeof(Task<>).Namespace + ";");
             code.AppendLine("using " + typeof(Enumerable).Namespace + ";");
+            code.AppendLine("using " + typeof(Polly.Policy).Namespace + ";");
             code.AppendLine("using Bespoke.Sph.SubscribersInfrastructure;");
             code.AppendLine();
 
@@ -225,7 +228,7 @@ namespace Bespoke.Sph.Domain
                 .Select(x => x.WebId)
                 .Distinct()
                 .Count();
-            if(actions != this.ActionCollection.Count)
+            if (actions != this.ActionCollection.Count)
                 throw new InvalidOperationException($"Your actions WebId is not unique");
             foreach (var ca in this.ActionCollection.Where(x => x.UseCode))
             {

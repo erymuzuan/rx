@@ -46,23 +46,70 @@ namespace Bespoke.Sph.Messaging
             var context = new SphDataContext();
             var map = context.LoadOne<TransformDefinition>(x => x.Id == this.OutboundMap);
             var adapter = context.LoadOne<Adapter>(x => x.Name == this.Adapter);
-                        
+            var rt = new ErrorRetry();
+            var hasRetry = this.Retry.HasValue;
+            if (hasRetry)
+            {
+                rt = new ErrorRetry
+                {
+                    Algorithm = this.RetryAlgorithm,
+                    WebId = this.WebId,
+                    Attempt = this.Retry.Value,
+                    Wait = Convert.ToInt32(this.RetryIntervalTimeSpan * this.RetryInterval),
+                    IsEnabled = true
+                };
+            }
+
             code.AppendLine($"var map = new {map.CodeNamespace}.{map.ClassName}();");
-            code.AppendLine("var source = await map.TransformAsync(item);");
+            if (hasRetry)
+            {
+                code.AppendLine($@" var sourceRetry = await Policy.Handle<Exception>()
+                                                    .WaitAndRetryAsync({rt.GenerateWaitCode()})
+                                                    .ExecuteAndCaptureAsync(async () => await map.TransformAsync(item));");
+                code.AppendLine("if(null != sourceRetry.FinalException)");
+                code.AppendLine("    throw sourceRetry.FinalException;");
+                code.AppendLine("var source = sourceRetry.Result;");
+            }
+            else
+                code.AppendLine("var source = await map.TransformAsync(item);");
             var useOperation = string.IsNullOrWhiteSpace(this.Table) && !string.IsNullOrWhiteSpace(this.Operation);
             var useTable = !string.IsNullOrWhiteSpace(this.Table) && !string.IsNullOrWhiteSpace(this.Crud);
+
+
             if (useOperation)
             {
                 var op = adapter.OperationDefinitionCollection.Single(x => x.Name == this.Operation);
                 code.AppendLine($"var adapter = new {AdapterType.FullName}();");
-                code.AppendLine($"var response = await adapter.{op.MethodName}Async(source);");
+                if (hasRetry)
+                {
+                    code.AppendLine($@" var pr = await Policy.Handle<Exception>()
+                                                    .WaitAndRetryAsync({rt.GenerateWaitCode()})
+                                                    .ExecuteAndCaptureAsync(async () => await adapter.{op.MethodName}Async(source));");
+                    code.AppendLine("if(null != pr.FinalException)");
+                    code.AppendLine("    throw pr.FinalException;");
+                    code.AppendLine("var response = pr.Result;");
+                }
+                else
+                    code.AppendLine($"var response = await adapter.{op.MethodName}Async(source);");
 
             }
             if (useTable)
             {
                 var table = adapter.TableDefinitionCollection.Single(x => x.Name == this.Table);
                 code.AppendLine($"var adapter = new {adapter.CodeNamespace}.{table.ClrName}Adapter();");
-                code.AppendLine($"var response = await adapter.{Crud}Async(source);");
+                if (hasRetry)
+                {
+                    code.AppendLine($@" var pr = await Policy.Handle<Exception>()
+                                                    .WaitAndRetryAsync({rt.GenerateWaitCode()})
+                                                    .ExecuteAndCaptureAsync(async () => await adapter.{Crud}Async(source));");
+                    code.AppendLine("if(null != pr.FinalException)");
+                    code.AppendLine("    throw pr.FinalException;");
+                    code.AppendLine("var response = pr.Result;");
+                }
+                else
+                {
+                    code.AppendLine($"var response = await adapter.{Crud}Async(source);");
+                }
             }
             code.AppendLine("return response;");
             return code.ToString();
