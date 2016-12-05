@@ -24,14 +24,10 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
         public RelayCommand DisconnectCommand { get; set; }
         public RelayCommand AddConnectionCommand { get; set; }
 
-        private readonly ObservableCollection<Exchange> m_exchangeCollection = new ObservableCollection<Exchange>();
-        private readonly ObservableCollection<Queue> m_queueCollection = new ObservableCollection<Queue>();
         private Exchange m_exchange;
         private bool m_isConnected;
         private bool m_isBusy;
         private IConnection m_conn;
-        private IModel m_channel;
-        private readonly ObservableCollection<RabbitMqConnection> m_connectionCollection = new ObservableCollection<RabbitMqConnection>();
         private RabbitMqConnection m_selectedConnection;
 
         public RabbitMqConnection SelectedConnection
@@ -43,10 +39,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
                 RaisePropertyChanged("SelectedConnection");
             }
         }
-        public ObservableCollection<RabbitMqConnection> ConnectionCollection
-        {
-            get { return m_connectionCollection; }
-        }
+        public ObservableCollection<RabbitMqConnection> ConnectionCollection { get; } = new ObservableCollection<RabbitMqConnection>();
 
 
         public ConnectionViewModel()
@@ -114,15 +107,9 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
             }
         }
 
-        public ObservableCollection<Exchange> ExchangeCollection
-        {
-            get { return m_exchangeCollection; }
-        }
+        public ObservableCollection<Exchange> ExchangeCollection { get; } = new ObservableCollection<Exchange>();
 
-        public ObservableCollection<Queue> QueueCollection
-        {
-            get { return m_queueCollection; }
-        }
+        public ObservableCollection<Queue> QueueCollection { get; } = new ObservableCollection<Queue>();
 
         public Exchange Exchange
         {
@@ -156,10 +143,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
         }
 
 
-        public IModel Channel
-        {
-            get { return m_channel; }
-        }
+        public IModel Channel { get; private set; }
 
         private bool CanDisconnect()
         {
@@ -186,7 +170,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
                     Port = connection.Port,
                 };
             m_conn = factory.CreateConnection();
-            m_channel = m_conn.CreateModel();
+            Channel = m_conn.CreateModel();
             this.IsConnected = true;
 
 

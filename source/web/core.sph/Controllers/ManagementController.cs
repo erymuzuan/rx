@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
-using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.Models;
 using Bespoke.Sph.WebApi;
 using Newtonsoft.Json;

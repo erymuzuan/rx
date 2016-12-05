@@ -10,6 +10,7 @@ using GalaSoft.MvvmLight.Command;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Windows;
 using Microsoft.Win32;
@@ -187,21 +188,65 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
 
 
             this.DeathHeader = new XDeathHeader(result.BasicProperties.Headers);
-            this.RoutingKey = this.DeathHeader.RoutingValuesKeys;
+            this.RoutingKey = this.DeathHeader.Queue;
             this.Connection.Exchange =
-                this.Connection.ExchangeCollection.SingleOrDefault(e => e.Name == this.DeathHeader.Exchange);
+                this.Connection.ExchangeCollection.FirstOrDefault(e => string.IsNullOrWhiteSpace(e.Name) && e.Type == "direct");
             this.Result = result;
             this.Message = Encoding.UTF8.GetString(this.Result.Body);
             this.Post(() => this.IsBusy = false);
 
         }
 
-
+        private readonly HttpClient m_elasticsearchHttpClient = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticsearchLogHost) };
         private async void Decompress(BasicGetResult result)
         {
             try
             {
                 this.Message = await DecompressAsync(result.Body);
+
+                this.LogEntry = null;
+                var jo = JObject.Parse(this.Message);
+                var id = jo.SelectToken("$.Id").Value<string>();
+                if (string.IsNullOrWhiteSpace(id)) return;
+                id = id.Replace("-", "");
+                var request = $@"{{
+   ""filter"": {{
+      ""query"": {{
+         ""bool"": {{
+            ""must"": [
+               {{
+                  ""term"": {{
+                     ""otherInfo.id2"": ""{id}""
+                  }}
+               }}
+            ]
+         }}
+      }}
+   }}
+}}";
+                var rc = new StringContent(request);
+                var response = await m_elasticsearchHttpClient.PostAsync($"/{ConfigurationManager.ApplicationName.ToLowerInvariant()}_logs/log/_search", rc);
+
+
+
+                var content = response.Content as StreamContent;
+                if (null == content) throw new Exception("Cannot execute query on es " + request);
+                var hit = await content.ReadAsStringAsync();
+                var jo2 = JObject.Parse(hit);
+                var total = jo2.SelectToken("$.hits.total").Value<int>();
+                Console.WriteLine(total);
+                if (total == 1)
+                {
+                    var jle = jo2.SelectToken("$.hits.hits")[0].SelectToken("$._source");
+                    this.LogEntry = JsonConvert.DeserializeObject<LogEntry>(jle.ToString());
+                }
+                else
+                {
+                    this.LogEntry = null;
+                    Console.WriteLine(@"No result is found");
+                }
+
+
             }
             catch (Exception e)
             {

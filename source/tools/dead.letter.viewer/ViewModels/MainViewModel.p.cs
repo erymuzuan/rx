@@ -102,6 +102,18 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
             }
         }
 
+        private LogEntry m_logEntry;
+        [JsonIgnore]
+        public LogEntry LogEntry
+        {
+            get { return m_logEntry; }
+            set
+            {
+                m_logEntry = value;
+                RaisePropertyChanged("LogEntry");
+            }
+        }
+
 
         public string Message
         {

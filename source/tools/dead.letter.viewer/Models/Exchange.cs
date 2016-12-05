@@ -8,7 +8,7 @@
 
         public override string ToString()
         {
-            return string.Format("{1}:{0}({2})", this.Name, this.VirtualHost, this.Type);
+            return $"{this.VirtualHost}:{this.Name}({this.Type})";
         }
         public string VirtualHost
         {

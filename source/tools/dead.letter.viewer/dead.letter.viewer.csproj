@@ -72,6 +72,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Web" />
@@ -116,6 +117,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ConfigurationManager.cs" />
     <Compile Include="ConnectionDialog.xaml.cs">
       <DependentUpon>ConnectionDialog.xaml</DependentUpon>
     </Compile>
@@ -123,6 +125,7 @@
       <DependentUpon>ConnectionPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="HashTableHelper.cs" />
+    <Compile Include="LogEntry.cs" />
     <Compile Include="Models\Exchange.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\Queue.cs" />
