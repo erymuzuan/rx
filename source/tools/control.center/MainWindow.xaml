@@ -60,7 +60,6 @@
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="He_lp" Icon="{StaticResource ImageHelp}" Click="HelpClicked"/>
-                <uc:UpdaterView HorizontalAlignment="Right" Grid.Row="1" />
                 <MenuItem Header="_About" Click="AboutClicked"/>
             </MenuItem>
         </Menu>

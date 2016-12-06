@@ -196,9 +196,6 @@
     </Compile>
     <Compile Include="Strings.cs" />
     <Compile Include="ThreadingHelper.cs" />
-    <Compile Include="UpdaterView.xaml.cs">
-      <DependentUpon>UpdaterView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModel\ApplicationSetup.cs" />
     <Compile Include="ViewModel\InMemoryBrokerViewModel.cs" />
     <Compile Include="ViewModel\InMemoryBrokerViewModel.Dependencies.cs">
@@ -206,7 +203,6 @@
     </Compile>
     <Compile Include="ViewModel\SetupViewModel.p.cs" />
     <Compile Include="ViewModel\SetupViewModel.cs" />
-    <Compile Include="ViewModel\UpdaterViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Page Include="Converters.xaml">
@@ -262,10 +258,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="styles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UpdaterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
