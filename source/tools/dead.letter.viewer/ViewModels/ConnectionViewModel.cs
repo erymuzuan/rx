@@ -29,6 +29,18 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
         private bool m_isBusy;
         private IConnection m_conn;
         private RabbitMqConnection m_selectedConnection;
+        private RabbitMqConnection m_connectedConnection;
+
+        //TODO : we should set the one connected, for any operation, selected is used for UI only
+        public RabbitMqConnection ConnectedConnection
+        {
+            get { return m_connectedConnection; }
+            set
+            {
+                m_connectedConnection = value;
+                RaisePropertyChanged("ConnectedConnection");
+            }
+        }
 
         public RabbitMqConnection SelectedConnection
         {
@@ -175,7 +187,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
 
 
             var cache = new CredentialCache();
-            var prefix = new Uri(string.Format("http://{0}:{1}/", this.SelectedConnection.HostName, this.SelectedConnection.ApiPort));
+            var prefix = new Uri($"http://{this.SelectedConnection.HostName}:{this.SelectedConnection.ApiPort}/");
             cache.Add(prefix, "Basic", new NetworkCredential(this.SelectedConnection.UserName, this.SelectedConnection.Password));
 
             using (var handler = new HttpClientHandler { Credentials = cache })
@@ -183,7 +195,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
             {
                 this.QueueCollection.Clear();
                 this.ExchangeCollection.Clear();
-                var queueResponse = await client.GetStringAsync(string.Format("http://{0}:{1}/api/queues", this.SelectedConnection.HostName, this.SelectedConnection.ApiPort));
+                var queueResponse = await client.GetStringAsync($"http://{this.SelectedConnection.HostName}:{this.SelectedConnection.ApiPort}/api/queues");
                 var queueJson = ( JsonConvert.DeserializeObject(queueResponse)) as Newtonsoft.Json.Linq.JArray;
                 if (null != queueJson)
                 {
@@ -202,6 +214,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
                             if (queue.VirtualHost != this.SelectedConnection.VirtualHost) continue;
                             this.QueueCollection.Add(queue);
 
+
                         }
                         catch (Exception)
                         {
@@ -210,7 +223,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
                     }
 
                 }
-                var excahngeResponse = await client.GetStringAsync(string.Format("http://{0}:{1}/api/exchanges", this.SelectedConnection.HostName, this.SelectedConnection.ApiPort));
+                var excahngeResponse = await client.GetStringAsync($"http://{this.SelectedConnection.HostName}:{this.SelectedConnection.ApiPort}/api/exchanges");
                 var exchangeJson = (JsonConvert.DeserializeObject(excahngeResponse)) as Newtonsoft.Json.Linq.JArray;
                 if (null != exchangeJson)
                 {
@@ -232,6 +245,9 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
 
             this.SaveConnection();
             this.IsBusy = false;
+            var dlq = this.QueueCollection.FirstOrDefault(x => x.Name == "ms_dead_letter_queue");
+            if (null != dlq)
+                this.SelectedQueue = dlq;
         }
 
         private async void PollSelectedQueue()
@@ -240,14 +256,13 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
             if (!this.IsConnected) return;
 
             var cache = new CredentialCache();
-            var prefix = new Uri(string.Format("http://{0}:{1}/", this.SelectedConnection.HostName, this.SelectedConnection.ApiPort));
+            var prefix = new Uri($"http://{this.SelectedConnection.HostName}:{this.SelectedConnection.ApiPort}/");
             cache.Add(prefix, "Basic", new NetworkCredential(this.SelectedConnection.UserName, this.SelectedConnection.Password));
 
             using (var handler = new HttpClientHandler { Credentials = cache })
             using (var client = new HttpClient(handler))
             {
-                var queueResponse = await client.GetStringAsync(string.Format("http://{0}:{1}/api/queues/{2}/{3}", this.SelectedConnection.HostName, this.SelectedConnection.ApiPort,
-                    HttpUtility.UrlEncode(this.SelectedConnection.VirtualHost), this.SelectedQueue.Name));
+                var queueResponse = await client.GetStringAsync($"http://{this.SelectedConnection.HostName}:{this.SelectedConnection.ApiPort}/api/queues/{HttpUtility.UrlEncode(this.SelectedConnection.VirtualHost)}/{this.SelectedQueue.Name}");
                 dynamic q = ( JsonConvert.DeserializeObject(queueResponse));
                 this.SelectedQueue.MessagesCount = q.messages.Value;
             }
@@ -276,8 +291,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
         private bool CanConnect(RabbitMqConnection connection)
         {
             if (this.IsConnected) return false;
-            if (null == connection) return false;
-            if (string.IsNullOrWhiteSpace(connection.HostName)) return false;
+            if (string.IsNullOrWhiteSpace(connection?.HostName)) return false;
             if (string.IsNullOrWhiteSpace(connection.VirtualHost)) return false;
             if (string.IsNullOrWhiteSpace(connection.UserName)) return false;
             if (string.IsNullOrWhiteSpace(connection.Password)) return false;
