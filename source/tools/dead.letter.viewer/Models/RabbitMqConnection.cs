@@ -2,7 +2,20 @@
 {
     public class RabbitMqConnection : ModelBase
     {
+        public RabbitMqConnection()
+        {
+            
+        }
 
+        public RabbitMqConnection(RabbitMqConnection conn)
+        {
+            this.Port = conn.Port;
+            this.ApiPort = conn.ApiPort;
+            this.HostName = conn.HostName;
+            this.Password = conn.Password;
+            this.UserName = conn.UserName;
+            this.VirtualHost = conn.VirtualHost;
+        }
         private int m_port;
         private string m_password;
         private string m_userName;

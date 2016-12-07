@@ -187,15 +187,16 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
 
 
             var cache = new CredentialCache();
-            var prefix = new Uri($"http://{this.SelectedConnection.HostName}:{this.SelectedConnection.ApiPort}/");
-            cache.Add(prefix, "Basic", new NetworkCredential(this.SelectedConnection.UserName, this.SelectedConnection.Password));
+            var conn = this.SelectedConnection;
+            var prefix = new Uri($"http://{conn.HostName}:{conn.ApiPort}/");
+            cache.Add(prefix, "Basic", new NetworkCredential(conn.UserName, conn.Password));
 
             using (var handler = new HttpClientHandler { Credentials = cache })
             using (var client = new HttpClient(handler))
             {
                 this.QueueCollection.Clear();
                 this.ExchangeCollection.Clear();
-                var queueResponse = await client.GetStringAsync($"http://{this.SelectedConnection.HostName}:{this.SelectedConnection.ApiPort}/api/queues");
+                var queueResponse = await client.GetStringAsync($"http://{conn.HostName}:{conn.ApiPort}/api/queues");
                 var queueJson = ( JsonConvert.DeserializeObject(queueResponse)) as Newtonsoft.Json.Linq.JArray;
                 if (null != queueJson)
                 {
@@ -211,7 +212,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
                                     VirtualHost = q.vhost.Value,
                                     MessagesCount = q.messages.Value
                                 };
-                            if (queue.VirtualHost != this.SelectedConnection.VirtualHost) continue;
+                            if (queue.VirtualHost != conn.VirtualHost) continue;
                             this.QueueCollection.Add(queue);
 
 
@@ -223,7 +224,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
                     }
 
                 }
-                var excahngeResponse = await client.GetStringAsync($"http://{this.SelectedConnection.HostName}:{this.SelectedConnection.ApiPort}/api/exchanges");
+                var excahngeResponse = await client.GetStringAsync($"http://{conn.HostName}:{conn.ApiPort}/api/exchanges");
                 var exchangeJson = (JsonConvert.DeserializeObject(excahngeResponse)) as Newtonsoft.Json.Linq.JArray;
                 if (null != exchangeJson)
                 {
@@ -235,7 +236,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
                                 VirtualHost = q.Value<string>("vhost"),
                                 Type = q.Value<string>("type")
                             };
-                        if (xch.VirtualHost != this.SelectedConnection.VirtualHost) continue;
+                        if (xch.VirtualHost != conn.VirtualHost) continue;
                         this.ExchangeCollection.Add(xch);
                     }
 
@@ -248,6 +249,8 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
             var dlq = this.QueueCollection.FirstOrDefault(x => x.Name == "ms_dead_letter_queue");
             if (null != dlq)
                 this.SelectedQueue = dlq;
+
+            this.ConnectedConnection = new RabbitMqConnection(conn);
         }
 
         private async void PollSelectedQueue()
@@ -256,13 +259,14 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
             if (!this.IsConnected) return;
 
             var cache = new CredentialCache();
-            var prefix = new Uri($"http://{this.SelectedConnection.HostName}:{this.SelectedConnection.ApiPort}/");
-            cache.Add(prefix, "Basic", new NetworkCredential(this.SelectedConnection.UserName, this.SelectedConnection.Password));
+            var conn = this.SelectedConnection;
+            var prefix = new Uri($"http://{conn.HostName}:{conn.ApiPort}/");
+            cache.Add(prefix, "Basic", new NetworkCredential(conn.UserName, conn.Password));
 
             using (var handler = new HttpClientHandler { Credentials = cache })
             using (var client = new HttpClient(handler))
             {
-                var queueResponse = await client.GetStringAsync($"http://{this.SelectedConnection.HostName}:{this.SelectedConnection.ApiPort}/api/queues/{HttpUtility.UrlEncode(this.SelectedConnection.VirtualHost)}/{this.SelectedQueue.Name}");
+                var queueResponse = await client.GetStringAsync($"http://{conn.HostName}:{conn.ApiPort}/api/queues/{HttpUtility.UrlEncode(conn.VirtualHost)}/{this.SelectedQueue.Name}");
                 dynamic q = ( JsonConvert.DeserializeObject(queueResponse));
                 this.SelectedQueue.MessagesCount = q.messages.Value;
             }
