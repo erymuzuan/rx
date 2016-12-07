@@ -144,7 +144,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 var logger = ObjectBuilder.GetObject<ILogger>();
 
                 var entry = new LogEntry(exc) { Source = this.QueueName, Log = EventLog.Subscribers };
-                entry.OtherInfo.Add("Type", typeof(T).Name);
+                entry.OtherInfo.Add("Type", typeof(T).Name.ToLowerInvariant());
                 entry.OtherInfo.Add("Id", id);
                 entry.OtherInfo.Add("Id2", id.Replace("-", ""));
                 logger.Log(entry);
