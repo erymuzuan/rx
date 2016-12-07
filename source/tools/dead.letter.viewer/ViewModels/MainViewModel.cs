@@ -36,8 +36,6 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
         [JsonIgnore]
         public RelayCommand<BasicGetResult> DecompressMessageCommand { get; set; }
         [JsonIgnore]
-        public RelayCommand<string> FormatMessageCommand { get; set; }
-        [JsonIgnore]
         public RelayCommand<XDeathHeader> AutomaticallyRequeCommand { set; get; }
 
         [Import]
@@ -51,8 +49,6 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
             this.RequeueCommand = new RelayCommand(Requeue, () => Connection.IsConnected && null != this.Result);
             this.ExportCommand = new RelayCommand(Export, () => Connection.IsConnected && null != this.Result);
             this.DiscardMessageCommand = new RelayCommand(DiscardMessage, () => Connection.IsConnected && null != this.Result);
-            this.DecompressMessageCommand = new RelayCommand<BasicGetResult>(Decompress, b => null != b);
-            this.FormatMessageCommand = new RelayCommand<string>(FormatJson, b => !string.IsNullOrWhiteSpace(b));
             this.AutomaticallyRequeCommand = new RelayCommand<XDeathHeader>(AutomaticallyReque, xd => null != xd);
         }
         private readonly List<XDeathHeader> m_autoRequeList = new List<XDeathHeader>();
@@ -92,13 +88,26 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
 
         private async void Export()
         {
-            var dlg = new SaveFileDialog { DefaultExt = ".zip", Title = "Export message" };
+            var dlg = new SaveFileDialog
+            {
+                DefaultExt = ".zip",
+                Title = "Export message",
+                AddExtension = true,
+                Filter = "Compressed file (*.zip)|*.zip|JSON file (*.json)|*.json"
+            };
             if (dlg.ShowDialog() ?? false)
             {
                 var file = dlg.FileName;
                 var json = JsonConvert.SerializeObject(this, Formatting.Indented);
-                var content = await CompressAsync(json);
-                File.WriteAllBytes(file, content);
+                if (Path.GetExtension(dlg.FileName) == ".zip")
+                {
+                    var content = await CompressAsync(json);
+                    File.WriteAllBytes(file, content);
+                }
+                else
+                {
+                    File.WriteAllText(file, json);
+                }
             }
         }
 
@@ -142,10 +151,6 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
 
                 this.Load();
                 if (null == this.Result) return;
-                if (this.IsNextMessageDecompress)
-                    this.Message = await DecompressAsync(this.Result.Body);
-                if (this.IsNextMessageReformat)
-                    this.FormatJson(this.Message);
                 if (m_autoRequeList.Any(d => d.Equals(this.DeathHeader)))
                 {
                     this.Requeue();
@@ -177,7 +182,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
         }
 
 
-        private void Load()
+        private async void Load()
         {
             var result = Connection.Channel.BasicGet(Connection.SelectedQueue.Name, false);
             if (null == result)
@@ -192,24 +197,23 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
             this.Connection.Exchange =
                 this.Connection.ExchangeCollection.FirstOrDefault(e => string.IsNullOrWhiteSpace(e.Name) && e.Type == "direct");
             this.Result = result;
-            this.Message = Encoding.UTF8.GetString(this.Result.Body);
+            var message = await this.Decompress(result);
+            this.LogEntry = await GetLogEntryAsync(message);
+            this.Message = FormatJson(message);
             this.Post(() => this.IsBusy = false);
 
         }
 
         private readonly HttpClient m_elasticsearchHttpClient = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticsearchLogHost) };
-        private async void Decompress(BasicGetResult result)
-        {
-            try
-            {
-                this.Message = await DecompressAsync(result.Body);
 
-                this.LogEntry = null;
-                var jo = JObject.Parse(this.Message);
-                var id = jo.SelectToken("$.Id").Value<string>();
-                if (string.IsNullOrWhiteSpace(id)) return;
-                id = id.Replace("-", "");
-                var request = $@"{{
+
+        private async Task<LogEntry> GetLogEntryAsync(string message)
+        {
+            var jo = JObject.Parse(message);
+            var id = jo.SelectToken("$.Id").Value<string>();
+            if (string.IsNullOrWhiteSpace(id)) return null;
+            id = id.Replace("-", "");
+            var request = $@"{{
    ""filter"": {{
       ""query"": {{
          ""bool"": {{
@@ -224,29 +228,27 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
       }}
    }}
 }}";
-                var rc = new StringContent(request);
-                var response = await m_elasticsearchHttpClient.PostAsync($"/{ConfigurationManager.ApplicationName.ToLowerInvariant()}_logs/log/_search", rc);
+            var rc = new StringContent(request);
+            var response = await m_elasticsearchHttpClient.PostAsync($"/{ConfigurationManager.ApplicationName.ToLowerInvariant()}_logs/log/_search", rc);
 
 
 
-                var content = response.Content as StreamContent;
-                if (null == content) throw new Exception("Cannot execute query on es " + request);
-                var hit = await content.ReadAsStringAsync();
-                var jo2 = JObject.Parse(hit);
-                var total = jo2.SelectToken("$.hits.total").Value<int>();
-                Console.WriteLine(total);
-                if (total == 1)
-                {
-                    var jle = jo2.SelectToken("$.hits.hits")[0].SelectToken("$._source");
-                    this.LogEntry = JsonConvert.DeserializeObject<LogEntry>(jle.ToString());
-                }
-                else
-                {
-                    this.LogEntry = null;
-                    Console.WriteLine(@"No result is found");
-                }
-
-
+            var content = response.Content as StreamContent;
+            if (null == content) throw new Exception("Cannot execute query on es " + request);
+            var hit = await content.ReadAsStringAsync();
+            var jo2 = JObject.Parse(hit);
+            var total = jo2.SelectToken("$.hits.total").Value<int>();
+            Console.WriteLine(total);
+            if (total != 1) return null;
+            var jle = jo2.SelectToken("$.hits.hits")[0].SelectToken("$._source");
+            return JsonConvert.DeserializeObject<LogEntry>(jle.ToString());
+        }
+        private async Task<string> Decompress(BasicGetResult result)
+        {
+            var message = "";
+            try
+            {
+                message = await DecompressAsync(result.Body);
             }
             catch (Exception e)
             {
@@ -259,12 +261,14 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
                 MessageBox.Show(text.ToString(), "There's an exception trying to decompress the result",
                     MessageBoxButton.OK);
             }
+
+            return message;
         }
 
-        private void FormatJson(string message)
+        private string FormatJson(string message)
         {
             var jo = JObject.Parse(message);
-            this.Message = jo.ToString(Formatting.Indented);
+            return jo.ToString(Formatting.Indented);
         }
 
         private static async Task<string> DecompressAsync(byte[] content)

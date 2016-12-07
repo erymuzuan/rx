@@ -12,10 +12,10 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
         private string m_routingKey;
         private bool m_isBusy;
         private XDeathHeader m_deathHeader;
-        private bool m_isCompress;
+        private bool m_isCompress = true;
         private bool m_isAfterProcessGetNextMessage;
-        private bool m_isNextMessageDecompress;
-        private bool m_isNextMessageReformat;
+        private bool m_isNextMessageDecompress = true;
+        private bool m_isNextMessageReformat = true;
 
 
         [JsonIgnore]
@@ -103,7 +103,6 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
         }
 
         private LogEntry m_logEntry;
-        [JsonIgnore]
         public LogEntry LogEntry
         {
             get { return m_logEntry; }
