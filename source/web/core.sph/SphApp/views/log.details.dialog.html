@@ -143,7 +143,25 @@
                         <!-- /ko -->
 
                         <div id="log-others" class="tab-pane">
+                            <form class="form-horizontal" data-bind="with : otherInfo">
+                                <!-- ko if: typeof requeuedBy !== "undefined"-->
+                                <div class="form-group">
+                                    <label for="requeued-by" class="col-lg-2 control-label">Requeued By</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" data-bind="value: requeuedBy" readonly="readonly" class="form-control" id="requeued-by">
+                                    </div>
+                                </div>
+                                <!-- /ko -->
+                                <!-- ko if: typeof requeuedOn !== "undefined" -->
+                                <div class="form-group">
+                                    <label for="requeued-on" class="col-lg-2 control-label">Requeued On</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" data-bind="value: requeuedOn" readonly="readonly" class="form-control" id="requeued-on">
+                                    </div>
+                                </div>
+                                <!-- /ko -->
 
+                            </form>
                         </div>
 
                     </div>
