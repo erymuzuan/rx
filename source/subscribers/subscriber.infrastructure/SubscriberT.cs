@@ -146,6 +146,9 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 var entry = new LogEntry(exc) { Source = this.QueueName, Log = EventLog.Subscribers };
                 entry.OtherInfo.Add("Type", typeof(T).Name.ToLowerInvariant());
                 entry.OtherInfo.Add("Id", id);
+                entry.OtherInfo.Add("Requeued", false);
+                entry.OtherInfo.Add("RequeuedBy", "");
+                entry.OtherInfo.Add("RequeuedOn", "");
                 entry.OtherInfo.Add("Id2", id.Replace("-", ""));
                 logger.Log(entry);
             }
