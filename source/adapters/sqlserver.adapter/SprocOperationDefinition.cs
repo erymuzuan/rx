@@ -86,7 +86,7 @@ set fmtonly off
                 cmd.CommandType = CommandType.Text;
                 foreach (var p in this.RequestMemberCollection)
                 {
-                    cmd.Parameters.AddWithValue(p.Name, 442);
+                    cmd.Parameters.AddWithValue(p.Name, 1);
                 }
 
                 foreach (var p in this.ResponseMemberCollection.Where(x => x.Name != "@return_value"))
