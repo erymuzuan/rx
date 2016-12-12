@@ -1150,9 +1150,19 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="TextFormatter">
+					<xs:all>
+						<xs:element name="FieldMappingCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="FixedLengthTextFieldMapping" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
 					<xs:attribute name="RecordTag" type="xs:string" use="optional"/>
 					<xs:attribute name="HasTagIdentifier" type="xs:boolean" use="required"/>
 					<xs:attribute name="HasLabel" type="xs:boolean" use="required"/>
+					<xs:attribute name="IgnoreTag" type="xs:string" use="optional"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -1252,7 +1262,7 @@
 					<xs:attribute name="AllowMissing" type="xs:boolean" use="required"/>
 					<xs:attribute name="Start" type="xs:int" use="required"/>
 					<xs:attribute name="Length" type="xs:int" use="required"/>
-					<xs:attribute name="Trim" type="xs:boolean" use="required"/>
+					<xs:attribute name="TrimMode" type="xs:string" use="optional"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

@@ -42,6 +42,12 @@
 
         <div class="col-lg-4 col-md-5 col-sm-6" data-bind="with:selected ">
 
+            <!-- ko if : $type === "Bespoke.Sph.Domain.FixedLengthTextFieldMapping, domain.sph" -->
+            <!-- ko compose : {view:'_field.mapping.header.fixedlengthtext'}-->
+            <!-- /ko-->
+            <!-- /ko -->
+            
+
             <!-- ko if : $type === "Bespoke.Sph.Domain.DelimitedTextFieldMapping, domain.sph" -->
             <!-- ko compose : {view:'_field.mapping.header.delimitedtext'}-->
             <!-- /ko-->

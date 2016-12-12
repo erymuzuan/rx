@@ -3107,8 +3107,11 @@ bespoke.sph.domain.FixedLengthTextFormatter = function (optionOrWebid) {
 
     v.HasLabel = ko.observable(false);
 
+    v.IgnoreTag = ko.observable("");
+
     v["$type"] = "Bespoke.Sph.Domain.FixedLengthTextFormatter, domain.sph";
 
+    v.FieldMappingCollection = ko.observableArray([]);
 
     var context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
@@ -3378,7 +3381,7 @@ bespoke.sph.domain.FixedLengthTextFieldMapping = function (optionOrWebid) {
 
     v.Length = ko.observable(0);
 
-    v.Trim = ko.observable(false);
+    v.TrimMode = ko.observable("");
 
     v["$type"] = "Bespoke.Sph.Domain.FixedLengthTextFieldMapping, domain.sph";
 

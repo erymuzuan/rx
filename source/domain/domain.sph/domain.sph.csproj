@@ -230,8 +230,10 @@
     <Compile Include="Ports\DelimitedTextFieldMapping.cs" />
     <Compile Include="Ports\DelimitedTextFormatter.cs" />
     <Compile Include="Ports\DelimitedTextSimpleMember.cs" />
+    <Compile Include="Ports\FixedLengthTextComplexMember.cs" />
     <Compile Include="Ports\FixedLengthTextFieldMapping.cs" />
     <Compile Include="Ports\FixedLengthTextFormatter.cs" />
+    <Compile Include="Ports\FixedLengthTextSimpleMember.cs" />
     <Compile Include="Ports\FlatFileDetailTag.cs" />
     <Compile Include="Ports\FolderReceiveLocation.cs" />
     <Compile Include="Ports\FolderReceiveLocation.package.cs" />

@@ -97,6 +97,12 @@
                 </div>
 
 
+                <!-- ko if : ko.unwrap(Formatter) === 'FixedLengthTextFormatter' -->
+
+                <!-- ko compose : { view : '_formatter.wizard.fixedlengthtext'}--><!-- /ko-->
+
+                <!-- /ko -->
+
                 <!-- ko if : ko.unwrap(Formatter) === 'DelimitedTextFormatter' -->
 
                 <!-- ko compose : { view : '_formatter.wizard.delimitedtext'}--><!-- /ko-->

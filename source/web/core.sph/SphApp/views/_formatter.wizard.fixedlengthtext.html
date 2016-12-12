@@ -1,0 +1,116 @@
+﻿<div data-bind="visible: $root.page() === 2">
+    <form class="form-horizontal" data-bind="with : TextFormatter">
+        <div class="form-group">
+            <label for="sample-file" class="col-lg-3 control-label">Upload sample file</label>
+            <div class="col-lg-6">
+                <input type="file" data-bind="kendoUpload: SampleStoreId"
+                       required
+                       class="form-control" id="sample-file">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-9">
+                <div class="checkbox">
+                    <label>
+                        <input data-bind="checked: HasTagIdentifier" id="login-operation" type="checkbox"
+                               name="HasTagIdentifier" />
+                        Record has a tag identitfier
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="tag" class="col-lg-3 control-label">Tag</label>
+
+            <div class="col-sm-6">
+                <input type="text" data-bind="value: RecordTag, enable: HasTagIdentifier, attr :{required: HasTagIdentifier}"
+                       class="form-control" id="tag">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-6">
+                <div class="checkbox">
+                    <label>
+                        <input data-bind="checked: HasLabel" id="column-label" type="checkbox" name="HasLabel" />
+                        First row is columns label
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="form-group">
+            <label for="ignore-tag" class="col-lg-3 control-label">Ignore Tag</label>
+
+            <div class="col-sm-6">
+                <input type="text" data-bind="value: IgnoreTag, enable: HasTagIdentifier"
+                       class="form-control" id="ignore-tag">
+            </div>
+        </div>
+
+
+    </form>
+</div>
+
+<div data-bind="visible:$root.page() === 3, with: TextFormatter">
+    <h3>Fields</h3>
+    <table class="table table-striped">
+        <thead style="display: block">
+            <tr>
+                <th style="width: 33px"></th>
+                <th style="width: 150px">Name</th>
+                <th style="width: 120px">Type</th>
+                <th style="width: 33px">Nullable</th>
+                <th style="width: 100px">Converter</th>
+                <th style="width: 80px">Length</th>
+                <th style="width: 25px"></th>
+            </tr>
+        </thead>
+        <tbody style="max-height: 400px;overflow-y: scroll;display: block" data-bind="foreach : FieldMappingCollection">
+        <tr>
+            <td style="width: 33px" >
+                <a href="javascript:;" data-bind="click : $parent.moveUp,visible:ko.unwrap($index) > 0 " title="move the field up">
+                    <i class="fa fa-arrow-up"></i>
+                </a>
+                <a href="javascript:;" data-bind="click : $parent.moveDown,visible:ko.unwrap($index) < (ko.unwrap($parent.FieldMappingCollection).length - 1)" title="move the field down" style="">
+                    <i class="fa fa-arrow-down"></i>
+                </a>
+            </td>
+            <td style="width: 150px">
+                <input type="text" class="form-control" data-bind="value:Name" required pattern="^[A-Za-z_][A-Za-z0-9_]*$"/>
+            </td>
+            <td style="width: 120px">
+                <select class="form-control" data-bind="value:TypeName">
+                    <option value="System.String, mscorlib">String</option>
+                    <option value="System.Int32, mscorlib">Integer</option>
+                    <option value="System.Boolean, mscorlib">Boolean</option>
+                    <option value="System.DateTime, mscorlib">DateTime</option>
+                    <option value="System.Decimal, mscorlib">Decimal</option>
+                </select>
+            </td>
+            <td style="width: 33px">
+                <input type="checkbox" data-bind="checked:IsNullable"/>
+            </td>
+            <td style="width: 100px">
+                <input type="text" class="form-control" data-bind="value:Converter"/>
+            </td>
+            <td style="width: 80px">
+                <input type="number" class="form-control" data-bind="value:Length" min="1" max="500" required/>
+            </td>
+            <td style="width: 25px">
+                <a href="javascript:;" class="btn btn-link" data-bind="click : $parent.removeField.call($parent, $data)" style="margin-left: 0px; margin-right: 0px">
+                    <i class="fa fa-times"></i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="javascript:;" data-bind="click : addField" class="btn btn-link">
+        <i class="fa fa-plus-circle">Add new field</i>
+    </a>
+
+
+</div>

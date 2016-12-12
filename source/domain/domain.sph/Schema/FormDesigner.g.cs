@@ -9313,6 +9313,27 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_IgnoreTag;
+        public string IgnoreTag
+        {
+            get
+            {
+                return m_IgnoreTag;
+            }
+            set
+            {
+                m_IgnoreTag = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<FixedLengthTextFieldMapping> FieldMappingCollection { get; } = new ObjectCollection<FixedLengthTextFieldMapping>();
+
+
 
     }
 
@@ -9700,16 +9721,16 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private bool m_Trim;
-        public bool Trim
+        private string m_TrimMode;
+        public string TrimMode
         {
             get
             {
-                return m_Trim;
+                return m_TrimMode;
             }
             set
             {
-                m_Trim = value;
+                m_TrimMode = value;
                 RaisePropertyChanged();
             }
         }
