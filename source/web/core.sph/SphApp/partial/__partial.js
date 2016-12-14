@@ -1114,20 +1114,20 @@ bespoke.sph.domain.FixedLengthTextFormatterPartial = function (model) {
             child.nameChangedSubscription = child.Name.subscribe(childNameChanged);
             this.DetailRowCollection.push(child);
         },
-        isWizardOk = ko.computed(function() {
+        isWizardOk = ko.computed(function () {
             return ko.unwrap(model.SampleStoreId) && ko.unwrap(model.Delimiter);
         }),
-        addField = function() {
+        addField = function () {
             const child = new bespoke.sph.domain.FixedLengthTextFieldMapping(system.guid());
             this.FieldMappingCollection.push(child);
         },
-        removeField = function(f) {
+        removeField = function (f) {
             var self = this;
             return function () {
                 self.FieldMappingCollection.remove(f);
 
             };
-            
+
         },
         move = function (array, from, to) {
             if (to === from) return;
@@ -1147,6 +1147,7 @@ bespoke.sph.domain.FixedLengthTextFormatterPartial = function (model) {
 
             move(temps, index, index + step);
             list(temps);
+            list().forEach((x, i) => x.Order(i + 1));
         },
         moveDown = function (f) {
             arrange(f, 1);
@@ -1156,14 +1157,14 @@ bespoke.sph.domain.FixedLengthTextFormatterPartial = function (model) {
         };
 
     const vm = {
-        isWizardOk : isWizardOk,
+        isWizardOk: isWizardOk,
         addDetailsRow: addDetailsRow,
         removeDetailsRow: removeDetailsRow,
         parentOptions: parentOptions,
         moveUp: moveUp,
         moveDown: moveDown,
         addField: addField,
-        removeField : removeField
+        removeField: removeField
 
     };
 

@@ -1163,6 +1163,7 @@
 					<xs:attribute name="HasTagIdentifier" type="xs:boolean" use="required"/>
 					<xs:attribute name="HasLabel" type="xs:boolean" use="required"/>
 					<xs:attribute name="IgnoreTag" type="xs:string" use="optional"/>
+					<xs:attribute name="AllowLessChars" type="xs:boolean" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -1263,6 +1264,7 @@
 					<xs:attribute name="Start" type="xs:int" use="required"/>
 					<xs:attribute name="Length" type="xs:int" use="required"/>
 					<xs:attribute name="TrimMode" type="xs:string" use="optional"/>
+					<xs:attribute name="Order" type="xs:int" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

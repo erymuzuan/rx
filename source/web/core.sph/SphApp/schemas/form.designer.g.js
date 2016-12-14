@@ -3109,6 +3109,8 @@ bespoke.sph.domain.FixedLengthTextFormatter = function (optionOrWebid) {
 
     v.IgnoreTag = ko.observable("");
 
+    v.AllowLessChars = ko.observable(false);
+
     v["$type"] = "Bespoke.Sph.Domain.FixedLengthTextFormatter, domain.sph";
 
     v.FieldMappingCollection = ko.observableArray([]);
@@ -3382,6 +3384,8 @@ bespoke.sph.domain.FixedLengthTextFieldMapping = function (optionOrWebid) {
     v.Length = ko.observable(0);
 
     v.TrimMode = ko.observable("");
+
+    v.Order = ko.observable(0);
 
     v["$type"] = "Bespoke.Sph.Domain.FixedLengthTextFieldMapping, domain.sph";
 

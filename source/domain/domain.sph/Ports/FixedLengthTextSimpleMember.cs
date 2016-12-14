@@ -20,8 +20,13 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             code.AppendLine($@"{padding}[JsonIgnore]");
             code.AppendLine($@"{padding}[FieldFixedLength({m_fieldMapping.Length})]");
+
+            if (m_fieldMapping.Order > 0)
+                code.AppendLine($@"{padding}[FieldOrder({m_fieldMapping.Order})]");
+
             if (!string.IsNullOrWhiteSpace(m_fieldMapping.TrimMode))
                 code.AppendLine($@"{padding}[FieldTrim(TrimMode.{m_fieldMapping.TrimMode})]");
+
             code.AppendLine($@"{padding}public string {Name}Raw;");
 
             code.Append($@"{padding}public {type} {Name}");

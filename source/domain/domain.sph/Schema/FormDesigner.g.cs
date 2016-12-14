@@ -9328,6 +9328,21 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private bool m_AllowLessChars;
+        public bool AllowLessChars
+        {
+            get
+            {
+                return m_AllowLessChars;
+            }
+            set
+            {
+                m_AllowLessChars = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -9731,6 +9746,21 @@ namespace Bespoke.Sph.Domain
             set
             {
                 m_TrimMode = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private int m_Order;
+        public int Order
+        {
+            get
+            {
+                return m_Order;
+            }
+            set
+            {
+                m_Order = value;
                 RaisePropertyChanged();
             }
         }
