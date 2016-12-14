@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Codes;
@@ -150,10 +152,51 @@ internal void SetLineNumber(int line){ m_lineNumber = line;}";
             return code.ToString();
         }
 
-        public override Task<TextFieldMapping[]> GetFieldMappingsAsync()
+        public override async Task<TextFieldMapping[]> GetFieldMappingsAsync()
         {
-            var list = new List<TextFieldMapping>(this.FieldMappingCollection).ToArray();
-            return Task.FromResult(list);
+            var lines = await GetSampleLinesAsync();
+            var number = 0;
+            if (this.HasLabel)
+                number = 1;
+            var line = lines[number];
+            var start = 0;
+            foreach (var m in this.FieldMappingCollection)
+            {
+                try
+                {
+                    var value = line.Substring(start, m.Length);
+                    if (m.TrimMode == "Both")
+                        value = value.Trim();
+                    if (m.TrimMode == "Left")
+                        value = value.TrimStart();
+                    if (m.TrimMode == "Right")
+                        value = value.TrimEnd();
+
+                    m.SampleValue = value;
+                    start += m.Length;
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    //ignore
+                }
+            }
+
+            var list = new List<TextFieldMapping>(this.FieldMappingCollection);
+            return list.ToArray();
+        }
+
+
+        private string[] m_lines;
+        private async Task<string[]> GetSampleLinesAsync()
+        {
+            if (null != m_lines) return m_lines;
+            var bs = ObjectBuilder.GetObject<IBinaryStore>();
+            var file = await bs.GetContentAsync(this.SampleStoreId);
+            var temp = Path.GetTempFileName();
+            File.WriteAllBytes(temp, file.Content);
+            m_lines = File.ReadAllLines(temp);
+
+            return m_lines;
         }
 
     }
