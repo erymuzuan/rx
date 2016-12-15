@@ -87,6 +87,27 @@ namespace Bespoke.Sph.WebApi
             return lo;
         }
 
+
+        public async Task<LoadOperation<AccessToken>> SearchAsync(string query, int page = 1, int size = 20)
+        {
+            var equery = $@"
+                {{
+                   ""query"": {{
+                          ""query_string"": {{
+                             ""default_field"": ""_all"",
+                             ""query"": ""{query}""
+                          }}
+                       }}, 
+                  ""from"": {(page - 1) * size},
+                  ""size"": {size}
+                }}
+            ";
+            var lo = await ExecuteSearchAsync(equery).ConfigureAwait(false);
+            lo.PageSize = size;
+            lo.CurrentPage = page;
+            return lo;
+        }
+
         private async Task<LoadOperation<AccessToken>> ExecuteSearchAsync(string query)
         {
             var request = new StringContent(query);
@@ -221,5 +242,6 @@ namespace Bespoke.Sph.WebApi
             response.EnsureSuccessStatusCode();
 
         }
+
     }
 }

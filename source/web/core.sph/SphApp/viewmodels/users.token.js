@@ -46,6 +46,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         const tokenList = lo.ItemCollection.map(map);
                         tokens(tokenList);
                         totalRows(lo.TotalRows);
+                        if (pager) {
+                            pager.update(lo.TotalRows);
+                        }
                     });
             },
             attached = function (view) {
@@ -64,8 +67,16 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 });
                 $(view).on("submit", "form.form-search", function (e) {
                     e.preventDefault();
+                    isBusy(true);
                     const text = $(view).find("input.search-query").val();
-                    return context.get(`/api/auth-tokens/_search?q=${text}`);
+                    return context.get(`/api/auth-tokens/_search?q=${text}`)
+                    .done(function (lo) {
+                        isBusy(false);
+                        tokens(lo.ItemCollection.map(map));
+                        if (pager) {
+                            pager.update(lo.TotalRows);
+                        }
+                    });
                 });
             },
             addToken = function () {

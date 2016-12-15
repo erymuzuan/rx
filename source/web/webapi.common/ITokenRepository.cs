@@ -11,5 +11,6 @@ namespace Bespoke.Sph.WebApi
         Task<LoadOperation<AccessToken>> LoadAsync(DateTime expiry, int page = 1, int size = 20);
         Task<AccessToken> LoadOneAsync(string id);
         Task RemoveAsync(string id);
+        Task<LoadOperation<AccessToken>> SearchAsync(string query, int page = 1, int size = 20);
     }
 }

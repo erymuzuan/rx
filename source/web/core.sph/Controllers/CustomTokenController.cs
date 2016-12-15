@@ -54,10 +54,14 @@ namespace Bespoke.Sph.Web.Controllers
         [Authorize(Roles = "administrators,developers")]
         [HttpGet]
         [Route("_search")]
-        public async Task<IHttpActionResult> SearchAsync([FromUri(Name = "q")]string query)
+        public async Task<IHttpActionResult> SearchAsync([FromUri(Name = "q")]string query, 
+            [FromUri(Name = "page")]int page = 1,
+            [FromUri(Name = "size")]int size = 20)
         {
-            await Task.Delay(500);
-            return Json(new { message = "to be implemented" });
+
+            var repos = ObjectBuilder.GetObject<ITokenRepository>();
+            var lo = await repos.SearchAsync(query, page, size);
+            return Json(lo);
         }
 
         [Authorize(Roles = "administrators,developers")]
