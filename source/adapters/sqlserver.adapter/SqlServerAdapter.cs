@@ -232,7 +232,7 @@ namespace Bespoke.Sph.Integrations.Adapters
 
             }
         }
-        
+        public int Version { get; set; }
         public async Task<int> GetDatabaseVersionAsync()
         {
             var version = 2012;
@@ -248,9 +248,10 @@ namespace Bespoke.Sph.Integrations.Adapters
         }
         protected override Task<Class> GeneratePagingSourceCodeAsync()
         {
-            var version = GetDatabaseVersionAsync().Result;
+
             var assembly = Assembly.GetExecutingAssembly();
-            string resourceName = $"Bespoke.Sph.Integrations.Adapters.Sql{version}PagingTranslator.cs";
+            string resourceName = $"Bespoke.Sph.Integrations.Adapters.Sql{Version}PagingTranslator.cs";
+
 
             using (var stream = assembly.GetManifestResourceStream(resourceName))
             // ReSharper disable AssignNullToNotNullAttribute
