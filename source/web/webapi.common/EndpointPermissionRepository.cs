@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -56,7 +57,7 @@ namespace Bespoke.Sph.WebApi
             return Task.FromResult(permission);
         }
 
-        private static readonly List<EndpointPermissonSetting> m_controllerParentList = new List<EndpointPermissonSetting>();
+        private static readonly ConcurrentBag<EndpointPermissonSetting> m_controllerParentList = new ConcurrentBag<EndpointPermissonSetting>();
         private static string FindParentAsync(string controller)
         {
             if (m_controllerParentList.Count == 0)

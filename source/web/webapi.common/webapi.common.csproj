@@ -130,6 +130,7 @@
     <Compile Include="CacheMetadata.cs" />
     <Compile Include="ClaimSetting.cs" />
     <Compile Include="ClaimSettingResolver.cs" />
+    <Compile Include="ConcurrentBagExtensions.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CustomEntityRestSqlTranslator.cs" />
     <Compile Include="DeveloperService.cs" />
