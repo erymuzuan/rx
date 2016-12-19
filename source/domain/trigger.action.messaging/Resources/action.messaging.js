@@ -24,6 +24,7 @@ define(["services/datacontext", 'services/logger', 'plugins/dialog', objectbuild
             v.Retry = ko.observable();
             v.RetryInterval = ko.observable();
             v.RetryIntervalTimeSpan = ko.observable(1);
+            v.RetryAlgorithm = ko.observable("Constant");
             v["$type"] = "Bespoke.Sph.Messaging.MessagingAction, trigger.action.messaging";
             if (optionOrWebid && typeof optionOrWebid === "object") {
                 for (var n in optionOrWebid) {
