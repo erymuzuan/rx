@@ -11,7 +11,7 @@
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app, "services/app"],
     function (context, logger, router, app, serviceApp) {
 
-        let pager = null;
+        let searchText = "", pager = null;
         const isBusy = ko.observable(false),
             tokens = ko.observableArray(),
             totalRows = ko.observable(),
@@ -41,6 +41,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return v;
             },
             activate = function () {
+                searchText = "";
                 return $.getJSON("api/auth-tokens/")
                     .then(function (lo) {
                         const tokenList = lo.ItemCollection.map(map);
@@ -57,26 +58,34 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     element: $(view).find("div#tokens-pager"),
                     count: ko.unwrap(totalRows),
                     changed: function (page, size) {
-                        return $.getJSON(`api/auth-tokens/?page=${page}&size=${size}`)
+                        var url = `api/auth-tokens/?page=${page}&size=${size}`;
+                        if (searchText)
+                            url = `/api/auth-tokens/_search?q=${searchText}&page=${page}&size=${size}`;
+
+                        return $.getJSON(url)
                           .then(function (lo) {
                               const tokenList = lo.ItemCollection.map(map);
                               tokens(tokenList);
-                              totalRows(lo.TotalRows);
                           });
                     }
                 });
                 $(view).on("submit", "form.form-search", function (e) {
                     e.preventDefault();
                     isBusy(true);
-                    const text = $(view).find("input.search-query").val();
-                    return context.get(`/api/auth-tokens/_search?q=${text}`)
-                    .done(function (lo) {
-                        isBusy(false);
-                        tokens(lo.ItemCollection.map(map));
-                        if (pager) {
-                            pager.update(lo.TotalRows);
-                        }
-                    });
+                    searchText = $(view).find("input.search-query").val();
+                    return context.get(`/api/auth-tokens/_search?q=${searchText}`)
+                        .done(function (lo) {
+                            isBusy(false);
+                            const items = lo.ItemCollection.map(map);
+                            logger.info(`search for text "${searchText}", ${lo.TotalRows} items found`);
+                            setTimeout(function () {
+                                tokens(items);
+                            }, 500);
+                            if (pager) {
+                                pager.update(lo.TotalRows);
+                            }
+
+                        });
                 });
             },
             addToken = function () {
@@ -104,6 +113,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             console.log(`new pager ${rows}`);
             if (pager) {
                 pager.update(rows);
+                pager.page(1);
             }
         });
 

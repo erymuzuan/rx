@@ -123,7 +123,7 @@ ko.bindingHandlers.money = {
                 var val = parseFloat(ko.unwrap(value) || "0"),
                     fm = val.toFixed(decimal())
                         .replace(/./g,
-                            function(c, i, a) {
+                            function (c, i, a) {
                                 return i && c !== "." && !((a.length - i) % 3) ? "," + c : c;
                             });
                 if (element.tagName.toLowerCase() === "span") {
@@ -850,27 +850,30 @@ ko.bindingHandlers.filter = {
             return tcs.promise();
         });
 
+        var previousFilter = "",
+            dofilter = function () {
+               var $rows = $element.find(path),
+                   filter = $filterInput.val().toLowerCase();
+               if (previousFilter === filter) {
+                   return;
+               }
+               previousFilter = filter;
+               $rows.each(function () {
+                   var $tr = $(this),
+                       text = $tr.text().toLowerCase().trim();
+                   if (!text) {
+                       $("input", $tr).each(function (i, v) { text += " " + $(v).val() });
+                       text = text.toLowerCase().trim();
+                   }
+                   if (text.indexOf(filter) > -1) {
+                       $tr.show();
+                   } else {
+                       $tr.hide();
+                   }
+               });
 
 
-        var dofilter = function () {
-            var $rows = $element.find(path),
-                filter = $filterInput.val().toLowerCase();
-            $rows.each(function () {
-                var $tr = $(this),
-                    text = $tr.text().toLowerCase().trim();
-                if (!text) {
-                    $("input", $tr).each(function (i, v) { text += " " + $(v).val() });
-                    text = text.toLowerCase().trim();
-                }
-                if (text.indexOf(filter) > -1) {
-                    $tr.show();
-                } else {
-                    $tr.hide();
-                }
-            });
-
-
-        },
+           },
         throttled = _.throttle(dofilter, 800);
 
         $filterInput.on("keyup", throttled).siblings("span.input-group-addon")
