@@ -296,7 +296,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine(@"        if(!response.IsSuccessStatusCode)");
             code.AppendLine(@"        {");
             code.AppendLine($@"            ObjectBuilder.GetObject<ILogger>().LogAsync(new LogEntry{{ 
-                                                            Message = $""{{(int)response.StatusCode}} {HttpMethod} {{httpRequest.RequestUri}}"",
+                                                            Message = $""{{(int)response.StatusCode}} {HttpMethod} {{m_client.BaseAddress}}/{{url}}"",
                                                             Severity = Severity.Warning,
                                                             Log = EventLog.Subscribers,
                                                             Source = ""{Name}"",
@@ -307,7 +307,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine(@"        else");
             code.AppendLine(@"        {");
             code.AppendLine($@"            ObjectBuilder.GetObject<ILogger>().LogAsync(new LogEntry{{ 
-                                                            Message = $""{{(int)response.StatusCode}} {HttpMethod} {{httpRequest.RequestUri}}"",
+                                                            Message = $""{{(int)response.StatusCode}} {HttpMethod} {{m_client.BaseAddress}}/{{url}}"",
                                                             Severity = Severity.Log,
                                                             Log = EventLog.Subscribers,
                                                             Source = ""{Name}"",
