@@ -10,6 +10,7 @@ using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
+using Humanizer;
 using Mono.Cecil;
 
 namespace Bespoke.Sph.Domain
@@ -595,6 +596,45 @@ namespace Bespoke.Sph.Domain
             var type = assembly.MainModule.Types.FirstOrDefault(x => x.FullName == fullName);
             return type;
         }
+
+        public static object ToDbNull(this string value, int length)
+        {
+            if (length <= 0)
+                throw new ArgumentException("Length must be greater than 0", nameof(length));
+            if (null == value)
+                return DBNull.Value;
+
+            if (!string.IsNullOrWhiteSpace(value) && value.Length > length)
+                return value.Substring(0, length);
+
+            return value;
+        }
+
+        public static object TruncateLeft(this string value, int length)
+        {
+            if(length <= 0)
+                throw new ArgumentException("Length must be greater than 0", nameof(length));
+            if (null == value)
+                return DBNull.Value;
+
+            if (!string.IsNullOrWhiteSpace(value) && value.Length > length)
+                return value.Truncate(length, "",TruncateFrom.Left);
+
+            return value;
+        }
+        public static object TruncateRight(this string value, int length)
+        {
+            if (length <= 0)
+                throw new ArgumentException("Length must be greater than 0", nameof(length));
+            if (null == value)
+                return DBNull.Value;
+
+            if (!string.IsNullOrWhiteSpace(value) && value.Length > length)
+                return value.Truncate(length, "");
+
+            return value;
+        }
+
 
         public static object ToDbNull(this object value)
         {

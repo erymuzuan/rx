@@ -15,5 +15,12 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
             return $"{dbValue}.ReadNullableString()";
 
         }
+
+        public override string GenerateUpdateParameterValue(string commandName = "cmd", string itemIdentifier = "item")
+        {
+            var truncate = this.Length > 0 ? $".TruncateRight({Length})" : "";
+            return $"{commandName}.Parameters.AddWithValue(\"{ClrName.ToSqlParameter()}\", {itemIdentifier}.{ClrName}{truncate});";
+
+        }
     }
 }
