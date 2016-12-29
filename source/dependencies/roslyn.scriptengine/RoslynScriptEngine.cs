@@ -28,8 +28,8 @@ namespace Bespoke.Sph.RoslynScriptEngines
                 var dll = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, typeof(RoslynScriptEngine).Assembly.Location);
                 var argDll = arg1.GetType().Assembly.Location;
 
-                session.Execute("#r \"" + domain + "\"");
-                session.Execute("#r \"" + dll + "\"");
+                session.Execute($"#r \"{domain}\"");
+                session.Execute($"#r \"{dll}\"");
                 session.Execute($"#r \"{argDll}\"");
                 session.Execute($"#r \"{typeof(JsonConvert).Assembly.Location}\"");
             }
@@ -41,7 +41,7 @@ namespace Bespoke.Sph.RoslynScriptEngines
                 msg.AppendLine("AppDomain base directory = " + AppDomain.CurrentDomain.BaseDirectory);
                 msg.AppendLine("Actual exception :");
                 msg.AppendLine(e.Message);
-                throw new Exception(msg.ToString());
+                throw new Exception(msg.ToString(), e);
             }
 
             var customScript = string.Empty;
