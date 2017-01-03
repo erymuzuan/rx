@@ -30,7 +30,7 @@ namespace domain.test.triggers
                 TriggerId = "44",
                 Title = "Unit test runner"
             };
-            setter.SetterActionChildCollection.Add(new SetterActionChild { Path = "FullName", Field = new ConstantField { Type = typeof(string), Value = "Wan Fatimah Wan Husain" } }); ;
+            setter.SetterActionChildCollection.Add(new SetterActionChild { Path = "FullName", Field = new ConstantField { Type = typeof(string), Value = "Wan Fatimah Wan Husain" } });
             setter.SetterActionChildCollection.Add(new SetterActionChild { Path = "PrimaryContact", Field = new DocumentField { Path = "CreatedBy", Type = typeof(string) } });
             await setter.ExecuteAsync(new RuleContext(customer));
 

@@ -28,7 +28,7 @@ namespace domain.test.triggers
         [Theory]
         [InlineData("1 + 2 ", 3)]
         [InlineData("\"Erymuzuan\" + \" Mustapa\" ", "Erymuzuan Mustapa")]
-        [MemberData("ScriptRuleContextData")]
+        [MemberData(nameof(ScriptRuleContextData))]
         public void ScriptRuleContext(string script, object expected)
         {
             var building = new FunctionField { Script = script, ScriptEngine = new RoslynScriptEngine() };
