@@ -224,8 +224,10 @@
     <Compile Include="diagnostics\FormDeleteOperationDiagnostics.cs" />
     <Compile Include="diagnostics\FormOperationDiagnostics.cs" />
     <Compile Include="diagnostics\LocationEndpointDiagnostics.cs" />
+    <Compile Include="Management\ConfigData.cs" />
     <Compile Include="Management\SubscriberConfig.cs" />
     <Compile Include="Management\WorkersConfig.cs" />
+    <Compile Include="Management\WorkerServerConfig.cs" />
     <Compile Include="Ports\DelimitedTextComplexMember.cs" />
     <Compile Include="Ports\DelimitedTextFieldMapping.cs" />
     <Compile Include="Ports\DelimitedTextFormatter.cs" />

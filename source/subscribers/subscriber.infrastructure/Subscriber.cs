@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Humanizer;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
 using EventLog = Bespoke.Sph.Domain.EventLog;
@@ -15,6 +18,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
     [Serializable]
     public abstract class Subscriber : MarshalByRefObject
     {
+        public string InstanceName { get; set; }
         public string HostName { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -103,7 +107,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             this.RegisterCustomEntityDependencies().Wait();
         }
-
+  
 
         public Task RegisterCustomEntityDependencies()
         {

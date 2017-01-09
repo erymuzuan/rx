@@ -220,6 +220,20 @@ namespace domain.test.triggers
             var result = rule.Execute(new RuleContext(customer));
             Assert.True(result);
         }
+        [Fact]
+        public void NotEndsWithFalse()
+        {
+            var customer = this.GetCustomerInstance();
+            var rule = new Rule
+            {
+                Left = new ConstantField { Value = "EY123456MY", Type = typeof(string) },
+                Operator = Operator.NotEndsWith,
+                Right = new ConstantField { Value = "MY", Type = typeof(string) }
+            };
+
+            var result = rule.Execute(new RuleContext(customer));
+            Assert.False(result);
+        }
 
 
 

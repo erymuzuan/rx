@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Humanizer;
 using RabbitMQ.Client;
 using EventLog = Bespoke.Sph.Domain.EventLog;
 
@@ -140,8 +142,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             catch (Exception exc)
             {
                 m_channel.BasicReject(e.DeliveryTag, false);
-                this.NotificicationService.WriteError(exc, "Exception is thrown in " + this.QueueName);
-                var logger = ObjectBuilder.GetObject<ILogger>();
+
+                this.NotificicationService.WriteError(exc, $"Exception is thrown in {QueueName}");
 
                 var entry = new LogEntry(exc) { Source = this.QueueName, Log = EventLog.Subscribers };
                 entry.OtherInfo.Add("Type", typeof(T).Name.ToLowerInvariant());
@@ -150,12 +152,28 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 entry.OtherInfo.Add("RequeuedBy", "");
                 entry.OtherInfo.Add("RequeuedOn", "");
                 entry.OtherInfo.Add("Id2", id.Replace("-", ""));
+
+                var logger = ObjectBuilder.GetObject<ILogger>();
                 logger.Log(entry);
             }
             finally
             {
                 Interlocked.Decrement(ref m_processing);
             }
+        }
+
+        protected void PublishToDelayQueue(IBasicProperties props, byte[] body, string routingKey)
+        {
+            var count = 91;
+            if (props.Headers.ContainsKey("sph.trycount"))
+                count = (int)props.Headers["sph.trycount"];
+            Console.WriteLine(@"Doing the delay for {0} ms for the {1} time", props.Headers["sph.delay"], count.Ordinalize());
+            const string RETRY_EXCHANGE = "sph.retry.exchange";
+            var delay = (long)props.Headers["sph.delay"]; // in ms
+            
+            props.Expiration = delay.ToString(CultureInfo.InvariantCulture);
+            
+            m_channel.BasicPublish(RETRY_EXCHANGE, string.Empty, props, body);
         }
 
 

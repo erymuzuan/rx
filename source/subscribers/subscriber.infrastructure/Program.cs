@@ -2,10 +2,13 @@
 using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
@@ -26,7 +29,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         public int Port { get; set; }
         public string VirtualHost { get; set; }
 
-        public ObjectCollection<Subscriber> SubscriberCollection { get; } = new ObjectCollection<Subscriber>();
+        public ConcurrentBag<Subscriber> SubscriberCollection { get; } = new ConcurrentBag<Subscriber>();
 
 
         public INotificationService NotificationService
@@ -43,9 +46,9 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         private IConnection m_connection;
         public void Start(SubscriberMetadata[] subscribersMetadata)
         {
+            this.SubscriberCollection.Clear();
             this.NotificationService.Write("config {0}:{1}:{2}", this.HostName, this.UserName, this.Password);
             this.NotificationService.Write("Starts...");
-            var list = new ConcurrentBag<Subscriber>();
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             AppDomain.CurrentDomain.UnhandledException += AppdomainUnhandledException;
 
@@ -73,17 +76,20 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
                 var count = config.InstancesCount ?? 1;
                 mt.Instance = count;
+                mt.MaxInstances = config.MaxInstances;
+                mt.MinInstances = config.MinInstances;
 
                 for (var i = 0; i < count; i++)
                 {
-                    this.NotificationService.Write("Starts..." + mt.FullName);
+                    this.NotificationService.Write($"Starting... {mt.FullName}");
                     try
                     {
                         mt.PrefetchCount = (ushort)(config.PrefetchCount ?? 1);
                         var worker = StartSubscriber(mt, m_connection);
                         if (null != worker)
                         {
-                            list.Add(worker);
+                            this.SubscriberCollection.Add(worker);
+                            this.NotificationService.Write($"Started : {mt.FullName}");
                         }
                         else
                         {
@@ -98,6 +104,57 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 }
             });
             m_stopping = false;
+
+            //
+            StartWorkersManager(subscribersMetadata).ContinueWith(_ => { });
+        }
+
+        private async Task StartWorkersManager(SubscriberMetadata[] mts)
+        {
+            var handler = new HttpClientHandler { Credentials = new NetworkCredential(ConfigurationManager.RabbitMqUserName, ConfigurationManager.RabbitMqPassword) };
+            var client = new HttpClient(handler) { BaseAddress = new Uri($"{ConfigurationManager.RabbitMqManagementScheme}://{ConfigurationManager.RabbitMqHost}:{ConfigurationManager.RabbitMqManagementPort}") };
+
+            var tasks = from mt in mts
+                        select ManageQueueWorkloadAsync(client, mt);
+            await Task.WhenAll(tasks);
+
+            await Task.Delay(ConfigurationManager.ManageSubscribersWorkloadInterval);
+            if (!m_stopping)
+                await StartWorkersManager(mts);
+
+        }
+
+        private async Task ManageQueueWorkloadAsync(HttpClient client, SubscriberMetadata mt)
+        {
+            var response = await client.GetStringAsync($"api/queues/{ConfigurationManager.ApplicationName}/{mt.QueueName}");
+
+            var json = JObject.Parse(response);
+            var published = json.SelectToken("$.message_stats.publish_details.rate").Value<double>();
+            var delivered = json.SelectToken("$.message_stats.deliver_details.rate").Value<double>();
+            var length = json.SelectToken("$.messages").Value<double>();
+
+            var subscribers = this.SubscriberCollection;
+            var processing = subscribers.Sum(x => x.PrefetchCount);
+            var overloaded = (published > delivered + processing) || (length > processing);
+
+            this.NotificationService.Write(
+                $"Published:{published}, Delivered : {delivered}, length : {length} , Processing {processing}");
+            if (overloaded && mt.MaxInstances.HasValue && subscribers.Count < mt.MaxInstances.Value)
+            {
+                var sub1 = StartSubscriber(mt, m_connection);
+                if (null != sub1)
+                    subscribers.Add(sub1);
+            }
+
+            if (!overloaded && mt.MinInstances.HasValue && subscribers.Count > mt.MinInstances.Value)
+            {
+                Subscriber sub2;
+                if (subscribers.TryTake(out sub2))
+                {
+                    sub2.Stop();
+                }
+            }
+            this.NotificationService.Write("Current subscribers " + subscribers.Count);
         }
 
 

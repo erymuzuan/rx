@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,18 +10,40 @@ namespace Bespoke.Sph.Domain
     /// </summary>
     public static class CollectionHelper
     {
+        public static void ForEach<T>(this ConcurrentBag<T> bags, Action<T> action)
+        {
+            foreach (var item in bags)
+            {
+                action(item);
+            }
+        }
+        public static void AddRange<T>(this ConcurrentBag<T> bags, IEnumerable<T> list)
+        {
+            foreach (var item in list)
+            {
+                bags.Add(item);
+            }
+        }
 
+        public static void Clear<T>(this ConcurrentBag<T> bags)
+        {
+            while (!bags.IsEmpty)
+            {
+                T someItem;
+                bags.TryTake(out someItem);
+            }
+        }
         public static void Add(this IList<ValidationError> errors, ValidationError error)
         {
             errors.Add(error);
         }
         public static void Add(this IList<ValidationError> errors, string property, string message)
         {
-            errors.Add(new ValidationError{PropertyName = property, Message = message});
+            errors.Add(new ValidationError { PropertyName = property, Message = message });
         }
         public static void Add(this IList<ValidationError> errors, string property, string message, string location)
         {
-            errors.Add(new ValidationError{PropertyName = property, Message = message, ErrorLocation = location});
+            errors.Add(new ValidationError { PropertyName = property, Message = message, ErrorLocation = location });
         }
         /// <summary>
         /// Creates a new ObjectCollection from the source, this will also set the Bil Property
@@ -49,7 +72,7 @@ namespace Bespoke.Sph.Domain
             list.Remove(oldItem);
             list.Insert(index, newItem);
         }
-        public static void AddOrReplace<T>(this IList<T> list, T newItem, Func<T,bool> predicate )
+        public static void AddOrReplace<T>(this IList<T> list, T newItem, Func<T, bool> predicate)
         {
             var oldItem = list.SingleOrDefault(predicate);
             if (null == oldItem)
@@ -108,9 +131,9 @@ namespace Bespoke.Sph.Domain
             return list.Select(t => t.ToString()).ToArray();
         }
 
-        public static string JoinString<T>(this IEnumerable<T> list, 
-            string separator =",",
-            Func<T, string> projection = null )
+        public static string JoinString<T>(this IEnumerable<T> list,
+            string separator = ",",
+            Func<T, string> projection = null)
         {
             if (null == projection)
                 projection = x => $"{x}";
@@ -133,11 +156,11 @@ namespace Bespoke.Sph.Domain
                 if (!string.Equals(os, cs, StringComparison.InvariantCultureIgnoreCase))
                 {
                     changeSet.Add(new Change
-                                      {
-                                          OldValue = os,
-                                          NewValue = cs,
-                                          PropertyName = fieldName
-                                      });
+                    {
+                        OldValue = os,
+                        NewValue = cs,
+                        PropertyName = fieldName
+                    });
                 }
             }
 
@@ -166,13 +189,13 @@ namespace Bespoke.Sph.Domain
                 if (null == newItem) // deleted
                 {
                     var deletedChange = new Change
-                                            {
-                                                PropertyName = fieldName,
-                                                NewValue = string.Empty,
-                                                OldValue = t1.ToString(),
-                                                Action = "Delete"
+                    {
+                        PropertyName = fieldName,
+                        NewValue = string.Empty,
+                        OldValue = t1.ToString(),
+                        Action = "Delete"
 
-                                            };
+                    };
                     changeSet.Add(deletedChange);
 
                 }
@@ -188,13 +211,13 @@ namespace Bespoke.Sph.Domain
                 if (null == old) // added
                 {
                     var addedChange = new Change
-                                          {
-                                              PropertyName = fieldName,
-                                              NewValue = t1.ToString(),
-                                              OldValue = string.Empty,
-                                              Action = "Add"
+                    {
+                        PropertyName = fieldName,
+                        NewValue = t1.ToString(),
+                        OldValue = string.Empty,
+                        Action = "Add"
 
-                                          };
+                    };
                     changeSet.Add(addedChange);
 
                 }

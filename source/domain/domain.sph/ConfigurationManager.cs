@@ -41,6 +41,7 @@ namespace Bespoke.Sph.Domain
         public static int RabbitMqPort => GetEnvironmentVariableInt32("RabbitMqPort", 5672);
         public static int RabbitMqManagementPort => GetEnvironmentVariableInt32("RabbitMqManagementPort", 15672);
         public static string RabbitMqVirtualHost => GetEnvironmentVariable("RabbitMqVirtualHost") ?? ApplicationName;
+        public static int ManageSubscribersWorkloadInterval => GetEnvironmentVariableInt32("ManageSubscribersWorkloadInterval", 5000);
 
         public static long EsIndexingDelay => GetEnvironmentVariableInt32("EsIndexingDelay", 15000);
         public static int EsIndexingMaxTry => GetEnvironmentVariableInt32("EsIndexingMaxTry", 3);
