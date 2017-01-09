@@ -286,7 +286,8 @@ namespace Bespoke.Sph.Integrations.Adapters
             // WHERE clause is in the primary key
             foreach (var pk in table.PrimaryKeyCollection)
             {
-                code.AppendLine($"               cmd.Parameters.AddWithValue(\"@{pk}\", item.{pk.ToClrIdentifier(this.ClrNameStrategy)});");
+                var sqlColumn = table.ColumnCollection.OfType<SqlColumn>().Single(x => x.Name == pk);
+                code.AppendLine($"               cmd.Parameters.Add(\"@{pk}\", SqlDbType.{sqlColumn.SqlType} , {sqlColumn.Length}).Value = item.{pk.ToClrIdentifier(this.ClrNameStrategy)};");
             }
 
             code.AppendLine("               await conn.OpenAsync();");
@@ -308,7 +309,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine($@"               var conn = ConfigurationManager.ConnectionStrings[""{Name}""];");
             code.AppendLine("               if(null != conn)return conn.ConnectionString;");
             code.AppendLine($@"             var conn2 = ConfigurationManager.GetEnvironmentVariable(""{Name}ConnectionString"");");
-            code.AppendLine("               if(null != conn)return conn2;");
+            code.AppendLine("               if(null != conn2 )return conn2;");
             code.AppendLinf("               return @\"{0}\";", this.ConnectionString);
             code.AppendLine("           }");
             code.AppendLine("       }");
@@ -378,8 +379,8 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("           {");
             foreach (var pk in pks)
             {
-
-                code.AppendLinf("               cmd.Parameters.AddWithValue(\"@{0}\", {0});", pk.Name.ToCamelCase());
+                var sqlColumn = (SqlColumn) pk;
+                code.AppendLinf($"               cmd.Parameters.Add(\"@{ pk.Name.ToCamelCase()}\" ,SqlDbType.{sqlColumn.SqlType} , {sqlColumn.Length}).Value = {pk.Name.ToCamelCase()};");
             }
 
 
@@ -514,10 +515,9 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLinf("           using(var cmd = new SqlCommand(@\"{0}\", conn))", this.GetDeleteCommand(table));
             code.AppendLine("           {");
 
-            foreach (var pk in pks)
+            foreach (var pk in pks.OfType<SqlColumn>())
             {
-                code.AppendLine();
-                code.AppendFormat("               cmd.Parameters.AddWithValue(\"@{0}\", {1});", pk.Name, pk.Name.ToCamelCase());
+                code.AppendLine($"               cmd.Parameters.Add(\"@{pk.Name}\",SqlDbType.{pk.SqlType} , {pk.Length}).Value = {pk.Name.ToCamelCase()};");
             }
 
             code.AppendLine("               await conn.OpenAsync();");
@@ -552,7 +552,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             code.AppendLine("           {");
             code.AppendLine("               await conn.OpenAsync();");
             var lookupIndex = 0;
-            foreach (var col in columns.Where(x => x.Ignore && x.LookupColumnTable.IsEnabled))
+            foreach (var col in columns.OfType<SqlColumn>().Where(x => x.Ignore && x.LookupColumnTable.IsEnabled))
             {
                 ++lookupIndex;
                 var script = new StringBuilder();
@@ -562,7 +562,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                                                                             WHERE
                                                                                 [{col.LookupColumnTable.ValueColumn}] = @Value"", conn))");
                 script.AppendLine("{");
-                script.AppendLine($@"     cmd{lookupIndex}.Parameters.AddWithValue(""@Value"", item.{col.LookupClrName});");
+                script.AppendLine($@"     cmd{lookupIndex}.Parameters.Add(""@Value"", SqlDbType.{col.SqlType} , {col.Length}).Value = item.{col.LookupClrName};");
                 script.AppendLine($@"     var val{lookupIndex} = await cmd{lookupIndex}.ExecuteScalarAsync();");
 
                 script.AppendLine($@"     item.{col.ClrName} = {col.GenerateValueAssignmentCode("val" + lookupIndex)};");

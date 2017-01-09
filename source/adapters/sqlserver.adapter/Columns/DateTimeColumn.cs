@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
         public override string GenerateUpdateParameterValue(string commandName = "cmd", string itemIdentifier = "item")
         {
             if (this.IsModifiedDate)
-                return $"{commandName}.Parameters.AddWithValue(\"{ClrName.ToSqlParameter()}\", System.DateTime.Now);";
+                return $"{commandName}.Parameters.Add(\"{ClrName.ToSqlParameter()}\",SqlDbType.{SqlType} , {Length}).Value = System.DateTime.Now;";
             return base.GenerateUpdateParameterValue(commandName,itemIdentifier);
         }
         

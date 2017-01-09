@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         public override string GenerateUpdateParameterValue(string commandName = "cmd", string itemIdentifier = "item")
         {
             var nullable = this.IsNullable ? ".ToDbNull()" : "";
-            return $"{commandName}.Parameters.AddWithValue(\"{ClrName.ToSqlParameter()}\", {itemIdentifier}.{ClrName}{nullable});";
+            return $"{commandName}.Parameters.Add(\"{ClrName.ToSqlParameter()}\",SqlDbType.{SqlType} , {Length}).Value = {itemIdentifier}.{ClrName}{nullable};";
 
         }
 
@@ -42,7 +42,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             var pks = table.ColumnCollection.Where(x => table.PrimaryKeyCollection.Contains(x.Name)).ToArray();
             var args = pks.ToString(", ", x => $"{x.GenerateParameterCode()}");
             var predicates = pks.ToString("AND ", x => $"[{x.Name}] = @{x.Name}");
-            var parameters = pks.ToString("\r\n", x => $@"cmd.Parameters.AddWithValue(""@{x.Name}"", {x.Name.ToCamelCase()});");
+            var parameters = pks.OfType<SqlColumn>().ToString("\r\n", x => $@"cmd.Parameters.Add(""@{x.Name}"", SqlDbType.{x.SqlType} , {x.Length}).Value = {x.Name.ToCamelCase()};");
             var code = new StringBuilder();
             code.AppendLine($"       public async Task<{ClrType.ToCSharp()}> Get{Name}Async({args})");
             code.AppendLine("       {");

@@ -19,7 +19,7 @@ namespace Bespoke.Sph.Integrations.Adapters.Columns
         public override string GenerateUpdateParameterValue(string commandName = "cmd", string itemIdentifier = "item")
         {
             var truncate = this.Length > 0 ? $".TruncateRight({Length})" : "";
-            return $"{commandName}.Parameters.AddWithValue(\"{ClrName.ToSqlParameter()}\", {itemIdentifier}.{ClrName}{truncate});";
+            return $"{commandName}.Parameters.Add(\"{ClrName.ToSqlParameter()}\",SqlDbType.{SqlType} , {Length}).Value =  {itemIdentifier}.{ClrName}{truncate};";
 
         }
     }
