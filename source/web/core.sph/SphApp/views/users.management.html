@@ -17,7 +17,7 @@
     <div class="tab-content">
         <div id="user-tab" class="tab-pane active">
             <div>
-                <table class="table table-striped" data-bind="serverPaging: { entity: 'UserProfile', list: profiles, map: map },filter : {path:'tbody>tr'}">
+                <table class="table table-striped" data-bind="serverPaging: { entity: 'UserProfile', list: profiles, map: map },filter : {path:'tbody>tr', customSearch : searchUsers}">
                     <thead>
                         <tr>
                             <th></th>

@@ -828,7 +828,8 @@ ko.bindingHandlers.filter = {
                 "</span> " +
                 "</div>" +
                 " </form>"),
-            pagedSearch = bindingAccessor.searchPaging;
+            pagedSearch = bindingAccessor.searchPaging,
+            customSearch = value.customSearch;
 
 
         $form.find("span.input-group-addon").before($filterInput);
@@ -843,6 +844,9 @@ ko.bindingHandlers.filter = {
                 tcs = new $.Deferred();
             if (!filter) {
                 return tcs.promise();
+            }
+            if (typeof customSearch === "function") {
+                return customSearch(filter);
             }
             if (pagedSearch && typeof pagedSearch.query !== "undefined" && typeof pagedSearch.query.filterAndSearch === "function") {
                 return pagedSearch.query.filterAndSearch(filter);

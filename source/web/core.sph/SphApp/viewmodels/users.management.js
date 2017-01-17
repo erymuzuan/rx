@@ -22,10 +22,18 @@ define([objectbuilders.datacontext, "services/logger", objectbuilders.dialog, ob
                 .then(function (p) {
                     isBusy(false);
 
-                    var list = _(p.itemCollection).map(map);
+                    const list = _(p.itemCollection).map(map);
                     profiles(list);
 
                 });
+        },
+        searchUsers = function (text) {
+            return context.loadAsync("UserProfile", `substringof('${text}', UserName) eq true OR substringof('${text}', FullName) eq true`)
+            .done(function (lo) {
+                const list = lo.itemCollection.map(map);
+                profiles(list);
+            });
+
         },
         save = function (profile) {
             const data = ko.mapping.toJSON({ profile: profile });
@@ -39,7 +47,7 @@ define([objectbuilders.datacontext, "services/logger", objectbuilders.dialog, ob
                         return;
                     }
                     var usp = result.profile;
-                    var existing = _(profiles()).find(function (v) {
+                    const existing = _(profiles()).find(function (v) {
                         return ko.unwrap(v.UserName) === ko.unwrap(usp.UserName);
                     });
                     if (existing) {
@@ -82,7 +90,7 @@ define([objectbuilders.datacontext, "services/logger", objectbuilders.dialog, ob
 
 
         },
-        savePassword = function (profile, password1, password2) {
+        savePassword = function (profile, password1) {
             const data = ko.mapping.toJSON({ userName: profile.UserName(), password: password1 });
             isBusy(true);
 
@@ -113,7 +121,7 @@ define([objectbuilders.datacontext, "services/logger", objectbuilders.dialog, ob
             return Task.fromResult(true);
 
         },
-        lockUsers = function() {
+        lockUsers = function () {
             const tcs = $.Deferred();
             app.showMessage(`Are you sure you want to lock  ${selectedUsers().length} user(s), this action cannot be undone`, "Rx Developer", ["Yes", "No"])
                 .done(function (dialogResult) {
@@ -134,15 +142,15 @@ define([objectbuilders.datacontext, "services/logger", objectbuilders.dialog, ob
 
             return tcs.promise();
         },
-        unlockUsers = function() {
+        unlockUsers = function () {
             const tcs = $.Deferred();
             app.showMessage(`Are you sure you want to unlock ${selectedUsers().length} user(s), this action cannot be undone`, "Rx Developer", ["Yes", "No"])
                 .done(function (dialogResult) {
                     if (dialogResult === "Yes") {
 
-                        const tasks = selectedUsers().map(v => context.post(ko.mapping.toJSON(v),`/admin/unlock/${ko.unwrap(v.UserName)}`));
+                        const tasks = selectedUsers().map(v => context.post(ko.mapping.toJSON(v), `/admin/unlock/${ko.unwrap(v.UserName)}`));
                         $.when(tasks)
-                            .done(function(result) {
+                            .done(function (result) {
                                 if (result.success) {
                                     logger.info(`Selected users has been successfully unlocked`);
                                     tcs.resolve(true);
@@ -158,13 +166,13 @@ define([objectbuilders.datacontext, "services/logger", objectbuilders.dialog, ob
         removeUsers = function () {
             const tcs = $.Deferred();
             app.showMessage(`Are you sure you want to remove ${selectedUsers().length} user(s), this action cannot be undone`, "Rx Developer", ["Yes", "No"])
-                .done(function(dialogResult) {
+                .done(function (dialogResult) {
                     if (dialogResult === "Yes") {
 
                         const tasks = selectedUsers()
                             .map(v => context.sendDelete(`/admin/RemoveUser/${ko.unwrap(v.UserName)}`));
                         $.when(tasks)
-                            .done(function(result) {
+                            .done(function (result) {
                                 if (result.success) {
                                     logger.info(`Selected users has been successfully removed`);
                                     selectedUsers.forEach(v => profiles.remove(v));
@@ -190,6 +198,7 @@ define([objectbuilders.datacontext, "services/logger", objectbuilders.dialog, ob
     const vm = {
         importedSecuritySettingStoreId: importedSecuritySettingStoreId,
         activate: activate,
+        searchUsers: searchUsers,
         profiles: profiles,
         selectedUsers: selectedUsers,
         printprofile: printprofile,
