@@ -47,7 +47,7 @@ namespace member.covert
                 }
             }
 
-            Console.WriteLine($"Your EntityDefinition {ed.Name} was successfully converted and a backup file is created {Path.GetFileName(backup)}");
+            Console.WriteLine($@"Your EntityDefinition {ed.Name} was successfully converted and a backup file is created {Path.GetFileName(backup)}");
 
         }
 
@@ -55,7 +55,7 @@ namespace member.covert
         {
             var folder = $"{ConfigurationManager.SphSourceDirectory}\\{ed.Name}";
             var sources = Directory.GetFiles(folder, "*.json");
-            Console.WriteLine($"Converterting {sources.Length} source files");
+            Console.WriteLine($@"Converterting {sources.Length} source files");
             Console.WriteLine(new string('=',50));
             Console.WriteLine();
             var count = 0;
@@ -74,10 +74,10 @@ namespace member.covert
                 File.Copy(file, backup, false);
                 File.WriteAllText(file, json.ToString());
                 Thread.Sleep(50);
-                Console.Write($"\r\t\t\t{++count:000}/{sources.Length:000}\t{json["Id"]}.....                                                  ");
+                Console.Write($@"\r\t\t\t{++count:000}/{sources.Length:000}\t{json["Id"]}.....                                                  ");
             }
             Console.WriteLine();
-            Console.WriteLine($"Converted {sources.Length} source files..");
+            Console.WriteLine($@"Converted {sources.Length} source files..");
         }
 
         private static void RemoveObsoleteMembersFromComplexObject(JObject member)
