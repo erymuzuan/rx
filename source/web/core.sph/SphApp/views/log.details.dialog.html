@@ -9,7 +9,7 @@
                 </h3>
             </div>
             <div class="modal-body" data-bind="with: log">
-                <div class="tabbable">
+                <div class="tabbable" style="min-height: 600px">
                     <ul class="nav nav-tabs">
                         <li class="active">
                             <a href="#log-general" data-toggle="tab">General</a>
@@ -160,6 +160,38 @@
                                     </div>
                                 </div>
                                 <!-- /ko -->
+                                
+
+                                <!-- ko if: typeof id !== "undefined" -->
+                                <div class="form-group">
+                                    <label for="entity-id2" class="col-lg-2 control-label">Id</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" data-bind="value: id" readonly="readonly" class="form-control" id="entity-id2">
+                                    </div>
+                                </div>
+                                <!-- /ko -->
+                                
+
+                                <!-- ko if: typeof type !== "undefined" -->
+                                <div class="form-group">
+                                    <label for="entity-type" class="col-lg-2 control-label">Type</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" data-bind="value: type" readonly="readonly" class="form-control" id="entity-type">
+                                    </div>
+                                </div>
+                                <!-- /ko -->
+
+                                <div class="form-group">
+                                    <label for="other-info-json" class="col-sm-3 col-md-2 control-label">JSON</label>
+                                    <div class="col-sm-9 col-md-10">
+                                        <a class="pull-right" href="javascript:$('#other-info-json').focus().select();document.execCommand('copy');" title="Copy the details">
+                                            <i class="fa fa-copy"></i>
+                                        </a>
+                                        <textarea data-bind="value: JSON.stringify($data)"
+                                                  readonly rows="18"
+                                                  class="form-control" id="other-info-json"></textarea>
+                                    </div>
+                                </div>
 
                             </form>
                         </div>
