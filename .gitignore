@@ -187,3 +187,4 @@ env.devv1.s305.ps1
 StartIisExpressProxy.bat
 /.vscode
 /get-git-logs.bat
+/.vs

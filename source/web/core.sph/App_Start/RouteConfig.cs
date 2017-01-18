@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
-using Bespoke.Sph.WebApi;
 
 namespace Bespoke.Sph.Web.App_Start
 {
@@ -96,7 +91,6 @@ namespace Bespoke.Sph.Web.App_Start
             routes.AddRange(adapterRoutes);
 
             var developerService = ObjectBuilder.GetObject<IDeveloperService>();
-            ObjectBuilder.ComposeMefCatalog(developerService);
             var locationsRoutes = from loc in developerService.ReceiveLocationOptions
                                   select new JsRoute
                                   {
