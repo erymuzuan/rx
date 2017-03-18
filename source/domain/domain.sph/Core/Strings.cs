@@ -478,7 +478,7 @@ namespace Bespoke.Sph.Domain
             if (string.IsNullOrWhiteSpace(input)) return null;
             const RegexOptions OPTIONS = RegexOptions.IgnoreCase | RegexOptions.Singleline;
             var matches = Regex.Matches(input, pattern, OPTIONS);
-            return matches.Count == 1 ? matches[0].Groups[@group].Value.Trim() : null;
+            return matches.Count > 0 ? matches[0].Groups[@group].Value.Trim() : null;
         }
 
         public static string[] RegexValues(string input, string pattern, string group)
