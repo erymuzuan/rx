@@ -8,19 +8,44 @@
 /// <reference path="../schema/sph.domain.g.js" />
 
 
-define(['plugins/dialog'],
+define(["plugins/dialog"],
     function (dialog) {
 
-        var okClick = function () {
+        const okClick = function () {
             dialog.close(this, "OK");
-
-
         },
             cancelClick = function () {
                 dialog.close(this, "Cancel");
+            },
+            attached = function () {
+                $(document).on("mouseenter", ".view-model-modal .modal-header", function (e) {
+                    e.preventDefault();
+                    const elem = $(this).parents(".view-model-modal"),
+                        hasButton = elem.data("has-fullscreen");
+
+                    if (!hasButton) {
+
+                        elem.find("div.modal-header>button").
+                            after(`<a class="pull-right fullscreen-dialog" id="fullscreen-dialog" data-dialog="${elem.attr("id")
+                        }" href="#" title="Maximize this dialog window" style="margin-right: 10px; color: gray"><i class="fa fa-arrows-alt"></i></a>`);
+                        elem.data("has-fullscreen", true);
+                    }
+
+                });
+
+                $(document).on("click", "a.fullscreen-dialog", function (e) {
+                    e.preventDefault();
+
+                    const width = $(document).width(),
+                        height = $(document).height();
+                    $("div.modal-body").height(height - 250);
+                    $("div.modal-dialog").width(width - 100);
+                    $("section.view-model-modal").css({ top: -70, left: (400 - ($("div.modal-dialog").width()/2)) });
+                });
             };
 
-        var vm = {
+        const vm = {
+            attached: attached(),
             log: ko.observable(),
             okClick: okClick,
             cancelClick: cancelClick
