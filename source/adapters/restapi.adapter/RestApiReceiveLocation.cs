@@ -96,6 +96,14 @@ namespace Bespoke.Sph.Integrations.Adapters
             bind.AddNamespaceImport<System.Web.Http.Controllers.HttpParameterBinding, System.Web.Http.ParameterBindingAttribute, System.Web.Http.Metadata.ModelMetadataProvider>();
             bind.AddNamespaceImport<Stream, Task, CancellationToken>();
 
+
+
+            var headers = new StringBuilder();
+            foreach (var hd in port.FieldMappingCollection.OfType<HeaderFieldMapping>())
+            {
+                headers.AppendLine($@"port.AddHeader(""{hd.Name}"", actionContext.Request.Headers.GetValues(""{hd.Header}"").ToString("";""));");
+            }
+
             var lineCount = this.BufferAllRows ? @"port.AddHeader(""LineCount"", $""{lines.Length}"");" : "";
             var code = new StringBuilder();
             code.AppendLine($@" 
@@ -125,6 +133,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             port.AddHeader(""Rx:MachineName"", Environment.GetEnvironmentVariable(""COMPUTERNAME""));
             port.AddHeader(""Rx:UserName"", Environment.GetEnvironmentVariable(""USERNAME""));
             port.Uri = actionContext.Request.RequestUri;
+            {headers}
             {lineCount}
 
             var list = port.Process(lines);
@@ -171,7 +180,6 @@ namespace Bespoke.Sph.Integrations.Adapters
             
             var context = new SphDataContext();
             var ed = context.LoadOneFromSources<EntityDefinition>(x => x.Name == port.Entity);
-
 
             var reject = "";
             if (this.RejectPartial)

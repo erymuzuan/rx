@@ -19,8 +19,8 @@ namespace Bespoke.Sph.Domain
             var fieldName = field.Name;
             code.AppendLine("// Header: " + fieldName);
             code.AppendLine(!string.IsNullOrWhiteSpace(this.Pattern)
-                ? $@"var {varName}Raw = Strings.RegexSingleValue(this.Headers[""{field.Header}""], {field.Pattern.ToVerbatim()}, ""value"");"
-                : $@"var {varName}Raw = this.Headers[""{field.Header}""];");
+                ? $@"var {varName}Raw = Strings.RegexSingleValue(this.Headers[""{field.Name}""], {field.Pattern.ToVerbatim()}, ""value"");"
+                : $@"var {varName}Raw = this.Headers[""{field.Name}""];");
 
             if (field.IsNullable)
             {
