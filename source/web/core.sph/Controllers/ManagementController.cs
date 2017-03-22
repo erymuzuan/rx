@@ -89,7 +89,7 @@ namespace Bespoke.Sph.Web.Controllers
             string responseString;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+                client.BaseAddress = new Uri(ConfigurationManager.ElasticsearchLogHost);
                 var response = await client.GetAsync(url);
                 if (response.StatusCode == HttpStatusCode.NotFound)
                     return NotFound();
@@ -113,9 +113,8 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<IHttpActionResult> SearchRequestLogs(string from, string to, [RawBody]string query)
         {
             var url = $"{ConfigurationManager.ElasticSearchIndex}_logs/request_log/_search";
-            using (var client = new HttpClient())
+            using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticsearchLogHost) })
             {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticsearchLogHost);
                 var response = await client.PostAsync(url, new StringContent(query));
                 response.EnsureSuccessStatusCode();
 
@@ -175,8 +174,8 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpGet]
         [Route("endpoint-permissions")]
-        public async Task<IHttpActionResult> GetEndpointPermissionSettingsAsync([FromUri(Name = "parent")]string parent = null, 
-            [FromUri(Name = "controller")]string controller = null, 
+        public async Task<IHttpActionResult> GetEndpointPermissionSettingsAsync([FromUri(Name = "parent")]string parent = null,
+            [FromUri(Name = "controller")]string controller = null,
             [FromUri(Name = "action")]string action = null)
         {
 
