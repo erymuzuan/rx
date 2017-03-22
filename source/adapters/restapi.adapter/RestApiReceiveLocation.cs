@@ -101,6 +101,8 @@ namespace Bespoke.Sph.Integrations.Adapters
             var headers = new StringBuilder();
             foreach (var hd in port.FieldMappingCollection.OfType<HeaderFieldMapping>())
             {
+                if (hd.IsNullable)
+                    headers.AppendLine($@"if(actionContext.Request.Headers.Contains(""{hd.Header}""))");
                 headers.AppendLine($@"port.AddHeader(""{hd.Name}"", actionContext.Request.Headers.GetValues(""{hd.Header}"").ToString("";""));");
             }
 
@@ -177,7 +179,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             controller.AddNamespaceImport<Task, System.Web.Http.ApiController, WebApi.BaseApiController>();
             controller.ImportCollection.AddRange("System.Linq");
             controller.AttributeCollection.Add($@"[RoutePrefix(""{route}"")]");
-            
+
             var context = new SphDataContext();
             var ed = context.LoadOneFromSources<EntityDefinition>(x => x.Name == port.Entity);
 

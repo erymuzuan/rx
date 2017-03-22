@@ -17,7 +17,8 @@ namespace Bespoke.Sph.Domain
             var field = this;
             var varName = field.Name.ToCamelCase();
             var fieldName = field.Name;
-            code.AppendLine("// Header: " + fieldName);
+            code.AppendLine($@"if(this.Headers.ContainsKey(""{field.Name}""))");
+            code.AppendLine("{");
             code.AppendLine(!string.IsNullOrWhiteSpace(this.Pattern)
                 ? $@"var {varName}Raw = Strings.RegexSingleValue(this.Headers[""{field.Name}""], {field.Pattern.ToVerbatim()}, ""value"");"
                 : $@"var {varName}Raw = this.Headers[""{field.Name}""];");
@@ -36,6 +37,7 @@ namespace Bespoke.Sph.Domain
                 var expression = field.GenerateReadExpressionCode($"{varName}Raw");
                 code.AppendLine($"record.{fieldName} = {expression};");
             }
+            code.AppendLine("}");
 
             return code.ToString();
         }
