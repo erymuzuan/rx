@@ -2,12 +2,12 @@
    "log": {
       "properties": {
          "DateTime": { "type": "date"},
-         "Message":{ "type": "string", "index":"analyzed"},
-         "Operation":{ "type": "string", "index": "not_analyzed"},
-         "Source":{ "type": "string", "index": "not_analyzed"},
-         "Severity":{ "type": "string", "index": "not_analyzed"},
-         "Entry":{ "type": "string", "index": "not_analyzed"},
-         "UserName":{ "type": "string", "index": "not_analyzed"}
+         "Message":{ "type": "text", "index":"analyzed"},
+         "Operation":{ "type": "keyword", "index": "not_analyzed"},
+         "Source":{ "type": "keyword", "index": "not_analyzed"},
+         "Severity":{ "type": "keyword", "index": "not_analyzed"},
+         "Entry":{ "type": "keyword", "index": "not_analyzed"},
+         "UserName":{ "type": "keyword", "index": "not_analyzed"}
       }
    }
 }

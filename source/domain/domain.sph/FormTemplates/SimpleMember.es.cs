@@ -9,7 +9,8 @@ namespace Bespoke.Sph.Domain
         private string GetEsType()
         {
             var member = this;
-            if (typeof(string) == member.Type) return "string";
+            if (typeof(string) == member.Type && this.IsAnalyzed) return "text";
+            if (typeof(string) == member.Type && !this.IsAnalyzed) return "keyword";
             if (typeof(int) == member.Type) return "integer";
             if (typeof(decimal) == member.Type) return "float";
             if (typeof(bool) == member.Type) return "boolean";

@@ -2,19 +2,13 @@
     "access_token": {
         "properties": {
             "WebId": {
-                "type": "string",
+                "type": "keyword",
                 "index": "not_analyzed",
-                "norms": {
-                    "enabled": false
-                },
                 "index_options": "docs"
             },
             "email": {
-                "type": "string",
+                "type": "keyword",
                 "index": "not_analyzed",
-                "norms": {
-                    "enabled": false
-                },
                 "index_options": "docs"
             },
             "exp": {
@@ -27,27 +21,18 @@
                 "type": "double"
             },
             "roles": {
-                "type": "string",
+                "type": "keyword",
                 "index": "not_analyzed",
-                "norms": {
-                    "enabled": false
-                },
                 "index_options": "docs"
             },
             "sub": {
-                "type": "string",
+                "type": "keyword",
                 "index": "not_analyzed",
-                "norms": {
-                    "enabled": false
-                },
                 "index_options": "docs"
             },
             "user": {
-                "type": "string",
+                "type": "keyword",
                 "index": "not_analyzed",
-                "norms": {
-                    "enabled": false
-                },
                 "index_options": "docs"
             }
         }
