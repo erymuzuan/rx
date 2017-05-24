@@ -55,23 +55,6 @@ namespace Bespoke.Sph.Domain
             return map.ToString();
         }
 
-        private string GetObjectMapping()
-        {
-
-            var map = new StringBuilder();
-            map.AppendLine($"    \"{Name}\":{{");
-
-            map.AppendLine("        \"type\":  \"object\",");
-            map.AppendLine("        \"properties\":{");
-
-            var memberMappings = string.Join(",\r\n", this.MemberCollection.Select(d => d.GetEsMapping()));
-            map.AppendLine(memberMappings);
-
-            map.AppendLine("        }");
-            map.AppendLine("    }");
-            return map.ToString();
-        }
-
         public override string GetEsMapping()
         {
             return $"             \"{Name}\":{GetEsMappingType()}";

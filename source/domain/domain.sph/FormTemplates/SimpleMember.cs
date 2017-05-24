@@ -128,14 +128,8 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         public virtual Type Type
         {
-            get
-            {
-                return Strings.GetType(this.TypeName);
-            }
-            set
-            {
-                this.TypeName = value.GetShortAssemblyQualifiedName();
-            }
+            get => Strings.GetType(this.TypeName);
+            set => this.TypeName = value.GetShortAssemblyQualifiedName();
         }
 
         public override string ToString()
