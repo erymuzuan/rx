@@ -45,7 +45,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
             // ReSharper disable InconsistentNaming
             var JAVA_OPTS = string.Join(" ", File.ReadAllLines($@"{es}\config\jvm.options").Where(x => !string.IsNullOrWhiteSpace(x) && !x.Trim().StartsWith("#")).Select(x => x.Trim()));
-            var CLASS_PATH = $"\"{es}/lib/elasticsearch-{version}.jar;{es}/lib/*\"";
+            var CLASS_PATH = $"{es}/lib/*";
             var ES_PARAMS = $@"-Delasticsearch -Des.path.home=""{es}""";
             // ReSharper restore InconsistentNaming
 
