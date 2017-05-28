@@ -1235,12 +1235,13 @@
   "RecordName": "Mrn",
   "IsPublished": true,
   "TreatDataAsSource": false,
-  "StoreInDatabase": null,
-  "StoreInElasticsearch": null,
+  "Transient": false,
+  "StoreInDatabase": true,
+  "StoreInElasticsearch": true,
   "CreatedBy": "admin",
   "Id": "patient",
   "CreatedDate": "2015-05-28T07:43:35.756709+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-04-08T18:38:53.0596314+08:00",
+  "ChangedDate": "2017-05-27T09:42:49.5287732+08:00",
   "WebId": "bd9f6160-8d69-4b1a-94eb-b123a1523267"
 }
