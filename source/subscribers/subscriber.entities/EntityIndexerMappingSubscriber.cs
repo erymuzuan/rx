@@ -148,13 +148,13 @@ namespace subscriber.entities
 
             // compare
             var map = item.GetElasticsearchMapping();
-            if (this.Compare(item, map)) return;
+            if (Compare(item, map)) return;
 
             this.WriteMessage("There are differences from the existing ElasticSearch mapping");
             var result = await PutMappingAsync(item);
             if (result)
             {
-                this.SaveMap(item, map);
+                SaveMap(item, map);
 
                 // verify that the SQL is enabled for this EntityDefinition
                 if (item.Transient) return;
@@ -220,7 +220,7 @@ namespace subscriber.entities
             }
         }
 
-        private bool Compare(EntityDefinition item, string map)
+        private static bool Compare(EntityDefinition item, string map)
         {
             var wc = ConfigurationManager.SphSourceDirectory;
             var type = typeof(EntityDefinition);
@@ -234,7 +234,7 @@ namespace subscriber.entities
 
         }
 
-        private void SaveMap(EntityDefinition item, string map)
+        private static void SaveMap(EntityDefinition item, string map)
         {
             var wc = ConfigurationManager.SphSourceDirectory;
             var type = item.GetType();
