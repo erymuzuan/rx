@@ -81,27 +81,37 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         public void StartConsume(IConnection connection)
         {
             const bool NO_ACK = false;
+            this.OnStart();
+
+            m_channel = connection.CreateModel();
+            CreateQueue(m_channel);
+            m_channel.BasicQos(0, this.PrefetchCount, false);
+
+            m_consumer = new TaskBasicConsumer(m_channel);
+            m_consumer.Received += Received;
+            m_channel.BasicConsume(this.QueueName, NO_ACK, m_consumer);
+
+        }
+
+        private void CreateQueue(IModel channel)
+        {
             const string EXCHANGE_NAME = "sph.topic";
             const string DEAD_LETTER_EXCHANGE = "sph.ms-dead-letter";
             const string DEAD_LETTER_QUEUE = "ms_dead_letter_queue";
 
-            this.OnStart();
+            channel.ExchangeDeclare(EXCHANGE_NAME, ExchangeType.Topic, true);
+            channel.ExchangeDeclare(DEAD_LETTER_EXCHANGE, ExchangeType.Topic, true);
+            var args = new Dictionary<string, object> {{"x-dead-letter-exchange", DEAD_LETTER_EXCHANGE}};
+            channel.QueueDeclare(this.QueueName, true, false, false, args);
 
-            m_channel = connection.CreateModel();
-
-            m_channel.ExchangeDeclare(EXCHANGE_NAME, ExchangeType.Topic, true);
-            m_channel.ExchangeDeclare(DEAD_LETTER_EXCHANGE, ExchangeType.Topic, true);
-            var args = new Dictionary<string, object> { { "x-dead-letter-exchange", DEAD_LETTER_EXCHANGE } };
-            m_channel.QueueDeclare(this.QueueName, true, false, false, args);
-
-            m_channel.QueueDeclare(DEAD_LETTER_QUEUE, true, false, false, args);
-            m_channel.QueueBind(DEAD_LETTER_QUEUE, DEAD_LETTER_EXCHANGE, "#", null);
-            m_channel.QueueBind(DEAD_LETTER_QUEUE, DEAD_LETTER_EXCHANGE, "*.added", null);
-            m_channel.QueueBind(DEAD_LETTER_QUEUE, DEAD_LETTER_EXCHANGE, "*.changed", null);
+            channel.QueueDeclare(DEAD_LETTER_QUEUE, true, false, false, args);
+            channel.QueueBind(DEAD_LETTER_QUEUE, DEAD_LETTER_EXCHANGE, "#", null);
+            channel.QueueBind(DEAD_LETTER_QUEUE, DEAD_LETTER_EXCHANGE, "*.added", null);
+            channel.QueueBind(DEAD_LETTER_QUEUE, DEAD_LETTER_EXCHANGE, "*.changed", null);
 
             foreach (var s in this.RoutingKeys)
             {
-                m_channel.QueueBind(this.QueueName, EXCHANGE_NAME, s, null);
+                channel.QueueBind(this.QueueName, EXCHANGE_NAME, s, null);
             }
             // delay exchange and queue
             var delayExchange = "sph.delay.exchange." + this.QueueName;
@@ -111,18 +121,10 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 {"x-dead-letter-exchange", delayExchange},
                 {"x-dead-letter-routing-key", this.QueueName}
             };
-            m_channel.ExchangeDeclare(delayExchange, "direct");
-            m_channel.QueueDeclare(delayQueue, true, false, false, delayQueueArgs);
-            m_channel.QueueBind(delayQueue, delayExchange, string.Empty, null);
-
-            m_channel.BasicQos(0, this.PrefetchCount, false);
-
-            m_consumer = new TaskBasicConsumer(m_channel);
-            m_consumer.Received += Received;
-            m_channel.BasicConsume(this.QueueName, NO_ACK, m_consumer);
-
+            channel.ExchangeDeclare(delayExchange, "direct");
+            channel.QueueDeclare(delayQueue, true, false, false, delayQueueArgs);
+            channel.QueueBind(delayQueue, delayExchange, string.Empty, null);
         }
-
 
 
         private async void Received(object sender, ReceivedMessageArgs e)
