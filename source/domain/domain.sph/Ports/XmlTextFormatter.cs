@@ -32,7 +32,7 @@ namespace Bespoke.Sph.Domain
 
                 foreach (var e in root.Elements().Where(x => x.HasElements))
                 {
-                    var field = children.Where(x => x.Type == typeof(object)).SingleOrDefault(x => x.Name == e.Name.LocalName);
+                    var field = children.OfType<XmlElementTextFieldMapping>().SingleOrDefault(x => x.Name == e.Name.LocalName);
                     AddChildFields(field, e);
                 }
             }
@@ -40,9 +40,20 @@ namespace Bespoke.Sph.Domain
             return fields.ToArray();
         }
 
+        private static void AddChildFields(TextFieldMapping field, XElement parent)
+        {
+            var fields = GetMappings(parent);
+            field.FieldMappingCollection.AddRange(fields);
+
+            foreach (var ex in parent.Elements().Where(x => x.HasElements))
+            {
+                var field2 = fields.OfType<XmlElementTextFieldMapping>().SingleOrDefault(x => x.Name == ex.Name.LocalName);
+                AddChildFields(field2, ex);
+            }
+        }
         private static TextFieldMapping[] GetMappings(XElement parent)
         {
-            var attributes = parent.Attributes().Where(x => !x.ToString().StartsWith("xmlns:")).Select(x => new TextFieldMapping
+            var attributes = parent.Attributes().Where(x => !x.ToString().StartsWith("xmlns:")).Select(x => new XmlAttributeTextFieldMapping
             {
                 AllowMultiple = false,
                 Name = x.Name.LocalName,
@@ -51,28 +62,20 @@ namespace Bespoke.Sph.Domain
                 SampleValue = x.Value,
                 Type = x.Value.TryGuessType()
             }).ToArray();
-            var elements = parent.Elements().Select(x => new TextFieldMapping
+            var elements = parent.Elements().Select(x => new XmlElementTextFieldMapping(x)
             {
                 AllowMultiple = false,
                 Name = x.Name.LocalName,
                 IsComplex = x.HasAttributes || x.HasElements,
                 IsNullable = false,
                 SampleValue = x.Value,
-                Type = (x.HasAttributes || x.HasElements) ? typeof(object) : x.Value.TryGuessType()
+                TypeName =  (x.HasAttributes || x.HasElements) ? x.Name.LocalName : x.Value.TryGuessType().GetShortAssemblyQualifiedName()
             }).ToArray();
 
-            return attributes.Concat(elements).ToArray();
-        }
-        private static void AddChildFields(TextFieldMapping field, XElement parent)
-        {
-            var fields = GetMappings(parent);
-            field.FieldMappingCollection.AddRange(fields);
-
-            foreach (var ex in parent.Elements().Where(x => x.HasElements))
-            {
-                var field2 = fields.Where(x => x.Type == typeof(object)).SingleOrDefault(x => x.Name == ex.Name.LocalName);
-                AddChildFields(field2, ex);
-            }
+            var list = new List<TextFieldMapping>();
+            list.AddRange(attributes);
+            list.AddRange(elements);
+            return list.ToArray();
         }
 
         public string RootPath { get; set; }

@@ -53,12 +53,10 @@ namespace textformatter.test
             Assert.Equal("TrxObject", trxObject.Name);
             Assert.True(trxObject.IsComplex);
 
-            var port = new ReceivePort { Id = m_acceptanceXmlDocumentStoreId ,Entity = xtf.Name};
+            var port = new ReceivePort { Id = m_acceptanceXmlDocumentStoreId, Name = xtf.Name, Entity = "AcceptanceData", TextFormatter = xtf };
             port.FieldMappingCollection.AddRange(fields);
             var ed = await port.GenerateEntityDefinitionAsync();
-
-            Assert.Equal(xtf.Name, ed.Name);
-
+            
             var tellerIdMember = ed.MemberCollection.SingleOrDefault(x => x.Name == "TellerID");
             Assert.NotNull(tellerIdMember);
 
@@ -72,6 +70,13 @@ namespace textformatter.test
             Assert.NotNull(weight);
             Assert.Equal(typeof(decimal), weight.Type);
 
+
+            var codes = await port.GenerateCodeAsync();
+            foreach (var @class in codes)
+            {
+                m_helper.WriteLine("====================== " + @class.Name + " ===========================");
+                m_helper.WriteLine(@class.GetCode());
+            }
 
         }
     }

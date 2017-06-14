@@ -388,6 +388,8 @@
     <Compile Include="LogEntry.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Management\QuotaPolicy.cs" />
+    <Compile Include="Ports\XmlAttributeTextFieldMapping.cs" />
+    <Compile Include="Ports\XmlElementTextFieldMapping.cs" />
     <Compile Include="Ports\XmlTextFormatter.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
