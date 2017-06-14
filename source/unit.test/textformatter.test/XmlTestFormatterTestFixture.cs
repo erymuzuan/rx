@@ -1,5 +1,5 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Moq;
@@ -37,7 +37,10 @@ namespace textformatter.test
             var xtf = new XmlTextFormatter
             {
                 SampleStoreId = m_acceptanceXmlDocumentStoreId,
-                RootPath = "Data/AcceptanceData"
+                RootPath = "Data/AcceptanceData",
+                Name = "AcceptanceDataPort",
+                Namespace = "",
+                XmlSchemaStoreId = null
             };
             var fields = await xtf.GetFieldMappingsAsync();
             m_helper.WriteLine("Loading sample file");
@@ -46,11 +49,28 @@ namespace textformatter.test
             var tellerId = fields[0];
             Assert.Equal("TellerID", tellerId.Name);
 
-
             var trxObject = fields[2];
-
             Assert.Equal("TrxObject", trxObject.Name);
             Assert.True(trxObject.IsComplex);
+
+            var port = new ReceivePort { Id = m_acceptanceXmlDocumentStoreId ,Entity = xtf.Name};
+            port.FieldMappingCollection.AddRange(fields);
+            var ed = await port.GenerateEntityDefinitionAsync();
+
+            Assert.Equal(xtf.Name, ed.Name);
+
+            var tellerIdMember = ed.MemberCollection.SingleOrDefault(x => x.Name == "TellerID");
+            Assert.NotNull(tellerIdMember);
+
+            var connoteObject = ed.MemberCollection.SingleOrDefault(x => x.Name == "ConnoteObject");
+            Assert.NotNull(connoteObject);
+            Assert.IsType<ComplexMember>(connoteObject);
+            Assert.Equal(11, connoteObject.MemberCollection.Count);
+
+
+            var weight = connoteObject.MemberCollection.OfType<SimpleMember>().SingleOrDefault(x => x.Name == "Weight");
+            Assert.NotNull(weight);
+            Assert.Equal(typeof(decimal), weight.Type);
 
 
         }

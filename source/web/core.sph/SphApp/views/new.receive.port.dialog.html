@@ -108,10 +108,15 @@
                 <!-- ko compose : { view : '_formatter.wizard.delimitedtext'}--><!-- /ko-->
 
                 <!-- /ko -->
+                
+
                 <!-- ko if : ko.unwrap(Formatter) === 'SqlServerRecordSetFormatter' -->
-
                 <!-- ko compose : { view : '_formatter.wizard.sqlserverrecordset'}--><!-- /ko-->
+                <!-- /ko -->
 
+
+                <!-- ko if : ko.unwrap(Formatter) === 'XmlTextFormatter' -->
+                <!-- ko compose : { view : '_formatter.wizard.xml'}--><!-- /ko-->
                 <!-- /ko -->
 
 
