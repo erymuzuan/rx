@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Bespoke.MyApp.ReceivePorts;
 using Bespoke.Sph.Domain;
 using Moq;
 using Xunit;
@@ -53,10 +54,14 @@ namespace textformatter.test
             Assert.Equal("TrxObject", trxObject.Name);
             Assert.True(trxObject.IsComplex);
 
+            var conNoteObject = fields[3];
+            var weightField = conNoteObject.FieldMappingCollection.Single(x => x.Name == "Weight");
+            weightField.IsNullable = true;
+
             var port = new ReceivePort { Id = m_acceptanceXmlDocumentStoreId, Name = xtf.Name, Entity = "AcceptanceData", TextFormatter = xtf };
             port.FieldMappingCollection.AddRange(fields);
             var ed = await port.GenerateEntityDefinitionAsync();
-            
+
             var tellerIdMember = ed.MemberCollection.SingleOrDefault(x => x.Name == "TellerID");
             Assert.NotNull(tellerIdMember);
 
@@ -72,12 +77,51 @@ namespace textformatter.test
 
 
             var codes = await port.GenerateCodeAsync();
-            foreach (var @class in codes)
+            foreach (var @class in codes.Where(x => x.Name == "AcceptanceDataPort"))
             {
-                m_helper.WriteLine("====================== " + @class.Name + " ===========================");
+                m_helper.WriteLine("// ====================== " + @class.Name + " ===========================");
                 m_helper.WriteLine(@class.GetCode());
             }
 
         }
+
+        class PortLogger : ILogger
+        {
+            private readonly ITestOutputHelper m_helper;
+
+            public PortLogger(ITestOutputHelper helper)
+            {
+                m_helper = helper;
+            }
+            public Task LogAsync(LogEntry entry)
+            {
+                m_helper.WriteLine(entry.ToString());
+                return Task.FromResult(0);
+            }
+
+            public void Log(LogEntry entry)
+            {
+                m_helper.WriteLine(entry.ToString());
+            }
+        }
+        [Fact]
+        public void ProcessRecord()
+        {
+            var port = new AcceptanceDataPort(new PortLogger(m_helper));
+            var lines = File.ReadLines(@".\docs\AcceptanceData20170605144701.xml");
+            var acceptances = port.Process(lines).ToArray();
+
+            Assert.Equal(2, acceptances.Length);
+
+            var first = acceptances[0];
+            Assert.Equal("4398MASNIYATI", first.TellerID);
+            Assert.Equal(10141003, first.BranchCode);
+            Assert.True(first.ConnoteObject.Weight.HasValue);
+            Assert.Equal(2.250m, first.ConnoteObject.Weight.Value);
+
+            m_helper.WriteLine(first.ToJson());
+
+        }
     }
+
 }

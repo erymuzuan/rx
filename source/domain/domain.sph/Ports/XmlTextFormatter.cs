@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Bespoke.Sph.Domain.Codes;
 
 namespace Bespoke.Sph.Domain
 {
@@ -69,7 +71,7 @@ namespace Bespoke.Sph.Domain
                 IsComplex = x.HasAttributes || x.HasElements,
                 IsNullable = false,
                 SampleValue = x.Value,
-                TypeName =  (x.HasAttributes || x.HasElements) ? x.Name.LocalName : x.Value.TryGuessType().GetShortAssemblyQualifiedName()
+                TypeName = (x.HasAttributes || x.HasElements) ? x.Name.LocalName : x.Value.TryGuessType().GetShortAssemblyQualifiedName()
             }).ToArray();
 
             var list = new List<TextFieldMapping>();
@@ -79,5 +81,58 @@ namespace Bespoke.Sph.Domain
         }
 
         public string RootPath { get; set; }
+
+
+        public override string GetRecordMetadataCode()
+        {
+            return "//metadata";
+        }
+
+        public override async Task<Class> GetPortClassAsync(ReceivePort port)
+        {
+            var type = await base.GetPortClassAsync(port);
+            type.AddNamespaceImport<XDocument>();
+
+            var processCode = GenerateProcessCode(port);
+            type.AddMethod(new Method { Code = processCode });
+
+            return type;
+        }
+
+
+        private string GenerateProcessCode(ReceivePort port)
+        {
+            var code = new StringBuilder();
+
+            code.Append($"public IEnumerable<{port.Entity}> Process(IEnumerable<string> lines)");
+            code.AppendLine("{");
+
+            code.AppendLine($@"
+            var text = string.Join(""\r\n"", lines);
+            var doc = XElement.Parse(text);
+
+            //  var root = doc.Element(""Data"");
+            var elements = doc.Elements(""AcceptanceData"");
+            foreach (var e in elements)
+            {{
+                var record = new {port.Entity}
+                {{
+                    {port.FieldMappingCollection.OfType<XmlElementTextFieldMapping>().ToString(",\r\n", x => x.Name + " = " + x.GenerateReadValueCode("e"))}
+                                       
+                }};
+                var c1 = e.Element(""ConnoteObject"") ;
+                record.ConnoteObject.ConnoteNumber = c1.Element(""ConnoteNumber"")?.Value;
+
+                yield return record;
+            }}
+
+            ");
+
+
+
+            code.AppendLine("} ");
+            return code.ToString();
+        }
+
     }
 }
