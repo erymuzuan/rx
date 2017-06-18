@@ -63,7 +63,8 @@ namespace Bespoke.MyApp.ReceivePorts
                         ExpressInd = int.Parse(e.Element(xn + "Parcel")?.Element(xn + "ExpressInd")?.Value ?? "0"),
                         CoDInd = int.Parse(e.Element(xn + "Parcel")?.Element(xn + "CoDInd")?.Value ?? "0")
                     },
-                    ItemId = e.Parent.Attribute("ItemId")?.Value
+                    ItemId = e.Parent.Attribute("ItemId")?.Value,
+                    InterfaceCode = doc.Attribute("InterfaceCode")?.Value
 
                 };
                 //TODO : AllowMultiple properties

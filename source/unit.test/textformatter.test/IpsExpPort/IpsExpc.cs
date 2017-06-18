@@ -32,6 +32,8 @@ namespace Bespoke.MyApp.ReceivePorts
 
         public string ItemId { get; set; }
 
+        public string InterfaceCode { get; set; }
+
 
 
         //metadata

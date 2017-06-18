@@ -59,10 +59,18 @@ namespace textformatter.test
                 Type = typeof(string)
             };
 
+            var interfaceCode = new XmlAttributeTextFieldMapping
+            {
+                Name = "InterfaceCode",
+                Path = "$Root$.InterfaceCode",
+                Type = typeof(string)
+            };
+
 
             var port = new ReceivePort { Id = m_ipsDocumentStoreId, Name = xtf.Name, Entity = "IpsExpc", TextFormatter = xtf };
             port.FieldMappingCollection.AddRange(fields);
             port.FieldMappingCollection.Add(itemId);
+            port.FieldMappingCollection.Add(interfaceCode);
             var ed = await port.GenerateEntityDefinitionAsync();
 
 
@@ -122,6 +130,7 @@ namespace textformatter.test
 
             Assert.Equal(2, first.IPSEvent.Count);
             Assert.Equal("EJ211039802AU", first.ItemId);
+            Assert.Equal("IPSExpE", first.InterfaceCode);
 
             m_helper.WriteLine(first.ToJson());
 

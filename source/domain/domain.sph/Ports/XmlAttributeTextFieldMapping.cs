@@ -8,6 +8,8 @@ namespace Bespoke.Sph.Domain
         {
             if (this.Path.Contains("$Parent$"))
                 elementName += "." + this.Path.Replace("$Parent$", "Parent").Replace("." + Name, "");
+            if (this.Path.Contains("$Root$"))
+                elementName = "doc";
             //TODO: create a subclass for each Type and Nullability
             if (this.Type == typeof(string))
                 return $@"{elementName}.Attribute(""{Name}"")?.Value";
