@@ -10,7 +10,7 @@ using Xunit.Abstractions;
 namespace textformatter.test
 {
     [Trait("XML", "TextFormatter")]
-    public class XmlTestFormatterTestFixture
+    public class AcceptanceDataTestFixture
     {
 
         private readonly ITestOutputHelper m_helper;
@@ -18,7 +18,7 @@ namespace textformatter.test
         private readonly string m_sampleXmlDocumentStoreId = "sample";
         private readonly string m_acceptanceXmlDocumentStoreId = "acceptance";
 
-        public XmlTestFormatterTestFixture(ITestOutputHelper helper)
+        public AcceptanceDataTestFixture(ITestOutputHelper helper)
         {
             m_helper = helper;
             var sample = new BinaryStore { Content = File.ReadAllBytes(@".\docs\sample.xml") };
@@ -123,5 +123,4 @@ namespace textformatter.test
 
         }
     }
-
 }

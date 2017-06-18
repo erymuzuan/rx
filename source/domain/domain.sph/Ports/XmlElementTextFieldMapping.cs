@@ -46,7 +46,7 @@ namespace Bespoke.Sph.Domain
                     .ToString(",\r\n");
                 // TODO : when we have more ComplextElement , should recurse
                 elemetAssignments = this.FieldMappingCollection.OfType<XmlElementTextFieldMapping>()
-                    .Select(x => x.Name + " = " + x.GenerateReadValueCode($"{elementName}.Element(\"{this.Name}\")"))
+                    .Select(x => x.Name + " = " + x.GenerateReadValueCode($"{elementName}.Element(xn + \"{this.Name}\")?"))
                     .ToString(",\r\n");
             }
             if (this.TypeName == this.Name)
@@ -57,29 +57,29 @@ namespace Bespoke.Sph.Domain
 
             //TODO: create a subclass for each Type and Nullability
             if (this.Type == typeof(string))
-                return $@"{elementName}.Element(""{Name}"")?.Value";
+                return $@"{elementName}.Element(xn + ""{Name}"")?.Value";
 
             if (this.Type == typeof(int) && !this.IsNullable)
-                return $@"int.Parse({elementName}.Element(""{Name}"")?.Value?? ""{this.SampleValue}"")";
+                return $@"int.Parse({elementName}.Element(xn + ""{Name}"")?.Value?? ""{this.SampleValue}"")";
             if (this.Type == typeof(int) && this.IsNullable)
-                return $@"{elementName}.Element(""{Name}"")?.Value.ParseNullableInt32()";
+                return $@"{elementName}.Element(xn + ""{Name}"")?.Value.ParseNullableInt32()";
 
             if (this.Type == typeof(decimal) && !this.IsNullable)
-                return $@"decimal.Parse({elementName}.Element(""{Name}"")?.Value ?? ""{SampleValue}"")";
+                return $@"decimal.Parse({elementName}.Element(xn + ""{Name}"")?.Value ?? ""{SampleValue}"")";
             if (this.Type == typeof(decimal) && this.IsNullable)
-                return $@"{elementName}.Element(""{Name}"")?.Value.ParseNullableDecimal()";
+                return $@"{elementName}.Element(xn + ""{Name}"")?.Value.ParseNullableDecimal()";
 
             if (this.Type == typeof(DateTime) && !this.IsNullable)
-                return $@"DateTime.Parse({elementName}.Element(""{Name}"")?.Value ?? ""{SampleValue}"")";
+                return $@"DateTime.Parse({elementName}.Element(xn + ""{Name}"")?.Value ?? ""{SampleValue}"")";
             if (this.Type == typeof(DateTime) && this.IsNullable)
-                return $@"{elementName}.Element(""{Name}"")?.Value.ParseNullableDateTime()";
+                return $@"{elementName}.Element(xn + ""{Name}"")?.Value.ParseNullableDateTime()";
 
             if (this.Type == typeof(bool) && !this.IsNullable)
-                return $@"bool.Parse({elementName}.Element(""{Name}"")?.Value ?? ""{SampleValue}"")";
+                return $@"bool.Parse({elementName}.Element(xn + ""{Name}"")?.Value ?? ""{SampleValue}"")";
             if (this.Type == typeof(bool) && this.IsNullable)
-                return $@"{elementName}.Element(""{Name}"")?.Value.ParseNullableBoolean()";
+                return $@"{elementName}.Element(xn + ""{Name}"")?.Value.ParseNullableBoolean()";
 
-            return $@"{elementName}.Element(""{Name}"")?.Value";
+            return $@"{elementName}.Element(xn + ""{Name}"")?.Value";
         }
 
     }

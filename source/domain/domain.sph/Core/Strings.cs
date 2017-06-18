@@ -674,8 +674,7 @@ namespace Bespoke.Sph.Domain
         public static T? ReadNullable<T>(this object val) where T : struct
         {
             if (val == null) return default(T);
-            Console.WriteLine($"{val.GetType()} -> {val}");
-            if (val == DBNull.Value) return default(T);
+            if (val == DBNull.Value) return default(T?);
             return (T)val;
         }
         public static string ReadNullableString(this object val)

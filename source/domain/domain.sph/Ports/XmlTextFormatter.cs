@@ -20,21 +20,21 @@ namespace Bespoke.Sph.Domain
 
             using (var stream = new MemoryStream(bin.Content))
             {
-                var doc = XDocument.Load(stream);
-                var path = this.RootPath.Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
+                var doc = XElement.Load(stream);
+                var xn = doc.GetDefaultNamespace();
                 XElement root = null;
-                foreach (var p in path)
+                foreach (var path in this.RootPath.Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries))
                 {
-                    root = null == root ? doc.Element(p) : root.Element(p);
+                    root = root == null ? doc.Element(xn + path) : root.Element(xn + path);
                 }
+                if (null == root) throw new InvalidOperationException($"Cannot query element {this.RootPath}");
 
-                if (null == root) throw new InvalidOperationException("Cannot find root for path " + this.RootPath);
                 var children = GetMappings(root);
                 fields.AddRange(children);
 
                 foreach (var e in root.Elements().Where(x => x.HasElements))
                 {
-                    var field = children.OfType<XmlElementTextFieldMapping>().SingleOrDefault(x => x.Name == e.Name.LocalName);
+                    var field = children.OfType<XmlElementTextFieldMapping>().FirstOrDefault(x => x.Name == e.Name.LocalName);
                     AddChildFields(field, e);
                 }
             }
@@ -44,7 +44,7 @@ namespace Bespoke.Sph.Domain
 
         private static void AddChildFields(TextFieldMapping field, XElement parent)
         {
-            var fields = GetMappings(parent);
+            var fields = GetMappings(parent).Where(x => field.FieldMappingCollection.All(y => y.Name != x.Name)).ToArray();
             field.FieldMappingCollection.AddRange(fields);
 
             foreach (var ex in parent.Elements().Where(x => x.HasElements))
@@ -72,7 +72,17 @@ namespace Bespoke.Sph.Domain
                 IsNullable = false,
                 SampleValue = x.Value,
                 TypeName = (x.HasAttributes || x.HasElements) ? x.Name.LocalName : x.Value.TryGuessType().GetShortAssemblyQualifiedName()
-            }).ToArray();
+            }).ToList();
+
+            // see which of the elements are array
+            var groups = parent.Elements().Select(x => x.Name.LocalName).GroupBy(x => x).Where(x => x.Count() > 1);
+            foreach (var g in groups)
+            {
+                var ef = elements.First(x => x.Name == g.Key);
+                ef.AllowMultiple = true;
+                var removed = elements.RemoveAll(x => x.Name == g.Key && x.AllowMultiple == false);
+                System.Diagnostics.Debug.Assert(removed > 0);
+            }
 
             var list = new List<TextFieldMapping>();
             list.AddRange(attributes);
@@ -104,25 +114,44 @@ namespace Bespoke.Sph.Domain
         {
             var code = new StringBuilder();
 
+            var elementQueries = "";
+            var paths = this.RootPath.Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            for (var i = 1; i < paths.Count; i++)
+            {
+                elementQueries += $@".Elements(xn + ""{paths[i]}"")";
+            }
+
+            var collectionCode = new StringBuilder();
+            foreach (var xe in port.FieldMappingCollection.Where(x => x.AllowMultiple).OfType<XmlElementTextFieldMapping>())
+            {
+                var initializer = xe.FieldMappingCollection.OfType<XmlElementTextFieldMapping>().ToString(",\r\n", x => x.Name + " = " + x.GenerateReadValueCode("ce"));
+                collectionCode.AppendLine($@"foreach(var ce in e.Elements(xn + ""{xe.Name}""))");
+                collectionCode.AppendLine("{");
+                collectionCode.AppendLine($@"record.{xe.Name}.Add(new {xe.Name}{{
+                                {initializer}
+                    }});");
+                collectionCode.AppendLine("}");
+            }
+
+
             code.Append($"public IEnumerable<{port.Entity}> Process(IEnumerable<string> lines)");
             code.AppendLine("{");
 
             code.AppendLine($@"
             var text = string.Join(""\r\n"", lines);
             var doc = XElement.Parse(text);
+            var xn =  doc.GetDefaultNamespace();
 
-            //  var root = doc.Element(""Data"");
-            var elements = doc.Elements(""AcceptanceData"");
+            var elements = doc{elementQueries};
             foreach (var e in elements)
             {{
                 var record = new {port.Entity}
                 {{
-                    {port.FieldMappingCollection.OfType<XmlElementTextFieldMapping>().ToString(",\r\n", x => x.Name + " = " + x.GenerateReadValueCode("e"))}
+                    {port.FieldMappingCollection.Where(x => !x.AllowMultiple).OfType<XmlElementTextFieldMapping>().ToString(",\r\n", x => x.Name + " = " + x.GenerateReadValueCode("e"))}
                                        
                 }};
-                var c1 = e.Element(""ConnoteObject"") ;
-                record.ConnoteObject.ConnoteNumber = c1.Element(""ConnoteNumber"")?.Value;
-
+                //TODO : AllowMultiple properties
+                {collectionCode}
                 yield return record;
             }}
 
