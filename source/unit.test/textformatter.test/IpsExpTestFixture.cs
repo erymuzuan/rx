@@ -117,5 +117,21 @@ namespace textformatter.test
             m_helper.WriteLine(first.ToJson());
 
         }
+        [Fact]
+        public void IPSExpC_20170606_091542_45349()
+        {
+            var port = new IpsExpPort(new PortLogger(m_helper));
+            var lines = File.ReadLines(@".\docs\IPSExpC_20170606_091542_45349.xml");
+            var items = port.Process(lines).ToArray();
+
+            Assert.Equal(19, items.Length);
+
+            var first = items.Last();
+            Assert.Equal("INMAACMYKULAACN70108002000194", first.RecptclId);
+            Assert.Equal("P", first.Parcel.ConveyanceTypeCd);
+
+            m_helper.WriteLine(first.ToJson());
+
+        }
     }
 }
