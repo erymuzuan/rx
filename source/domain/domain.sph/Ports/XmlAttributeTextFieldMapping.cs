@@ -1,10 +1,40 @@
+using System;
+
 namespace Bespoke.Sph.Domain
 {
     public class XmlAttributeTextFieldMapping : TextFieldMapping
     {
         public string GenerateReadValueCode(string elementName)
         {
-            throw new System.NotImplementedException();
+            if (this.Path.Contains("$Parent$"))
+                elementName += "." + this.Path.Replace("$Parent$", "Parent").Replace("." + Name, "");
+            //TODO: create a subclass for each Type and Nullability
+            if (this.Type == typeof(string))
+                return $@"{elementName}.Attribute(""{Name}"")?.Value";
+
+            if (this.Type == typeof(int) && !this.IsNullable)
+                return $@"int.Parse({elementName}.Attribute(""{Name}"")?.Value?? ""{this.SampleValue}"")";
+            if (this.Type == typeof(int) && this.IsNullable)
+                return $@"{elementName}.Attribute(""{Name}"")?.Value.ParseNullableInt32()";
+
+            if (this.Type == typeof(decimal) && !this.IsNullable)
+                return $@"decimal.Parse({elementName}.Attribute(""{Name}"")?.Value ?? ""{SampleValue}"")";
+            if (this.Type == typeof(decimal) && this.IsNullable)
+                return $@"{elementName}.Attribute(""{Name}"")?.Value.ParseNullableDecimal()";
+
+            if (this.Type == typeof(DateTime) && !this.IsNullable)
+                return $@"DateTime.Parse({elementName}.Attribute(""{Name}"")?.Value ?? ""{SampleValue}"")";
+            if (this.Type == typeof(DateTime) && this.IsNullable)
+                return $@"{elementName}.Attribute(""{Name}"")?.Value.ParseNullableDateTime()";
+
+            if (this.Type == typeof(bool) && !this.IsNullable)
+                return $@"bool.Parse({elementName}.Attribute(""{Name}"")?.Value ?? ""{SampleValue}"")";
+            if (this.Type == typeof(bool) && this.IsNullable)
+                return $@"{elementName}.Attribute(""{Name}"")?.Value.ParseNullableBoolean()";
+
+            return $@"{elementName}.Attribute(""{Name}"")?.Value";
         }
+
+        public string Path { get; set; }
     }
 }

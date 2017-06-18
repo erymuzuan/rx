@@ -45,15 +45,24 @@ namespace textformatter.test
                 XmlSchemaStoreId = null
             };
             var fields = await xtf.GetFieldMappingsAsync();
-            m_helper.WriteLine("Loading sample file " );
+            m_helper.WriteLine("Loading sample file ");
             Assert.Equal(10, fields.Length);
-            
+
             var dispatch = fields[0];
             Assert.Equal("Dispatch", dispatch.Name);
             Assert.True(dispatch.IsComplex);
-            
+
+            var itemId = new XmlAttributeTextFieldMapping
+            {
+                Name = "ItemId",
+                Path = "$Parent$.ItemId",
+                Type = typeof(string)
+            };
+
+
             var port = new ReceivePort { Id = m_ipsDocumentStoreId, Name = xtf.Name, Entity = "IpsExpc", TextFormatter = xtf };
             port.FieldMappingCollection.AddRange(fields);
+            port.FieldMappingCollection.Add(itemId);
             var ed = await port.GenerateEntityDefinitionAsync();
 
 
@@ -75,7 +84,6 @@ namespace textformatter.test
                 m_helper.WriteLine("// ====================== " + @class.Name + " ===========================");
                 var code = @class.GetCode()
                     .Replace("using FileHelpers;\r\n", "");
-                m_helper.WriteLine(code);
                 File.WriteAllText($@"..\..\IpsExpPort\{@class.Name}.cs", code);
             }
 
@@ -113,6 +121,7 @@ namespace textformatter.test
             Assert.Equal(0.955m, first.ItemWeight);
 
             Assert.Equal(2, first.IPSEvent.Count);
+            Assert.Equal("EJ211039802AU", first.ItemId);
 
             m_helper.WriteLine(first.ToJson());
 

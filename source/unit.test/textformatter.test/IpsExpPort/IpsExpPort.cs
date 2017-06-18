@@ -1,6 +1,10 @@
 using System;
+using Newtonsoft.Json;
+using System.IO;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace Bespoke.MyApp.ReceivePorts
@@ -10,7 +14,7 @@ namespace Bespoke.MyApp.ReceivePorts
         public IpsExpPort(ILogger logger) { this.Logger = logger; }
 
 
-        public Uri Uri { get; set; }
+        public System.Uri Uri { get; set; }
         public ILogger Logger { get; }
         public IDictionary<string, string> Headers { get; } = new Dictionary<string, string>();
 
@@ -58,7 +62,8 @@ namespace Bespoke.MyApp.ReceivePorts
                         MailItemCategoryCd = e.Element(xn + "Parcel")?.Element(xn + "MailItemCategoryCd")?.Value,
                         ExpressInd = int.Parse(e.Element(xn + "Parcel")?.Element(xn + "ExpressInd")?.Value ?? "0"),
                         CoDInd = int.Parse(e.Element(xn + "Parcel")?.Element(xn + "CoDInd")?.Value ?? "0")
-                    }
+                    },
+                    ItemId = e.Parent.Attribute("ItemId")?.Value
 
                 };
                 //TODO : AllowMultiple properties

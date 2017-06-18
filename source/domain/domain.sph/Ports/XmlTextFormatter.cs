@@ -137,6 +137,9 @@ namespace Bespoke.Sph.Domain
             code.Append($"public IEnumerable<{port.Entity}> Process(IEnumerable<string> lines)");
             code.AppendLine("{");
 
+            var elementProperties = port.FieldMappingCollection.Where(x => !x.AllowMultiple).OfType<XmlElementTextFieldMapping>().ToString(",\r\n", x => x.Name + " = " + x.GenerateReadValueCode("e"));
+            var attributeProperties = port.FieldMappingCollection.OfType<XmlAttributeTextFieldMapping>().ToString(",\r\n", x => x.Name + " = " + x.GenerateReadValueCode("e"));
+            var comma = port.FieldMappingCollection.OfType<XmlAttributeTextFieldMapping>().Any() ? "," : "";
             code.AppendLine($@"
             var text = string.Join(""\r\n"", lines);
             var doc = XElement.Parse(text);
@@ -147,7 +150,8 @@ namespace Bespoke.Sph.Domain
             {{
                 var record = new {port.Entity}
                 {{
-                    {port.FieldMappingCollection.Where(x => !x.AllowMultiple).OfType<XmlElementTextFieldMapping>().ToString(",\r\n", x => x.Name + " = " + x.GenerateReadValueCode("e"))}
+                    {elementProperties}{comma}
+                    {attributeProperties}
                                        
                 }};
                 //TODO : AllowMultiple properties

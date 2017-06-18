@@ -30,6 +30,8 @@ namespace Bespoke.MyApp.ReceivePorts
 
         public ObjectCollection<IPSEvent> IPSEvent { get; } = new ObjectCollection<IPSEvent>();
 
+        public string ItemId { get; set; }
+
 
 
         //metadata
