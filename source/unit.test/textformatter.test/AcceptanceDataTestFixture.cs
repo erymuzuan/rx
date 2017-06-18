@@ -77,10 +77,13 @@ namespace textformatter.test
 
 
             var codes = await port.GenerateCodeAsync();
-            foreach (var @class in codes.Where(x => x.Name == "AcceptanceDataPort"))
+            foreach (var @class in codes)
             {
                 m_helper.WriteLine("// ====================== " + @class.Name + " ===========================");
-                m_helper.WriteLine(@class.GetCode());
+                var code = @class.GetCode()
+                    .Replace("using FileHelpers;\r\n", "");
+                m_helper.WriteLine(code);
+                File.WriteAllText($@"..\..\AcceptanceDataPort\{@class.Name}.cs", code);
             }
 
         }

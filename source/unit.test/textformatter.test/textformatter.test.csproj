@@ -59,7 +59,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AcceptanceDataPort.cs" />
+    <Compile Include="AcceptanceDataPort\AcceptanceData.cs" />
+    <Compile Include="AcceptanceDataPort\AcceptanceDataPort.cs" />
+    <Compile Include="AcceptanceDataPort\ConnoteObject.cs" />
+    <Compile Include="AcceptanceDataPort\ReceiverObject.cs" />
+    <Compile Include="AcceptanceDataPort\SenderObject.cs" />
+    <Compile Include="AcceptanceDataPort\TrxObject.cs" />
     <Compile Include="IpsExpPort\Dispatch.cs" />
     <Compile Include="IpsExpPort\IPSEvent.cs" />
     <Compile Include="IpsExpPort\IpsExpc.cs" />
@@ -105,5 +110,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
