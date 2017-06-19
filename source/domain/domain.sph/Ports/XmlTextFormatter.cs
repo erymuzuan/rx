@@ -62,7 +62,8 @@ namespace Bespoke.Sph.Domain
                 IsComplex = false,
                 IsNullable = false,
                 SampleValue = x.Value,
-                Type = x.Value.TryGuessType()
+                Type = x.Value.TryGuessType(),
+                WebId = Strings.GenerateId()
             }).ToArray();
             var elements = parent.Elements().Select(x => new XmlElementTextFieldMapping(x)
             {
@@ -71,7 +72,8 @@ namespace Bespoke.Sph.Domain
                 IsComplex = x.HasAttributes || x.HasElements,
                 IsNullable = false,
                 SampleValue = x.Value,
-                TypeName = (x.HasAttributes || x.HasElements) ? x.Name.LocalName : x.Value.TryGuessType().GetShortAssemblyQualifiedName()
+                TypeName = (x.HasAttributes || x.HasElements) ? x.Name.LocalName : x.Value.TryGuessType().GetShortAssemblyQualifiedName(),
+                WebId = Strings.GenerateId()
             }).ToList();
 
             // see which of the elements are array
