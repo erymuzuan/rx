@@ -60,22 +60,22 @@ namespace Bespoke.Sph.Domain
                 return $@"{elementName}.Element(xn + ""{Name}"")?.Value";
 
             if (this.Type == typeof(int) && !this.IsNullable)
-                return $@"int.Parse({elementName}.Element(xn + ""{Name}"")?.Value?? ""{this.SampleValue}"")";
+                return $@"int.Parse({elementName}.Element(xn + ""{Name}"")?.Value?? ""{DefaultValueString}"")";
             if (this.Type == typeof(int) && this.IsNullable)
                 return $@"{elementName}.Element(xn + ""{Name}"")?.Value.ParseNullableInt32()";
 
             if (this.Type == typeof(decimal) && !this.IsNullable)
-                return $@"decimal.Parse({elementName}.Element(xn + ""{Name}"")?.Value ?? ""{SampleValue}"")";
+                return $@"decimal.Parse({elementName}.Element(xn + ""{Name}"")?.Value ?? ""{DefaultValueString}"")";
             if (this.Type == typeof(decimal) && this.IsNullable)
                 return $@"{elementName}.Element(xn + ""{Name}"")?.Value.ParseNullableDecimal()";
 
             if (this.Type == typeof(DateTime) && !this.IsNullable)
-                return $@"DateTime.Parse({elementName}.Element(xn + ""{Name}"")?.Value ?? ""{SampleValue}"")";
+                return $@"DateTime.Parse({elementName}.Element(xn + ""{Name}"")?.Value ?? ""{DefaultValueString}"")";
             if (this.Type == typeof(DateTime) && this.IsNullable)
                 return $@"{elementName}.Element(xn + ""{Name}"")?.Value.ParseNullableDateTime()";
 
             if (this.Type == typeof(bool) && !this.IsNullable)
-                return $@"bool.Parse({elementName}.Element(xn + ""{Name}"")?.Value ?? ""{SampleValue}"")";
+                return $@"bool.Parse({elementName}.Element(xn + ""{Name}"")?.Value ?? ""{DefaultValueString}"")";
             if (this.Type == typeof(bool) && this.IsNullable)
                 return $@"{elementName}.Element(xn + ""{Name}"")?.Value.ParseNullableBoolean()";
 
