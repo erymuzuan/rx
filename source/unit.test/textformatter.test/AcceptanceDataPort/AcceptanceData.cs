@@ -22,6 +22,7 @@ namespace Bespoke.MyApp.ReceivePorts
 
         public ReceiverObject ReceiverObject { get; set; }
 
+               public DateTime? Date;
 
 
         //metadata

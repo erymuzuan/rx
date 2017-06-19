@@ -26,6 +26,10 @@ namespace Bespoke.MyApp.ReceivePorts
         private void ProcessHeader(AcceptanceData record)
         {
 
+            // Uri: Date
+            var dateRaw = Strings.RegexSingleValue(this.Uri.ToString(), @"AcceptanceData(?<value>[0-9]{8})[0-9]{6}.xml", "value");
+            record.Date = System.DateTime.ParseExact(dateRaw, @"yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
+
 
         }
 
@@ -106,7 +110,10 @@ namespace Bespoke.MyApp.ReceivePorts
 
 
                 };
-                //TODO : AllowMultiple properties
+
+                // AllowMultiple properties
+
+                this.ProcessHeader(record);
 
                 yield return record;
             }

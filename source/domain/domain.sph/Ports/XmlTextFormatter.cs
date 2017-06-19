@@ -154,8 +154,11 @@ namespace Bespoke.Sph.Domain
                     {attributeProperties}
                                        
                 }};
-                //TODO : AllowMultiple properties
+
+                // AllowMultiple properties
                 {collectionCode}
+                this.ProcessHeader(record);
+
                 yield return record;
             }}
 
