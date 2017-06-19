@@ -1220,6 +1220,7 @@
 				<xs:extension base="TextFormatter">
 					<xs:attribute name="Namespace" type="xs:string" use="required"/>
 					<xs:attribute name="XmlSchemaStoreId" type="xs:string" use="required"/>
+					<xs:attribute name="RootPath" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -1317,6 +1318,24 @@
 			<xs:attribute name="TypeName" type="xs:string" use="required"/>
 			<xs:attribute name="SampleValue" type="xs:string" use="required"/>
 			<xs:attribute name="IsNullable" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="XmlAttributeTextFieldMapping">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="TextFieldMapping">
+					<xs:attribute name="Path" type="xs:string" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="XmlElementTextFieldMapping">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="TextFieldMapping">
+					<xs:attribute name="ContainsText" type="xs:boolean" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

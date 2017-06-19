@@ -2,7 +2,7 @@ using System;
 
 namespace Bespoke.Sph.Domain
 {
-    public class XmlAttributeTextFieldMapping : TextFieldMapping
+    public partial class XmlAttributeTextFieldMapping : TextFieldMapping
     {
         public string GenerateReadValueCode(string elementName)
         {
@@ -36,7 +36,6 @@ namespace Bespoke.Sph.Domain
 
             return $@"{elementName}.Attribute(""{Name}"")?.Value";
         }
-
-        public string Path { get; set; }
+        
     }
 }

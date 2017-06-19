@@ -104,6 +104,7 @@ namespace Bespoke.MyApp.ReceivePorts
                         ReferenceNumber = e.Element(xn + "ReceiverObject")?.Element(xn + "ReferenceNumber")?.Value
                     }
 
+
                 };
                 //TODO : AllowMultiple properties
 

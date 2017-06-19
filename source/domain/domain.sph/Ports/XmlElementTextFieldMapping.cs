@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace Bespoke.Sph.Domain
 {
-    public class XmlElementTextFieldMapping : TextFieldMapping
+    public partial class XmlElementTextFieldMapping : TextFieldMapping
     {
         private readonly XElement m_element;
 

@@ -90,8 +90,6 @@ namespace Bespoke.Sph.Domain
             return list.ToArray();
         }
 
-        public string RootPath { get; set; }
-
 
         public override string GetRecordMetadataCode()
         {

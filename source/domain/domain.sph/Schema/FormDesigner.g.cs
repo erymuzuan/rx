@@ -9624,6 +9624,21 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_RootPath;
+        public string RootPath
+        {
+            get
+            {
+                return m_RootPath;
+            }
+            set
+            {
+                m_RootPath = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
 
     }
 
@@ -10155,6 +10170,58 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_isNullable;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class XmlAttributeTextFieldMapping
+    {
+
+        private string m_Path;
+        public string Path
+        {
+            get
+            {
+                return m_Path;
+            }
+            set
+            {
+                m_Path = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class XmlElementTextFieldMapping
+    {
+
+        private bool m_ContainsText;
+        public bool ContainsText
+        {
+            get
+            {
+                return m_ContainsText;
+            }
+            set
+            {
+                m_ContainsText = value;
+                RaisePropertyChanged();
             }
         }
 
