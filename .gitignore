@@ -189,3 +189,4 @@ StartIisExpressProxy.bat
 /get-git-logs.bat
 /.vs
 /env.devv1.ws30.ps1
+/env.devv1.WINMAC-15.ps1
