@@ -3359,6 +3359,7 @@
     <EmbeddedResource Include="SphApp\views\worker.config.dialog.html" />
     <EmbeddedResource Include="SphApp\views\_formatter.wizard.fixedlengthtext.html" />
     <EmbeddedResource Include="SphApp\views\_field.mapping.header.fixedlengthtext.html" />
+    <EmbeddedResource Include="SphApp\views\_formatter.wizard.xml.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>
@@ -3559,6 +3560,7 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Index.generated.cs</LastGenOutput>
     </Content>
+    <Content Include="tsconfig.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
