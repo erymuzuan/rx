@@ -1245,6 +1245,7 @@
 		<xs:attribute name="NullPlaceholder" type="xs:string" use="optional"/>
 		<xs:attribute name="Ignore" type="xs:boolean" use="required"/>
 		<xs:attribute name="Comment" type="xs:string" use="optional"/>
+		<xs:attribute name="DefaultValueString" type="xs:string" use="optional"/>
 	</xs:complexType>
 	<xs:element name="DelimitedTextFieldMapping">
 		<xs:complexType>

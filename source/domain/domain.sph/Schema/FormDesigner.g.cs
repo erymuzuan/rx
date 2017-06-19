@@ -11384,6 +11384,11 @@ namespace Bespoke.Sph.Domain
         private string m_comment;
         public const string PropertyNameComment = "Comment";
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_defaultValueString;
+        public const string PropertyNameDefaultValueString = "DefaultValueString";
+
         ///<summary>
         /// 
         ///</summary>
@@ -11600,6 +11605,27 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_comment;
+            }
+        }
+
+
+
+        public string DefaultValueString
+        {
+            set
+            {
+                if (m_defaultValueString == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDefaultValueString, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_defaultValueString = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_defaultValueString;
             }
         }
 

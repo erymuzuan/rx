@@ -3869,6 +3869,7 @@ bespoke.sph.domain.TextFieldMapping = function (optionOrWebid) {
         NullPlaceholder: ko.observable(""),
         Ignore: ko.observable(false),
         Comment: ko.observable(""),
+        DefaultValueString: ko.observable(""),
         FieldMappingCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()

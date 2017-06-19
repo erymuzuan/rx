@@ -3360,6 +3360,8 @@
     <EmbeddedResource Include="SphApp\views\_formatter.wizard.fixedlengthtext.html" />
     <EmbeddedResource Include="SphApp\views\_field.mapping.header.fixedlengthtext.html" />
     <EmbeddedResource Include="SphApp\views\_formatter.wizard.xml.html" />
+    <EmbeddedResource Include="SphApp\views\_field.mapping.xml.attribute.html" />
+    <EmbeddedResource Include="SphApp\views\_field.mapping.xml.element.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>
