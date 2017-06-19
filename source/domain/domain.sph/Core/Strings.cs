@@ -646,11 +646,35 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        public static int? ParseNullableInt32(this string val) 
+        {
+            if (val == null) return default(int);
+            int value;
+            return int.TryParse(val, out value) ? value : default(int?);
+        }
+        public static decimal? ParseNullableDecimal(this string val) 
+        {
+            if (val == null) return default(decimal);
+            decimal value;
+            return decimal.TryParse(val, out value) ? value : default(decimal?);
+        }
+        public static bool? ParseNullableBoolean(this string val) 
+        {
+            if (val == null) return default(bool);
+            bool value;
+            return bool.TryParse(val, out value) ? value : default(bool?);
+        }
+        public static DateTime? ParseNullableDateTime(this string val) 
+        {
+            if (val == null) return default(DateTime);
+            DateTime value;
+            return DateTime.TryParse(val, out value) ? value : default(DateTime?);
+        }
+
         public static T? ReadNullable<T>(this object val) where T : struct
         {
             if (val == null) return default(T);
-            Console.WriteLine($"{val.GetType()} -> {val}");
-            if (val == DBNull.Value) return default(T);
+            if (val == DBNull.Value) return default(T?);
             return (T)val;
         }
         public static string ReadNullableString(this object val)

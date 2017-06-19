@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dependencies", "dependencies", "{799A5437-62C7-4385-95CC-ADEB4177B3FA}"
 EndProject
@@ -209,6 +209,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flatfile.adapter", "source\adapters\flatfile.adapter\flatfile.adapter.csproj", "{305043FB-253C-462E-806D-0714340464CC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mapping.test.runner", "source\tools\mapping.test.runner\mapping.test.runner.csproj", "{507639D1-09DB-49C0-9004-F49DAB647DBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "textformatter.test", "source\unit.test\textformatter.test\textformatter.test.csproj", "{A0950B96-CEDA-4A24-BD40-99515FC2E177}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -480,6 +482,10 @@ Global
 		{507639D1-09DB-49C0-9004-F49DAB647DBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{507639D1-09DB-49C0-9004-F49DAB647DBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{507639D1-09DB-49C0-9004-F49DAB647DBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0950B96-CEDA-4A24-BD40-99515FC2E177}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0950B96-CEDA-4A24-BD40-99515FC2E177}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0950B96-CEDA-4A24-BD40-99515FC2E177}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0950B96-CEDA-4A24-BD40-99515FC2E177}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -553,5 +559,6 @@ Global
 		{E9B0A836-06F6-4B09-8B53-BFEE0B75224F} = {B9C4C533-8EA0-4DD0-887E-4C5734F27238}
 		{305043FB-253C-462E-806D-0714340464CC} = {B9C4C533-8EA0-4DD0-887E-4C5734F27238}
 		{507639D1-09DB-49C0-9004-F49DAB647DBB} = {DB65484E-BE1F-4944-B216-4A57026360EB}
+		{A0950B96-CEDA-4A24-BD40-99515FC2E177} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 	EndGlobalSection
 EndGlobal
