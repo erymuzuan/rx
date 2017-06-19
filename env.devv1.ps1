@@ -23,3 +23,12 @@ $machine = ($env:COMPUTERNAME).Replace("-","_")
 
 [System.Environment]::SetEnvironmentVariable("RX_DEVV1_BromConnectionString", "Data Source=S301\DEV2016;Initial Catalog=PittisNonCore;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False", "Process")
 [System.Environment]::SetEnvironmentVariable("RX_DEVV1_SnbWebNewAccount_BaseAddress", "http://eryken2.asuscomm.com:8086", "Process")
+
+
+$computerName = $env:COMPUTERNAME
+if((Test-Path("env.devv1.$computerName.ps1")) -eq $true){
+    Write-Host "Loading env.devv1.$computerName.ps1"
+    & ".\env.devv1.$computerName.ps1";
+}else{
+    Write-Host "Cannot find env.devv1.$computerName.ps1"
+}
