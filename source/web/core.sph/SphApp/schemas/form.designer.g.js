@@ -3295,6 +3295,8 @@ bespoke.sph.domain.XmlTextFormatter = function (optionOrWebid) {
 
     v.XmlSchemaStoreId = ko.observable("");
 
+    v.RootPath = ko.observable("");
+
     v["$type"] = "Bespoke.Sph.Domain.XmlTextFormatter, domain.sph";
 
 
@@ -3589,6 +3591,86 @@ bespoke.sph.domain.SqlServerRecordSet = function (optionOrWebid) {
         return _(model).extend(new bespoke.sph.domain.SqlServerRecordSetPartial(model, optionOrWebid));
     }
     return model;
+};
+
+
+
+bespoke.sph.domain.XmlAttributeTextFieldMapping = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.TextFieldMapping(optionOrWebid);
+
+    v.Path = ko.observable("");
+
+    v["$type"] = "Bespoke.Sph.Domain.XmlAttributeTextFieldMapping, domain.sph";
+
+
+    var context = require("services/datacontext");
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                // array
+                if (ko.isObservable(v[n]) && 'push' in v[n]) {
+                    var values = optionOrWebid[n].$values || optionOrWebid[n];
+                    if (_(values).isArray()) {
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
+                        continue;
+                    }
+                }
+                if (ko.isObservable(v[n])) {
+                    v[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.XmlAttributeTextFieldMappingPartial) {
+        return _(v).extend(new bespoke.sph.domain.XmlAttributeTextFieldMappingPartial(v, optionOrWebid));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.XmlElementTextFieldMapping = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.TextFieldMapping(optionOrWebid);
+
+    v.ContainsText = ko.observable(false);
+
+    v["$type"] = "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph";
+
+
+    var context = require("services/datacontext");
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (optionOrWebid.hasOwnProperty(n)) {
+                // array
+                if (ko.isObservable(v[n]) && 'push' in v[n]) {
+                    var values = optionOrWebid[n].$values || optionOrWebid[n];
+                    if (_(values).isArray()) {
+                        v[n](_(values).map(function (ai) { return context.toObservable(ai); }));
+                        continue;
+                    }
+                }
+                if (ko.isObservable(v[n])) {
+                    v[n](optionOrWebid[n]);
+                }
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.XmlElementTextFieldMappingPartial) {
+        return _(v).extend(new bespoke.sph.domain.XmlElementTextFieldMappingPartial(v, optionOrWebid));
+    }
+    return v;
 };
 
 
