@@ -48,7 +48,7 @@ namespace Bespoke.MyApp.ReceivePorts
                         DestOfficeCd = e.Element(xn + "Dispatch")?.Element(xn + "DestOfficeCd")?.Value
                     },
                     RecptclId = e.Element(xn + "RecptclId")?.Value,
-                    ItemWeight = decimal.Parse(e.Element(xn + "ItemWeight")?.Value ?? "3.460"),
+                    ItemWeight = decimal.Parse(e.Element(xn + "ItemWeight")?.Value ?? ""),
                     ClassCd = e.Element(xn + "ClassCd")?.Value,
                     SubclassCd = e.Element(xn + "SubclassCd")?.Value,
                     OrigCountryCd = e.Element(xn + "OrigCountryCd")?.Value,
@@ -60,8 +60,8 @@ namespace Bespoke.MyApp.ReceivePorts
                         ConveyanceTypeCd = e.Element(xn + "Parcel")?.Element(xn + "ConveyanceTypeCd")?.Value,
                         MailCategoryCd = e.Element(xn + "Parcel")?.Element(xn + "MailCategoryCd")?.Value,
                         MailItemCategoryCd = e.Element(xn + "Parcel")?.Element(xn + "MailItemCategoryCd")?.Value,
-                        ExpressInd = int.Parse(e.Element(xn + "Parcel")?.Element(xn + "ExpressInd")?.Value ?? "0"),
-                        CoDInd = int.Parse(e.Element(xn + "Parcel")?.Element(xn + "CoDInd")?.Value ?? "0")
+                        ExpressInd = int.Parse(e.Element(xn + "Parcel")?.Element(xn + "ExpressInd")?.Value ?? ""),
+                        CoDInd = int.Parse(e.Element(xn + "Parcel")?.Element(xn + "CoDInd")?.Value ?? "")
                     },
                     ItemId = e.Parent.Attribute("ItemId")?.Value,
                     InterfaceCode = doc.Attribute("InterfaceCode")?.Value
@@ -73,12 +73,12 @@ namespace Bespoke.MyApp.ReceivePorts
                     record.IPSEvent.Add(new IPSEvent
                     {
                         TNCd = ce.Element(xn + "TNCd")?.Value,
-                        Date = DateTime.Parse(ce.Element(xn + "Date")?.Value ?? "2017-06-06T01:05:43.483"),
+                        Date = DateTime.Parse(ce.Element(xn + "Date")?.Value ?? ""),
                         OfficeCd = ce.Element(xn + "OfficeCd")?.Value,
                         UserFid = ce.Element(xn + "UserFid")?.Value,
                         WorkstationFid = ce.Element(xn + "WorkstationFid")?.Value,
-                        ConditionCd = int.Parse(ce.Element(xn + "ConditionCd")?.Value ?? "30"),
-                        RetentionReasonCd = int.Parse(ce.Element(xn + "RetentionReasonCd")?.Value ?? "58")
+                        ConditionCd = int.Parse(ce.Element(xn + "ConditionCd")?.Value ?? ""),
+                        RetentionReasonCd = int.Parse(ce.Element(xn + "RetentionReasonCd")?.Value ?? "")
                     });
                 }
 
