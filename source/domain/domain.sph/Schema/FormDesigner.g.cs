@@ -9639,6 +9639,18 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<XmlAttributeTextFieldMapping> ParentAttributeValueCollection { get; } = new ObjectCollection<XmlAttributeTextFieldMapping>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<XmlElementTextFieldMapping> ParentElementValueCollection { get; } = new ObjectCollection<XmlElementTextFieldMapping>();
+
+
 
     }
 

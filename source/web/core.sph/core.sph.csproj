@@ -2261,6 +2261,7 @@
     <Content Include="SphApp\partial\ComplexMemberPartial.js" />
     <Content Include="SphApp\partial\ChildWorkflowActivity.js" />
     <Content Include="SphApp\partial\FixedLengthTextFormatter.js" />
+    <Content Include="SphApp\partial\XmlTextFormatter.js" />
     <Content Include="SphApp\partial\ReceivePortPartial.js" />
     <Content Include="SphApp\partial\RouteParameter.js" />
     <Content Include="SphApp\partial\RouteParameterFieldPartial.js" />

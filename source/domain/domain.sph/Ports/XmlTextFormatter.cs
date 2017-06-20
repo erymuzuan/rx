@@ -14,6 +14,9 @@ namespace Bespoke.Sph.Domain
         public override async Task<TextFieldMapping[]> GetFieldMappingsAsync()
         {
             var fields = new List<TextFieldMapping>();
+            fields.AddRange(this.ParentAttributeValueCollection);
+            fields.AddRange(this.ParentElementValueCollection);
+
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var bin = await store.GetContentAsync(this.SampleStoreId);
 

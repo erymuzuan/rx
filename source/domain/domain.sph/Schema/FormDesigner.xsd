@@ -1218,6 +1218,22 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="TextFormatter">
+					<xs:all>
+						<xs:element name="ParentAttributeValueCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="XmlAttributeTextFieldMapping" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ParentElementValueCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="XmlElementTextFieldMapping" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
 					<xs:attribute name="Namespace" type="xs:string" use="required"/>
 					<xs:attribute name="XmlSchemaStoreId" type="xs:string" use="required"/>
 					<xs:attribute name="RootPath" type="xs:string" use="required"/>
