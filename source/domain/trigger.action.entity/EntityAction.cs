@@ -7,7 +7,7 @@ using Bespoke.Sph.Domain;
 namespace Bespoke.Sph.Messaging
 {
     [Export(typeof(CustomAction))]
-    [DesignerMetadata(Name = "Entity", TypeName = "Bespoke.Sph.Messaging.EntityAction, trigger.action.entity", Description = "Route the message to the specified entity", FontAwesomeIcon = "chevron-circle-right")]
+    [DesignerMetadata(Name = "Entity", TypeName = "Bespoke.Sph.Messaging.EntityAction, trigger.action.entity", Description = "Route the message to the specified entity", FontAwesomeIcon = "arrow-circle-o-right")]
     public partial class EntityAction : CustomAction
     {
 
