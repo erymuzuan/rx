@@ -70,11 +70,13 @@ namespace textformatter.test
 
             };
 
-            var port = new ReceivePort { Id = m_acceptanceXmlDocumentStoreId, Name = xtf.Name, Entity = "AcceptanceData", TextFormatter = xtf };
-            port.FieldMappingCollection.AddRange(fields);
-            port.FieldMappingCollection.Add(dateHeader);
-            var ed = await port.GenerateEntityDefinitionAsync();
+            var portOriginal = new ReceivePort { Id = m_acceptanceXmlDocumentStoreId, Name = xtf.Name, Entity = "AcceptanceData", TextFormatter = xtf };
+            portOriginal.FieldMappingCollection.AddRange(fields);
+            portOriginal.FieldMappingCollection.Add(dateHeader);
+            var port = portOriginal.JsonClone(); // try to simulate the definition is read from json source file
 
+
+            var ed = await port.GenerateEntityDefinitionAsync();
 
             var tellerIdMember = ed.MemberCollection.SingleOrDefault(x => x.Name == "TellerID");
             Assert.NotNull(tellerIdMember);

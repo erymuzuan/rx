@@ -6,11 +6,11 @@ namespace Bespoke.Sph.Domain
 {
     public partial class XmlElementTextFieldMapping : TextFieldMapping
     {
-        private readonly XElement m_element;
+        public XElement Element { get; set; }
 
         public XmlElementTextFieldMapping(XElement element)
         {
-            m_element = element;
+            Element = element;
         }
 
         public XmlElementTextFieldMapping()
@@ -19,7 +19,7 @@ namespace Bespoke.Sph.Domain
         }
         public override Member GenerateMember()
         {
-            if (m_element.HasElements || m_element.HasAttributes)
+            if (Element.HasElements || Element.HasAttributes)
             {
                 var complex = new ComplexMember
                 {
