@@ -103,6 +103,11 @@ namespace textformatter.test
                 File.WriteAllText($@"..\..\AcceptanceDataPort\{@class.Name}.cs", code);
             }
 
+
+            // now compile this
+            var cr = await port.CompileAsync();
+            Assert.True(cr.Result, cr.Errors.ToString("\r\n"));
+
         }
 
         class PortLogger : ILogger
