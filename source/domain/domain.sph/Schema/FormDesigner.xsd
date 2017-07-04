@@ -1218,8 +1218,25 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="TextFormatter">
+					<xs:all>
+						<xs:element name="ParentAttributeValueCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="XmlAttributeTextFieldMapping" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ParentElementValueCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="XmlElementTextFieldMapping" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
 					<xs:attribute name="Namespace" type="xs:string" use="required"/>
 					<xs:attribute name="XmlSchemaStoreId" type="xs:string" use="required"/>
+					<xs:attribute name="RootPath" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -1244,6 +1261,7 @@
 		<xs:attribute name="NullPlaceholder" type="xs:string" use="optional"/>
 		<xs:attribute name="Ignore" type="xs:boolean" use="required"/>
 		<xs:attribute name="Comment" type="xs:string" use="optional"/>
+		<xs:attribute name="DefaultValueString" type="xs:string" use="optional"/>
 	</xs:complexType>
 	<xs:element name="DelimitedTextFieldMapping">
 		<xs:complexType>
@@ -1317,6 +1335,24 @@
 			<xs:attribute name="TypeName" type="xs:string" use="required"/>
 			<xs:attribute name="SampleValue" type="xs:string" use="required"/>
 			<xs:attribute name="IsNullable" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="XmlAttributeTextFieldMapping">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="TextFieldMapping">
+					<xs:attribute name="Path" type="xs:string" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="XmlElementTextFieldMapping">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="TextFieldMapping">
+					<xs:attribute name="ContainsText" type="xs:boolean" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

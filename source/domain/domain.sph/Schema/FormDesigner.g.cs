@@ -9624,6 +9624,33 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_RootPath;
+        public string RootPath
+        {
+            get
+            {
+                return m_RootPath;
+            }
+            set
+            {
+                m_RootPath = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<XmlAttributeTextFieldMapping> ParentAttributeValueCollection { get; } = new ObjectCollection<XmlAttributeTextFieldMapping>();
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public ObjectCollection<XmlElementTextFieldMapping> ParentElementValueCollection { get; } = new ObjectCollection<XmlElementTextFieldMapping>();
+
+
 
     }
 
@@ -10155,6 +10182,58 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_isNullable;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class XmlAttributeTextFieldMapping
+    {
+
+        private string m_Path;
+        public string Path
+        {
+            get
+            {
+                return m_Path;
+            }
+            set
+            {
+                m_Path = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    public partial class XmlElementTextFieldMapping
+    {
+
+        private bool m_ContainsText;
+        public bool ContainsText
+        {
+            get
+            {
+                return m_ContainsText;
+            }
+            set
+            {
+                m_ContainsText = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -11317,6 +11396,11 @@ namespace Bespoke.Sph.Domain
         private string m_comment;
         public const string PropertyNameComment = "Comment";
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_defaultValueString;
+        public const string PropertyNameDefaultValueString = "DefaultValueString";
+
         ///<summary>
         /// 
         ///</summary>
@@ -11533,6 +11617,27 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_comment;
+            }
+        }
+
+
+
+        public string DefaultValueString
+        {
+            set
+            {
+                if (m_defaultValueString == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDefaultValueString, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_defaultValueString = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_defaultValueString;
             }
         }
 

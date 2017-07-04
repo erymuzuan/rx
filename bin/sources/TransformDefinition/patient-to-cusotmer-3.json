@@ -5,15 +5,6 @@
     "$values": [
       {
         "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
-        "Source": "FullName",
-        "TypeName": "",
-        "Destination": "FullName",
-        "SourceTypeName": "",
-        "DestinationTypeName": "",
-        "WebId": "b99b541d-7d72-471b-a1f0-03e6698d6e72"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.DirectMap, domain.sph",
         "Source": "Gender",
         "TypeName": "",
         "Destination": "Gender",
@@ -384,6 +375,6 @@
   "Id": "patient-to-cusotmer-3",
   "CreatedDate": "2015-07-16T14:16:47.7723717+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-11-10T11:38:50.949964+08:00",
+  "ChangedDate": "2017-07-04T07:46:02.334115+08:00",
   "WebId": "e54967a0-0d78-4eb3-c6f3-420c702ec66e"
 }

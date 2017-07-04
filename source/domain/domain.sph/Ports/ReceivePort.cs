@@ -47,6 +47,7 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(JsonIgnoreAttribute).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(DomainObject).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(System.Net.Http.HttpClient).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(System.Xml.Linq.XElement).Assembly.Location);
 
                 foreach (var ass in options.ReferencedAssembliesLocation)
                 {

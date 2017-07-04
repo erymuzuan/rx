@@ -25,7 +25,7 @@
 
 <div class="row">
 
-    <div class="row col-lg-8 col-md8 col-sm-12">
+    <div class="row col-lg-8 col-md-8 col-sm-12">
 
         <div class="col-lg-8 col-md-7 col-sm-6">
             <div class="form-group">
@@ -44,6 +44,16 @@
 
             <!-- ko if : $type === "Bespoke.Sph.Domain.FixedLengthTextFieldMapping, domain.sph" -->
             <!-- ko compose : {view:'_field.mapping.header.fixedlengthtext'}-->
+            <!-- /ko-->
+            <!-- /ko -->
+
+            <!-- ko if : $type === "Bespoke.Sph.Domain.XmlAttributeTextFieldMapping, domain.sph" -->
+            <!-- ko compose : {view:'_field.mapping.xml.attribute'}-->
+            <!-- /ko-->
+            <!-- /ko -->
+
+            <!-- ko if : $type === "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph" -->
+            <!-- ko compose : {view:'_field.mapping.xml.element'}-->
             <!-- /ko-->
             <!-- /ko -->
             

@@ -26,6 +26,10 @@ namespace Bespoke.MyApp.ReceivePorts
         private void ProcessHeader(AcceptanceData record)
         {
 
+            // Uri: Date
+            var dateRaw = Strings.RegexSingleValue(this.Uri.ToString(), @"AcceptanceData(?<value>[0-9]{8})[0-9]{6}.xml", "value");
+            record.Date = System.DateTime.ParseExact(dateRaw, @"yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
+
 
         }
 
@@ -42,14 +46,14 @@ namespace Bespoke.MyApp.ReceivePorts
                 var record = new AcceptanceData
                 {
                     TellerID = e.Element(xn + "TellerID")?.Value,
-                    BranchCode = int.Parse(e.Element(xn + "BranchCode")?.Value ?? "10141003"),
+                    BranchCode = int.Parse(e.Element(xn + "BranchCode")?.Value ?? ""),
                     TrxObject = new TrxObject
                     {
 
                         TrxID = e.Element(xn + "TrxObject")?.Element(xn + "TrxID")?.Value,
                         Status = e.Element(xn + "TrxObject")?.Element(xn + "Status")?.Value,
                         CancelReason = e.Element(xn + "TrxObject")?.Element(xn + "CancelReason")?.Value,
-                        TrxDateTime = DateTime.Parse(e.Element(xn + "TrxObject")?.Element(xn + "TrxDateTime")?.Value ?? "5/6/2017 2:38:02 PM"),
+                        TrxDateTime = DateTime.Parse(e.Element(xn + "TrxObject")?.Element(xn + "TrxDateTime")?.Value ?? ""),
                         MHLIndicator = e.Element(xn + "TrxObject")?.Element(xn + "MHLIndicator")?.Value,
                         MHLDate = e.Element(xn + "TrxObject")?.Element(xn + "MHLDate")?.Value,
                         PaymentType = e.Element(xn + "TrxObject")?.Element(xn + "PaymentType")?.Value,
@@ -68,8 +72,8 @@ namespace Bespoke.MyApp.ReceivePorts
                         Width = e.Element(xn + "ConnoteObject")?.Element(xn + "Width")?.Value,
                         Length = e.Element(xn + "ConnoteObject")?.Element(xn + "Length")?.Value,
                         Height = e.Element(xn + "ConnoteObject")?.Element(xn + "Height")?.Value,
-                        DimWeight = int.Parse(e.Element(xn + "ConnoteObject")?.Element(xn + "DimWeight")?.Value ?? "0"),
-                        ItemCategory = int.Parse(e.Element(xn + "ConnoteObject")?.Element(xn + "ItemCategory")?.Value ?? "09"),
+                        DimWeight = int.Parse(e.Element(xn + "ConnoteObject")?.Element(xn + "DimWeight")?.Value ?? ""),
+                        ItemCategory = int.Parse(e.Element(xn + "ConnoteObject")?.Element(xn + "ItemCategory")?.Value ?? ""),
                         RoutingCode = e.Element(xn + "ConnoteObject")?.Element(xn + "RoutingCode")?.Value,
                         StandardOfService = e.Element(xn + "ConnoteObject")?.Element(xn + "StandardOfService")?.Value
                     },
@@ -83,7 +87,7 @@ namespace Bespoke.MyApp.ReceivePorts
                         City = e.Element(xn + "SenderObject")?.Element(xn + "City")?.Value,
                         State = e.Element(xn + "SenderObject")?.Element(xn + "State")?.Value,
                         Country = e.Element(xn + "SenderObject")?.Element(xn + "Country")?.Value,
-                        Postcode = int.Parse(e.Element(xn + "SenderObject")?.Element(xn + "Postcode")?.Value ?? "01000"),
+                        Postcode = int.Parse(e.Element(xn + "SenderObject")?.Element(xn + "Postcode")?.Value ?? ""),
                         Email = e.Element(xn + "SenderObject")?.Element(xn + "Email")?.Value,
                         PhoneNumber = e.Element(xn + "SenderObject")?.Element(xn + "PhoneNumber")?.Value,
                         ReferenceNumber = e.Element(xn + "SenderObject")?.Element(xn + "ReferenceNumber")?.Value
@@ -98,14 +102,18 @@ namespace Bespoke.MyApp.ReceivePorts
                         City = e.Element(xn + "ReceiverObject")?.Element(xn + "City")?.Value,
                         State = e.Element(xn + "ReceiverObject")?.Element(xn + "State")?.Value,
                         Country = e.Element(xn + "ReceiverObject")?.Element(xn + "Country")?.Value,
-                        Postcode = int.Parse(e.Element(xn + "ReceiverObject")?.Element(xn + "Postcode")?.Value ?? "32040"),
+                        Postcode = int.Parse(e.Element(xn + "ReceiverObject")?.Element(xn + "Postcode")?.Value ?? ""),
                         Email = e.Element(xn + "ReceiverObject")?.Element(xn + "Email")?.Value,
                         PhoneNumber = e.Element(xn + "ReceiverObject")?.Element(xn + "PhoneNumber")?.Value,
                         ReferenceNumber = e.Element(xn + "ReceiverObject")?.Element(xn + "ReferenceNumber")?.Value
                     }
 
+
                 };
-                //TODO : AllowMultiple properties
+
+                // AllowMultiple properties
+
+                this.ProcessHeader(record);
 
                 yield return record;
             }

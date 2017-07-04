@@ -14,6 +14,9 @@ namespace Bespoke.Sph.Domain
         public override async Task<TextFieldMapping[]> GetFieldMappingsAsync()
         {
             var fields = new List<TextFieldMapping>();
+            fields.AddRange(this.ParentAttributeValueCollection);
+            fields.AddRange(this.ParentElementValueCollection);
+
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var bin = await store.GetContentAsync(this.SampleStoreId);
 
@@ -62,7 +65,8 @@ namespace Bespoke.Sph.Domain
                 IsComplex = false,
                 IsNullable = false,
                 SampleValue = x.Value,
-                Type = x.Value.TryGuessType()
+                Type = x.Value.TryGuessType(),
+                WebId = Strings.GenerateId()
             }).ToArray();
             var elements = parent.Elements().Select(x => new XmlElementTextFieldMapping(x)
             {
@@ -71,7 +75,8 @@ namespace Bespoke.Sph.Domain
                 IsComplex = x.HasAttributes || x.HasElements,
                 IsNullable = false,
                 SampleValue = x.Value,
-                TypeName = (x.HasAttributes || x.HasElements) ? x.Name.LocalName : x.Value.TryGuessType().GetShortAssemblyQualifiedName()
+                TypeName = (x.HasAttributes || x.HasElements) ? x.Name.LocalName : x.Value.TryGuessType().GetShortAssemblyQualifiedName(),
+                WebId = Strings.GenerateId()
             }).ToList();
 
             // see which of the elements are array
@@ -89,8 +94,6 @@ namespace Bespoke.Sph.Domain
             list.AddRange(elements);
             return list.ToArray();
         }
-
-        public string RootPath { get; set; }
 
 
         public override string GetRecordMetadataCode()
@@ -154,8 +157,11 @@ namespace Bespoke.Sph.Domain
                     {attributeProperties}
                                        
                 }};
-                //TODO : AllowMultiple properties
+
+                // AllowMultiple properties
                 {collectionCode}
+                this.ProcessHeader(record);
+
                 yield return record;
             }}
 

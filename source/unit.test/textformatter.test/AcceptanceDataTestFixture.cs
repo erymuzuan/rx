@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.MyApp.ReceivePorts;
@@ -58,8 +59,23 @@ namespace textformatter.test
             var weightField = conNoteObject.FieldMappingCollection.Single(x => x.Name == "Weight");
             weightField.IsNullable = true;
 
-            var port = new ReceivePort { Id = m_acceptanceXmlDocumentStoreId, Name = xtf.Name, Entity = "AcceptanceData", TextFormatter = xtf };
-            port.FieldMappingCollection.AddRange(fields);
+
+            var dateHeader = new UriFieldMapping
+            {
+                Name = "Date",
+                Type = typeof(DateTime),
+                Pattern = "AcceptanceData(?<value>[0-9]{8})[0-9]{6}.xml",
+                WebId = Strings.GenerateId(),
+                Converter = "yyyyMMdd"
+
+            };
+
+            var portOriginal = new ReceivePort { Id = m_acceptanceXmlDocumentStoreId, Name = xtf.Name, Entity = "AcceptanceData", TextFormatter = xtf };
+            portOriginal.FieldMappingCollection.AddRange(fields);
+            portOriginal.FieldMappingCollection.Add(dateHeader);
+            var port = portOriginal.JsonClone(); // try to simulate the definition is read from json source file
+
+
             var ed = await port.GenerateEntityDefinitionAsync();
 
             var tellerIdMember = ed.MemberCollection.SingleOrDefault(x => x.Name == "TellerID");
@@ -81,10 +97,16 @@ namespace textformatter.test
             {
                 m_helper.WriteLine("// ====================== " + @class.Name + " ===========================");
                 var code = @class.GetCode()
-                    .Replace("using FileHelpers;\r\n", "");
+                    .Replace("using FileHelpers;\r\n", "")
+                    .Replace(" [FieldHidden]\r\n", "");
                 m_helper.WriteLine(code);
                 File.WriteAllText($@"..\..\AcceptanceDataPort\{@class.Name}.cs", code);
             }
+
+
+            // now compile this
+            var cr = await port.CompileAsync();
+            Assert.True(cr.Result, cr.Errors.ToString("\r\n"));
 
         }
 
@@ -110,8 +132,11 @@ namespace textformatter.test
         [Fact]
         public void ProcessRecord()
         {
-            var port = new AcceptanceDataPort(new PortLogger(m_helper));
-            var lines = File.ReadLines(@".\docs\AcceptanceData20170605144701.xml");
+            var port = new AcceptanceDataPort(new PortLogger(m_helper))
+            {
+                Uri = new Uri(Path.GetFullPath(@".\docs\AcceptanceData20170605144701.xml"))
+            };
+            var lines = File.ReadLines(port.Uri.LocalPath);
             var acceptances = port.Process(lines).ToArray();
 
             Assert.Equal(2, acceptances.Length);
@@ -121,6 +146,10 @@ namespace textformatter.test
             Assert.Equal(10141003, first.BranchCode);
             Assert.True(first.ConnoteObject.Weight.HasValue);
             Assert.Equal(2.250m, first.ConnoteObject.Weight.Value);
+            Assert.NotNull(first.Date);
+            Assert.Equal(2017, first.Date.Value.Year);
+            Assert.Equal(6, first.Date.Value.Month);
+            Assert.Equal(05, first.Date.Value.Day);
 
             m_helper.WriteLine(first.ToJson());
 

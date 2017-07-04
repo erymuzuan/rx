@@ -9,12 +9,83 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label for="RootPath" class="col-lg-2 control-label">Root path</label>
+            <div class="col-lg-6">
+                <input type="text" data-bind="value: RootPath"
+                       required=""
+                       placeholder="Path to the elements from the root"
+                       class="form-control" id="RootPath">
+            </div>
+        </div>
+
 
     </form>
 </div>
 
 <div data-bind="visible:$root.page() === 3, with: TextFormatter">
-    <h3>XML Fields</h3>
+    <h3>XML parent's fields</h3>
+    <pre>
+Add parent's or roots element and attribute into the record element
+</pre>
+    <table class="table table-bordered table-condensed table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Path</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody data-bind="foreach :ParentAttributeValueCollection">
+        <tr>
+            <td>
+                <input type="text" class="control" data-bind="value:Name"/>
+            </td>
+            <td>
+                <input type="text" class="control" data-bind="value:Path"/>
+            </td>
+            <td>
+                <a href="javascript:;" title="remove field" data-bind="click : $parent.removeParentAttribute.call($parent, $data)">
+                    <i class="fa fa-times"></i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="javascript:;" data-bind="click : addParentAttribute">
+        <i class="fa fa-plus-circle"></i>
+        Add parent attribute
+    </a>
+    
 
+    <table class="table table-bordered table-condensed table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Path</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach :ParentElementValueCollection">
+            <tr>
+                <td>
+                    <input type="text" class="control" data-bind="value:Name" />
+                </td>
+                <td>
+                    <input type="text" class="control" data-bind="value:WebId" />
+                </td>
+                <td>
+                    <a href="javascript:;" title="remove field" data-bind="click : $parent.removeParentElement.call($parent, $data)">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <a href="javascript:;" data-bind="click : addParentElement">
+        <i class="fa fa-plus-circle"></i>
+        Add parent element
+    </a>
 
 </div>

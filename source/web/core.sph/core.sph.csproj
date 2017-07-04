@@ -2326,6 +2326,7 @@
     <Content Include="SphApp\partial\ComplexMemberPartial.js" />
     <Content Include="SphApp\partial\ChildWorkflowActivity.js" />
     <Content Include="SphApp\partial\FixedLengthTextFormatter.js" />
+    <Content Include="SphApp\partial\XmlTextFormatter.js" />
     <Content Include="SphApp\partial\ReceivePortPartial.js" />
     <Content Include="SphApp\partial\RouteParameter.js" />
     <Content Include="SphApp\partial\RouteParameterFieldPartial.js" />
@@ -3425,6 +3426,8 @@
     <EmbeddedResource Include="SphApp\views\_formatter.wizard.fixedlengthtext.html" />
     <EmbeddedResource Include="SphApp\views\_field.mapping.header.fixedlengthtext.html" />
     <EmbeddedResource Include="SphApp\views\_formatter.wizard.xml.html" />
+    <EmbeddedResource Include="SphApp\views\_field.mapping.xml.attribute.html" />
+    <EmbeddedResource Include="SphApp\views\_field.mapping.xml.element.html" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>

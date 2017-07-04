@@ -4,7 +4,7 @@
        [string]$Port = 0,
        [string]$SqlServer = "Projects",
        [string]$DatabaseName = $ApplicationName,
-       [string]$RabbitMqUserName = "DevV15956",
+       [string]$RabbitMqUserName = "RxDevV1",
        [string]$RabbitMqPassword = "megadeth",
        [string]$RabbitMqBase = "",
        [string]$ElasticSearchHost = "http://localhost:9200",
