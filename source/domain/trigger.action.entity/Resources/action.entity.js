@@ -17,7 +17,13 @@ define(["services/datacontext", 'services/logger', 'plugins/dialog', objectbuild
             const v = new bespoke.sph.domain.CustomAction(optionOrWebid);
             v.OutboundMap = ko.observable();
             v.OutboundEntity = ko.observable();
+            v.Operation = ko.observable();
             v["$type"] = "Bespoke.Sph.Messaging.EntityAction, trigger.action.entity";
+            v.Title.subscribe(function(title) {
+                if (!ko.unwrap(v.Operation)) {
+                    v.Operation(title);
+                }
+            });
             if (optionOrWebid && typeof optionOrWebid === "object") {
                 for (let n in optionOrWebid) {
                     if (optionOrWebid.hasOwnProperty(n)) {

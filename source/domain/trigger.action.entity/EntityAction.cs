@@ -39,7 +39,7 @@ namespace Bespoke.Sph.Messaging
                 using (var session = ctx.OpenSession())
                 {{
                     session.Attach(source);
-                    await session.SubmitChanges(""{this.Title}"");
+                    await session.SubmitChanges(""{this.Operation}"");
                 }}");
             code.AppendLine($@"return source;");
             return code.ToString();

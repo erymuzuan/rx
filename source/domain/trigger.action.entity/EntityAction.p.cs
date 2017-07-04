@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Domain.Api;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Messaging
@@ -11,6 +10,7 @@ namespace Bespoke.Sph.Messaging
 
         public string OutboundMap { get; set; }
         public string OutboundEntity{ get; set; }
+        public string Operation{ get; set; }
 
         [XmlIgnore]
         [JsonIgnore]
@@ -49,7 +49,6 @@ namespace Bespoke.Sph.Messaging
         }
 
         public override bool UseAsync => true;
-
         public override bool UseCode => true;
     }
 }
