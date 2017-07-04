@@ -190,3 +190,4 @@ StartIisExpressProxy.bat
 /.vs
 /bin/elasticsearch-1.7.5
 /bin/Setup-SphApp-DevV1.ps1
+env.devv1.ws30.ps1

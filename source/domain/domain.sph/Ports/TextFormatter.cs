@@ -66,5 +66,4 @@ namespace Bespoke.Sph.Domain
 
     public partial class HtmlTextFormatter : TextFormatter { }
     public partial class JsonTextFormatter : TextFormatter { }
-    public partial class XmlTextFormatter : TextFormatter { }
 }

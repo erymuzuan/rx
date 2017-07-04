@@ -1,0 +1,114 @@
+<Data>
+  <AcceptanceData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <TellerID>4398MASNIYATI</TellerID>
+    <BranchCode>10141003</BranchCode>
+    <TrxObject>
+      <TrxID>458-10141003-3-860594-50</TrxID>
+      <Status>N</Status>
+      <CancelReason />
+      <TrxDateTime>5/6/2017 2:38:02 PM</TrxDateTime>
+      <MHLIndicator />
+      <MHLDate />
+      <PaymentType>CH</PaymentType>
+      <PaymentMethod>CH</PaymentMethod>
+      <AccountNumber />
+      <PL9Number />
+      <RoundAdj />
+    </TrxObject>
+    <ConnoteObject>
+      <ProductCode>C001101</ProductCode>
+      <ConnoteNumber>EH468761173MY</ConnoteNumber>
+      <DestinationCountry>MY</DestinationCountry>
+      <Weight>2.250</Weight>
+      <Width />
+      <Length />
+      <Height />
+      <DimWeight>0</DimWeight>
+      <ItemCategory>09</ItemCategory>
+      <RoutingCode>ASWY-320</RoutingCode>
+      <StandardOfService />
+    </ConnoteObject>
+    <SenderObject>
+      <Name />
+      <Address1 />
+      <Address2 />
+      <Address3 />
+      <City />
+      <State />
+      <Country>MY</Country>
+      <Postcode>01000</Postcode>
+      <Email />
+      <PhoneNumber />
+      <ReferenceNumber />
+    </SenderObject>
+    <ReceiverObject>
+      <Name />
+      <Address1 />
+      <Address2 />
+      <Address3 />
+      <City />
+      <State />
+      <Country>MY</Country>
+      <Postcode>32040</Postcode>
+      <Email />
+      <PhoneNumber />
+      <ReferenceNumber />
+    </ReceiverObject>
+  </AcceptanceData>
+  <AcceptanceData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <TellerID>4398MASNIYATI</TellerID>
+    <BranchCode>10141003</BranchCode>
+    <TrxObject>
+      <TrxID>458-10141003-3-860594-51</TrxID>
+      <Status>N</Status>
+      <CancelReason />
+      <TrxDateTime>5/6/2017 2:38:02 PM</TrxDateTime>
+      <MHLIndicator />
+      <MHLDate />
+      <PaymentType>CH</PaymentType>
+      <PaymentMethod>CH</PaymentMethod>
+      <AccountNumber />
+      <PL9Number />
+      <RoundAdj />
+    </TrxObject>
+    <ConnoteObject>
+      <ProductCode>C001101</ProductCode>
+      <ConnoteNumber>EH468761173MY</ConnoteNumber>
+      <DestinationCountry>MY</DestinationCountry>
+      <Weight>2.250</Weight>
+      <Width />
+      <Length />
+      <Height />
+      <DimWeight>0</DimWeight>
+      <ItemCategory>09</ItemCategory>
+      <RoutingCode>ASWY-320</RoutingCode>
+      <StandardOfService />
+    </ConnoteObject>
+    <SenderObject>
+      <Name />
+      <Address1 />
+      <Address2 />
+      <Address3 />
+      <City />
+      <State />
+      <Country>MY</Country>
+      <Postcode>01000</Postcode>
+      <Email />
+      <PhoneNumber />
+      <ReferenceNumber />
+    </SenderObject>
+    <ReceiverObject>
+      <Name />
+      <Address1 />
+      <Address2 />
+      <Address3 />
+      <City />
+      <State />
+      <Country>MY</Country>
+      <Postcode>32040</Postcode>
+      <Email />
+      <PhoneNumber />
+      <ReferenceNumber />
+    </ReceiverObject>
+  </AcceptanceData>
+</Data>
