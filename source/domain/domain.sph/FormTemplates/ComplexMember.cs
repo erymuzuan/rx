@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Bespoke.Sph.Domain.Codes;
 using Newtonsoft.Json;
 
@@ -35,7 +36,7 @@ namespace Bespoke.Sph.Domain
                 var items = $"{Name}List".ToCamelCase();
                 code.AppendLine($@"var {items} = _(optionOrWebid.{Name}).map(function(v){{");
                 code.AppendLine($@"                 return new {ctor}(v);");
-                code.AppendLine($@"            }});");
+                code.AppendLine(@"            });");
                 code.AppendLine($@"model.{Name}({items});");
                 return code.ToString();
             }
@@ -46,16 +47,16 @@ namespace Bespoke.Sph.Domain
         {
             if (null == this.DefaultValue)
             {
-                return this.AllowMultiple ? 
-                    null : 
+                return this.AllowMultiple ?
+                    null :
                     $"           {itemIdentifier}.{Name} = new {TypeName}();";
             }
             var dv = this.DefaultValue.GenerateCode();
             if (!string.IsNullOrWhiteSpace(dv))
                 return $"{itemIdentifier}.{Name} = {dv};";
 
-            return this.AllowMultiple ? 
-                null : 
+            return this.AllowMultiple ?
+                null :
                 $"           {itemIdentifier}.{Name} = new {TypeName}();";
         }
 
@@ -148,9 +149,9 @@ namespace Bespoke.Sph.Domain
                 .Select(x => x.GeneratedCustomClass(codeNamespace))
                 .Where(x => null != x)
                 .SelectMany(x => x.ToArray());
-            @classes.AddRange(childClasses);
+            classes.AddRange(childClasses);
 
-            return @classes;
+            return classes;
         }
         public override string GenerateJavascriptClass(string jns, string csNs, string assemblyName)
         {
@@ -235,6 +236,22 @@ namespace Bespoke.Sph.Domain
             {
                 this.MemberCollection.Add(new SimpleMember { Name = member, Type = dictionary[member] });
             }
+        }
+
+        public override BuildError[] Validate()
+        {
+            var errors = new List<BuildError>(base.Validate());
+
+            const string PATTERN = "^[A-Za-z][A-Za-z0-9_]*$";
+            var validName = new Regex(PATTERN);
+
+            var typeNameInvalid = $"[Member] \"{Name}\" TypeName is not valid identifier";
+            if (string.IsNullOrWhiteSpace(TypeName))
+                errors.Add(new BuildError(WebId) { Message = $"[Member] \"{Name}\" TypeName cannot be empty" });
+            if (!validName.Match(TypeName).Success)
+                errors.Add(new BuildError(WebId) { Message = typeNameInvalid });
+
+            return errors.ToArray();
         }
     }
 }
