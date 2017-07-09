@@ -142,38 +142,11 @@ namespace Bespoke.Sph.Domain
                 Id = Entity.ToIdFormat()
             };
 
-            var members = this.FieldMappingCollection.Select(SuggestEntityDefinitionMembers).Where(x => null != x);
+            var members = this.FieldMappingCollection.Select(x => x.GenerateMember()).Where(x => null != x);
             ed.MemberCollection.AddRange(members);
 
             return Task.FromResult(ed);
         }
-
-        private static Member SuggestEntityDefinitionMembers(TextFieldMapping field)
-        {
-            if (field.Ignore) return null;
-            if (!field.IsComplex)
-                return new SimpleMember
-                {
-                    Name = field.Name,
-                    TypeName = field.TypeName,
-                    IsNullable = field.IsNullable,
-                    WebId = field.WebId,
-                    AllowMultiple = false,
-                    Boost = 1,
-                    DefaultValue = null
-                };
-
-            var member = new ComplexMember
-            {
-                Name = field.Name,
-                TypeName = field.TypeName,
-                WebId = field.WebId,
-                AllowMultiple = true,
-                DefaultValue = null
-            };
-            var children = field.FieldMappingCollection.Select(SuggestEntityDefinitionMembers).Where(x => x != null);
-            member.MemberCollection.AddRange(children);
-            return member;
-        }
+        
     }
 }
