@@ -81,10 +81,10 @@ namespace textformatter.test
             var tellerIdMember = ed.MemberCollection.SingleOrDefault(x => x.Name == "TellerID");
             Assert.NotNull(tellerIdMember);
 
-            var connoteObject = ed.MemberCollection.SingleOrDefault(x => x.Name == "ConnoteObject");
+            var connoteObject = ed.MemberCollection.OfType<ComplexMember>().SingleOrDefault(x => x.Name == "ConnoteObject");
             Assert.NotNull(connoteObject);
-            Assert.IsType<ComplexMember>(connoteObject);
             Assert.Equal(11, connoteObject.MemberCollection.Count);
+            Assert.Equal(connoteObject.Name, connoteObject.TypeName);
 
 
             var weight = connoteObject.MemberCollection.OfType<SimpleMember>().SingleOrDefault(x => x.Name == "Weight");
@@ -95,11 +95,11 @@ namespace textformatter.test
             var codes = await port.GenerateCodeAsync();
             foreach (var @class in codes)
             {
-                m_helper.WriteLine("// ====================== " + @class.Name + " ===========================");
                 var code = @class.GetCode()
                     .Replace("using FileHelpers;\r\n", "")
                     .Replace(" [FieldHidden]\r\n", "");
-                m_helper.WriteLine(code);
+                // m_helper.WriteLine("// ====================== " + @class.Name + " ===========================");
+                //m_helper.WriteLine(code);
                 File.WriteAllText($@"..\..\AcceptanceDataPort\{@class.Name}.cs", code);
             }
 
