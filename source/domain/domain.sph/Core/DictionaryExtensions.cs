@@ -36,5 +36,23 @@ namespace Bespoke.Sph.Domain
             if(!dictionary.ContainsKey(key))dictionary.Add(key,value);
             
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T1"></typeparam>
+        /// <param name="props"></param>
+        /// <param name="headers"></param>
+        public static void Copy<T, T1>(this IDictionary<T, T1> props, IDictionary<T, T1> headers)
+        {
+            if (null == headers) return;
+            foreach (var k in headers.Keys)
+            {
+                if (!props.ContainsKey(k))
+                    props.Add(k, headers[k]);
+
+            }
+        }
     }
 }

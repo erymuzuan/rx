@@ -296,6 +296,7 @@
     <Compile Include="diagnostics\FormDeleteOperationDiagnostics.cs" />
     <Compile Include="diagnostics\FormOperationDiagnostics.cs" />
     <Compile Include="diagnostics\LocationEndpointDiagnostics.cs" />
+    <Compile Include="IMessageDeliverySla.cs" />
     <Compile Include="Management\ConfigData.cs" />
     <Compile Include="Management\SubscriberConfig.cs" />
     <Compile Include="Management\WorkersConfig.cs" />
