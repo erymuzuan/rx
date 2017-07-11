@@ -22,7 +22,7 @@ namespace Bespoke.Sph.Integrations.Adapters
             var sp = ObjectBuilder.GetObject<ServiceProvider>();
             var builders = await factory.CreateAsync(sp, id);
             var tasks = builders.Select(x => x.BuildAsync());
-            var endpoints = (await Task.WhenAll(tasks));
+            var endpoints = await Task.WhenAll(tasks);
 
             var json = "[" + endpoints.JoinString(",", x => x.ToJsonString()) + "]";
             return Json(json);
