@@ -65,6 +65,15 @@
     <Compile Include="AcceptanceDataPort\ReceiverObject.cs" />
     <Compile Include="AcceptanceDataPort\SenderObject.cs" />
     <Compile Include="AcceptanceDataPort\TrxObject.cs" />
+    <Compile Include="IpsExportPort\Addressee.cs" />
+    <Compile Include="IpsExportPort\Dispatch.cs" />
+    <Compile Include="IpsExportPort\IPSEvent.cs" />
+    <Compile Include="IpsExportPort\IpsExpc.cs" />
+    <Compile Include="IpsExportPort\IpsExpPort.cs" />
+    <Compile Include="IpsExportPort\Letter.cs" />
+    <Compile Include="IpsExportPort\Parcel.cs" />
+    <Compile Include="IpsExportPort\Sender.cs" />
+    <Compile Include="IpsExportTestFixture.cs" />
     <Compile Include="IpsExpPort\Dispatch.cs" />
     <Compile Include="IpsExpPort\IPSEvent.cs" />
     <Compile Include="IpsExpPort\IpsExpc.cs" />
@@ -101,6 +110,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="docs\IPSExpE_20170606_092220_47346.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="docs\IPSExport.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="docs\IPSExpU_20170607_120033_740567.xml">
