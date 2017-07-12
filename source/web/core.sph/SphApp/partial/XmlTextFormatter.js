@@ -20,7 +20,7 @@ bespoke.sph.domain.XmlTextFormatterPartial = function (model) {
             };
         },
         addParentAttribute = function () {
-            this.ParentAttributeValueCollection.push(new bespoke.sph.domain.XmlAttributeTextFieldMapping(system.guid()));
+            this.ParentAttributeValueCollection.push(new bespoke.sph.domain.XmlAttributeTextFieldMapping({ WebId: system.guid(), TypeName: "System.String, mscorlib"}));
         },
         removeParentAttribute = function (attr) {
             var self = this;
