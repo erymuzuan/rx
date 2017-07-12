@@ -1,0 +1,101 @@
+<ips ExportRef="43014" InterfaceCode="IPSExpE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://upu.int/ips">
+  <MailItem ItemId="EJ211039802AU">
+    <FromIPS>
+      <LocalId>RR172301665MY</LocalId>
+      <Dispatch>
+        <OrigOfficeCd>AUSYDB</OrigOfficeCd>
+        <DestOfficeCd>MYKULA</DestOfficeCd>
+      </Dispatch>
+      <InnrbagId></InnrbagId>
+      <RecptclId>AUSYDBMYKULAAEM70095002000070</RecptclId>
+      <ItemWeight>0.955</ItemWeight>
+      <Value></Value>
+      <CurrencyCd></CurrencyCd>
+      <DutiableInd></DutiableInd>
+      <DutiableValue></DutiableValue>
+      <CustomNo></CustomNo>
+      <ClassCd>E</ClassCd>
+      <SubclassCd>EM</SubclassCd>
+      <Content>M</Content>
+      <OperatorCd></OperatorCd>
+      <OrigCountryCd>AU</OrigCountryCd>
+      <DestCountryCd>MY</DestCountryCd>
+      <Misc4></Misc4>
+      <PostalStatusFcd>MINL</PostalStatusFcd>
+      <PostagePaidValue></PostagePaidValue>
+      <PostagePaidCurrencyCd></PostagePaidCurrencyCd>
+      <AdditionalFeesValue></AdditionalFeesValue>
+      <AdditionalFeesCurrencyCd></AdditionalFeesCurrencyCd>
+      <CustomsTaxPId></CustomsTaxPId>
+      <NetworkEntryLocationTypeCd></NetworkEntryLocationTypeCd>
+      <MrsStatus></MrsStatus>
+      <MrsExpirationDate>2017-04-15T14:10:38.953</MrsExpirationDate>
+      <MrsOriginalId></MrsOriginalId>
+      <Letter>
+        <ConveyanceTypeCd>P</ConveyanceTypeCd>
+        <MailCategoryCd>A</MailCategoryCd>
+        <MailItemCategoryCd>OR</MailItemCategoryCd>
+        <ExpressInd>1</ExpressInd>
+        <CoDInd>0</CoDInd>
+        <LetterCharacteristicCd>LL</LetterCharacteristicCd>
+      </Letter>
+      <Parcel>
+        <ConveyanceTypeCd>P</ConveyanceTypeCd>
+        <MailCategoryCd>A</MailCategoryCd>
+        <MailItemCategoryCd>OR</MailItemCategoryCd>
+        <ExpressInd>0</ExpressInd>
+        <CoDInd>0</CoDInd>
+      </Parcel>
+      <Addressee>
+        <Name>julie qiau</Name>
+        <Address>20 jln kiara 3 bukit kiara</Address>
+        <City>kl / 020 6627273</City>
+        <Postcode>50480</Postcode>
+        <CountryCode>MY</CountryCode>
+      </Addressee>
+      <Sender>
+        <Name>monar</Name>
+        <Address>24 jalan puput</Address>
+        <City>pb</City>
+        <Postcode>34200</Postcode>
+        <CountryCode>MY</CountryCode>
+      </Sender>
+      <IPSEvent>
+        <TNCd>TN030</TNCd>
+        <Date>2017-04-15T14:10:38.953</Date>
+        <OfficeCd>MYKULA</OfficeCd>
+        <UserFid>POS\razemi</UserFid>
+        <WorkstationFid>POS\IBSKAD0244</WorkstationFid>
+        <ConditionCd>30</ConditionCd>
+      </IPSEvent>
+      <IPSEvent>
+        <TNCd>TN031</TNCd>
+        <Date>2017-04-15T14:11:38.953</Date>
+        <OfficeCd>MYKULA</OfficeCd>
+        <UserFid>POS\razemi</UserFid>
+        <WorkstationFid>POS\IBSKAD0244</WorkstationFid>
+        <RetentionReasonCd>58</RetentionReasonCd>
+      </IPSEvent>
+    </FromIPS>
+    <FromEDI>
+      <RecptclId>AUSYDBMYKULAAEM70095002000070</RecptclId>
+      <ItemWeight>8.480</ItemWeight>
+      <DestCountryCd>MY</DestCountryCd>
+      <EDIEvent>
+        <EDIMsg>EMSEVT</EDIMsg>
+        <TNCd>TN008</TNCd>
+        <ConditionCd>30</ConditionCd>
+        <LclDate>2017-06-06T01:09:00</LclDate>
+        <CaptureGMTDate>2017-06-06T01:15:55.930</CaptureGMTDate>
+        <SenderId>DE330</SenderId>
+        <Location>DEFRAA</Location>
+        <RecipientsPostCode>63000</RecipientsPostCode>
+        <PlaceOfDestinationOfficeCd>CYBERJAYA</PlaceOfDestinationOfficeCd>
+        <DespatchNumber>DEFRAAMYKULAACN70369</DespatchNumber>
+        <DespatchOfficeCd>MYKULA</DespatchOfficeCd>
+        <AddresseeName>AZLAN RAZIFCLOVER GARDEN RESIDENCE</AddresseeName>
+        <DeliveryPointAddressLine1>16, JALAN CLOVER 7</DeliveryPointAddressLine1>
+      </EDIEvent>
+    </FromEDI>
+  </MailItem>
+</ips>
