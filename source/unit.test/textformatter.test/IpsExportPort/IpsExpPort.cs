@@ -39,81 +39,83 @@ namespace Bespoke.IpsExports.ReceivePorts
             var elements = doc.Elements(xn + "MailItem").Elements(xn + "FromIPS");
             foreach (var e in elements)
             {
-                var record = new IpsExpc
-                {
-                    LocalId = e.Element(xn + "LocalId")?.Value,
-                    Dispatch = new Dispatch
-                    {
+                var record = new IpsExpc();
+                record.LocalId = e.Element(xn + "LocalId")?.Value;
+                record.Dispatch = new Dispatch();
 
-                        OrigOfficeCd = e.Element(xn + "Dispatch")?.Element(xn + "OrigOfficeCd")?.Value,
-                        DestOfficeCd = e.Element(xn + "Dispatch")?.Element(xn + "DestOfficeCd")?.Value
-                    },
-                    InnrbagId = e.Element(xn + "InnrbagId")?.Value,
-                    RecptclId = e.Element(xn + "RecptclId")?.Value,
-                    ItemWeight = decimal.Parse(e.Element(xn + "ItemWeight")?.Value ?? ""),
-                    Value = e.Element(xn + "Value")?.Value,
-                    CurrencyCd = e.Element(xn + "CurrencyCd")?.Value,
-                    DutiableInd = e.Element(xn + "DutiableInd")?.Value,
-                    DutiableValue = e.Element(xn + "DutiableValue")?.Value,
-                    CustomNo = e.Element(xn + "CustomNo")?.Value,
-                    ClassCd = e.Element(xn + "ClassCd")?.Value,
-                    SubclassCd = e.Element(xn + "SubclassCd")?.Value,
-                    Content = e.Element(xn + "Content")?.Value,
-                    OperatorCd = e.Element(xn + "OperatorCd")?.Value,
-                    OrigCountryCd = e.Element(xn + "OrigCountryCd")?.Value,
-                    DestCountryCd = e.Element(xn + "DestCountryCd")?.Value,
-                    Misc4 = e.Element(xn + "Misc4")?.Value,
-                    PostalStatusFcd = e.Element(xn + "PostalStatusFcd")?.Value,
-                    PostagePaidValue = e.Element(xn + "PostagePaidValue")?.Value,
-                    PostagePaidCurrencyCd = e.Element(xn + "PostagePaidCurrencyCd")?.Value,
-                    AdditionalFeesValue = e.Element(xn + "AdditionalFeesValue")?.Value,
-                    AdditionalFeesCurrencyCd = e.Element(xn + "AdditionalFeesCurrencyCd")?.Value,
-                    CustomsTaxPId = e.Element(xn + "CustomsTaxPId")?.Value,
-                    NetworkEntryLocationTypeCd = e.Element(xn + "NetworkEntryLocationTypeCd")?.Value,
-                    MrsStatus = e.Element(xn + "MrsStatus")?.Value,
-                    MrsExpirationDate = DateTime.Parse(e.Element(xn + "MrsExpirationDate")?.Value ?? ""),
-                    MrsOriginalId = e.Element(xn + "MrsOriginalId")?.Value,
-                    Letter = new Letter
-                    {
+                record.Dispatch.OrigOfficeCd = e.Element(xn + "Dispatch")?.Element(xn + "OrigOfficeCd")?.Value;
+                record.Dispatch.DestOfficeCd = e.Element(xn + "Dispatch")?.Element(xn + "DestOfficeCd")?.Value;
 
-                        ConveyanceTypeCd = e.Element(xn + "Letter")?.Element(xn + "ConveyanceTypeCd")?.Value,
-                        MailCategoryCd = e.Element(xn + "Letter")?.Element(xn + "MailCategoryCd")?.Value,
-                        MailItemCategoryCd = e.Element(xn + "Letter")?.Element(xn + "MailItemCategoryCd")?.Value,
-                        ExpressInd = int.Parse(e.Element(xn + "Letter")?.Element(xn + "ExpressInd")?.Value ?? ""),
-                        CoDInd = int.Parse(e.Element(xn + "Letter")?.Element(xn + "CoDInd")?.Value ?? ""),
-                        LetterCharacteristicCd = e.Element(xn + "Letter")?.Element(xn + "LetterCharacteristicCd")?.Value
-                    },
-                    Parcel = new Parcel
-                    {
 
-                        ConveyanceTypeCd = e.Element(xn + "Parcel")?.Element(xn + "ConveyanceTypeCd")?.Value,
-                        MailCategoryCd = e.Element(xn + "Parcel")?.Element(xn + "MailCategoryCd")?.Value,
-                        MailItemCategoryCd = e.Element(xn + "Parcel")?.Element(xn + "MailItemCategoryCd")?.Value,
-                        ExpressInd = int.Parse(e.Element(xn + "Parcel")?.Element(xn + "ExpressInd")?.Value ?? ""),
-                        CoDInd = int.Parse(e.Element(xn + "Parcel")?.Element(xn + "CoDInd")?.Value ?? "")
-                    },
-                    Addressee = new Addressee
-                    {
+                ;
+                record.InnrbagId = e.Element(xn + "InnrbagId")?.Value;
+                record.RecptclId = e.Element(xn + "RecptclId")?.Value;
+                record.ItemWeight = decimal.Parse(e.Element(xn + "ItemWeight")?.Value ?? "");
+                record.Value = e.Element(xn + "Value")?.Value;
+                record.CurrencyCd = e.Element(xn + "CurrencyCd")?.Value;
+                record.DutiableInd = e.Element(xn + "DutiableInd")?.Value;
+                record.DutiableValue = e.Element(xn + "DutiableValue")?.Value;
+                record.CustomNo = e.Element(xn + "CustomNo")?.Value;
+                record.ClassCd = e.Element(xn + "ClassCd")?.Value;
+                record.SubclassCd = e.Element(xn + "SubclassCd")?.Value;
+                record.Content = e.Element(xn + "Content")?.Value;
+                record.OperatorCd = e.Element(xn + "OperatorCd")?.Value;
+                record.OrigCountryCd = e.Element(xn + "OrigCountryCd")?.Value;
+                record.DestCountryCd = e.Element(xn + "DestCountryCd")?.Value;
+                record.Misc4 = e.Element(xn + "Misc4")?.Value;
+                record.PostalStatusFcd = e.Element(xn + "PostalStatusFcd")?.Value;
+                record.PostagePaidValue = e.Element(xn + "PostagePaidValue")?.Value;
+                record.PostagePaidCurrencyCd = e.Element(xn + "PostagePaidCurrencyCd")?.Value;
+                record.AdditionalFeesValue = e.Element(xn + "AdditionalFeesValue")?.Value;
+                record.AdditionalFeesCurrencyCd = e.Element(xn + "AdditionalFeesCurrencyCd")?.Value;
+                record.CustomsTaxPId = e.Element(xn + "CustomsTaxPId")?.Value;
+                record.NetworkEntryLocationTypeCd = e.Element(xn + "NetworkEntryLocationTypeCd")?.Value;
+                record.MrsStatus = e.Element(xn + "MrsStatus")?.Value;
+                record.MrsExpirationDate = DateTime.Parse(e.Element(xn + "MrsExpirationDate")?.Value ?? "");
+                record.MrsOriginalId = e.Element(xn + "MrsOriginalId")?.Value;
+                record.Letter = new Letter();
 
-                        Name = e.Element(xn + "Addressee")?.Element(xn + "Name")?.Value,
-                        Address = e.Element(xn + "Addressee")?.Element(xn + "Address")?.Value,
-                        City = e.Element(xn + "Addressee")?.Element(xn + "City")?.Value,
-                        Postcode = int.Parse(e.Element(xn + "Addressee")?.Element(xn + "Postcode")?.Value ?? ""),
-                        CountryCode = e.Element(xn + "Addressee")?.Element(xn + "CountryCode")?.Value
-                    },
-                    Sender = new Sender
-                    {
+                record.Letter.ConveyanceTypeCd = e.Element(xn + "Letter")?.Element(xn + "ConveyanceTypeCd")?.Value;
+                record.Letter.MailCategoryCd = e.Element(xn + "Letter")?.Element(xn + "MailCategoryCd")?.Value;
+                record.Letter.MailItemCategoryCd = e.Element(xn + "Letter")?.Element(xn + "MailItemCategoryCd")?.Value;
+                record.Letter.ExpressInd = int.Parse(e.Element(xn + "Letter")?.Element(xn + "ExpressInd")?.Value ?? "");
+                record.Letter.CoDInd = int.Parse(e.Element(xn + "Letter")?.Element(xn + "CoDInd")?.Value ?? "");
+                record.Letter.LetterCharacteristicCd = e.Element(xn + "Letter")?.Element(xn + "LetterCharacteristicCd")?.Value;
 
-                        Name = e.Element(xn + "Sender")?.Element(xn + "Name")?.Value,
-                        Address = e.Element(xn + "Sender")?.Element(xn + "Address")?.Value,
-                        City = e.Element(xn + "Sender")?.Element(xn + "City")?.Value,
-                        Postcode = int.Parse(e.Element(xn + "Sender")?.Element(xn + "Postcode")?.Value ?? ""),
-                        CountryCode = e.Element(xn + "Sender")?.Element(xn + "CountryCode")?.Value
-                    },
-                    ItemId = e.Parent.Attribute("ItemId")?.Value,
-                    InterfaceCode = doc.Attribute("InterfaceCode")?.Value
 
-                };
+                ;
+                record.Parcel = new Parcel();
+
+                record.Parcel.ConveyanceTypeCd = e.Element(xn + "Parcel")?.Element(xn + "ConveyanceTypeCd")?.Value;
+                record.Parcel.MailCategoryCd = e.Element(xn + "Parcel")?.Element(xn + "MailCategoryCd")?.Value;
+                record.Parcel.MailItemCategoryCd = e.Element(xn + "Parcel")?.Element(xn + "MailItemCategoryCd")?.Value;
+                record.Parcel.ExpressInd = int.Parse(e.Element(xn + "Parcel")?.Element(xn + "ExpressInd")?.Value ?? "");
+                record.Parcel.CoDInd = int.Parse(e.Element(xn + "Parcel")?.Element(xn + "CoDInd")?.Value ?? "");
+
+
+                ;
+                record.Addressee = new Addressee();
+
+                record.Addressee.Name = e.Element(xn + "Addressee")?.Element(xn + "Name")?.Value;
+                record.Addressee.Address = e.Element(xn + "Addressee")?.Element(xn + "Address")?.Value;
+                record.Addressee.City = e.Element(xn + "Addressee")?.Element(xn + "City")?.Value;
+                record.Addressee.Postcode = int.Parse(e.Element(xn + "Addressee")?.Element(xn + "Postcode")?.Value ?? "");
+                record.Addressee.CountryCode = e.Element(xn + "Addressee")?.Element(xn + "CountryCode")?.Value;
+
+
+                ;
+                record.Sender = new Sender();
+
+                record.Sender.Name = e.Element(xn + "Sender")?.Element(xn + "Name")?.Value;
+                record.Sender.Address = e.Element(xn + "Sender")?.Element(xn + "Address")?.Value;
+                record.Sender.City = e.Element(xn + "Sender")?.Element(xn + "City")?.Value;
+                record.Sender.Postcode = int.Parse(e.Element(xn + "Sender")?.Element(xn + "Postcode")?.Value ?? "");
+                record.Sender.CountryCode = e.Element(xn + "Sender")?.Element(xn + "CountryCode")?.Value;
+
+
+                ;
+                record.ItemId = e.Parent.Attribute("ItemId")?.Value;
+                record.InterfaceCode = doc.Attribute("InterfaceCode")?.Value;
 
                 // AllowMultiple properties
                 foreach (var ce in e.Elements(xn + "IPSEvent"))

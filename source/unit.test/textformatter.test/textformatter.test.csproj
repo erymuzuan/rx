@@ -80,6 +80,18 @@
     <Compile Include="IpsExpPort\IpsExpPort.cs" />
     <Compile Include="IpsExpPort\Parcel.cs" />
     <Compile Include="IpsExpTestFixture.cs" />
+    <Compile Include="MailItemTestFixture.cs" />
+    <Compile Include="MailItem\Addressee.cs" />
+    <Compile Include="MailItem\Dispatch.cs" />
+    <Compile Include="MailItem\EDIEvent.cs" />
+    <Compile Include="MailItem\FromEDI.cs" />
+    <Compile Include="MailItem\FromIPS.cs" />
+    <Compile Include="MailItem\IPSEvent.cs" />
+    <Compile Include="MailItem\Letter.cs" />
+    <Compile Include="MailItem\MailItem.cs" />
+    <Compile Include="MailItem\MailItemPort.cs" />
+    <Compile Include="MailItem\Parcel.cs" />
+    <Compile Include="MailItem\Sender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AcceptanceDataTestFixture.cs" />
   </ItemGroup>

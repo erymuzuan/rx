@@ -4,7 +4,7 @@ namespace Bespoke.Sph.Domain
 {
     public partial class XmlAttributeTextFieldMapping : TextFieldMapping
     {
-        public string GenerateReadValueCode(string elementName)
+        public string GenerateReadValueCode(string path,string elementName)
         {
             if (this.Path.Contains("$Parent$"))
                 elementName += "." + this.Path.Replace("$Parent$", "Parent").Replace("." + Name, "");

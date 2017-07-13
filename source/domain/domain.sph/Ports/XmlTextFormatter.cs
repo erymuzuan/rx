@@ -66,7 +66,8 @@ namespace Bespoke.Sph.Domain
                 IsNullable = false,
                 SampleValue = x.Value,
                 Type = x.Value.TryGuessType(),
-                WebId = Strings.GenerateId()
+                WebId = Strings.GenerateId(),
+                Path = x.Name.LocalName
             }).ToArray();
             var elements = parent.Elements().Select(x => new XmlElementTextFieldMapping(x)
             {
@@ -127,7 +128,7 @@ namespace Bespoke.Sph.Domain
             var collectionCode = new StringBuilder();
             foreach (var xe in port.FieldMappingCollection.Where(x => x.AllowMultiple).OfType<XmlElementTextFieldMapping>())
             {
-                var initializer = xe.FieldMappingCollection.OfType<XmlElementTextFieldMapping>().ToString(",\r\n", x => x.Name + " = " + x.GenerateReadValueCode("ce"));
+                var initializer = xe.FieldMappingCollection.OfType<XmlElementTextFieldMapping>().ToString(",\r\n", x => x.Name + " = " + x.GenerateReadValueCode(x.Name, "ce"));
                 collectionCode.AppendLine($@"foreach(var ce in e.Elements(xn + ""{xe.Name}""))");
                 collectionCode.AppendLine("{");
                 collectionCode.AppendLine($@"record.{xe.Name}.Add(new {xe.Name}{{
@@ -140,9 +141,11 @@ namespace Bespoke.Sph.Domain
             code.Append($"public IEnumerable<{port.Entity}> Process(IEnumerable<string> lines)");
             code.AppendLine("{");
 
-            var elementProperties = port.FieldMappingCollection.Where(x => !x.AllowMultiple).OfType<XmlElementTextFieldMapping>().ToString(",\r\n", x => x.Name + " = " + x.GenerateReadValueCode("e"));
-            var attributeProperties = port.FieldMappingCollection.OfType<XmlAttributeTextFieldMapping>().ToString(",\r\n", x => x.Name + " = " + x.GenerateReadValueCode("e"));
-            var comma = port.FieldMappingCollection.OfType<XmlAttributeTextFieldMapping>().Any() ? "," : "";
+            var elements = port.FieldMappingCollection.Where(x => !x.AllowMultiple).OfType<XmlElementTextFieldMapping>();
+            var attributes = port.FieldMappingCollection.OfType<XmlAttributeTextFieldMapping>().ToArray();
+
+            var elementsCode = elements.ToString("\r\n", x =>  $"record.{x.Name} = " + x.GenerateReadValueCode("record", "e") + ";");
+            var attributesCode = attributes.ToString("\r\n", x => $"record.{x.Name} = " + x.GenerateReadValueCode("record","e") + ";");
             code.AppendLine($@"
             var text = string.Join(""\r\n"", lines);
             var doc = XElement.Parse(text);
@@ -151,12 +154,9 @@ namespace Bespoke.Sph.Domain
             var elements = doc{elementQueries};
             foreach (var e in elements)
             {{
-                var record = new {port.Entity}
-                {{
-                    {elementProperties}{comma}
-                    {attributeProperties}
-                                       
-                }};
+                var record = new {port.Entity}();
+                {elementsCode}
+                {attributesCode}
 
                 // AllowMultiple properties
                 {collectionCode}

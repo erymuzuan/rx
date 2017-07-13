@@ -525,6 +525,9 @@ namespace Bespoke.Sph.Domain
 
         public static string ToCSharp(this Type type)
         {
+            if(null == type)
+                throw new ArgumentNullException($@"Type cannot be null", nameof(type));
+                    
             if (type == typeof(void)) return "void";
             if (type == typeof(DateTime)) return "DateTime";
             if (type == typeof(string)) return "string";
