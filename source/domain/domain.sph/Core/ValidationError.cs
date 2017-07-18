@@ -7,7 +7,7 @@
         public string ErrorLocation { get; set; }
         public override string ToString()
         {
-            return string.Format("[{0}]:{1}", this.PropertyName, this.Message);
+            return $"[{this.PropertyName}]:{this.Message}";
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.WebApi;
 
@@ -14,13 +16,20 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             ServiceProvider.Init();
         }
+
         [HttpGet]
         [Route("hars/{id}/endpoints")]
         public async Task<IHttpActionResult> GetEndpoints(string id)
         {
             var factory = new EndpointsBuilderFactory();
             var sp = ObjectBuilder.GetObject<ServiceProvider>();
-            var builders = await factory.CreateAsync(sp, id);
+            var builders = (await factory.CreateAsync(sp, id)).ToArray();
+
+            var validationTasks = builders.Select(x => x.ValidateAsync());
+            var validationResults = await Task.WhenAll(validationTasks);
+            if (validationResults.Any(x => !x.Success))
+                return Invalid(validationResults.SelectMany(x => x.ValidationErrors).ToArray());
+
             var tasks = builders.Select(x => x.BuildAsync());
             var endpoints = (await Task.WhenAll(tasks));
 
