@@ -30,11 +30,46 @@
   },
   "ActionCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.CustomAction, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Messaging.EntityAction, trigger.action.entity",
+        "OutboundMap": "patient-to-cusotmer-3",
+        "OutboundEntity": "Customer",
+        "Operation": "Register",
+        "Title": "This is a test",
+        "IsActive": true,
+        "TriggerId": null,
+        "Note": null,
+        "WebId": "d6b9ef3c-4dd7-462a-c54d-c803f1f1017a"
+      }
+    ]
   },
   "ReferencedAssemblyCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
+        "Name": "DevV1.Customer",
+        "FullName": "DevV1.Customer, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "Version": "0.0.0.0",
+        "Location": "F:\\project\\work\\rx.5956\\bin\\output\\DevV1.Customer.dll",
+        "IsGac": false,
+        "IsStrongName": false,
+        "RuntimeVersion": "v4.0.30319",
+        "WebId": null
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.ReferencedAssembly, domain.sph",
+        "Name": "DevV1.PatientToCusomer",
+        "FullName": "DevV1.PatientToCusomer, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+        "Version": "0.0.0.0",
+        "Location": "F:\\project\\work\\rx.5956\\bin\\output\\DevV1.PatientToCusomer.dll",
+        "IsGac": false,
+        "IsStrongName": false,
+        "RuntimeVersion": "v4.0.30319",
+        "WebId": null
+      }
+    ]
   },
   "RequeueFilterCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ExceptionFilter, domain.sph]], domain.sph",
@@ -55,6 +90,6 @@
   "Id": "patient-mortuary-registration",
   "CreatedDate": "2016-04-14T11:41:27.5204471+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-04-14T11:43:21.6690903+08:00",
+  "ChangedDate": "2017-07-04T07:48:11.3912655+08:00",
   "WebId": "0336d398-f3e2-4c5b-b5bf-35579e1e33e2"
 }

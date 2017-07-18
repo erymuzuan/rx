@@ -1,14 +1,14 @@
 {
     "itemcategory":{
         "properties":{
-            "CreatedBy": {"type": "string", "index":"not_analyzed"},
-            "ChangedBy": {"type": "string", "index":"not_analyzed"},
-            "WebId": {"type": "string", "index":"not_analyzed"},
+            "CreatedBy": {"type": "keyword", "index":"not_analyzed"},
+            "ChangedBy": {"type": "keyword", "index":"not_analyzed"},
+            "WebId": {"type": "keyword", "index":"not_analyzed"},
             "CreatedDate": {"type": "date"},
             "ChangedDate": {"type": "date"},
-             "Code":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
-             "Name":{"type":"string","index":"not_analyzed","boost":1,"include_in_all":true},
-             "SnbSequence":{"type":"integer","index":"analyzed","boost":1,"include_in_all":true,"ignore_malformed":false}
+            "Code":{"type":"keyword","index":"not_analyzed","boost":1,"include_in_all":true},
+            "Name":{"type":"keyword","index":"not_analyzed","boost":1,"include_in_all":true},
+            "SnbSequence":{"type":"integer","index":"analyzed","boost":1,"include_in_all":true,"ignore_malformed":false}
         }
     }
 }

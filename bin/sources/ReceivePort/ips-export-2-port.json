@@ -25,47 +25,7 @@
         "Ignore": false,
         "Comment": "",
         "DefaultValueString": "",
-        "WebId": "445fbca9-50eb-44e9-8896-f1dc6a2868af"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.XmlAttributeTextFieldMapping, domain.sph",
-        "Path": "$Root$.ExportRef",
-        "FieldMappingCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Name": "ExportRef",
-        "TypeName": "System.String, mscorlib",
-        "IsNullable": false,
-        "Converter": "",
-        "SampleValue": "",
-        "IsComplex": false,
-        "AllowMultiple": false,
-        "NullPlaceholder": "",
-        "Ignore": false,
-        "Comment": "",
-        "DefaultValueString": "",
-        "WebId": "3a915b48-9c70-4d31-ecc1-42c31a6a221e"
-      },
-      {
-        "$type": "Bespoke.Sph.Domain.XmlAttributeTextFieldMapping, domain.sph",
-        "Path": "$Root$.InterfaceCode",
-        "FieldMappingCollection": {
-          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
-          "$values": []
-        },
-        "Name": "InterfaceCode",
-        "TypeName": "System.String, mscorlib",
-        "IsNullable": false,
-        "Converter": "",
-        "SampleValue": "",
-        "IsComplex": false,
-        "AllowMultiple": false,
-        "NullPlaceholder": "",
-        "Ignore": false,
-        "Comment": "",
-        "DefaultValueString": "",
-        "WebId": "03fd75f5-3a1f-4e17-e8ee-7faf2f56573c"
+        "WebId": "6a37bbba-8684-4134-ffee-3d63507563c0"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -88,7 +48,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "ddc46441-515b-43c8-ac54-0623eb6cbb36"
+        "WebId": "0ec02309-f8d7-4292-b998-57e0fa54f5a9"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -123,7 +83,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "66814ffc-3c8f-4875-97ac-36dcf3902e35"
+              "WebId": "f43a1c3a-88d3-4efd-a30a-7de3db6b6442"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -146,7 +106,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "7ce92775-3ec5-4198-819c-5095c34c8929"
+              "WebId": "23fc47f3-1e6a-4d89-b6cb-206c895827c3"
             }
           ]
         },
@@ -161,7 +121,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "ab85d722-6d52-4da2-aec3-ea123746fbee"
+        "WebId": "63124ed0-ec02-408e-9e31-61562fe1b194"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -184,7 +144,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "54733851-8585-4535-949c-d7b2d6424355"
+        "WebId": "1c8ac0c5-8de1-437f-94be-a89d2ceded75"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -207,7 +167,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "62a57200-d0b6-4a42-b40b-11decbbde265"
+        "WebId": "05d6a5a4-58f2-4137-9b29-32e0ba2acad3"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -230,7 +190,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "0f11dac8-532a-4a33-9cea-b7840ae3c10a"
+        "WebId": "61159e02-efac-4af4-879b-22d7470cff78"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -253,7 +213,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "c88fd4af-574e-4d95-93c5-68487ef04e99"
+        "WebId": "3db7bc86-00c6-4a37-a0da-c6f82a88590f"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -276,7 +236,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "47a0d111-5d16-4114-ba99-e1192918455b"
+        "WebId": "aa1b307c-2c1a-4f7b-bca2-0fd7bb79fa73"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -299,7 +259,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "2ec4a385-0637-4277-886f-7e1ccb17e153"
+        "WebId": "77a12eae-6db7-4c97-9d46-9a2ad93136d8"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -322,7 +282,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "d7f4f1ca-63a3-48fc-998a-b92a06d39923"
+        "WebId": "8fe14d2f-85af-4475-b2bc-cd5a375f3bdd"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -345,7 +305,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "438f58bb-569c-43dc-99bb-a20802adff44"
+        "WebId": "01b5edd7-d5a1-489b-9ec3-e1b7b962f8f4"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -368,7 +328,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "7350ad85-cedd-4ce3-962f-ebdb205dbd94"
+        "WebId": "63354333-20bf-4b35-b5de-425c16a7a07c"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -391,7 +351,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "21a638af-095a-4005-8016-dfd7609acafb"
+        "WebId": "a1eefa4e-3e85-401b-9bfe-a8ae5dabc915"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -414,7 +374,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "75dacc95-66a4-4d8e-a210-eb8a0bfdb9a6"
+        "WebId": "49b40b52-d1cf-46fb-bdb8-2268e156f3ff"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -437,7 +397,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "51a15a77-511c-42ce-8b1b-f6edb390c83a"
+        "WebId": "71512f54-e7c2-4e12-a916-618da77c27f6"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -460,7 +420,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "eb8f7f0d-99f4-4848-918c-608c80ff0279"
+        "WebId": "e2a1d717-f3dd-4b23-92b0-57bc9b597516"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -483,7 +443,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "8d4fb801-20dc-447f-81ed-b538e4774c78"
+        "WebId": "11e07832-a529-4d7c-9f82-566bd77d2b70"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -506,7 +466,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "b3751413-83de-4a21-b4e6-09c683ce1a23"
+        "WebId": "aae0acc1-7f64-451c-b462-2350b937f300"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -529,7 +489,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "a93ab8a0-7df3-4673-912f-0fd97fd28b21"
+        "WebId": "ab6724da-84fe-489a-b87e-8912f21d9185"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -552,7 +512,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "7aaac2fa-87b9-4f23-a0d5-d36e2c7241ac"
+        "WebId": "5f517861-0ab6-4d45-8010-20292f9a39da"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -575,7 +535,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "27e26a49-30b5-4412-a82d-981f173c6017"
+        "WebId": "4aeed567-cbed-4634-b044-ef3cb2215ac0"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -598,7 +558,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "6ce7fd5d-fa17-496c-b5e8-54130164f91c"
+        "WebId": "571b93cb-833c-4514-a6be-d0314feca535"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -621,7 +581,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "38ab1a1d-096e-4cd0-91c6-90530fd24cae"
+        "WebId": "0ff0bc27-b5e5-40a5-a725-43d3d5aaf148"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -644,7 +604,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "9242a473-0e31-4b30-9852-8777d2599eaa"
+        "WebId": "f91da8f1-1819-410f-bf4d-782542472977"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -667,7 +627,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "782d6995-801a-44b4-9e1d-d4ff138dc7d5"
+        "WebId": "cf1f3085-0fc9-4636-9e37-b4a9344f06df"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -690,7 +650,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "5879f323-c90e-4070-8628-63cf3a921d82"
+        "WebId": "7f7feeb8-d40f-4c0a-842e-d69dea8e7245"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -713,7 +673,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "aa750977-ec0a-4f86-b908-b8ad3bf1f6dd"
+        "WebId": "b3c39d3d-36e1-4540-a195-0fac4f8eb1b1"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -736,7 +696,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "1905b6df-4031-4d65-bf62-9e16b0ca614b"
+        "WebId": "4fd4f023-ca32-4999-987f-eb25a4b027e6"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -775,7 +735,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "d98474b7-552c-46ee-b166-0428e9efabf5"
+              "WebId": "74b9e198-f6d6-4181-a8f3-7e305457e7f1"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -798,7 +758,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "b92b0411-53ca-4846-b84f-81bead8da71d"
+              "WebId": "2cc83f4f-16cd-491b-8256-ce08bc768e0f"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -821,7 +781,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "16849429-a9bd-475a-95f9-186bcd2e3f85"
+              "WebId": "492d8bc8-1b38-4bc3-b728-ca6ceb1dc737"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -844,7 +804,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "208c8fa8-9bdd-46da-a433-67705274e191"
+              "WebId": "f2889d54-053d-4acc-b59a-ca560b6d54a2"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -867,7 +827,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "f7c27971-d277-48c9-9f3d-fb446341dced"
+              "WebId": "3dee7742-cf41-444c-99ea-cba7717f4948"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -890,7 +850,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "e119097f-fbe4-4164-b9b2-e40b170b77d1"
+              "WebId": "71a1f81c-b243-457f-a821-c798a032df38"
             }
           ]
         },
@@ -905,7 +865,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "125f0945-22d7-4ee1-8c26-f056975d91d6"
+        "WebId": "e0b2ced4-831e-495c-9421-5ec4fc40da29"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -943,7 +903,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "5f4cb566-adde-47e6-ad08-4caec6d889cb"
+              "WebId": "77ed1299-a538-45bb-9950-5aacaceccc9f"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -966,7 +926,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "ab206714-1494-4c6a-b34f-f6623956a81b"
+              "WebId": "ace056ef-4eab-4c5a-9509-97be631a536c"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -989,7 +949,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "2c004945-002a-46ac-a57c-4edf7d655ffb"
+              "WebId": "e78df4ca-d187-426c-a423-885e205129fa"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -1012,7 +972,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "0a4b28f0-4779-41f4-998b-ab67c6184963"
+              "WebId": "761ac45b-46f4-4ee3-9550-ee6010b01a93"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -1035,7 +995,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "8774dee9-5212-45b4-8e64-773d43105749"
+              "WebId": "650bab42-461e-4497-8f2e-1f8c1d821993"
             }
           ]
         },
@@ -1050,7 +1010,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "24cc7843-2db3-4dd7-b3b1-4e54f1ae84b8"
+        "WebId": "9946281b-1245-4ed5-a140-31dd79cc8ca5"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -1088,7 +1048,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "0b532617-0859-4359-a58c-cc4222c9d559"
+              "WebId": "7dea6580-8674-4dfa-8a3f-c95b4d7786b5"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -1111,7 +1071,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "8b287d1c-1417-476b-8bf8-5f597b24efce"
+              "WebId": "12917e0e-dfc6-4be0-8940-0432770dc17b"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -1134,7 +1094,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "5bcc8299-fcc6-4b28-8afd-be2dae8c3fbc"
+              "WebId": "b7fdcccb-8d64-4691-9cd5-aa54fdb8b1fe"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -1157,7 +1117,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "24c42056-0153-4b39-8360-003216413bb1"
+              "WebId": "c4fb7861-ffae-4637-b711-302e2ddb0f0c"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -1180,7 +1140,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "fd0d2612-b440-4ae5-9c0d-b6324431625f"
+              "WebId": "3519f9c4-4acf-4890-b17d-e094786a1e19"
             }
           ]
         },
@@ -1195,7 +1155,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "56d484ea-018c-49cc-9eea-85320376b157"
+        "WebId": "43cad3c8-87e5-46b3-81cf-9335287b2c7a"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -1233,7 +1193,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "efdc5a3d-ead0-48a2-9c35-b074c4a4ad91"
+              "WebId": "80cf6f4f-9fc6-40b3-a483-caae639737e5"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -1256,7 +1216,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "cf592be1-9c9f-4905-b13d-e66cdc51c8e0"
+              "WebId": "9e450a63-01be-4adf-8a5a-6e41c25bbd1c"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -1279,7 +1239,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "d1ea6920-2334-4569-9db8-96d3b1ca5595"
+              "WebId": "4a6f42e2-b7b7-46e7-8367-a8dbdd008903"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -1302,7 +1262,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "5351ea18-7f04-4dac-8bec-df03e7856243"
+              "WebId": "f39a10ad-0102-4137-b03f-08ec92779eed"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -1325,7 +1285,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "cfa84168-02d7-4f16-8246-cf8803dd05ab"
+              "WebId": "3dc378e3-ffc8-4b62-ae76-414277eee177"
             }
           ]
         },
@@ -1340,7 +1300,7 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "ced98367-af78-4618-ae9d-7c2ffb6e6b8a"
+        "WebId": "96cc0b26-7aa4-4c98-8f78-a50521403d97"
       },
       {
         "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -1379,7 +1339,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "7400c9ee-a6d5-4414-a178-3e4056a186cf"
+              "WebId": "c8a48ca6-37cd-479c-b6bc-ceeeca409a8b"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -1402,7 +1362,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "0b60edae-ca17-41aa-96ea-f5e9470245f3"
+              "WebId": "3e709405-d4ca-4515-beff-e2bc50604d4a"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -1425,7 +1385,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "0889cc3a-9c4f-4909-ae3d-36948813c558"
+              "WebId": "0949fd15-2d0d-4ab8-b94d-b8275a338f3e"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -1448,7 +1408,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "ce222d18-a068-4d5c-af76-70aa070d5a09"
+              "WebId": "57b4d24a-99e1-49e0-9976-09e662354e4d"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -1471,7 +1431,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "2b566cd2-2c0a-4677-b662-eb60fbcd9c57"
+              "WebId": "e912635a-54cd-4274-ba80-2ebf6459b109"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -1485,7 +1445,7 @@
               },
               "Name": "ConditionCd",
               "TypeName": "System.Int32, mscorlib",
-              "IsNullable": true,
+              "IsNullable": false,
               "Converter": null,
               "SampleValue": "30",
               "IsComplex": false,
@@ -1494,7 +1454,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "6e5c462d-cf19-44db-8796-bda5a4e1b8df"
+              "WebId": "f14e570f-3d0b-4e63-a1df-0be1370d3a06"
             },
             {
               "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
@@ -1508,7 +1468,7 @@
               },
               "Name": "RetentionReasonCd",
               "TypeName": "System.Int32, mscorlib",
-              "IsNullable": true,
+              "IsNullable": false,
               "Converter": null,
               "SampleValue": "58",
               "IsComplex": false,
@@ -1517,7 +1477,7 @@
               "Ignore": false,
               "Comment": null,
               "DefaultValueString": null,
-              "WebId": "21664758-0291-46ac-8b27-07097847666f"
+              "WebId": "b2971dab-ddc0-497d-ae3c-144416348c1f"
             }
           ]
         },
@@ -1532,12 +1492,12 @@
         "Ignore": false,
         "Comment": null,
         "DefaultValueString": null,
-        "WebId": "59bfc117-6d6b-4719-be28-8529cac63f50"
+        "WebId": "83a47880-b9ff-4630-a427-ada9928673f0"
       }
     ]
   },
-  "Name": "IpsExportPort",
-  "Entity": "IpsExport",
+  "Name": "IpsExport2Port",
+  "Entity": "IpsExport2",
   "EntityId": "",
   "Formatter": "XmlTextFormatter",
   "TextFormatter": {
@@ -1556,7 +1516,7 @@
             "$values": []
           },
           "Name": "ItemId",
-          "TypeName": "",
+          "TypeName": "System.String, mscorlib",
           "IsNullable": false,
           "Converter": "",
           "SampleValue": "",
@@ -1566,47 +1526,7 @@
           "Ignore": false,
           "Comment": "",
           "DefaultValueString": "",
-          "WebId": "445fbca9-50eb-44e9-8896-f1dc6a2868af"
-        },
-        {
-          "$type": "Bespoke.Sph.Domain.XmlAttributeTextFieldMapping, domain.sph",
-          "Path": "$Root$.ExportRef",
-          "FieldMappingCollection": {
-            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
-            "$values": []
-          },
-          "Name": "ExportRef",
-          "TypeName": "",
-          "IsNullable": false,
-          "Converter": "",
-          "SampleValue": "",
-          "IsComplex": false,
-          "AllowMultiple": false,
-          "NullPlaceholder": "",
-          "Ignore": false,
-          "Comment": "",
-          "DefaultValueString": "",
-          "WebId": "3a915b48-9c70-4d31-ecc1-42c31a6a221e"
-        },
-        {
-          "$type": "Bespoke.Sph.Domain.XmlAttributeTextFieldMapping, domain.sph",
-          "Path": "$Root$.InterfaceCode",
-          "FieldMappingCollection": {
-            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
-            "$values": []
-          },
-          "Name": "InterfaceCode",
-          "TypeName": "",
-          "IsNullable": false,
-          "Converter": "",
-          "SampleValue": "",
-          "IsComplex": false,
-          "AllowMultiple": false,
-          "NullPlaceholder": "",
-          "Ignore": false,
-          "Comment": "",
-          "DefaultValueString": "",
-          "WebId": "03fd75f5-3a1f-4e17-e8ee-7faf2f56573c"
+          "WebId": "6a37bbba-8684-4134-ffee-3d63507563c0"
         }
       ]
     },
@@ -1619,13 +1539,13 @@
       "$values": []
     },
     "Name": "",
-    "SampleStoreId": "b108d92e-fbd6-432e-9227-a563bf0f3864",
-    "WebId": "1b86458d-7722-47e0-fdee-b32a7ed809e9"
+    "SampleStoreId": "10c924b7-b053-40a1-b804-984fc4649b2b",
+    "WebId": "dd08f00d-193e-4c25-d25f-ddbb70a0ed2c"
   },
   "CreatedBy": "admin",
-  "Id": "ips-export-port",
-  "CreatedDate": "2017-07-12T08:25:19.7369322+08:00",
+  "Id": "ips-export-2-port",
+  "CreatedDate": "2017-07-12T09:26:11.4291891+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2017-07-12T09:09:24.1496078+08:00",
-  "WebId": "769cdcc1-f61b-4224-925c-9bf7ed78bc01"
+  "ChangedDate": "2017-07-12T09:26:11.4291891+08:00",
+  "WebId": "49263c3a-a854-4cfb-8450-ce82c668a707"
 }
