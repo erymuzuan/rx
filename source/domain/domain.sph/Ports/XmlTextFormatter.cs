@@ -128,13 +128,13 @@ namespace Bespoke.Sph.Domain
             var collectionCode = new StringBuilder();
             foreach (var xe in port.FieldMappingCollection.Where(x => x.AllowMultiple).OfType<XmlElementTextFieldMapping>())
             {
-                var initializer = xe.FieldMappingCollection.OfType<XmlElementTextFieldMapping>().ToString(",\r\n", x => x.Name + " = " + x.GenerateReadValueCode(x.Name, "ce"));
-                collectionCode.AppendLine($@"foreach(var ce in e.Elements(xn + ""{xe.Name}""))");
-                collectionCode.AppendLine("{");
-                collectionCode.AppendLine($@"record.{xe.Name}.Add(new {xe.Name}{{
-                                {initializer}
-                    }});");
-                collectionCode.AppendLine("}");
+                var initializer = xe.FieldMappingCollection.OfType<XmlElementTextFieldMapping>().ToString("\r\n", x =>$"item.{x.Name} = {x.GenerateReadValueCode(x.Name, "ce")};");
+                collectionCode.AppendLine($@"foreach(var ce in e.Elements(""{xe.Namespace}{xe.Name}""))");
+                collectionCode.AppendLine($@"{{
+                            var item = new {xe.Name}();
+                            {initializer}
+                            record.{xe.Name}.Add(item);
+                        }}");
             }
 
 
@@ -144,8 +144,8 @@ namespace Bespoke.Sph.Domain
             var elements = port.FieldMappingCollection.Where(x => !x.AllowMultiple).OfType<XmlElementTextFieldMapping>();
             var attributes = port.FieldMappingCollection.OfType<XmlAttributeTextFieldMapping>().ToArray();
 
-            var elementsCode = elements.ToString("\r\n", x =>  $"record.{x.Name} = " + x.GenerateReadValueCode("record", "e") + ";");
-            var attributesCode = attributes.ToString("\r\n", x => $"record.{x.Name} = " + x.GenerateReadValueCode("record","e") + ";");
+            var elementsCode = elements.ToString("\r\n", x => $"record.{x.Name} = " + x.GenerateReadValueCode("record", "e") + ";");
+            var attributesCode = attributes.ToString("\r\n", x => $"record.{x.Name} = " + x.GenerateReadValueCode("record", "e") + ";");
             code.AppendLine($@"
             var text = string.Join(""\r\n"", lines);
             var doc = XElement.Parse(text);

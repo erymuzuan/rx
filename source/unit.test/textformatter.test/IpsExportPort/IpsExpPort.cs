@@ -118,18 +118,17 @@ namespace Bespoke.IpsExports.ReceivePorts
                 record.InterfaceCode = doc.Attribute("InterfaceCode")?.Value;
 
                 // AllowMultiple properties
-                foreach (var ce in e.Elements(xn + "IPSEvent"))
+                foreach (var ce in e.Elements("{http://upu.int/ips}IPSEvent"))
                 {
-                    record.IPSEvent.Add(new IPSEvent
-                    {
-                        TNCd = ce.Element(xn + "TNCd")?.Value,
-                        Date = DateTime.Parse(ce.Element(xn + "Date")?.Value ?? ""),
-                        OfficeCd = ce.Element(xn + "OfficeCd")?.Value,
-                        UserFid = ce.Element(xn + "UserFid")?.Value,
-                        WorkstationFid = ce.Element(xn + "WorkstationFid")?.Value,
-                        ConditionCd = ce.Element(xn + "ConditionCd")?.Value.ParseNullableInt32(),
-                        RetentionReasonCd = ce.Element(xn + "RetentionReasonCd")?.Value.ParseNullableInt32()
-                    });
+                    var item = new IPSEvent();
+                    item.TNCd = ce.Element(xn + "TNCd")?.Value;
+                    item.Date = DateTime.Parse(ce.Element(xn + "Date")?.Value ?? "");
+                    item.OfficeCd = ce.Element(xn + "OfficeCd")?.Value;
+                    item.UserFid = ce.Element(xn + "UserFid")?.Value;
+                    item.WorkstationFid = ce.Element(xn + "WorkstationFid")?.Value;
+                    item.ConditionCd = ce.Element(xn + "ConditionCd")?.Value.ParseNullableInt32();
+                    item.RetentionReasonCd = ce.Element(xn + "RetentionReasonCd")?.Value.ParseNullableInt32();
+                    record.IPSEvent.Add(item);
                 }
 
                 this.ProcessHeader(record);

@@ -9,6 +9,7 @@ namespace Bespoke.Sph.Integrations.Adapters
         Task<RestApiOperationDefinition> BuildAsync();
         double Order { get; }
         string StoreId { get; set; }
+        Task<ValidationResult> ValidateAsync();
         Task<IEnumerable<IEndpointsBuilder>> GetBuildersAsync();
         Task<IEnumerable<Member>> GetRequestBodyMembersAsync();
         Task<IEnumerable<Member>> GetRequestHeaderMembersAsync();

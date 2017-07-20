@@ -12,7 +12,7 @@ namespace Bespoke.MyApp.ReceivePorts
     {
         public string TNCd { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
         public string OfficeCd { get; set; }
 
@@ -20,9 +20,9 @@ namespace Bespoke.MyApp.ReceivePorts
 
         public string WorkstationFid { get; set; }
 
-        public int ConditionCd { get; set; }
+        public int? ConditionCd { get; set; }
 
-        public int RetentionReasonCd { get; set; }
+        public int? RetentionReasonCd { get; set; }
 
 
 

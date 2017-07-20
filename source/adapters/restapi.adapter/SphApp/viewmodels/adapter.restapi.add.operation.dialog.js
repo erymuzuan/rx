@@ -8,8 +8,8 @@
 /// <reference path="~/SphApp/schemas/adapter.restapi.receive.location.js" />
 
 
-define(["plugins/dialog", objectbuilders.datacontext],
-    function (dialog, context) {
+define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.logger],
+    function (dialog, context, logger) {
 
         const options = ko.observableArray(),
             selectedOptions = ko.observableArray(),
@@ -59,7 +59,13 @@ define(["plugins/dialog", objectbuilders.datacontext],
                 options(maps);
                 selectedOptions.removeAll();
                 busy(false);
-            });
+            })
+                .fail(function (e, x, st) {
+
+                    logger.error(st);
+                    const errors = e.responseJSON;
+                    _(errors).each(v => logger.error(v.Message, v.PropertyName));
+                });
         });
 
         const vm = {

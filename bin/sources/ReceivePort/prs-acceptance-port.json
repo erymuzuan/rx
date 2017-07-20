@@ -1,0 +1,1047 @@
+{
+  "$type": "Bespoke.Sph.Domain.ReceivePort, domain.sph",
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "FieldMappingCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+        "ContainsText": false,
+        "FieldMappingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "TellerID",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": false,
+        "Converter": null,
+        "SampleValue": "4398MASNIYATI",
+        "IsComplex": false,
+        "AllowMultiple": false,
+        "NullPlaceholder": null,
+        "Ignore": false,
+        "Comment": null,
+        "DefaultValueString": null,
+        "WebId": "12f4833c-1e67-4ab4-9320-55bd206ce963"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+        "ContainsText": false,
+        "FieldMappingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "BranchCode",
+        "TypeName": "System.Int32, mscorlib",
+        "IsNullable": false,
+        "Converter": null,
+        "SampleValue": "10141003",
+        "IsComplex": false,
+        "AllowMultiple": false,
+        "NullPlaceholder": null,
+        "Ignore": false,
+        "Comment": null,
+        "DefaultValueString": null,
+        "WebId": "cff849df-e721-4a69-aa64-ab9889d4a6c5"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+        "ContainsText": false,
+        "FieldMappingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "TrxID",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "458-10141003-3-860594-50",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "72946d16-bed9-42d6-8a42-0ab44711257f"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Status",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "N",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "05da2c5f-c202-4718-a764-cfec0e717152"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "CancelReason",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "be0b232d-c7b5-4f64-967e-07a2d38771f8"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "TrxDateTime",
+              "TypeName": "System.DateTime, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "5/6/2017 2:38:02 PM",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "ed1e99d8-880d-4db8-8869-6f14d8ab8e24"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "MHLIndicator",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "b6490315-b69c-448e-b4dd-4e4ed04018a8"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "MHLDate",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "d09ac037-5c90-40d5-abfe-513d5e5a320b"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "PaymentType",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "CH",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "673e875c-c8a9-4413-a17d-fb97d666f181"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "PaymentMethod",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "CH",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "aa50fd6d-3937-4f57-9f46-a74e3d8fb657"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "AccountNumber",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "f3ba4e2c-8268-4ec4-896f-8db877b00da4"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "PL9Number",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "212ea5bf-8f7f-4dca-8b9c-1929bf9cc1e4"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "RoundAdj",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "96b8e8e6-fd03-4f8d-9e23-31507a44d55b"
+            }
+          ]
+        },
+        "Name": "TrxObject",
+        "TypeName": "TrxObject",
+        "IsNullable": false,
+        "Converter": null,
+        "SampleValue": "458-10141003-3-860594-50N5/6/2017 2:38:02 PMCHCH",
+        "IsComplex": true,
+        "AllowMultiple": false,
+        "NullPlaceholder": null,
+        "Ignore": false,
+        "Comment": null,
+        "DefaultValueString": null,
+        "WebId": "2ac7c856-5a68-41af-91fc-d4d19d857002"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+        "ContainsText": false,
+        "FieldMappingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "ProductCode",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "C001101",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "5bdccc0d-729d-4dd9-811c-ad870fa213b5"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "ConnoteNumber",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "EH468761173MY",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "44fa7919-f91d-4bef-a298-a3ae2c01483f"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "DestinationCountry",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "MY",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "b914c8e7-c105-4460-b35f-85f880c45ca2"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Weight",
+              "TypeName": "System.Decimal, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "2.250",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "266273d7-f778-45c3-b11c-ed04f7b32fd0"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Width",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "8f2b2dc5-f7b7-4ce6-b387-f8eb718a7669"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Length",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "7d200b59-695b-4b08-9808-9d6c5fbee4b1"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Height",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "731f8f00-c345-40ca-a7b2-b74134754777"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "DimWeight",
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "0",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "ef2377ac-4eaa-4151-81aa-b35ffdd10028"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "ItemCategory",
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "09",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "8b443d89-c0ba-40cf-b1b4-2b15f0047a7f"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "RoutingCode",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "ASWY-320",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "a6375536-1275-44ea-b6ec-66f76ae38c8e"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "StandardOfService",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "ad43064e-7f10-4604-ab70-bf459518f63d"
+            }
+          ]
+        },
+        "Name": "ConnoteObject",
+        "TypeName": "ConnoteObject",
+        "IsNullable": false,
+        "Converter": null,
+        "SampleValue": "C001101EH468761173MYMY2.250009ASWY-320",
+        "IsComplex": true,
+        "AllowMultiple": false,
+        "NullPlaceholder": null,
+        "Ignore": false,
+        "Comment": null,
+        "DefaultValueString": null,
+        "WebId": "46c22636-ac57-4e9c-ba16-56f2b8324468"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+        "ContainsText": false,
+        "FieldMappingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Name",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "ae765d80-9cef-4517-a29c-5261e861b349"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Address1",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "c7523cba-f33f-4487-8dd1-f94afc7ee4e9"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Address2",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "d9328a2d-3868-4a1f-8fb5-c95fe604b7d9"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Address3",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "0813ba84-4f16-42f7-b7af-85f98a63e46e"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "City",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "5e7a89f7-b70d-4a20-9cc1-b556b656b855"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "State",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "1e4f3660-0698-4570-82e2-712584e3e501"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Country",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "MY",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "966c8644-b4f0-492c-8115-02d12d1a6ea8"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Postcode",
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "01000",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "266a75e3-5bc7-4767-b665-27088344f89e"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Email",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "4bb0c5bb-2a51-40eb-9f4f-14bf9ed0ea3d"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "PhoneNumber",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "258df463-9c27-4e29-87f1-68ac89520fb5"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "ReferenceNumber",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "9300d7fd-22e4-49a8-9b8d-3c46ca361628"
+            }
+          ]
+        },
+        "Name": "SenderObject",
+        "TypeName": "SenderObject",
+        "IsNullable": false,
+        "Converter": null,
+        "SampleValue": "MY01000",
+        "IsComplex": true,
+        "AllowMultiple": false,
+        "NullPlaceholder": null,
+        "Ignore": false,
+        "Comment": null,
+        "DefaultValueString": null,
+        "WebId": "e21e1a84-f660-4121-b72f-4274486b764d"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+        "ContainsText": false,
+        "FieldMappingCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+          "$values": [
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Name",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "3b1ec917-9b62-49ab-a6cc-52a8de24ec7c"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Address1",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "6826c0f5-c623-4010-b05c-dbcfc7cba521"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Address2",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "e83b6411-cfe4-4aec-9017-216ebc9957c5"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Address3",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "20a6478b-c55e-424b-ab47-dc95c637c8e9"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "City",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "eca9a273-13f4-4203-9ed3-bc7e1992b788"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "State",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "78401b16-21d4-445f-87d0-86c2b031258a"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Country",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "MY",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "3d74befe-5944-43df-9ee8-d917e948f0a4"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Postcode",
+              "TypeName": "System.Int32, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "32040",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "b0930f84-11f3-45cf-b3d5-e3a6e9bb8247"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "Email",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "e9823a52-752d-41a0-81b2-2debc0e06ebb"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "PhoneNumber",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "7295db44-aadf-4b52-b340-7f4a85cdd634"
+            },
+            {
+              "$type": "Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph",
+              "ContainsText": false,
+              "FieldMappingCollection": {
+                "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.TextFieldMapping, domain.sph]], domain.sph",
+                "$values": []
+              },
+              "Name": "ReferenceNumber",
+              "TypeName": "System.String, mscorlib",
+              "IsNullable": false,
+              "Converter": null,
+              "SampleValue": "",
+              "IsComplex": false,
+              "AllowMultiple": false,
+              "NullPlaceholder": null,
+              "Ignore": false,
+              "Comment": null,
+              "DefaultValueString": null,
+              "WebId": "38972cc7-7257-40b7-a0c7-f4b021193022"
+            }
+          ]
+        },
+        "Name": "ReceiverObject",
+        "TypeName": "ReceiverObject",
+        "IsNullable": false,
+        "Converter": null,
+        "SampleValue": "MY32040",
+        "IsComplex": true,
+        "AllowMultiple": false,
+        "NullPlaceholder": null,
+        "Ignore": false,
+        "Comment": null,
+        "DefaultValueString": null,
+        "WebId": "b63b1b5c-488b-47a0-af9b-85b8332276b6"
+      }
+    ]
+  },
+  "Name": "PrsAcceptancePort",
+  "Entity": "PrsAcceptance",
+  "EntityId": "",
+  "Formatter": "XmlTextFormatter",
+  "TextFormatter": {
+    "$type": "Bespoke.Sph.Domain.XmlTextFormatter, domain.sph",
+    "Namespace": "",
+    "XmlSchemaStoreId": "",
+    "RootPath": "Data/AcceptanceData",
+    "ParentAttributeValueCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.XmlAttributeTextFieldMapping, domain.sph]], domain.sph",
+      "$values": []
+    },
+    "ParentElementValueCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.XmlElementTextFieldMapping, domain.sph]], domain.sph",
+      "$values": []
+    },
+    "DetailRowCollection": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FlatFileDetailTag, domain.sph]], domain.sph",
+      "$values": []
+    },
+    "Name": "",
+    "SampleStoreId": "60020dde-b86e-41ed-97af-72be8e34facf",
+    "WebId": "02568a53-a79a-4036-fcc2-a69e29a280e7"
+  },
+  "CreatedBy": "admin",
+  "Id": "prs-acceptance-port",
+  "CreatedDate": "2017-06-22T11:45:13.3061357+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2017-06-22T11:45:24.0622395+08:00",
+  "WebId": "d558ee5b-89b1-4895-aff5-3a8259dfb756"
+}

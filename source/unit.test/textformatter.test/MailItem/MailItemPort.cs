@@ -1,7 +1,10 @@
 using System;
+using Newtonsoft.Json;
+using System.IO;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace Bespoke.MailItems.ReceivePorts
@@ -11,7 +14,7 @@ namespace Bespoke.MailItems.ReceivePorts
         public MailItemPort(ILogger logger) { this.Logger = logger; }
 
 
-        public Uri Uri { get; set; }
+        public System.Uri Uri { get; set; }
         public ILogger Logger { get; }
         public IDictionary<string, string> Headers { get; } = new Dictionary<string, string>();
 
@@ -26,7 +29,6 @@ namespace Bespoke.MailItems.ReceivePorts
 
         }
 
-        [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
         public IEnumerable<MailItem> Process(IEnumerable<string> lines)
         {
 
@@ -67,7 +69,7 @@ namespace Bespoke.MailItems.ReceivePorts
                 record.FromIPS.MrsExpirationDate = DateTime.Parse(e.Element(xn + "FromIPS")?.Element(xn + "MrsExpirationDate")?.Value ?? "");
                 record.FromIPS.MrsOriginalId = e.Element(xn + "FromIPS")?.Element(xn + "MrsOriginalId")?.Value;
 
-                foreach (var ce in e.Element("{http://upu.int/ips}FromIPS").Elements(xn + "IPSEvent"))
+                foreach (var ce in e.Element("{http://upu.int/ips}FromIPS").Elements("{http://upu.int/ips}IPSEvent"))
                 {
                     var item = new IPSEvent();
                     item.TNCd = ce.Element(xn + "TNCd")?.Value;
@@ -130,6 +132,8 @@ namespace Bespoke.MailItems.ReceivePorts
                 record.FromIPS.Sender.CountryCode = e.Element(xn + "FromIPS")?.Element(xn + "Sender")?.Element(xn + "CountryCode")?.Value;
 
 
+                ;
+                ;
                 record.FromEDI = e.Element(xn + "FromEDI") == null ? default(FromEDI) : new FromEDI();
                 if (null != record.FromEDI)
                 {
@@ -138,7 +142,7 @@ namespace Bespoke.MailItems.ReceivePorts
                     record.FromEDI.ItemWeight = decimal.Parse(e.Element(xn + "FromEDI")?.Element(xn + "ItemWeight")?.Value ?? "");
                     record.FromEDI.DestCountryCd = e.Element(xn + "FromEDI")?.Element(xn + "DestCountryCd")?.Value;
 
-                }
+                };
                 record.ItemId = e.Attribute("ItemId")?.Value;
                 record.InterfaceCode = doc.Attribute("InterfaceCode")?.Value;
 

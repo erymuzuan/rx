@@ -96,6 +96,32 @@ namespace Bespoke.Sph.Integrations.Adapters
             return op;
         }
 
+        public async Task<ValidationResult> ValidateAsync()
+        {
+            var store = ObjectBuilder.GetObject<IBinaryStore>();
+            var har = await store.GetContentAsync(this.StoreId);
+            var temp = Path.GetTempFileName();
+            File.WriteAllBytes(temp, har.Content);
+            var text = File.ReadAllText(temp);
+            var json = JObject.Parse(text);
+            var entries = json.SelectToken("$.log.entries").ToList();
+
+
+            var result = new ValidationResult { Success = true };
+            foreach (var entry in entries)
+            {
+                var request = entry["request"];
+                var response = entry["response"];
+                var contentText = response["content"]?["text"]?.Value<string>();
+                if (string.IsNullOrWhiteSpace(contentText))
+                    result.ValidationErrors.Add("content.text",$"A sample response text is not included in your HAR for {request["method"]} {request["url"]}");
+            }
+            result.Success = result.ValidationErrors.Count == 0;
+            File.Delete(temp);
+
+            return result;
+        }
+
         public async Task<IEnumerable<IEndpointsBuilder>> GetBuildersAsync()
         {
             var store = ObjectBuilder.GetObject<IBinaryStore>();

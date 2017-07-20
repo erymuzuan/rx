@@ -52,6 +52,17 @@ namespace textformatter.test
             Assert.Equal("Dispatch", dispatch.Name);
             Assert.True(dispatch.IsComplex);
 
+
+            var parcel = fields.Single(x => x.Name == "Parcel");
+            parcel.FieldMappingCollection.Single(x => x.Name == "ExpressInd").IsNullable = true;
+            parcel.FieldMappingCollection.Single(x => x.Name == "CoDInd").IsNullable = true;
+
+            var ipsEventField = fields.Single(x => x.Name == "IPSEvent");
+            ipsEventField.FieldMappingCollection.Single(x => x.Name == "Date").IsNullable = true;
+            ipsEventField.FieldMappingCollection.Single(x => x.Name == "ConditionCd").IsNullable = true;
+            ipsEventField.FieldMappingCollection.Single(x => x.Name == "RetentionReasonCd").IsNullable = true;
+
+
             var itemId = new XmlAttributeTextFieldMapping
             {
                 Name = "ItemId",
