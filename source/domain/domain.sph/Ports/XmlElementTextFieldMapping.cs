@@ -8,10 +8,14 @@ namespace Bespoke.Sph.Domain
     public partial class XmlElementTextFieldMapping : TextFieldMapping
     {
         public XElement Element { get; set; }
+        public string Namespace { get; set; }
 
         public XmlElementTextFieldMapping(XElement element)
         {
             Element = element;
+            var ns = element.GetDefaultNamespace().ToString();
+            if (!string.IsNullOrWhiteSpace(ns))
+                Namespace = $"{{{ns}}}";
         }
 
         public XmlElementTextFieldMapping()
@@ -68,11 +72,12 @@ namespace Bespoke.Sph.Domain
 
                     var elements = xe.FieldMappingCollection.OfType<XmlElementTextFieldMapping>();
                     var attributes = xe.FieldMappingCollection.OfType<XmlAttributeTextFieldMapping>().ToArray();
+                    var xeNs = string.IsNullOrWhiteSpace(xe.Namespace) ? "" : xe.Namespace;
 
                     var elementsCode = elements.ToString("\r\n", x => $"item.{x.Name} = " + x.GenerateReadValueCode($"{path}.{x.Name}", "ce") + ";");
                     var attributesCode = attributes.ToString("\r\n", x => $"item.{x.Name} = " + x.GenerateReadValueCode($"{path}.{x.Name}", "ce") + ";");
                     arrayAssignments.AppendLine($@"
-                           foreach(var ce in {elementName}.Element(""{Element.Name}"").Elements(xn + ""{xe.Name}""))
+                           foreach(var ce in {elementName}.Element(""{Namespace}{Element.Name}"").Elements(""{xeNs}{xe.Name}""))
                            {{
                                 var item = new {xe.Name}();
 {elementsCode}

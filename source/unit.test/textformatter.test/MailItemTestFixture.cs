@@ -40,7 +40,7 @@ namespace textformatter.test
                 SampleStoreId = m_ipsDocumentStoreId,
                 RootPath = "ips/MailItem",
                 Name = "MailItemPort",
-                Namespace = "",
+                Namespace = "http://upu.int/ips",
                 XmlSchemaStoreId = null
             };
             var fields = await xtf.GetFieldMappingsAsync();
@@ -79,9 +79,10 @@ namespace textformatter.test
             //var ed = await port.JsonClone().GenerateEntityDefinitionAsync();
             //var result = await ed.ValidateBuildAsync();
             //Assert.True(result.Result);
+            
 
 
-            var codes = await port.GenerateCodeAsync();
+            var codes = await port.Clone().GenerateCodeAsync();
             foreach (var @class in codes)
             {
                 m_helper.WriteLine("// ====================== " + @class.Name + " ===========================");
@@ -127,6 +128,11 @@ namespace textformatter.test
             Assert.Equal(2, first.FromIPS.IPSEvent.Count);
             Assert.Equal("EJ211039802AU", first.ItemId);
             Assert.Equal("IPSExpE", first.InterfaceCode);
+
+            var ipsEvent1 = first.FromIPS.IPSEvent.First();
+            Assert.Equal("TN030", ipsEvent1.TNCd);
+            var ipsEvent2 = first.FromIPS.IPSEvent.Last();
+            Assert.Equal("TN031", ipsEvent2.TNCd);
 
             m_helper.WriteLine(first.ToJson());
 
