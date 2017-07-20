@@ -16,9 +16,9 @@ namespace Bespoke.MyApp.ReceivePorts
 
         public string MailItemCategoryCd { get; set; }
 
-        public int ExpressInd { get; set; }
+        public int? ExpressInd { get; set; }
 
-        public int CoDInd { get; set; }
+        public int? CoDInd { get; set; }
 
 
 
