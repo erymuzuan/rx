@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 
 namespace Bespoke.Sph.Domain
@@ -8,6 +9,8 @@ namespace Bespoke.Sph.Domain
 
         public DelimitedTextSimpleMember(DelimitedTextFieldMapping fieldMapping)
         {
+            if(null == fieldMapping)
+                throw new ArgumentNullException(nameof(fieldMapping));
             m_fieldMapping = fieldMapping;
             this.Name = fieldMapping.Name;
             this.TypeName = fieldMapping.TypeName;
