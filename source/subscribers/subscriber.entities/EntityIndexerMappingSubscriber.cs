@@ -168,7 +168,7 @@ namespace subscriber.entities
         public async Task<bool> PutMappingAsync(EntityDefinition item)
         {
             var type = item.Name.ToLowerInvariant();
-            var index = ConfigurationManager.ApplicationName.ToLowerInvariant();
+            var index = ConfigurationManager.ApplicationName.ToLowerInvariant() + "__" + type;
             var url = $"{index}/_mapping/{type}";
 
             var map = item.GetElasticsearchMapping();
@@ -177,6 +177,20 @@ namespace subscriber.entities
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+                var existResponse = await client.GetAsync(index);
+                if (existResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    // index already exist , so we are going to drop it, if the mapping has changed
+                    var mapping = await client.GetStringAsync(url);
+                    if (this.Compare(item, mapping))
+                    {
+                        return true;
+                    }
+                    await client.DeleteAsync(index);
+                }
+
+                // it's OK, go and create new index with type here
+                await client.PostAsync(index, new StringContent(""));
                 var response = await client.PutAsync(url, content);
                 if (response.StatusCode == HttpStatusCode.NotFound)
                 {

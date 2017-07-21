@@ -1,3 +1,4 @@
+bin/elasticsearch1.7.5
 bin/config/applicationhost.config
 packages/*
 /packages/
