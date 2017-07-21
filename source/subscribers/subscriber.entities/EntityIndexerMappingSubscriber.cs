@@ -220,7 +220,7 @@ namespace subscriber.entities
             }
         }
 
-        private static bool Compare(EntityDefinition item, string map)
+        private bool Compare(EntityDefinition item, string map)
         {
             var wc = ConfigurationManager.SphSourceDirectory;
             var type = typeof(EntityDefinition);
