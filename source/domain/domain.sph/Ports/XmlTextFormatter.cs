@@ -99,7 +99,7 @@ namespace Bespoke.Sph.Domain
 
         public override string GetRecordMetadataCode()
         {
-            return "//metadata";
+            return @"public int GetLineNumber(){ return 0;}";
         }
 
         public override async Task<Class> GetPortClassAsync(ReceivePort port)
