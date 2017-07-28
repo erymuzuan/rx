@@ -674,6 +674,14 @@ namespace Bespoke.Sph.Domain
             return DateTime.TryParse(val, out value) ? value : default(DateTime?);
         }
 
+        public static DateTime? ParseNullableDateTime(this string val, string format)
+        {
+            DateTime dv;
+            if (DateTime.TryParseExact(val, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out dv))
+                return dv;
+            return null;
+        }
+
         public static T? ReadNullable<T>(this object val) where T : struct
         {
             if (val == null) return default(T);
