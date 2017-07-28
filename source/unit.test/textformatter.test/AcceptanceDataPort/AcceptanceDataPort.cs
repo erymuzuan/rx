@@ -51,7 +51,7 @@ namespace Bespoke.MyApp.ReceivePorts
                 record.TrxObject.TrxID = e.Element(xn + "TrxObject")?.Element(xn + "TrxID")?.Value;
                 record.TrxObject.Status = e.Element(xn + "TrxObject")?.Element(xn + "Status")?.Value;
                 record.TrxObject.CancelReason = e.Element(xn + "TrxObject")?.Element(xn + "CancelReason")?.Value;
-                record.TrxObject.TrxDateTime = DateTime.Parse(e.Element(xn + "TrxObject")?.Element(xn + "TrxDateTime")?.Value ?? "");
+                record.TrxObject.TrxDateTime = System.DateTime.ParseExact(e.Element(xn + "TrxObject")?.Element(xn + "TrxDateTime")?.Value, @"d/M/yyyy h:m:ss tt", System.Globalization.CultureInfo.InvariantCulture); ;
                 record.TrxObject.MHLIndicator = e.Element(xn + "TrxObject")?.Element(xn + "MHLIndicator")?.Value;
                 record.TrxObject.MHLDate = e.Element(xn + "TrxObject")?.Element(xn + "MHLDate")?.Value;
                 record.TrxObject.PaymentType = e.Element(xn + "TrxObject")?.Element(xn + "PaymentType")?.Value;
