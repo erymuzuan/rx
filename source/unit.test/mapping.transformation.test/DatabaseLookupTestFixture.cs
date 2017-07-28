@@ -13,9 +13,9 @@ namespace mapping.transformation.test
         public const string CUSTOMER = "Customer";
         public const string PATIENT = "Patient";
         public readonly static string PatientAssembly = @".\" + ConfigurationManager.ApplicationName + ".Patient.dll";
-        public readonly static string CustomerAssembly = @".\" + ConfigurationManager.ApplicationName + ".Customer.dll";
-        public readonly static string CustomerTypeName = "Bespoke." + ConfigurationManager.ApplicationName + "_customer.Domain.Customer";
-        public readonly static string PatientTypeName = "Bespoke." + ConfigurationManager.ApplicationName + "_patient.Domain.Patient";
+        public static readonly string CustomerAssembly = @".\" + ConfigurationManager.ApplicationName + ".Customer.dll";
+        public static readonly string CustomerTypeName = "Bespoke." + ConfigurationManager.ApplicationName + "_customer.Domain.Customer";
+        public static readonly string PatientTypeName = "Bespoke." + ConfigurationManager.ApplicationName + "_patient.Domain.Patient";
 
         [TestInitialize]
         public void Setup()
