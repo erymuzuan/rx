@@ -52,7 +52,7 @@ namespace Bespoke.Sph.Domain
             {
                 var attributeAssignments = this.FieldMappingCollection.OfType<XmlAttributeTextFieldMapping>()
                     .Where(x => !x.AllowMultiple)
-                    .Select(x => $"{path}.{this.Name}.{x.Name} = " + x.GenerateReadValueCode("ce", elementName) + ";")
+                    .Select(x => $"{path}.{this.Name}.{x.Name} = " + x.GenerateReadValueCode("ce", $"{elementName}.Element(xn + \"{this.Name}\")?") + ";")
                     .ToString("\r\n");
 
                 var elementAssignments = this.FieldMappingCollection.OfType<XmlElementTextFieldMapping>()
@@ -105,10 +105,6 @@ namespace Bespoke.Sph.Domain
                 ";
 
             }
-            var dateTimeWithConverter = this.Type == typeof(DateTime) && !this.IsNullable && !string.IsNullOrWhiteSpace(this.Converter);
-            var nullableDateTimeWithConverter = this.Type == typeof(DateTime) && this.IsNullable && !string.IsNullOrWhiteSpace(this.Converter);
-            var nullableDateTime = this.Type == typeof(DateTime) && this.IsNullable;
-            var nullableDateTimeWithoutConverter = nullableDateTime && string.IsNullOrWhiteSpace(this.Converter);
 
             //TODO: create a subclass for each Type and Nullability
             if (this.Type == typeof(string))
@@ -125,6 +121,11 @@ namespace Bespoke.Sph.Domain
                 return $@"{elementName}.Element(xn + ""{Name}"")?.Value.ParseNullableDecimal()";
 
 
+            var dateTimeWithConverter = this.Type == typeof(DateTime) && !this.IsNullable && !string.IsNullOrWhiteSpace(this.Converter);
+            var nullableDateTimeWithConverter = this.Type == typeof(DateTime) && this.IsNullable && !string.IsNullOrWhiteSpace(this.Converter);
+            var nullableDateTime = this.Type == typeof(DateTime) && this.IsNullable;
+            var nullableDateTimeWithoutConverter = nullableDateTime && string.IsNullOrWhiteSpace(this.Converter);
+
             if (nullableDateTimeWithConverter)
                 return $@"{elementName}.Element(xn + ""{Name}"")?.Value.ParseNullableDateTime({Converter.ToVerbatim()})";
 
@@ -136,9 +137,12 @@ namespace Bespoke.Sph.Domain
 
             if (nullableDateTime)
                 return $@"{elementName}.Element(xn + ""{Name}"")?.Value.ParseNullableDateTime()";
+            
 
             if (this.Type == typeof(DateTime) && !this.IsNullable)
                 return $@"DateTime.Parse({elementName}.Element(xn + ""{Name}"")?.Value ?? ""{DefaultValueString}"")";
+
+
 
             if (this.Type == typeof(bool) && !this.IsNullable)
                 return $@"bool.Parse({elementName}.Element(xn + ""{Name}"")?.Value ?? ""{DefaultValueString}"")";

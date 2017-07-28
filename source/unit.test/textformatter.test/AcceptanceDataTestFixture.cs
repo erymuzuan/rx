@@ -44,6 +44,13 @@ namespace textformatter.test
             trxDateTime.IsNullable = false;
             trxDateTime.Converter = "d/M/yyyy h:m:ss tt";
 
+            var attributeDateTime = trxObject.FieldMappingCollection.OfType<XmlAttributeTextFieldMapping>().Single(x => x.Name == "DateTime");
+            attributeDateTime.Type = typeof(DateTime);
+            attributeDateTime.IsNullable = false;
+            attributeDateTime.Converter = "d/M/yyyy h:m:ss tt";
+
+
+
             var conNoteObject = fields[3];
             var weightField = conNoteObject.FieldMappingCollection.Single(x => x.Name == "Weight");
             weightField.IsNullable = true;

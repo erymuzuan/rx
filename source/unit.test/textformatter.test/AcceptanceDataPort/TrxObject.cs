@@ -10,6 +10,10 @@ namespace Bespoke.MyApp.ReceivePorts
 
     public class TrxObject
     {
+        public DateTime DateTime { get; set; }
+
+        public int OneDouble { get; set; }
+
         public string TrxID { get; set; }
 
         public string Status { get; set; }
