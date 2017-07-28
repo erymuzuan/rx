@@ -17,7 +17,7 @@ namespace subscriber.entities
 {
     public class EntityIndexerMappingSubscriber : Subscriber<EntityDefinition>
     {
-
+        private readonly HttpClient m_elasticsearchHttpClient = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) };
         public override string QueueName => "ed_es_mapping_gen";
         public override string[] RoutingKeys => new[] { typeof(EntityDefinition).Name + ".changed.Publish" };
 
@@ -36,6 +36,12 @@ namespace subscriber.entities
 
             }
             base.OnStart();
+        }
+
+        protected override void OnStop()
+        {
+            base.OnStop();
+            m_elasticsearchHttpClient.Dispose();
         }
 
         private async void MigrateData(string eid)
@@ -128,15 +134,13 @@ namespace subscriber.entities
             var index = ConfigurationManager.ApplicationName.ToLowerInvariant();
             var url = $"{index}/{name}/{id}";
 
-            using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) })
-            {
-                var c = client;
-                var pr = await Policy.Handle<HttpRequestException>()
-                    .WaitAndRetryAsync(5, x => TimeSpan.FromMilliseconds(Math.Pow(2, x) * 500))
-                    .ExecuteAndCaptureAsync(async () => await c.PostAsync(url, content));
-                if (null != pr.FinalException)
-                    pr.Result.EnsureSuccessStatusCode();
-            }
+            var c = m_elasticsearchHttpClient;
+            var pr = await Policy.Handle<HttpRequestException>()
+                .WaitAndRetryAsync(5, x => TimeSpan.FromMilliseconds(Math.Pow(2, x) * 500))
+                .ExecuteAndCaptureAsync(async () => await c.PostAsync(url, content));
+            if (null != pr.FinalException)
+                pr.Result.EnsureSuccessStatusCode();
+
             Console.ResetColor();
 
 
@@ -174,36 +178,34 @@ namespace subscriber.entities
             var map = item.GetElasticsearchMapping();
             var content = new StringContent(map);
 
-            using (var client = new HttpClient())
+
+            var response = await m_elasticsearchHttpClient.PutAsync(url, content);
+            if (response.StatusCode == HttpStatusCode.NotFound)
             {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                var response = await client.PutAsync(url, content);
-                if (response.StatusCode == HttpStatusCode.NotFound)
-                {
-                    this.WriteMessage("creates the index for the 1st time for {0}", item.Name);
-                    await client.PutAsync(index, new StringContent(""));
-                    return await this.PutMappingAsync(item);
-                }
-
-                if (response.StatusCode == HttpStatusCode.BadRequest)
-                {
-                    var rc = response.Content as StreamContent;
-                    var text = string.Empty;
-                    if (null != rc)
-                        text = await rc.ReadAsStringAsync();
-
-                    if (text.Contains("MergeMappingException") && text.Contains("of different type, current_type"))
-                    {
-                        this.WriteMessage("Deleting current mapping because there's different in data type and schema");
-                        await client.DeleteAsync(url);
-                        return await PutMappingAsync(item);
-
-                    }
-                    this.WriteError(new Exception($" Error creating Elastic search map for [{item.Name}]\r\n{text}"));
-                }
-
-                return response.StatusCode == HttpStatusCode.OK;
+                this.WriteMessage("creates the index for the 1st time for {0}", item.Name);
+                await m_elasticsearchHttpClient.PutAsync(index, new StringContent(""));
+                return await this.PutMappingAsync(item);
             }
+
+            if (response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                var rc = response.Content as StreamContent;
+                var text = string.Empty;
+                if (null != rc)
+                    text = await rc.ReadAsStringAsync();
+
+                if (text.Contains("MergeMappingException") && text.Contains("of different type, current_type"))
+                {
+                    this.WriteMessage("Deleting current mapping because there's different in data type and schema");
+                    await m_elasticsearchHttpClient.DeleteAsync(url);
+                    return await PutMappingAsync(item);
+
+                }
+                this.WriteError(new Exception($" Error creating Elastic search map for [{item.Name}]\r\n{text}"));
+            }
+
+            return response.StatusCode == HttpStatusCode.OK;
+
         }
 
         private bool Compare(EntityDefinition item, string map)
