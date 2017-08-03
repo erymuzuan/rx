@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Humanizer;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
 using EventLog = Bespoke.Sph.Domain.EventLog;
