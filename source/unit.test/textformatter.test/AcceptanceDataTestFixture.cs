@@ -13,26 +13,10 @@ namespace textformatter.test
     [Trait("XML", "TextFormatter")]
     public class AcceptanceDataTestFixture
     {
-
         private readonly ITestOutputHelper m_helper;
-
         private readonly string m_sampleXmlDocumentStoreId = "sample";
         private readonly string m_acceptanceXmlDocumentStoreId = "acceptance";
-
-        public AcceptanceDataTestFixture(ITestOutputHelper helper)
-        {
-            m_helper = helper;
-            var sample = new BinaryStore { Content = File.ReadAllBytes(@".\docs\sample.xml") };
-            var acceptance = new BinaryStore { Content = File.ReadAllBytes(@".\docs\AcceptanceData20170605144701.xml") };
-            var store = new Mock<IBinaryStore>(MockBehavior.Strict);
-
-            store.Setup(x => x.GetContentAsync(m_sampleXmlDocumentStoreId)).Returns(Task.FromResult(sample));
-            store.Setup(x => x.GetContentAsync(m_acceptanceXmlDocumentStoreId)).Returns(Task.FromResult(acceptance));
-
-
-            ObjectBuilder.AddCacheList(store.Object);
-        }
-
+        
         [Fact]
         public async Task GetSampleMapping()
         {
@@ -54,6 +38,18 @@ namespace textformatter.test
             var trxObject = fields[2];
             Assert.Equal("TrxObject", trxObject.Name);
             Assert.True(trxObject.IsComplex);
+
+            var trxDateTime = trxObject.FieldMappingCollection.Single(x => x.Name == "TrxDateTime");
+            trxDateTime.Type = typeof(DateTime);
+            trxDateTime.IsNullable = false;
+            trxDateTime.Converter = "d/M/yyyy h:m:ss tt";
+
+            var attributeDateTime = trxObject.FieldMappingCollection.OfType<XmlAttributeTextFieldMapping>().Single(x => x.Name == "DateTime");
+            attributeDateTime.Type = typeof(DateTime);
+            attributeDateTime.IsNullable = false;
+            attributeDateTime.Converter = "d/M/yyyy h:m:ss tt";
+
+
 
             var conNoteObject = fields[3];
             var weightField = conNoteObject.FieldMappingCollection.Single(x => x.Name == "Weight");
@@ -109,26 +105,6 @@ namespace textformatter.test
             Assert.True(cr.Result, cr.Errors.ToString("\r\n"));
 
         }
-
-        class PortLogger : ILogger
-        {
-            private readonly ITestOutputHelper m_helper;
-
-            public PortLogger(ITestOutputHelper helper)
-            {
-                m_helper = helper;
-            }
-            public Task LogAsync(LogEntry entry)
-            {
-                m_helper.WriteLine(entry.ToString());
-                return Task.FromResult(0);
-            }
-
-            public void Log(LogEntry entry)
-            {
-                m_helper.WriteLine(entry.ToString());
-            }
-        }
         [Fact]
         public void ProcessRecord()
         {
@@ -151,8 +127,43 @@ namespace textformatter.test
             Assert.Equal(6, first.Date.Value.Month);
             Assert.Equal(05, first.Date.Value.Day);
 
+            Assert.Equal(DateTime.Parse("2017-06-05T14:38:02.0000000"), first.TrxObject.TrxDateTime);
+
             m_helper.WriteLine(first.ToJson());
 
+        }
+        
+        public AcceptanceDataTestFixture(ITestOutputHelper helper)
+        {
+            m_helper = helper;
+            var sample = new BinaryStore { Content = File.ReadAllBytes(@".\docs\sample.xml") };
+            var acceptance = new BinaryStore { Content = File.ReadAllBytes(@".\docs\AcceptanceData20170605144701.xml") };
+            var store = new Mock<IBinaryStore>(MockBehavior.Strict);
+
+            store.Setup(x => x.GetContentAsync(m_sampleXmlDocumentStoreId)).Returns(Task.FromResult(sample));
+            store.Setup(x => x.GetContentAsync(m_acceptanceXmlDocumentStoreId)).Returns(Task.FromResult(acceptance));
+
+
+            ObjectBuilder.AddCacheList(store.Object);
+        }
+        class PortLogger : ILogger
+        {
+            private readonly ITestOutputHelper m_helper;
+
+            public PortLogger(ITestOutputHelper helper)
+            {
+                m_helper = helper;
+            }
+            public Task LogAsync(LogEntry entry)
+            {
+                m_helper.WriteLine(entry.ToString());
+                return Task.FromResult(0);
+            }
+
+            public void Log(LogEntry entry)
+            {
+                m_helper.WriteLine(entry.ToString());
+            }
         }
     }
 }

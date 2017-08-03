@@ -73,9 +73,13 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         public ActionResult ValidateEmail(string email)
         {
-            var emailExist = Membership.GetUserNameByEmail(email);
-            if (null != emailExist)
-                return Json(new { status = "DUPLICATE", message = $"email '{email}' sudah digunakan" });
+            var provider = Membership.Provider;
+            if (provider.RequiresUniqueEmail)
+            {
+                var emailExist = Membership.GetUserNameByEmail(email);
+                if (null != emailExist)
+                    return Json(new { status = "DUPLICATE", message = $"email '{email}' sudah digunakan" });
+            }
             this.Response.ContentType = "application/json; charset=utf-8";
             return Content(JsonConvert.SerializeObject(true));
 

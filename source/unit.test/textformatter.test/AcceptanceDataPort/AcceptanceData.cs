@@ -25,6 +25,6 @@ namespace Bespoke.MyApp.ReceivePorts
                public DateTime? Date;
 
 
-        //metadata
+        public int GetLineNumber() { return 0; }
     }
 }

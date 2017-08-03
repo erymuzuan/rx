@@ -2,7 +2,7 @@
   <AcceptanceData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <TellerID>4398MASNIYATI</TellerID>
     <BranchCode>10141003</BranchCode>
-    <TrxObject>
+    <TrxObject DateTime="5/6/2017 2:38:02 PM" OneDouble="2">
       <TrxID>458-10141003-3-860594-50</TrxID>
       <Status>N</Status>
       <CancelReason />
@@ -58,7 +58,7 @@
   <AcceptanceData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <TellerID>4398MASNIYATI</TellerID>
     <BranchCode>10141003</BranchCode>
-    <TrxObject>
+    <TrxObject DateTime="5/6/2017 2:38:02 PM" OneDouble="23">
       <TrxID>458-10141003-3-860594-51</TrxID>
       <Status>N</Status>
       <CancelReason />

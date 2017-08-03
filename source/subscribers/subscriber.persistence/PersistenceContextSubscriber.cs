@@ -99,10 +99,8 @@ namespace Bespoke.Sph.Persistence
             m_consumer = new TaskBasicConsumer(m_channel);
             m_consumer.Received += Received;
             m_channel.BasicConsume(this.QueueName, NO_ACK, m_consumer);
-
-
-
         }
+
         private async Task<Entity[]> GetPersistedItems(IEnumerable<Entity> items)
         {
             var list = new ObjectCollection<Entity>();
