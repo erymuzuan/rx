@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.SqlRepository;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Newtonsoft.Json;
 using subscriber.entities;

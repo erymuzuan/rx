@@ -1,12 +1,11 @@
-﻿using System;
+using System;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.SqlRepository;
 
-namespace subscriber.entities
+namespace Bespoke.Sph.SqlRepository
 {
     public class Builder
     {
@@ -22,9 +21,9 @@ namespace subscriber.entities
             var metadataProvider = new SqlServer2012Metadata();
             var meta = metadataProvider.GetTable(name);
             m_columns = meta.Columns
-                        .Where(x => null != x)
-                        .Where(p => p.CanRead && p.CanWrite)
-                        .ToArray();
+                .Where(x => null != x)
+                .Where(p => p.CanRead && p.CanWrite)
+                .ToArray();
 
 
         }
@@ -34,14 +33,14 @@ namespace subscriber.entities
             var name = this.Name;
 
             var sql = string.Format(@"INSERT INTO [{1}].[{0}](", name, ConfigurationManager.ApplicationName) +
-                string.Join(",", m_columns.Where(x => !string.IsNullOrWhiteSpace(x.Name)).Select(x => "[" + x.Name + "]"))
-                + " ) VALUES(" +
-                string.Join(",", m_columns.Where(x => !string.IsNullOrWhiteSpace(x.Name)).Select(x => "@" + x.Name.Replace(".", "_")))
-                + ")\r\n";
+                      string.Join(",", m_columns.Where(x => !string.IsNullOrWhiteSpace(x.Name)).Select(x => "[" + x.Name + "]"))
+                      + " ) VALUES(" +
+                      string.Join(",", m_columns.Where(x => !string.IsNullOrWhiteSpace(x.Name)).Select(x => "@" + x.Name.Replace(".", "_")))
+                      + ")\r\n";
 
             var parms = (from c in m_columns
-                         select new SqlParameter("@" + c.Name.Replace(".", "_"), GetParameterValue(c, item))
-                        ).ToList();
+                select new SqlParameter("@" + c.Name.Replace(".", "_"), GetParameterValue(c, item))
+            ).ToList();
             var paramsValue = string.Join("\r\n",
                 parms.Select(p => $"{p.ParameterName}\t=> {p.Value}"));
             Debug.WriteLine(sql + "\r\n" + paramsValue);
@@ -70,7 +69,7 @@ namespace subscriber.entities
             if (null == prop)
             {
                 return item.MapColumnValue(col.Name)
-                    ?? col.GetDefaultValue();
+                       ?? col.GetDefaultValue();
             }
 
             var value = prop.GetValue(item, null);

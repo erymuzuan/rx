@@ -55,7 +55,6 @@
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
-    <Compile Include="Builder.cs" />
     <Compile Include="EntityFormSubscriber.cs" />
     <Compile Include="EntityIndexerMappingSubscriber.cs" />
     <Compile Include="EntityViewSubscriber.cs" />
