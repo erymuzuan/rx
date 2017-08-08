@@ -105,7 +105,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
         }
 
-        public void WriteWarnig(string message)
+        public void WriteWarning(string message)
         {
             lock (m_lock)
             {

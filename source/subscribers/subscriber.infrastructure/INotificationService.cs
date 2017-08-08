@@ -7,6 +7,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         void Write(string format, params object[] args);
         void WriteError(string format, params object[] args);
         void WriteError(Exception e, string message);
-        void WriteWarnig(string message);
+        void WriteWarning(string message);
     }
 }

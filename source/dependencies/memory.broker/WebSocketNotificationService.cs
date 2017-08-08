@@ -128,7 +128,7 @@ namespace Bespoke.Sph.Messaging
             try
             {
                 Console.ForegroundColor = color;
-                Console.WriteLine($"{severity} : {message}");
+                Console.WriteLine($@"{severity} : {message}");
             }
             finally
             {
@@ -200,7 +200,7 @@ namespace Bespoke.Sph.Messaging
 
         }
 
-        public void WriteWarnig(string message)
+        void INotificationService.WriteWarning(string message)
         {
             var log = new LogEntry { Message = message, Severity = Severity.Warning, Time = DateTime.Now };
             SendMessage(log);
