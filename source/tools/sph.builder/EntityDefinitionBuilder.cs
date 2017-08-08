@@ -196,8 +196,10 @@ namespace Bespoke.Sph.SourceBuilders
                 clone.MemberCollection.Add(new SimpleMember { Name = "__builder", Type = typeof(string), IsNullable = true, IsExcludeInAll = true });
 
                 var subs = new EntityIndexerMappingSubscriber { NotificicationService = new ConsoleNotification() };
-                await subs.PutMappingAsync(clone);
-                await subs.MigrateDataAsync(ed);
+                //TODO :
+                throw new Exception(@" await subs.PutMappingAsync(clone);
+                await subs.MigrateDataAsync(ed);");
+               
             }
 
             await this.CompileDependencies(ed);

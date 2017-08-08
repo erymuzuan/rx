@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SqlRepository;
-using Colorful;
+using Bespokse.Sph.ElasticsearchRepository;
 using Console = Colorful.Console;
 
 namespace Bespoke.Sph.Mangements
@@ -20,7 +20,9 @@ namespace Bespoke.Sph.Mangements
                 Console.WriteLine(@"
 
 Usage :
-deployment.agent <path-to-entity-definition-source>|/e:<entity-definition-name>|/e:entity-definition-id>
+deployment.agent <path-to-entity-definition-source>|/e:<entity-definition-name>|/e:entity-definition-id>|/nes
+
+/nes No elasticsearch migration, specify this switch when you want to skip Elasticsearch
 
 For EntityDefinition with Treat data as source:
 /truncate   will truncate the existing table if exist, and load the data from source files
@@ -45,29 +47,48 @@ the default option is to migrate the existing data and append any new source fro
 
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             var ed = file.DeserializeFromJsonFile<EntityDefinition>();
-        
-            var tableBuilder = new TableSchemaBuilder(m =>
-            {
-                Console.WriteLine($@"{DateTime.Now:T} : {m}", Color.Cyan);
-            });
+
+            var tableBuilder = new TableSchemaBuilder(WriteMessage);
             tableBuilder.BuildAsync(ed)
-                .Wait();    
-            
-            
+                .Wait();
+
             // TODO : for DataAsSource, truncate or append ? the default should be append, what if the row changed from the source??
             if (ed.TreatDataAsSource)
             {
-                //
                 var truncate = ParseArgExist("truncate");
+                var sourceMigrator = new SourceTableBuilder(WriteMessage, WriteWarning, WriteError);
                 if (truncate)
-                {
-                    // drop the table
-                    var sourceMigrator = new SourceTableBuilder();
-                    sourceMigrator.BuildAsync().Wait();
-                }
+                    sourceMigrator.CleanAndBuildAsync(ed).Wait();
+                else
+                    sourceMigrator.BuildAsync(ed).Wait();
+
             }
 
+            using (var mappingBuilder = new MappingBuilder(WriteMessage, WriteWarning, WriteError))
+            {
+                var nes = ParseArgExist("nes");
+                if (!nes)
+                    mappingBuilder.BuildAllAsync(ed).Wait();
+
+            }
+
+
             Console.WriteLine($@"{ed.Name} was succesfully deployed ");
+        }
+
+        private static void WriteMessage(string m)
+        {
+            Console.WriteLine($@"{DateTime.Now:T} : {m}", Color.Cyan);
+        }
+
+        private static void WriteWarning(string m)
+        {
+            Console.WriteLine($@"{DateTime.Now:T} : {m}", Color.Yellow);
+        }
+
+        private static void WriteError(Exception m)
+        {
+            Console.WriteLine($@"{DateTime.Now:T} : {m}", Color.OrangeRed);
         }
 
         private static string GetEntityDefinitionId(string name)
