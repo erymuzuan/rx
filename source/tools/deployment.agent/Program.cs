@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SqlRepository;
+using Colorful;
+using Console = Colorful.Console;
 
 namespace Bespoke.Sph.Mangements
 {
@@ -11,6 +14,22 @@ namespace Bespoke.Sph.Mangements
     {
         public static void Main(string[] args)
         {
+            if (args.FirstOrDefault() == "?" || ParseArgExist("?") || args.Length == 0)
+            {
+                Console.WriteAscii("Deployment Agent", Color.BlueViolet);
+                Console.WriteLine(@"
+
+Usage :
+deployment.agent <path-to-entity-definition-source>|/e:<entity-definition-name>|/e:entity-definition-id>
+
+For EntityDefinition with Treat data as source:
+/truncate   will truncate the existing table if exist, and load the data from source files
+the default option is to migrate the existing data and append any new source from your source files
+
+
+");
+                return;
+            }
             var id = ParseArg("e");
             var file = args.FirstOrDefault();
             if (!string.IsNullOrWhiteSpace(id))
@@ -20,22 +39,34 @@ namespace Bespoke.Sph.Mangements
 
             if (!File.Exists(file))
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine(@"Specify your EntityDefinition json source as your first argument or with /e:<EntityDefinition id/name>");
-                Console.ResetColor();
+                Console.WriteLine(@"Specify your EntityDefinition json source as your first argument or with /e:<EntityDefinition id/name>", Color.Yellow);
                 return;
             }
 
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             var ed = file.DeserializeFromJsonFile<EntityDefinition>();
+        
             var tableBuilder = new TableSchemaBuilder(m =>
             {
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine($@"{DateTime.Now:T} : {m}");
-                Console.ResetColor();
+                Console.WriteLine($@"{DateTime.Now:T} : {m}", Color.Cyan);
             });
             tableBuilder.BuildAsync(ed)
-                .Wait();
+                .Wait();    
+            
+            
+            // TODO : for DataAsSource, truncate or append ? the default should be append, what if the row changed from the source??
+            if (ed.TreatDataAsSource)
+            {
+                //
+                var truncate = ParseArgExist("truncate");
+                if (truncate)
+                {
+                    // drop the table
+                    var sourceMigrator = new SourceTableBuilder();
+                    sourceMigrator.BuildAsync().Wait();
+                }
+            }
+
             Console.WriteLine($@"{ed.Name} was succesfully deployed ");
         }
 
@@ -71,6 +102,12 @@ namespace Bespoke.Sph.Mangements
             var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             var val = args.SingleOrDefault(a => a.StartsWith("/" + name + ":"));
             return val?.Replace("/" + name + ":", string.Empty);
+        }
+        private static bool ParseArgExist(string name)
+        {
+            var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var val = args.SingleOrDefault(a => a.StartsWith("/" + name));
+            return null != val;
         }
     }
 }
