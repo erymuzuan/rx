@@ -3,6 +3,8 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Console = Colorful.Console;
 
@@ -18,6 +20,17 @@ namespace Bespoke.Sph.Mangements
                 Console.WriteLine(Program.GetHelpText());
                 return;
             }
+
+            if (ParseArgExist("gui") || ParseArgExist("ui") || ParseArgExist("i"))
+            {
+                var gui = new System.Diagnostics.ProcessStartInfo($"{ConfigurationManager.ToolsPath}\\deployment.gui.exe")
+                {
+                    WorkingDirectory = ConfigurationManager.ToolsPath
+                };
+                System.Diagnostics.Process.Start(gui);
+                return;
+            }
+
             var id = ParseArg("e");
             var file = args.FirstOrDefault();
             if (!string.IsNullOrWhiteSpace(id))
@@ -32,14 +45,31 @@ namespace Bespoke.Sph.Mangements
             }
 
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+            var program = new Program();
+            program.StartAsync(file).Wait();
+        }
+
+        private async Task StartAsync(string file)
+        {
             var ed = file.DeserializeFromJsonFile<EntityDefinition>();
 
             var nes = ParseArgExist("nes");
             var truncate = ParseArgExist("truncate");
 
-            DeploymentMetadata.InitializeAsync().Wait();
+            await DeploymentMetadata.InitializeAsync();
             var deployment = new DeploymentMetadata(ed);
-            deployment.BuildAsync(truncate, nes).Wait();
+
+
+            if (ParseArgExist("q"))
+            {
+                var istory = await deployment.QueryAsync();
+                var table = new ConsoleTable(istory);
+                table.PrintTable();
+                return;
+            }
+
+            await deployment.BuildAsync(truncate, nes);
+
         }
 
 

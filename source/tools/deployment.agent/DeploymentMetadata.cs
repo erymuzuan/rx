@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -22,6 +23,37 @@ namespace Bespoke.Sph.Mangements
             m_entityDefinition = entityDefinition;
         }
 
+
+        public async Task<IList<DeploymentHistory>> QueryAsync()
+        {
+            var list = new List<DeploymentHistory>();
+            using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
+            using (var cmd = new SqlCommand(@"SELECT [Name], [Tag],[Revision], MAX([datetime]) as 'DateTime'
+            FROM[Sph].[DeploymentMetadata]
+            GROUP BY [Name], [Tag], [Revision]
+            ORDER BY MAX([DateTime]) DESC", conn))
+            {
+                await conn.OpenAsync();
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        var row = new DeploymentHistory();
+                        row.Name = reader.GetString(0);
+                        row.Tag = reader.GetString(1);
+                        row.Revision = reader.GetString(2);
+                        row.DateTime = reader.GetDateTime(3);
+
+                        list.Add(row);
+                    }
+
+                }
+
+            }
+
+            return list;
+        }
+
         public async Task BuildAsync(bool truncate, bool nes)
         {
             var ed = m_entityDefinition;
@@ -33,7 +65,7 @@ namespace Bespoke.Sph.Mangements
 
             if (hasChanges)
                 await tableBuilder.BuildAsync(ed);
-           
+
 
             if (ed.TreatDataAsSource)
             {
@@ -54,7 +86,7 @@ namespace Bespoke.Sph.Mangements
 
             await InsertDeploymentMetadataAsync();
 
-            if(!hasChanges)
+            if (!hasChanges)
                 Console.WriteLine($"\"{m_entityDefinition.Name}\" was last deployed on {lastDeployedDate} and the source has not changed since");
 
             Console.WriteLine($@"{ed.Name} was succesfully deployed ");
