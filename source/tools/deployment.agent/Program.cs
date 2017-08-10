@@ -4,8 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.SqlRepository;
-using Bespokse.Sph.ElasticsearchRepository;
 using Console = Colorful.Console;
 
 namespace Bespoke.Sph.Mangements
@@ -17,19 +15,7 @@ namespace Bespoke.Sph.Mangements
             if (args.FirstOrDefault() == "?" || ParseArgExist("?") || args.Length == 0)
             {
                 Console.WriteAscii("Deployment Agent", Color.BlueViolet);
-                Console.WriteLine(@"
-
-Usage :
-deployment.agent <path-to-entity-definition-source>|/e:<entity-definition-name>|/e:entity-definition-id>|/nes
-
-/nes No elasticsearch migration, specify this switch when you want to skip Elasticsearch
-
-For EntityDefinition with Treat data as source:
-/truncate   will truncate the existing table if exist, and load the data from source files
-the default option is to migrate the existing data and append any new source from your source files
-
-
-");
+                Console.WriteLine(Program.GetHelpText());
                 return;
             }
             var id = ParseArg("e");
@@ -48,48 +34,14 @@ the default option is to migrate the existing data and append any new source fro
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             var ed = file.DeserializeFromJsonFile<EntityDefinition>();
 
-            var tableBuilder = new TableSchemaBuilder(WriteMessage);
-            tableBuilder.BuildAsync(ed)
-                .Wait();
+            var nes = ParseArgExist("nes");
+            var truncate = ParseArgExist("truncate");
 
-            // TODO : for DataAsSource, truncate or append ? the default should be append, what if the row changed from the source??
-            if (ed.TreatDataAsSource)
-            {
-                var truncate = ParseArgExist("truncate");
-                var sourceMigrator = new SourceTableBuilder(WriteMessage, WriteWarning, WriteError);
-                if (truncate)
-                    sourceMigrator.CleanAndBuildAsync(ed).Wait();
-                else
-                    sourceMigrator.BuildAsync(ed).Wait();
-
-            }
-
-            using (var mappingBuilder = new MappingBuilder(WriteMessage, WriteWarning, WriteError))
-            {
-                var nes = ParseArgExist("nes");
-                if (!nes)
-                    mappingBuilder.BuildAllAsync(ed).Wait();
-
-            }
-
-
-            Console.WriteLine($@"{ed.Name} was succesfully deployed ");
+            DeploymentMetadata.InitializeAsync().Wait();
+            var deployment = new DeploymentMetadata(ed);
+            deployment.BuildAsync(truncate, nes).Wait();
         }
 
-        private static void WriteMessage(string m)
-        {
-            Console.WriteLine($@"{DateTime.Now:T} : {m}", Color.Cyan);
-        }
-
-        private static void WriteWarning(string m)
-        {
-            Console.WriteLine($@"{DateTime.Now:T} : {m}", Color.Yellow);
-        }
-
-        private static void WriteError(Exception m)
-        {
-            Console.WriteLine($@"{DateTime.Now:T} : {m}", Color.OrangeRed);
-        }
 
         private static string GetEntityDefinitionId(string name)
         {
@@ -129,6 +81,18 @@ the default option is to migrate the existing data and append any new source fro
             var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             var val = args.SingleOrDefault(a => a.StartsWith("/" + name));
             return null != val;
+        }
+
+        private static string GetHelpText()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            const string HELP_TEXT = "Bespoke.Sph.Mangements.HelpText.md";
+
+            using (var stream = assembly.GetManifestResourceStream(HELP_TEXT))
+            using (var reader = new StreamReader(stream))
+            {
+                return reader.ReadToEnd();
+            }
         }
     }
 }

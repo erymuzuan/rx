@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>175.ico</ApplicationIcon>
+    <ApplicationIcon>database_refresh_ev4_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Bespoke.Sph.Mangements.Program</StartupObject>
@@ -58,16 +58,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeploymentMetadata.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueueCleaner.cs" />
     <Compile Include="SourceTableBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EmbeddedResource Include="HelpText.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="175.ico" />
+    <Content Include="database_refresh_ev4_icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\dependencies\elasticsearch.repository\elasticsearch.repository.csproj">

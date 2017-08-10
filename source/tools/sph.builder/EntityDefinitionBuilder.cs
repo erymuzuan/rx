@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SqlRepository;
 using Bespoke.Sph.SubscribersInfrastructure;
+using Bespokse.Sph.ElasticsearchRepository;
 using Newtonsoft.Json;
 using subscriber.entities;
 
@@ -195,11 +196,10 @@ namespace Bespoke.Sph.SourceBuilders
                 var clone = ed.Clone();
                 clone.MemberCollection.Add(new SimpleMember { Name = "__builder", Type = typeof(string), IsNullable = true, IsExcludeInAll = true });
 
-                var subs = new EntityIndexerMappingSubscriber { NotificicationService = new ConsoleNotification() };
-                //TODO :
-                throw new Exception(@" await subs.PutMappingAsync(clone);
-                await subs.MigrateDataAsync(ed);");
-               
+                var builder = new MappingBuilder();
+                await builder.PutMappingAsync(clone);
+                await builder.MigrateDataAsync(ed);
+
             }
 
             await this.CompileDependencies(ed);
