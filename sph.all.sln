@@ -216,6 +216,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "trigger.action.entity", "so
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "deployment.agent", "source\tools\deployment.agent\deployment.agent.csproj", "{4A608558-1AD1-49D9-88A7-92687E853429}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "deployment.gui", "source\tools\deployment.gui\deployment.gui.csproj", "{A696359A-7DD4-49BB-93E6-0CDF4F831E30}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -498,6 +500,10 @@ Global
 		{4A608558-1AD1-49D9-88A7-92687E853429}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A608558-1AD1-49D9-88A7-92687E853429}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A608558-1AD1-49D9-88A7-92687E853429}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A696359A-7DD4-49BB-93E6-0CDF4F831E30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A696359A-7DD4-49BB-93E6-0CDF4F831E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A696359A-7DD4-49BB-93E6-0CDF4F831E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A696359A-7DD4-49BB-93E6-0CDF4F831E30}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -574,5 +580,6 @@ Global
 		{A0950B96-CEDA-4A24-BD40-99515FC2E177} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{D3731BC0-34C1-42E9-91DB-6DF874E05CC2} = {FDE463BE-30E0-4A3A-8B34-4E4C02F3D186}
 		{4A608558-1AD1-49D9-88A7-92687E853429} = {DB65484E-BE1F-4944-B216-4A57026360EB}
+		{A696359A-7DD4-49BB-93E6-0CDF4F831E30} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 	EndGlobalSection
 EndGlobal
