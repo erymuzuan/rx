@@ -26,7 +26,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             eLog.WriteEntry(message, EventLogEntryType.Information);
         }
 
-        public void WriteWarnig(string message)
+        public void WriteWarning(string message)
         {
             var eLog = new EventLog { Source = Source };
             eLog.WriteEntry(message, EventLogEntryType.Warning);

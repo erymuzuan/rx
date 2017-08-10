@@ -26,7 +26,7 @@ void Main()
 
 public class PatientReader
 {
-	const int BATCH_SIZE = 10;
+	const int BATCH_SIZE = 1;
 	const string BASE_URL = "http://localhost:4436";
 	const string TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYWRtaW4iLCJyb2xlcyI6WyJhZG1pbmlzdHJhdG9ycyIsImRldmVsb3BlcnMiXSwiZW1haWwiOiJhZG1pbkB5b3VyY29tcGFueS5jb20iLCJzdWIiOiI2MzYzNjczOTE0ODQwMTczMjY0MTdiMDFlYyIsIm5iZiI6MTUxNzAxMTE0OCwiaWF0IjoxNTAxMTEzNTQ4LCJleHAiOjE1MTQ3NjQ4MDAsImF1ZCI6IkRldlYxIn0.pQlh4Z0qk_8D2o0cEENR-K0y2DOn-yaZQ9_6vuMIVXs";
 	private HttpClient client = new HttpClient { BaseAddress = new Uri(BASE_URL) };
@@ -71,6 +71,7 @@ public class PatientReader
 
 	private async Task Register(Patient patient)
 	{
+		await Task.Delay(700);
 		// post it to
 		var json = patient.ToJsonString();
 		var request = new StringContent(json);

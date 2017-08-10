@@ -7,6 +7,11 @@ namespace Bespoke.Sph.Domain
     {
         private readonly DelimitedTextFieldMapping m_fieldMapping;
 
+        public DelimitedTextSimpleMember()
+        {
+            
+        }
+
         public DelimitedTextSimpleMember(DelimitedTextFieldMapping fieldMapping)
         {
             if(null == fieldMapping)
