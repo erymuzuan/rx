@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Windows;
+using System.Windows.Controls;
+using Bespoke.Sph.Mangements.Models;
 using Bespoke.Sph.Mangements.ViewModels;
 
 namespace deployment.gui
@@ -13,6 +15,13 @@ namespace deployment.gui
         public MainWindow()
         {
             InitializeComponent();
+            this.Loaded += MainWindow_Loaded;
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            var vm = (MainViewModel)this.DataContext;
+            vm.LoadCommand.Execute(null);
         }
 
         public void OnImportsSatisfied()
@@ -25,6 +34,19 @@ namespace deployment.gui
         private void MainViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             //
+        }
+
+        private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
+        {
+            var chb = (CheckBox)sender;
+            var ed = (EntityDeployment)chb.DataContext;
+
+
+            var vm = (MainViewModel)this.DataContext;
+            if(ed.IsSelected && !vm.SelectedCollection.Contains(ed))
+                vm.SelectedCollection.Add(ed);
+            if(!ed.IsSelected && vm.SelectedCollection.Contains(ed))
+                vm.SelectedCollection.Remove(ed);
         }
     }
 }

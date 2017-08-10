@@ -4,9 +4,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:deployment.gui"
+        xmlns:src="clr-namespace:Bespoke.Sph.Mangements.ViewModels"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         mc:Ignorable="d"
-        Title="MainWindow" Height="563.974" Width="671.725">
+        Title="RX Developer Deployment Agent GUI" d:DesignHeight="800" d:DesignWidth="1000"
+        d:DataContext="{d:DesignInstance d:Type={x:Type src:MainViewModel}}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -17,5 +19,45 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
+        <Label Content=""></Label>
+        <ListView Grid.Row="1" Grid.Column="1" ItemsSource="{Binding EntityDefinitionCollection}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Source" Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsSelected}" Checked="ToggleButton_OnChecked" Unchecked="ToggleButton_OnChecked"></CheckBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding EntityDefinition.Name}"></GridViewColumn>
+                    <GridViewColumn Header="Source" Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsEnabled="False" IsChecked="{Binding EntityDefinition.TreatDataAsSource}"></CheckBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Transient" Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsEnabled="False" IsChecked="{Binding EntityDefinition.Transient}"></CheckBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Last Changed" Width="120" DisplayMemberBinding="{Binding EntityDefinition.ChangedDate}"></GridViewColumn>
+                    <GridViewColumn Header="Last Deployed DateTime" Width="130" DisplayMemberBinding="{Binding LastDeployedDateTime}"></GridViewColumn>
+                    <GridViewColumn Header="Tag" Width="120" DisplayMemberBinding="{Binding LastDeployedTag}"></GridViewColumn>
+                    <GridViewColumn Header="Revision" Width="120" DisplayMemberBinding="{Binding LastDeployedRevision}"></GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Deploy selected" 
+                           Command="{Binding DeploySelectedCommand}"
+                           CommandParameter="{Binding SelectedCollection}">
+
+
+        </telerik:RadButton>
     </Grid>
 </Window>
