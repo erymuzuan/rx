@@ -213,6 +213,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
             foreach (var item in items)
             {
+                var messageId = Guid.NewGuid().ToString();
                 var entityType = this.GetEntityType(item);
                 var log = string.Empty;
                 var id = item.Id;
@@ -231,36 +232,29 @@ namespace Bespoke.Sph.RabbitMqPublisher
                 props.DeliveryMode = PERSISTENT_DELIVERY_MODE;
                 props.Persistent = true;
                 props.ContentType = "application/json";
-                props.Headers = new Dictionary<string, object> { { "operation", operation }, { "crud", action }, { "log", log } };
-                if (null != headers)
-                {
-                    foreach (var k in headers.Keys)
-                    {
-                        if (!props.Headers.ContainsKey(k))
-                            props.Headers.Add(k, headers[k]);
+                props.Headers = new Dictionary<string, object> { { "operation", operation }, { "messageid", messageId }, { "crud", action }, { "log", log } };
+                props.Headers.Copy(headers);
 
-                    }
-                }
-                if (null != headers && headers.ContainsKey("sph.delay"))
+                if (headers?.ContainsKey("sph.delay") ?? false)
                 {
                     PublishToDelayQueue(props, body, routingKey);
                     return;
                 }
 
                 m_channel.BasicPublish(this.Exchange, routingKey, props, body);
+                var sla = ObjectBuilder.GetObject<IMessageDeliverySla>();
+                await sla.RegisterAcceptanceAsync(new SlaEvent(item, messageId, routingKey));
 
             }
 
 
         }
 
-
-
-        private async Task<byte[]> CompressAsync(string value)
+        private static async Task<byte[]> CompressAsync(string value)
         {
             var content = new byte[value.Length];
-            int index = 0;
-            foreach (char item in value)
+            var index = 0;
+            foreach (var item in value)
             {
                 content[index++] = (byte)item;
             }
