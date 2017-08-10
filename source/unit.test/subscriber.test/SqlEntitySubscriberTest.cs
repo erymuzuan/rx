@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Bespoke.Sph.Domain;
-using subscriber.entities;
+using Bespoke.Sph.SqlRepository;
 using Xunit;
 
 namespace subscriber.test
@@ -26,7 +26,7 @@ namespace subscriber.test
             address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
             address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
             ent.MemberCollection.Add(address);
-            var sql = new SqlTableSubscriber();
+            var sql = new TableSchemaBuilder();
             var columns = sql.GetFilterableMembers("", ent.MemberCollection).ToList();
 
             Assert.All(columns, Assert.NotNull);
