@@ -19,4 +19,8 @@
     <Style TargetType="CheckBox">
         <Setter Property="Margin" Value="5" />
     </Style>
+    <Style TargetType="Label">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
 </ResourceDictionary>

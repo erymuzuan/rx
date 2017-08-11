@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>RX Developer data deployment tool</title>
+</head>
+<body>
+
+    <h1 id="rx-developer-data-deployment-tool">RX Developer data deployment tool</h1>
+<p>Usage :
+deployment.agent <path-to-entity-definition-source>|/e:<entity-definition-name>|/e:entity-definition-id&gt;|/nes</p>
+<h2 id="skipping-elasticsearch">Skipping elasticsearch</h2>
+<p><code>/nes</code>
+No elasticsearch migration, specify this switch when you want to skip Elasticsearch</p>
+<h2 id="entitydefinition-with-treat-data-as-source">EntityDefinition with Treat data as source:</h2>
+<p>/truncate   will truncate the existing table if exist, and load the data from source files
+the default option is to migrate the existing data and append any new source from your source files</p>
+<h2 id="cleaning">Cleaning</h2>
+<p>Removing queue for Elasticsearch mapping and SQL table
+Exisiting RX Developer implementation comes with a subscriber which automatically rebuild SQL table and a subscriber
+to build Elasticsearch mapping every time an EntityDefinition is <cite>Publish</cite>. This auto rebuild might not be necessary if there's
+no change in schema, though these subscribers do check for changes</p>
+<p>/clean</p>
+<h2 id="query-deployment-history">Query deployment history</h2>
+<p>Specify the EntityDefinition and <code>/q</code> switch</p>
+<h2 id="gui">GUI</h2>
+<p>To start this tool in UI interactive mode ..
+<code>/gui|ui|i</code></p>
+<p><img src="https://i.imgur.com/VlZfmxb.png" alt="GUI window" /></p>
+<ol>
+<li>Your environment target SQL Server</li>
+<li>Your environment target Elasticsearch</li>
+<li>Select EntityDefinition to deploy by checking this checkbox</li>
+<li>Option to skip Elasticsearch, see <code>/nes</code> switch</li>
+<li>Option to truncate data, see <code>/truncate</code> switch</li>
+<li>The last time your EntityDefinition was changed</li>
+<li>The compiled dll CreationDateTime in your ouput folder</li>
+<li>The date when the EntityDefinition was last deployed to the target environment</li>
+</ol>
+
+
+</body>
+</html>

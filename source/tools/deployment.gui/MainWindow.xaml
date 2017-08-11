@@ -8,7 +8,8 @@
         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         mc:Ignorable="d"
         Title="RX Developer Deployment Agent GUI" d:DesignHeight="800" d:DesignWidth="1000"
-        d:DataContext="{d:DesignInstance d:Type={x:Type src:MainViewModel}}">
+        d:DataContext="{d:DesignInstance d:Type={x:Type src:MainViewModel}}"
+        >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -25,11 +26,15 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label Content="Target SQL Server"></Label>
+            <Label Content="Target SQL Server" ></Label>
             <telerik:RadWatermarkTextBox Grid.Column="1" Text="{Binding SqlServerConnection, Mode=OneTime}" IsReadOnly="True"></telerik:RadWatermarkTextBox>
-            <Label Grid.Column="2" Content="Target SQL Server"></Label>
+            <Label Grid.Column="2" Content="Target Elasticsearch Server"></Label>
             <telerik:RadWatermarkTextBox Grid.Column="3" Text="{Binding ElasticsearchServer,Mode=OneTime}" IsReadOnly="True"></telerik:RadWatermarkTextBox>
+            <telerik:RadButton Grid.Column="4" Click="ShowHelp">
+                <Image Source="help.png"></Image>
+            </telerik:RadButton>
         </Grid>
         <ListView Grid.Row="1" Grid.Column="1" ItemsSource="{Binding EntityDefinitionCollection}">
             <ListView.Resources>
@@ -89,6 +94,7 @@
             </ListView.View>
         </ListView>
 
+       
         <telerik:RadBusyIndicator Grid.Row="1" Grid.Column="1" IsBusy="{Binding IsBusy}" BusyContent="{Binding BusyMessage}"></telerik:RadBusyIndicator>
         <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Deploy selected" 
                            Command="{Binding DeploySelectedCommand}"
