@@ -19,40 +19,77 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <Label Content=""></Label>
+        <Grid Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Content="Target SQL Server"></Label>
+            <telerik:RadWatermarkTextBox Grid.Column="1" Text="{Binding SqlServerConnection, Mode=OneTime}" IsReadOnly="True"></telerik:RadWatermarkTextBox>
+            <Label Grid.Column="2" Content="Target SQL Server"></Label>
+            <telerik:RadWatermarkTextBox Grid.Column="3" Text="{Binding ElasticsearchServer,Mode=OneTime}" IsReadOnly="True"></telerik:RadWatermarkTextBox>
+        </Grid>
         <ListView Grid.Row="1" Grid.Column="1" ItemsSource="{Binding EntityDefinitionCollection}">
+            <ListView.Resources>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Outdated}" Value="true">
+                            <Setter Property="Foreground" Value="Red" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+
+            </ListView.Resources>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Source" Width="80">
+                    <GridViewColumn Header="" Width="Auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding IsSelected}" Checked="ToggleButton_OnChecked" Unchecked="ToggleButton_OnChecked"></CheckBox>
+                                <CheckBox IsEnabled="{Binding CanDeploy}" IsChecked="{Binding IsSelected}" Checked="ToggleButton_OnChecked" Unchecked="ToggleButton_OnChecked"></CheckBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Skip ES" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsEnabled="{Binding CanSkipElasticsearch}" IsChecked="{Binding SkipElasticsearch}" Checked="ToggleButton_OnChecked" Unchecked="ToggleButton_OnChecked"></CheckBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Truncate" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsEnabled="{Binding CanTruncate}" IsChecked="{Binding Truncate}" Checked="ToggleButton_OnChecked" Unchecked="ToggleButton_OnChecked"></CheckBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding EntityDefinition.Name}"></GridViewColumn>
-                    <GridViewColumn Header="Source" Width="80">
+                    <GridViewColumn Header="Source" Width="Auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox IsEnabled="False" IsChecked="{Binding EntityDefinition.TreatDataAsSource}"></CheckBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Transient" Width="80">
+                    <GridViewColumn Header="Transient" Width="Auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox IsEnabled="False" IsChecked="{Binding EntityDefinition.Transient}"></CheckBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Last Changed" Width="120" DisplayMemberBinding="{Binding EntityDefinition.ChangedDate}"></GridViewColumn>
-                    <GridViewColumn Header="Last Deployed DateTime" Width="130" DisplayMemberBinding="{Binding LastDeployedDateTime}"></GridViewColumn>
+                    <GridViewColumn Header="Changed On" Width="130" DisplayMemberBinding="{Binding EntityDefinition.ChangedDate, StringFormat=s}"></GridViewColumn>
+                    <GridViewColumn Header="Compiled On" Width="130" DisplayMemberBinding="{Binding CompiledDateTime, StringFormat=s}"></GridViewColumn>
+                    <GridViewColumn Header="Deployed On" Width="130" DisplayMemberBinding="{Binding LastDeployedDateTime, StringFormat=s}"></GridViewColumn>
                     <GridViewColumn Header="Tag" Width="120" DisplayMemberBinding="{Binding LastDeployedTag}"></GridViewColumn>
                     <GridViewColumn Header="Revision" Width="120" DisplayMemberBinding="{Binding LastDeployedRevision}"></GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
 
+        <telerik:RadBusyIndicator Grid.Row="1" Grid.Column="1" IsBusy="{Binding IsBusy}" BusyContent="{Binding BusyMessage}"></telerik:RadBusyIndicator>
         <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Deploy selected" 
                            Command="{Binding DeploySelectedCommand}"
                            CommandParameter="{Binding SelectedCollection}">
