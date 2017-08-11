@@ -57,10 +57,7 @@ namespace deployment.gui
         {
             base.OnExit(e);
 
-            if (m_container != null)
-            {
-                m_container.Dispose();
-            }
+            m_container?.Dispose();
         }
 
         private bool Compose()

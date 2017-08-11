@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -115,13 +116,47 @@ VALUES ( @Name, @EdId, @Tag, @Revision)
                 //cmd.Parameters.Add("@Id", SqlDbType.VarChar, 255).Value = Guid.NewGuid().ToString();
                 cmd.Parameters.Add("@Name", SqlDbType.VarChar, 255).Value = m_entityDefinition.Name;
                 cmd.Parameters.Add("@EdId", SqlDbType.VarChar, 255).Value = m_entityDefinition.Id;
-                cmd.Parameters.Add("@Tag", SqlDbType.VarChar, 255).Value = "Tag";
-                cmd.Parameters.Add("@Revision", SqlDbType.VarChar, 255).Value = "Tag";
+                cmd.Parameters.Add("@Tag", SqlDbType.VarChar, 255).Value = this.GetGitHeadComment() ;
+                cmd.Parameters.Add("@Revision", SqlDbType.VarChar, 255).Value = this.GetGitHeadCommitId();
                 await conn.OpenAsync();
 
 
                 await cmd.ExecuteNonQueryAsync();
             }
+        }
+
+        private string GetGitHeadCommitId()
+        {
+            //git rev-parse --short HEAD 
+            var git = new ProcessStartInfo("git.exe", "rev-parse --short HEAD")
+            {
+                UseShellExecute = false,
+                RedirectStandardOutput = true
+            };
+            var p = Process.Start(git);
+            var output = p?.StandardOutput.ReadToEnd();
+            p?.WaitForExit();
+            return output;
+        }
+
+        private string GetGitHeadComment()
+        {
+            //git log -1
+            var git = new ProcessStartInfo("git.exe", "log -1")
+            {
+                UseShellExecute = false,
+                RedirectStandardOutput = true
+            };
+
+            // Redirect the output stream of the child process.
+            var p = Process.Start(git);
+            // Do not wait for the child process to exit before
+            // reading to the end of its redirected stream.
+            // p.WaitForExit();
+            // Read the output stream first and then wait.
+            var output = p?.StandardOutput.ReadToEnd();
+            p?.WaitForExit();
+            return output;
         }
 
         private static void WriteMessage(string m)

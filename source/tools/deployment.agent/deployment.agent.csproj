@@ -73,6 +73,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="database_refresh_ev4_icon.ico" />
+    <Content Include="HelpText.html">
+      <DependentUpon>HelpText.md</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\dependencies\elasticsearch.repository\elasticsearch.repository.csproj">
