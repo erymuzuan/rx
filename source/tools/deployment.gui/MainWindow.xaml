@@ -4,11 +4,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:src="clr-namespace:Bespoke.Sph.Mangements.ViewModels"
+        xmlns:vm="clr-namespace:Bespoke.Sph.Mangements.ViewModels"
         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         mc:Ignorable="d"
         Title="RX Developer Deployment Agent GUI" d:DesignHeight="800" d:DesignWidth="1000"
-        d:DataContext="{d:DesignInstance d:Type={x:Type src:MainViewModel}}"
+        d:DataContext="{d:DesignInstance d:Type=vm:MainViewModel}"
         >
     <Window.Resources>
         <Style TargetType="ListViewItem">
@@ -45,9 +45,21 @@
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Label Content="Target SQL Server" ></Label>
-            <telerik:RadWatermarkTextBox Grid.Row="0" Grid.Column="1" Text="{Binding SqlServerConnection, Mode=OneTime}" IsReadOnly="True"></telerik:RadWatermarkTextBox>
+            <Grid Grid.Row="0" Grid.Column="1" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <telerik:RadWatermarkTextBox Grid.Row="0" Grid.Column="0" Text="{Binding SqlServerConnection, Mode=OneTime}" IsReadOnly="True" Margin="0,0,0,6"/>
+                <Image Grid.Row="0" Grid.Column="1" Source="Images/stop.png"></Image>
+                <Image Grid.Row="0" Grid.Column="1" Source="Images/accept.png" Visibility="{Binding IsSqlServerAccessible, Converter={StaticResource Converter_BooleanToVisibilityConverter} }"></Image>
+            </Grid>
             <Label Grid.Row="0" Grid.Column="2" Content="Target Elasticsearch Server"></Label>
-            <telerik:RadWatermarkTextBox Grid.Row="0" Grid.Column="3" Text="{Binding ElasticsearchServer,Mode=OneTime}" IsReadOnly="True"></telerik:RadWatermarkTextBox>
+            <telerik:RadWatermarkTextBox Grid.Row="0" Margin="5,5,15,5" Grid.Column="3" Text="{Binding ElasticsearchServer,Mode=OneTime}" IsReadOnly="True"></telerik:RadWatermarkTextBox>
+
+            <Image Grid.Row="0" Grid.Column="3" Source="Images/stop.png" HorizontalAlignment="Right"></Image>
+            <Image Grid.Row="0" Grid.Column="3" Source="Images/accept.png" HorizontalAlignment="Right" Visibility="{Binding IsElasticsearchAccesible, Converter={StaticResource Converter_BooleanToVisibilityConverter} }"></Image>
+
             <telerik:RadButton Grid.Row="0" Grid.Column="4" Click="ShowHelp">
                 <Image Source="Images/help.png"></Image>
             </telerik:RadButton>
@@ -71,6 +83,11 @@
                 </Style>
 
             </ListView.Resources>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Height" Value="50" />
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="" Width="Auto">

@@ -5,6 +5,8 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows.Threading;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Mangements.Models;
@@ -25,7 +27,7 @@ namespace Bespoke.Sph.Mangements.ViewModels
         public MainViewModel()
         {
             this.LoadCommand = new RelayCommand(Load, () => true);
-            this.DeploySelectedCommand = new RelayCommand<IList<EntityDeployment>>(DeploySelectedItems, list => this.SelectedCollection.Count > 0);
+            this.DeploySelectedCommand = new RelayCommand<IList<EntityDeployment>>(DeploySelectedItems, list => SelectedCollection.Count > 0 &&  IsElasticsearchAccesible && IsSqlServerAccessible);
             this.CompileCommand = new RelayCommand<EntityDeployment>(Compile, ed => ed.CanCompile);
         }
 
@@ -68,6 +70,8 @@ namespace Bespoke.Sph.Mangements.ViewModels
             this.BusyMessage = "Loading your assets....";
             this.QueueUserWorkItem(LoadHelperAsync);
 
+
+
         }
 
         private async void LoadHelperAsync()
@@ -96,6 +100,42 @@ namespace Bespoke.Sph.Mangements.ViewModels
 
             this.Post(() => this.EntityDefinitionCollection.ClearAndAddRange(list));
             this.Post(() => this.IsBusy = false);
+
+            // now check sql server and elasticsearch
+            while (true)
+            {
+                using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
+                using (var cmd = new SqlCommand("SELECT COUNT(*) FROM [Sph].[Message]", conn))
+                {
+                    try
+                    {
+                        await conn.OpenAsync();
+                        var rows = await cmd.ExecuteScalarAsync();
+                        this.IsSqlServerAccessible = (int)rows >= 0;
+                    }
+                    catch (SqlException)
+                    {
+                        this.IsSqlServerAccessible = false;
+                    }
+                }
+
+                using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) })
+                {
+                    try
+                    {
+                        var cat = await client.GetStringAsync("_cat/indices");
+                        this.IsElasticsearchAccesible = cat.Contains(ConfigurationManager.ApplicationName.ToLowerInvariant());
+                    }
+                    catch
+                    {
+                        //ignore
+                        this.IsElasticsearchAccesible = false;
+                    }
+                }
+                await Task.Delay(5000);
+
+            }
+
         }
 
         public DispatcherObject View { get; set; }
