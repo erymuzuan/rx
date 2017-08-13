@@ -19,12 +19,30 @@ namespace Bespoke.Sph.Mangements.ViewModels
     {
         public RelayCommand LoadCommand { get; set; }
         public RelayCommand<IList<EntityDeployment>> DeploySelectedCommand { get; set; }
+        public RelayCommand<EntityDeployment> CompileCommand { get; set; }
 
 
         public MainViewModel()
         {
             this.LoadCommand = new RelayCommand(Load, () => true);
             this.DeploySelectedCommand = new RelayCommand<IList<EntityDeployment>>(DeploySelectedItems, list => this.SelectedCollection.Count > 0);
+            this.CompileCommand = new RelayCommand<EntityDeployment>(Compile, ed => ed.CanCompile);
+        }
+
+        private void Compile(EntityDeployment deployment)
+        {
+            var ed = deployment.EntityDefinition;
+            var info = new ProcessStartInfo
+            {
+                FileName = "sph.builder.exe",
+                WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
+                Arguments = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\/{ed.Id}.json"
+
+            };
+            var agent = Process.Start(info);
+            agent?.WaitForExit();
+
+            this.Load();
         }
 
         private void DeploySelectedItems(IList<EntityDeployment> obj)
@@ -77,7 +95,7 @@ namespace Bespoke.Sph.Mangements.ViewModels
             }
 
             this.Post(() => this.EntityDefinitionCollection.ClearAndAddRange(list));
-            this.Post(()=> this.IsBusy = false);
+            this.Post(() => this.IsBusy = false);
         }
 
         public DispatcherObject View { get; set; }

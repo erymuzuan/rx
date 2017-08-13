@@ -10,6 +10,18 @@
         Title="RX Developer Deployment Agent GUI" d:DesignHeight="800" d:DesignWidth="1000"
         d:DataContext="{d:DesignInstance d:Type={x:Type src:MainViewModel}}"
         >
+    <Window.Resources>
+        <Style TargetType="ListViewItem">
+            <Style.Triggers>
+                <Trigger Property="ItemsControl.AlternationIndex"  Value="0">
+                    <Setter Property="Background" Value="LightSalmon" />
+                </Trigger>
+                <Trigger Property="ItemsControl.AlternationIndex"  Value="1">
+                    <Setter Property="Background" Value="LightGray" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -28,15 +40,27 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
             <Label Content="Target SQL Server" ></Label>
-            <telerik:RadWatermarkTextBox Grid.Column="1" Text="{Binding SqlServerConnection, Mode=OneTime}" IsReadOnly="True"></telerik:RadWatermarkTextBox>
-            <Label Grid.Column="2" Content="Target Elasticsearch Server"></Label>
-            <telerik:RadWatermarkTextBox Grid.Column="3" Text="{Binding ElasticsearchServer,Mode=OneTime}" IsReadOnly="True"></telerik:RadWatermarkTextBox>
-            <telerik:RadButton Grid.Column="4" Click="ShowHelp">
-                <Image Source="help.png"></Image>
+            <telerik:RadWatermarkTextBox Grid.Row="0" Grid.Column="1" Text="{Binding SqlServerConnection, Mode=OneTime}" IsReadOnly="True"></telerik:RadWatermarkTextBox>
+            <Label Grid.Row="0" Grid.Column="2" Content="Target Elasticsearch Server"></Label>
+            <telerik:RadWatermarkTextBox Grid.Row="0" Grid.Column="3" Text="{Binding ElasticsearchServer,Mode=OneTime}" IsReadOnly="True"></telerik:RadWatermarkTextBox>
+            <telerik:RadButton Grid.Row="0" Grid.Column="4" Click="ShowHelp">
+                <Image Source="Images/help.png"></Image>
             </telerik:RadButton>
+            <Label Grid.Row="1" Grid.Column="0" Content="Home Path" ></Label>
+            <telerik:RadWatermarkTextBox Grid.Row="1" Grid.Column="1" Text="{Binding RxHomePath, Mode=OneTime}" IsReadOnly="True"></telerik:RadWatermarkTextBox>
+
+            <Label Grid.Row="1" Grid.Column="2" Content="Source Path" ></Label>
+            <telerik:RadWatermarkTextBox Grid.Row="1" Grid.Column="3" Text="{Binding RxSourcePath, Mode=OneTime}" IsReadOnly="True"></telerik:RadWatermarkTextBox>
+            
+            
+
         </Grid>
-        <ListView Grid.Row="1" Grid.Column="1" ItemsSource="{Binding EntityDefinitionCollection}">
+        <ListView Grid.Row="1" Grid.Column="1" ItemsSource="{Binding EntityDefinitionCollection}" AlternationCount="2">
             <ListView.Resources>
                 <Style TargetType="{x:Type ListViewItem}">
                     <Style.Triggers>
@@ -90,6 +114,17 @@
                     <GridViewColumn Header="Deployed On" Width="130" DisplayMemberBinding="{Binding LastDeployedDateTime, StringFormat=s}"></GridViewColumn>
                     <GridViewColumn Header="Tag" Width="120" DisplayMemberBinding="{Binding LastDeployedTag}"></GridViewColumn>
                     <GridViewColumn Header="Revision" Width="120" DisplayMemberBinding="{Binding LastDeployedRevision}"></GridViewColumn>
+
+
+                    <GridViewColumn Header="Compile" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <telerik:RadButton ToolTip="Compile the EntityDefinition" CommandParameter="{Binding}" Command="{Binding Path=DataContext.CompileCommand, RelativeSource={RelativeSource AncestorType=ListView}}">
+                                    <Image Source="Images/arrow_switch.png"></Image>
+                                </telerik:RadButton>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

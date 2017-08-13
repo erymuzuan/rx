@@ -11,6 +11,10 @@ namespace Bespoke.Sph.Mangements.ViewModels
         public ObjectCollection<EntityDeployment> SelectedCollection { get; } = new ObjectCollection<EntityDeployment>();
         private EntityDeployment m_selected;
         public string SqlServerConnection => ConfigurationManager.SqlConnectionString;
+        public string RxHomePath => ConfigurationManager.Home;
+        public string RxSourcePath => ConfigurationManager.SphSourceDirectory;
+        public string RxOutputPath => ConfigurationManager.CompilerOutputPath;
+
         private bool m_isBusy;
         private string m_busyMessage;
 

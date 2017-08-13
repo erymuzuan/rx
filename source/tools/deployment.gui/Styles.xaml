@@ -23,4 +23,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="FontWeight" Value="Bold" />
     </Style>
+    <Style TargetType="Image">
+        <Setter Property="Stretch" Value="None" />
+    </Style>
 </ResourceDictionary>
