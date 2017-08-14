@@ -63,7 +63,6 @@ namespace Bespoke.Sph.Mangements
             var hasChanges = lastDeployedDate < m_entityDefinition.ChangedDate;
 
             var tableBuilder = new TableSchemaBuilder(WriteMessage);
-
             if (hasChanges)
                 await tableBuilder.BuildAsync(ed);
 
@@ -81,7 +80,10 @@ namespace Bespoke.Sph.Mangements
             using (var mappingBuilder = new MappingBuilder(WriteMessage, WriteWarning, WriteError))
             {
                 if (!nes)
+                {
+                    await mappingBuilder.DeleteMappingAsync(ed);
                     await mappingBuilder.BuildAllAsync(ed);
+                }
 
             }
 

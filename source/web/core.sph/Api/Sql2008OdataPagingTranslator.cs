@@ -9,20 +9,20 @@ namespace Bespoke.Sph.Web.Api
         public string Tranlate(string sql, int page, int size)
         {
             var predicate = string.Empty;
-            const string columnPattern = "^SELECT (?<column>.*?)FROM";
-            var columns = this.RegexSingleValue(sql, columnPattern, "column");
+            const string COLUMN_PATTERN = "^SELECT (?<column>.*?)FROM";
+            var columns = this.RegexSingleValue(sql, COLUMN_PATTERN, "column");
 
-            const string tablePattern = " FROM (?<table>.*?) ";
-            var table = this.RegexSingleValue(sql, tablePattern, "table");
+            const string TABLE_PATTERN = " FROM (?<table>.*?) ";
+            var table = this.RegexSingleValue(sql, TABLE_PATTERN, "table");
 
             if (sql.Contains("WHERE"))
             {
-                const string predicatePattern = "WHERE (?<predicate>.*?)ORDER BY";
-                predicate = string.Format("WHERE {0}", this.RegexSingleValue(sql, predicatePattern, "predicate"));
+                const string PREDICATE_PATTERN = "WHERE (?<predicate>.*?)ORDER BY";
+                predicate = $"WHERE {this.RegexSingleValue(sql, PREDICATE_PATTERN, "predicate")}";
             }
 
-            const string orderPattern = "ORDER BY (?<order>.*?)$";
-            var order = this.RegexSingleValue(sql, orderPattern, "order");
+            const string ORDER_PATTERN = "ORDER BY (?<order>.*?)$";
+            var order = this.RegexSingleValue(sql, ORDER_PATTERN, "order");
 
             var start = (page - 1) * size;
             var end = page * size;
@@ -61,20 +61,20 @@ namespace Bespoke.Sph.Web.Api
         public string SkipTop(string sql, int skip, int top)
         {
             var predicate = string.Empty;
-            const string columnPattern = "^SELECT (?<column>.*?)FROM";
-            var columns = this.RegexSingleValue(sql, columnPattern, "column");
+            const string COLUMN_PATTERN = "^SELECT (?<column>.*?)FROM";
+            var columns = this.RegexSingleValue(sql, COLUMN_PATTERN, "column");
 
-            const string tablePattern = " FROM (?<table>.*?) ";
-            var table = this.RegexSingleValue(sql, tablePattern, "table");
+            const string TABLE_PATTERN = " FROM (?<table>.*?) ";
+            var table = this.RegexSingleValue(sql, TABLE_PATTERN, "table");
 
             if (sql.Contains("WHERE"))
             {
-                const string predicatePattern = "WHERE (?<predicate>.*?)ORDER BY";
-                predicate = string.Format("WHERE {0}", this.RegexSingleValue(sql, predicatePattern, "predicate"));
+                const string PREDICATE_PATTERN = "WHERE (?<predicate>.*?)ORDER BY";
+                predicate = $"WHERE {this.RegexSingleValue(sql, PREDICATE_PATTERN, "predicate")}";
             }
 
-            const string orderPattern = "ORDER BY (?<order>.*?)$";
-            var order = this.RegexSingleValue(sql, orderPattern, "order");
+            const string ORDER_PATTERN = "ORDER BY (?<order>.*?)$";
+            var order = this.RegexSingleValue(sql, ORDER_PATTERN, "order");
 
             var start = skip;
             var end = skip + top;
@@ -113,8 +113,8 @@ namespace Bespoke.Sph.Web.Api
 
         protected string RegexSingleValue(string input, string pattern, string group)
         {
-            const RegexOptions option = RegexOptions.IgnoreCase | RegexOptions.Singleline;
-            var matches = Regex.Matches(input, pattern, option);
+            const RegexOptions OPTION = RegexOptions.IgnoreCase | RegexOptions.Singleline;
+            var matches = Regex.Matches(input, pattern, OPTION);
             return matches.Count == 1 ? matches[0].Groups[@group].Value.Trim() : null;
         }
 
