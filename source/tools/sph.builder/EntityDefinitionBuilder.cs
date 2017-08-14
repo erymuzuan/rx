@@ -148,7 +148,7 @@ namespace Bespoke.Sph.SourceBuilders
                     var typeName = ed.Name.ToLowerInvariant();
                     var index = ConfigurationManager.ApplicationName.ToLowerInvariant();
                     var mappingFile = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\{ed.Name}.mapping";
-                    string mappingUrl = $"{index}/_mapping/{typeName}";
+                    var mappingUrl = $"{index}/_mapping/{typeName}";
 
                     await client.DeleteAsync(mappingUrl);
                     if (File.Exists(mappingFile))
@@ -189,19 +189,15 @@ namespace Bespoke.Sph.SourceBuilders
             var sqlSub = new SqlTableSubscriber { NotificicationService = new ConsoleNotification() };
             await sqlSub.ProcessMessageAsync(ed);
 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                // mapping - get a clone to differ than the on the disk
-                var clone = ed.Clone();
-                clone.MemberCollection.Add(new SimpleMember { Name = "__builder", Type = typeof(string), IsNullable = true, IsExcludeInAll = true });
 
-                var builder = new MappingBuilder();
-                await builder.PutMappingAsync(clone);
-                await builder.MigrateDataAsync(ed);
+            // mapping - get a clone to differ than the on the disk
+            var clone = ed.Clone();
+            clone.MemberCollection.Add(new SimpleMember { Name = "__builder", Type = typeof(string), IsNullable = true, IsExcludeInAll = true });
 
-            }
-
+            var mapBuilder = new MappingBuilder();
+            await mapBuilder.PutMappingAsync(clone);
+            await mapBuilder.MigrateDataAsync(ed);
+            
             await this.CompileDependencies(ed);
             Console.WriteLine(@"Deploying : {0}", ed.Name);
 

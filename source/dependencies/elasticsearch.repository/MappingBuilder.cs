@@ -31,11 +31,11 @@ namespace Bespokse.Sph.ElasticsearchRepository
             m_writeWarning = writeWarning;
             m_writeError = writeError;
         }
-        
+
         public async Task BuildAllAsync(EntityDefinition ed)
         {
             if (ed.StoreInElasticsearch.HasValue && ed.StoreInElasticsearch.Value == false) return;
-            
+
             this.WriteMessage("There are differences from the existing ElasticSearch mapping");
             var result = await PutMappingAsync(ed);
             if (result)
@@ -48,7 +48,7 @@ namespace Bespokse.Sph.ElasticsearchRepository
 
             }
         }
-        
+
         public async Task ReBuildAsync(EntityDefinition ed)
         {
             if (ed.StoreInElasticsearch.HasValue && ed.StoreInElasticsearch.Value == false) return;
@@ -71,7 +71,13 @@ namespace Bespokse.Sph.ElasticsearchRepository
             }
         }
 
-
+        public async Task DeleteMappingAsync(EntityDefinition item)
+        {
+            var type = item.Name.ToLowerInvariant();
+            var index = ConfigurationManager.ApplicationName.ToLowerInvariant();
+            var url = $"{index}/_mapping/{type}";
+            await m_elasticsearchHttpClient.DeleteAsync(url);
+        }
         public async Task<bool> PutMappingAsync(EntityDefinition item)
         {
             var type = item.Name.ToLowerInvariant();
@@ -80,30 +86,36 @@ namespace Bespokse.Sph.ElasticsearchRepository
 
             var map = item.GetElasticsearchMapping();
             var content = new StringContent(map);
-            
+
             var response = await m_elasticsearchHttpClient.PutAsync(url, content);
-            if (response.StatusCode == HttpStatusCode.NotFound)
+            switch (response.StatusCode)
             {
-                this.WriteMessage("creates the index for the 1st time for {0}", item.Name);
-                await m_elasticsearchHttpClient.PutAsync(index, new StringContent(""));
-                return await this.PutMappingAsync(item);
-            }
+                case HttpStatusCode.NotFound:
+                    this.WriteMessage("creates the index for the 1st time for {0}", item.Name);
+                    await m_elasticsearchHttpClient.PutAsync(index, new StringContent(""));
+                    return await this.PutMappingAsync(item);
+                case HttpStatusCode.BadRequest:
+                    var rc = response.Content as StreamContent;
+                    var text = string.Empty;
+                    if (null != rc)
+                        text = await rc.ReadAsStringAsync();
 
-            if (response.StatusCode == HttpStatusCode.BadRequest)
-            {
-                var rc = response.Content as StreamContent;
-                var text = string.Empty;
-                if (null != rc)
-                    text = await rc.ReadAsStringAsync();
+                    if (text.Contains("MergeMappingException") && text.Contains("of different type, current_type"))
+                    {
+                        this.WriteMessage("Deleting current mapping because there's different in data type and schema");
+                        await m_elasticsearchHttpClient.DeleteAsync(url);
+                        return await PutMappingAsync(item);
 
-                if (text.Contains("MergeMappingException") && text.Contains("of different type, current_type"))
-                {
-                    this.WriteMessage("Deleting current mapping because there's different in data type and schema");
-                    await m_elasticsearchHttpClient.DeleteAsync(url);
-                    return await PutMappingAsync(item);
+                    }
+                    this.WriteError(new Exception($" Error creating Elasticsearch map for [{item.Name}]\r\n{text}"));
+                    break;
 
-                }
-                this.WriteError(new Exception($" Error creating Elastic search map for [{item.Name}]\r\n{text}"));
+                case HttpStatusCode.OK:
+                    this.WriteMessage("No changes detected in your mapping");
+                    break;
+                default:
+                    this.WriteWarning($"Unknow response type {response.StatusCode}");
+                    break;
             }
 
             return response.StatusCode == HttpStatusCode.OK;
@@ -134,14 +146,18 @@ namespace Bespokse.Sph.ElasticsearchRepository
             this.WriteMessage("Starting data migration for " + name);
             var connectionString = ConfigurationManager.SqlConnectionString;
             var applicationName = ConfigurationManager.ApplicationName;
+            int total;
+            var row = 0;
+            const int BATCH_SIZE = 20;
+
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand($"SELECT COUNT(*) FROM [{applicationName}].[{name}]", conn))
             {
                 await conn.OpenAsync();
                 try
                 {
-                    var rows = await cmd.ExecuteScalarAsync();
-                    this.WriteMessage($@"There are {rows} rows in [{applicationName}].[{name}]");
+                    total = (int)await cmd.ExecuteScalarAsync();
+                    this.WriteMessage($@"There are {total} rows in [{applicationName}].[{name}]");
                 }
                 catch (SqlException)
                 {
@@ -153,42 +169,47 @@ namespace Bespokse.Sph.ElasticsearchRepository
 
             using (var conn = new SqlConnection(connectionString))
             {
+
                 await conn.OpenAsync();//migrate
-                var readSql = $"SELECT [Id],[Json] FROM [{applicationName}].[{name}]";
-                this.WriteMessage(readSql);
-
-
-                using (var cmd = new SqlCommand(readSql, conn))
+                while (row <= total)
                 {
-                    using (var reader = await cmd.ExecuteReaderAsync())
+                    var readSql = $"SELECT [Id],[Json] FROM [{applicationName}].[{name}] ORDER BY [Id]  OFFSET {row} ROWS FETCH NEXT {BATCH_SIZE} ROWS ONLY";
+                    this.WriteMessage(readSql);
+
+
+                    using (var cmd = new SqlCommand(readSql, conn))
                     {
-                        while (reader.Read())
+                        using (var reader = await cmd.ExecuteReaderAsync())
                         {
-                            var id = reader.GetString(0);
-                            var json = reader.GetString(1)
-                                .Replace($"Bespoke.{ConfigurationManager.ApplicationName}_{ed.Id}.Domain", ed.CodeNamespace)
-                                .Replace($"{ed.CodeNamespace}.HomeAddress", $"{ed.CodeNamespace}.CustomHomeAddress");
-                            this.WriteMessage("Migrating {0} : {1}", name, id);
-                            var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-                            dynamic ent = JsonConvert.DeserializeObject(json, setting);
-                            ent.Id = id;
-
-                            var task = IndexItemToElasticSearchAsync(ent);
-                            taskBuckets.Add(task);
-                            if (taskBuckets.Count > 10)
+                            while (reader.Read())
                             {
-                                await Task.WhenAll(taskBuckets);
-                                taskBuckets.Clear();
-                            }
-                        }
+                                var id = reader.GetString(0);
+                                var json = reader.GetString(1)
+                                    .Replace($"Bespoke.{ConfigurationManager.ApplicationName}_{ed.Id}.Domain", ed.CodeNamespace)
+                                    .Replace($"{ed.CodeNamespace}.HomeAddress", $"{ed.CodeNamespace}.CustomHomeAddress");
+                                this.WriteMessage($"ES dumping {name} : {id}");
+                                var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+                                dynamic ent = JsonConvert.DeserializeObject(json, setting);
+                                ent.Id = id;
 
+                                var task = IndexItemToElasticSearchAsync(ent);
+                                taskBuckets.Add(task);
+                                if (taskBuckets.Count > 10)
+                                {
+                                    await Task.WhenAll(taskBuckets);
+                                    taskBuckets.Clear();
+                                }
+                            }
+
+                        }
                     }
+                    row += BATCH_SIZE;
                 }
             }
             if (taskBuckets.Any())
                 await Task.WhenAll(taskBuckets);
 
-            
+
         }
 
         private async Task IndexItemToElasticSearchAsync(Entity item)
@@ -211,7 +232,7 @@ namespace Bespokse.Sph.ElasticsearchRepository
                 .ExecuteAndCaptureAsync(async () => await c.PostAsync(url, content));
             if (null != pr.FinalException)
                 pr.Result.EnsureSuccessStatusCode();
-            
+
 
 
         }

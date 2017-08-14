@@ -63,7 +63,6 @@ namespace Bespoke.Sph.Mangements
             var hasChanges = lastDeployedDate < m_entityDefinition.ChangedDate;
 
             var tableBuilder = new TableSchemaBuilder(WriteMessage);
-
             if (hasChanges)
                 await tableBuilder.BuildAsync(ed);
 
@@ -81,7 +80,10 @@ namespace Bespoke.Sph.Mangements
             using (var mappingBuilder = new MappingBuilder(WriteMessage, WriteWarning, WriteError))
             {
                 if (!nes)
+                {
+                    await mappingBuilder.DeleteMappingAsync(ed);
                     await mappingBuilder.BuildAllAsync(ed);
+                }
 
             }
 
@@ -109,15 +111,15 @@ namespace Bespoke.Sph.Mangements
         {
             using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
             using (var cmd = new SqlCommand(@"
-INSERT INTO [Sph].[DeploymentMetadata]( Name, EdId, Tag, Revision)
-VALUES ( @Name, @EdId, @Tag, @Revision)
+INSERT INTO [Sph].[DeploymentMetadata]( Name, EdId, Tag, Revision, [Source])
+VALUES ( @Name, @EdId, @Tag, @Revision, @Source)
 ", conn))
             {
-                //cmd.Parameters.Add("@Id", SqlDbType.VarChar, 255).Value = Guid.NewGuid().ToString();
                 cmd.Parameters.Add("@Name", SqlDbType.VarChar, 255).Value = m_entityDefinition.Name;
                 cmd.Parameters.Add("@EdId", SqlDbType.VarChar, 255).Value = m_entityDefinition.Id;
                 cmd.Parameters.Add("@Tag", SqlDbType.VarChar, 255).Value = this.GetGitHeadComment() ;
                 cmd.Parameters.Add("@Revision", SqlDbType.VarChar, 255).Value = this.GetGitHeadCommitId();
+                cmd.Parameters.Add("@Source", SqlDbType.VarChar, -1).Value = m_entityDefinition.ToJsonString();
                 await conn.OpenAsync();
 
 
@@ -185,6 +187,7 @@ CREATE TABLE [Sph].[DeploymentMetadata](
     ,[Tag] VARCHAR(255) NOT NULL
     ,[Revision] VARCHAR(255)  NULL
     ,[DateTime] SMALLDATETIME NOT NULL DEFAULT GETDATE()
+    ,[Source] VARCHAR(MAX)
 )
 
                 ";

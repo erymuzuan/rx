@@ -11,6 +11,32 @@ namespace Bespoke.Sph.Mangements.ViewModels
         public ObjectCollection<EntityDeployment> SelectedCollection { get; } = new ObjectCollection<EntityDeployment>();
         private EntityDeployment m_selected;
         public string SqlServerConnection => ConfigurationManager.SqlConnectionString;
+        public string RxHomePath => ConfigurationManager.Home;
+        public string RxSourcePath => ConfigurationManager.SphSourceDirectory;
+        public string RxOutputPath => ConfigurationManager.CompilerOutputPath;
+        private bool m_isSqlServerAccessible;
+        private bool m_isElasticsearchAccesible;
+
+        public bool IsElasticsearchAccesible
+        {
+            get => m_isElasticsearchAccesible;
+            set
+            {
+                m_isElasticsearchAccesible = value;
+                RaisePropertyChanged("IsElasticsearchAccesible");
+            }
+        }
+
+        public bool IsSqlServerAccessible
+        {
+            get => m_isSqlServerAccessible;
+            set
+            {
+                m_isSqlServerAccessible = value;
+                RaisePropertyChanged("IsSqlServerAccessible");
+            }
+        }
+
         private bool m_isBusy;
         private string m_busyMessage;
 

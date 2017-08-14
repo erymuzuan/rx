@@ -19,9 +19,9 @@ namespace Bespoke.Sph.Mangements.Models
         private bool m_canTruncate;
         public bool Outdated => LastDeployedDateTime == null || LastDeployedDateTime < EntityDefinition.ChangedDate;
         private DateTime? m_compiledDateTime;
-        private bool m_canDeploy;
 
-        public bool CanDeploy => (!LastDeployedDateTime.HasValue && this.CompiledDateTime.HasValue) || ( LastDeployedDateTime.HasValue && EntityDefinition.ChangedDate > LastDeployedDateTime);
+        public bool CanDeploy => (!LastDeployedDateTime.HasValue && this.CompiledDateTime.HasValue) || (LastDeployedDateTime.HasValue && EntityDefinition.ChangedDate > LastDeployedDateTime);
+        public bool CanCompile => (!this.CompiledDateTime.HasValue) || (CompiledDateTime < EntityDefinition.ChangedDate);
 
         public DateTime? CompiledDateTime
         {
@@ -29,6 +29,7 @@ namespace Bespoke.Sph.Mangements.Models
             set
             {
                 m_compiledDateTime = value;
+                RaisePropertyChanged(nameof(CanCompile));
                 RaisePropertyChanged();
             }
         }
@@ -95,6 +96,7 @@ namespace Bespoke.Sph.Mangements.Models
                 this.CanTruncate = value.TreatDataAsSource && this.IsSelected;
                 RaisePropertyChanged(nameof(CanSkipElasticsearch));
                 RaisePropertyChanged(nameof(CanTruncate));
+                RaisePropertyChanged(nameof(CanCompile));
                 RaisePropertyChanged();
             }
         }

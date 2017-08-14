@@ -63,6 +63,7 @@ namespace Bespoke.Sph.SqlRepository
                 }
                 if (existingTableCount > 0)
                 {
+                    // TODO : even if the SQL table has not changed, the data schema might have changed
                     // Verify that the table has changed
                     var changed = HasSchemaChanged(ed);
                     if (!changed) return;
@@ -98,29 +99,41 @@ namespace Bespoke.Sph.SqlRepository
 
                 this.WriteMessage("Migrating data for {0}", ed.Name);
 
-                //migrate
+                //TODO : migrate in batches #6223
                 var readSql = $"SELECT [Id],[Json] FROM [{applicationName}].[{oldTable}]";
+                int total;
+                var row = 0;
+                const int BATCH_SIZE = 20;
+                using (var cmd = new SqlCommand("SELECT COUNT(*)  FROM [{applicationName}].[{oldTable}]"))
+                {
+                    total = (int)await cmd.ExecuteScalarAsync();
+                }
                 this.WriteMessage(readSql);
 
                 var builder = new Builder { EntityDefinition = ed, Name = ed.Name };
                 builder.Initialize();
 
-                using (var cmd = new SqlCommand(readSql, conn))
+                while (row <= total)
                 {
-                    using (var reader = await cmd.ExecuteReaderAsync())
+                    this.WriteMessage($"Migrating batch of {row} of total {total}");
+                    using (var cmd = new SqlCommand($"{readSql} ORDER BY [CreatedDateTime] OFFSET {row} ROWS FETCH NEXT {BATCH_SIZE} ROWS ONLY", conn))
                     {
-                        while (reader.Read())
+                        using (var reader = await cmd.ExecuteReaderAsync())
                         {
-                            var id = reader.GetString(0);
-                            var json = reader.GetString(1);
-                            this.WriteMessage("Migrating {0} : {1}", ed.Name, id);
-                            var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-                            dynamic ent = JsonConvert.DeserializeObject(json, setting);
-                            ent.Id = id;
-                            //
-                            await builder.InsertAsync(ent);
+                            while (reader.Read())
+                            {
+                                var id = reader.GetString(0);
+                                var json = reader.GetString(1);
+                                this.WriteMessage($"Sql migration from {oldTable} to {ed.Name}");
+                                var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+                                dynamic ent = JsonConvert.DeserializeObject(json, setting);
+                                ent.Id = id;
+                                //
+                                await builder.InsertAsync(ent);
+                            }
                         }
                     }
+                    row += BATCH_SIZE;
                 }
             }
         }
