@@ -22,6 +22,9 @@ no change in schema, though these subscribers do check for changes</p>
 <p>/clean</p>
 <h2 id="query-deployment-history">Query deployment history</h2>
 <p>Specify the EntityDefinition and <code>/q</code> switch</p>
+<h2 id="batch-size-when-reading-sql-server-table">Batch size when reading SQL server table</h2>
+<p><code>/batch-size|batch|size</code> to specify your batch size when reading SQL Server table. Default values is 1000 rows. This tool will read the SQL server data in
+the specified batch size, so even if there's millions of rows, it will not read everything thus making it easy on SQL Server</p>
 <h2 id="gui">GUI</h2>
 <p>To start this tool in UI interactive mode ..
 <code>/gui|ui|i</code></p>

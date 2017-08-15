@@ -4,10 +4,13 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SqlRepository;
 using Bespokse.Sph.ElasticsearchRepository;
+using Newtonsoft.Json.Linq;
 using Console = Colorful.Console;
 
 namespace Bespoke.Sph.Mangements
@@ -24,6 +27,59 @@ namespace Bespoke.Sph.Mangements
             m_entityDefinition = entityDefinition;
         }
 
+        public async Task<IEnumerable<MemberChange>> GetChangesAsync()
+        {
+            var changes = new List<MemberChange>();
+            var sql = $"SELECT TOP 1 Source FROM [Sph].[DeploymentMetadata] WHERE [Name] = '{m_entityDefinition.Name}' ORDER BY [DateTime] DESC ";
+            var json = ConfigurationManager.SqlConnectionString.GetDatabaseScalarValue<string>(sql);
+            await Task.Delay(100);
+            if (string.IsNullOrWhiteSpace(json)) return Array.Empty<MemberChange>();
+
+
+            void GetChanges(IEnumerable<Member> members, IReadOnlyCollection<Member> oldMembers, string parent, string oldParent)
+            {
+                foreach (var mbr in members)
+                {
+                    var existingMbr = oldMembers.FirstOrDefault(x => x.WebId == mbr.WebId);
+                    if (mbr.MemberCollection.Count > 0 && null != existingMbr)
+                    {
+                        GetChanges(mbr.MemberCollection, existingMbr.MemberCollection, $"{parent}.{mbr.Name}", $"{oldParent}.{existingMbr.Name}");
+                    }
+                    var change = new MemberChange(mbr, existingMbr, parent, oldParent);
+                    if (!change.IsEmpty && mbr.MemberCollection.Count > 0 && null != existingMbr)
+                    {
+                        // Complex type name change, so we got to include all the children
+                        foreach (var cm in mbr.MemberCollection)
+                        {
+                            var em = existingMbr.MemberCollection.FirstOrDefault(x => x.WebId == cm.WebId);
+                            if (null != em)
+                            {
+                                var pc = new MemberChange
+                                {
+                                    Action = "ParentChanged",
+                                    Name = mbr.Name,
+                                    WebId = mbr.WebId,
+                                    OldPath = $"{oldParent}.{existingMbr.Name}.{em.Name}",
+                                    NewPath = $"{parent}.{mbr.Name}.{cm.Name}",
+                                    OldType = em.GetMemberTypeName(),
+                                    NewType = em.GetMemberTypeName(),
+                                    MigrationStrategy = MemberMigrationStrategies.Direct
+                                };
+                                changes.Add(pc);
+
+                            }
+                        }
+                    }
+                    changes.Add(change);
+                }
+            }
+            var old = json.DeserializeFromJson<EntityDefinition>();
+            GetChanges(m_entityDefinition.MemberCollection, old.MemberCollection, "$", "$");
+
+            return changes.OrderBy(x => x.OldPath);
+
+
+        }
 
         public async Task<IList<DeploymentHistory>> QueryAsync()
         {
@@ -55,7 +111,7 @@ namespace Bespoke.Sph.Mangements
             return list;
         }
 
-        public async Task BuildAsync(bool truncate, bool nes)
+        public async Task BuildAsync(bool truncate, bool nes, int sqlBatchSize)
         {
             var ed = m_entityDefinition;
 
@@ -64,7 +120,7 @@ namespace Bespoke.Sph.Mangements
 
             var tableBuilder = new TableSchemaBuilder(WriteMessage);
             if (hasChanges)
-                await tableBuilder.BuildAsync(ed);
+                await tableBuilder.BuildAsync(ed, sqlBatchSize);
 
 
             if (ed.TreatDataAsSource)
@@ -117,7 +173,7 @@ VALUES ( @Name, @EdId, @Tag, @Revision, @Source)
             {
                 cmd.Parameters.Add("@Name", SqlDbType.VarChar, 255).Value = m_entityDefinition.Name;
                 cmd.Parameters.Add("@EdId", SqlDbType.VarChar, 255).Value = m_entityDefinition.Id;
-                cmd.Parameters.Add("@Tag", SqlDbType.VarChar, 255).Value = this.GetGitHeadComment() ;
+                cmd.Parameters.Add("@Tag", SqlDbType.VarChar, 255).Value = this.GetGitHeadComment();
                 cmd.Parameters.Add("@Revision", SqlDbType.VarChar, 255).Value = this.GetGitHeadCommitId();
                 cmd.Parameters.Add("@Source", SqlDbType.VarChar, -1).Value = m_entityDefinition.ToJsonString();
                 await conn.OpenAsync();
@@ -127,6 +183,7 @@ VALUES ( @Name, @EdId, @Tag, @Revision, @Source)
             }
         }
 
+        // TODO : move Git stuff to dependencies, use dynamic
         private string GetGitHeadCommitId()
         {
             //git rev-parse --short HEAD 
@@ -212,5 +269,22 @@ CREATE TABLE [Sph].[DeploymentMetadata](
             }
         }
 
+        public async Task TestMigrationAsync(string outputFolder)
+        {
+            var builder = new TableSchemaBuilder(WriteMessage, WriteWarning, WriteError);
+            var changes = (await GetChangesAsync()).ToList();
+
+            void Migration(JObject json, dynamic item)
+            {
+                foreach (var change in changes)
+                {
+                    change.Migrate(item, json);
+                }
+
+                File.WriteAllText($"{outputFolder}\\{item.Id}.json", JsonSerializerService.ToJson(item));
+            }
+
+            await builder.MigrateDataAsync(m_entityDefinition, 20, m_entityDefinition.Name, Migration);
+        }
     }
 }

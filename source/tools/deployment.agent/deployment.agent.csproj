@@ -61,6 +61,8 @@
     <Compile Include="ConsoleTable.cs" />
     <Compile Include="DeploymentHistory.cs" />
     <Compile Include="DeploymentMetadata.cs" />
+    <Compile Include="InteractivePrompt.cs" />
+    <Compile Include="MemberChange.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueueCleaner.cs" />
