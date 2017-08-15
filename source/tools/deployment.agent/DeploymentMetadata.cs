@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -49,26 +48,21 @@ namespace Bespoke.Sph.Mangements
                     if (!change.IsEmpty && mbr.MemberCollection.Count > 0 && null != existingMbr)
                     {
                         // Complex type name change, so we got to include all the children
-                        foreach (var cm in mbr.MemberCollection)
-                        {
-                            var em = existingMbr.MemberCollection.FirstOrDefault(x => x.WebId == cm.WebId);
-                            if (null != em)
+                        var complexChanges = from cm in mbr.MemberCollection
+                            let em = existingMbr.MemberCollection.FirstOrDefault(x => x.WebId == cm.WebId)
+                            where null != em
+                            select new MemberChange
                             {
-                                var pc = new MemberChange
-                                {
-                                    Action = "ParentChanged",
-                                    Name = mbr.Name,
-                                    WebId = mbr.WebId,
-                                    OldPath = $"{oldParent}.{existingMbr.Name}.{em.Name}",
-                                    NewPath = $"{parent}.{mbr.Name}.{cm.Name}",
-                                    OldType = em.GetMemberTypeName(),
-                                    NewType = em.GetMemberTypeName(),
-                                    MigrationStrategy = MemberMigrationStrategies.Direct
-                                };
-                                changes.Add(pc);
-
-                            }
-                        }
+                                Action = "ParentChanged",
+                                Name = mbr.Name,
+                                WebId = mbr.WebId,
+                                OldPath = $"{oldParent}.{existingMbr.Name}.{em.Name}",
+                                NewPath = $"{parent}.{mbr.Name}.{cm.Name}",
+                                OldType = em.GetMemberTypeName(),
+                                NewType = em.GetMemberTypeName(),
+                                MigrationStrategy = MemberMigrationStrategies.Direct
+                            };
+                        changes.AddRange(complexChanges);
                     }
                     changes.Add(change);
                 }
@@ -165,6 +159,7 @@ namespace Bespoke.Sph.Mangements
 
         private async Task InsertDeploymentMetadataAsync()
         {
+            var cvs = ObjectBuilder.GetObject("CvsProvider");
             using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
             using (var cmd = new SqlCommand(@"
 INSERT INTO [Sph].[DeploymentMetadata]( Name, EdId, Tag, Revision, [Source])
@@ -173,8 +168,8 @@ VALUES ( @Name, @EdId, @Tag, @Revision, @Source)
             {
                 cmd.Parameters.Add("@Name", SqlDbType.VarChar, 255).Value = m_entityDefinition.Name;
                 cmd.Parameters.Add("@EdId", SqlDbType.VarChar, 255).Value = m_entityDefinition.Id;
-                cmd.Parameters.Add("@Tag", SqlDbType.VarChar, 255).Value = this.GetGitHeadComment();
-                cmd.Parameters.Add("@Revision", SqlDbType.VarChar, 255).Value = this.GetGitHeadCommitId();
+                cmd.Parameters.Add("@Tag", SqlDbType.VarChar, 255).Value = cvs.GetCommitComment();
+                cmd.Parameters.Add("@Revision", SqlDbType.VarChar, 255).Value = cvs.GetCommitId();
                 cmd.Parameters.Add("@Source", SqlDbType.VarChar, -1).Value = m_entityDefinition.ToJsonString();
                 await conn.OpenAsync();
 
@@ -183,40 +178,6 @@ VALUES ( @Name, @EdId, @Tag, @Revision, @Source)
             }
         }
 
-        // TODO : move Git stuff to dependencies, use dynamic
-        private string GetGitHeadCommitId()
-        {
-            //git rev-parse --short HEAD 
-            var git = new ProcessStartInfo("git.exe", "rev-parse --short HEAD")
-            {
-                UseShellExecute = false,
-                RedirectStandardOutput = true
-            };
-            var p = Process.Start(git);
-            var output = p?.StandardOutput.ReadToEnd();
-            p?.WaitForExit();
-            return output;
-        }
-
-        private string GetGitHeadComment()
-        {
-            //git log -1
-            var git = new ProcessStartInfo("git.exe", "log -1")
-            {
-                UseShellExecute = false,
-                RedirectStandardOutput = true
-            };
-
-            // Redirect the output stream of the child process.
-            var p = Process.Start(git);
-            // Do not wait for the child process to exit before
-            // reading to the end of its redirected stream.
-            // p.WaitForExit();
-            // Read the output stream first and then wait.
-            var output = p?.StandardOutput.ReadToEnd();
-            p?.WaitForExit();
-            return output;
-        }
 
         private static void WriteMessage(string m)
         {
