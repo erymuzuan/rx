@@ -25,6 +25,21 @@ no change in schema, though these subscribers do check for changes</p>
 <h2 id="batch-size-when-reading-sql-server-table">Batch size when reading SQL server table</h2>
 <p><code>/batch-size|batch|size</code> to specify your batch size when reading SQL Server table. Default values is 1000 rows. This tool will read the SQL server data in
 the specified batch size, so even if there's millions of rows, it will not read everything thus making it easy on SQL Server</p>
+<h2 id="cvs">CVS</h2>
+<p>Deployment tool requires commit id and commit comment of the currently deployed EntityDefinition, you can specify one in the .config file</p>
+<pre><code class="language-xml">    &lt;object name=&quot;CvsProvider&quot; type=&quot;Bespoke.Sph.Mangements.GitCvsProvider, deployment.agent&quot; /&gt;
+</code></pre>
+<p>All you need to do is implement 2 public methods</p>
+<pre><code class="language-csharp">public string GetCommitId()
+{
+    return &quot;my-commit-id&quot;;
+}
+
+public string GetCommitComment(
+{
+    return &quot;my commit comment&quot;;
+}
+</code></pre>
 <h2 id="gui">GUI</h2>
 <p>To start this tool in UI interactive mode ..
 <code>/gui|ui|i</code></p>

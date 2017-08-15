@@ -28,6 +28,27 @@ Specify the EntityDefinition and `/q` switch
 the specified batch size, so even if there's millions of rows, it will not read everything thus making it easy on SQL Server
 
 
+## CVS
+Deployment tool requires commit id and commit comment of the currently deployed EntityDefinition, you can specify one in the .config file
+
+```xml
+    <object name="CvsProvider" type="Bespoke.Sph.Mangements.GitCvsProvider, deployment.agent" />
+```
+
+All you need to do is implement 2 public methods
+
+```csharp
+public string GetCommitId()
+{
+    return "my-commit-id";
+}
+
+public string GetCommitComment(
+{
+    return "my commit comment";
+}
+```
+
 ## GUI
 To start this tool in UI interactive mode .. 
 `/gui|ui|i`
