@@ -2,14 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.SqlRepository;
-using Bespoke.Sph.SubscribersInfrastructure;
-using Bespokse.Sph.ElasticsearchRepository;
-using Newtonsoft.Json;
-using subscriber.entities;
 
 namespace Bespoke.Sph.SourceBuilders
 {
@@ -41,7 +35,7 @@ namespace Bespoke.Sph.SourceBuilders
 
         }
 
-        private async Task CompileDependencies(EntityDefinition ed)
+        private async Task CompileDependenciesAsync(EntityDefinition ed)
         {
             await ed.ServiceContract.CompileAsync(ed);
             var operationEndpointFolder = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(OperationEndpoint)}";
@@ -94,117 +88,17 @@ namespace Bespoke.Sph.SourceBuilders
             }
         }
 
-        private async Task DeleteElasticSearchType(EntityDefinition ed)
-        {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                var response = await client.DeleteAsync(ConfigurationManager.ApplicationName.ToLowerInvariant() + "/_mapping/" + ed.Name.ToLowerInvariant());
-                Console.WriteLine("DELETE {1} type : {0}", response.StatusCode, ed.Name.ToLowerInvariant());
-            }
-        }
+   
 
         public override async Task RestoreAsync(EntityDefinition ed)
         {
-            await this.DeleteElasticSearchType(ed);
-
-            var type = CompileEntityDefinition(ed);
-            Console.WriteLine("Compiled : {0}", type);
-
-
-            if (ed.TreatDataAsSource)
-            {
-                // clean all data
-                var builder = new Builder { EntityDefinition = ed, Name = ed.Name };
-                try
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    builder.Initialize();
-                    await "Sph".ExecuteNonQueryAsync($"TRUNCATE TABLE [{ConfigurationManager.ApplicationName}].[{ed.Name}]");
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Please wait.. retrying....");
-                    Console.WriteLine(e.ToString());
-
-                    var sqlSub2 = new SqlTableSubscriber { NotificicationService = new ConsoleNotification() };
-                    await sqlSub2.ProcessMessageAsync(ed);
-
-                    await RestoreAsync(ed);
-                    return;
-                }
-                finally
-                {
-                    Console.ResetColor();
-                }
-
-                var sqlSub1 = new SqlTableSubscriber { NotificicationService = new ConsoleNotification() };
-                await sqlSub1.ProcessMessageAsync(ed);
-
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-
-                    var typeName = ed.Name.ToLowerInvariant();
-                    var index = ConfigurationManager.ApplicationName.ToLowerInvariant();
-                    var mappingFile = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\{ed.Name}.mapping";
-                    var mappingUrl = $"{index}/_mapping/{typeName}";
-
-                    await client.DeleteAsync(mappingUrl);
-                    if (File.Exists(mappingFile))
-                    {
-                        var mappingContent = new StringContent(File.ReadAllText(mappingFile));
-                        await client.PutAsync(mappingUrl, mappingContent);
-
-                    }
-
-
-                    var sourcesFolder = $"{ConfigurationManager.SphSourceDirectory}\\{ed.Name}";
-                    if (!Directory.Exists(sourcesFolder))
-                        Directory.CreateDirectory(sourcesFolder);
-
-                    var files = Directory.GetFiles(sourcesFolder, "*.json");
-                    foreach (var f in files)
-                    {
-                        var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-                        dynamic ent = JsonConvert.DeserializeObject(File.ReadAllText(f), setting);
-                        ent.Id = Path.GetFileNameWithoutExtension(f);
-                        await builder.InsertAsync(ent);
-
-                        var setting2 = new JsonSerializerSettings();
-                        var json = JsonConvert.SerializeObject(ent, setting2);
-
-                        var content = new StringContent(json);
-
-                        var url = $"{index}/{typeName}/{ent.Id}";
-                        var response = await client.PutAsync(url, content);
-                        Console.WriteLine($"{ent.Id} -> {response.StatusCode}");
-                    }
-                }
-                await this.CompileDependencies(ed);
-                return;
-            }
-
-
-            var sqlSub = new SqlTableSubscriber { NotificicationService = new ConsoleNotification() };
-            await sqlSub.ProcessMessageAsync(ed);
-
-
-            // mapping - get a clone to differ than the on the disk
-            var clone = ed.Clone();
-            clone.MemberCollection.Add(new SimpleMember { Name = "__builder", Type = typeof(string), IsNullable = true, IsExcludeInAll = true });
-
-            var mapBuilder = new MappingBuilder();
-            await mapBuilder.PutMappingAsync(clone);
-            await mapBuilder.MigrateDataAsync(ed);
-            
-            await this.CompileDependencies(ed);
-            Console.WriteLine(@"Deploying : {0}", ed.Name);
+            CompileEntityDefinition(ed);
+            await CompileDependenciesAsync(ed);
 
         }
 
 
-        private Type CompileEntityDefinition(EntityDefinition ed)
+        private void CompileEntityDefinition(EntityDefinition ed)
         {
             var options = new CompilerOptions
             {
@@ -220,10 +114,7 @@ namespace Bespoke.Sph.SourceBuilders
             var sources = ed.SaveSources(codes);
             var result = ed.Compile(options, sources);
             this.ReportBuildStatus(result);
-
-            var assembly = Assembly.LoadFrom(result.Output);
-            var type = assembly.GetType($"{ed.CodeNamespace}.{ed.Name}");
-            return type;
+            
         }
 
 
