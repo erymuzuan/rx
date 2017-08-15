@@ -15,7 +15,7 @@ namespace Bespoke.Sph.Mangements
         {
             m_gitPath = gitPath;
         }
-        private string GetCommitId()
+        public string GetCommitId()
         {
             //git rev-parse --short HEAD 
             var path = string.IsNullOrWhiteSpace(m_gitPath) ? "git.exe" : m_gitPath;
