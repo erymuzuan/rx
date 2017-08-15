@@ -23,6 +23,11 @@ no change in schema, though these subscribers do check for changes
 Specify the EntityDefinition and `/q` switch
 
 
+## Batch size when reading SQL server table
+`/batch-size|batch|size` to specify your batch size when reading SQL Server table. Default values is 1000 rows. This tool will read the SQL server data in
+the specified batch size, so even if there's millions of rows, it will not read everything thus making it easy on SQL Server
+
+
 ## GUI
 To start this tool in UI interactive mode .. 
 `/gui|ui|i`
