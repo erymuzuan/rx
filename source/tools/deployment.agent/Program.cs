@@ -27,7 +27,7 @@ namespace Bespoke.Sph.Mangements
                 Console.WriteLine($"Attach your debugger and to {Process.GetCurrentProcess().ProcessName} and press [ENTER] to continue");
                 System.Console.ReadLine();
             }
-            if (ParseArgExist("gui","ui","i"))
+            if (ParseArgExist("gui", "ui", "i"))
             {
                 var gui = new ProcessStartInfo($"{ConfigurationManager.ToolsPath}\\deployment.gui.exe")
                 {
@@ -67,18 +67,23 @@ namespace Bespoke.Sph.Mangements
 
             if (ParseArgExist("change", "changes", "diff"))
             {
-                var changes = await deployment.GetChangesAsync();
-                foreach (var change in changes.Where(x => !x.IsEmpty))
+                var plan = await deployment.GetChangesAsync();
+                foreach (var change in plan.ChangeCollection.OrderBy(x => x.OldPath).Where(x => !x.IsEmpty))
                 {
                     Console.WriteLine("______________________________________________________");
                     Console.WriteLine(change);
                 }
+                var migrationPlanFile = $"{ed.Name}-{plan.PreviousCommitId}-{plan.CurrentCommitId}";
+                Console.WriteLine($"MigrationPlan is saved to {migrationPlanFile}", Color.Yellow);
+                File.WriteAllText($@"{ConfigurationManager.SphSourceDirectory}\MigrationPlan\{migrationPlanFile}.json", plan.ToJson());
                 return;
             }
             if (ParseArgExist("migrate") && ParseArgExist("whatif"))
             {
+                // TODO : delete all the migration dll in output
+                // ls bin/output/migration.* | remove-item
                 var outputFolder = ParseArg("output");
-                await deployment.TestMigrationAsync(outputFolder);
+                await deployment.TestMigrationAsync(ParseArg("plan"), outputFolder);
                 return;
             }
 

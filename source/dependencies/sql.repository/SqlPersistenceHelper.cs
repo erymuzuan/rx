@@ -136,6 +136,26 @@ namespace Bespoke.Sph.SqlRepository
             }
 
         }
+        public static async Task<object> GetScalarValueAsync(this SqlConnection conn, string sql, params SqlParameter[] parameters) 
+        {
+
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                if (parameters.Any()) cmd.Parameters.AddRange(parameters);
+
+                if (conn.State != ConnectionState.Open)
+                    await conn.OpenAsync();
+
+                var result = await cmd.ExecuteScalarAsync();
+
+                if (DBNull.Value == result || null == result)
+                    return null;
+
+
+                return result;
+            }
+
+        }
         public static async Task<T> GetScalarValueAsync<T>(this SqlConnection conn, string sql, params SqlParameter[] parameters) where T : struct
         {
             var val = await conn.GetNullableScalarValueAsync<T>(sql, parameters);
