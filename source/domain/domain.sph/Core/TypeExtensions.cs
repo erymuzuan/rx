@@ -34,6 +34,7 @@ namespace Bespoke.Sph.Domain
         {
             if (type == null) return null;
             if (type.FullName == typeof(object).FullName) return null;
+            if (type.FullName == "System.ValueType") return null;
             var scope = type.Scope;
             var name = scope.Name.EndsWith(".dll") ? scope.Name : scope.Name + ".dll";
             var probingPaths = new[]
@@ -59,8 +60,7 @@ namespace Bespoke.Sph.Domain
 
             if (null == ca)
                 throw new FileNotFoundException($"Cannot fild {name} in web\\bin, output, subscribers or GAC when looking for {type.FullName} ");
-            var generic = type as GenericInstanceType;
-            if (null != generic)
+            if (type is GenericInstanceType generic)
             {
                 var elementType = generic.ElementType.FullName;
                 return ca.MainModule.Types.SingleOrDefault(x => x.FullName == elementType);
