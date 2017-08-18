@@ -16,10 +16,10 @@ namespace domain.test.triggers
         public List<ExpressionSyntax> Arguments { get; private set; }
         public override void VisitInvocationExpression(InvocationExpressionSyntax node)
         {
-
             var member = node.Expression as MemberAccessExpressionSyntax;
-            var type = member?.Expression as IdentifierNameSyntax;
-            if (type != null && type.Identifier.Text == "k" && member.Name.Identifier.Text == this.MethodName)
+            if (member?.Expression is IdentifierNameSyntax type 
+                && type.Identifier.Text == "k" 
+                && member.Name.Identifier.Text == this.MethodName)
             {
                 foreach (var arg in node.ArgumentList.Arguments)
                 {

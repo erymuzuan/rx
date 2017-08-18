@@ -63,7 +63,7 @@ namespace domain.test.triggers
         public void GetValueStringWithEntityMethodArg()
         {
             var customer = this.GetCustomerInstance();
-            customer.FullName = "Erymuzuan";
+            customer.FirstName = "Erymuzuan";
             var context = new RuleContext(customer);
 
             var af = new AssemblyField
@@ -86,7 +86,7 @@ namespace domain.test.triggers
         public void GetAsyncValueString()
         {
             var customer = this.GetCustomerInstance();
-            customer.FullName = "Erymuzuan";
+            customer.FirstName = "Erymuzuan";
             var context = new RuleContext(customer);
 
             var field = new FunctionField { Script = "return item;", ScriptEngine = new RoslynScriptEngine() };
@@ -110,7 +110,7 @@ namespace domain.test.triggers
         public void TaskStringAsyncValueString()
         {
             var customer = this.GetCustomerInstance();
-            customer.FullName = "Erymuzuan";
+            customer.FirstName = "Erymuzuan";
             var context = new RuleContext(customer);
 
             var field = new FunctionField { Script = "return item;", ScriptEngine = new RoslynScriptEngine() };
@@ -136,7 +136,7 @@ namespace domain.test.triggers
         public void GetNullableDateTime()
         {
             var customer = this.GetCustomerInstance();
-            customer.FullName = "Erymuzuan";
+            customer.FirstName = "Erymuzuan";
             var context = new RuleContext(customer);
 
 
@@ -159,7 +159,7 @@ namespace domain.test.triggers
         public void GetAsyncValueOverloaded()
         {
             var customer = this.GetCustomerInstance();
-            customer.FullName = "Erymuzuan";
+            customer.FirstName = "Erymuzuan";
             var context = new RuleContext(customer);
 
             var field = new FunctionField { Script = "return item;", ScriptEngine = new RoslynScriptEngine() };

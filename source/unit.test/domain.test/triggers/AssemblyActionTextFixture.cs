@@ -12,18 +12,22 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace domain.test.triggers
 {
     
     public class AssemblyActionTextFixture
     {
+        public ITestOutputHelper Console { get; }
 
         private readonly MockRepository<EntityDefinition> m_efMock;
-        private readonly MockPersistence m_persistence = new MockPersistence();
+        private readonly MockPersistence m_persistence;
 
-        public AssemblyActionTextFixture()
+        public AssemblyActionTextFixture(ITestOutputHelper console)
         {
+            Console = console;
+            m_persistence = new MockPersistence(console);
             m_efMock = new MockRepository<EntityDefinition>();
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
             ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(m_efMock);
@@ -47,7 +51,7 @@ namespace domain.test.triggers
             var options = new CompilerOptions();
             var result = await trigger.CompileAsync(options);
             if(!result.Result)
-                result.Errors.ForEach(Console.WriteLine);
+                result.Errors.ForEach(x => Console.WriteLine(x.ToString()));
             Assert.True(result.Result, result.ToString());
         }
 
@@ -126,13 +130,12 @@ namespace domain.test.triggers
 
             Assert.Contains("return response", code);
         }
-        [Fact]
-        public async Task CallPatientControllerValidate()
+        [Fact(Skip = "The entity assembly no longer contains a Controller, creates an OperationEndpoint")]
+        public void CallPatientControllerValidate()
         {
             var patientDll = $@"{ConfigurationManager.CompilerOutputPath}\DevV1.Patient.dll";
             File.Copy(patientDll, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DevV1.Patient.dll"),true);
             var dll = Assembly.LoadFile(patientDll);
-            await Task.Delay(250);
             var action = new AssemblyAction
             {
                 Title = "Validate Dob",
@@ -187,8 +190,7 @@ namespace Dev.SampleTriggers
      }
   }
 }";
-            var tree = CSharpSyntaxTree.ParseText(code)
-                ;
+            var tree = CSharpSyntaxTree.ParseText(code);
             var root = (CompilationUnitSyntax)tree.GetRoot().NormalizeWhitespace(indentation: "  ", elasticTrivia: true);
             Assert.Contains("Validate", root.ToString());
 
@@ -225,7 +227,7 @@ namespace Dev.SampleTriggers
                         var symbol = model.GetEnclosingSymbol(start);
                         while (null != symbol)
                         {
-                            Console.WriteLine(symbol);
+                            Console.WriteLine(symbol.ToString());
                             symbol = symbol.ContainingSymbol;
                         }
                     });
@@ -238,11 +240,10 @@ namespace Dev.SampleTriggers
         }
 
         [Fact]
-        public async Task FormatSimpleCode()
+        public void FormatSimpleCode()
         {
             var ws = new AdhocWorkspace();
             var project = ws.AddProject("test", LanguageNames.CSharp);
-            await Task.Delay(500);
 
             const string CODE = @"public class A{
 public string Name{get;set;}}";

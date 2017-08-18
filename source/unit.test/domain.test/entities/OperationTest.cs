@@ -25,17 +25,18 @@ namespace domain.test.entities
     {
         private readonly ITestOutputHelper m_output;
         private readonly MockRepository<EntityDefinition> m_efMock;
-        private readonly MockPersistence m_persistence = new MockPersistence();
+        private readonly MockPersistence m_persistence;
         private readonly Mock<ICacheManager> m_cache;
 
         public OperationTest(ITestOutputHelper output)
         {
             m_output = output;
+            m_persistence = new MockPersistence(output);
             m_efMock = new MockRepository<EntityDefinition>();
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
             ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(m_efMock);
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
-            ObjectBuilder.AddCacheList<IEntityChangePublisher>(new MockChangePublisher());
+            ObjectBuilder.AddCacheList<IEntityChangePublisher>(new MockChangePublisher(output));
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
             ObjectBuilder.AddCacheList<IPersistence>(m_persistence);
 
@@ -458,7 +459,7 @@ namespace domain.test.entities
             var mustBeDeadRule = new BusinessRule { Name = "Must be dead" };
             mustBeDeadRule.RuleCollection.Add(new Rule
             {
-                Left = new DocumentField { Path = "DeathDateTime" },
+                Left = new DocumentField { Path = "DeathDateTime", Type = typeof(DateTime?) },
                 Operator = Operator.Lt,
                 Right = new FunctionField { Script = "DateTime.Today" }
             });
@@ -472,8 +473,8 @@ namespace domain.test.entities
 
             var ed = this.CreatePatientDefinition(release.Entity);
             ed.BusinessRuleCollection.Add(mustBeDeadRule);
-            string jsonPath = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(EntityDefinition)}\\{ed.Id}.json";
-            string oePath = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(OperationEndpoint)}\\{release.Id}.json";
+            var jsonPath = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(EntityDefinition)}\\{ed.Id}.json";
+            var oePath = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(OperationEndpoint)}\\{release.Id}.json";
             File.WriteAllText(jsonPath, ed.ToJsonString(true));
             File.WriteAllText(oePath, release.ToJsonString(true));
 
@@ -497,7 +498,7 @@ namespace domain.test.entities
             var result = await controller.PatchRelease(
                 ed,
                 release,
-                patient.Id, JsonSerializerService.ToJsonString(patient, true));
+                patient.Id, JsonConvert.SerializeObject(patient));
             Console.WriteLine("Result type : " + result);
             Assert.IsType<InvalidResult>(result);
 

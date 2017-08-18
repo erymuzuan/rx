@@ -16,7 +16,7 @@ namespace domain.test.workflows
             XNamespace x = "http://www.w3.org/2001/XMLSchema";
             var xsd =
                 XElement.Load(
-                    new Uri($@"{ConfigurationManager.Home}\..\..\source\unit.test\domain.test\workflows\PemohonWakaf.xsd").ToString());
+                    new Uri($@"{ConfigurationManager.Home}\..\source\unit.test\domain.test\workflows\PemohonWakaf.xsd").ToString());
 
             XNamespace customNs = xsd.Attribute("targetNamespace").Value;
             var elements = xsd.Elements(x + "element").ToList();
