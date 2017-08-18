@@ -1,7 +1,7 @@
 ﻿Param(
        [switch]$InMemory = $false,
        [switch]$Debug = $false,
-       [string]$config = "dev"
+       [string]$config = "all"
        
      )
 
