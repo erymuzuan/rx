@@ -11,30 +11,26 @@ namespace Bespoke.Sph.Domain
         public override async Task<IEnumerable<BuildError>> ValidateErrorsAsync(Filter filter)
         {
             var errors = (await base.ValidateErrorsAsync(filter)).ToList();
-            Action<string> addError = message => errors.Add(new BuildError(filter.WebId, message));
+            void AddError(string message) => errors.Add(new BuildError(filter.WebId, message));
             if (typeof(DateTime) == this.Type && !string.IsNullOrWhiteSpace(this.DefaultValue))
             {
-                DateTime date;
-                if (!DateTime.TryParse(this.DefaultValue, out date))
-                    addError($@"""{DefaultValue}"" is not a valid DateTime value for {Name} in {filter.Term} filter");
+                if (!DateTime.TryParse(this.DefaultValue, out DateTime _))
+                    AddError($@"""{DefaultValue}"" is not a valid DateTime value for {Name} in {filter.Term} filter");
             }
             if (typeof(int) == this.Type && !string.IsNullOrWhiteSpace(this.DefaultValue))
             {
-                int val;
-                if (!int.TryParse(this.DefaultValue, out val))
-                    addError($@"""{DefaultValue}"" is not a valid Int32 value for {Name} in {filter.Term} filter");
+                if (!int.TryParse(this.DefaultValue, out int _))
+                    AddError($@"""{DefaultValue}"" is not a valid Int32 value for {Name} in {filter.Term} filter");
             }
             if (typeof(decimal) == this.Type && !string.IsNullOrWhiteSpace(this.DefaultValue))
             {
-                decimal val;
-                if (!decimal.TryParse(this.DefaultValue, out val))
-                    addError($@"""{DefaultValue}"" is not a valid decimal value for {Name} in {filter.Term} filter");
+                if (!decimal.TryParse(this.DefaultValue, out decimal _))
+                    AddError($@"""{DefaultValue}"" is not a valid decimal value for {Name} in {filter.Term} filter");
             }
             if (typeof(bool) == this.Type && !string.IsNullOrWhiteSpace(this.DefaultValue))
             {
-                bool val;
-                if (!bool.TryParse(this.DefaultValue, out val))
-                    addError($@"""{DefaultValue}"" is not a valid boolean value for {Name} in {filter.Term} filter, the only valid value is ""true"" or  ""false""");
+                if (!bool.TryParse(this.DefaultValue, out bool _))
+                    AddError($@"""{DefaultValue}"" is not a valid boolean value for {Name} in {filter.Term} filter, the only valid value is ""true"" or  ""false""");
             }
             return errors;
         }
@@ -59,16 +55,10 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         public virtual Type Type
         {
-            get
-            {
-                return string.IsNullOrWhiteSpace(this.TypeName) ?
-                    null :
-                    Strings.GetType(this.TypeName);
-            }
-            set
-            {
-                this.TypeName = value.GetShortAssemblyQualifiedName();
-            }
+            get => string.IsNullOrWhiteSpace(this.TypeName) ?
+                null :
+                Strings.GetType(this.TypeName);
+            set => this.TypeName = value.GetShortAssemblyQualifiedName();
         }
 
         public string GenerateParameterCode()

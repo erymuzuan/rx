@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.SqlRepository
 {
@@ -40,7 +41,10 @@ namespace Bespoke.Sph.SqlRepository
         {
             m_writeError?.Invoke(exception);
         }
-        public async Task BuildAsync(EntityDefinition ed)
+
+
+
+        public async Task BuildAsync(EntityDefinition ed, int sqlBatchSize = 50, Action<JObject, dynamic> migration = null)
         {
 
             if (ed.Transient) return;
@@ -56,11 +60,8 @@ namespace Bespoke.Sph.SqlRepository
             using (var conn = new SqlConnection(connectionString))
             {
                 await conn.OpenAsync();
-                int existingTableCount;
-                using (var cmd = new SqlCommand(tableExistSql, conn))
-                {
-                    existingTableCount = (int)(await cmd.ExecuteScalarAsync());
-                }
+                var existingTableCount = conn.GetDatabaseScalarValue<int>(tableExistSql);
+
                 if (existingTableCount > 0)
                 {
                     // TODO : even if the SQL table has not changed, the data schema might have changed
@@ -97,26 +98,29 @@ namespace Bespoke.Sph.SqlRepository
                 }
                 if (existingTableCount == 0) return;
 
-                this.WriteMessage("Migrating data for {0}", ed.Name);
+                await MigrateDataAsync(ed, sqlBatchSize, oldTable, migration, true);
+            }
+        }
 
-                //TODO : migrate in batches #6223
-                var readSql = $"SELECT [Id],[Json] FROM [{applicationName}].[{oldTable}]";
-                int total;
-                var row = 0;
-                const int BATCH_SIZE = 20;
-                using (var cmd = new SqlCommand("SELECT COUNT(*)  FROM [{applicationName}].[{oldTable}]"))
-                {
-                    total = (int)await cmd.ExecuteScalarAsync();
-                }
-                this.WriteMessage(readSql);
+        public async Task MigrateDataAsync(EntityDefinition ed, int sqlBatchSize, string oldTable, Action<JObject, dynamic> migration, bool insert = false)
+        {
+            this.WriteMessage("Migrating data for {0}", ed.Name);
+            var row = 0;
+
+            using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
+            {
+                await conn.OpenAsync();
 
                 var builder = new Builder { EntityDefinition = ed, Name = ed.Name };
                 builder.Initialize();
 
+                var total = await conn.GetScalarValueAsync<int>($"SELECT COUNT(*)  FROM [{ConfigurationManager.ApplicationName}].[{oldTable}]");
+
                 while (row <= total)
                 {
                     this.WriteMessage($"Migrating batch of {row} of total {total}");
-                    using (var cmd = new SqlCommand($"{readSql} ORDER BY [CreatedDateTime] OFFSET {row} ROWS FETCH NEXT {BATCH_SIZE} ROWS ONLY", conn))
+                    var sql = $"SELECT [Id],[Json] FROM [{ConfigurationManager.ApplicationName}].[{oldTable}] ORDER BY [Id] OFFSET {row} ROWS FETCH NEXT {sqlBatchSize} ROWS ONLY";
+                    using (var cmd = new SqlCommand(sql, conn))
                     {
                         using (var reader = await cmd.ExecuteReaderAsync())
                         {
@@ -129,11 +133,13 @@ namespace Bespoke.Sph.SqlRepository
                                 dynamic ent = JsonConvert.DeserializeObject(json, setting);
                                 ent.Id = id;
                                 //
-                                await builder.InsertAsync(ent);
+                                migration?.Invoke(JObject.Parse(json), ent);
+                                if (insert)
+                                    await builder.InsertAsync(ent);
                             }
                         }
                     }
-                    row += BATCH_SIZE;
+                    row += sqlBatchSize;
                 }
             }
         }

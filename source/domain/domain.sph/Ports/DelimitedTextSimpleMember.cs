@@ -5,18 +5,17 @@ namespace Bespoke.Sph.Domain
 {
     public class DelimitedTextSimpleMember : SimpleMember
     {
-        private readonly DelimitedTextFieldMapping m_fieldMapping;
+        //#6240, let json serializer works on the public property
+        public DelimitedTextFieldMapping FieldMapping { get; }
 
         public DelimitedTextSimpleMember()
         {
-            
+
         }
 
         public DelimitedTextSimpleMember(DelimitedTextFieldMapping fieldMapping)
         {
-            if(null == fieldMapping)
-                throw new ArgumentNullException(nameof(fieldMapping));
-            m_fieldMapping = fieldMapping;
+            FieldMapping = fieldMapping ?? throw new ArgumentNullException(nameof(fieldMapping));
             this.Name = fieldMapping.Name;
             this.TypeName = fieldMapping.TypeName;
             this.AllowMultiple = false;
@@ -24,6 +23,7 @@ namespace Bespoke.Sph.Domain
         }
         public override string GeneratedCode(string padding = "      ")
         {
+            if (null == this.FieldMapping) throw new InvalidOperationException("The FieldMapping has not been set, please re-create your EntityDefinition");
             var type = this.Type.ToCSharp() + this.GetNullable();
             var code = new StringBuilder();
             code.AppendLine($@"{padding}[JsonIgnore]");
@@ -33,16 +33,16 @@ namespace Bespoke.Sph.Domain
             {
                 code.AppendLine("{");
                 code.AppendLine("    get{");
-                code.AppendLine($@"        if({Name}Raw == {m_fieldMapping.NullPlaceholder.ToVerbatim()})");
+                code.AppendLine($@"        if({Name}Raw == {FieldMapping.NullPlaceholder.ToVerbatim()})");
                 code.AppendLine($@"             return null;");
-                code.AppendLine($"         {m_fieldMapping.GenerateNullableReadCode(Name + "Raw")}");
+                code.AppendLine($"         {FieldMapping.GenerateNullableReadCode(Name + "Raw")}");
 
                 code.AppendLine("       }");
                 code.AppendLine("}");
             }
             else
             {
-                var expression = m_fieldMapping.GenerateReadExpressionCode(Name + "Raw");
+                var expression = FieldMapping.GenerateReadExpressionCode(Name + "Raw");
                 code.AppendLine($@" => {expression};");
             }
 

@@ -1,6 +1,6 @@
 {
   "$type": "Bespoke.Sph.Domain.QueryEndpoint, domain.sph",
-  "CodeNamespace": "Bespoke.DevV1.Api",
+  "ControllerName": "PatientPatientsWithCachedFilterQueryEndpoint",
   "FilterCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
     "$values": [
@@ -36,17 +36,6 @@
   },
   "SortCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
-    "$values": []
-  },
-  "Performer": {
-    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
-    "UserProperty": null,
-    "Value": null,
-    "IsPublic": false,
-    "WebId": null
-  },
-  "RouteParameterCollection": {
-    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
     "$values": []
   },
   "MemberCollection": {

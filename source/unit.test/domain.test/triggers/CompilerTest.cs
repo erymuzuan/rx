@@ -8,19 +8,22 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using domain.test.reports;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace domain.test.triggers
 {
     
     public class CompilerTest : IDisposable
     {
+        public ITestOutputHelper Console { get; }
         private readonly MockRepository<EntityDefinition> m_efMock;
         public const string ENTITY_DEFINITION_ID = "account123";
-        public static readonly string JsonFileName = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\account123.json";
+        public static readonly string JsonFileName = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\{ENTITY_DEFINITION_ID}.json";
 
-        public CompilerTest()
+        public CompilerTest(ITestOutputHelper console)
         {
-            
+            Console = console;
+
             m_efMock = new MockRepository<EntityDefinition>();
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
             ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(m_efMock);
@@ -59,7 +62,7 @@ namespace domain.test.triggers
             };
             Console.WriteLine(options.SourceCodeDirectory);
             var result = await trigger.CompileAsync(options);
-            result.Errors.ForEach(Console.WriteLine);
+            result.Errors.ForEach(x => this.Console.WriteLine(x.ToString()));
             Assert.True(result.Result);
         }
 
@@ -72,14 +75,14 @@ namespace domain.test.triggers
                 IsVerbose = verbose,
                 IsDebug = true
             };
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\System.Web.Mvc.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\core.sph.dll"));
+            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\Newtonsoft.Json.dll"));
 
             var codes = ed.GenerateCode();
             var sources = ed.SaveSources(codes);
             var result = ed.Compile(options, sources);
-            result.Errors.ForEach(Console.WriteLine);
+            result.Errors.ForEach(x => this.Console.WriteLine(x.ToString()));
 
             // try to instantiate the EntityDefinition
             var assembly = Assembly.LoadFrom(result.Output);

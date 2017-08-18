@@ -11,14 +11,8 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         public Type Type
         {
-            get
-            {
-                return Strings.GetType(this.TypeName);
-            }
-            set
-            {
-                this.TypeName = value.GetShortAssemblyQualifiedName();
-            }
+            get => Strings.GetType(this.TypeName);
+            set => this.TypeName = value.GetShortAssemblyQualifiedName();
         }
 
         public override object GetValue(RuleContext context)

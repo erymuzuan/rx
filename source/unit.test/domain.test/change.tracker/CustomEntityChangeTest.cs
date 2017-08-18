@@ -26,13 +26,13 @@ namespace domain.test.change.tracker
         }
 
         [Fact]
-        public void ChangeFullName()
+        public void ChangeFirstName()
         {
             var c = this.GetCustomerInstance();
-            c.FullName = "1";
+            c.FirstName = "1";
 
             var c1 = JsonSerializerService.JsonClone(c);
-            c1.FullName = "2";
+            c1.FirstName = "2";
 
             var generator = new ChangeGenerator();
             IEnumerable<Change> changes = generator.GetChanges(c, c1);
@@ -48,11 +48,11 @@ namespace domain.test.change.tracker
         public void ChangeAddressState()
         {
             var c2 = this.GetCustomerInstance();
-            c2.FullName = "1";
+            c2.FirstName = "1";
             c2.Address.State = "Selangor";
 
             var c1 = JsonSerializerService.JsonClone(c2);
-            c1.FullName = "2";
+            c1.FirstName = "2";
             c1.Address.State = "Kelantan";
 
             var generator = new ChangeGenerator();
@@ -102,7 +102,7 @@ namespace domain.test.change.tracker
         public void CollectionChildItemAdded()
         {
             var c2 = this.GetCustomerInstance();
-            c2.FullName = "erymuzuan";
+            c2.FirstName = "erymuzuan";
             c2.Contact.Name = "wan fatimah";
 
             var c1 = JsonSerializerService.JsonClone(c2);
@@ -134,7 +134,7 @@ namespace domain.test.change.tracker
             attachment.WebId = "ABC";
 
             var c2 = this.GetCustomerInstance();
-            c2.FullName = "erymuzuan";
+            c2.FirstName = "erymuzuan";
             c2.Contact.Name = "wan fatimah";
             c2.Contact.AttachmentCollection.Add(attachment);
 

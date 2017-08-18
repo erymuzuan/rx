@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Windows;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Mangements;
 using Bespoke.Sph.Mangements.Models;
 using Bespoke.Sph.Mangements.ViewModels;
 using Telerik.Windows.Controls;
@@ -16,11 +17,23 @@ namespace deployment.gui
     {
         [Import]
         public MainViewModel MainViewModel { get; set; }
+        [Import]
+        public ScriptWindow ScriptWindow { get; set; }
+
         public MainWindow()
         {
             StyleManager.ApplicationTheme = new Windows8Theme();
             InitializeComponent();
             this.Loaded += MainWindow_Loaded;
+            this.Closed += MainWindow_Closed;
+        }
+
+        private void MainWindow_Closed(object sender, EventArgs e)
+        {
+            if(this.ScriptWindow.Visibility == Visibility.Hidden)
+                this.ScriptWindow.Close();
+
+            Application.Current.Shutdown(0);
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -57,6 +70,11 @@ namespace deployment.gui
         private void ShowHelp(object sender, RoutedEventArgs e)
         {
             Process.Start(new Uri($@"{ConfigurationManager.ToolsPath}\HelpText.html").ToString());
+        }
+
+        private void ShowScriptWindow(object sender, RoutedEventArgs e)
+        {
+            this.ScriptWindow.ShowDialog();
         }
     }
 }

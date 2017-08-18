@@ -11,7 +11,6 @@ namespace Bespoke.Sph.WebTests
     public class TriggerTestFixture : BrowserTest
     {
         
-
         [Test]
         public async Task _200_CreateRegistration()
         {

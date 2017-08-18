@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.4\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.4\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
-  <Import Project="..\..\..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\..\..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="..\..\..\packages\Microsoft.Net.Compilers.2.3.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\..\..\packages\Microsoft.Net.Compilers.2.3.1\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -58,35 +58,33 @@
       <HintPath>..\..\..\packages\Humanizer.1.37.7\lib\portable-win+net40+sl50+wp8+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Humanizer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.CodeAnalysis.Common.2.1.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll</HintPath>
+    <Reference Include="Microsoft.CodeAnalysis, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.CodeAnalysis.Common.2.3.1\lib\netstandard1.3\Microsoft.CodeAnalysis.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.CodeAnalysis.CSharp.2.1.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.CodeAnalysis.CSharp.2.3.1\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.CSharp.Workspaces, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.2.1.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.Workspaces.dll</HintPath>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp.Workspaces, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.2.3.1\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.Workspaces.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.Elfie, Version=0.10.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.CodeAnalysis.Elfie.0.10.6\lib\net46\Microsoft.CodeAnalysis.Elfie.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.VisualBasic, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.CodeAnalysis.VisualBasic.2.1.0\lib\netstandard1.3\Microsoft.CodeAnalysis.VisualBasic.dll</HintPath>
+    <Reference Include="Microsoft.CodeAnalysis.VisualBasic, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.CodeAnalysis.VisualBasic.2.3.1\lib\netstandard1.3\Microsoft.CodeAnalysis.VisualBasic.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.CodeAnalysis.VisualBasic.Workspaces.2.1.0\lib\netstandard1.3\Microsoft.CodeAnalysis.VisualBasic.Workspaces.dll</HintPath>
+    <Reference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.CodeAnalysis.VisualBasic.Workspaces.2.3.1\lib\netstandard1.3\Microsoft.CodeAnalysis.VisualBasic.Workspaces.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.Workspaces, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.CodeAnalysis.Workspaces.Common.2.1.0\lib\net46\Microsoft.CodeAnalysis.Workspaces.dll</HintPath>
+    <Reference Include="Microsoft.CodeAnalysis.Workspaces, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.CodeAnalysis.Workspaces.Common.2.3.1\lib\net46\Microsoft.CodeAnalysis.Workspaces.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.Workspaces.Desktop, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.CodeAnalysis.Workspaces.Common.2.1.0\lib\net46\Microsoft.CodeAnalysis.Workspaces.Desktop.dll</HintPath>
+    <Reference Include="Microsoft.CodeAnalysis.Workspaces.Desktop, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.CodeAnalysis.Workspaces.Common.2.3.1\lib\net46\Microsoft.CodeAnalysis.Workspaces.Desktop.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.4\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.dll</HintPath>
@@ -130,25 +128,20 @@
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Composition.AttributedModel, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.Composition.AttributedModel, Version=1.0.31.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\System.Composition.AttributedModel.1.0.31\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll</HintPath>
     </Reference>
-    <Reference Include="System.Composition.Convention, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.Convention.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.Composition.Convention, Version=1.0.31.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\System.Composition.Convention.1.0.31\lib\portable-net45+win8+wp8+wpa81\System.Composition.Convention.dll</HintPath>
     </Reference>
-    <Reference Include="System.Composition.Hosting, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.Hosting.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.Composition.Hosting, Version=1.0.31.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\System.Composition.Hosting.1.0.31\lib\portable-net45+win8+wp8+wpa81\System.Composition.Hosting.dll</HintPath>
     </Reference>
-    <Reference Include="System.Composition.Runtime, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.Runtime.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.Composition.Runtime, Version=1.0.31.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\System.Composition.Runtime.1.0.31\lib\portable-net45+win8+wp8+wpa81\System.Composition.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="System.Composition.TypedParts, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.TypedParts.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.Composition.TypedParts, Version=1.0.31.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\System.Composition.TypedParts.1.0.31\lib\portable-net45+win8+wp8+wpa81\System.Composition.TypedParts.dll</HintPath>
     </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Console, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -780,9 +773,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="ClassDiagram1.cd" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
     <None Include="Schema\AdaptersApi.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -833,7 +824,7 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props'))" />
-    <Error Condition="!Exists('..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.4\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.4\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\..\..\packages\Microsoft.Net.Compilers.2.3.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Microsoft.Net.Compilers.2.3.1\build\Microsoft.Net.Compilers.props'))" />
   </Target>
 </Project>

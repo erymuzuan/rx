@@ -45,8 +45,7 @@ namespace Bespoke.Sph.RoslynScriptEngines
             }
 
             var customScript = string.Empty;
-            var itemCustomScript = arg1 as ICustomScript;
-            if (null != itemCustomScript)
+            if (arg1 is ICustomScript itemCustomScript)
                 customScript = itemCustomScript.Script;
 
             var block = script;

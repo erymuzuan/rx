@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.Composition;
+/*using System.ComponentModel.Composition;*/
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 
 namespace es.diagnostics
 {
-    [Export(typeof(IBuildDiagnostics))]
+    /*[Export(typeof(IBuildDiagnostics))]*/
     public sealed class ElasticsearchMappingDiagnostics : BuilDiagnostic
     {
         public string GetMapping(EntityDefinition item)
@@ -26,7 +26,7 @@ namespace es.diagnostics
             map.AppendLine("            \"CreatedDate\": {\"type\": \"date\"},");
             map.AppendLine("            \"ChangedDate\": {\"type\": \"date\"},");
 
-            var memberMappings = string.Join(",\r\n", item.MemberCollection.Select(d => d.GetMemberMappings()));
+            var memberMappings = string.Join(",\r\n", item.MemberCollection.Select(d =>/*TODO : removed for compilation error*/ "d.GetMemberMappings()"));
             map.AppendLine(memberMappings);
 
             map.AppendLine("        }");

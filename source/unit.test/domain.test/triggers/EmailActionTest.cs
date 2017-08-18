@@ -1,21 +1,25 @@
 ﻿using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace domain.test.triggers
 {
 
     public class EmailActionTest
     {
-        public EmailActionTest()
+        public ITestOutputHelper Console { get; }
+
+        public EmailActionTest(ITestOutputHelper console)
         {
+            Console = console;
             ObjectBuilder.AddCacheList<ILogger>(new Logger());
         }
         [Fact]
         public async Task Email()
         {
             var customer = this.GetCustomerInstance();
-            customer.FullName = "Mercedes";
+            customer.FirstName = "Mercedes";
             ObjectBuilder.AddCacheList<ITemplateEngine>(new MockTemplateEngine());
             CustomAction email = new EmailAction
             {
@@ -35,7 +39,7 @@ namespace domain.test.triggers
         public async Task EmailWithModel()
         {
             var customer = this.GetCustomerInstance();
-            customer.FullName = "Ferarri";
+            customer.FirstName = "Ferarri";
             customer.Contact.Email = "ruzzaima@bespoke.com.my";
             ObjectBuilder.AddCacheList<ITemplateEngine>(new MockTemplateEngine());
             CustomAction email = new EmailAction
@@ -50,7 +54,7 @@ namespace domain.test.triggers
             else
                 email.Execute(new RuleContext(customer));
 
-
+            Console.WriteLine("email sent, check your mail folder");
         }
         /**/
     }

@@ -10,16 +10,19 @@ using domain.test.reports;
 using domain.test.triggers;
 using Moq;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace domain.test.workflows
 {
     [Trait("Category", "Workflow")]
     public class TryCatchTest
     {
+        public ITestOutputHelper Console { get; }
         private readonly string m_schemaStoreId = Guid.NewGuid().ToString();
    
-        public TryCatchTest()
+        public TryCatchTest(ITestOutputHelper console)
         {
+            Console = console;
             var doc = new BinaryStore
             {
                 Content = File.ReadAllBytes(@".\workflows\PemohonWakaf.xsd")
@@ -34,7 +37,7 @@ namespace domain.test.workflows
             tracker.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.Tracker]", new Tracker());
             ObjectBuilder.AddCacheList<IRepository<Tracker>>(tracker);
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
-            ObjectBuilder.AddCacheList<IEntityChangePublisher>(new MockChangePublisher());
+            ObjectBuilder.AddCacheList<IEntityChangePublisher>(new MockChangePublisher(console));
 
 
 
@@ -90,7 +93,7 @@ namespace domain.test.workflows
             var wd = CreateWorkflowDefinition(out options, code);
 
             var cr = wd.Compile(options);
-            cr.Errors.ForEach(Console.WriteLine);
+            cr.Errors.ForEach(x => Console.WriteLine(x.ToString()));
             Assert.True(cr.Result, cr.ToString());
 
             var dll = Assembly.LoadFile(cr.Output);
