@@ -110,6 +110,10 @@ namespace Bespoke.Sph.Mangements
         {
             Type type = item.GetType();
             var cs = $@"
+using System;
+using System.Linq;
+using Newtonsoft.Json.Linq;
+
 namespace Bespoke.Sph.MigrationScripts
 {{
     public class Host

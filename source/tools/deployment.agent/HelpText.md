@@ -131,19 +131,24 @@ Allow you to do almost anything, write a script that return an object that's com
 This example, the `Ward` fields data type was changed from `string` to `int`, this we have to write a script
 
 ```csharp
-// return Nullable int since the new type
-public int? GetValue(string source)
+public string GetValue(string source)
 {
     var json = Newtonsoft.Json.Linq.JObject.Parse(source);
-    var wardText = json.SelectToken("$.Ward").Value<string>();
-    if(string.IsNullOrWhiteSpace(wardText))
-        return default(int?);
+    var fullName = json.SelectToken("$.NextOfKin.FullName").Value<string>();
+    var race = json.SelectToken("$.Race").Value<string>();
+    var seperators = new []{" BINTI ", " B ", " BT. ", " B. ", " BT ", " AL ", "A\L", " A/L"};
+    if(race == "Chinese")
+        seperators = new []{" "};
+
+    var names = fullName.Split(seperators, StringSplitOptions.RemoveEmptyEntries)
+    			.Where(x => x != "spouse")
+               .Select(x => x.Trim())
+    			.ToArray();
+    if(race == "Chinese" && names.Length >= 3)
+    	return string.Join(" ", names.Skip(1).Take(2).ToArray());
+
     
-    int ward;
-    if(int.TryParse(wardText, out ward))
-        return ward;
-    return default(int?);
-    
+    return names.FirstOrDefault();    
 }
 
 ```

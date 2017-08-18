@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,7 +23,7 @@ namespace Bespoke.Sph.Mangements.ViewModels
         private string m_script;
         private MemberChange m_selected;
         private string m_selectedPlan;
-     
+
 
         public string SelectedPlan
         {
@@ -104,7 +106,7 @@ namespace Bespoke.Sph.Mangements.ViewModels
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                 };
                 setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-                var plan =  JsonConvert.DeserializeObject<MigrationPlan>(json, setting);
+                var plan = JsonConvert.DeserializeObject<MigrationPlan>(json, setting);
 
                 this.ChangeCollection.AddRange(plan.ChangeCollection);
 
@@ -112,8 +114,49 @@ namespace Bespoke.Sph.Mangements.ViewModels
 
             if (propertyName == nameof(Selected) && null != this.Selected)
             {
-                this.Script = this.Selected.MigrationScript;
+                var script = this.Selected.MigrationScript;
+                if (string.IsNullOrWhiteSpace(script))
+                    this.Script = this.SuggestScript();
+                else
+                    this.Script = this.Selected.MigrationScript;
             }
+        }
+
+        private string SuggestScript()
+        {
+            var id = this.Selected.WebId;
+            var edName = this.SelectedPlan.Split(new string[] {"-"}, StringSplitOptions.RemoveEmptyEntries).First();
+            var context = new SphDataContext();
+            var ed = context.LoadOneFromSources<EntityDefinition>(x => x.Name == edName);
+            var members = new List<Member>(ed.MemberCollection);
+
+            void AddMembers(Member[] list)
+            {
+                foreach (var mbr in list.Where(x => x.MemberCollection.Count > 0))
+                {
+                    members.AddRange(mbr.MemberCollection);
+                    AddMembers(mbr.MemberCollection.ToArray());
+                }
+            }
+
+            AddMembers(members.ToArray());
+            var member = members.FirstOrDefault(x => x.WebId == id);
+
+
+            var type = member?.GetMemberTypeName()?? "/* TODO : specify your return type here*/";
+            return $@"
+// NOTE : the return type must be the type expected by {member?.Name}
+public {type} GetValue(string source)
+{{
+    var json = Newtonsoft.Json.Linq.JObject.Parse(source);
+    /* 
+    NOTE : sample how to extract value from json
+    var myval = json.SelectToken(""{this.Selected.OldPath}"").Value<{type}>();
+    return myval;
+    */
+    return default({type});
+    
+}}";
         }
     }
 }

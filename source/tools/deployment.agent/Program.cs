@@ -81,7 +81,9 @@ namespace Bespoke.Sph.Mangements
             if (ParseArgExist("migrate") && ParseArgExist("whatif"))
             {
                 // TODO : delete all the migration dll in output
-                // ls bin/output/migration.* | remove-item
+                var migrationAssemblies = Directory.GetFiles(ConfigurationManager.CompilerOutputPath, "migration.*");
+                migrationAssemblies.ForEach(File.Delete);
+                //
                 var outputFolder = ParseArg("output");
                 await deployment.TestMigrationAsync(ParseArg("plan"), outputFolder);
                 return;

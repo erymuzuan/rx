@@ -63,7 +63,7 @@ namespace Bespoke.Sph.Mangements
 
         }
 
-        IEnumerable<MemberChange> GetChanges(IEnumerable<Member> members, IReadOnlyCollection<Member> oldMembers, string parent, string oldParent)
+        private IEnumerable<MemberChange> GetChanges(IEnumerable<Member> members, IReadOnlyCollection<Member> oldMembers, string parent, string oldParent)
         {
             var changes = new List<MemberChange>();
             foreach (var mbr in members)
@@ -74,7 +74,8 @@ namespace Bespoke.Sph.Mangements
                     GetChanges(mbr.MemberCollection, existingMbr.MemberCollection, $"{parent}.{mbr.Name}", $"{oldParent}.{existingMbr.Name}");
                 }
                 var change = new MemberChange(mbr, existingMbr, parent, oldParent);
-                if (!change.IsEmpty && mbr.MemberCollection.Count > 0 && null != existingMbr)
+                var parentChanged = !change.IsEmpty && mbr.MemberCollection.Count > 0 && null != existingMbr;
+                if (parentChanged)
                 {
                     // Complex type name change, so we got to include all the children
                     var complexChanges = from cm in mbr.MemberCollection
@@ -83,8 +84,8 @@ namespace Bespoke.Sph.Mangements
                                          select new MemberChange
                                          {
                                              Action = "ParentChanged",
-                                             Name = mbr.Name,
-                                             WebId = mbr.WebId,
+                                             Name = $"{parent}.{mbr.Name}.{em.Name}".Replace("$.",""),
+                                             WebId = em.WebId,
                                              OldPath = $"{oldParent}.{existingMbr.Name}.{em.Name}",
                                              NewPath = $"{parent}.{mbr.Name}.{cm.Name}",
                                              OldType = em.GetMemberTypeName(),
@@ -92,6 +93,21 @@ namespace Bespoke.Sph.Mangements
                                              MigrationStrategy = MemberMigrationStrategies.Direct
                                          };
                     changes.AddRange(complexChanges);
+                    var parentChangeAndAdded = from cm in mbr.MemberCollection
+                                         let em = existingMbr.MemberCollection.FirstOrDefault(x => x.WebId == cm.WebId)
+                                         where null == em
+                                         select new MemberChange
+                                         {
+                                             Action = "Added",
+                                             Name = $"{parent}.{mbr.Name}.{cm.Name}".Replace("$.",""),
+                                             WebId = cm.WebId,
+                                             OldPath = null,
+                                             NewPath = $"{parent}.{mbr.Name}.{cm.Name}",
+                                             OldType = null,
+                                             NewType = cm.GetMemberTypeName(),
+                                             MigrationStrategy = MemberMigrationStrategies.Ignore /* may be its taken care by default*/
+                                         };
+                    changes.AddRange(parentChangeAndAdded);
                 }
                 changes.Add(change);
             }
