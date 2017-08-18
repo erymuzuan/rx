@@ -7,7 +7,7 @@ using Bespoke.Sph.Domain.diagnostics;
 
 namespace Bespoke.Sph.Diagnostics
 {
-    [Export(typeof(IBuildDiagnostics))]
+    /*[Export(typeof(IBuildDiagnostics))]*/
     public sealed class ViewPartialDiagnostics : BuilDiagnostic
     {
 
