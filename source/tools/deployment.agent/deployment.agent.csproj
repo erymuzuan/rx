@@ -55,6 +55,7 @@
       <HintPath>..\..\..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
@@ -65,6 +66,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\CommandParameter.cs" />
+    <Compile Include="Commands\DebugCommand.cs" />
+    <Compile Include="Commands\DeployCommand.cs" />
+    <Compile Include="Commands\DiffCommand.cs" />
+    <Compile Include="Commands\GuiCommand.cs" />
+    <Compile Include="Commands\HelpCommand.cs" />
+    <Compile Include="Commands\TestCommand.cs" />
     <Compile Include="ConsoleTable.cs" />
     <Compile Include="DeploymentHistory.cs" />
     <Compile Include="DeploymentMetadata.cs" />
