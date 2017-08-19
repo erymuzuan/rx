@@ -26,6 +26,7 @@ namespace Bespoke.Sph.Mangements
                 Action = "Added";
                 OldPath = null;
                 IsEmpty = false;
+                MigrationStrategy = MemberMigrationStrategies.Ignore;
                 return;
             }
 
