@@ -145,6 +145,16 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
+
+                    <GridViewColumn Header="Diff" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <telerik:RadButton ToolTip="Generata diff with deployed version" CommandParameter="{Binding}" Command="{Binding Path=DataContext.DiffCommand, RelativeSource={RelativeSource AncestorType=ListView}}">
+                                    <Image Source="Images/transmit_blue.png"></Image>
+                                </telerik:RadButton>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

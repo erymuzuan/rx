@@ -22,6 +22,7 @@ namespace Bespoke.Sph.Mangements.Models
 
         public bool CanDeploy => (!LastDeployedDateTime.HasValue && this.CompiledDateTime.HasValue) || (LastDeployedDateTime.HasValue && EntityDefinition.ChangedDate > LastDeployedDateTime);
         public bool CanCompile => (!this.CompiledDateTime.HasValue) || (CompiledDateTime < EntityDefinition.ChangedDate);
+        public bool CanDiff => this.LastDeployedDateTime.HasValue && this.CompiledDateTime.HasValue && CompiledDateTime > LastDeployedDateTime;
 
         public DateTime? CompiledDateTime
         {

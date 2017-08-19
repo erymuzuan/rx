@@ -223,6 +223,9 @@
   <ItemGroup>
     <Resource Include="Images\page_white_csharp.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\transmit_blue.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
