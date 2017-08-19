@@ -71,6 +71,7 @@
     <Compile Include="Commands\DebugCommand.cs" />
     <Compile Include="Commands\DeployCommand.cs" />
     <Compile Include="Commands\DiffCommand.cs" />
+    <Compile Include="Commands\EntityDefinitionCommand.cs" />
     <Compile Include="Commands\GuiCommand.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\TestCommand.cs" />

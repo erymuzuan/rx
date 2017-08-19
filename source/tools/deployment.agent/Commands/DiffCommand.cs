@@ -9,17 +9,21 @@ using Colorful;
 namespace Bespoke.Sph.Mangements.Commands
 {
     [Export(typeof(Command))]
-    public class DiffCommand : Command
+    public class DiffCommand : EntityDefinitionCommand
     {
         public override CommandParameter[] GetArgumentList()
         {
-            return new[] {new CommandParameter("diff",true, "change", "changes") };
+            return base.GetArgumentList().Concat(new[]
+            {
+                new CommandParameter("diff",true, "change", "changes")
+            }).ToArray();
         }
 
         public override bool UseAsync => true;
 
-        public override async Task ExecuteAsync(EntityDefinition ed)
+        public override async Task ExecuteAsync()
         {
+            var ed = this.GetEntityDefinition();
             await DeploymentMetadata.InitializeAsync();
             var deployment = new DeploymentMetadata(ed);
 

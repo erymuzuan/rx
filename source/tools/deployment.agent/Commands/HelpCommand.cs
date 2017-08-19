@@ -3,7 +3,6 @@ using System.ComponentModel.Composition;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
-using Bespoke.Sph.Domain;
 using Console = Colorful.Console;
 
 namespace Bespoke.Sph.Mangements.Commands
@@ -16,7 +15,7 @@ namespace Bespoke.Sph.Mangements.Commands
             return new[] { new CommandParameter("help", true, "?", "help") };
         }
 
-        public override void Execute(EntityDefinition ed)
+        public override void Execute()
         {
             Console.WriteAscii("Deployment Agent", Color.BlueViolet);
             Console.WriteLine(GetHelpText());

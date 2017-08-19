@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.Composition;
 using System.Diagnostics;
-using System.Threading;
-using Bespoke.Sph.Domain;
 using Colorful;
 
 namespace Bespoke.Sph.Mangements.Commands
@@ -19,7 +17,7 @@ namespace Bespoke.Sph.Mangements.Commands
             return true;
         }
 
-        public override void Execute(EntityDefinition ed)
+        public override void Execute()
         {
             Console.WriteLine($"Attach your debugger and to {Process.GetCurrentProcess().ProcessName} and press [ENTER] to continue");
             System.Console.ReadLine();

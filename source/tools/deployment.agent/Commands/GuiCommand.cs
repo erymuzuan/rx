@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Mangements.Commands
             return new[] { new CommandParameter("gui", true, "i", "ui") };
         }
 
-        public override void Execute(EntityDefinition ed)
+        public override void Execute()
         {
             var start = new ProcessStartInfo($"{ConfigurationManager.ToolsPath}\\deployment.gui.exe")
             {

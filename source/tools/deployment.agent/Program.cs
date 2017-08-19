@@ -18,21 +18,12 @@ namespace Bespoke.Sph.Mangements
         public Commands.Command[] Commands { set; get; }
         public static void Main(string[] args)
         {
-            var idCommand = new Commands.CommandParameter("entity", false, "e", "entity-id", "entity-name");
-            var id = idCommand.GetValue<string>();
-            var file = args.FirstOrDefault();
-            if (!string.IsNullOrWhiteSpace(id))
-                file = $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\{id}.json";
-            if (!string.IsNullOrWhiteSpace(id) && !File.Exists(file))// try with ED Name
-                file = $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\{GetEntityDefinitionId(id)}.json";
-
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             var program = new Program();
-            program.StartAsync(file).Wait();
+            program.StartAsync().Wait();
         }
-
-
-        private async Task StartAsync(string file)
+        
+        private async Task StartAsync()
         {
             if (!this.Compose())
             {
@@ -41,30 +32,27 @@ namespace Bespoke.Sph.Mangements
             }
             Console.WriteLine($"We got {this.Commands.Length} commands");
 
-            EntityDefinition ed = null;
-            if (File.Exists(file))
-                ed = file.DeserializeFromJsonFile<EntityDefinition>();
 
             var help = this.Commands.Single(x => x.GetType() == typeof(Commands.HelpCommand));
             var commands = this.Commands.Where(x => x.IsSatisfied()).ToList();
             if (commands.Count == 0)
             {
-                help.Execute(ed);
+                help.Execute();
                 return;
             }
 
             if (commands.Count(x => !x.ShouldContinue()) > 1)
             {
-                help.Execute(ed);
+                help.Execute();
                 return;
             }
             foreach (var cmd in commands.OrderBy(x => !x.ShouldContinue()))
             {
                 Console.WriteLine($"Running {cmd.GetType().Name} ....", Color.YellowGreen);
                 if (cmd.UseAsync)
-                    await cmd.ExecuteAsync(ed);
+                    await cmd.ExecuteAsync();
                 else
-                    cmd.Execute(ed);
+                    cmd.Execute();
 
                 Console.WriteLine($"Done with {cmd.GetType().Name} ....", Color.Green);
             }
@@ -97,17 +85,6 @@ namespace Bespoke.Sph.Mangements
 
             }
             return true;
-        }
-        private static string GetEntityDefinitionId(string name)
-        {
-            var files = Directory.GetFiles($@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\", "*.json");
-            foreach (var file in files)
-            {
-                var ed = file.DeserializeFromJsonFile<EntityDefinition>();
-                if (ed.Name == name) return ed.Id;
-            }
-
-            return null;
         }
 
 

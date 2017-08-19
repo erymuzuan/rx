@@ -1,38 +1,57 @@
 ﻿using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.Mangements.Commands
 {
     [Export(typeof(Command))]
-    public class TestCommand : Command
+    public class TestCommand : EntityDefinitionCommand
     {
         public override CommandParameter[] GetArgumentList()
         {
-            return new[]
+            return base.GetArgumentList().Concat(new[]
             {
                 new CommandParameter("test", true, "whatif", "test"),
-                new CommandParameter("output", true),
-                new CommandParameter("plan", true),
-            };
+                new CommandParameter("output", true, "o", "out"),
+                new CommandParameter("keep", false),
+                new CommandParameter("plan", ()=>
+                    Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\MigrationPlan", "*.json")
+                    .Select(Path.GetFileNameWithoutExtension)
+                    .ToArray())
+            }).ToArray();
         }
 
         public override bool UseAsync => true;
 
-        public override async Task ExecuteAsync(EntityDefinition ed)
+        public override async Task ExecuteAsync()
         {
-            var migrationPlan = this.GetCommandValue<string>("output");
+            var ed = this.GetEntityDefinition();
+            var planName = this.GetCommandValue<string>("plan");
+            var keep = this.GetCommandValue<bool>("keep");
+            var output = Path.GetFullPath(this.GetCommandValue<string>("output"));
+            var migrationPlan = $"{ConfigurationManager.SphSourceDirectory}\\MigrationPlan\\{planName}.json";
+
+            WriteInfo($"Running migration simulation on {ed.Name} using {planName}");
+
+
+            if (Directory.Exists(output))
+                Directory.CreateDirectory(output);
+            if (!keep)
+            {
+                var testFiles = Directory.GetFiles(output, "*.json");
+                testFiles.ForEach(File.Delete);
+                var migrationAssemblies = Directory.GetFiles(ConfigurationManager.CompilerOutputPath, "migration.*");
+                migrationAssemblies.ForEach(File.Delete);
+            }
 
             await DeploymentMetadata.InitializeAsync();
             var deployment = new DeploymentMetadata(ed);
 
-            //clean
-            var migrationAssemblies = Directory.GetFiles(ConfigurationManager.CompilerOutputPath, "migration.*");
-            migrationAssemblies.ForEach(File.Delete);
-            
-            var outputFolder = this.GetCommandValue<string>("output");
-            await deployment.TestMigrationAsync(migrationPlan, outputFolder);
+            await deployment.TestMigrationAsync(migrationPlan, output);
+            Process.Start("explorer.exe", output);
 
         }
     }
