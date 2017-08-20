@@ -44,7 +44,7 @@ namespace Bespoke.Sph.SqlRepository
 
 
 
-        public async Task BuildAsync(EntityDefinition ed, int sqlBatchSize = 50, Action<JObject, dynamic> migration = null)
+        public async Task BuildAsync(EntityDefinition ed, Action<JObject, dynamic> migration, int sqlBatchSize = 50)
         {
 
             if (ed.Transient) return;

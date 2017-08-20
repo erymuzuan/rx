@@ -149,16 +149,26 @@ namespace Bespoke.Sph.Mangements
             return list;
         }
 
-        public async Task BuildAsync(bool truncate, bool nes, int sqlBatchSize)
+        public async Task BuildAsync(bool truncate, bool nes, int sqlBatchSize, string migrationPlan)
         {
+            if(string.IsNullOrWhiteSpace(migrationPlan))throw new ArgumentNullException(nameof(migrationPlan));
             var ed = m_entityDefinition;
 
             var lastDeployedDate = await this.GetLastDeployedDateTimeAsyc();
             var hasChanges = lastDeployedDate < m_entityDefinition.ChangedDate;
+            var plan = MigrationPlan.ParseFile(migrationPlan);
 
+            void Migration(JObject json, dynamic item)
+            {
+                foreach (var change in plan.ChangeCollection)
+                {
+                    change.Migrate(item, json);
+                }
+                
+            }
             var tableBuilder = new TableSchemaBuilder(WriteMessage);
             if (hasChanges)
-                await tableBuilder.BuildAsync(ed, sqlBatchSize);
+                await tableBuilder.BuildAsync(ed, sqlBatchSize: sqlBatchSize, migration:Migration);
 
 
             if (ed.TreatDataAsSource)
@@ -278,15 +288,7 @@ CREATE TABLE [Sph].[DeploymentMetadata](
         public async Task TestMigrationAsync(string migrationPlan, string outputFolder)
         {
             var builder = new TableSchemaBuilder(WriteMessage, WriteWarning, WriteError);
-
-
-            var jsonSource = File.ReadAllText(migrationPlan);
-            var setting = new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            };
-            setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-            var plan = JsonConvert.DeserializeObject<MigrationPlan>(jsonSource, setting);
+            var plan = MigrationPlan.ParseFile(migrationPlan);
             
 
             void Migration(JObject json, dynamic item)

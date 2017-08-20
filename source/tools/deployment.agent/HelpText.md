@@ -1,6 +1,6 @@
 ﻿# RX Developer data deployment tool
 Usage :
-deployment.agent <path-to-entity-definition-source>|/e:<entity-definition-name>|/e:entity-definition-id>|/nes
+deployment.agent <path-to-entity-definition-source>|/e:<entity-definition-name>|/e:entity-definition-id>|/nes /plan:<migration-plan>
 
 ## Skipping elasticsearch
 `/nes`
@@ -49,7 +49,7 @@ public string GetCommitComment(string file)
 }
 ```
 
-## View changes
+## View changes(diff) and generate a Migration plan definition
 `/diff|/changes` to view changes made to the `EntityDefinition` from the one deployed on the server. A migration plan file wiill
 saved in your `source\MigrationPlan\<ed.Name>-<previous-commit>-<current-commit>`. Edit this file to indicate your Migration strategy for each file
 
@@ -74,6 +74,9 @@ saved in your `source\MigrationPlan\<ed.Name>-<previous-commit>-<current-commit>
 1. Direct
 2. Script
 3. Ignore , the same as setting the `IsEmpty` field to `true`
+
+
+**Once run, this command will override your existing migration plan** in you sources/MigrationPlan folder
 
 
 ### Direct

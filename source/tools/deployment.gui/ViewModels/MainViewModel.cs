@@ -22,6 +22,9 @@ namespace Bespoke.Sph.Mangements.ViewModels
         public RelayCommand LoadCommand { get; set; }
         public RelayCommand<IList<EntityDeployment>> DeploySelectedCommand { get; set; }
         public RelayCommand<EntityDeployment> CompileCommand { get; set; }
+        public RelayCommand<EntityDeployment> DiffCommand { get; set; }
+        [Import]
+        public MigrationScriptViewModel MigrationScriptViewModel { get; set; }
 
 
         public MainViewModel()
@@ -29,6 +32,24 @@ namespace Bespoke.Sph.Mangements.ViewModels
             this.LoadCommand = new RelayCommand(Load, () => true);
             this.DeploySelectedCommand = new RelayCommand<IList<EntityDeployment>>(DeploySelectedItems, list => SelectedCollection.Count > 0 &&  IsElasticsearchAccesible && IsSqlServerAccessible);
             this.CompileCommand = new RelayCommand<EntityDeployment>(Compile, ed => ed.CanCompile);
+            this.DiffCommand = new RelayCommand<EntityDeployment>(Diff, ed => ed.CanDiff);
+        }
+
+        private void Diff(EntityDeployment deployment)
+        {
+            var ed = deployment.EntityDefinition;
+            var info = new ProcessStartInfo
+            {
+                FileName = "sph.builder.exe",
+                WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
+                Arguments = $"/e:{ed.Name} /diff"
+
+            };
+            var agent = Process.Start(info);
+            agent?.WaitForExit();
+
+            this.Load();
+            this.MigrationScriptViewModel.Load().Wait();
         }
 
         private void Compile(EntityDeployment deployment)
