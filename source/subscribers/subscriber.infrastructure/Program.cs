@@ -34,7 +34,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         public INotificationService NotificationService
         {
-            get { return m_notificationService; }
+            get => m_notificationService;
             set
             {
                 m_notificationService = value;

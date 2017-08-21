@@ -77,5 +77,23 @@ namespace Bespokse.Sph.ElasticsearchRepository.Properties {
                 return ResourceManager.GetString("MessageTrackingMapping", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///    &quot;sla&quot;:{
+        ///        &quot;properties&quot;:{
+        ///            &quot;event&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;index&quot;:&quot;not_analyzed&quot;},
+        ///            &quot;itemId&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;index&quot;:&quot;not_analyzed&quot;},
+        ///            &quot;entity&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;index&quot;:&quot;not_analyzed&quot;},
+        ///            &quot;messageId&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;index&quot;:&quot;not_analyzed&quot;},
+        ///            &quot;expectedProcessed&quot;: {&quot;type&quot;: &quot;date&quot;},
+        ///            &quot;processingInMilliseconds&quot;: {&quot;type&quot;:&quot;float&quot;,&quot;index&quot;:&quot;analyzed&quot;,&quot;boost&quot;:1,&quot;include_in_all&quot;:false,&quot;ignore_malformed&quot;:false},
+        ///            &quot;w [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SlaMapping {
+            get {
+                return ResourceManager.GetString("SlaMapping", resourceCulture);
+            }
+        }
     }
 }
