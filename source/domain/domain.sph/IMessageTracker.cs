@@ -12,4 +12,9 @@ namespace Bespoke.Sph.Domain
         Task RegisterRetriedAsync(MessageTrackingEvent eventData);
         Task RegisterDelayedAsync(MessageTrackingEvent eventData);
     }
+
+    public interface IMessageSlaManager
+    {
+        Task PublishSlaOnAcceptanceAsync(MessageSlaEvent @event);
+    }
 }

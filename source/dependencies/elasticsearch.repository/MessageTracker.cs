@@ -56,25 +56,43 @@ namespace Bespokse.Sph.ElasticsearchRepository
 
         private async Task InitializeMessageSlaAsyc(string eventName, MessageTrackingEvent data)
         {
-            // TODO : create mesage with delay queue for message monitoring
-            var contents = from o in this.Options.SubscriberConfigs
-                           where o.ShouldProcessedOnceAccepted > 0
-                           && o.Entity == data.Entity
-                           select new StringContent((new
-                           {
-                               @event = eventName,
-                               itemId = data.ItemId,
-                               entity = data.Entity,
-                               dateTime = data.DateTime,
-                               messageId = data.MessageId,
-                               expectedProcessed = data.DateTime.AddMilliseconds(o.ShouldProcessedOnceAccepted.Value),
-                               worker = o.QueueName
+            // TODO : create message with delay queue for message monitoring
+            var contents = (from o in this.Options.SubscriberConfigs
+                            where o.ShouldProcessedOnceAccepted > 0
+                            && o.Entity == data.Entity
+                            select new
+                            {
+                                @event = eventName,
+                                itemId = data.ItemId,
+                                entity = data.Entity,
+                                dateTime = data.DateTime,
+                                messageId = data.MessageId,
+                                expectedProcessed = data.DateTime.AddMilliseconds(o.ShouldProcessedOnceAccepted.Value),
+                                timespan = o.ShouldProcessedOnceAccepted.Value,
+                                worker = o.QueueName
 
-                           }).ToJson());
+                            }).ToArray();
             var tasks = from c in contents
-                        select m_client.PostAsync($"{Index}/sla/", c);
+                        select m_client.PostAsync($"{Index}/sla/", new StringContent(c.ToJson()));
             var responses = await Task.WhenAll(tasks);
             responses.ToList().ForEach(x => x.EnsureSuccessStatusCode());
+
+            //
+            var slaManager = ObjectBuilder.GetObject<IMessageSlaManager>();
+            var monitorTasks = from c in contents
+                               let @event = new MessageSlaEvent
+                               {
+                                   DateTime = c.dateTime,
+                                   Entity = c.entity,
+                                   Event = c.@event,
+                                   ItemId = c.itemId,
+                                   MessageId = c.messageId,
+                                   ProcessingTimeSpanInMiliseconds = c.timespan,
+                                   Worker = c.worker
+                               }
+                               select slaManager.PublishSlaOnAcceptanceAsync(@event);
+            await Task.WhenAll(monitorTasks);
+
         }
 
         public async Task RegisterSendingToWorkerAsync(MessageTrackingEvent eventData)
@@ -156,7 +174,6 @@ namespace Bespokse.Sph.ElasticsearchRepository
         private async Task InitializeAsync()
         {
             if (m_initialized) return;
-            m_initialized = true;
 
             // get enabled queues
             var configFile = GetConfigFile();
@@ -185,6 +202,9 @@ namespace Bespokse.Sph.ElasticsearchRepository
                 .Select(x => x.Entity);
             this.OncePersistedSlaEnabledEntities = oncePersistedSlaEnabledEntities.ToArray();
 
+            // create index if not exist
+            await m_client.PutAsync(Index, new StringContent(""));
+
             // create es mapping
             var content = new StringContent(Properties.Resources.MessageTrackingMapping);
             var response = await m_client.PutAsync($"{Index}/_mapping/event", content);
@@ -194,6 +214,9 @@ namespace Bespokse.Sph.ElasticsearchRepository
             var slaMapping = new StringContent(Properties.Resources.SlaMapping);
             var slaResponse = await m_client.PutAsync($"{Index}/_mapping/sla", slaMapping);
             slaResponse.EnsureSuccessStatusCode();
+
+
+            m_initialized = true;
 
         }
 

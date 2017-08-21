@@ -36,6 +36,17 @@ namespace Bespoke.Sph.Domain
         public string Worker { get; set; }
         public double ProcessingTimeSpanInMiliseconds => this.ProcessingTimeSpan.TotalMilliseconds;
 
+    }
 
+    public class MessageSlaEvent
+    {
+        public string MessageId { get; set; }
+        public string RoutingKey { get; set; }
+        public string ItemId { get; set; }
+        public string Entity { get; set; }
+        public DateTime DateTime { get; set; } = DateTime.Now;
+        public string Event { get; set; }
+        public string Worker { get; set; }
+        public double ProcessingTimeSpanInMiliseconds { get; set; }
     }
 }
