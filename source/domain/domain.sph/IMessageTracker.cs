@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
@@ -11,10 +12,16 @@ namespace Bespoke.Sph.Domain
         Task RegisterDlqedAsync(MessageTrackingEvent eventData);
         Task RegisterRetriedAsync(MessageTrackingEvent eventData);
         Task RegisterDelayedAsync(MessageTrackingEvent eventData);
+        Task<MessageTrackingStatus> GetProcessStatusAsync(MessageSlaEvent @event);
     }
 
-    public interface IMessageSlaManager
+    [Flags]
+    public enum MessageTrackingStatus
     {
-        Task PublishSlaOnAcceptanceAsync(MessageSlaEvent @event);
+        NotStarted = 0,
+        Started = 1,
+        Completed = 2,
+        Error = 4,
+        Terminated = 8
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Bespokse.Sph.ElasticsearchRepository
 {
@@ -56,7 +57,6 @@ namespace Bespokse.Sph.ElasticsearchRepository
 
         private async Task InitializeMessageSlaAsyc(string eventName, MessageTrackingEvent data)
         {
-            // TODO : create message with delay queue for message monitoring
             var contents = (from o in this.Options.SubscriberConfigs
                             where o.ShouldProcessedOnceAccepted > 0
                             && o.Entity == data.Entity
@@ -129,6 +129,73 @@ namespace Bespokse.Sph.ElasticsearchRepository
         {
             eventData.Event = "Delayed";
             await PostEventAsync(eventData);
+        }
+
+        public async Task<MessageTrackingStatus> GetProcessStatusAsync(MessageSlaEvent @event)
+        {
+            var query = $@"
+{{
+   ""query"": {{
+      ""bool"": {{
+         ""must"": [
+             {{
+                 ""term"": {{
+                    ""MessageId"": {{
+                       ""value"": ""{@event.MessageId}""
+                    }}
+                 }}
+             }},
+             {{
+                 ""term"": {{
+                    ""Worker"": {{
+                       ""value"": ""{@event.Worker}""
+                    }}
+                 }}
+             }},
+             {{
+                 ""term"": {{
+                    ""Event"": {{
+                       ""value"": ""ProcessingCompleted""
+                    }}
+                 }}
+             }}
+         
+         ]
+      }}
+   }},
+   ""sort"": [
+      {{
+         ""DateTime"": {{
+            ""order"": ""desc""
+         }}
+      }}
+   ]
+}}
+";
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{TypeUrl}/_search") { Content = new StringContent(query) };
+            var response = await m_client.SendAsync(request);
+
+            var content = response.Content as StreamContent;
+            if (null == content) throw new Exception("Cannot execute query on es ");
+            var responseString = await content.ReadAsStringAsync();
+
+            var esJson = JObject.Parse(responseString);
+            var total = esJson.SelectToken("$.hits.total").Value<int>();
+            if (total == 0) return MessageTrackingStatus.NotStarted;
+
+            var trackings = esJson.SelectTokens("$._source")
+                .Select(x => x.ToString().DeserializeFromJson<MessageTrackingEvent>())
+                .ToArray();
+            if (trackings.Any(x => x.Event == "ProcessingCompleted"))
+                return MessageTrackingStatus.Started | MessageTrackingStatus.Completed;
+
+            if (trackings.Any(x => x.Event == "StartProcessing") && trackings.Length == 1)
+                return MessageTrackingStatus.Started;
+
+            if (trackings.Any(x => x.Event == "StartProcessing") && trackings.Length > 1)
+                return MessageTrackingStatus.Started | MessageTrackingStatus.Error;
+
+            return MessageTrackingStatus.Terminated;
         }
 
         private async Task PostEventAsync(MessageTrackingEvent eventData)

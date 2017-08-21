@@ -13,10 +13,14 @@ namespace Bespoke.Sph.MessageTrackerSla
 {
     public class MessageSlaTrackerSubscriber : Subscriber
     {
-        public const string DELAY_EXCHANGE = "sph.messages.sla";
-        // TODO : message is publish to delay queue, when expired, routed to this queue via x-dead-letter
-        public override string QueueName => "messages-sla";
-        public override string[] RoutingKeys => new[] { QueueName};
+        public const string DELAY_EXCHANGE = "rx.delay.exchange.messages.sla";
+        public const string DELAY_QUEUE = "rx.delay.queue.messages.sla";
+        public const string NOTIFICATION_EXCHANGE = "rx.notification.exchange.messages.sla";
+        public const string NOTIFICATION_QUEUE = "rx.notification.queue.messages.sla";
+        public const int PERSISTENT_DELIVERY_MODE = 2;
+        public override string QueueName => NOTIFICATION_QUEUE;
+
+        public override string[] RoutingKeys => new[] { NOTIFICATION_QUEUE };
         private TaskCompletionSource<bool> m_stoppingTcs;
 
         public override void Run(IConnection connection)
@@ -43,17 +47,17 @@ namespace Bespoke.Sph.MessageTrackerSla
 
         private void CreateSlaMonitorQueue()
         {
-            // delay exchange and queue
             var delayQueueArgs = new Dictionary<string, object>
             {
-                {"x-dead-letter-exchange", DELAY_EXCHANGE},
-                {"x-dead-letter-routing-key", this.QueueName}
+                {"x-dead-letter-exchange", NOTIFICATION_EXCHANGE}
             };
             m_channel.ExchangeDeclare(DELAY_EXCHANGE, "direct");
-            m_channel.QueueDeclare(QueueName, true, false, false, delayQueueArgs);
-            m_channel.QueueBind(QueueName, DELAY_EXCHANGE, string.Empty, null);
+            m_channel.ExchangeDeclare(NOTIFICATION_EXCHANGE, "direct");
+            m_channel.QueueDeclare(DELAY_QUEUE, true, false, false, delayQueueArgs);
+            m_channel.QueueBind(DELAY_QUEUE, DELAY_EXCHANGE, string.Empty, null);
 
-
+            m_channel.QueueDeclare(NOTIFICATION_QUEUE, true, false, false, new Dictionary<string, object>());
+            m_channel.QueueBind(NOTIFICATION_QUEUE, NOTIFICATION_EXCHANGE, string.Empty, null);
         }
 
         protected override void OnStop()
@@ -96,7 +100,7 @@ namespace Bespoke.Sph.MessageTrackerSla
         private async void Received(object sender, ReceivedMessageArgs e)
         {
             Interlocked.Increment(ref m_processing);
-           
+
             try
             {
                 var body = e.Body;
@@ -104,10 +108,15 @@ namespace Bespoke.Sph.MessageTrackerSla
                 var headers = new MessageHeaders(e);
 
                 var @event = json.DeserializeFromJson<MessageSlaEvent>();
-                Console.WriteLine(@event);
-                Console.WriteLine(headers);
-                // TODO : cross check with message event, if the message-id+worker+processcompleted exist,
-                // if not, send a message with Email defined email template
+                this.WriteMessage($" TODO : cross check with message event, if the message-id:{@event.MessageId}+worker:{@event.Worker}+processcompleted exist ");
+                this.WriteMessage($"Header messageId : {headers.MessageId}");
+
+                var tracker = ObjectBuilder.GetObject<IMessageTracker>();
+                var status = await tracker.GetProcessStatusAsync(@event);
+
+                var manager = ObjectBuilder.GetObject<IMessageSlaManager>();
+                await manager.ExecuteOnNotificationAsync(status, @event);
+
 
 
 

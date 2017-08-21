@@ -68,6 +68,7 @@
     <Compile Include="MessageSlaManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReceivedMessageArgs.cs" />
+    <Compile Include="SlaNotCompletedEmailAction.cs" />
     <Compile Include="TaskBasicConsumer.cs" />
   </ItemGroup>
   <ItemGroup>

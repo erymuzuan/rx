@@ -1,0 +1,15 @@
+{
+    "$type": "Bespoke.Sph.Domain.EmailTemplate, domain.sph",
+    "Id": "patient-email-not-completed",
+    "Entity": "Patient",
+    "Name": "Email patient worker not completed",
+    "Note": "Fires when the message SLA has elapsed",
+    "SubjectTemplate": "The email wast not sent in time @Model.FullName",
+    "BodyTemplate": "Something went wrong with @Model.Mrn",
+    "IsPublished": true,
+    "CreatedBy": null,
+    "CreatedDate": "2017-01-01T00:00:00",
+    "ChangedBy": "admin",
+    "ChangedDate": "2014-03-31T06:24:11.034676+08:00",
+    "WebId": "8f54bb55-9b01-4f0d-be59-9ce28dcedba8"
+}
