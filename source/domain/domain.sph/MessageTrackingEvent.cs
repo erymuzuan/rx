@@ -1,30 +1,28 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
-    public interface IMessageDeliverySla
+    public class MessageTrackingEvent
     {
-        Task RegisterAcceptanceAsync(SlaEvent eventData);
-        Task RegisterStartProcessingAsync(SlaEvent eventData);
-        Task RegisterCompletedAsync(SlaEvent eventData);
-        Task RegisterDlqedAsync(SlaEvent eventData);
-        Task RegisterRetriedAsync(SlaEvent eventData);
-        Task RegisterDelayedAsync(SlaEvent eventData);
-    }
-
-    public class SlaEvent
-    {
-        public SlaEvent()
+        public MessageTrackingEvent()
         {}
 
-        public SlaEvent(Entity item, string messageId, string routingKey)
+        public MessageTrackingEvent(Entity item, string messageId, string routingKey)
         {
             this.MessageId = messageId;
             this.RoutingKey = routingKey;
-            this.Entity = item.GetEntityType().Name;
+            var type = item.GetEntityType();
+            this.Entity = type.Name;
+            this.EntityNamespace = type.Namespace;
             this.ItemId = item.Id;
             this.DateTime = DateTime.Now;
+        }
+
+        public string EntityNamespace { get;}
+
+        public MessageTrackingEvent(Entity item, string messageId, string routingKey, string worker) : this(item, messageId, routingKey)
+        {
+            Worker = worker;
         }
         public string MessageId { get; set; }
         public string RoutingKey { get; set; }
@@ -34,6 +32,9 @@ namespace Bespoke.Sph.Domain
         public string MachineName { get; set; } = Environment.GetEnvironmentVariable("COMPUTERNAME");
         public string ProcessName { get; set; } = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
         public string Event { get; set; }
+        public TimeSpan ProcessingTimeSpan { get; set; }
+        public string Worker { get; set; }
+        public double ProcessingTimeSpanInMiliseconds => this.ProcessingTimeSpan.TotalMilliseconds;
 
 
     }

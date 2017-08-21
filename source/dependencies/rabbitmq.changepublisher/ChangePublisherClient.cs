@@ -36,18 +36,35 @@ namespace Bespoke.Sph.RabbitMqPublisher
         public async Task PublishAdded(string operation, IEnumerable<Entity> attachedCollection, IDictionary<string, object> headers)
         {
             var items = attachedCollection.ToArray();
-            await SendMessage("added", operation, items, headers);
+            const string CRUD = "added";
+            await SendMessage(CRUD, operation, items, headers);
+            await SendTrackingEventAsync(CRUD, operation, items);
+
+        }
+
+        private static async Task SendTrackingEventAsync(string crud, string operation, Entity[] items)
+        {
+            var tracker = ObjectBuilder.GetObject<IMessageTracker>();
+            var tasks = from item in items
+                        select tracker.RegisterSendingToWorkerAsync(
+                            new MessageTrackingEvent(item, "", $"{item.GetType().Name}.{operation}.{crud}"));
+            await Task.WhenAll(tasks);
         }
 
         public async Task PublishChanges(string operation, IEnumerable<Entity> attachedCollection, IEnumerable<AuditTrail> logs, IDictionary<string, object> headers)
         {
             var items = attachedCollection.ToArray();
-            await SendMessage("changed", operation, items, headers, logs);
+            const string CRUD = "changed";
+            await SendMessage(CRUD, operation, items, headers, logs);
+            await SendTrackingEventAsync(CRUD, operation, items);
         }
 
         public async Task PublishDeleted(string operation, IEnumerable<Entity> deletedCollection, IDictionary<string, object> headers)
         {
-            await SendMessage("deleted", operation, deletedCollection.ToArray(), headers);
+            var items = deletedCollection.ToArray();
+            const string CRUD = "deleted";
+            await SendMessage(CRUD, operation, items, headers);
+            await SendTrackingEventAsync(CRUD, operation, items);
         }
 
         public async Task SubmitChangesAsync(string operation, IEnumerable<Entity> attachedEntities, IEnumerable<Entity> deletedCollection, IDictionary<string, object> headers)
@@ -56,11 +73,11 @@ namespace Bespoke.Sph.RabbitMqPublisher
             if (!this.IsOpened)
                 await InitConnectionAsync();
 
-
-
             const string ROUTING_KEY = "persistence";
-            var attachedJson = attachedEntities.Select(x => x.ToJsonString(true));
-            var deletedJson = deletedCollection.Select(x => x.ToJsonString(true));
+            var attachedList = attachedEntities.ToList();
+            var deletedList = deletedCollection.ToList();
+            var attachedJson = attachedList.Select(x => x.ToJsonString(true));
+            var deletedJson = deletedList.Select(x => x.ToJsonString(true));
             var attached = string.Join(",\r\n", attachedJson);
             var deleted = string.Join(",\r\n", deletedJson);
             var json =
@@ -76,6 +93,8 @@ namespace Bespoke.Sph.RabbitMqPublisher
 }}";
 
             var body = await CompressAsync(json);
+            var messageId = Guid.NewGuid().ToString("N").ToUpperInvariant();
+            headers.AddIfNotExist("message-id", messageId);
 
             var props = m_channel.CreateBasicProperties();
             props.DeliveryMode = PERSISTENT_DELIVERY_MODE;
@@ -89,6 +108,16 @@ namespace Bespoke.Sph.RabbitMqPublisher
             }
 
             m_channel.BasicPublish(this.Exchange, ROUTING_KEY, props, body);
+
+            // tracking
+            var tracker = ObjectBuilder.GetObject<IMessageTracker>();
+            var attachedTrackingTasks = from e in attachedList
+                                        select
+                                        tracker.RegisterAcceptanceAsync(new MessageTrackingEvent(e, messageId, $"{e.GetType().Name}.{operation}.attached"));
+            var deletedTrackingTasks = from e in deletedList
+                                       select
+                                       tracker.RegisterAcceptanceAsync(new MessageTrackingEvent(e, messageId, $"{e.GetType().Name}.{operation}.deleted"));
+            await Task.WhenAll(attachedTrackingTasks.Concat(deletedTrackingTasks));
 
         }
 
@@ -211,15 +240,18 @@ namespace Bespoke.Sph.RabbitMqPublisher
             if (!this.IsOpened)
                 await InitConnectionAsync();
 
+            var logList = new List<AuditTrail>();
+            if (null != logs)
+                logList = new List<AuditTrail>(logs);
+
             foreach (var item in items)
             {
-                var messageId = Guid.NewGuid().ToString();
                 var entityType = this.GetEntityType(item);
                 var log = string.Empty;
                 var id = item.Id;
-                if (null != logs && !string.IsNullOrWhiteSpace(id))
+                if (!string.IsNullOrWhiteSpace(id))
                 {
-                    var audit = logs.SingleOrDefault(l => l.Type == entityType.Name && l.EntityId == id);
+                    var audit = logList.SingleOrDefault(l => l.Type == entityType.Name && l.EntityId == id);
                     if (null != audit)
                         log = audit.ToJsonString();
                 }
@@ -232,7 +264,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
                 props.DeliveryMode = PERSISTENT_DELIVERY_MODE;
                 props.Persistent = true;
                 props.ContentType = "application/json";
-                props.Headers = new Dictionary<string, object> { { "operation", operation }, { "messageid", messageId }, { "crud", action }, { "log", log } };
+                props.Headers = new Dictionary<string, object> { { "operation", operation }, { "crud", action }, { "log", log } };
                 props.Headers.Copy(headers);
 
                 if (headers?.ContainsKey("sph.delay") ?? false)
@@ -242,8 +274,6 @@ namespace Bespoke.Sph.RabbitMqPublisher
                 }
 
                 m_channel.BasicPublish(this.Exchange, routingKey, props, body);
-                var sla = ObjectBuilder.GetObject<IMessageDeliverySla>();
-                await sla.RegisterAcceptanceAsync(new SlaEvent(item, messageId, routingKey));
 
             }
 

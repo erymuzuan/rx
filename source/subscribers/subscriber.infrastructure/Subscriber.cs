@@ -32,11 +32,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         /// <returns></returns>
         public virtual ushort PrefetchCount
         {
-            get
-            {
-                return m_prefetchCount;
-            }
-            set { m_prefetchCount = value; }
+            get => m_prefetchCount;
+            set => m_prefetchCount = value;
         }
 
         public abstract void Run(IConnection connection);
