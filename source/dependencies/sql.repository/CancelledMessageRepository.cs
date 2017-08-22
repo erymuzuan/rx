@@ -9,17 +9,19 @@ namespace Bespoke.Sph.SqlRepository
     {
         public string ConnectionString { get; }
 
-        public CancelledMessageRepository(string connectionString)
+        public CancelledMessageRepository()
         {
-            ConnectionString = connectionString ?? ConfigurationManager.SqlConnectionString;
+            ConnectionString = ConfigurationManager.GetEnvironmentVariable("CancelledMessageSqlConnectionString") ?? ConfigurationManager.SqlConnectionString;
         }
+       
         public async Task<bool> CheckMessageAsync(string messageId, string worker)
         {
-            return await ConnectionString.GetNullableScalarValueAsync<bool>(
-                  @"SELECT COUNT(*) FROM [Sph].[CancelledMessage] WHERE [MessageId] = @messageId AND [Worker] = @worker",
-                  new SqlParameter("@messageId", SqlDbType.VarChar, 50) { Value = messageId },
-                  new SqlParameter("@worker", SqlDbType.VarChar, 500) { Value = worker })
-                 ?? false;
+            const string SQL = @"SELECT COUNT(*) FROM [Sph].[CancelledMessage] WHERE [MessageId] = @messageId AND [Worker] = @worker";
+            return await SQL.GetNullableScalarValueAsync<int>(
+                       ConnectionString,
+                       new SqlParameter("@messageId", SqlDbType.VarChar, 50) { Value = messageId },
+                       new SqlParameter("@worker", SqlDbType.VarChar, 500) { Value = worker })
+                  > 0;
         }
 
         public Task PutAsync(string messageId, string worker)

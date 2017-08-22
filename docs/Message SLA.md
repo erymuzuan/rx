@@ -1,4 +1,4 @@
-# Message SLA
+# Message Tracking and SLA
 
 Reactive Developer allows you to set your message to be delivered in a reliable and scalable manner, and one of the features in this messaging infrastructure is the ability to have a certain level of SLA towards your messaging
 
@@ -77,5 +77,36 @@ Registering your `NotificationAction` via your worker config file
 
 Your `NotificationAction.Execute(Async)` method returns a boolean value, if any return `false` then Reactive Developer will put up a flag to cancel your message. Thus it will not be process by your original subscriber anymore
 
-**NOTE : NOT FULLY IMPLEMENTED YET**
+## `IMessageCancellationRepository`
+This interface is used by `Subscriber<T>` to verify that if your message is marked for cancellation. If the implementation return `true` when `CheckMessageAsync(messageId, worker)` is called, then the `Subscriber<T>` will not call `ProcessItem` method(skipping all your action) it just quickly `BacicAck` the message and if track the `Cancelled` event
 
+Currenly there's 2 implementation for `IMessageCancellationRepository`
+1. Elasticsearch
+2. Sql Server
+
+this is how register your implementation in worker.config
+```xml
+
+<object name="ICancelledMessageRepository"
+    type="Bespokse.Sph.ElasticsearchRepository.CancelledMessageRepository, elasticsearch.repository" 
+    init-method="InitializeAsync" />
+ 
+```
+
+The `InitializeAsync` method is used to create the mapping in your elastisearch index
+
+
+
+## Troubleshooting tips
+The key is undestanding how these features are built., using these combinations
+
+1. RabbitMq expiring message
+2. Elasticsearch repository for event tracking
+
+
+This is high level view of how it works
+1. When you configure your `Trigger` in your `WorkersConfig` to `trackingEnabled:true`, IMessageTracker, will inject an `id` to your message header `message-id` field.
+2. The `IMessageTracker` will track the `Entity` for every movement
+3. If your set `shouldProcessedOnceAccepted` value, then `IMessageSlaManager` will create an expiring message and publish it to `rx.delay.exchange.messages.sla` which only have 1 queue bind to `rx.delay.exchange.messages.sla`.
+4. When the message in `rx.delay.exchange.messages.sla` expires, it will be routed to `rx.notification.queue.messages.sla` where `Bespoke.Sph.MessageTrackerSla.MessageSlaTrackerSubscriber, subscriber.message.sla` subscriber is consuming to.
+5. The subscriber, once receive a message, will check with `IMessageTracker` for `ProcessingCompleted` event for `message-id` and `worker` combination

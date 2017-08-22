@@ -20,10 +20,12 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
         public override async Task<bool> ExecuteAsync(MessageTrackingStatus status, Entity item, MessageSlaEvent @event)
         {
-            var templateId = this.EmailTemplateMapping.Split(new[] {";"}, StringSplitOptions.RemoveEmptyEntries)
+            var templateId = this.EmailTemplateMapping.ToEmptyString()
+                .Split(new[] {";"}, StringSplitOptions.RemoveEmptyEntries)
                 .FirstOrDefault(x => x.StartsWith($"{item.GetType().Name}"))
                 .ToEmptyString()
                 .Replace($"{item.GetType().Name}:", "");
+            if (string.IsNullOrWhiteSpace(templateId)) return true;
 
             var context = new SphDataContext();
             var template = await context.LoadOneAsync<EmailTemplate>(x => x.Id == templateId);
