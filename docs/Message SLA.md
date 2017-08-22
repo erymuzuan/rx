@@ -1,4 +1,4 @@
-# Message Tracking and SLA
+# Message Tracking and SLA *(this pre-release feature, please comment)*
 
 Reactive Developer allows you to set your message to be delivered in a reliable and scalable manner, and one of the features in this messaging infrastructure is the ability to have a certain level of SLA towards your messaging
 
@@ -6,7 +6,7 @@ Reactive Developer allows you to set your message to be delivered in a reliable 
 
 API(Your OperationEndpoint) -> Trigger(Your custom trigger) -> Messaging Action(or any trigger action)
 
-Lets say, once a message is accepted witn 202 HTTP response code at your `OperationEndpoint API`, you want them to be delivered to you adapter and finish executing it with a time period , let's say 15 seconds.
+Lets say, once a message is accepted with 202 HTTP response code at your `OperationEndpoint API`, you want them to be delivered to you adapter and finish executing it with a time period , let's say 15 seconds.
 
 In your `WorkersConfig` select your config file which contains the `subsriber` for the trigger
 ```json
@@ -24,7 +24,7 @@ In your `WorkersConfig` select your config file which contains the `subsriber` f
         "fullName": "Bespoke.DevV1.TriggerSubscribers.PatientPatientTriggerNo1TriggerSubscriber",
         "assembly": "subscriber.trigger.patient-patient-trigger-no-1",
         "shouldProcessedOnceAccepted": 5000,
-        "shouldProcessedOnceAccepted": true
+        "trackingEnabled": true
     }],
     "createdBy": "erymuzuan",
     "id": "patient-email",
@@ -38,7 +38,7 @@ In your `WorkersConfig` select your config file which contains the `subsriber` f
 There are at least 3 properties you have to set
 1. `entity` is the name of your `EntityDefinition`
 2. `shouldProcessedOnceAccepted` once your `OperationEndpoint API` accepted with HTT 202 response code, this where the clock starts ticking, once it reach this time span (the default is in miliseconds). Reactive Developer will notify your `MessageSlaNotificationAction`.
-3. `shouldProcessedOnceAccepted` tracking should be enabled for this trigger
+3. `trackingEnabled` tracking should be enabled for this trigger
 
 
 ## Notification action
@@ -48,10 +48,10 @@ There are at least 3 properties you have to set
 public class SlaNotCompletedEmailAction : MessageSlaNotificationAction
 {
     public SlaNotCompletedEmailAction(string emailTemplateMapping, string toAddresses){}
-    public override bool UseAsync => true;
+    public override bool UseAsync => true; // if false, you should implement bool Execute(...)
     public override async Task<bool> ExecuteAsync(MessageTrackingStatus status, Entity item, MessageSlaEvent @event)
     {
-        // removed for bervity
+        // removed for brevity
     }
 }
 
@@ -78,19 +78,19 @@ Registering your `NotificationAction` via your worker config file
 Your `NotificationAction.Execute(Async)` method returns a boolean value, if any return `false` then Reactive Developer will put up a flag to cancel your message. Thus it will not be process by your original subscriber anymore
 
 ## `IMessageCancellationRepository`
-This interface is used by `Subscriber<T>` to verify that if your message is marked for cancellation. If the implementation return `true` when `CheckMessageAsync(messageId, worker)` is called, then the `Subscriber<T>` will not call `ProcessItem` method(skipping all your action) it just quickly `BacicAck` the message and if track the `Cancelled` event
+This interface is used by `Subscriber<T>` to verify that if your message is marked for cancellation. If the implementation return `true` when `CheckMessageAsync(messageId, worker)` is called, then the `Subscriber<T>` will not call `ProcessItem` method(skipping all your action) it just quickly `BacicAck` the message and  track the `Cancelled` event
 
-Currenly there's 2 implementation for `IMessageCancellationRepository`
-1. Elasticsearch
-2. Sql Server
+Currently there's 2 implementation for `IMessageCancellationRepository`
+1. Elasticsearch (this has been tested to some degree)
+2. SQL Server (still buggy, and a bit slower, but offers a degree of consitency a notch)
 
 this is how register your implementation in worker.config
 ```xml
 
 <object name="ICancelledMessageRepository"
-    type="Bespokse.Sph.ElasticsearchRepository.CancelledMessageRepository, elasticsearch.repository" 
+    type="Bespokse.Sph.ElasticsearchRepository.CancelledMessageRepository, elasticsearch.repository"
     init-method="InitializeAsync" />
- 
+
 ```
 
 The `InitializeAsync` method is used to create the mapping in your elastisearch index
@@ -98,9 +98,9 @@ The `InitializeAsync` method is used to create the mapping in your elastisearch 
 
 
 ## Troubleshooting tips
-The key is undestanding how these features are built., using these combinations
+The key is understanding how these features are built., using these combinations
 
-1. RabbitMq expiring message
+1. RabbitMQ expiring message
 2. Elasticsearch repository for event tracking
 
 
