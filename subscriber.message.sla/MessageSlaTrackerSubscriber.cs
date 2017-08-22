@@ -108,18 +108,15 @@ namespace Bespoke.Sph.MessageTrackerSla
                 var headers = new MessageHeaders(e);
 
                 var @event = json.DeserializeFromJson<MessageSlaEvent>();
-                this.WriteMessage($" TODO : cross check with message event, if the message-id:{@event.MessageId}+worker:{@event.Worker}+processcompleted exist ");
-                this.WriteMessage($"Header messageId : {headers.MessageId}");
 
                 var tracker = ObjectBuilder.GetObject<IMessageTracker>();
                 var status = await tracker.GetProcessStatusAsync(@event);
 
+                this.WriteMessage($@"[{headers.MessageId}] is ""{status}"" for ""{@event.Worker}""");
+
                 var manager = ObjectBuilder.GetObject<IMessageSlaManager>();
                 await manager.ExecuteOnNotificationAsync(status, @event);
-
-
-
-
+                
                 m_channel.BasicAck(e.DeliveryTag, false);
             }
             finally

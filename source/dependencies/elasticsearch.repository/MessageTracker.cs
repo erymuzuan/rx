@@ -151,13 +151,6 @@ namespace Bespokse.Sph.ElasticsearchRepository
                        ""value"": ""{@event.Worker}""
                     }}
                  }}
-             }},
-             {{
-                 ""term"": {{
-                    ""Event"": {{
-                       ""value"": ""ProcessingCompleted""
-                    }}
-                 }}
              }}
          
          ]
@@ -169,7 +162,8 @@ namespace Bespokse.Sph.ElasticsearchRepository
             ""order"": ""desc""
          }}
       }}
-   ]
+   ],
+   ""size"":50
 }}
 ";
             var request = new HttpRequestMessage(HttpMethod.Post, $"{TypeUrl}/_search") { Content = new StringContent(query) };
@@ -183,9 +177,12 @@ namespace Bespokse.Sph.ElasticsearchRepository
             var total = esJson.SelectToken("$.hits.total").Value<int>();
             if (total == 0) return MessageTrackingStatus.NotStarted;
 
-            var trackings = esJson.SelectTokens("$._source")
+            var trackings = esJson.SelectToken("$.hits.hits")
+                .Select(x => x.SelectToken("$._source"))
                 .Select(x => x.ToString().DeserializeFromJson<MessageTrackingEvent>())
                 .ToArray();
+
+
             if (trackings.Any(x => x.Event == "ProcessingCompleted"))
                 return MessageTrackingStatus.Started | MessageTrackingStatus.Completed;
 
