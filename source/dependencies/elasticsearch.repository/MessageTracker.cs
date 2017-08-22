@@ -16,7 +16,10 @@ namespace Bespokse.Sph.ElasticsearchRepository
         public bool IsEnabled { get; }
         public string Host { get; }
         private readonly HttpClient m_client;
-        public string Index = $"{ConfigurationManager.ElasticSearchIndex}_sla";
+        private string LoweredApp => ConfigurationManager.ApplicationName.ToLowerInvariant();
+        public string DailyIndex => $"{LoweredApp}_sla_{DateTime.Today:yyyyMMdd}";
+        public string IndexAlias => $"{LoweredApp}_sla";
+
         public bool IsSystemTypeEnabled { get; set; } = false;
         public string[] EnabledEntities { get; set; }
         public string[] EnabledQueues { get; private set; }
@@ -27,7 +30,7 @@ namespace Bespokse.Sph.ElasticsearchRepository
         /// <summary>
         /// $"{Host}/{Index}/event"
         /// </summary>
-        private string TypeUrl => $"{Host}/{Index}/event";
+        private string DailyTypeUrl => $"{DailyIndex}/event";
 
         public MessageTracker()
         {
@@ -73,7 +76,7 @@ namespace Bespokse.Sph.ElasticsearchRepository
 
                             }).ToArray();
             var tasks = from c in contents
-                        select m_client.PostAsync($"{Index}/sla/", new StringContent(c.ToJson()));
+                        select m_client.PostAsync($"{DailyIndex}/sla/", new StringContent(c.ToJson()));
             var responses = await Task.WhenAll(tasks);
             responses.ToList().ForEach(x => x.EnsureSuccessStatusCode());
 
@@ -172,7 +175,7 @@ namespace Bespokse.Sph.ElasticsearchRepository
    ""size"":50
 }}
 ";
-            var request = new HttpRequestMessage(HttpMethod.Post, $"{TypeUrl}/_search") { Content = new StringContent(query) };
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{IndexAlias}/_search") { Content = new StringContent(query) };
             var response = await m_client.SendAsync(request);
 
             var content = response.Content as StreamContent;
@@ -205,13 +208,12 @@ namespace Bespokse.Sph.ElasticsearchRepository
         private async Task PostEventAsync(MessageTrackingEvent eventData)
         {
             if (!CanTrack(eventData)) return;
-            await this.InitializeAsync();
 
             var setting = new JsonSerializerSettings();
             var json = JsonConvert.SerializeObject(eventData, setting);
 
             var content = new StringContent(json);
-            var url = $"{TypeUrl}";
+            var url = $"{DailyTypeUrl}";
 
             HttpResponseMessage response = null;
             try
@@ -241,11 +243,8 @@ namespace Bespokse.Sph.ElasticsearchRepository
             return true;
         }
 
-        private bool m_initialized;
-        private async Task InitializeAsync()
+        public async Task InitializeAsync()
         {
-            if (m_initialized) return;
-
             // get enabled queues
             var configFile = GetConfigFile();
             if (!File.Exists(configFile))
@@ -273,22 +272,25 @@ namespace Bespokse.Sph.ElasticsearchRepository
                 .Select(x => x.Entity);
             this.OncePersistedSlaEnabledEntities = oncePersistedSlaEnabledEntities.ToArray();
 
-            // create index if not exist
-            await m_client.PutAsync(Index, new StringContent(""));
 
-            // create es mapping
-            var content = new StringContent(Properties.Resources.MessageTrackingMapping);
-            var response = await m_client.PutAsync($"{Index}/_mapping/event", content);
-            response.EnsureSuccessStatusCode();
+            const string TEMPLATE_URI = "_template/rx_sla";
+            var templateStatus = await m_client.GetAsync(TEMPLATE_URI);
+            if (templateStatus.IsSuccessStatusCode) return;
 
-            // create es mapping
-            var slaMapping = new StringContent(Properties.Resources.SlaMapping);
-            var slaResponse = await m_client.PutAsync($"{Index}/_mapping/sla", slaMapping);
-            slaResponse.EnsureSuccessStatusCode();
+            var template = $@"{{
+    ""template"" : ""{LoweredApp}_sla_*"",
+    ""aliases"":{{
+        ""{LoweredApp}_sla"":{{}}
+    }},
+    ""mappings"" : {{
+        {Properties.Resources.SlaMapping},
+        {Properties.Resources.CancelledMessageMapping},
+        {Properties.Resources.MessageTrackingMapping}
 
-
-            m_initialized = true;
-
+    }}
+}}";
+            await m_client.PutAsync(TEMPLATE_URI, new StringContent(template));
+            
         }
 
         private string GetConfigFile()

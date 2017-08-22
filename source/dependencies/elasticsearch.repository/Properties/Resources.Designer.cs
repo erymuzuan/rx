@@ -61,14 +61,12 @@ namespace Bespokse.Sph.ElasticsearchRepository.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {
-        ///    &quot;cancelledmessage&quot;:{
+        ///   Looks up a localized string similar to  &quot;cancelledmessage&quot;:{
         ///        &quot;properties&quot;:{
         ///            &quot;messageId&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;index&quot;:&quot;not_analyzed&quot;},
         ///            &quot;worker&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;index&quot;:&quot;not_analyzed&quot;}
         ///        }
-        ///    }
-        ///}.
+        ///    }.
         /// </summary>
         internal static string CancelledMessageMapping {
             get {
@@ -77,8 +75,7 @@ namespace Bespokse.Sph.ElasticsearchRepository.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {
-        ///    &quot;event&quot;:{
+        ///   Looks up a localized string similar to &quot;event&quot;:{
         ///        &quot;properties&quot;:{
         ///            &quot;MessageId&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;index&quot;:&quot;not_analyzed&quot;},
         ///            &quot;RoutingKey&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;index&quot;:&quot;not_analyzed&quot;},
@@ -86,7 +83,7 @@ namespace Bespokse.Sph.ElasticsearchRepository.Properties {
         ///            &quot;Entity&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;index&quot;:&quot;not_analyzed&quot;},
         ///            &quot;MachineName&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;index&quot;:&quot;not_analyzed&quot;},
         ///            &quot;ProcessName&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;index&quot;:&quot;not_analyzed&quot;},
-        ///            &quot;Event&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;index&quot;:&quot;no [rest of string was truncated]&quot;;.
+        ///            &quot;Event&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;index&quot;:&quot;not_analy [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string MessageTrackingMapping {
             get {
@@ -95,8 +92,7 @@ namespace Bespokse.Sph.ElasticsearchRepository.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {
-        ///    &quot;sla&quot;:{
+        ///   Looks up a localized string similar to  &quot;sla&quot;:{
         ///        &quot;properties&quot;:{
         ///            &quot;event&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;index&quot;:&quot;not_analyzed&quot;},
         ///            &quot;itemId&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;index&quot;:&quot;not_analyzed&quot;},
@@ -104,7 +100,7 @@ namespace Bespokse.Sph.ElasticsearchRepository.Properties {
         ///            &quot;messageId&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;index&quot;:&quot;not_analyzed&quot;},
         ///            &quot;expectedProcessed&quot;: {&quot;type&quot;: &quot;date&quot;},
         ///            &quot;processingInMilliseconds&quot;: {&quot;type&quot;:&quot;float&quot;,&quot;index&quot;:&quot;analyzed&quot;,&quot;boost&quot;:1,&quot;include_in_all&quot;:false,&quot;ignore_malformed&quot;:false},
-        ///            &quot;w [rest of string was truncated]&quot;;.
+        ///            &quot;worker&quot; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SlaMapping {
             get {

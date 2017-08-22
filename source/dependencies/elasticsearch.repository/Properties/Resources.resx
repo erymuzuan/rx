@@ -118,18 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CancelledMessageMapping" xml:space="preserve">
-    <value>{
-    "cancelledmessage":{
+    <value> "cancelledmessage":{
         "properties":{
             "messageId": {"type": "string", "index":"not_analyzed"},
             "worker": {"type": "string", "index":"not_analyzed"}
         }
-    }
-}</value>
+    }</value>
   </data>
   <data name="MessageTrackingMapping" xml:space="preserve">
-    <value>{
-    "event":{
+    <value>"event":{
         "properties":{
             "MessageId": {"type": "string", "index":"not_analyzed"},
             "RoutingKey": {"type": "string", "index":"not_analyzed"},
@@ -143,12 +140,10 @@
             "Worker": {"type": "string", "index":"not_analyzed"},
             "DateTime": {"type": "date"}
         }
-    }
-}</value>
+    }</value>
   </data>
   <data name="SlaMapping" xml:space="preserve">
-    <value>{
-    "sla":{
+    <value> "sla":{
         "properties":{
             "event": {"type": "string", "index":"not_analyzed"},
             "itemId": {"type": "string", "index":"not_analyzed"},
@@ -159,7 +154,6 @@
             "worker": {"type": "string", "index":"not_analyzed"},
             "dateTime": {"type": "date"}
         }
-    }
-}</value>
+    }</value>
   </data>
 </root>
