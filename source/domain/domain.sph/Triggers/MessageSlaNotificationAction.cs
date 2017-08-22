@@ -6,12 +6,12 @@ namespace Bespoke.Sph.Domain
 {
     public class MessageSlaNotificationAction : DomainObject
     {
-        public virtual void Execute(MessageTrackingStatus status, Entity item, MessageSlaEvent @event)
+        public virtual bool Execute(MessageTrackingStatus status, Entity item, MessageSlaEvent @event)
         {
             throw new Exception("NotImplemented");
         }
 
-        public virtual Task ExecuteAsync(MessageTrackingStatus status, Entity item, MessageSlaEvent @event)
+        public virtual Task<bool> ExecuteAsync(MessageTrackingStatus status, Entity item, MessageSlaEvent @event)
         {
             throw new Exception("NotImplemented");
         }

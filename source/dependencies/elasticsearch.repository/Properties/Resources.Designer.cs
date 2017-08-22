@@ -62,6 +62,22 @@ namespace Bespokse.Sph.ElasticsearchRepository.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to {
+        ///    &quot;cancelledmessage&quot;:{
+        ///        &quot;properties&quot;:{
+        ///            &quot;messageId&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;index&quot;:&quot;not_analyzed&quot;},
+        ///            &quot;worker&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;index&quot;:&quot;not_analyzed&quot;}
+        ///        }
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string CancelledMessageMapping {
+            get {
+                return ResourceManager.GetString("CancelledMessageMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
         ///    &quot;event&quot;:{
         ///        &quot;properties&quot;:{
         ///            &quot;MessageId&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;index&quot;:&quot;not_analyzed&quot;},

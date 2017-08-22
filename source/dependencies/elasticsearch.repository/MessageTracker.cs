@@ -113,6 +113,12 @@ namespace Bespokse.Sph.ElasticsearchRepository
             await PostEventAsync(eventData);
         }
 
+        public async Task RegisterCancelledAsync(MessageTrackingEvent @event)
+        {
+            @event.Event = "Cancelled";
+            await PostEventAsync(@event);
+        }
+
         public async Task RegisterDlqedAsync(MessageTrackingEvent eventData)
         {
             eventData.Event = "DLQ";
@@ -194,6 +200,7 @@ namespace Bespokse.Sph.ElasticsearchRepository
 
             return MessageTrackingStatus.Terminated;
         }
+
 
         private async Task PostEventAsync(MessageTrackingEvent eventData)
         {

@@ -64,36 +64,50 @@ namespace Bespoke.Sph.RabbitMqPublisher
             dynamic repository = Activator.CreateInstance(reposType);
             Entity item = await repository.LoadOneAsync(@event.ItemId);
 
-            if ((status & MessageTrackingStatus.Completed) == MessageTrackingStatus.Completed)
+            async Task<bool> ExcuteAsync(IList<MessageSlaNotificationAction> actions)
             {
-                var tasks = this.CompletedActionCollection.Where(x => x.UseAsync).Select(x => x.ExecuteAsync(status, item, @event));
-                await Task.WhenAll(tasks);
-                this.CompletedActionCollection.Where(x => !x.UseAsync).ToList().ForEach(x => x.Execute(status, item, @event));
-                return; // done
+                var tasks = actions.Where(x => x.UseAsync).Select(x => x.ExecuteAsync(status, item, @event));
+                var results = (await Task.WhenAll(tasks)).ToList();
+                results = results.Concat(actions.Where(x => !x.UseAsync).ToList().Select(x => x.Execute(status, item, @event))).ToList();
+                return results.All(x => x);
             }
 
+            var ok = true;
+            if ((status & MessageTrackingStatus.Completed) == MessageTrackingStatus.Completed)
+            {
+                ok = await ExcuteAsync(this.CompletedActionCollection);
+            }
 
             if ((status & MessageTrackingStatus.NotStarted) == MessageTrackingStatus.NotStarted)
             {
-                var tasks = this.NotStartedActionCollection.Where(x => x.UseAsync).Select(x => x.ExecuteAsync(status, item, @event));
-                await Task.WhenAll(tasks);
-                this.NotStartedActionCollection.Where(x => !x.UseAsync).ToList().ForEach(x => x.Execute(status, item, @event));
-                return; // Not started
+                ok = await ExcuteAsync(this.NotStartedActionCollection);
             }
             if ((status & MessageTrackingStatus.Error) == MessageTrackingStatus.Error)
             {
-                var tasks = this.ErrorActionCollection.Where(x => x.UseAsync).Select(x => x.ExecuteAsync(status, item, @event));
-                await Task.WhenAll(tasks);
-                this.ErrorActionCollection.Where(x => !x.UseAsync).ToList().ForEach(x => x.Execute(status, item, @event));
-                return; // Error
+                ok = await ExcuteAsync(this.ErrorActionCollection);
             }
 
             if ((status & MessageTrackingStatus.Terminated) == MessageTrackingStatus.Terminated)
             {
-                var tasks = this.TerminatedActionCollection.Where(x => x.UseAsync).Select(x => x.ExecuteAsync(status, item, @event));
-                await Task.WhenAll(tasks);
-                this.TerminatedActionCollection.Where(x => !x.UseAsync).ToList().ForEach(x => x.Execute(status, item, @event));
+                ok = await ExcuteAsync(this.TerminatedActionCollection);
             }
+
+            if (!ok)
+            {
+                // TODO : remove the message from the original QUEUE.. WTF, the original subscribe should just ignore the message
+                // put the messageid and worker name in cancelled message repos
+                var repos = ObjectBuilder.GetObject<ICancelledMessageRepository>();
+                await repos.PutAsync(@event.MessageId, @event.Worker);
+            }
+        }
+
+        public async Task<bool> CheckMessageIsValidAndMarkReceivedAsync(string messageId, string worker)
+        {
+            var repos = ObjectBuilder.GetObject<ICancelledMessageRepository>();
+            // TODO : query cancelled message repos , return exist then remove from the repos
+            var cancelled = await repos.CheckMessageAsync(messageId, worker);
+            if (cancelled) await repos.RemoveAsync(messageId, worker);
+            return !cancelled;
         }
 
         private static async Task<byte[]> CompressAsync(string value)

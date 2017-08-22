@@ -52,6 +52,7 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CancelledMessageRepository.cs" />
     <Compile Include="MappingBuilder.cs" />
     <Compile Include="MessageTracker.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

@@ -128,6 +128,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         private async void Received(object sender, ReceivedMessageArgs e)
         {
             var tracker = ObjectBuilder.GetObject<IMessageTracker>();
+            var cancelledMessageRepository = ObjectBuilder.GetObject<ICancelledMessageRepository>();
             var trackingTasks = new List<Task>();
 
             Interlocked.Increment(ref m_processing);
@@ -144,17 +145,25 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 var sw = new Stopwatch();
                 sw.Start();
                 trackingTasks.Add(tracker.RegisterStartProcessingAsync(new MessageTrackingEvent(item, header.MessageId, e.RoutingKey, this.QueueName)));
-
-                await ProcessMessage(item, header);
-                m_channel.BasicAck(e.DeliveryTag, false);
-
-                trackingTasks.Add(tracker.RegisterCompletedAsync(new MessageTrackingEvent(item, header.MessageId, e.RoutingKey, this.QueueName)
+                var cancelled = await cancelledMessageRepository.CheckMessageAsync(header.MessageId, this.QueueName);
+                if (!cancelled)
                 {
-                    ProcessingTimeSpan =
-                        sw.Elapsed
-                }));
+                    await ProcessMessage(item, header);
+                    m_channel.BasicAck(e.DeliveryTag, false);
+                    
+                    var completedEvent = new MessageTrackingEvent(item, header.MessageId, e.RoutingKey, this.QueueName){ ProcessingTimeSpan = sw.Elapsed };
+                    var completed = tracker.RegisterCompletedAsync(completedEvent);
+                    trackingTasks.Add(completed);
+                }
+                else
+                {
+                    m_channel.BasicAck(e.DeliveryTag, false);
+                    trackingTasks.Add(tracker.RegisterCancelledAsync(new MessageTrackingEvent(item, header.MessageId, e.RoutingKey, this.QueueName)));
+                    trackingTasks.Add(cancelledMessageRepository.RemoveAsync(header.MessageId, this.QueueName));
+                }
+
                 sw.Stop();
-                
+
             }
             catch (Exception exc)
             {

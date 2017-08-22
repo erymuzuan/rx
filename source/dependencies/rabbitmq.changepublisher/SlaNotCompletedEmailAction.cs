@@ -18,7 +18,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
         public override bool UseAsync => true;
        
 
-        public override async Task ExecuteAsync(MessageTrackingStatus status, Entity item, MessageSlaEvent @event)
+        public override async Task<bool> ExecuteAsync(MessageTrackingStatus status, Entity item, MessageSlaEvent @event)
         {
             var templateId = this.EmailTemplateMapping.Split(new[] {";"}, StringSplitOptions.RemoveEmptyEntries)
                 .FirstOrDefault(x => x.StartsWith($"{item.GetType().Name}"))
@@ -39,6 +39,9 @@ namespace Bespoke.Sph.RabbitMqPublisher
             };
             var email = ObjectBuilder.GetObject<INotificationService>();
             await email.SendMessageAsync(message, ToAddresses);
+
+            return true;
+
         }
     }
 }

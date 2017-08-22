@@ -51,7 +51,7 @@ namespace workers.console.runner
             }
 
 
-            var title = string.Format("Connecting to {2}:{3}@{0}:{1}", host, port, userName, password);
+            var title = string.Format($"[{Process.GetCurrentProcess().Id}] Connecting to {userName}:{password}@{host}:{port}");
             log.Write(Console.Title = title);
 
             var envName = ParseArg("env") ?? "dev";
