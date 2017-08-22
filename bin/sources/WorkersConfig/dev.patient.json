@@ -4,14 +4,6 @@
     "isEnabled": true,
     "environment": "dev",
     "subscriberConfigs": [{
-        "instancesCount": 1,
-        "prefetchCount": 1,
-        "priority": 0,
-        "queueName": "message.sla",
-        "fullName": "Bespoke.Sph.MessageTrackerSla.MessageSlaTrackerSubscriber",
-        "assembly": "subscriber.message.sla"
-    },
-    {
         "entity": "Patient",
         "instancesCount": 1,
         "prefetchCount": 1,
@@ -19,11 +11,7 @@
         "queueName": "trigger_subs_patient-patient-trigger-no-1",
         "fullName": "Bespoke.DevV1.TriggerSubscribers.PatientPatientTriggerNo1TriggerSubscriber",
         "assembly": "subscriber.trigger.patient-patient-trigger-no-1",
-        "shouldProcessedIn": 50,
         "shouldProcessedOnceAccepted": 5000,
-        "shouldProcessedOncePersisted": null,
-        "delayProcessedOnAcceptedEmailTemplate": "patient-accepted-delay",
-        "delayProcessedOnPersistedEmailTemplate": "patient-persisted-delay",
         "trackingEnabled": true
     }],
     "createdBy": "erymuzuan",
