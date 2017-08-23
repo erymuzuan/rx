@@ -14,6 +14,7 @@ namespace Bespoke.Sph.Domain
         Task RegisterDelayedAsync(MessageTrackingEvent eventData);
         Task<MessageTrackingStatus> GetProcessStatusAsync(MessageSlaEvent @event);
         Task RegisterCancelledAsync(MessageTrackingEvent @event);
+        Task RegisterCancelRequestedAsync(MessageTrackingEvent @event);
     }
 
     [Flags]

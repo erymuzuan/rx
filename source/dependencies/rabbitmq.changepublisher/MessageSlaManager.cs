@@ -29,11 +29,24 @@ namespace Bespoke.Sph.RabbitMqPublisher
         private IModel m_channel;
         public const int PERSISTENT_DELIVERY_MODE = 2;
 
+        public void Initialize()
+        {
+            var factory = new ConnectionFactory
+            {
+                UserName = ConfigurationManager.RabbitMqUserName,
+                Password = ConfigurationManager.RabbitMqPassword,
+                HostName = ConfigurationManager.RabbitMqHost,
+                Port = ConfigurationManager.RabbitMqPort,
+                VirtualHost = ConfigurationManager.RabbitMqVirtualHost
+            };
+            m_connection = factory.CreateConnection();
+            m_channel = m_connection.CreateModel();
+            m_connection.ConnectionShutdown += ConnectionShutdown;
+
+        }
+
         public async Task PublishSlaOnAcceptanceAsync(MessageSlaEvent @event)
         {
-            if (!this.IsOpened)
-                InitConnection();
-
             var headers = new Dictionary<string, object>();
             var body = await CompressAsync(@event.ToJson());
             var messageId = Guid.NewGuid().ToString("N").ToUpperInvariant();
@@ -47,11 +60,13 @@ namespace Bespoke.Sph.RabbitMqPublisher
             props.Expiration = @event.ProcessingTimeSpanInMiliseconds.ToString(CultureInfo.InvariantCulture);
             m_channel.BasicPublish(DELAY_EXCHANGE, string.Empty, props, body);
         }
-        
+
         public async Task ExecuteOnNotificationAsync(MessageTrackingStatus status, MessageSlaEvent @event)
         {
             var repository = this.GetRepository(@event.Entity);
-            Entity item = await repository.LoadOneAsync(@event.ItemId);
+            Entity item = null;
+            if (!string.IsNullOrWhiteSpace(@event.ItemId))
+                item = await repository.LoadOneAsync(@event.ItemId);
 
             async Task<bool> ExcuteAsync(IList<MessageSlaNotificationAction> actions)
             {
@@ -83,8 +98,13 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
             if (!ok)
             {
+                var tracker = ObjectBuilder.GetObject<IMessageTracker>();
                 var repos = ObjectBuilder.GetObject<ICancelledMessageRepository>();
-                await repos.PutAsync(@event.MessageId, @event.Worker);
+
+                await Task.WhenAll(
+                    repos.PutAsync(@event.MessageId, @event.Worker),
+                    tracker.RegisterCancelRequestedAsync(new MessageTrackingEvent(@event))
+                    );
             }
         }
 
@@ -119,19 +139,12 @@ namespace Bespoke.Sph.RabbitMqPublisher
             return content;
         }
 
-        private void InitConnection()
-        {
-            var factory = new ConnectionFactory
-            {
-                UserName = ConfigurationManager.RabbitMqUserName,
-                Password = ConfigurationManager.RabbitMqPassword,
-                HostName = ConfigurationManager.RabbitMqHost,
-                Port = ConfigurationManager.RabbitMqPort,
-                VirtualHost = ConfigurationManager.RabbitMqVirtualHost
-            };
-            m_connection = factory.CreateConnection();
-            m_channel = m_connection.CreateModel();
 
+        private void ConnectionShutdown(object sender, ShutdownEventArgs e)
+        {
+            if (sender is IConnection connection)
+                connection.ConnectionShutdown -= ConnectionShutdown;
+            this.Initialize();
         }
 
         public void Close()
@@ -145,19 +158,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
             m_channel = null;
         }
 
-        private bool IsOpened
-        {
-            get
-            {
-                if (null == m_connection) return false;
-                if (null == m_channel) return false;
-                if (null == m_connection) return false;
-                if (!m_channel.IsOpen) return false;
-                if (!m_connection.IsOpen) return false;
 
-                return true;
-            }
-        }
         public void Dispose()
         {
             m_connection?.Dispose();

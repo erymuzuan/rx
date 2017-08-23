@@ -1,0 +1,32 @@
+{
+    "name": "dev",
+    "description": "Development on local machines",
+    "isEnabled": true,
+    "environment": "dev",
+    "subscriberConfigs": [{
+            "instancesCount": 1,
+            "prefetchCount": 1,
+            "priority": 0,
+            "queueName": "message.sla",
+            "fullName": "Bespoke.Sph.MessageTrackerSla.MessageSlaTrackerSubscriber",
+            "assembly": "subscriber.message.sla"
+        },
+        {
+            "entity": "Patient",
+            "instancesCount": 1,
+            "prefetchCount": 1,
+            "priority": 0,
+            "queueName": "trigger_subs_patient-patient-trigger-no-1",
+            "fullName": "Bespoke.DevV1.TriggerSubscribers.PatientPatientTriggerNo1TriggerSubscriber",
+            "assembly": "subscriber.trigger.patient-patient-trigger-no-1",
+            "shouldProcessedOnceAccepted": 5000,
+            "trackingEnabled": true
+        }
+    ],
+    "createdBy": "erymuzuan",
+    "id": "dev",
+    "createdDate": "2016-10-07T00:00:00+08:00",
+    "changedBy": "erymuzuan",
+    "changedDate": "2016-10-07T00:00:00+08:00",
+    "webId": "dev"
+}

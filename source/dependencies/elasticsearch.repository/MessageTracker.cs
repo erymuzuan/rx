@@ -61,19 +61,19 @@ namespace Bespokse.Sph.ElasticsearchRepository
         private async Task InitializeMessageSlaAsyc(string eventName, MessageTrackingEvent data)
         {
             var events = (from o in this.Options.SubscriberConfigs
-                where o.ShouldProcessedOnceAccepted > 0
-                      && o.Entity == data.Entity
-                select new MessageSlaEvent
-                {
-                    Event = eventName,
-                    ItemId = data.ItemId,
-                    Entity = data.Entity,
-                    DateTime = data.DateTime,
-                    MessageId = data.MessageId,
-                    ProcessingTimeSpanInMiliseconds=  o.ShouldProcessedOnceAccepted.Value,
-                    Worker = o.QueueName
+                          where o.ShouldProcessedOnceAccepted > 0
+                                && o.Entity == data.Entity
+                          select new MessageSlaEvent
+                          {
+                              Event = eventName,
+                              ItemId = data.ItemId,
+                              Entity = data.Entity,
+                              DateTime = data.DateTime,
+                              MessageId = data.MessageId,
+                              ProcessingTimeSpanInMiliseconds = o.ShouldProcessedOnceAccepted.Value,
+                              Worker = o.QueueName
 
-                }).ToArray();
+                          }).ToArray();
             //
             var slaManager = ObjectBuilder.GetObject<IMessageSlaManager>();
             var monitorTasks = events.Select(c => slaManager.PublishSlaOnAcceptanceAsync(c));
@@ -102,6 +102,11 @@ namespace Bespokse.Sph.ElasticsearchRepository
         public async Task RegisterCancelledAsync(MessageTrackingEvent @event)
         {
             @event.Event = "Cancelled";
+            await PostEventAsync(@event);
+        }
+        public async Task RegisterCancelRequestedAsync(MessageTrackingEvent @event)
+        {
+            @event.Event = "CancelRequested";
             await PostEventAsync(@event);
         }
 
@@ -213,22 +218,23 @@ namespace Bespokse.Sph.ElasticsearchRepository
             }
         }
 
-        private bool CanTrack(MessageTrackingEvent eventData)
+        private bool CanTrack(MessageTrackingEvent @event)
         {
             if (!this.IsEnabled) return false;
-            if (!IsSystemTypeEnabled && eventData.EntityNamespace == typeof(EntityDefinition).Namespace) return false;
-            if (!IsSystemTypeEnabled && eventData.EntityNamespace == typeof(Adapter).Namespace) return false;
+            if (!IsSystemTypeEnabled && @event.EntityNamespace == typeof(EntityDefinition).Namespace) return false;
+            if (!IsSystemTypeEnabled && @event.EntityNamespace == typeof(Adapter).Namespace) return false;
 
             if (null != this.EnabledEntities)
-                if (!EnabledEntities.Contains(eventData.Entity)) return false;
-            if (null != this.EnabledQueues)
-                if (!EnabledQueues.Contains(eventData.Worker)) return false;
+                if (!EnabledEntities.Contains(@event.Entity)) return false;
+
+            if (null != this.EnabledQueues && !string.IsNullOrWhiteSpace(@event.Worker))
+                if (!EnabledQueues.Contains(@event.Worker)) return false;
             return true;
         }
 
         public async Task InitializeAsync()
         {
-            // get enabled queues
+            // TODO : get enabled queues, not just from current config file, but all the config in the current environment
             var configFile = GetConfigFile();
             if (!File.Exists(configFile))
             {
@@ -272,7 +278,7 @@ namespace Bespokse.Sph.ElasticsearchRepository
     }}
 }}";
             await m_client.PutAsync(TEMPLATE_URI, new StringContent(template));
-            
+
         }
 
         private string GetConfigFile()
