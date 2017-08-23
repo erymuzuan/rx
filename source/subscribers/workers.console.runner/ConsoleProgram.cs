@@ -28,8 +28,11 @@ namespace workers.console.runner
             var userName = ParseArg("u") ?? "guest";
             var password = ParseArg("p") ?? "guest";
             var debug = ParseArgExist("debug");
+            var workerProcess = Process.GetCurrentProcess();
             if (debug)
             {
+                Console.Title = $"Current process :[{workerProcess.Id}] {workerProcess.ProcessName}";
+                Console.WriteLine($"Attach your debugger to [{workerProcess.Id}] {workerProcess.ProcessName}");
                 Console.WriteLine("Press [ENTER] to continue");
                 Console.ReadLine();
             }
@@ -51,7 +54,7 @@ namespace workers.console.runner
             }
 
 
-            var title = string.Format($"[{Process.GetCurrentProcess().Id}] Connecting to {userName}:{password}@{host}:{port}");
+            var title = string.Format($"[{workerProcess.Id}] Connecting to {userName}:{password}@{host}:{port}");
             log.Write(Console.Title = title);
 
             var envName = ParseArg("env") ?? "dev";
