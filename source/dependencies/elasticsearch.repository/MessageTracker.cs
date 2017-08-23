@@ -60,40 +60,23 @@ namespace Bespokse.Sph.ElasticsearchRepository
 
         private async Task InitializeMessageSlaAsyc(string eventName, MessageTrackingEvent data)
         {
-            var contents = (from o in this.Options.SubscriberConfigs
-                            where o.ShouldProcessedOnceAccepted > 0
-                            && o.Entity == data.Entity
-                            select new
-                            {
-                                @event = eventName,
-                                itemId = data.ItemId,
-                                entity = data.Entity,
-                                dateTime = data.DateTime,
-                                messageId = data.MessageId,
-                                expectedProcessed = data.DateTime.AddMilliseconds(o.ShouldProcessedOnceAccepted.Value),
-                                timespan = o.ShouldProcessedOnceAccepted.Value,
-                                worker = o.QueueName
+            var events = (from o in this.Options.SubscriberConfigs
+                where o.ShouldProcessedOnceAccepted > 0
+                      && o.Entity == data.Entity
+                select new MessageSlaEvent
+                {
+                    Event = eventName,
+                    ItemId = data.ItemId,
+                    Entity = data.Entity,
+                    DateTime = data.DateTime,
+                    MessageId = data.MessageId,
+                    ProcessingTimeSpanInMiliseconds=  o.ShouldProcessedOnceAccepted.Value,
+                    Worker = o.QueueName
 
-                            }).ToArray();
-            var tasks = from c in contents
-                        select m_client.PostAsync($"{DailyIndex}/sla/", new StringContent(c.ToJson()));
-            var responses = await Task.WhenAll(tasks);
-            responses.ToList().ForEach(x => x.EnsureSuccessStatusCode());
-
+                }).ToArray();
             //
             var slaManager = ObjectBuilder.GetObject<IMessageSlaManager>();
-            var monitorTasks = from c in contents
-                               let @event = new MessageSlaEvent
-                               {
-                                   DateTime = c.dateTime,
-                                   Entity = c.entity,
-                                   Event = c.@event,
-                                   ItemId = c.itemId,
-                                   MessageId = c.messageId,
-                                   ProcessingTimeSpanInMiliseconds = c.timespan,
-                                   Worker = c.worker
-                               }
-                               select slaManager.PublishSlaOnAcceptanceAsync(@event);
+            var monitorTasks = events.Select(c => slaManager.PublishSlaOnAcceptanceAsync(c));
             await Task.WhenAll(monitorTasks);
 
         }
@@ -283,7 +266,6 @@ namespace Bespokse.Sph.ElasticsearchRepository
         ""{LoweredApp}_sla"":{{}}
     }},
     ""mappings"" : {{
-        {Properties.Resources.SlaMapping},
         {Properties.Resources.CancelledMessageMapping},
         {Properties.Resources.MessageTrackingMapping}
 

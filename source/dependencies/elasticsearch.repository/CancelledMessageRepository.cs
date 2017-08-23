@@ -9,13 +9,14 @@ namespace Bespokse.Sph.ElasticsearchRepository
     {
         public string Host { get; }
         private readonly HttpClient m_client;
-        public string Index = $"{ConfigurationManager.ElasticSearchIndex}_sla";
+        public string DailyIndex = $"{ConfigurationManager.ApplicationName.ToLowerInvariant()}_sla_{DateTime.Today:yyyyMMdd}";
         public bool Profiled { get; set; }
 
         /// <summary>
         /// $"{Host}/{Index}/event"
         /// </summary>
-        private string TypeUrl => $"{Host}/{Index}/cancelledmessage";
+        private string DailyTypeUri => $"{DailyIndex}/cancelledmessage";
+        private string AliasTypeUri => $"{ConfigurationManager.ApplicationName.ToLowerInvariant()}_sla/cancelledmessage";
 
         public CancelledMessageRepository()
         {
@@ -26,7 +27,7 @@ namespace Bespokse.Sph.ElasticsearchRepository
         public async Task<bool> CheckMessageAsync(string messageId, string worker)
         {
             var id = $"{messageId}{worker}".Replace("/", "");
-            var response = await m_client.GetAsync($"{TypeUrl}/{id}");
+            var response = await m_client.GetAsync($"{AliasTypeUri}/{id}");
             return response.IsSuccessStatusCode;
         }
 
@@ -38,14 +39,14 @@ namespace Bespokse.Sph.ElasticsearchRepository
         ""messageId"": ""{messageId}"",
         ""worker"": ""{worker}""
 }}";
-            var response = await m_client.PostAsync($"{TypeUrl}/{id}", new StringContent(json));
+            var response = await m_client.PostAsync($"{DailyTypeUri}/{id}", new StringContent(json));
             response.EnsureSuccessStatusCode();
         }
 
         public async Task RemoveAsync(string messageId, string worker)
         {
             var id = $"{messageId}{worker}".Replace("/", "");
-            var response = await m_client.DeleteAsync($"{TypeUrl}/{id}");
+            var response = await m_client.DeleteAsync($"{AliasTypeUri}/{id}");
             response.EnsureSuccessStatusCode();
         }
 
@@ -56,11 +57,11 @@ namespace Bespokse.Sph.ElasticsearchRepository
             if (m_initialized) return;
 
             // create index if not exist
-            await m_client.PutAsync(Index, new StringContent(""));
+            await m_client.PutAsync(DailyIndex, new StringContent(""));
 
             // create es mapping
             var content = new StringContent(Properties.Resources.CancelledMessageMapping);
-            var response = await m_client.PutAsync($"{Index}/_mapping/cancelledmessage", content);
+            var response = await m_client.PutAsync($"{DailyIndex}/_mapping/cancelledmessage", content);
             response.EnsureSuccessStatusCode();
 
             m_initialized = true;

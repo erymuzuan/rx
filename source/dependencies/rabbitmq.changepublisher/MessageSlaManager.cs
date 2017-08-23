@@ -50,6 +50,8 @@ namespace Bespoke.Sph.RabbitMqPublisher
         public async Task ExecuteOnNotificationAsync(MessageTrackingStatus status, MessageSlaEvent @event)
         {
             var context = new SphDataContext();
+
+            // TODO  : cache the IRespository<T>
             var ed = await context.LoadOneAsync<EntityDefinition>(x => x.Name == @event.Entity);
             var sqlAssembly = Assembly.Load("sql.repository");
             var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
@@ -94,8 +96,6 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
             if (!ok)
             {
-                // TODO : remove the message from the original QUEUE.. WTF, the original subscribe should just ignore the message
-                // put the messageid and worker name in cancelled message repos
                 var repos = ObjectBuilder.GetObject<ICancelledMessageRepository>();
                 await repos.PutAsync(@event.MessageId, @event.Worker);
             }
@@ -104,7 +104,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
         public async Task<bool> CheckMessageIsValidAndMarkReceivedAsync(string messageId, string worker)
         {
             var repos = ObjectBuilder.GetObject<ICancelledMessageRepository>();
-            // TODO : query cancelled message repos , return exist then remove from the repos
+
             var cancelled = await repos.CheckMessageAsync(messageId, worker);
             if (cancelled) await repos.RemoveAsync(messageId, worker);
             return !cancelled;

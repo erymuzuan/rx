@@ -16,15 +16,29 @@ namespace Bespoke.Sph.RabbitMqPublisher
             ToAddresses = toAddresses;
         }
         public override bool UseAsync => true;
-       
+
 
         public override async Task<bool> ExecuteAsync(MessageTrackingStatus status, Entity item, MessageSlaEvent @event)
         {
+            var email = ObjectBuilder.GetObject<INotificationService>();
+            if (null == item)
+            {
+
+                await email.SendMessageAsync(new Message
+                {
+                    Subject = $"Action is cancelled : {@event.MessageId}",
+                    Body = $@"Item {@event.ItemId} cannot be found",
+                    Id = Guid.NewGuid().ToString("N")
+                }, ToAddresses);
+                return false;
+            }
+
+            var entityName = item.GetType().Name;
             var templateId = this.EmailTemplateMapping.ToEmptyString()
-                .Split(new[] {";"}, StringSplitOptions.RemoveEmptyEntries)
-                .FirstOrDefault(x => x.StartsWith($"{item.GetType().Name}"))
+                .Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries)
+                .FirstOrDefault(x => x.StartsWith($"{entityName}"))
                 .ToEmptyString()
-                .Replace($"{item.GetType().Name}:", "");
+                .Replace($"{entityName}:", "");
             if (string.IsNullOrWhiteSpace(templateId)) return true;
 
             var context = new SphDataContext();
@@ -32,16 +46,14 @@ namespace Bespoke.Sph.RabbitMqPublisher
             var razor = ObjectBuilder.GetObject<ITemplateEngine>();
             var subject = await razor.GenerateAsync(template.SubjectTemplate, item);
             var mailBody = await razor.GenerateAsync(template.BodyTemplate, item);
-            
+
             var message = new Message
             {
                 Subject = $"{status.ToString().ToUpperInvariant()} : " + subject,
                 Body = mailBody,
                 Id = Strings.GenerateId()
             };
-            var email = ObjectBuilder.GetObject<INotificationService>();
             await email.SendMessageAsync(message, ToAddresses);
-
             return true;
 
         }
