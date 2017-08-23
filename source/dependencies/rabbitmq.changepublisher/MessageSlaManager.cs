@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -46,24 +47,10 @@ namespace Bespoke.Sph.RabbitMqPublisher
             props.Expiration = @event.ProcessingTimeSpanInMiliseconds.ToString(CultureInfo.InvariantCulture);
             m_channel.BasicPublish(DELAY_EXCHANGE, string.Empty, props, body);
         }
-
+        
         public async Task ExecuteOnNotificationAsync(MessageTrackingStatus status, MessageSlaEvent @event)
         {
-            var context = new SphDataContext();
-
-            // TODO  : cache the IRespository<T>
-            var ed = await context.LoadOneAsync<EntityDefinition>(x => x.Name == @event.Entity);
-            var sqlAssembly = Assembly.Load("sql.repository");
-            var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
-
-            var edAssembly = Assembly.Load($"{ConfigurationManager.ApplicationName}.{ed.Name}");
-            var edTypeName = $"{ed.CodeNamespace}.{ed.Name}";
-            var edType = edAssembly.GetType(edTypeName);
-            if (null == edType)
-                Console.WriteLine(@"Cannot create type " + edTypeName);
-
-            var reposType = sqlRepositoryType.MakeGenericType(edType);
-            dynamic repository = Activator.CreateInstance(reposType);
+            var repository = this.GetRepository(@event.Entity);
             Entity item = await repository.LoadOneAsync(@event.ItemId);
 
             async Task<bool> ExcuteAsync(IList<MessageSlaNotificationAction> actions)
@@ -175,6 +162,34 @@ namespace Bespoke.Sph.RabbitMqPublisher
         {
             m_connection?.Dispose();
             m_channel?.Dispose();
+        }
+
+
+        private readonly ConcurrentDictionary<string, dynamic> m_entityRepositories = new ConcurrentDictionary<string, dynamic>();
+
+        private dynamic GetRepository(string entityName)
+        {
+            if (m_entityRepositories.TryGetValue(entityName, out dynamic r))
+                return r;
+
+            var context = new SphDataContext();
+
+            var ed = context.LoadOne<EntityDefinition>(x => x.Name == entityName);
+            var sqlAssembly = Assembly.Load("sql.repository");
+            var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
+
+            var edAssembly = Assembly.Load($"{ConfigurationManager.ApplicationName}.{ed.Name}");
+            var edTypeName = $"{ed.CodeNamespace}.{ed.Name}";
+            var edType = edAssembly.GetType(edTypeName);
+            if (null == edType)
+                Console.WriteLine(@"Cannot create type " + edTypeName);
+
+            var reposType = sqlRepositoryType.MakeGenericType(edType);
+            dynamic repository = Activator.CreateInstance(reposType);
+
+            m_entityRepositories.TryAdd(entityName, repository);
+
+            return repository;
         }
     }
 }
