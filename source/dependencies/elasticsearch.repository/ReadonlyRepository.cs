@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespokse.Sph.ElasticsearchRepository;
 using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.ElasticsearchRepository
@@ -33,11 +34,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
             if (response.StatusCode == HttpStatusCode.NotFound)
                 return new LoadData<T>(null, null);
 
-            var content = response.Content as StreamContent;
-            if (null == content) throw new Exception("Cannot execute query on es ");
-            var responseString = await content.ReadAsStringAsync();
-
-            var esJson = JObject.Parse(responseString);
+            var esJson = await response.ReadContentAsJson();
             var source = esJson.SelectToken("$._source");
             var version = esJson.SelectToken("$._version").Value<string>();
             var item = source.ToString().DeserializeFromJson<T>();
@@ -49,19 +46,15 @@ namespace Bespoke.Sph.ElasticsearchRepository
         {
             var url = $"{ m_url}/_search?q={field}:{value}&version=true";
             var response = await m_client.GetAsync(url);
-            var content = response.Content as StreamContent;
-            if (null == content) throw new Exception("Cannot execute query on es ");
-            var responseString = await content.ReadAsStringAsync();
-
-            var esJson = JObject.Parse(responseString);
-            var total = esJson.SelectToken("$.hits.total").Value<int>();
+            var json = await response.ReadContentAsJson();
+            var total = json.SelectToken("$.hits.total").Value<int>();
             if (total == 0)
                 return new LoadData<T>(null, null);
             if (total > 1)
                 throw new InvalidOperationException($"{typeof(T).Name} query returns more than one result - {field}:{value}");
 
-            var source = esJson.SelectToken("$.hits.hits[0]._source");
-            var version = esJson.SelectToken("$.hits.hits[0]._version").Value<string>();
+            var source = json.SelectToken("$.hits.hits[0]._source");
+            var version = json.SelectToken("$.hits.hits[0]._version").Value<string>();
             var item = source.ToString().DeserializeFromJson<T>();
 
             return new LoadData<T>(item, version) { Json = source.ToString() };
@@ -72,18 +65,14 @@ namespace Bespoke.Sph.ElasticsearchRepository
             var request = new StringContent(query);
             var url = $"{m_url}/_search";
             var response = await m_client.PostAsync(url, request);
-            var content = response.Content as StreamContent;
-            if (null == content) throw new Exception("Cannot execute query on es " + request);
-            return (await content.ReadAsStringAsync());
+            return await response.ReadContentAsString();
         }
         public async Task<string> SearchAsync(string query, string queryString)
         {
             var request = new StringContent(query);
             var url = $"{m_url}/_search?" + queryString;
             var response = await m_client.PostAsync(url, request);
-            var content = response.Content as StreamContent;
-            if (null == content) throw new Exception("Cannot execute query on es " + request);
-            return (await content.ReadAsStringAsync());
+            return await response.ReadContentAsString();
         }
 
         public async Task<int> GetCountAsync(string query, string queryString)
@@ -92,14 +81,9 @@ namespace Bespoke.Sph.ElasticsearchRepository
             var url = $"{m_url}/_search";
 
             var response = await m_client.PostAsync(url, request);
-            response.EnsureSuccessStatusCode();
-            var content = response.Content as StreamContent;
-            if (null == content) throw new Exception("Cannot execute query on es " + request);
 
-            var json = await content.ReadAsStringAsync();
-            var jo = JObject.Parse(json);
-
-            var count = jo.SelectToken("$.hits.total").Value<int>();
+            var json = await response.ReadContentAsJson();
+            var count = json.SelectToken("$.hits.total").Value<int>();
             return count;
 
         }
