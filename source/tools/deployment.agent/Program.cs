@@ -66,7 +66,7 @@ namespace Bespoke.Sph.Mangements
         {
             var catalog = new AggregateCatalog();
             catalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetExecutingAssembly()));
-            // TODO : there's conflic with other assemblies
+            // TODO : there's conflict with other assemblies
             // catalog.Catalogs.Add(new DirectoryCatalog("."));
 
             m_container = new CompositionContainer(catalog);
