@@ -29,7 +29,7 @@ bespoke.sph.domain.FormDesign = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -505,7 +505,7 @@ bespoke.sph.domain.ComboBoxItem = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -634,7 +634,7 @@ bespoke.sph.domain.DefaultValue = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -680,7 +680,7 @@ bespoke.sph.domain.FieldValidation = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -725,7 +725,7 @@ bespoke.sph.domain.BusinessRule = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -809,7 +809,7 @@ bespoke.sph.domain.ComboBoxLookup = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -946,7 +946,7 @@ bespoke.sph.domain.ListViewColumn = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -1059,6 +1059,7 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
         IsPublished: ko.observable(false),
         TreatDataAsSource: ko.observable(false),
         Transient: ko.observable(false),
+        EnableAuditing: ko.observable(false),
         MemberCollection: ko.observableArray([]),
         BusinessRuleCollection: ko.observableArray([]),
         StoreInDatabase: ko.observable(),
@@ -1067,7 +1068,7 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -1109,7 +1110,7 @@ bespoke.sph.domain.ValueObjectDefinition = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -1315,7 +1316,7 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -1374,7 +1375,7 @@ bespoke.sph.domain.WorkflowForm = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -1421,7 +1422,7 @@ bespoke.sph.domain.FormLayout = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -1479,7 +1480,7 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -1520,7 +1521,7 @@ bespoke.sph.domain.Filter = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -1568,7 +1569,7 @@ bespoke.sph.domain.ViewColumn = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -1608,7 +1609,7 @@ bespoke.sph.domain.Sort = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -1737,7 +1738,7 @@ bespoke.sph.domain.FieldPermission = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -1778,7 +1779,7 @@ bespoke.sph.domain.EntityPermission = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -1832,7 +1833,7 @@ bespoke.sph.domain.OperationEndpoint = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -1885,7 +1886,7 @@ bespoke.sph.domain.EntityChart = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -1930,7 +1931,7 @@ bespoke.sph.domain.Series = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -1970,7 +1971,7 @@ bespoke.sph.domain.ConditionalFormatting = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2099,7 +2100,7 @@ bespoke.sph.domain.RouteParameter = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2138,7 +2139,7 @@ bespoke.sph.domain.PartialJs = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2179,7 +2180,7 @@ bespoke.sph.domain.ViewTemplate = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2220,7 +2221,7 @@ bespoke.sph.domain.PatchSetter = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2269,7 +2270,7 @@ bespoke.sph.domain.FormDialog = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2310,7 +2311,7 @@ bespoke.sph.domain.DialogButton = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2356,7 +2357,7 @@ bespoke.sph.domain.PartialView = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2395,7 +2396,7 @@ bespoke.sph.domain.ChildView = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2435,7 +2436,7 @@ bespoke.sph.domain.TabControl = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2476,7 +2477,7 @@ bespoke.sph.domain.TabPanel = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2527,7 +2528,7 @@ bespoke.sph.domain.QueryEndpoint = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2568,7 +2569,7 @@ bespoke.sph.domain.ServiceContract = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2612,7 +2613,7 @@ bespoke.sph.domain.QueryEndpointSetting = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2652,7 +2653,7 @@ bespoke.sph.domain.EntityResourceEndpoint = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2691,7 +2692,7 @@ bespoke.sph.domain.FullSearchEndpoint = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2730,7 +2731,7 @@ bespoke.sph.domain.OdataEndpoint = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2770,7 +2771,7 @@ bespoke.sph.domain.BusinessRuleEndpoint = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2811,7 +2812,7 @@ bespoke.sph.domain.ServiceContractSetting = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2850,7 +2851,7 @@ bespoke.sph.domain.ResourceEndpointSetting = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2889,7 +2890,7 @@ bespoke.sph.domain.SearchEndpointSetting = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2928,7 +2929,7 @@ bespoke.sph.domain.OdataEndpointSetting = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -2969,7 +2970,7 @@ bespoke.sph.domain.CachingSetting = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -3016,7 +3017,7 @@ bespoke.sph.domain.ReceivePort = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -3437,7 +3438,7 @@ bespoke.sph.domain.FlatFileDetailTag = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
@@ -3566,7 +3567,7 @@ bespoke.sph.domain.SqlServerRecordSet = function (optionOrWebid) {
         isBusy: ko.observable(false),
         WebId: ko.observable()
     },
-        context = require("services/datacontext");
+    context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {

@@ -101,7 +101,7 @@ namespace Bespoke.Sph.Persistence
             m_channel.BasicConsume(this.QueueName, NO_ACK, m_consumer);
         }
 
-        private async Task<Entity[]> GetPersistedItems(IEnumerable<Entity> items)
+        private static async Task<Entity[]> GetPersistedItems(IEnumerable<Entity> items)
         {
             var list = new ObjectCollection<Entity>();
             foreach (var item in items)
@@ -121,6 +121,7 @@ namespace Bespoke.Sph.Persistence
                     continue;
                 }
                 if (!option.IsSqlDatabase) continue;
+                if (!option.EnableAuditing) continue;
 
                 var reposType = typeof(IRepository<>).MakeGenericType(type);
                 var repos = ObjectBuilder.GetObject(reposType);
