@@ -67,6 +67,34 @@ namespace Bespoke.Sph.RabbitMqPublisher
             await SendTrackingEventAsync(CRUD, operation, items);
         }
 
+        private async Task SubmitChangesWithDedicatedQueueAsync(string operation, Entity item, IDictionary<string, object> headers)
+        {
+            var entityName = item.GetEntityType().Name;
+            var routingKey = $"persistence.{entityName}";
+            var json = item.ToJsonString(true);
+            var body = await CompressAsync(json);
+            var messageId = Guid.NewGuid().ToString("N").ToUpperInvariant();
+            headers.AddIfNotExist("message-id", messageId);
+
+            var props = m_channel.CreateBasicProperties();
+            props.DeliveryMode = PERSISTENT_DELIVERY_MODE;
+            props.ContentType = "application/json";
+            props.Headers = headers;
+
+            if (headers.ContainsKey("sph.delay"))
+            {
+                PublishToDelayQueue(props, body, routingKey);
+                return;
+            }
+
+            m_channel.BasicPublish(this.Exchange, routingKey, props, body);
+
+            // tracking
+            var tracker = ObjectBuilder.GetObject<IMessageTracker>();
+            await tracker.RegisterAcceptanceAsync(new MessageTrackingEvent(item, messageId, $"{entityName}.{operation}.attached"));
+            
+        }
+
         public async Task SubmitChangesAsync(string operation, IEnumerable<Entity> attachedEntities, IEnumerable<Entity> deletedCollection, IDictionary<string, object> headers)
         {
             headers.AddOrReplace("operation", operation);
@@ -76,10 +104,16 @@ namespace Bespoke.Sph.RabbitMqPublisher
             const string ROUTING_KEY = "persistence";
             var attachedList = attachedEntities.ToList();
             var deletedList = deletedCollection.ToList();
-            var attachedJson = attachedList.Select(x => x.ToJsonString(true));
-            var deletedJson = deletedList.Select(x => x.ToJsonString(true));
-            var attached = string.Join(",\r\n", attachedJson);
-            var deleted = string.Join(",\r\n", deletedJson);
+
+            if (attachedList.Count == 1 && deletedList.Count == 0)
+            {
+                await SubmitChangesWithDedicatedQueueAsync(operation, attachedList.Single(), headers);
+                return;
+            }
+
+
+            var attached = attachedList.ToString(",\r\n", x => x.ToJsonString(true));
+            var deleted = deletedList.ToString(",\r\n", x => x.ToJsonString(true));
             var json =
                 $@"
 {{
@@ -113,10 +147,10 @@ namespace Bespoke.Sph.RabbitMqPublisher
             var tracker = ObjectBuilder.GetObject<IMessageTracker>();
             var attachedTrackingTasks = from e in attachedList
                                         select
-                                        tracker.RegisterAcceptanceAsync(new MessageTrackingEvent(e, messageId, $"{e.GetType().Name}.{operation}.attached"));
+                                        tracker.RegisterAcceptanceAsync(new MessageTrackingEvent(e, messageId, $"{e.GetEntityType().Name}.{operation}.attached"));
             var deletedTrackingTasks = from e in deletedList
                                        select
-                                       tracker.RegisterAcceptanceAsync(new MessageTrackingEvent(e, messageId, $"{e.GetType().Name}.{operation}.deleted"));
+                                       tracker.RegisterAcceptanceAsync(new MessageTrackingEvent(e, messageId, $"{e.GetEntityType().Name}.{operation}.deleted"));
             await Task.WhenAll(attachedTrackingTasks.Concat(deletedTrackingTasks));
 
         }
