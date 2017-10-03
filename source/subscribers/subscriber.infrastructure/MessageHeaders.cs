@@ -56,6 +56,17 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 return null;
             }
         }
+        public string MessageId
+        {
+            get
+            {
+                var operationBytes = m_args.Properties.Headers["message-id"] as byte[];
+                if (null != operationBytes)
+                    return ByteToString(operationBytes);
+
+                return null;
+            }
+        }
 
         public T GetValue<T>(string key)
         {

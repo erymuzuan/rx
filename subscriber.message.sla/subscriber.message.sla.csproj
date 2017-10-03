@@ -1,19 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CD3B01AB-CCC4-4324-AC06-9E0EC3DF4C2F}</ProjectGuid>
+    <ProjectGuid>{36B073CA-F17F-4027-98E1-DBA76CEF0128}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bespoke.Sph.RabbitMqPublisher</RootNamespace>
-    <AssemblyName>rabbitmq.changepublisher</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <RootNamespace>Bespoke.Sph.MessageTrackerSla</RootNamespace>
+    <AssemblyName>subscriber.message.sla</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,69 +31,45 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Humanizer, Version=1.37.7.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Humanizer.1.37.7\lib\portable-win+net40+sl50+wp8+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Humanizer.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Humanizer.1.37.7\lib\portable-win+net40+sl50+wp8+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Humanizer.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Polly, Version=4.2.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Polly.4.2.4\lib\net45\Polly.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Polly.4.2.4\lib\net45\Polly.dll</HintPath>
     </Reference>
     <Reference Include="RabbitMQ.Client, Version=3.6.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\RabbitMQ.Client.3.6.0\lib\net45\RabbitMQ.Client.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\RabbitMQ.Client.3.6.0\lib\net45\RabbitMQ.Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
-      <Link>AssemblyVersionInfo.cs</Link>
-    </Compile>
-    <Compile Include="ChangePublisherClient.cs" />
-    <Compile Include="EntityChangedListener.cs" />
-    <Compile Include="MessageSlaManager.cs" />
+    <Compile Include="MessageSlaTrackerSubscriber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReceivedMessageArgs.cs" />
-    <Compile Include="SlaNotCompletedEmailAction.cs" />
-    <Compile Include="TaskBasicConsumer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <OutputFile Include="$(OutputPath)*.*">
-      <Visible>false</Visible>
-    </OutputFile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
+    <ProjectReference Include="..\source\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>
     </ProjectReference>
+    <ProjectReference Include="..\source\subscribers\subscriber.infrastructure\subscriber.infrastructure.csproj">
+      <Project>{40892CEA-FD47-4C1F-B821-7939776E9B6B}</Project>
+      <Name>subscriber.infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
-  <Target Name="CopyOutputDirClientAndWeb">
-    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\web\web.sph\bin" />
-    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\subscribers.host\" />
-    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\schedulers\" />
-    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\tools\" />
-  </Target>
   <PropertyGroup>
-    <BuildDependsOn>
-      $(BuildDependsOn);CopyOutputDirClientAndWeb
-    </BuildDependsOn>
+    <PostBuildEvent>copy $(TargetDir)*.* $(SolutionDir)bin\subscribers</PostBuildEvent>
   </PropertyGroup>
 </Project>

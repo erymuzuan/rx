@@ -289,11 +289,13 @@
     <Compile Include="diagnostics\FormDeleteOperationDiagnostics.cs" />
     <Compile Include="diagnostics\FormOperationDiagnostics.cs" />
     <Compile Include="diagnostics\LocationEndpointDiagnostics.cs" />
-    <Compile Include="IMessageDeliverySla.cs" />
+    <Compile Include="IMessageSlaManager.cs" />
+    <Compile Include="IMessageTracker.cs" />
     <Compile Include="Management\ConfigData.cs" />
     <Compile Include="Management\SubscriberConfig.cs" />
     <Compile Include="Management\WorkersConfig.cs" />
     <Compile Include="Management\WorkerServerConfig.cs" />
+    <Compile Include="MessageTrackingEvent.cs" />
     <Compile Include="Ports\DelimitedTextComplexMember.cs" />
     <Compile Include="Ports\DelimitedTextFieldMapping.cs" />
     <Compile Include="Ports\DelimitedTextFormatter.cs" />
@@ -622,6 +624,7 @@
     <Compile Include="Triggers\ListenBranch.cs" />
     <Compile Include="Triggers\MappingActivity.cs" />
     <Compile Include="Triggers\MappingSource.cs" />
+    <Compile Include="Triggers\MessageSlaNotificationAction.cs" />
     <Compile Include="Triggers\MethodArg.cs" />
     <Compile Include="Triggers\NotificationActivity.cs" />
     <Compile Include="Triggers\ParallelActivity.cs" />

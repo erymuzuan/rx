@@ -137,6 +137,7 @@ namespace Bespoke.Sph.Persistence
         private async void Received(object sender, ReceivedMessageArgs e)
         {
             Interlocked.Increment(ref m_processing);
+            
             var body = e.Body;
             var json = await DecompressAsync(body);
             var headers = new MessageHeaders(e);
