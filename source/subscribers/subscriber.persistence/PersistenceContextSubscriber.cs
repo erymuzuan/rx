@@ -76,15 +76,27 @@ namespace Bespoke.Sph.Persistence
         public void StartConsume(IConnection connection)
         {
             const bool NO_ACK = false;
+            this.OnStart();
+            m_channel = connection.CreateModel();
+            DeclareQueue();
+
+            m_consumer = new TaskBasicConsumer(m_channel);
+            m_consumer.Received += Received;
+            m_channel.BasicConsume(this.QueueName, NO_ACK, m_consumer);
+
+            m_receivers.Clear();
+            var receivers = new SphDataContext().LoadFromSources<EntityDefinition>()
+                .Where(x => x.IsPublished)
+                .Select(StartConsume);
+
+            m_receivers.AddRange(receivers);
+        }
+
+        private void DeclareQueue()
+        {
             const string EXCHANGE_NAME = "sph.topic";
             const string DEAD_LETTER_EXCHANGE = "sph.ms-dead-letter";
             const string DEAD_LETTER_QUEUE = "ms_dead_letter_queue";
-
-            this.OnStart();
-
-            m_channel = connection.CreateModel();
-
-
             m_channel.ExchangeDeclare(EXCHANGE_NAME, ExchangeType.Topic, true);
 
             m_channel.ExchangeDeclare(DEAD_LETTER_EXCHANGE, ExchangeType.Topic, true);
@@ -100,29 +112,18 @@ namespace Bespoke.Sph.Persistence
                 m_channel.QueueBind(this.QueueName, EXCHANGE_NAME, s, null);
             }
             m_channel.BasicQos(0, this.PrefetchCount, false);
-
-            m_consumer = new TaskBasicConsumer(m_channel);
-            m_consumer.Received += Received;
-            m_channel.BasicConsume(this.QueueName, NO_ACK, m_consumer);
-
-            m_receivers.Clear();
-            var entities = new SphDataContext().LoadFromSources<EntityDefinition>();
-            foreach (var ed in entities)
-            {
-                StartConsume(ed);
-            }
         }
 
-        private void StartConsume(EntityDefinition ed)
+        private EntityPersistence StartConsume(EntityDefinition ed)
         {
-            var receiver = new EntityPersistence(ed, m_channel, this.WriteMessage, this.WriteError);
+            var receiver = new EntityPersistence(ed, m_channel, this.WriteMessage, this.WriteError) { PrefetchCount = this.PrefetchCount };
             receiver.DeclareQueue();
             const bool NO_ACK = false;
-           
+
             m_consumer = new TaskBasicConsumer(m_channel);
             m_consumer.Received += receiver.ReceivedSingle;
             m_channel.BasicConsume(receiver.QueueName, NO_ACK, m_consumer);
-            m_receivers.Add(receiver);
+            return receiver;
         }
 
 
@@ -179,8 +180,7 @@ namespace Bespoke.Sph.Persistence
                                       where opt.IsSqlDatabase
                                       select r;
 
-                var so = await persistence.SubmitChanges(persistedEntities.ToArray(), deletedEntities.ToArray(), null, headers.Username)
-                .ConfigureAwait(false);
+                var so = await persistence.SubmitChanges(persistedEntities.ToArray(), deletedEntities.ToArray(), null, headers.Username).ConfigureAwait(false);
                 Trace.WriteIf(null != so.Exeption, so.Exeption);
 
                 var logsAddedTask = publisher.PublishAdded(operation, logs, headers.GetRawHeaders());
@@ -208,7 +208,7 @@ namespace Bespoke.Sph.Persistence
                     ph.AddOrReplace(MessageHeaders.SPH_TRYCOUNT, count);
 
                     m_channel.BasicAck(e.DeliveryTag, false);
-                    publisher.SubmitChangesAsync(operation, entities, deletedItems, ph).Wait();
+                    await publisher.SubmitChangesAsync(operation, entities, deletedItems, ph);
 
                 }
                 else
