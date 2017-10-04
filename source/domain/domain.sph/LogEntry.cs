@@ -38,42 +38,53 @@ namespace Bespoke.Sph.Domain
 
             }
             var exc = exception;
-            var aeg = exc as AggregateException;
-            if (null != aeg)
-            {
-                foreach (var ie in aeg.InnerExceptions)
-                {
-                    keywords.Add(ie.GetType().FullName);
-                    keywords.Add(ie.Message);
-                    details.AppendLine(" ========================== ");
-                    details.AppendLine(ie.GetType().FullName);
-                    details.AppendLine(ie.Message);
-                    details.AppendLine(ie.StackTrace);
-                    details.AppendLine();
-                    details.AppendLine();
-                }
 
+            void Write(Exception ie)
+            {
+
+                keywords.Add(ie.GetType().FullName);
+                keywords.Add(ie.Message);
+                details.AppendLine(" ========================== ");
+                details.AppendLine(ie.GetType().FullName);
+                details.AppendLine(ie.Message);
+                details.AppendLine(ie.StackTrace);
+                details.AppendLine();
+                details.AppendLine();
             }
 
-            var rlex = exc as ReflectionTypeLoadException;
-            if (null != rlex)
+            void Write2(ReflectionTypeLoadException ie)
             {
-                foreach (var lex in rlex.LoaderExceptions)
-                {
-                    keywords.Add(lex.GetType().FullName);
-                    keywords.Add(lex.Message);
-                    details.AppendLine(" ========================== ");
-                    details.AppendLine(lex.GetType().FullName);
-                    details.AppendLine(lex.Message);
-                    details.AppendLine();
-                    details.AppendLine();
 
-
-                }
+                keywords.Add(ie.GetType().FullName);
+                keywords.Add(ie.Message);
+                details.AppendLine(" ========================== ");
+                details.AppendLine(ie.GetType().FullName);
+                details.AppendLine(ie.Message);
+                details.AppendLine(ie.StackTrace);
+                details.AppendLine();
+                details.AppendLine();
             }
+
 
             while (null != exc)
             {
+                if (exc is AggregateException aeg)
+                {
+                    foreach (var ie in aeg.InnerExceptions)
+                    {
+                        Write(ie);
+                    }
+
+                }
+
+                if (exc is ReflectionTypeLoadException rlex)
+                {
+                    Write2(rlex);
+                    foreach (var lex in rlex.LoaderExceptions)
+                    {
+                        Write(lex);
+                    }
+                }
 
                 keywords.Add(exc.GetType().FullName);
                 keywords.Add(exc.Message);

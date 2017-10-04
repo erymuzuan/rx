@@ -117,11 +117,11 @@ namespace textformatter.test
 
             Assert.Equal(2, acceptances.Length);
 
-            var first = acceptances[0];
+            var first = acceptances.First();
             Assert.Equal("4398MASNIYATI", first.TellerID);
             Assert.Equal(10141003, first.BranchCode);
             Assert.True(first.ConnoteObject.Weight.HasValue);
-            Assert.Equal(2.250m, first.ConnoteObject.Weight.Value);
+            Assert.Equal(2.250m, first.ConnoteObject.Weight ?? 0);
             Assert.NotNull(first.Date);
             Assert.Equal(2017, first.Date.Value.Year);
             Assert.Equal(6, first.Date.Value.Month);
@@ -148,6 +148,7 @@ namespace textformatter.test
         }
         class PortLogger : ILogger
         {
+            private Severity TraceSwitch { get; } = Severity.Info;
             private readonly ITestOutputHelper m_helper;
 
             public PortLogger(ITestOutputHelper helper)
@@ -156,12 +157,14 @@ namespace textformatter.test
             }
             public Task LogAsync(LogEntry entry)
             {
+            if ((int)entry.Severity < (int)TraceSwitch) return Task.FromResult(0);
                 m_helper.WriteLine(entry.ToString());
                 return Task.FromResult(0);
             }
 
             public void Log(LogEntry entry)
             {
+            if ((int)entry.Severity < (int)TraceSwitch) return;
                 m_helper.WriteLine(entry.ToString());
             }
         }

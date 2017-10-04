@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
-using Mindscape.Raygun4Net;
 using Newtonsoft.Json.Linq;
 using Console = Colorful.Console;
 
@@ -21,7 +20,7 @@ namespace Bespoke.Sph.SourceBuilders
             if (!Directory.Exists(sourcePath))
                 Directory.CreateDirectory(sourcePath);
             var current = complete + Directory.GetFiles(sourcePath, "*.json", SearchOption.AllDirectories).Length;
-            Console.WriteLine( $"Progress ... {progressCharacter}{barSize}{maxVal}{current}", Color.DarkGray);
+            Console.WriteLine($"Progress ... {progressCharacter}{barSize}{maxVal}{current}", Color.DarkGray);
         }
 
         static void Main(string[] args)
@@ -48,7 +47,14 @@ namespace Bespoke.Sph.SourceBuilders
             }
 
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-            ObjectBuilder.AddCacheList<ILogger>(new ConsoleLogger());
+            if (args.Any(x => x.StartsWith("/switch:")))
+            {
+                var traceSwitch = args.Single(x => x.StartsWith("/switch:"))
+                    .Replace("/switch:", "");
+                var ts = (Severity)Enum.Parse(typeof(Severity), traceSwitch, true);
+                ObjectBuilder.AddCacheList<ILogger>(new ConsoleLogger { TraceSwitch = ts });
+            }
+
             if (args.Length > 0)
             {
                 BuildWithArgsAsync(args).Wait();
@@ -61,29 +67,20 @@ namespace Bespoke.Sph.SourceBuilders
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            var version = "unknown";
-            string file = "..\\version.json";
-            if (File.Exists(file))
-            {
-                var json = JObject.Parse(File.ReadAllText(file));
-                var build = json.SelectToken("$.build").Value<int>();
-                version = build.ToString();
-            }
-            var client = new RaygunClient("imHU3x8eZamg84BwYekfMQ==")
-            {
-                ApplicationVersion = version
-            };
-            client.SendInBackground(e.ExceptionObject as Exception, new List<string>());
+            var entry = new LogEntry(e.ExceptionObject as Exception);
+            var logger = ObjectBuilder.GetObject<ILogger>();
+            logger.Log(entry);
         }
 
         private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs e)
         {
+            var logger = ObjectBuilder.GetObject<ILogger>();
             try
             {
                 var dll = e.Name.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
                     .First().Trim();
-                Console.WriteLine($"Loading {e.Name}");
-                Console.WriteLine($"File name :  {dll}");
+                logger.Log(new LogEntry { Message = $"Loading {e.Name}\r\nFile name :  {dll}", Severity = Severity.Debug });
+
                 var output = $"{ConfigurationManager.CompilerOutputPath}\\{dll}.dll";
                 if (File.Exists(output))
                     return Assembly.LoadFile(output);
@@ -98,6 +95,7 @@ namespace Bespoke.Sph.SourceBuilders
             {
                 Console.ResetColor();
             }
+            logger.Log(new LogEntry { Message = $"Cannot find assembly for {e.Name}", Severity = Severity.Critical });
             throw new Exception("Cannot find any assembly for " + e.Name);
         }
 
@@ -209,7 +207,7 @@ namespace Bespoke.Sph.SourceBuilders
             var roleBuilder = new DesignationBuilder();
             roleBuilder.Initialize();
             await roleBuilder.RestoreAllAsync();
-            
+
         }
 
 
