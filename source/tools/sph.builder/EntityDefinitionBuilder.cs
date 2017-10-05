@@ -38,63 +38,67 @@ namespace Bespoke.Sph.SourceBuilders
         private async Task CompileDependenciesAsync(EntityDefinition ed)
         {
             await ed.ServiceContract.CompileAsync(ed);
-            var operationEndpointFolder = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(OperationEndpoint)}";
-            if (Directory.Exists(operationEndpointFolder))
+            var context = new SphDataContext();
+            
+            // NOTE : it may be tempting to use Task.WhenAll, but we should compile them sequentially
+            var operationEndpoints = context.LoadFromSources<OperationEndpoint>().Where(x => x.Entity == ed.Name);
+            foreach (var oe in operationEndpoints)
             {
-                foreach (var src in Directory.GetFiles(operationEndpointFolder, "*.json"))
-                {
-                    var oe = src.DeserializeFromJsonFile<OperationEndpoint>();
-                    if (oe.Entity != ed.Name) continue;
-                    var builder = new OperationEndpointBuilder();
-                    await builder.RestoreAsync(oe);
-                }
-
+                var builder = new OperationEndpointBuilder();
+                await builder.RestoreAsync(oe);
+            }
+           
+            var queryEndpoints = context.LoadFromSources<QueryEndpoint>().Where(x => x.Entity == ed.Name);
+            foreach (var qe in queryEndpoints)
+            {
+                var builder = new QueryEndpointBuilder();
+                await builder.RestoreAsync(qe);
             }
 
-            var queryEndpointFolder = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(QueryEndpoint)}";
-            if (Directory.Exists(queryEndpointFolder))
+            var ports = context.LoadFromSources<ReceivePort>().Where(x => x.Entity == ed.Name);
+            foreach (var p in ports)
             {
-                foreach (var src in Directory.GetFiles(queryEndpointFolder, "*.json"))
-                {
-                    Console.WriteLine("QueryEndpoint " + Path.GetFileName(src));
-                    var qe = src.DeserializeFromJsonFile<QueryEndpoint>();
-                    if (qe.Entity != ed.Name) continue;
-                    var builder = new QueryEndpointBuilder();
-                    await builder.RestoreAsync(qe);
-                }
+                await CompileReceivePortAsync(p);
             }
-
-            var receivePortFolder = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(ReceivePort)}";
-            if (Directory.Exists(receivePortFolder))
-            {
-                foreach (var src in Directory.GetFiles(receivePortFolder, "*.json"))
-                {
-                    var port = src.DeserializeFromJsonFile<ReceivePort>();
-                    if (port.Entity != ed.Name) continue;
-                    var builder = new ReceivePortBuilder();
-                    await builder.RestoreAsync(port);
-
-                    var receiveLocationFolder = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(ReceiveLocation)}";
-                    if (!Directory.Exists(receiveLocationFolder)) continue;
-                    foreach (var rsrc in Directory.GetFiles(receiveLocationFolder, "*.json"))
-                    {
-                        var loc = rsrc.DeserializeFromJsonFile<ReceiveLocation>();
-                        if (loc.ReceivePort != port.Id) continue;
-                        var locBuilder = new ReceiveLocationBuilder();
-                        await locBuilder.RestoreAsync(loc);
-                    }
-                }
-
-            }
+                       
         }
 
-   
+        private static async Task CompileReceivePortAsync(ReceivePort port)
+        {
+            var context = new SphDataContext();
+            var builder = new ReceivePortBuilder();
+            await builder.RestoreAsync(port);
+            
+            var locations = context.LoadFromSources<ReceiveLocation>().Where(x => x.ReceivePort == port.Id);
+            foreach (var loc in locations)
+            {
+                var vr = await loc.ValidateBuildAsync();
+                if (!vr.Result)
+                {
+                    try
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine($"--- Unable to compile {loc.Id} ---");
+                        Console.WriteLine(vr.ToString());
+                    }
+                    finally
+                    {
+                        Console.ResetColor();
+                    }
+                    continue;
+                }
+
+                var locBuilder = new ReceiveLocationBuilder();
+                await locBuilder.RestoreAsync(loc);
+            }
+
+        }
+
 
         public override async Task RestoreAsync(EntityDefinition ed)
         {
             CompileEntityDefinition(ed);
             await CompileDependenciesAsync(ed);
-
         }
 
 
@@ -106,15 +110,15 @@ namespace Bespoke.Sph.SourceBuilders
                 IsDebug = true
             };
             var webDir = ConfigurationManager.WebPath;
-            options.AddReference(Path.GetFullPath(webDir + @"\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath(webDir + @"\bin\core.sph.dll"));
-            options.AddReference(Path.GetFullPath(webDir + @"\bin\Newtonsoft.Json.dll"));
+            options.AddReference(Path.GetFullPath($@"{webDir}\bin\System.Web.Mvc.dll"));
+            options.AddReference(Path.GetFullPath($@"{webDir}\bin\core.sph.dll"));
+            options.AddReference(Path.GetFullPath($@"{webDir}\bin\Newtonsoft.Json.dll"));
 
             var codes = ed.GenerateCode();
             var sources = ed.SaveSources(codes);
             var result = ed.Compile(options, sources);
             this.ReportBuildStatus(result);
-            
+
         }
 
 

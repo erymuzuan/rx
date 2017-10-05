@@ -6,7 +6,6 @@ namespace Bespoke.Sph.SourceBuilders
 {
     public class OperationEndpointBuilder : Builder<OperationEndpoint>
     {
-
         public override async Task RestoreAllAsync()
         {
             this.Initialize();
@@ -22,10 +21,12 @@ namespace Bespoke.Sph.SourceBuilders
             await this.Compile(item);
         }
 
-        private async Task Compile(OperationEndpoint item)
+        private async Task Compile(OperationEndpoint oe)
         {
-            var ed = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\{item.Entity.ToIdFormat()}.json".DeserializeFromJsonFile<EntityDefinition>();
-            var result = await item.CompileAsync(ed);
+            var context = new SphDataContext();
+            var ed = context.LoadOneFromSources<EntityDefinition>(x => x.Name == oe.Entity);
+
+            var result = await oe.CompileAsync(ed);
             result.Errors.ForEach(Console.WriteLine);
             
         }
