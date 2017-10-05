@@ -1,11 +1,13 @@
 ﻿Param(
        [Parameter(Position=0)]
-       [ValidateSet('Production','Staging','Alpha')]
+       [ValidateSet('Production','Staging','Alpha', 'PosEntt')]
        [string]$Channel = 'Alpha'
      )
 
 $LastBuild = ls -Path .\deployment -Filter '1*.ps1' | sort -Descending Name | select -First 1 | % Name | % {$_.Replace(".ps1", "") }
 $Build = [System.Int32]::Parse($LastBuild) + 1
+$WebBin = ".\$WebBin"
+
 
 if($Build -le 100)
 {
@@ -26,27 +28,31 @@ ls -Path .\bin\subscribers -Filter *.config | Remove-Item
 
 
 # copy some dll into schedulers and subscribers
-copy .\source\web\web.sph\bin\Common.Logging.dll .\bin\subscribers
-copy .\source\web\web.sph\bin\System.Web.Mvc.dll .\bin\subscribers
-copy .\source\web\web.sph\bin\System.Web.Razor.dll .\bin\subscribers
-copy .\source\web\web.sph\bin\System.Web.WebPages.dll .\bin\subscribers
-copy .\source\web\web.sph\bin\System.Web.WebPages.Razor.dll .\bin\subscribers
+copy $WebBin\Common.Logging.dll .\bin\subscribers
+copy $WebBin\System.Web.Mvc.dll .\bin\subscribers
+copy $WebBin\System.Web.Razor.dll .\bin\subscribers
+copy $WebBin\System.Web.WebPages.dll .\bin\subscribers
+copy $WebBin\System.Web.WebPages.Razor.dll .\bin\subscribers
 
 
-copy .\source\web\web.sph\bin\Common.Logging.dll .\bin\schedulers
-copy .\source\web\web.sph\bin\System.Web.Mvc.dll .\bin\schedulers
-copy .\source\web\web.sph\bin\System.Web.Razor.dll .\bin\subscribers
-copy .\source\web\web.sph\bin\System.Web.WebPages.dll .\bin\subscribers
-copy .\source\web\web.sph\bin\System.Web.WebPages.Razor.dll .\bin\subscribers
+copy $WebBin\Common.Logging.dll .\bin\schedulers
+copy $WebBin\System.Web.Mvc.dll .\bin\schedulers
+copy $WebBin\System.Web.Razor.dll .\bin\subscribers
+copy $WebBin\System.Web.WebPages.dll .\bin\subscribers
+copy $WebBin\System.Web.WebPages.Razor.dll .\bin\subscribers
 
 
-copy source\web\web.sph\bin\System.Web.WebPages.Razor.dll bin\schedulers
-copy source\web\web.sph\bin\System.Web.WebPages.dll bin\schedulers
-copy source\web\web.sph\bin\System.Web.Mvc.dll bin\schedulers
+copy $WebBin\System.Web.WebPages.Razor.dll bin\schedulers
+copy $WebBin\System.Web.WebPages.dll bin\schedulers
+copy $WebBin\System.Web.Mvc.dll bin\schedulers
 
-copy source\web\web.sph\bin\System.Web.WebPages.Razor.dll bin\subscribers
-copy source\web\web.sph\bin\System.Web.WebPages.dll bin\subscribers
-copy source\web\web.sph\bin\System.Web.Mvc.dll bin\subscribers
+copy $WebBin\System.Web.WebPages.Razor.dll bin\subscribers
+copy $WebBin\System.Web.WebPages.dll bin\subscribers
+copy $WebBin\System.Web.Mvc.dll bin\subscribers
+
+ls .\source\web\web.sph\bin -Filter Microsoft.CodeAnalysis.*Workspace*.dll | Copy-Item -Destination .\bin\subscribers.host
+ls .\source\web\web.sph\bin -Filter Microsoft.CodeAnalysis.*Workspace*.dll | Copy-Item -Destination .\bin\tools
+
 
 $output = ".\bin\build"
 #creates directory
@@ -140,7 +146,7 @@ copy .\source\web\web.sph\App_Data -Destination $output\Web -Force -Recurse
 
 
 #web.bin -- for dependencies
-Get-ChildItem -Filter *.* -Path ".\source\web\web.sph\bin" `
+Get-ChildItem -Filter *.* -Path "$WebBin" `
 | ? { $_.Name.StartsWith("workflows.") -eq $false} `
 | ? { $_.Name.StartsWith("Dev.") -eq $false} `
 | ? { $_.Name.EndsWith(".config") -eq $false} `
@@ -291,13 +297,13 @@ ls $output\control.center -r | ? {$_.PSIsContainer -eq $True} | ? {$_.GetFiles()
 if((Test-Path("$output\web\bin\roslyn")) -eq $false)
 {
     mkdir $output\web\bin\roslyn
-    copy .\source\web\web.sph\bin\roslyn\* $output\web\bin\roslyn\
+    copy $WebBin\roslyn\* $output\web\bin\roslyn\
 }
 
 if((Test-Path("$output\tools\bin\roslyn")) -eq $false)
 {
     mkdir $output\tools\bin\roslyn
-    copy .\source\web\web.sph\bin\roslyn\* $output\tools\bin\roslyn\
+    copy $WebBin\roslyn\* $output\tools\bin\roslyn\
 }
 
 ls -Path $output -Recurse -Filter assembly.test.* | Remove-Item -Force
