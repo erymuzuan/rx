@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Extensions;
 using Newtonsoft.Json.Linq;
 using Console = Colorful.Console;
 
@@ -52,7 +53,11 @@ namespace Bespoke.Sph.SourceBuilders
                 var traceSwitch = args.Single(x => x.StartsWith("/switch:"))
                     .Replace("/switch:", "");
                 var ts = (Severity)Enum.Parse(typeof(Severity), traceSwitch, true);
-                ObjectBuilder.AddCacheList<ILogger>(new ConsoleLogger { TraceSwitch = ts });
+                var logger = new Logger();
+                logger.Loggers.Add(new ConsoleLogger { TraceSwitch = ts });
+                if (args.Any(x => x.StartsWith("/out:")))
+                    logger.Loggers.Add(new FileLogger(args.Single(x => x.StartsWith("/out:")).Replace("/out:", "")) { TraceSwitch = ts });
+                ObjectBuilder.AddCacheList<ILogger>(logger);
             }
 
             if (args.Length > 0)
@@ -75,33 +80,28 @@ namespace Bespoke.Sph.SourceBuilders
         private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs e)
         {
             var logger = ObjectBuilder.GetObject<ILogger>();
-            try
-            {
-                var dll = e.Name.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
-                    .First().Trim();
-                logger.Log(new LogEntry { Message = $"Loading {e.Name}\r\nFile name :  {dll}", Severity = Severity.Debug });
 
-                var output = $"{ConfigurationManager.CompilerOutputPath}\\{dll}.dll";
-                if (File.Exists(output))
-                    return Assembly.LoadFile(output);
-                var web = $"{ConfigurationManager.WebPath}\\bin\\{dll}.dll";
-                if (File.Exists(web))
-                    return Assembly.LoadFile(web);
-                var sub = $"{ConfigurationManager.SubscriberPath}\\{dll}.dll";
-                if (File.Exists(sub))
-                    return Assembly.LoadFile(sub);
-            }
-            finally
-            {
-                Console.ResetColor();
-            }
-            logger.Log(new LogEntry { Message = $"Cannot find assembly for {e.Name}", Severity = Severity.Critical });
+            var dll = e.Name.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
+                .First().Trim();
+            logger.WriteDebug($"Loading {e.Name}\r\nFile name :  {dll}");
+
+            var output = $"{ConfigurationManager.CompilerOutputPath}\\{dll}.dll";
+            if (File.Exists(output))
+                return Assembly.LoadFile(output);
+            var web = $"{ConfigurationManager.WebPath}\\bin\\{dll}.dll";
+            if (File.Exists(web))
+                return Assembly.LoadFile(web);
+            var sub = $"{ConfigurationManager.SubscriberPath}\\{dll}.dll";
+            if (File.Exists(sub))
+                return Assembly.LoadFile(sub);
+
+            logger.WriteError($"Cannot find assembly for {e.Name}");
             throw new Exception("Cannot find any assembly for " + e.Name);
         }
 
         private static async Task BuildWithArgsAsync(IEnumerable<string> args)
         {
-
+            var logger = ObjectBuilder.GetObject<ILogger>();
             foreach (var f in args)
             {
                 if (!File.Exists(f)) continue;
@@ -111,10 +111,11 @@ namespace Bespoke.Sph.SourceBuilders
                 var type = Strings.GetType(typeName);
                 if (null == type)
                 {
-                    Console.WriteLine($"Unrecognized type {typeName}  in {f}");
+                    logger.WriteWarning($"Unrecognized type {typeName}  in {f}");
                     continue;
                 }
 
+                logger.WriteInfo($"Compiling [{type.Name}]: {Path.GetFileNameWithoutExtension(f)}");
                 if (type == typeof(EntityDefinition))
                 {
                     await BuildAsync<EntityDefinition, EntityDefinitionBuilder>(json);

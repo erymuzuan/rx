@@ -24,6 +24,10 @@ namespace Bespoke.Sph.SourceBuilders
 
         private async Task CompileAsync(ReceiveLocation item)
         {
+            var logger = ObjectBuilder.GetObject<ILogger>();
+            logger.Log(new LogEntry { Message = $"Compiling [ReceiveLocation]:{item.Name}({item.Id})" , Severity = Severity.Info});
+
+
             var portSource = $"{ConfigurationManager.SphSourceDirectory}\\ReceivePort\\{item.ReceivePort.ToIdFormat()}.json";
             var port = portSource.DeserializeFromJsonFile<ReceivePort>();
             var result = await item.CompileAsync(port).ConfigureAwait(false);

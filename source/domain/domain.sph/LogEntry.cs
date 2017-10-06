@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -15,9 +16,11 @@ namespace Bespoke.Sph.Domain
             this.CallerFilePath = filePath;
             this.CallerMemberName = memberName;
             this.CallerLineNumber = lineNumber;
+            this.Computer = Environment.MachineName;
+            this.User = Environment.UserName;
         }
 
-        public LogEntry(Exception exception, string[] otherInfo = null, [CallerFilePath]string filePath = "", [CallerMemberName]string memberName = "", [CallerLineNumber]int lineNumber = 0)
+        public LogEntry(Exception exception, string[] otherInfo = null, [CallerFilePath]string filePath = "", [CallerMemberName]string memberName = "", [CallerLineNumber]int lineNumber = 0) 
         {
             this.Exception = exception;
             this.CallerFilePath = filePath;
@@ -28,20 +31,11 @@ namespace Bespoke.Sph.Domain
 
             var keywords = new List<string>();
             var details = new StringBuilder();
-            if (null != otherInfo)
-            {
-                details.AppendLine(" ============ OTHER INFO =============");
-                foreach (var v in otherInfo)
-                {
-                    details.AppendLine(v);
-                }
-
-            }
-            var exc = exception;
-
+            details.AppendLine(" ============ OTHER INFO =============");
+            details.JoinAndAppendLine(otherInfo, "\r\n");
+            
             void Write(Exception ie)
             {
-
                 keywords.Add(ie.GetType().FullName);
                 keywords.Add(ie.Message);
                 details.AppendLine(" ========================== ");
@@ -50,71 +44,31 @@ namespace Bespoke.Sph.Domain
                 details.AppendLine(ie.StackTrace);
                 details.AppendLine();
                 details.AppendLine();
+
+                switch (ie)
+                {
+                    case ReflectionTypeLoadException le:
+                        details.AppendLine("Types : " + le.Types.ToString(";", x => x.AssemblyQualifiedName));
+                        le.LoaderExceptions.ToList().ForEach(Write);
+                        break;
+                    case AggregateException ae:
+                        ae.InnerExceptions.ToList().ForEach(Write);
+                        break;
+                }
             }
 
-            void Write2(ReflectionTypeLoadException ie)
-            {
-
-                keywords.Add(ie.GetType().FullName);
-                keywords.Add(ie.Message);
-                details.AppendLine(" ========================== ");
-                details.AppendLine(ie.GetType().FullName);
-                details.AppendLine(ie.Message);
-                details.AppendLine(ie.StackTrace);
-                details.AppendLine();
-                details.AppendLine();
-            }
-
-
+            var exc = exception;
             while (null != exc)
             {
-                if (exc is AggregateException aeg)
-                {
-                    foreach (var ie in aeg.InnerExceptions)
-                    {
-                        Write(ie);
-                    }
-
-                }
-
-                if (exc is ReflectionTypeLoadException rlex)
-                {
-                    Write2(rlex);
-                    foreach (var lex in rlex.LoaderExceptions)
-                    {
-                        Write(lex);
-                    }
-                }
-
-                keywords.Add(exc.GetType().FullName);
-                keywords.Add(exc.Message);
-
-                details.AppendLine(" ========================== ");
-                details.AppendLine(exc.GetType().FullName);
-                details.AppendLine(exc.Message);
-                details.AppendLine(exc.StackTrace);
-                details.AppendLine();
-                details.AppendLine();
+                Write(exc);
                 exc = exc.InnerException;
             }
-            try
-            {
-                this.Severity = Severity.Error;
-                this.Message = $"{exception.GetType().Name} => {exception.Message}";
-                this.Details = details.ToString();
-                this.Time = DateTime.Now;
-                this.Keywords = keywords.ToArray();
-
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(details.ToString());
-                Console.WriteLine();
-            }
-            finally
-            {
-                Console.ResetColor();
-            }
-
-
+            
+            this.Severity = Severity.Error;
+            this.Message = $"{exception.GetType().Name} => {exception.Message}";
+            this.Details = details.ToString();
+            this.Time = DateTime.Now;
+            this.Keywords = keywords.ToArray();
         }
 
         public override string ToString()

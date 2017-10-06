@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Extensions;
 using Console = Colorful.Console;
 
 namespace Bespoke.Sph.SourceBuilders
@@ -51,14 +52,16 @@ namespace Bespoke.Sph.SourceBuilders
             }
         }
 
-        protected virtual void ReportBuildStatus(WorkflowCompilerResult result)
+        protected virtual void ReportBuildStatus(WorkflowCompilerResult result,
+        [CallerFilePath]string filePath = "", [CallerMemberName]string memberName = "", [CallerLineNumber]int lineNumber = 0)
         {
-
-
-            Console.WriteLine(result.Errors.Count > 0
-                ? $" ================ {result.Errors.Count} errors , 1 failed =================="
-                : " ================ 0 errors , 1 succeeded ==================", Color.Cyan);
-            result.Errors.ForEach(x => Console.WriteLine(x, Color.Red));
+            // ReSharper disable ExplicitCallerInfoArgument
+            var logger = ObjectBuilder.GetObject<ILogger>();
+            if (result.Errors.Any())
+                logger.WriteError($" ================ {result.Errors.Count} errors , 1 failed ==================", filePath, memberName, lineNumber);
+            else
+                logger.WriteInfo(" ================ 0 errors , 1 succeeded ==================", filePath, memberName, lineNumber);
+            result.Errors.ForEach(x => logger.WriteError(x.ToString(), filePath, memberName, lineNumber));
         }
 
 

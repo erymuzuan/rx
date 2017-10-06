@@ -375,6 +375,9 @@ namespace Bespoke.Sph.Domain
             string seperator = ",",
             Func<T, string> projection = null)
         {
+            if (null == list)
+                return text;
+
             if (null == projection)
                 projection = x => $"{x}";
 

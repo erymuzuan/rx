@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Extensions;
 
 namespace Bespoke.Sph.SourceBuilders
 {
@@ -39,7 +40,7 @@ namespace Bespoke.Sph.SourceBuilders
         {
             await ed.ServiceContract.CompileAsync(ed);
             var context = new SphDataContext();
-            
+
             // NOTE : it may be tempting to use Task.WhenAll, but we should compile them sequentially
             var operationEndpoints = context.LoadFromSources<OperationEndpoint>().Where(x => x.Entity == ed.Name);
             foreach (var oe in operationEndpoints)
@@ -47,7 +48,7 @@ namespace Bespoke.Sph.SourceBuilders
                 var builder = new OperationEndpointBuilder();
                 await builder.RestoreAsync(oe);
             }
-           
+
             var queryEndpoints = context.LoadFromSources<QueryEndpoint>().Where(x => x.Entity == ed.Name);
             foreach (var qe in queryEndpoints)
             {
@@ -60,31 +61,23 @@ namespace Bespoke.Sph.SourceBuilders
             {
                 await CompileReceivePortAsync(p);
             }
-                       
+
         }
 
         private static async Task CompileReceivePortAsync(ReceivePort port)
         {
+            var logger = ObjectBuilder.GetObject<ILogger>();
             var context = new SphDataContext();
             var builder = new ReceivePortBuilder();
             await builder.RestoreAsync(port);
-            
+
             var locations = context.LoadFromSources<ReceiveLocation>().Where(x => x.ReceivePort == port.Id);
             foreach (var loc in locations)
             {
                 var vr = await loc.ValidateBuildAsync();
                 if (!vr.Result)
                 {
-                    try
-                    {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine($"--- Unable to compile {loc.Id} ---");
-                        Console.WriteLine(vr.ToString());
-                    }
-                    finally
-                    {
-                        Console.ResetColor();
-                    }
+                    logger.WriteWarning($"==== [ReceiveLocation] Unable to compile {loc.Id} ===== \r\n{vr}");
                     continue;
                 }
 

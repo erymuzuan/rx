@@ -31,13 +31,21 @@ namespace Bespoke.Sph.SourceBuilders
                         Console.ForegroundColor = ConsoleColor.Yellow;
                         break;
                     case Severity.Info:
-                        Console.ForegroundColor = ConsoleColor.Gray;
+                        Console.ForegroundColor = ConsoleColor.Cyan;
                         break;
                     case Severity.Debug:
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.ForegroundColor = ConsoleColor.Gray;
                         break;
                 }
+
                 Console.WriteLine(entry);
+                if (TraceSwitch == Severity.Debug)
+                {
+
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($@"   [{entry.CallerMemberName}]{entry.CallerFilePath}:{entry.CallerLineNumber}");
+                    Console.WriteLine();
+                }
             }
             finally
             {
