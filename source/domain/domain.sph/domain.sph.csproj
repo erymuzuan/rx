@@ -414,7 +414,6 @@
     <Compile Include="Business\DocumentVersion.cs" />
     <Compile Include="Business\EmailMessage.cs" />
     <Compile Include="EntityTypeAttribute.cs" />
-    <Compile Include="Extension.cs" />
     <Compile Include="FormTemplates\AddressElement.cs" />
     <Compile Include="FormTemplates\CheckBox.cs" />
     <Compile Include="FormTemplates\ComboBox.cs" />
