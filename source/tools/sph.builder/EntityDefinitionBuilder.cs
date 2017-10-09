@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -10,6 +11,16 @@ namespace Bespoke.Sph.SourceBuilders
 {
     public class EntityDefinitionBuilder : Builder<EntityDefinition>
     {
+        protected override async Task<WorkflowCompilerResult> CompileAssetAsync(EntityDefinition item)
+        {
+            var cr = CompileEntityDefinition(item);
+            var cr1 = (await CompileDependenciesAsync(item)).ToList();
+            var result = new WorkflowCompilerResult { Result = cr.Result && cr1.All(x => x.Result) };
+            result.Errors.AddRange(cr.Errors);
+            result.Errors.AddRange(cr1.SelectMany(x => x.Errors));
+            result.Output = cr.Output + "\r\n" + cr1.ToString("\r\n", x => x.Output);
+            return result;
+        }
 
         public override async Task RestoreAllAsync()
         {
@@ -36,8 +47,9 @@ namespace Bespoke.Sph.SourceBuilders
 
         }
 
-        private async Task CompileDependenciesAsync(EntityDefinition ed)
+        private async Task<IEnumerable<WorkflowCompilerResult>> CompileDependenciesAsync(EntityDefinition ed)
         {
+            var results = new List<WorkflowCompilerResult>();
             await ed.ServiceContract.CompileAsync(ed);
             var context = new SphDataContext();
 
@@ -46,30 +58,38 @@ namespace Bespoke.Sph.SourceBuilders
             foreach (var oe in operationEndpoints)
             {
                 var builder = new OperationEndpointBuilder();
-                await builder.RestoreAsync(oe);
+                var cr = await builder.RestoreAsync(oe);
+                results.Add(cr);
             }
 
             var queryEndpoints = context.LoadFromSources<QueryEndpoint>().Where(x => x.Entity == ed.Name);
             foreach (var qe in queryEndpoints)
             {
                 var builder = new QueryEndpointBuilder();
-                await builder.RestoreAsync(qe);
+                var cr = await builder.RestoreAsync(qe);
+                results.Add(cr);
             }
 
             var ports = context.LoadFromSources<ReceivePort>().Where(x => x.Entity == ed.Name);
             foreach (var p in ports)
             {
-                await CompileReceivePortAsync(p);
+                var portResults = await CompileReceivePortAsync(p);
+                results.AddRange(portResults);
             }
+
+            return results;
 
         }
 
-        private static async Task CompileReceivePortAsync(ReceivePort port)
+        private static async Task<IEnumerable<WorkflowCompilerResult>> CompileReceivePortAsync(ReceivePort port)
         {
+            var results = new List<WorkflowCompilerResult>();
             var logger = ObjectBuilder.GetObject<ILogger>();
             var context = new SphDataContext();
             var builder = new ReceivePortBuilder();
-            await builder.RestoreAsync(port);
+
+            var portResult = await builder.RestoreAsync(port);
+            results.Add(portResult);
 
             var locations = context.LoadFromSources<ReceiveLocation>().Where(x => x.ReceivePort == port.Id);
             foreach (var loc in locations)
@@ -82,20 +102,16 @@ namespace Bespoke.Sph.SourceBuilders
                 }
 
                 var locBuilder = new ReceiveLocationBuilder();
-                await locBuilder.RestoreAsync(loc);
+                var cr = await locBuilder.RestoreAsync(loc);
+                results.Add(cr);
             }
+            return results;
 
         }
 
 
-        public override async Task RestoreAsync(EntityDefinition ed)
-        {
-            CompileEntityDefinition(ed);
-            await CompileDependenciesAsync(ed);
-        }
 
-
-        private void CompileEntityDefinition(EntityDefinition ed)
+        private WorkflowCompilerResult CompileEntityDefinition(EntityDefinition ed)
         {
             var options = new CompilerOptions
             {
@@ -109,8 +125,7 @@ namespace Bespoke.Sph.SourceBuilders
 
             var codes = ed.GenerateCode();
             var sources = ed.SaveSources(codes);
-            var result = ed.Compile(options, sources);
-            this.ReportBuildStatus(result);
+            return ed.Compile(options, sources);
 
         }
 

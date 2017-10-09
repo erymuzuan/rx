@@ -56,7 +56,7 @@ namespace Bespoke.Sph.SourceBuilders
                 var logger = new Logger();
                 logger.Loggers.Add(new ConsoleLogger { TraceSwitch = ts });
                 if (args.Any(x => x.StartsWith("/out:")))
-                    logger.Loggers.Add(new FileLogger(args.Single(x => x.StartsWith("/out:")).Replace("/out:", "")) { TraceSwitch = ts });
+                    logger.Loggers.Add(new FileLogger(args.Single(x => x.StartsWith("/out:")).Replace("/out:", ""), FileLogger.Interval.Hour) { TraceSwitch = ts });
                 ObjectBuilder.AddCacheList<ILogger>(logger);
             }
 
@@ -180,8 +180,7 @@ namespace Bespoke.Sph.SourceBuilders
             var edBuilder = new EntityDefinitionBuilder();
             edBuilder.Initialize();
             await edBuilder.RestoreAllAsync();
-
-
+            
             // TODO : we got bugs here, why can't we compile adapters with just *.json file
             DrawProgressBar<Adapter>(50);
             var adapterBuilder = new AdapterBuilder();

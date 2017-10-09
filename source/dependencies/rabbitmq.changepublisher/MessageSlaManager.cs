@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Extensions;
 using RabbitMQ.Client;
 
 namespace Bespoke.Sph.RabbitMqPublisher
@@ -28,9 +29,11 @@ namespace Bespoke.Sph.RabbitMqPublisher
         private IConnection m_connection;
         private IModel m_channel;
         public const int PERSISTENT_DELIVERY_MODE = 2;
+        public Severity TraceSwitch { get; set; } = Severity.Info;
 
         public void Initialize()
         {
+            var logger = new ConsoleLogger { TraceSwitch = this.TraceSwitch };
             var factory = new ConnectionFactory
             {
                 UserName = ConfigurationManager.RabbitMqUserName,
@@ -39,6 +42,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
                 Port = ConfigurationManager.RabbitMqPort,
                 VirtualHost = ConfigurationManager.RabbitMqVirtualHost
             };
+            logger.WriteInfo($"Connecting to RabbitMq with {factory.HostName}:{factory.Port}/{factory.UserName}@{factory.Password}");
             m_connection = factory.CreateConnection();
             m_channel = m_connection.CreateModel();
             m_connection.ConnectionShutdown += ConnectionShutdown;

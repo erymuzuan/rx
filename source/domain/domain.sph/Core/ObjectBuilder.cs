@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Bespoke.Sph.Extensions;
 using Spring.Context.Support;
 using Spring.Objects.Factory;
 
@@ -51,6 +52,7 @@ namespace Bespoke.Sph.Domain
                     "RazorGenerator","RazorEngine","SQLSpatialTools","System",
                     "Antlr3","RazorEngine",
                     "DotNetOpenAuth","System","Owin","RabbitMQ.Client","Roslyn",
+                    "Telerik", "Dapper","Thinktecture","Polly", "Mindscape",
                     "domain.sph", executing.GetName().Name
                 };
 
@@ -62,7 +64,12 @@ namespace Bespoke.Sph.Domain
                 }
                 catch (BadImageFormatException)
                 {
-                    logger.Log(new LogEntry { Message = $"cannot load {x}", Severity = Severity.Warning });
+                    logger.WriteWarning($"cannot load {x}");
+                }
+                catch (Exception e)
+                {
+                    logger.WriteWarning($"Error loading {x} : {e.Message}");
+                    logger.Log(new LogEntry(e));
                 }
             }
 

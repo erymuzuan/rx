@@ -63,6 +63,9 @@
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\extensions\LoggerExtensions.cs">
+      <Link>LoggerExtensions.cs</Link>
+    </Compile>
     <Compile Include="ChangePublisherClient.cs" />
     <Compile Include="EntityChangedListener.cs" />
     <Compile Include="MessageSlaManager.cs" />
