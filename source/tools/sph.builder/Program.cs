@@ -24,11 +24,8 @@ namespace Bespoke.Sph.SourceBuilders
             Console.WriteLine($"Progress ... {progressCharacter}{barSize}{maxVal}{current}", Color.DarkGray);
         }
 
-        static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
-
             Console.WriteAscii("Reactive Developer 1.8", Color.Aqua);
             '-'.WriteFrame();
             " ".WriteMessage(Color.Bisque);
@@ -40,7 +37,7 @@ namespace Bespoke.Sph.SourceBuilders
             '-'.WriteFrame();
             Console.ResetColor();
 
-            var quiet = args.Contains("/s") || args.Contains("/q") || args.Contains("/silent") || args.Contains("/quiet");
+            var quiet = ParseArgExist("s", "q", "silent", "quiet");
             if (!quiet)
             {
                 "press [ENTER] to continue : to exit Ctrl + c".WriteLine();
@@ -48,25 +45,30 @@ namespace Bespoke.Sph.SourceBuilders
             }
 
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-            if (args.Any(x => x.StartsWith("/switch:")))
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+
+            if (TryParseArg("switch", out var tsw))
             {
-                var traceSwitch = args.Single(x => x.StartsWith("/switch:"))
-                    .Replace("/switch:", "");
-                var ts = (Severity)Enum.Parse(typeof(Severity), traceSwitch, true);
+                var ts = (Severity)Enum.Parse(typeof(Severity), tsw, true);
                 var logger = new Logger();
                 logger.Loggers.Add(new ConsoleLogger { TraceSwitch = ts });
-                if (args.Any(x => x.StartsWith("/out:")))
-                    logger.Loggers.Add(new FileLogger(args.Single(x => x.StartsWith("/out:")).Replace("/out:", ""), FileLogger.Interval.Hour) { TraceSwitch = ts });
+
+                if (TryParseArg("out", out var outputFile))
+                {
+                    logger.Loggers.Add(new FileLogger(outputFile, FileLogger.Interval.Hour) { TraceSwitch = ts });
+                }
+
                 ObjectBuilder.AddCacheList<ILogger>(logger);
             }
 
             if (args.Length > 0)
             {
-                BuildWithArgsAsync(args).Wait();
+                await BuildWithArgsAsync(args).ConfigureAwait(false);
                 return;
             }
 
-            BuilAllAsyc().Wait();
+            await BuilAllAsyc().ConfigureAwait(false);
 
         }
 
@@ -180,7 +182,7 @@ namespace Bespoke.Sph.SourceBuilders
             var edBuilder = new EntityDefinitionBuilder();
             edBuilder.Initialize();
             await edBuilder.RestoreAllAsync();
-            
+
             // TODO : we got bugs here, why can't we compile adapters with just *.json file
             DrawProgressBar<Adapter>(50);
             var adapterBuilder = new AdapterBuilder();
@@ -234,6 +236,55 @@ namespace Bespoke.Sph.SourceBuilders
         {
             Console.WriteLine(message);
         }
+
+
+        private static bool TryParseArg(string key, out string value)
+        {
+            value = ParseArg(key);
+            return !string.IsNullOrWhiteSpace(value);
+
+        }
+
+        private static string ParseArg(params string[] keys)
+        {
+            IEnumerable<string> GetValue(string name)
+            {
+                var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var val = args.SingleOrDefault(a => a.StartsWith("/" + name + ":"));
+                yield return val?.Replace("/" + name + ":", string.Empty);
+            }
+
+            return keys.Select(GetValue).Where(x => null != x).SelectMany(x => x).FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
+        }
+
+        public static int? ParseArgInt32(params string[] keys)
+        {
+            IEnumerable<int?> GetValue(string name)
+            {
+
+                var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var val = args.SingleOrDefault(a => a.StartsWith("/" + name + ":"));
+                var text = val?.Replace("/" + name + ":", string.Empty);
+                if (int.TryParse(text, out int number))
+                    yield return number;
+                yield return default;
+            }
+
+            return keys.Select(GetValue).Where(x => null != x).SelectMany(x => x).FirstOrDefault(x => x.HasValue);
+        }
+
+        private static bool ParseArgExist(params string[] keys)
+        {
+            IEnumerable<bool> GetValue(string name)
+            {
+                var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var val = args.SingleOrDefault(a => a.StartsWith("/" + name));
+                yield return null != val;
+            }
+
+            return keys.Select(GetValue).Where(x => null != x).SelectMany(x => x).Any(x => x);
+        }
+
 
     }
 }
