@@ -1,29 +1,14 @@
-using System;
-using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Newtonsoft.Json;
-using Console = Colorful.Console;
 
 namespace Bespoke.Sph.SourceBuilders
 {
     internal class TransformDefinitionBuilder : Builder<TransformDefinition>
     {
-        public override async Task RestoreAllAsync()
-        {
-            this.Initialize();
-            var maps = this.GetItems();
-            foreach (var m in maps)
-            {
-                await RestoreAsync(m);
-            }
-        }
-
-
-        private async Task CompileAsync(TransformDefinition map)
-        {
-            var options = new CompilerOptions
+        protected override Task<WorkflowCompilerResult> CompileAssetAsync(TransformDefinition map)
+        { var options = new CompilerOptions
             {
                 SourceCodeDirectory = ConfigurationManager.GeneratedSourceDirectory
             };
@@ -38,30 +23,11 @@ namespace Bespoke.Sph.SourceBuilders
             }
             var codes = map.GenerateCode();
             var sources = map.SaveSources(codes);
-            var result = await map.CompileAsync(options, sources);
-            ReportBuildStatus(result);
-
+            return map.CompileAsync(options, sources);
         }
 
+    
 
-
-
-        public override async Task RestoreAsync(TransformDefinition map)
-        {
-            Console.WriteLine("Compiling : {0} ", map.Name);
-            try
-            {
-                await this.CompileAsync(map);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Failed to compile TransformDefinition {0}", map.Name, Color.Red);
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace, Color.Yellow);
-                Console.ResetColor();
-            }
-
-
-        }
+        
     }
 }

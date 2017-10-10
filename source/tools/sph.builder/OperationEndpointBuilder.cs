@@ -1,34 +1,20 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.SourceBuilders
 {
     public class OperationEndpointBuilder : Builder<OperationEndpoint>
     {
-
-        public override async Task RestoreAllAsync()
+        protected override Task<WorkflowCompilerResult> CompileAssetAsync(OperationEndpoint item)
         {
-            this.Initialize();
-            var endpoints = this.GetItems();
-            foreach (var item in endpoints)
-            {
-                await this.Compile(item);
-            }
+            var context = new SphDataContext();
+            var ed = context.LoadOneFromSources<EntityDefinition>(x => x.Name == item.Entity);
+
+            return item.CompileAsync(ed);
         }
 
-        public override async Task RestoreAsync(OperationEndpoint item)
-        {
-            await this.Compile(item);
-        }
+     
 
-        private async Task Compile(OperationEndpoint item)
-        {
-            var ed = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\{item.Entity.ToIdFormat()}.json".DeserializeFromJsonFile<EntityDefinition>();
-            var result = await item.CompileAsync(ed);
-            result.Errors.ForEach(Console.WriteLine);
-            
-        }
 
     }
 }

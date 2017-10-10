@@ -45,7 +45,8 @@ namespace Bespoke.Sph.Domain
             var es = this.StoreInElasticsearch ?? true ? "true" : "false";
             var db = this.StoreInDatabase ?? true ? "true" : "false";
             var source = this.TreatDataAsSource ? "true" : "false";
-            @class.AttributeCollection.Add($"  [PersistenceOption(IsElasticsearch={es}, IsSqlDatabase={db}, IsSource={source})]");
+            var audit = this.EnableAuditing ? "true" : "false";
+            @class.AttributeCollection.Add($"  [PersistenceOption(IsElasticsearch={es}, IsSqlDatabase={db}, IsSource={source}, EnableAuditing={audit})]");
 
 
             var ctor = new StringBuilder();

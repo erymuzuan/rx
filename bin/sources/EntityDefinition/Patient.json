@@ -1236,12 +1236,13 @@
   "IsPublished": true,
   "TreatDataAsSource": false,
   "Transient": false,
+  "EnableAuditing": true,
   "StoreInDatabase": true,
   "StoreInElasticsearch": true,
   "CreatedBy": "admin",
   "Id": "patient",
   "CreatedDate": "2015-05-28T07:43:35.756709+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2017-05-27T09:42:49.5287732+08:00",
+  "ChangedDate": "2017-10-01T14:54:20.0068305+08:00",
   "WebId": "bd9f6160-8d69-4b1a-94eb-b123a1523267"
 }

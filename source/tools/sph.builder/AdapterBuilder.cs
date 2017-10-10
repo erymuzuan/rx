@@ -12,18 +12,7 @@ namespace Bespoke.Sph.SourceBuilders
 {
     internal class AdapterBuilder : Builder<Adapter>
     {
-        public override async Task RestoreAllAsync()
-        {
-            this.Initialize();
-            var list = this.GetItems();
-            foreach (var adapter in list)
-            {
-                await RestoreAsync(adapter);
-            }
-        }
-
-
-        private async Task CompileAsync(Adapter item)
+        protected override Task<WorkflowCompilerResult> CompileAssetAsync(Adapter item)
         {
             var folder = $"{ConfigurationManager.GeneratedSourceDirectory}\\{item.Name}";
             if (!Directory.Exists(folder))
@@ -44,31 +33,13 @@ namespace Bespoke.Sph.SourceBuilders
                 options.ReferencedAssembliesLocation.Add(dll);
             }
 
-            var result = await item.CompileAsync();
-            if (result.Errors.Count > 0)
-            {
-                Console.WriteLine($" ============== {result.Errors.Count} errors ===============");
-                result.Errors.ForEach(x => Console.WriteLine(x, Color.Red));
-            }
-
+            return item.CompileAsync();
         }
 
-        public override async Task RestoreAsync(Adapter adapter)
-        {
-            Console.WriteLine("Compiling : {0} ", adapter.Name);
-            try
-            {
-                await this.CompileAsync(adapter);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Failed to compile Adapter {0}", adapter.Name, Color.Red);
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace, Color.Yellow);
-                Console.ResetColor();
-            }
+      
 
 
-        }
+
+       
     }
 }

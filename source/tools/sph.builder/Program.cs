@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
-using Mindscape.Raygun4Net;
+using Bespoke.Sph.Extensions;
 using Newtonsoft.Json.Linq;
 using Console = Colorful.Console;
 
@@ -21,14 +21,11 @@ namespace Bespoke.Sph.SourceBuilders
             if (!Directory.Exists(sourcePath))
                 Directory.CreateDirectory(sourcePath);
             var current = complete + Directory.GetFiles(sourcePath, "*.json", SearchOption.AllDirectories).Length;
-            Console.WriteLine( $"Progress ... {progressCharacter}{barSize}{maxVal}{current}", Color.DarkGray);
+            Console.WriteLine($"Progress ... {progressCharacter}{barSize}{maxVal}{current}", Color.DarkGray);
         }
 
-        static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
-
             Console.WriteAscii("Reactive Developer 1.8", Color.Aqua);
             '-'.WriteFrame();
             " ".WriteMessage(Color.Bisque);
@@ -40,7 +37,7 @@ namespace Bespoke.Sph.SourceBuilders
             '-'.WriteFrame();
             Console.ResetColor();
 
-            var quiet = args.Contains("/s") || args.Contains("/q") || args.Contains("/silent") || args.Contains("/quiet");
+            var quiet = ParseArgExist("s", "q", "silent", "quiet");
             if (!quiet)
             {
                 "press [ENTER] to continue : to exit Ctrl + c".WriteLine();
@@ -48,62 +45,65 @@ namespace Bespoke.Sph.SourceBuilders
             }
 
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-            ObjectBuilder.AddCacheList<ILogger>(new ConsoleLogger());
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+
+            if (TryParseArg("switch", out var tsw))
+            {
+                var ts = (Severity)Enum.Parse(typeof(Severity), tsw, true);
+                var logger = new Logger();
+                logger.Loggers.Add(new ConsoleLogger { TraceSwitch = ts });
+
+                if (TryParseArg("out", out var outputFile))
+                {
+                    logger.Loggers.Add(new FileLogger(outputFile, FileLogger.Interval.Hour) { TraceSwitch = ts });
+                }
+
+                ObjectBuilder.AddCacheList<ILogger>(logger);
+            }
+
             if (args.Length > 0)
             {
-                BuildWithArgsAsync(args).Wait();
+                await BuildWithArgsAsync(args).ConfigureAwait(false);
                 return;
             }
 
-            BuilAllAsyc().Wait();
+            await BuilAllAsyc().ConfigureAwait(false);
 
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            var version = "unknown";
-            string file = "..\\version.json";
-            if (File.Exists(file))
-            {
-                var json = JObject.Parse(File.ReadAllText(file));
-                var build = json.SelectToken("$.build").Value<int>();
-                version = build.ToString();
-            }
-            var client = new RaygunClient("imHU3x8eZamg84BwYekfMQ==")
-            {
-                ApplicationVersion = version
-            };
-            client.SendInBackground(e.ExceptionObject as Exception, new List<string>());
+            var entry = new LogEntry(e.ExceptionObject as Exception);
+            var logger = ObjectBuilder.GetObject<ILogger>();
+            logger.Log(entry);
         }
 
         private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs e)
         {
-            try
-            {
-                var dll = e.Name.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
-                    .First().Trim();
-                Console.WriteLine($"Loading {e.Name}");
-                Console.WriteLine($"File name :  {dll}");
-                var output = $"{ConfigurationManager.CompilerOutputPath}\\{dll}.dll";
-                if (File.Exists(output))
-                    return Assembly.LoadFile(output);
-                var web = $"{ConfigurationManager.WebPath}\\bin\\{dll}.dll";
-                if (File.Exists(web))
-                    return Assembly.LoadFile(web);
-                var sub = $"{ConfigurationManager.SubscriberPath}\\{dll}.dll";
-                if (File.Exists(sub))
-                    return Assembly.LoadFile(sub);
-            }
-            finally
-            {
-                Console.ResetColor();
-            }
+            var logger = ObjectBuilder.GetObject<ILogger>();
+
+            var dll = e.Name.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
+                .First().Trim();
+            logger.WriteDebug($"Loading {e.Name}\r\nFile name :  {dll}");
+
+            var output = $"{ConfigurationManager.CompilerOutputPath}\\{dll}.dll";
+            if (File.Exists(output))
+                return Assembly.LoadFile(output);
+            var web = $"{ConfigurationManager.WebPath}\\bin\\{dll}.dll";
+            if (File.Exists(web))
+                return Assembly.LoadFile(web);
+            var sub = $"{ConfigurationManager.SubscriberPath}\\{dll}.dll";
+            if (File.Exists(sub))
+                return Assembly.LoadFile(sub);
+
+            logger.WriteError($"Cannot find assembly for {e.Name}");
             throw new Exception("Cannot find any assembly for " + e.Name);
         }
 
         private static async Task BuildWithArgsAsync(IEnumerable<string> args)
         {
-
+            var logger = ObjectBuilder.GetObject<ILogger>();
             foreach (var f in args)
             {
                 if (!File.Exists(f)) continue;
@@ -113,10 +113,11 @@ namespace Bespoke.Sph.SourceBuilders
                 var type = Strings.GetType(typeName);
                 if (null == type)
                 {
-                    Console.WriteLine($"Unrecognized type {typeName}  in {f}");
+                    logger.WriteWarning($"Unrecognized type {typeName}  in {f}");
                     continue;
                 }
 
+                logger.WriteInfo($"Compiling [{type.Name}]: {Path.GetFileNameWithoutExtension(f)}");
                 if (type == typeof(EntityDefinition))
                 {
                     await BuildAsync<EntityDefinition, EntityDefinitionBuilder>(json);
@@ -182,7 +183,6 @@ namespace Bespoke.Sph.SourceBuilders
             edBuilder.Initialize();
             await edBuilder.RestoreAllAsync();
 
-
             // TODO : we got bugs here, why can't we compile adapters with just *.json file
             DrawProgressBar<Adapter>(50);
             var adapterBuilder = new AdapterBuilder();
@@ -209,7 +209,7 @@ namespace Bespoke.Sph.SourceBuilders
             var roleBuilder = new DesignationBuilder();
             roleBuilder.Initialize();
             await roleBuilder.RestoreAllAsync();
-            
+
         }
 
 
@@ -236,6 +236,55 @@ namespace Bespoke.Sph.SourceBuilders
         {
             Console.WriteLine(message);
         }
+
+
+        private static bool TryParseArg(string key, out string value)
+        {
+            value = ParseArg(key);
+            return !string.IsNullOrWhiteSpace(value);
+
+        }
+
+        private static string ParseArg(params string[] keys)
+        {
+            IEnumerable<string> GetValue(string name)
+            {
+                var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var val = args.SingleOrDefault(a => a.StartsWith("/" + name + ":"));
+                yield return val?.Replace("/" + name + ":", string.Empty);
+            }
+
+            return keys.Select(GetValue).Where(x => null != x).SelectMany(x => x).FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
+        }
+
+        public static int? ParseArgInt32(params string[] keys)
+        {
+            IEnumerable<int?> GetValue(string name)
+            {
+
+                var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var val = args.SingleOrDefault(a => a.StartsWith("/" + name + ":"));
+                var text = val?.Replace("/" + name + ":", string.Empty);
+                if (int.TryParse(text, out int number))
+                    yield return number;
+                yield return default;
+            }
+
+            return keys.Select(GetValue).Where(x => null != x).SelectMany(x => x).FirstOrDefault(x => x.HasValue);
+        }
+
+        private static bool ParseArgExist(params string[] keys)
+        {
+            IEnumerable<bool> GetValue(string name)
+            {
+                var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var val = args.SingleOrDefault(a => a.StartsWith("/" + name));
+                yield return null != val;
+            }
+
+            return keys.Select(GetValue).Where(x => null != x).SelectMany(x => x).Any(x => x);
+        }
+
 
     }
 }

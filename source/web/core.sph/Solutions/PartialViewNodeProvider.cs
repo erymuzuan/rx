@@ -31,7 +31,7 @@ namespace Bespoke.Sph.Web.Solutions
             if (File.Exists(config))
             {
                 var scripts = JArray.Parse(File.ReadAllText(config))
-                    .Select(a => Extensions.Value<string>(a.SelectToken("name")))
+                    .Select(a => a.SelectToken("name").Value<string>())
                     .Select(x => new SolutionItem
                     {
                         icon = "fa fa-file-code-o",

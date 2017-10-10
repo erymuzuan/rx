@@ -46,7 +46,6 @@ namespace Bespoke.Sph.SqlRepository
                 cmd.CommandType = CommandType.Text;
 
 
-                var addedItemsIdentityParameters = new List<Tuple<Entity, SqlParameter>>();
                 var count = 0;
                 var sql = new StringBuilder("BEGIN TRAN ");
                 sql.AppendLine();
@@ -73,11 +72,13 @@ namespace Bespoke.Sph.SqlRepository
                     item.ChangedBy = user;
                     item.ChangedDate = DateTime.Now;
                     bool exist;
-                    using (var cmd2 = new SqlCommand("SELECT COUNT([ID]) FROM [" + this.GetSchema(entityType) + "].[" + entityType.Name + "] WHERE [Id] = '" + item.Id + "'", conn))
+                    var existSql = $@"SELECT COUNT([ID]) FROM [{this.GetSchema(entityType)}].[{entityType.Name}] WHERE [Id] = '{item.Id}'";
+                    using (var existCmd = new SqlCommand(
+                        existSql, conn))
                     {
                         if (conn.State != ConnectionState.Open)
                             await conn.OpenAsync();
-                        exist = (int)(await cmd2.ExecuteScalarAsync()) > 0;
+                        exist = (int)await existCmd.ExecuteScalarAsync() > 0;
 
                     }
                     if (!exist)
@@ -113,9 +114,10 @@ namespace Bespoke.Sph.SqlRepository
                     var typeName = entityType.Name;
                     var schema = this.GetSchema(entityType);
                     var id = item.Id;
-                    sql.AppendFormat("DELETE FROM [{2}].[{0}] WHERE [Id] = @{0}Id{1}", typeName, count, schema);
+                    var idField = $"{typeName}Id{count}";
+                    sql.Append($"DELETE FROM [{schema}].[{typeName}] WHERE [Id] = @{idField}");
                     sql.AppendLine();
-                    cmd.Parameters.AddWithValue("@" + typeName + "Id" + count, id);
+                    cmd.Parameters.Add($"@{idField}", SqlDbType.VarChar, 50).Value = id;
                 }
                 sql.AppendLine();
                 sql.AppendLine("COMMIT");
@@ -128,17 +130,7 @@ namespace Bespoke.Sph.SqlRepository
                 try
                 {
                     var rows = await cmd.ExecuteNonQueryAsync();
-
                     var so = new SubmitOperation { RowsAffected = rows };
-                    // get the @@IDENTITY
-                    foreach (var t in addedItemsIdentityParameters)
-                    {
-                        var item = t.Item1;
-                        var id = (string)t.Item2.Value;
-                        item.Id = id;
-                        so.Add(item.WebId, id);
-                    }
-
                     return so;
                 }
                 catch (Exception e)
@@ -189,8 +181,9 @@ namespace Bespoke.Sph.SqlRepository
 
         private string GetSchema(Type type)
         {
-            if (type.Namespace.StartsWith(typeof(Entity).Namespace)) return "Sph";
-            return ConfigurationManager.ApplicationName;
+            if (null == type) throw new ArgumentNullException(nameof(type));
+            var domainNamespace = $"{type.Namespace}".StartsWith($"{typeof(Entity).Namespace}");
+            return domainNamespace ? "Sph" : ConfigurationManager.ApplicationName;
         }
 
         private Type GetEntityType(Entity item)
@@ -200,11 +193,8 @@ namespace Bespoke.Sph.SqlRepository
             return null != attr ? attr.Type : type;
         }
 
-
         private object GetParameterValue(Column col, Entity item, string user)
         {
-
-
             if (col.Name == "Data")
                 throw new InvalidOperationException("Xml [Data] column is no longer supported");
             if (col.Name == "Json")

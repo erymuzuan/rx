@@ -68,8 +68,11 @@
 
             <Label Grid.Row="1" Grid.Column="2" Content="Source Path" ></Label>
             <telerik:RadWatermarkTextBox Grid.Row="1" Grid.Column="3" Text="{Binding RxSourcePath, Mode=OneTime}" IsReadOnly="True"></telerik:RadWatermarkTextBox>
-            
-            
+
+            <telerik:RadButton Grid.Row="1" Grid.Column="4" Click="ShowScriptWindow">
+                <Image Source="Images/page_white_csharp.png"></Image>
+            </telerik:RadButton>
+
 
         </Grid>
         <ListView Grid.Row="1" Grid.Column="1" ItemsSource="{Binding EntityDefinitionCollection}" AlternationCount="2">
@@ -142,6 +145,16 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
+
+                    <GridViewColumn Header="Diff" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <telerik:RadButton ToolTip="Generata diff with deployed version" CommandParameter="{Binding}" Command="{Binding Path=DataContext.DiffCommand, RelativeSource={RelativeSource AncestorType=ListView}}">
+                                    <Image Source="Images/transmit_blue.png"></Image>
+                                </telerik:RadButton>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -151,7 +164,6 @@
         <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Deploy selected" 
                            Command="{Binding DeploySelectedCommand}"
                            CommandParameter="{Binding SelectedCollection}">
-
 
         </telerik:RadButton>
     </Grid>

@@ -118,6 +118,7 @@ namespace textformatter.test
 
         class PortLogger : ILogger
         {
+            public Severity TraceSwitch { get; set; } = Severity.Info;
             private readonly ITestOutputHelper m_helper;
             public PortLogger(ITestOutputHelper helper)
             {
@@ -125,12 +126,14 @@ namespace textformatter.test
             }
             public Task LogAsync(LogEntry entry)
             {
+                if ((int)entry.Severity < (int)TraceSwitch) return Task.FromResult(0);
                 m_helper.WriteLine(entry.ToString());
                 return Task.FromResult(0);
             }
 
             public void Log(LogEntry entry)
             {
+                if ((int)entry.Severity < (int)TraceSwitch) return;
                 m_helper.WriteLine(entry.ToString());
             }
         }

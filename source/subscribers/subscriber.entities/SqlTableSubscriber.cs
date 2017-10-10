@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SqlRepository;
 using Bespoke.Sph.SubscribersInfrastructure;
@@ -13,7 +12,7 @@ namespace subscriber.entities
         protected override async Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
             var tableSchema = new TableSchemaBuilder(m => this.WriteMessage(m), m => this.WriteMessage("WARNING: " + m), this.WriteError);
-            await tableSchema.BuildAsync(item);
+            await tableSchema.BuildAsync(item,null );
         }
 
         public Task ProcessMessageAsync(EntityDefinition ed)

@@ -68,9 +68,7 @@ namespace Bespoke.Sph.Domain
 
         public Class GenerateCode(EntityDefinition ed)
         {
-            if (null == ed)
-                throw new ArgumentNullException(nameof(ed), "Ed cannot be null");
-            m_ed = ed;
+            m_ed = ed ?? throw new ArgumentNullException(nameof(ed), "Ed cannot be null");
 
             var controller = new Class
             {

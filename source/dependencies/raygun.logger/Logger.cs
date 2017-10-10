@@ -20,6 +20,7 @@ namespace Bespoke.Sph.RayGunLoggers
     [Export(typeof(ILogger))]
     public class Logger : ILogger
     {
+        public Severity TraceSwitch { get; set; } = Severity.Info;
         private readonly List<string> m_tags = new List<string>();
         private readonly string m_version;
         public Logger()
@@ -33,9 +34,7 @@ namespace Bespoke.Sph.RayGunLoggers
                 m_version = build.ToString();
             }
         }
-
-        public Severity TraceSwitch { get; set; }
-
+        
         public async Task LogAsync(LogEntry entry)
         {
             if ((int)entry.Severity < (int)this.TraceSwitch) return;
@@ -163,8 +162,7 @@ namespace Bespoke.Sph.RayGunLoggers
         {
             if (exception != null && this.m_wrapperExceptions.Any(wrapperException => exception.GetType() == wrapperException && exception.InnerException != null))
             {
-                var ex = exception as AggregateException;
-                if (ex != null)
+                if (exception is AggregateException ex)
                 {
                     foreach (var current in ex.InnerExceptions)
                     {
@@ -213,6 +211,6 @@ namespace Bespoke.Sph.RayGunLoggers
             return data;
         }
 
-  
+
     }
 }

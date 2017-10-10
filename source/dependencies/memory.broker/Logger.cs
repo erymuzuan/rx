@@ -10,7 +10,7 @@ namespace Bespoke.Sph.Messaging
     [Export(typeof(ILogger))]
     public class Logger : ILogger
     {
-        public Severity TraceSwitch { get; set; }
+        public Severity TraceSwitch { get; set; } = Severity.Info;
         private void SendMessage(string json)
         {
             WebSocketNotificationService.Instance.WriteRaw(json);
@@ -18,6 +18,7 @@ namespace Bespoke.Sph.Messaging
 
         public Task LogAsync(LogEntry entry)
         {
+            if ((int)entry.Severity < (int)TraceSwitch) return Task.FromResult(0);
             this.Log(entry);
             return Task.FromResult(0);
         }

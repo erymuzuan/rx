@@ -129,7 +129,12 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         private async void Received(object sender, ReceivedMessageArgs e)
         {
+            var tracker = ObjectBuilder.GetObject<IMessageTracker>();
+            var cancelledMessageRepository = ObjectBuilder.GetObject<ICancelledMessageRepository>();
+            var trackingTasks = new List<Task>();
+
             Interlocked.Increment(ref m_processing);
+
             var body = e.Body;
             var json = await this.DecompressAsync(body);
             var header = new MessageHeaders(e);
@@ -138,12 +143,35 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             {
                 var item = json.DeserializeFromJson<T>();
                 id = item.Id;
-                await ProcessMessage(item, header);
-                m_channel.BasicAck(e.DeliveryTag, false);
+
+                var sw = new Stopwatch();
+                sw.Start();
+                trackingTasks.Add(tracker.RegisterStartProcessingAsync(new MessageTrackingEvent(item, header.MessageId, e.RoutingKey, this.QueueName)));
+                var cancelled = await cancelledMessageRepository.CheckMessageAsync(header.MessageId, this.QueueName);
+                if (!cancelled)
+                {
+                    await ProcessMessage(item, header);
+                    m_channel.BasicAck(e.DeliveryTag, false);
+                    
+                    var completedEvent = new MessageTrackingEvent(item, header.MessageId, e.RoutingKey, this.QueueName){ ProcessingTimeSpan = sw.Elapsed };
+                    var completed = tracker.RegisterCompletedAsync(completedEvent);
+                    trackingTasks.Add(completed);
+                }
+                else
+                {
+                    m_channel.BasicAck(e.DeliveryTag, false);
+                    trackingTasks.Add(tracker.RegisterCancelledAsync(new MessageTrackingEvent(item, header.MessageId, e.RoutingKey, this.QueueName)));
+                    trackingTasks.Add(cancelledMessageRepository.RemoveAsync(header.MessageId, this.QueueName));
+                }
+
+                sw.Stop();
+
             }
             catch (Exception exc)
             {
                 m_channel.BasicReject(e.DeliveryTag, false);
+
+                trackingTasks.Add(tracker.RegisterDlqedAsync(new MessageTrackingEvent(json.DeserializeFromJson<T>(), header.MessageId, header.Operation, this.QueueName)));
 
                 this.NotificicationService.WriteError(exc, $"Exception is thrown in {QueueName}");
 
@@ -161,6 +189,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             finally
             {
                 Interlocked.Decrement(ref m_processing);
+                await Task.WhenAll(trackingTasks);
             }
         }
 
@@ -172,9 +201,9 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             Console.WriteLine(@"Doing the delay for {0} ms for the {1} time", props.Headers["sph.delay"], count.Ordinalize());
             const string RETRY_EXCHANGE = "sph.retry.exchange";
             var delay = (long)props.Headers["sph.delay"]; // in ms
-            
+
             props.Expiration = delay.ToString(CultureInfo.InvariantCulture);
-            
+
             m_channel.BasicPublish(RETRY_EXCHANGE, string.Empty, props, body);
         }
 

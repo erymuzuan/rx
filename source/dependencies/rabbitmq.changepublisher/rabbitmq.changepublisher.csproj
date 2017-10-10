@@ -63,10 +63,15 @@
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\extensions\LoggerExtensions.cs">
+      <Link>LoggerExtensions.cs</Link>
+    </Compile>
     <Compile Include="ChangePublisherClient.cs" />
     <Compile Include="EntityChangedListener.cs" />
+    <Compile Include="MessageSlaManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReceivedMessageArgs.cs" />
+    <Compile Include="SlaNotCompletedEmailAction.cs" />
     <Compile Include="TaskBasicConsumer.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -88,7 +93,7 @@
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <Target Name="CopyOutputDirClientAndWeb">
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\web\web.sph\bin" />
-    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\subscribers\" />
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\subscribers.host\" />
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\schedulers\" />
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\tools\" />
   </Target>

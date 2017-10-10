@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -2094,6 +2094,11 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_enableAuditing;
+        public const string PropertyNameEnableAuditing = "EnableAuditing";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool? m_storeInDatabase;
         public const string PropertyNameStoreInDatabase = "StoreInDatabase";
 
@@ -2310,6 +2315,31 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_transient;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public bool EnableAuditing
+        {
+            set
+            {
+                if (m_enableAuditing == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEnableAuditing, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_enableAuditing = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_enableAuditing;
             }
         }
 

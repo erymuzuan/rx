@@ -37,9 +37,9 @@ namespace Bespoke.Sph.Domain
             {
                 var val = action.Field.GetValue(context);
                 if (val is string)
-                    val = string.Format("\"{0}\"", val);
+                    val = $"\"{val}\"";
                 if (val is DateTime)
-                    val = string.Format("DateTime.Parse(\"{0:s}\")", val);
+                    val = $"DateTime.Parse(\"{val:s}\")";
 
                 code.AppendLine("item." + action.Path + " = " + val + ";");
             }
@@ -56,9 +56,6 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        public override bool UseAsync
-        {
-            get { return true; }
-        }
+        public override bool UseAsync => true;
     }
 }

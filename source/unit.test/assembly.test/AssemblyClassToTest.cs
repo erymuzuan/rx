@@ -56,22 +56,22 @@ namespace assembly.test
         }
         public string SayCustomerName(Customer customer, string greet)
         {
-            return string.Format(greet + " " + customer.FullName);
+            return string.Format(greet + " " + customer.FirstName);
         }
         public async Task<object> GreetAsync(Customer customer, string greet)
         {
             await Task.Delay(500);
-            return string.Format(greet + " " + customer.FullName);
+            return string.Format(greet + " " + customer.FirstName);
         }
         public async Task<object> GreetAsync(Customer customer, string greet, bool warning)
         {
             await Task.Delay(500);
-            return string.Format(greet + " warning " + customer.FullName);
+            return string.Format(greet + " warning " + customer.FirstName);
         }
         public async Task<string> SayHelloAsync(Customer customer, string greet, bool warning)
         {
             await Task.Delay(500);
-            return string.Format(greet + " warning " + customer.FullName);
+            return string.Format(greet + " warning " + customer.FirstName);
         }
         public async Task<DateTime?> GetNullableDateTime(DateTime date)
         {
@@ -81,7 +81,7 @@ namespace assembly.test
         public async Task<object> GreetAsync(Customer customer, string greet, string warning)
         {
             await Task.Delay(500);
-            return string.Format(greet + " warning " + customer.FullName);
+            return string.Format(greet + " warning " + customer.FirstName);
         }
 
         public int? NullableInt32Property { get; set; }

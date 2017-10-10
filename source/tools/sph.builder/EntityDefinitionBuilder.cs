@@ -1,20 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.SqlRepository;
-using Bespoke.Sph.SubscribersInfrastructure;
-using Bespokse.Sph.ElasticsearchRepository;
-using Newtonsoft.Json;
-using subscriber.entities;
+using Bespoke.Sph.Extensions;
 
 namespace Bespoke.Sph.SourceBuilders
 {
     public class EntityDefinitionBuilder : Builder<EntityDefinition>
     {
+        protected override async Task<WorkflowCompilerResult> CompileAssetAsync(EntityDefinition item)
+        {
+            var cr = CompileEntityDefinition(item);
+            var cr1 = (await CompileDependenciesAsync(item)).ToList();
+            var result = new WorkflowCompilerResult { Result = cr.Result && cr1.All(x => x.Result) };
+            result.Errors.AddRange(cr.Errors);
+            result.Errors.AddRange(cr1.SelectMany(x => x.Errors));
+            result.Output = cr.Output + "\r\n" + cr1.ToString("\r\n", x => x.Output);
+            return result;
+        }
 
         public override async Task RestoreAllAsync()
         {
@@ -41,170 +47,71 @@ namespace Bespoke.Sph.SourceBuilders
 
         }
 
-        private async Task CompileDependencies(EntityDefinition ed)
+        private async Task<IEnumerable<WorkflowCompilerResult>> CompileDependenciesAsync(EntityDefinition ed)
         {
+            var results = new List<WorkflowCompilerResult>();
             await ed.ServiceContract.CompileAsync(ed);
-            var operationEndpointFolder = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(OperationEndpoint)}";
-            if (Directory.Exists(operationEndpointFolder))
-            {
-                foreach (var src in Directory.GetFiles(operationEndpointFolder, "*.json"))
-                {
-                    var oe = src.DeserializeFromJsonFile<OperationEndpoint>();
-                    if (oe.Entity != ed.Name) continue;
-                    var builder = new OperationEndpointBuilder();
-                    await builder.RestoreAsync(oe);
-                }
+            var context = new SphDataContext();
 
+            // NOTE : it may be tempting to use Task.WhenAll, but we should compile them sequentially
+            var operationEndpoints = context.LoadFromSources<OperationEndpoint>().Where(x => x.Entity == ed.Name);
+            foreach (var oe in operationEndpoints)
+            {
+                var builder = new OperationEndpointBuilder();
+                var cr = await builder.RestoreAsync(oe);
+                results.Add(cr);
             }
 
-            var queryEndpointFolder = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(QueryEndpoint)}";
-            if (Directory.Exists(queryEndpointFolder))
+            var queryEndpoints = context.LoadFromSources<QueryEndpoint>().Where(x => x.Entity == ed.Name);
+            foreach (var qe in queryEndpoints)
             {
-                foreach (var src in Directory.GetFiles(queryEndpointFolder, "*.json"))
-                {
-                    Console.WriteLine("QueryEndpoint " + Path.GetFileName(src));
-                    var qe = src.DeserializeFromJsonFile<QueryEndpoint>();
-                    if (qe.Entity != ed.Name) continue;
-                    var builder = new QueryEndpointBuilder();
-                    await builder.RestoreAsync(qe);
-                }
+                var builder = new QueryEndpointBuilder();
+                var cr = await builder.RestoreAsync(qe);
+                results.Add(cr);
             }
 
-            var receivePortFolder = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(ReceivePort)}";
-            if (Directory.Exists(receivePortFolder))
+            var ports = context.LoadFromSources<ReceivePort>().Where(x => x.Entity == ed.Name);
+            foreach (var p in ports)
             {
-                foreach (var src in Directory.GetFiles(receivePortFolder, "*.json"))
-                {
-                    var port = src.DeserializeFromJsonFile<ReceivePort>();
-                    if (port.Entity != ed.Name) continue;
-                    var builder = new ReceivePortBuilder();
-                    await builder.RestoreAsync(port);
-
-                    var receiveLocationFolder = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(ReceiveLocation)}";
-                    if (!Directory.Exists(receiveLocationFolder)) continue;
-                    foreach (var rsrc in Directory.GetFiles(receiveLocationFolder, "*.json"))
-                    {
-                        var loc = rsrc.DeserializeFromJsonFile<ReceiveLocation>();
-                        if (loc.ReceivePort != port.Id) continue;
-                        var locBuilder = new ReceiveLocationBuilder();
-                        await locBuilder.RestoreAsync(loc);
-                    }
-                }
-
+                var portResults = await CompileReceivePortAsync(p);
+                results.AddRange(portResults);
             }
+
+            return results;
+
         }
 
-        private async Task DeleteElasticSearchType(EntityDefinition ed)
+        private static async Task<IEnumerable<WorkflowCompilerResult>> CompileReceivePortAsync(ReceivePort port)
         {
-            using (var client = new HttpClient())
+            var results = new List<WorkflowCompilerResult>();
+            var logger = ObjectBuilder.GetObject<ILogger>();
+            var context = new SphDataContext();
+            var builder = new ReceivePortBuilder();
+
+            var portResult = await builder.RestoreAsync(port);
+            results.Add(portResult);
+
+            var locations = context.LoadFromSources<ReceiveLocation>().Where(x => x.ReceivePort == port.Id);
+            foreach (var loc in locations)
             {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                var response = await client.DeleteAsync(ConfigurationManager.ApplicationName.ToLowerInvariant() + "/_mapping/" + ed.Name.ToLowerInvariant());
-                Console.WriteLine("DELETE {1} type : {0}", response.StatusCode, ed.Name.ToLowerInvariant());
+                var vr = await loc.ValidateBuildAsync();
+                if (!vr.Result)
+                {
+                    logger.WriteWarning($"==== [ReceiveLocation] Unable to compile {loc.Id} ===== \r\n{vr}");
+                    continue;
+                }
+
+                var locBuilder = new ReceiveLocationBuilder();
+                var cr = await locBuilder.RestoreAsync(loc);
+                results.Add(cr);
             }
-        }
-
-        public override async Task RestoreAsync(EntityDefinition ed)
-        {
-            await this.DeleteElasticSearchType(ed);
-
-            var type = CompileEntityDefinition(ed);
-            Console.WriteLine("Compiled : {0}", type);
-
-
-            if (ed.TreatDataAsSource)
-            {
-                // clean all data
-                var builder = new Builder { EntityDefinition = ed, Name = ed.Name };
-                try
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    builder.Initialize();
-                    await "Sph".ExecuteNonQueryAsync($"TRUNCATE TABLE [{ConfigurationManager.ApplicationName}].[{ed.Name}]");
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Please wait.. retrying....");
-                    Console.WriteLine(e.ToString());
-
-                    var sqlSub2 = new SqlTableSubscriber { NotificicationService = new ConsoleNotification() };
-                    await sqlSub2.ProcessMessageAsync(ed);
-
-                    await RestoreAsync(ed);
-                    return;
-                }
-                finally
-                {
-                    Console.ResetColor();
-                }
-
-                var sqlSub1 = new SqlTableSubscriber { NotificicationService = new ConsoleNotification() };
-                await sqlSub1.ProcessMessageAsync(ed);
-
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-
-                    var typeName = ed.Name.ToLowerInvariant();
-                    var index = ConfigurationManager.ApplicationName.ToLowerInvariant();
-                    var mappingFile = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\{ed.Name}.mapping";
-                    var mappingUrl = $"{index}/_mapping/{typeName}";
-
-                    await client.DeleteAsync(mappingUrl);
-                    if (File.Exists(mappingFile))
-                    {
-                        var mappingContent = new StringContent(File.ReadAllText(mappingFile));
-                        await client.PutAsync(mappingUrl, mappingContent);
-
-                    }
-
-
-                    var sourcesFolder = $"{ConfigurationManager.SphSourceDirectory}\\{ed.Name}";
-                    if (!Directory.Exists(sourcesFolder))
-                        Directory.CreateDirectory(sourcesFolder);
-
-                    var files = Directory.GetFiles(sourcesFolder, "*.json");
-                    foreach (var f in files)
-                    {
-                        var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-                        dynamic ent = JsonConvert.DeserializeObject(File.ReadAllText(f), setting);
-                        ent.Id = Path.GetFileNameWithoutExtension(f);
-                        await builder.InsertAsync(ent);
-
-                        var setting2 = new JsonSerializerSettings();
-                        var json = JsonConvert.SerializeObject(ent, setting2);
-
-                        var content = new StringContent(json);
-
-                        var url = $"{index}/{typeName}/{ent.Id}";
-                        var response = await client.PutAsync(url, content);
-                        Console.WriteLine($"{ent.Id} -> {response.StatusCode}");
-                    }
-                }
-                await this.CompileDependencies(ed);
-                return;
-            }
-
-
-            var sqlSub = new SqlTableSubscriber { NotificicationService = new ConsoleNotification() };
-            await sqlSub.ProcessMessageAsync(ed);
-
-
-            // mapping - get a clone to differ than the on the disk
-            var clone = ed.Clone();
-            clone.MemberCollection.Add(new SimpleMember { Name = "__builder", Type = typeof(string), IsNullable = true, IsExcludeInAll = true });
-
-            var mapBuilder = new MappingBuilder();
-            await mapBuilder.PutMappingAsync(clone);
-            await mapBuilder.MigrateDataAsync(ed);
-            
-            await this.CompileDependencies(ed);
-            Console.WriteLine(@"Deploying : {0}", ed.Name);
+            return results;
 
         }
 
 
-        private Type CompileEntityDefinition(EntityDefinition ed)
+
+        private WorkflowCompilerResult CompileEntityDefinition(EntityDefinition ed)
         {
             var options = new CompilerOptions
             {
@@ -212,18 +119,14 @@ namespace Bespoke.Sph.SourceBuilders
                 IsDebug = true
             };
             var webDir = ConfigurationManager.WebPath;
-            options.AddReference(Path.GetFullPath(webDir + @"\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath(webDir + @"\bin\core.sph.dll"));
-            options.AddReference(Path.GetFullPath(webDir + @"\bin\Newtonsoft.Json.dll"));
+            options.AddReference(Path.GetFullPath($@"{webDir}\bin\System.Web.Mvc.dll"));
+            options.AddReference(Path.GetFullPath($@"{webDir}\bin\core.sph.dll"));
+            options.AddReference(Path.GetFullPath($@"{webDir}\bin\Newtonsoft.Json.dll"));
 
             var codes = ed.GenerateCode();
             var sources = ed.SaveSources(codes);
-            var result = ed.Compile(options, sources);
-            this.ReportBuildStatus(result);
+            return ed.Compile(options, sources);
 
-            var assembly = Assembly.LoadFrom(result.Output);
-            var type = assembly.GetType($"{ed.CodeNamespace}.{ed.Name}");
-            return type;
         }
 
 

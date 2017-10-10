@@ -1,6 +1,6 @@
 {
   "$type": "Bespoke.Sph.Domain.QueryEndpoint, domain.sph",
-  "CodeNamespace": "Bespoke.DevV1.Api",
+  "ControllerName": "PatientPatientsBornIn60sQueryEndpoint",
   "FilterCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
     "$values": [
@@ -38,17 +38,6 @@
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
     "$values": []
   },
-  "Performer": {
-    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
-    "UserProperty": "",
-    "Value": null,
-    "IsPublic": false,
-    "WebId": null
-  },
-  "RouteParameterCollection": {
-    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
-    "$values": []
-  },
   "MemberCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
     "$values": [
@@ -65,13 +54,13 @@
   "IsReturnSource": null,
   "Entity": "Patient",
   "Note": null,
-  "IsPublished": true,
-  "Resource": "Patients",
+  "IsPublished": false,
+  "Resource": "patients",
   "CacheFilter": null,
-  "CreatedBy": "admin",
+  "CreatedBy": null,
   "Id": "patients-born-in-60s",
-  "CreatedDate": "2016-03-07T09:17:24.5721434+08:00",
-  "ChangedBy": "admin",
-  "ChangedDate": "2016-03-07T09:17:24.5721434+08:00",
+  "CreatedDate": "0001-01-01T00:00:00",
+  "ChangedBy": null,
+  "ChangedDate": "0001-01-01T00:00:00",
   "WebId": "all-born-in-60s"
 }

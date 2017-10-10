@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Console = Colorful.Console;
@@ -12,77 +14,77 @@ namespace Bespoke.Sph.Mangements
 {
     internal class Program
     {
+        [ImportMany]
+        public Commands.Command[] Commands { set; get; }
         public static void Main(string[] args)
         {
-            if (args.FirstOrDefault() == "?" || ParseArgExist("?") || args.Length == 0)
-            {
-                Console.WriteAscii("Deployment Agent", Color.BlueViolet);
-                Console.WriteLine(Program.GetHelpText());
-                return;
-            }
-
-            if (ParseArgExist("gui") || ParseArgExist("ui") || ParseArgExist("i"))
-            {
-                var gui = new System.Diagnostics.ProcessStartInfo($"{ConfigurationManager.ToolsPath}\\deployment.gui.exe")
-                {
-                    WorkingDirectory = ConfigurationManager.ToolsPath
-                };
-                System.Diagnostics.Process.Start(gui);
-                return;
-            }
-
-            var id = ParseArg("e");
-            var file = args.FirstOrDefault();
-            if (!string.IsNullOrWhiteSpace(id))
-                file = $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\{id}.json";
-            if (!string.IsNullOrWhiteSpace(id) && !File.Exists(file))// try with ED Name
-                file = $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\{GetEntityDefinitionId(id)}.json";
-
-            if (!File.Exists(file))
-            {
-                Console.WriteLine(@"Specify your EntityDefinition json source as your first argument or with /e:<EntityDefinition id/name>", Color.Yellow);
-                return;
-            }
-
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             var program = new Program();
-            program.StartAsync(file).Wait();
+            program.StartAsync().Wait();
         }
-
-        private async Task StartAsync(string file)
+        
+        private async Task StartAsync()
         {
-            var ed = file.DeserializeFromJsonFile<EntityDefinition>();
-
-            var nes = ParseArgExist("nes");
-            var truncate = ParseArgExist("truncate");
-
-            await DeploymentMetadata.InitializeAsync();
-            var deployment = new DeploymentMetadata(ed);
-
-
-            if (ParseArgExist("q"))
+            if (!this.Compose())
             {
-                var istory = await deployment.QueryAsync();
-                var table = new ConsoleTable(istory);
-                table.PrintTable();
+                Console.WriteLine("Error compose", Color.OrangeRed);
+                return;
+            }
+            Console.WriteLine($"We got {this.Commands.Length} commands");
+
+
+            var help = this.Commands.Single(x => x.GetType() == typeof(Commands.HelpCommand));
+            var commands = this.Commands.Where(x => x.IsSatisfied()).ToList();
+            if (commands.Count == 0)
+            {
+                help.Execute();
                 return;
             }
 
-            await deployment.BuildAsync(truncate, nes);
+            if (commands.Count(x => !x.ShouldContinue()) > 1)
+            {
+                help.Execute();
+                return;
+            }
+            foreach (var cmd in commands.OrderBy(x => !x.ShouldContinue()))
+            {
+                Console.WriteLine($"Running {cmd.GetType().Name} ....", Color.YellowGreen);
+                if (cmd.UseAsync)
+                    await cmd.ExecuteAsync();
+                else
+                    cmd.Execute();
+
+                Console.WriteLine($"Done with {cmd.GetType().Name} ....", Color.Green);
+            }
 
         }
 
 
-        private static string GetEntityDefinitionId(string name)
-        {
-            var files = Directory.GetFiles($@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\", "*.json");
-            foreach (var file in files)
-            {
-                var ed = file.DeserializeFromJsonFile<EntityDefinition>();
-                if (ed.Name == name) return ed.Id;
-            }
+        private CompositionContainer m_container;
 
-            return null;
+        private bool Compose()
+        {
+            var catalog = new AggregateCatalog();
+            catalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetExecutingAssembly()));
+            // TODO : there's conflict with other assemblies
+            // catalog.Catalogs.Add(new DirectoryCatalog("."));
+
+            m_container = new CompositionContainer(catalog);
+            var batch = new CompositionBatch();
+            batch.AddPart(this);
+            batch.AddExportedValue(m_container);
+
+            try
+            {
+                m_container.Compose(batch);
+            }
+            catch (CompositionException compositionException)
+            {
+                Debug.WriteLine(compositionException);
+                Debugger.Break();
+
+            }
+            return true;
         }
 
 
@@ -100,29 +102,5 @@ namespace Bespoke.Sph.Mangements
         }
 
 
-        public static string ParseArg(string name)
-        {
-            var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            var val = args.SingleOrDefault(a => a.StartsWith("/" + name + ":"));
-            return val?.Replace("/" + name + ":", string.Empty);
-        }
-        private static bool ParseArgExist(string name)
-        {
-            var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            var val = args.SingleOrDefault(a => a.StartsWith("/" + name));
-            return null != val;
-        }
-
-        private static string GetHelpText()
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            const string HELP_TEXT = "Bespoke.Sph.Mangements.HelpText.md";
-
-            using (var stream = assembly.GetManifestResourceStream(HELP_TEXT))
-            using (var reader = new StreamReader(stream))
-            {
-                return reader.ReadToEnd();
-            }
-        }
     }
 }

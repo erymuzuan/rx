@@ -1,36 +1,53 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Console = Colorful.Console;
+using Bespoke.Sph.Extensions;
 
 namespace Bespoke.Sph.SourceBuilders
 {
-    public class Builder<T> where T : Entity
+    public abstract class Builder<T> where T : Entity
     {
-        public virtual Task RestoreAllAsync()
+        protected abstract Task<WorkflowCompilerResult> CompileAssetAsync(T item);
+
+        public virtual async Task RestoreAllAsync()
         {
-            return Task.FromResult(0);
+            this.Initialize();
+            var items = this.GetItems();
+            foreach (var asset in items)
+            {
+                await this.RestoreAsync(asset);
+            }
         }
 
-        public virtual Task RestoreAsync(T item)
+        public async Task<WorkflowCompilerResult> RestoreAsync(T item)
         {
-            Console.WriteLine($"Compiling {typeof(T).Namespace} : {item.Id} ......");
-            return Task.FromResult(0);
+            var logger = ObjectBuilder.GetObject<ILogger>();
+            logger.WriteInfo($"Compiling {typeof(T).Name} : {item.Id} ......");
+            var result = await CompileAssetAsync(item);
+
+            if (result.Errors.Any())
+                logger.WriteError($" ================ Compiling {typeof(T).Name}[{item.Id}] with {result.Errors.Count} errors , 1 failed ==================");
+            else
+                logger.WriteInfo($" ================ Compiling {typeof(T).Name}[{item.Id}] 0 errors , 1 succeeded ==================");
+            result.Errors.ForEach(x => logger.WriteError(x.ToString()));
+
+
+            return result;
         }
 
         public IEnumerable<T> GetItems()
         {
+            var context = new SphDataContext();
             var folder = Path.Combine(ConfigurationManager.SphSourceDirectory, typeof(T).Name);
 
             if (!Directory.Exists(folder))
                 return new List<T>();
 
-            var list = Directory.GetFiles(folder, "*.json").Select(f => f.DeserializeFromJsonFile<T>()).ToList();
-            //list.ForEach(x => ObjectBuilder.ComposeMefCatalog(x));
+            var list = context.LoadFromSources<T>().ToList();
+            list.ForEach(x => ObjectBuilder.ComposeMefCatalog(x));
             return list;
         }
 
@@ -51,15 +68,7 @@ namespace Bespoke.Sph.SourceBuilders
             }
         }
 
-        protected virtual void ReportBuildStatus(WorkflowCompilerResult result)
-        {
 
-
-            Console.WriteLine(result.Errors.Count > 0
-                ? $" ================ {result.Errors.Count} errors , 1 failed =================="
-                : " ================ 0 errors , 1 succeeded ==================", Color.Cyan);
-            result.Errors.ForEach(x => Console.WriteLine(x, Color.Red));
-        }
 
 
     }

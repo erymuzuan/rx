@@ -1,6 +1,6 @@
 {
   "$type": "Bespoke.Sph.Domain.QueryEndpoint, domain.sph",
-  "CodeNamespace": "Bespoke.DevV1.Api",
+  "ControllerName": "PatientPatientsDiedThisWeekQueryEndpoint",
   "FilterCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
     "$values": [
@@ -10,11 +10,11 @@
         "Operator": "Ge",
         "Field": {
           "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
-          "CodeNamespace": "ffffa16eea",
+          "CodeNamespace": "ffffe4ce7f",
           "Script": "DateTime.Today.AddDays(-7)",
           "Name": null,
           "Note": null,
-          "WebId": "ffa16eea3e"
+          "WebId": "ffe4ce7fce"
         },
         "WebId": null
       }
@@ -22,17 +22,6 @@
   },
   "SortCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
-    "$values": []
-  },
-  "Performer": {
-    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
-    "UserProperty": null,
-    "Value": null,
-    "IsPublic": false,
-    "WebId": null
-  },
-  "RouteParameterCollection": {
-    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
     "$values": []
   },
   "MemberCollection": {
@@ -46,7 +35,7 @@
   "Entity": "Patient",
   "Note": null,
   "IsPublished": false,
-  "Resource": "Patients",
+  "Resource": "patients",
   "CacheFilter": null,
   "CreatedBy": null,
   "Id": "patients-died-this-week",

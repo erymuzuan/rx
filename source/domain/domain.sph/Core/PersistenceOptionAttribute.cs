@@ -10,6 +10,7 @@ namespace Bespoke.Sph.Domain
         public bool IsElasticsearch { get; set; }
         public bool IsSqlDatabase { get; set; }
         public virtual bool IsSource { get; set; }
+        public virtual bool EnableAuditing { get; set; }
         /// <summary>
         /// JsonSerializer must use TypeNameHandling.All, thus the object with derived types as it's aggregates might not be deserialize correctly using StreamRead
         /// </summary>
@@ -25,8 +26,7 @@ namespace Bespoke.Sph.Domain
 
         public static PersistenceOptionAttribute GetAttribute(Type type)
         {
-            PersistenceOptionAttribute options;
-            if (m_store.TryGetValue(type, out options))
+            if (m_store.TryGetValue(type, out var options))
                 return options;
             
             options = type.GetCustomAttribute<PersistenceOptionAttribute>();
@@ -37,7 +37,7 @@ namespace Bespoke.Sph.Domain
             }
 
             // the default
-            var defaultOption = new PersistenceOptionAttribute { IsSqlDatabase = true, IsElasticsearch = true, IsSource = false };
+            var defaultOption = new PersistenceOptionAttribute { IsSqlDatabase = true, IsElasticsearch = true, IsSource = false , EnableAuditing = false};
             m_store.TryAdd(type, defaultOption);
 
             return defaultOption;

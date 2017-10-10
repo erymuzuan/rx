@@ -7,9 +7,8 @@ namespace Bespoke.Sph.SourceBuilders
 {
     internal class DesignationBuilder : Builder<Designation>
     {
-        public override async Task RestoreAsync(Designation item)
+        protected override async Task<WorkflowCompilerResult> CompileAssetAsync(Designation item)
         {
-
             var starts = from r in item.RoleCollection.Distinct()
                          select new ProcessStartInfo
                          {
@@ -45,6 +44,8 @@ namespace Bespoke.Sph.SourceBuilders
 
             }
 
+            return new WorkflowCompilerResult { Result = true };
         }
+
     }
 }

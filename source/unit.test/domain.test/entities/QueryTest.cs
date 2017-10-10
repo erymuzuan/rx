@@ -19,21 +19,22 @@ namespace domain.test.entities
     [Collection("Endpoint")]
     public class QueryTest
     {
-        private readonly ITestOutputHelper m_testOutput;
-        private readonly MockPersistence m_persistence = new MockPersistence();
+        private readonly ITestOutputHelper m_console;
+        private readonly MockPersistence m_persistence ;
 
-        public QueryTest(ITestOutputHelper testOutput)
+        public QueryTest(ITestOutputHelper console)
         {
-            m_testOutput = testOutput;
+            m_console = console;
+            m_persistence = new MockPersistence(console);
             var efMock = new MockRepository<EntityDefinition>();
             efMock.AddToDictionary("", GetFromEmbeddedResource<EntityDefinition>("Patient"));
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
             ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(efMock);
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
-            ObjectBuilder.AddCacheList<IEntityChangePublisher>(new MockChangePublisher());
+            ObjectBuilder.AddCacheList<IEntityChangePublisher>(new MockChangePublisher(console));
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
             ObjectBuilder.AddCacheList<IPersistence>(m_persistence);
-            m_testOutput.WriteLine("Init..");
+            m_console.WriteLine("Init..");
         }
 
         [Fact]
@@ -46,7 +47,7 @@ namespace domain.test.entities
             var sources = query.GenerateCode(patient);
             var result = query.Compile(options, sources);
 
-            m_testOutput.WriteLine(result.ToString());
+            m_console.WriteLine(result.ToString());
 
             Assert.True(result.Result, result.ToString());
         }
@@ -80,7 +81,7 @@ namespace domain.test.entities
         }
 
         [Theory]
-        [MemberData("Filters")]
+        [MemberData(nameof(Filters))]
         public void Compile(EntityDefinition ed, QueryEndpoint query, Filter[] filters)
         {
             query.FilterCollection.AddRange(filters);
@@ -91,7 +92,7 @@ namespace domain.test.entities
 
             Assert.True(result.Result, result.ToString());
 
-            var output = $"{query.AssemblyName}".Replace(".dll","");
+            var output = $"{query.AssemblyName}".Replace(".dll", "");
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.dll", $"{ConfigurationManager.WebPath}\\bin\\{output}.dll", true);
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.pdb", $"{ConfigurationManager.WebPath}\\bin\\{output}.pdb", true);
 
@@ -120,7 +121,7 @@ namespace domain.test.entities
 
             Assert.True(result.Result, result.ToString());
 
-            var output = $"{query.AssemblyName}".Replace(".dll","");
+            var output = $"{query.AssemblyName}".Replace(".dll", "");
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.dll", $"{ConfigurationManager.WebPath}\\bin\\{output}.dll", true);
             File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.pdb", $"{ConfigurationManager.WebPath}\\bin\\{output}.pdb", true);
 
@@ -310,9 +311,9 @@ namespace domain.test.entities
                 CacheFilter = 300
             };
 
-            var mrnParameter = new RouteParameterField { Name = "mrn" };
-            var start = new RouteParameterField { Name = "start", IsOptional = true, DefaultValue = "2016-01-01" };
-            var end = new RouteParameterField { Name = "end",IsOptional = true, DefaultValue = "2017-01-01" };
+            var mrnParameter = new RouteParameterField { Name = "mrn", Type = typeof(string) };
+            var start = new RouteParameterField { Name = "start", Type = typeof(DateTime), IsOptional = true, DefaultValue = "2016-01-01" };
+            var end = new RouteParameterField { Name = "end", Type = typeof(DateTime), IsOptional = true, DefaultValue = "2017-01-01" };
             query.FilterCollection.Add(new Filter
             {
                 Field = mrnParameter,

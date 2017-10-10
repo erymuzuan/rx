@@ -49,6 +49,25 @@ namespace Bespoke.Sph.SqlRepository
             }
 
         }
+        public static T GetDatabaseScalarValue<T>(this SqlConnection conn, string sql, params SqlParameter[] parameters)
+        {
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                if (conn.State != ConnectionState.Open)
+                    conn.Open();
+
+                if (parameters.Any())
+                    cmd.Parameters.AddRange(parameters);
+                var result = cmd.ExecuteScalar();
+
+                if (result is DBNull)
+                    return default(T);
+
+
+                return (T)result;
+            }
+
+        }
 
         public static T? GetNullableScalarValue<T>(string sql, string connectionStringName, params SqlParameter[] parameters) where T : struct
         {
@@ -73,13 +92,14 @@ namespace Bespoke.Sph.SqlRepository
             }
         }
 
-        public static async Task<T?> GetNullableScalarValueAsync<T>(string sql, string connectionStringName, params SqlParameter[] parameters) where T : struct
+        public static async Task<T?> GetNullableScalarValueAsync<T>(this string sql, string connectionStringName, params SqlParameter[] parameters) where T : struct
         {
 
             var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
+
                 if (parameters.Any())
                     cmd.Parameters.AddRange(parameters);
 
@@ -95,6 +115,51 @@ namespace Bespoke.Sph.SqlRepository
                 return (T)result;
             }
 
+        }
+        public static async Task<T?> GetNullableScalarValueAsync<T>(this SqlConnection conn, string sql, params SqlParameter[] parameters) where T : struct
+        {
+
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                if (parameters.Any()) cmd.Parameters.AddRange(parameters);
+
+                if (conn.State != ConnectionState.Open)
+                    await conn.OpenAsync();
+
+                var result = await cmd.ExecuteScalarAsync();
+
+                if (DBNull.Value == result || null == result)
+                    return new T?();
+
+
+                return (T)result;
+            }
+
+        }
+        public static async Task<object> GetScalarValueAsync(this SqlConnection conn, string sql, params SqlParameter[] parameters) 
+        {
+
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                if (parameters.Any()) cmd.Parameters.AddRange(parameters);
+
+                if (conn.State != ConnectionState.Open)
+                    await conn.OpenAsync();
+
+                var result = await cmd.ExecuteScalarAsync();
+
+                if (DBNull.Value == result || null == result)
+                    return null;
+
+
+                return result;
+            }
+
+        }
+        public static async Task<T> GetScalarValueAsync<T>(this SqlConnection conn, string sql, params SqlParameter[] parameters) where T : struct
+        {
+            var val = await conn.GetNullableScalarValueAsync<T>(sql, parameters);
+            return val ?? default(T);
         }
 
 

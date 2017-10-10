@@ -17,13 +17,8 @@ namespace Bespoke.Sph.Domain
             throw new Exception("NotImplemented");
         }
         [JsonIgnore]
-        public virtual bool UseAsync
-        {
-            get
-            {
-                throw new Exception("NotImplemented");
-            }
-        }
+        public virtual bool UseAsync => throw new Exception("NotImplemented");
+
         [JsonIgnore]
         public virtual bool UseCode => false;
 

@@ -1,0 +1,10 @@
+﻿<vm:MigrationScriptViewModel
+    
+    xmlns:vm="clr-namespace:Bespoke.Sph.Mangements.ViewModels"
+    xmlns:domain="clr-namespace:Bespoke.Sph.Domain;assembly=domain.sph"
+    xmlns:models="clr-namespace:Bespoke.Sph.Mangements.Models"
+   >
+   <vm:MigrationScriptViewModel.PlanCollection>
+     
+   </vm:MigrationScriptViewModel.PlanCollection>
+</vm:MigrationScriptViewModel>

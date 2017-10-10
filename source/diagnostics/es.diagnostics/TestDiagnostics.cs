@@ -6,7 +6,7 @@ using Bespoke.Sph.Domain.diagnostics;
 
 namespace es.diagnostics
 {
-    [Export(typeof(IBuildDiagnostics))]
+    /*[Export(typeof(IBuildDiagnostics))]*/
     public sealed class TestDiagnostics : BuilDiagnostic
     {
 

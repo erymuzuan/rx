@@ -212,6 +212,21 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_delayProcessedOnAcceptedEmailTemplate;
+        public const string PropertyNameDelayProcessedOnAcceptedEmailTemplate = "DelayProcessedOnAcceptedEmailTemplate";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_delayProcessedOnPersistedEmailTemplate;
+        public const string PropertyNameDelayProcessedOnPersistedEmailTemplate = "DelayProcessedOnPersistedEmailTemplate";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_entity;
+        public const string PropertyNameEntity = "Entity";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int? m_instancesCount;
         public const string PropertyNameInstancesCount = "InstancesCount";
 
@@ -238,6 +253,30 @@ namespace Bespoke.Sph.Domain
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int? m_minInstances;
         public const string PropertyNameMinInstances = "MinInstances";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_shouldProcessedIn;
+        public const string PropertyNameShouldProcessedIn = "ShouldProcessedIn";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_shouldProcessedOnceAccepted;
+        public const string PropertyNameShouldProcessedOnceAccepted = "ShouldProcessedOnceAccepted";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_shouldProcessedOncePersisted;
+        public const string PropertyNameShouldProcessedOncePersisted = "ShouldProcessedOncePersisted";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool? m_trackingEnabled;
+        public const string PropertyNameTrackingEnabled = "TrackingEnabled";
 
 
 
@@ -341,6 +380,81 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_typeName;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string DelayProcessedOnAcceptedEmailTemplate
+        {
+            set
+            {
+                if (String.Equals(m_delayProcessedOnAcceptedEmailTemplate, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDelayProcessedOnAcceptedEmailTemplate, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_delayProcessedOnAcceptedEmailTemplate = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_delayProcessedOnAcceptedEmailTemplate;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string DelayProcessedOnPersistedEmailTemplate
+        {
+            set
+            {
+                if (String.Equals(m_delayProcessedOnPersistedEmailTemplate, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDelayProcessedOnPersistedEmailTemplate, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_delayProcessedOnPersistedEmailTemplate = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_delayProcessedOnPersistedEmailTemplate;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string Entity
+        {
+            set
+            {
+                if (String.Equals(m_entity, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEntity, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_entity = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_entity;
             }
         }
 
@@ -453,6 +567,94 @@ namespace Bespoke.Sph.Domain
                 }
             }
             get { return m_minInstances; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? ShouldProcessedIn
+        {
+            set
+            {
+                if (m_shouldProcessedIn == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameShouldProcessedIn, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_shouldProcessedIn = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_shouldProcessedIn; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? ShouldProcessedOnceAccepted
+        {
+            set
+            {
+                if (m_shouldProcessedOnceAccepted == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameShouldProcessedOnceAccepted, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_shouldProcessedOnceAccepted = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_shouldProcessedOnceAccepted; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? ShouldProcessedOncePersisted
+        {
+            set
+            {
+                if (m_shouldProcessedOncePersisted == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameShouldProcessedOncePersisted, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_shouldProcessedOncePersisted = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_shouldProcessedOncePersisted; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public bool? TrackingEnabled
+        {
+            set
+            {
+                if (m_trackingEnabled == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTrackingEnabled, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_trackingEnabled = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_trackingEnabled; }
         }
 
 
