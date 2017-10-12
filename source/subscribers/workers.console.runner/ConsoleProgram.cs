@@ -45,10 +45,24 @@ namespace workers.console.runner
             sw.Start();
             Console.WriteLine("Stopwatch started");
 
-            ILogger log = new ConsoleLogger {TraceSwitch = Severity.Debug};
-            if (ParseArg("log") != "console")
+            var log = new Logger();
+            if (ParseArg("log") == "console")
             {
-                log = new EventLogNotification();
+                log.Loggers.Add(new ConsoleLogger {TraceSwitch = Severity.Debug});
+            }
+            else
+            {
+                log.Loggers.Add(new EventLogNotification {TraceSwitch = Severity.Info});
+            }
+            var fileOut = ParseArg("out");
+            var fileOutSize = ParseArg("outSize") ?? "100KB";
+            var fileTraceSwitch = ParseArg("outSwitch") ?? "Debug";
+            if (!string.IsNullOrWhiteSpace(fileOut))
+            {
+                log.Loggers.Add(new FileLogger(fileOut, FileLogger.Interval.Day, fileOutSize)
+                {
+                    TraceSwitch = (Severity) (Enum.Parse(typeof(Severity), fileTraceSwitch, true))
+                });
             }
 
 
