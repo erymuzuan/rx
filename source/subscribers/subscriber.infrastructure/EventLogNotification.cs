@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using EventLog = System.Diagnostics.EventLog;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {
     [Serializable]
-    public class EventLogNotification : INotificationService
+    public class EventLogNotification : ILogger
     {
         public static string Source = "Rx" + ConfigurationManager.ApplicationName;
         public const string LOG = "Application";
+        public Severity TraceSwitch { get; set; } = Severity.Info;
 
         public EventLogNotification()
         {
@@ -19,30 +21,20 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
         }
 
-        public void Write(string format, params object[] args)
+
+        public Task LogAsync(LogEntry entry)
         {
-            var message = string.Format(format, args);
-            var eLog = new EventLog { Source = Source };
-            eLog.WriteEntry(message, EventLogEntryType.Information);
+            if ((int) entry.Severity >= (int) TraceSwitch)
+                Log(entry);
+            return Task.FromResult(0);
         }
 
-        public void WriteWarning(string message)
+        public void Log(LogEntry entry)
         {
-            var eLog = new EventLog { Source = Source };
-            eLog.WriteEntry(message, EventLogEntryType.Warning);
-        }
-
-        public void WriteError(string format, params object[] args)
-        {
-            var message = string.Format(format, args);
-            var eLog = new EventLog { Source = Source };
+            if ((int) entry.Severity < (int) TraceSwitch) return;
+            var message = entry.ToString();
+            var eLog = new EventLog {Source = Source};
             eLog.WriteEntry(message, EventLogEntryType.Error);
-        }
-
-        public void WriteError(Exception exception, string message2)
-        {
-            var message = new LogEntry(exception) { Message = message2 };
-            this.WriteError(message.Details);
         }
     }
 }

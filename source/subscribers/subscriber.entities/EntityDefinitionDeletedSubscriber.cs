@@ -30,7 +30,7 @@ namespace subscriber.entities
             var sourceDirectory = ConfigurationManager.SphSourceDirectory;
             var web = ConfigurationManager.WebPath;
 
-            Action<string> delete = file =>
+            void Delete(string file)
             {
                 try
                 {
@@ -40,14 +40,14 @@ namespace subscriber.entities
                 }
                 catch (IOException e)
                 {
-                    this.WriteMessage("Failed to delete " + file + "\r\n" + e.Message);
+                    this.WriteMessage($"Failed to delete {file}\r\n{e.Message}");
                 }
-            };
+            }
 
-            delete(Path.Combine($"{sourceDirectory}\\EntityDefinition\\{item.Id}.json"));
-            delete(Path.Combine($"{sourceDirectory}\\EntityDefinition\\{item.Id}.mapping"));
-            delete(Path.Combine($"{web}\\SphApp\\viewmodels\\{item.Name}.js"));
-            delete(Path.Combine($"{web}\\SphApp\\views\\{item.Name}.html"));
+            Delete(Path.Combine($"{sourceDirectory}\\EntityDefinition\\{item.Id}.json"));
+            Delete(Path.Combine($"{sourceDirectory}\\EntityDefinition\\{item.Id}.mapping"));
+            Delete(Path.Combine($"{web}\\SphApp\\viewmodels\\{item.Name}.js"));
+            Delete(Path.Combine($"{web}\\SphApp\\views\\{item.Name}.html"));
 
             //TODO: the forms, views and triggers - these should include all the views.html and viewmodels.js and partialjs for Form and View
 
@@ -86,13 +86,13 @@ namespace subscriber.entities
                 }
                 try
                 {
-                    this.WriteMessage("Deleting " + dll);
+                    this.WriteMessage($"Deleting {dll}");
                     if (File.Exists(dllFile))
                         File.Delete(dllFile);
                 }
                 catch (IOException e)
                 {
-                    this.WriteMessage("Failed to delete " + pdb + "\r\n" + e.Message);
+                    this.WriteMessage($"Failed to delete {pdb}\r\n{e.Message}");
                 }
             };
 
@@ -112,11 +112,11 @@ namespace subscriber.entities
                 try
                 {
                     var response = await client.DeleteAsync(url);
-                    this.WriteMessage("Success ", response.StatusCode);
+                    this.WriteMessage("Success "+ response.StatusCode);
                 }
                 catch (HttpRequestException e)
                 {
-                    this.WriteMessage("Error in deleting ElasticSearch mapping for {0}", item.Name);
+                    this.WriteMessage($"Error in deleting ElasticSearch mapping for {item.Name}");
                     this.WriteError(e);
                     throw;
                 }
@@ -140,9 +140,7 @@ namespace subscriber.entities
             }
 
             var existingTablesSql =
-                string.Format(
-                    "SELECT [TABLE_NAME] FROM [INFORMATION_SCHEMA].[TABLES] WHERE [TABLE_SCHEMA] = '{0}'  AND  [TABLE_NAME] LIKE '{1}_%'",
-                    applicationName, item.Name);
+                $"SELECT [TABLE_NAME] FROM [INFORMATION_SCHEMA].[TABLES] WHERE [TABLE_SCHEMA] = '{applicationName}'  AND  [TABLE_NAME] LIKE '{item.Name}_%'";
             var tables = new List<string>();
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(existingTablesSql, conn))
@@ -162,7 +160,7 @@ namespace subscriber.entities
             {
                 foreach (var table in tables)
                 {
-                    var cmdText = string.Format("DROP TABLE [{0}].[{1}]", applicationName, table);
+                    var cmdText = $"DROP TABLE [{applicationName}].[{table}]";
                     using (var cmd = new SqlCommand(cmdText,conn))
                     {
                         if (conn.State != ConnectionState.Open) await conn.OpenAsync();

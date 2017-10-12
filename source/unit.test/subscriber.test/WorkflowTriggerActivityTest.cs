@@ -3,27 +3,19 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.WorkflowTriggerSubscriptions;
 using Humanizer;
-using Moq;
 using Xunit;
 
 namespace subscriber.test
 {
     public class WorkflowTriggerActivityTest
     {
-        private readonly Mock<Bespoke.Sph.SubscribersInfrastructure.INotificationService> m_console;
 
-        public WorkflowTriggerActivityTest()
-        {
-            m_console = new Mock<Bespoke.Sph.SubscribersInfrastructure.INotificationService>(MockBehavior.Strict);
-            m_console.Setup(x => x.Write(It.IsAny<string>(), It.IsAny<object[]>()))
-                .Callback((string format, object[] f) => Console.WriteLine(format, f));
-        }
         [Fact]
         public async Task WeeklyTriggerTest()
         {
             var sub = new WorkflowSchedulerTriggerSubscriber(@"d:\project\tools\n.exe")
             {
-                NotificicationService = m_console.Object
+                NotificicationService = new ConsoleLogger{TraceSwitch = Severity.Debug}
             };
             var wd = new WorkflowDefinition
             {
@@ -57,7 +49,7 @@ namespace subscriber.test
         {
             var sub = new WorkflowSchedulerTriggerSubscriber(@"d:\project\tools\n.exe")
             {
-                NotificicationService = m_console.Object
+                NotificicationService = new ConsoleLogger{TraceSwitch = Severity.Debug}
             };
 
             var wd = new WorkflowDefinition
@@ -94,7 +86,7 @@ namespace subscriber.test
         {
             var sub = new WorkflowSchedulerTriggerSubscriber(@"d:\project\tools\n.exe")
             {
-                NotificicationService = m_console.Object
+                NotificicationService = new ConsoleLogger{TraceSwitch = Severity.Debug}
             };
             var wd = new WorkflowDefinition
             {

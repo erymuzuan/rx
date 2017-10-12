@@ -3,15 +3,15 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using SuperSocket.WebSocket;
-using INotificationService = Bespoke.Sph.SubscribersInfrastructure.INotificationService;
 
 namespace Bespoke.Sph.Messaging
 {
-    class WebSocketNotificationService : INotificationService
+    class WebSocketNotificationService : ILogger
     {
         private static WebSocketNotificationService m_instance;
         private static readonly object m_lock = new object();
@@ -100,6 +100,8 @@ namespace Bespoke.Sph.Messaging
             m_appServer.Dispose();
             return true;
         }
+        
+        
         private static string GetJsonContent(LogEntry entry)
         {
             entry.Time = DateTime.Now;
@@ -111,46 +113,9 @@ namespace Bespoke.Sph.Messaging
             var json = JsonConvert.SerializeObject(entry, setting);
             return json;
         }
-
-        public void WriteRaw(string message)
-        {
-            SendMessage(message);
-        }
-        public void WriteInfo(string message)
-        {
-            ConsoleOut(message, ConsoleColor.Cyan, Severity.Info);
-            var log = new LogEntry { Message = message, Severity = Severity.Info, Time = DateTime.Now };
-            SendMessage(log);
-        }
-
-        private static void ConsoleOut(string message, ConsoleColor color = ConsoleColor.Gray, Severity severity = Severity.Verbose)
-        {
-            try
-            {
-                Console.ForegroundColor = color;
-                Console.WriteLine($@"{severity} : {message}");
-            }
-            finally
-            {
-                Console.ResetColor();
-            }
-        }
-
-        public void WriteVerbose(string message)
-        {
-            ConsoleOut(message);
-
-            var log = new LogEntry { Message = message, Severity = Severity.Verbose, Time = DateTime.Now };
-            SendMessage(log);
-        }
-        public void WriteWarning(string message)
-        {
-            ConsoleOut(message, ConsoleColor.Yellow, Severity.Warning);
-            var log = new LogEntry { Message = message, Severity = Severity.Warning, Time = DateTime.Now };
-            var json = GetJsonContent(log);
-            SendMessage(json);
-        }
-
+ 
+    
+    
         private void SendMessage(LogEntry log)
         {
             var json = GetJsonContent(log);
@@ -172,38 +137,17 @@ namespace Bespoke.Sph.Messaging
             });
         }
 
-        public void Write(string format, params object[] args)
+     
+       
+        public Task LogAsync(LogEntry entry)
         {
-            ConsoleOut($"{string.Format(format, args)}", ConsoleColor.Cyan, Severity.Info);
-
-            var message = string.Format(format, args);
-            var log = new LogEntry { Message = message, Severity = Severity.Info, Time = DateTime.Now };
-            var json = GetJsonContent(log);
-            SendMessage(json);
+            SendMessage(entry);
+            return Task.FromResult(0);
         }
 
-        public void WriteError(string format, params object[] args)
+        public void Log(LogEntry entry)
         {
-            ConsoleOut(string.Format(format, args), ConsoleColor.Red, Severity.Error);
-
-            var message = string.Format(format, args);
-            var log = new LogEntry { Message = message, Severity = Severity.Error, Time = DateTime.Now };
-            SendMessage(log);
-        }
-
-        public void WriteError(Exception e, string message)
-        {
-            WriteError(message);
-            var log = new LogEntry(e);
-            ConsoleOut(log.Details, ConsoleColor.Red, Severity.Error);
-            SendMessage(log);
-
-        }
-
-        void INotificationService.WriteWarning(string message)
-        {
-            var log = new LogEntry { Message = message, Severity = Severity.Warning, Time = DateTime.Now };
-            SendMessage(log);
+            SendMessage(entry);
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Extensions;
 using Bespoke.Sph.SubscribersInfrastructure;
 using RabbitMQ.Client.Framing;
 
@@ -119,16 +120,13 @@ namespace Bespoke.Sph.Messaging
 
             foreach (var g in m_subscriptions)
             {
-                if (g.Value.Any(s => possibleTopics.Contains(s)))
-                {
-                    var instance = (Subscriber)m_subscribers[g.Key];
-                    Invoke(instance, item, crud, operation, log, headers);
-
-                }
+                if (!g.Value.Any(s => possibleTopics.Contains(s))) continue;
+                
+                var instance = (Subscriber)m_subscribers[g.Key];
+                Invoke(instance, item, crud, operation, log, headers);
             }
 
-            object listener;
-            if (m_listeners.TryGetValue(item.GetEntityType(), out listener))
+            if (m_listeners.TryGetValue(item.GetEntityType(), out var listener))
             {
                 dynamic broadcast = listener;
                 try
@@ -147,8 +145,7 @@ namespace Bespoke.Sph.Messaging
         }
         internal void RemoveListener<T>(ChangeListener<T> listener) where T : Entity
         {
-            object list;
-            m_listeners.TryRemove(typeof(T), out list);
+            m_listeners.TryRemove(typeof(T), out _);
         }
 
         private void Invoke(object sub, Entity item, string crud, string operation, AuditTrail log = null, IDictionary<string, object> headers = null)

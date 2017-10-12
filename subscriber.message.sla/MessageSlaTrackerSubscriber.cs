@@ -62,7 +62,7 @@ namespace Bespoke.Sph.MessageTrackerSla
 
         protected override void OnStop()
         {
-            this.WriteMessage("!!Stoping : {0}", this.QueueName);
+            this.WriteMessage($"!!Stoping : {QueueName}");
 
             m_consumer.Received -= Received;
             m_stoppingTcs?.SetResult(true);
@@ -80,7 +80,7 @@ namespace Bespoke.Sph.MessageTrackerSla
                 m_channel = null;
             }
 
-            this.WriteMessage("!!Stopped : {0}", this.QueueName);
+            this.WriteMessage($"!!Stopped : {QueueName}");
         }
 
         private IModel m_channel;

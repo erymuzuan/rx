@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Linq;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Extensions;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {
@@ -19,11 +20,12 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     return ConfigurationManager.SubscriberPath;
                 return m_path;
             }
-            set { m_path = value; }
+            set => m_path = value;
         }
 
         public SubscriberMetadata[] Find()
         {
+            var logger = ObjectBuilder.GetObject<ILogger>();
             try
             {
                 var subscribers = new List<SubscriberMetadata>();
@@ -38,15 +40,14 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
             catch (FileNotFoundException e)
             {
-                Console.WriteLine("*-*-*-*-*--");
-                Console.WriteLine(e.FileName);
-                Console.WriteLine("*-*-*-*-*--");
+                logger.WriteError(e, $"Cannot find file {e.FileName} when running Find in Discoverer");
             }
             return new SubscriberMetadata[] { };
         }
 
         private static IEnumerable<SubscriberMetadata> FindSubscriber(string dll)
         {
+            var logger = ObjectBuilder.GetObject<ILogger>();
             try
             {
                 if (string.IsNullOrWhiteSpace(dll)) return new SubscriberMetadata[] { };
@@ -56,62 +57,52 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 if (!fileName.StartsWith("subscriber")) return new SubscriberMetadata[] { };
 
                 var fullFilePath = Path.Combine(ConfigurationManager.SubscriberPath, fileName);
-                Console.WriteLine("Loading : {0}", fullFilePath);
+                logger.WriteDebug($"Loading : {fullFilePath}");
+                
                 AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += CurrentDomainReflectionOnlyAssemblyResolve;
                 var assembly = Assembly.ReflectionOnlyLoadFrom(dll);
 
                 return (from t in assembly.GetTypes()
-                        where t.IsMarshalByRef &&
-                        !t.IsAbstract &&
-                        t.FullName.EndsWith("Subscriber")
-                        //let instance = (Subscriber)Activator.CreateInstance(t)
+                        where t.FullName != null && (t.IsMarshalByRef &&
+                                                     !t.IsAbstract &&
+                                                     t.FullName.EndsWith("Subscriber"))
                         select new SubscriberMetadata
                         {
                             Assembly = fullFilePath,
                             FullName = t.FullName,
                             Name = Path.GetFileNameWithoutExtension(dll),
-                            QueueName =  "TODO"
+                            QueueName = "TODO"
                         })
                     .ToArray();
-
             }
             catch (FileNotFoundException e)
             {
-
-                Console.WriteLine("=================");
-                Console.WriteLine(e.FileName);
-                Console.WriteLine("****************");
+                logger.WriteError(e, $"Fail to find {e.FileName}");
                 throw;
             }
             catch (ReflectionTypeLoadException e)
             {
-                Console.WriteLine("=================");
-                Console.WriteLine(e);
-                foreach (var loaderException in e.LoaderExceptions)
-                {
-                    if (null != e.InnerException)
-                        Console.WriteLine(e.InnerException);
-                    Console.WriteLine(loaderException);
-                }
-                Console.WriteLine("****************");
+                logger.WriteError(e, $"Fail to Relfect on {e.Message}");
                 throw;
             }
-
         }
 
         static Assembly CurrentDomainReflectionOnlyAssemblyResolve(object sender, ResolveEventArgs e)
         {
+            var logger = ObjectBuilder.GetObject<ILogger>();
+
             if (!e.Name.StartsWith(ConfigurationManager.ApplicationName)) return Assembly.ReflectionOnlyLoad(e.Name);
-            Console.WriteLine("Fail to load {0}", e.RequestingAssembly.Location);
-            var dll = Path.Combine(ConfigurationManager.CompilerOutputPath, e.Name.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).First() + ".dll");
-            Console.WriteLine("Cannot find {0}, now loading from {1}", e.Name, dll);
+            logger.WriteWarning($"Fail to load {e.RequestingAssembly.Location}");
+
+            var dll = Path.Combine(ConfigurationManager.CompilerOutputPath,
+                e.Name.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries).First() + ".dll");
+            logger.WriteWarning($"Cannot find {e.Name}, now loading from {dll}");
             return Assembly.ReflectionOnlyLoad(File.ReadAllBytes(dll));
         }
 
 
         public void Dispose()
         {
-
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Bespoke.Sph.Domain;
@@ -28,7 +27,7 @@ namespace Bespoke.Sph.CustomTriggers
                 return;
             }
 
-            this.WriteMessage("Restarting the subscriber, changed detected to {0}", item);
+            this.WriteMessage($"Restarting the subscriber, changed detected to {item}");
             var result = await item.CompileAsync();
             if (!result.Result)
             {
@@ -48,7 +47,7 @@ namespace Bespoke.Sph.CustomTriggers
             };
             using (var client = new HttpClient(handler) { BaseAddress = new Uri(url) })
             {
-                this.WriteMessage("Deleting the queue for trigger : " + trigger.Name);
+                this.WriteMessage($"Deleting the queue for trigger : {trigger.Name}");
                 var response = await client.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/trigger_subs_{trigger.Id}");
                 if (response.StatusCode != HttpStatusCode.NoContent)
                 {

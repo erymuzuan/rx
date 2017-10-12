@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -63,13 +64,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\extensions\LoggerExtensions.cs">
+      <Link>LoggerExtensions.cs</Link>
+    </Compile>
     <Compile Include="ActiveDirectory.cs" />
-    <Compile Include="ConsoleNotification.cs" />
     <Compile Include="CrudOperation.cs" />
     <Compile Include="Discoverer.cs" />
     <Compile Include="EventLogNotification.cs" />
-    <Compile Include="FileLog.cs" />
-    <Compile Include="INotificationService.cs" />
     <Compile Include="Isolated.cs" />
     <Compile Include="MessageHeaders.cs" />
     <Compile Include="ProcessTimeOutException.cs" />

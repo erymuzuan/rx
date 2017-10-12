@@ -18,7 +18,7 @@ namespace Bespoke.Sph.WathersSubscribers
 
         protected override Task ProcessMessage(Watcher item, MessageHeaders header)
         {
-            this.WriteMessage("A watcher has been {0} : \r\n{1}", header.Crud, item);
+            this.WriteMessage($"A watcher has been {header.Crud} : \r\n{item}");
             if (header.Crud == CrudOperation.Added)
             {
                 m_watchers.Add(item);
@@ -158,7 +158,7 @@ namespace Bespoke.Sph.WathersSubscribers
 
             this.WriteMessage("Changed to " + e);
 
-            this.WriteMessage("There {0} watchers", watchers.Count);
+            this.WriteMessage($"There { watchers.Count} watchers");
             var sendMessageTasks = from w in watchers
                                    select (Task)this.SendMessage(w, e.Item, e.AuditTrail);
             await Task.WhenAll(sendMessageTasks);

@@ -7,6 +7,7 @@ using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Extensions;
 using Humanizer;
 using RabbitMQ.Client;
 using EventLog = Bespoke.Sph.Domain.EventLog;
@@ -25,7 +26,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             sw.Start();
             try
             {
-                this.WriteMessage("Starting {0}....", this.GetType().Name);
+                this.WriteMessage($"Starting {this.GetType().Name}....");
                 RegisterServices();
                 m_stoppingTcs = new TaskCompletionSource<bool>();
                 this.StartConsume(connection);
@@ -40,14 +41,13 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         protected override void OnStop()
         {
-            this.WriteMessage("!!Stoping : {0}", this.QueueName);
+            this.WriteMessage($"!!Stoping : {this.QueueName}");
 
             m_consumer.Received -= Received;
             m_stoppingTcs?.SetResult(true);
 
             while (m_processing > 0)
             {
-
             }
 
 
@@ -58,17 +58,19 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 m_channel = null;
             }
 
-            this.WriteMessage("!!Stopped : {0}", this.QueueName);
+            this.WriteMessage("Stopped : {0}" + this.QueueName);
         }
 
         protected void BasicReject(ulong tag, bool requeue = false)
         {
             m_channel.BasicReject(tag, requeue);
         }
+
         protected void BasicAck(ulong tag, bool multiple = false)
         {
             m_channel.BasicAck(tag, multiple);
         }
+
         protected void BasicNack(ulong tag, bool multiple = false, bool requeue = false)
         {
             m_channel.BasicNack(tag, multiple, requeue);
@@ -91,7 +93,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
             m_channel.ExchangeDeclare(EXCHANGE_NAME, ExchangeType.Topic, true);
             m_channel.ExchangeDeclare(DEAD_LETTER_EXCHANGE, ExchangeType.Topic, true);
-            var args = new Dictionary<string, object> { { "x-dead-letter-exchange", DEAD_LETTER_EXCHANGE } };
+            var args = new Dictionary<string, object> {{"x-dead-letter-exchange", DEAD_LETTER_EXCHANGE}};
             m_channel.QueueDeclare(this.QueueName, true, false, false, args);
 
             m_channel.QueueDeclare(DEAD_LETTER_QUEUE, true, false, false, args);
@@ -120,9 +122,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             m_consumer = new TaskBasicConsumer(m_channel);
             m_consumer.Received += Received;
             m_channel.BasicConsume(this.QueueName, NO_ACK, m_consumer);
-
         }
-
 
 
         private async void Received(object sender, ReceivedMessageArgs e)
@@ -144,36 +144,42 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
                 var sw = new Stopwatch();
                 sw.Start();
-                trackingTasks.Add(tracker.RegisterStartProcessingAsync(new MessageTrackingEvent(item, header.MessageId, e.RoutingKey, this.QueueName)));
+                trackingTasks.Add(tracker.RegisterStartProcessingAsync(
+                    new MessageTrackingEvent(item, header.MessageId, e.RoutingKey, this.QueueName)));
                 var cancelled = await cancelledMessageRepository.CheckMessageAsync(header.MessageId, this.QueueName);
                 if (!cancelled)
                 {
                     await ProcessMessage(item, header);
                     m_channel.BasicAck(e.DeliveryTag, false);
-                    
-                    var completedEvent = new MessageTrackingEvent(item, header.MessageId, e.RoutingKey, this.QueueName){ ProcessingTimeSpan = sw.Elapsed };
+
+                    var completedEvent =
+                        new MessageTrackingEvent(item, header.MessageId, e.RoutingKey, this.QueueName)
+                        {
+                            ProcessingTimeSpan = sw.Elapsed
+                        };
                     var completed = tracker.RegisterCompletedAsync(completedEvent);
                     trackingTasks.Add(completed);
                 }
                 else
                 {
                     m_channel.BasicAck(e.DeliveryTag, false);
-                    trackingTasks.Add(tracker.RegisterCancelledAsync(new MessageTrackingEvent(item, header.MessageId, e.RoutingKey, this.QueueName)));
+                    trackingTasks.Add(tracker.RegisterCancelledAsync(
+                        new MessageTrackingEvent(item, header.MessageId, e.RoutingKey, this.QueueName)));
                     trackingTasks.Add(cancelledMessageRepository.RemoveAsync(header.MessageId, this.QueueName));
                 }
 
                 sw.Stop();
-
             }
             catch (Exception exc)
             {
                 m_channel.BasicReject(e.DeliveryTag, false);
 
-                trackingTasks.Add(tracker.RegisterDlqedAsync(new MessageTrackingEvent(json.DeserializeFromJson<T>(), header.MessageId, header.Operation, this.QueueName)));
+                trackingTasks.Add(tracker.RegisterDlqedAsync(new MessageTrackingEvent(json.DeserializeFromJson<T>(),
+                    header.MessageId, header.Operation, this.QueueName)));
 
                 this.NotificicationService.WriteError(exc, $"Exception is thrown in {QueueName}");
 
-                var entry = new LogEntry(exc) { Source = this.QueueName, Log = EventLog.Subscribers };
+                var entry = new LogEntry(exc) {Source = this.QueueName, Log = EventLog.Subscribers};
                 entry.OtherInfo.Add("Type", typeof(T).Name.ToLowerInvariant());
                 entry.OtherInfo.Add("Id", id);
                 entry.OtherInfo.Add("Requeued", false);
@@ -195,16 +201,16 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             var count = 91;
             if (props.Headers.ContainsKey("sph.trycount"))
-                count = (int)props.Headers["sph.trycount"];
-            Console.WriteLine(@"Doing the delay for {0} ms for the {1} time", props.Headers["sph.delay"], count.Ordinalize());
+                count = (int) props.Headers["sph.trycount"];
+            Console.WriteLine(@"Doing the delay for {0} ms for the {1} time", props.Headers["sph.delay"],
+                count.Ordinalize());
             const string RETRY_EXCHANGE = "sph.retry.exchange";
-            var delay = (long)props.Headers["sph.delay"]; // in ms
+            var delay = (long) props.Headers["sph.delay"]; // in ms
 
             props.Expiration = delay.ToString(CultureInfo.InvariantCulture);
 
             m_channel.BasicPublish(RETRY_EXCHANGE, string.Empty, props, body);
         }
-
 
 
         private async Task<string> DecompressAsync(byte[] content)
@@ -229,7 +235,5 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 }
             }
         }
-
-
     }
 }

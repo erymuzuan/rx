@@ -5,7 +5,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 {
     class ActiveDirectory : IDirectoryService
     {
-        public string CurrentUserName { get { return "AMQP Broker"; } }
+        public string CurrentUserName => "AMQP Broker";
+
         public Task<string[]> GetUserInRolesAsync(string role)
         {
             throw new System.NotImplementedException();

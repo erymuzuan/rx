@@ -14,8 +14,8 @@ namespace subscriber.entities
         private MappingBuilder m_builder;
         protected override void OnStart()
         {
-            m_builder = new MappingBuilder(m => this.WriteMessage(m), m => this.WriteMessage("Warning : " + m),
-                this.WriteError);
+            m_builder = new MappingBuilder(m => this.WriteMessage(m), m => this.WriteMessage($"Warning : {m}"),
+                m => this.WriteError(m));
 
             var wc = ConfigurationManager.SphSourceDirectory;
             var type = typeof(EntityDefinition);
@@ -46,8 +46,8 @@ namespace subscriber.entities
 
         protected override async Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
-            var builder = new MappingBuilder(m => this.WriteMessage(m), m => this.WriteMessage("Warning : " + m),
-                this.WriteError);
+            var builder = new MappingBuilder(m => this.WriteMessage(m), m => this.WriteWarning(m),
+                m=>this.WriteError(m));
             await builder.ReBuildAsync(item);
 
         }
