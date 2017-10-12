@@ -42,6 +42,6 @@ if($Debug -ne $false){
    -ArgumentList "/log:console /config:$config /u:$env:RX_DEVV1_RabbitMqUserName /p:$env:RX_DEVV1_RabbitMqPassword /h:$env:RX_DEVV1_RabbitMqHost /debug"
 }else{
     Start-Process -FilePath .\bin\subscribers.host\workers.console.runner.exe `
-    -ArgumentList " /log:console /u:$env:RX_DEVV1_RabbitMqUserName /p:$env:RX_DEVV1_RabbitMqPassword /h:$env:RX_DEVV1_RabbitMqHost /config:$config"
+    -ArgumentList " /log:console /u:$env:RX_DEVV1_RabbitMqUserName /p:$env:RX_DEVV1_RabbitMqPassword /h:$env:RX_DEVV1_RabbitMqHost /config:$config /out:c:\temp\workers.log /outSize:10KB /outSwitch:Info"
 }
     
