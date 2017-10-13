@@ -28,7 +28,7 @@ namespace ASP
     using System.Web.UI;
     using System.Web.WebPages;
     using Bespoke.Sph.Web;
-
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/TriggerSetup/_generalTrigger.cshtml")]
     public partial class _Areas_App_Views_TriggerSetup__generalTrigger_cshtml : System.Web.Mvc.WebViewPage<dynamic>
@@ -38,236 +38,238 @@ namespace ASP
         }
         public override void Execute()
         {
-            WriteLiteral("\r\n<form");
+WriteLiteral("\r\n<form");
 
-            WriteLiteral(" class=\"form-horizontal\"");
+WriteLiteral(" class=\"form-horizontal\"");
 
-            WriteLiteral(">\r\n    <div");
+WriteLiteral(">\r\n    <div");
 
-            WriteLiteral(" class=\"form-group\"");
+WriteLiteral(" class=\"form-group\"");
 
-            WriteLiteral(">\r\n        <label");
+WriteLiteral(">\r\n        <label");
 
-            WriteLiteral(" for=\"Name\"");
+WriteLiteral(" for=\"Name\"");
 
-            WriteLiteral(" class=\"col-sm-2 control-label\"");
+WriteLiteral(" class=\"col-sm-2 control-label\"");
 
-            WriteLiteral(">Name</label>\r\n        <div");
+WriteLiteral(">Name</label>\r\n        <div");
 
-            WriteLiteral(" class=\"col-sm-6\"");
+WriteLiteral(" class=\"col-sm-6\"");
 
-            WriteLiteral(">\r\n            <input required");
+WriteLiteral(">\r\n            <input required");
 
-            WriteLiteral(" maxlength=\"35\"");
+WriteLiteral(" maxlength=\"35\"");
 
-            WriteLiteral(" placeholder=\"Trigger\'s\' name\"");
+WriteLiteral(" placeholder=\"Trigger\'s\' name\"");
 
-            WriteLiteral(" class=\"form-control\"");
+WriteLiteral(" class=\"form-control\"");
 
-            WriteLiteral(" data-bind=\"value: Name\"");
+WriteLiteral(" data-bind=\"value: Name\"");
 
-            WriteLiteral(" id=\"Name\"");
+WriteLiteral(" id=\"Name\"");
 
-            WriteLiteral(" type=\"text\"");
+WriteLiteral(" type=\"text\"");
 
-            WriteLiteral(" name=\"Name\"");
+WriteLiteral(" name=\"Name\"");
 
-            WriteLiteral(" />\r\n        </div>\r\n    </div>\r\n    <div");
+WriteLiteral(" />\r\n        </div>\r\n    </div>\r\n    <div");
 
-            WriteLiteral(" class=\"form-group\"");
+WriteLiteral(" class=\"form-group\"");
 
-            WriteLiteral(">\r\n        <label");
+WriteLiteral(">\r\n        <label");
 
-            WriteLiteral(" for=\"Entity\"");
+WriteLiteral(" for=\"Entity\"");
 
-            WriteLiteral(" class=\"col-sm-2 control-label\"");
+WriteLiteral(" class=\"col-sm-2 control-label\"");
 
-            WriteLiteral(">Entity</label>\r\n        <div");
+WriteLiteral(">Entity</label>\r\n        <div");
 
-            WriteLiteral(" class=\"col-sm-6\"");
+WriteLiteral(" class=\"col-sm-6\"");
 
-            WriteLiteral(">\r\n            <select required");
+WriteLiteral(">\r\n            <select required");
 
-            WriteLiteral(" class=\"form-control\"");
+WriteLiteral(" class=\"form-control\"");
 
-            WriteLiteral(" data-bind=\"value: Entity, options: $root.entities, optionsCaption:\'[--SELECT TRI" +
-            "GGER ENTITY--]\'\"");
+WriteLiteral(" data-bind=\"value: Entity, options: $root.entities, optionsCaption:\'[--SELECT TRI" +
+"GGER ENTITY--]\'\"");
 
-            WriteLiteral(" id=\"Entity\"");
+WriteLiteral(" id=\"Entity\"");
 
-            WriteLiteral(" name=\"Entity\"");
+WriteLiteral(" name=\"Entity\"");
 
-            WriteLiteral("></select>\r\n        </div>\r\n    </div>\r\n    ");
+WriteLiteral("></select>\r\n        </div>\r\n    </div>\r\n    ");
 
-            WriteLiteral("\r\n\r\n\r\n    <div");
+WriteLiteral("\r\n\r\n\r\n    <div");
 
-            WriteLiteral(" class=\"form-group\"");
+WriteLiteral(" class=\"form-group\"");
 
-            WriteLiteral(">\r\n        <label");
+WriteLiteral(">\r\n        <label");
 
-            WriteLiteral(" for=\"Note\"");
+WriteLiteral(" for=\"Note\"");
 
-            WriteLiteral(" class=\"col-sm-2 control-label\"");
+WriteLiteral(" class=\"col-sm-2 control-label\"");
 
-            WriteLiteral(">Note</label>\r\n        <div");
+WriteLiteral(">Note</label>\r\n        <div");
 
-            WriteLiteral(" class=\"col-sm-6\"");
+WriteLiteral(" class=\"col-sm-6\"");
 
-            WriteLiteral(">\r\n            <textarea");
+WriteLiteral(">\r\n            <textarea");
 
-            WriteLiteral(" class=\"form-control\"");
+WriteLiteral(" class=\"form-control\"");
 
-            WriteLiteral(" data-bind=\"value: Note\"");
+WriteLiteral(" data-bind=\"value: Note\"");
 
-            WriteLiteral(" id=\"Note\"");
+WriteLiteral(" id=\"Note\"");
 
-            WriteLiteral(" name=\"Note\"");
+WriteLiteral(" name=\"Note\"");
 
-            WriteLiteral("></textarea>\r\n        </div>\r\n    </div>\r\n\r\n    <div");
+WriteLiteral("></textarea>\r\n        </div>\r\n    </div>\r\n\r\n    <div");
 
-            WriteLiteral(" class=\"form-group\"");
+WriteLiteral(" class=\"form-group\"");
 
-            WriteLiteral(">\r\n        <label");
+WriteLiteral(">\r\n        <label");
 
-            WriteLiteral(" class=\"control-label col-sm-2\"");
+WriteLiteral(" class=\"control-label col-sm-2\"");
 
-            WriteLiteral("></label>\r\n        <div");
+WriteLiteral("></label>\r\n        <div");
 
-            WriteLiteral(" class=\"col-sm-6\"");
+WriteLiteral(" class=\"col-sm-6\"");
 
-            WriteLiteral(">\r\n            <div");
+WriteLiteral(">\r\n            <div");
 
-            WriteLiteral(" class=\"checkbox col-sm-6 checkbox-no-padding-left\"");
+WriteLiteral(" class=\"checkbox col-sm-6 checkbox-no-padding-left\"");
 
-            WriteLiteral(">\r\n                <label>\r\n                    <input");
+WriteLiteral(">\r\n                <label>\r\n                    <input");
 
-            WriteLiteral(" data-bind=\"checked: EnableTracking\"");
+WriteLiteral(" data-bind=\"checked: EnableTracking\"");
 
-            WriteLiteral(" id=\"enable-tracking\"");
+WriteLiteral(" id=\"enable-tracking\"");
 
-            WriteLiteral(" type=\"checkbox\"");
+WriteLiteral(" type=\"checkbox\"");
 
-            WriteLiteral(" name=\"EnableTracking\"");
+WriteLiteral(" name=\"EnableTracking\"");
 
-            WriteLiteral(" />\r\n                    Added\r\n                </label>\r\n            </div>\r\n   " +
-            "     </div>\r\n    </div>\r\n    <div");
+WriteLiteral(" />\r\n                    Added\r\n                </label>\r\n            </div>\r\n   " +
+"     </div>\r\n    </div>\r\n    <div");
 
-            WriteLiteral(" class=\"form-group\"");
+WriteLiteral(" class=\"form-group\"");
 
-            WriteLiteral(">\r\n        <label");
+WriteLiteral(">\r\n        <label");
 
-            WriteLiteral(" for=\"should-procossed-once-accepted\"");
+WriteLiteral(" for=\"should-processed-once-accepted\"");
 
-            WriteLiteral(" class=\"col-lg-2 control-label\"");
+WriteLiteral(" class=\"col-lg-2 control-label\"");
 
-            WriteLiteral(">Accepted SLA</label>\r\n        <div");
+WriteLiteral(">Accepted SLA</label>\r\n        <div");
 
-            WriteLiteral(" class=\"col-lg-6\"");
+WriteLiteral(" class=\"col-lg-6\"");
 
-            WriteLiteral(">\r\n            <input");
+WriteLiteral(">\r\n            <input");
 
-            WriteLiteral(" type=\"text\"");
+WriteLiteral(" type=\"text\"");
 
-            WriteLiteral(" data-bind=\"value: ShouldProcessedOnceAccepted, enabled: EnableTracking\"");
+WriteLiteral(" data-bind=\"value: ShouldProcessedOnceAccepted, enabled: EnableTracking\"");
 
-            WriteLiteral("\r\n                   pattern=\"^[A-Za-z_][A-Za-z0-9_ ]*$\"");
+WriteLiteral("\r\n                   pattern=\"^[0-9]*$\"");
 
-            WriteLiteral("\r\n                   placeholder=\"Once an item is accepted(202) then this trigger" +
-            " should successfully processed within timespan in miliseconds\"");
+WriteLiteral("\r\n                   name=\"ShouldProcessedOnceAccepted\"");
 
-            WriteLiteral("\r\n                   class=\"form-control\"");
+WriteLiteral("\r\n                   placeholder=\"Once item is accepted(202) then this trigger sh" +
+"ould successfully processed within timespan in miliseconds\"");
 
-            WriteLiteral(" id=\"should-procossed-once-accepted\"");
+WriteLiteral("\r\n                   class=\"form-control\"");
 
-            WriteLiteral(">\r\n        </div>\r\n    </div>\r\n\r\n    <div");
+WriteLiteral(" id=\"should-processed-once-accepted\"");
 
-            WriteLiteral(" class=\"form-group\"");
+WriteLiteral(">\r\n        </div>\r\n    </div>\r\n\r\n    <div");
 
-            WriteLiteral(">\r\n        <label");
+WriteLiteral(" class=\"form-group\"");
 
-            WriteLiteral(" class=\"control-label col-sm-2\"");
+WriteLiteral(">\r\n        <label");
 
-            WriteLiteral(">CRUD</label>\r\n        <div");
+WriteLiteral(" class=\"control-label col-sm-2\"");
 
-            WriteLiteral(" class=\"col-sm-6\"");
+WriteLiteral(">CRUD</label>\r\n        <div");
 
-            WriteLiteral(">\r\n            <div");
+WriteLiteral(" class=\"col-sm-6\"");
 
-            WriteLiteral(" class=\"checkbox col-sm-3 checkbox-no-padding-left\"");
+WriteLiteral(">\r\n            <div");
 
-            WriteLiteral(">\r\n                <label>\r\n                    <input");
+WriteLiteral(" class=\"checkbox col-sm-3 checkbox-no-padding-left\"");
 
-            WriteLiteral(" data-bind=\"checked: IsFiredOnAdded\"");
+WriteLiteral(">\r\n                <label>\r\n                    <input");
 
-            WriteLiteral(" id=\"fired-on-added\"");
+WriteLiteral(" data-bind=\"checked: IsFiredOnAdded\"");
 
-            WriteLiteral(" type=\"checkbox\"");
+WriteLiteral(" id=\"fired-on-added\"");
 
-            WriteLiteral(" name=\"IsFiredOnAdded\"");
+WriteLiteral(" type=\"checkbox\"");
 
-            WriteLiteral(" />\r\n                    Added\r\n                </label>\r\n            </div>\r\n   " +
-            "         <div");
+WriteLiteral(" name=\"IsFiredOnAdded\"");
 
-            WriteLiteral(" class=\"checkbox col-sm-3 checkbox-no-padding-left\"");
+WriteLiteral(" />\r\n                    Added\r\n                </label>\r\n            </div>\r\n   " +
+"         <div");
 
-            WriteLiteral(">\r\n                <label>\r\n                    <input");
+WriteLiteral(" class=\"checkbox col-sm-3 checkbox-no-padding-left\"");
 
-            WriteLiteral(" data-bind=\"checked: IsFiredOnChanged\"");
+WriteLiteral(">\r\n                <label>\r\n                    <input");
 
-            WriteLiteral(" id=\"fired-on-changed\"");
+WriteLiteral(" data-bind=\"checked: IsFiredOnChanged\"");
 
-            WriteLiteral(" type=\"checkbox\"");
+WriteLiteral(" id=\"fired-on-changed\"");
 
-            WriteLiteral(" name=\"IsFireOnChanged\"");
+WriteLiteral(" type=\"checkbox\"");
 
-            WriteLiteral(" />\r\n                    Changed\r\n                </label>\r\n            </div>\r\n " +
-            "           <div");
+WriteLiteral(" name=\"IsFireOnChanged\"");
 
-            WriteLiteral(" class=\"checkbox col-sm-3 checkbox-no-padding-left\"");
+WriteLiteral(" />\r\n                    Changed\r\n                </label>\r\n            </div>\r\n " +
+"           <div");
 
-            WriteLiteral(">\r\n                <label>\r\n                    <input");
+WriteLiteral(" class=\"checkbox col-sm-3 checkbox-no-padding-left\"");
 
-            WriteLiteral(" data-bind=\"checked: IsFiredOnDeleted\"");
+WriteLiteral(">\r\n                <label>\r\n                    <input");
 
-            WriteLiteral(" id=\"fire-on-deleted\"");
+WriteLiteral(" data-bind=\"checked: IsFiredOnDeleted\"");
 
-            WriteLiteral(" type=\"checkbox\"");
+WriteLiteral(" id=\"fire-on-deleted\"");
 
-            WriteLiteral(" name=\"IsFireOnDeleted\"");
+WriteLiteral(" type=\"checkbox\"");
 
-            WriteLiteral(" />\r\n                    Deleted\r\n                </label>\r\n            </div>\r\n " +
-            "       </div>\r\n    </div>\r\n\r\n    <div");
+WriteLiteral(" name=\"IsFireOnDeleted\"");
 
-            WriteLiteral(" class=\"form-group clear clearfix\"");
+WriteLiteral(" />\r\n                    Deleted\r\n                </label>\r\n            </div>\r\n " +
+"       </div>\r\n    </div>\r\n\r\n    <div");
 
-            WriteLiteral(" style=\"clear: both\"");
+WriteLiteral(" class=\"form-group clear clearfix\"");
 
-            WriteLiteral(">\r\n        <label");
+WriteLiteral(" style=\"clear: both\"");
 
-            WriteLiteral(" class=\"control-label col-sm-2\"");
+WriteLiteral(">\r\n        <label");
 
-            WriteLiteral(" data-bind=\"tooltip:\'When this operation is invoked, then it will fire this trigg" +
-            "er\'\"");
+WriteLiteral(" class=\"control-label col-sm-2\"");
 
-            WriteLiteral(">Operation</label>\r\n        <div");
+WriteLiteral(" data-bind=\"tooltip:\'When this operation is invoked, then it will fire this trigg" +
+"er\'\"");
 
-            WriteLiteral(" class=\"col-sm-6\"");
+WriteLiteral(">Operation</label>\r\n        <div");
 
-            WriteLiteral(" id=\"operation-options\"");
+WriteLiteral(" class=\"col-sm-6\"");
 
-            WriteLiteral(">\r\n            <!-- ko foreach: $root.operationOptions -->\r\n            <div");
+WriteLiteral(" id=\"operation-options\"");
 
-            WriteLiteral(" class=\"checkbox checkbox-no-padding-left\"");
+WriteLiteral(">\r\n            <!-- ko foreach: $root.operationOptions -->\r\n            <div");
 
-            WriteLiteral(">\r\n                <label>\r\n                    <input");
+WriteLiteral(" class=\"checkbox checkbox-no-padding-left\"");
 
-            WriteLiteral(" type=\"checkbox\"");
+WriteLiteral(">\r\n                <label>\r\n                    <input");
 
-            WriteLiteral(" data-bind=\"value:$data, checked: $root.operations\"");
+WriteLiteral(" type=\"checkbox\"");
 
-            WriteLiteral(" />\r\n                    <!-- ko text: $data-->\r\n                    <!-- /ko -->" +
-            "\r\n                </label>\r\n            </div>\r\n            <!-- /ko -->\r\n      " +
-            "  </div>\r\n    </div>\r\n\r\n\r\n</form>");
+WriteLiteral(" data-bind=\"value:$data, checked: $root.operations\"");
+
+WriteLiteral(" />\r\n                    <!-- ko text: $data-->\r\n                    <!-- /ko -->" +
+"\r\n                </label>\r\n            </div>\r\n            <!-- /ko -->\r\n      " +
+"  </div>\r\n    </div>\r\n\r\n\r\n</form>");
 
         }
     }

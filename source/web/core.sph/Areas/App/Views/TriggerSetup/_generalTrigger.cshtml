@@ -34,12 +34,13 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="should-procossed-once-accepted" class="col-lg-2 control-label">Accepted SLA</label>
+        <label for="should-processed-once-accepted" class="col-lg-2 control-label">Accepted SLA</label>
         <div class="col-lg-6">
             <input type="text" data-bind="value: ShouldProcessedOnceAccepted, enabled: EnableTracking"
-                    pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
-                   placeholder="Once an item is accepted(202) then this trigger should successfully processed within timespan in miliseconds"
-                   class="form-control" id="should-procossed-once-accepted">
+                   pattern="^[0-9]*$"
+                   name="ShouldProcessedOnceAccepted"
+                   placeholder="Once item is accepted(202) then this trigger should successfully processed within timespan in miliseconds"
+                   class="form-control" id="should-processed-once-accepted">
         </div>
     </div>
 
