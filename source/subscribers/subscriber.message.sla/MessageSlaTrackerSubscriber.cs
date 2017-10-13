@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Extensions;
 using Bespoke.Sph.SubscribersInfrastructure;
 using RabbitMQ.Client;
 
@@ -104,7 +103,7 @@ namespace Bespoke.Sph.MessageTrackerSla
             try
             {
                 var body = e.Body;
-                var json = await DecompressAsync(body);
+                var json = await  body.DecompressAsync();
                 var headers = new MessageHeaders(e);
 
                 var @event = json.DeserializeFromJson<MessageSlaEvent>();
@@ -126,28 +125,6 @@ namespace Bespoke.Sph.MessageTrackerSla
         }
 
 
-        private async Task<string> DecompressAsync(byte[] content)
-        {
-            using (var orginalStream = new MemoryStream(content))
-            using (var destinationStream = new MemoryStream())
-            using (var gzip = new GZipStream(orginalStream, CompressionMode.Decompress))
-            {
-                try
-                {
-                    await gzip.CopyToAsync(destinationStream);
-                }
-                catch (InvalidDataException)
-                {
-                    orginalStream.CopyTo(destinationStream);
-                }
-                destinationStream.Position = 0;
-                using (var sr = new StreamReader(destinationStream))
-                {
-                    var json = await sr.ReadToEndAsync();
-                    return json;
-                }
-            }
-        }
     }
 
 

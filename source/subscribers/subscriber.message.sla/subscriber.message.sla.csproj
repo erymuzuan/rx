@@ -52,6 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\extensions\BinaryExtensions.cs">
+      <Link>BinaryExtensions.cs</Link>
+    </Compile>
     <Compile Include="MessageSlaTrackerSubscriber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -59,11 +62,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\source\domain\domain.sph\domain.sph.csproj">
+    <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>
     </ProjectReference>
-    <ProjectReference Include="..\source\subscribers\subscriber.infrastructure\subscriber.infrastructure.csproj">
+    <ProjectReference Include="..\subscriber.infrastructure\subscriber.infrastructure.csproj">
       <Project>{40892CEA-FD47-4C1F-B821-7939776E9B6B}</Project>
       <Name>subscriber.infrastructure</Name>
     </ProjectReference>
