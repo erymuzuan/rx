@@ -286,6 +286,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             get
             {
                 var crud = CrudOperation.None;
+                if (!m_args.Properties.Headers.ContainsKey("crud")) return crud;
                 if (m_args.Properties.Headers["crud"] is byte[] operationBytes)
                 {
                     var v = ByteToString(operationBytes);

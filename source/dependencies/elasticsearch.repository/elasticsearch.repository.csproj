@@ -52,6 +52,9 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\extensions\LoggerExtensions.cs">
+      <Link>LoggerExtensions.cs</Link>
+    </Compile>
     <Compile Include="CancelledMessageRepository.cs" />
     <Compile Include="HttpClientExtensions.cs" />
     <Compile Include="MappingBuilder.cs" />

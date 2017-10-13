@@ -58,7 +58,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 m_channel = null;
             }
 
-            this.WriteMessage("Stopped : {0}" + this.QueueName);
+            this.WriteMessage($"Stopped : {this.QueueName}");
         }
 
         protected void BasicReject(ulong tag, bool requeue = false)

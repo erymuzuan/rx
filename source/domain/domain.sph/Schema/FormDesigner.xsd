@@ -377,6 +377,7 @@
 			<xs:attribute name="TreatDataAsSource" type="xs:boolean" use="optional"/>
 			<xs:attribute name="Transient" type="xs:boolean" use="optional"/>
 			<xs:attribute name="EnableAuditing" type="xs:boolean" use="optional"/>
+			<xs:attribute name="EnableTracking" type="xs:boolean" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ValueObjectDefinition" bspk:entity="true">

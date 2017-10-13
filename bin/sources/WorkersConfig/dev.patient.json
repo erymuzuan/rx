@@ -10,9 +10,7 @@
         "priority": 0,
         "queueName": "trigger_subs_patient-patient-trigger-no-1",
         "fullName": "Bespoke.DevV1.TriggerSubscribers.PatientPatientTriggerNo1TriggerSubscriber",
-        "assembly": "subscriber.trigger.patient-patient-trigger-no-1",
-        "shouldProcessedOnceAccepted": 5000,
-        "trackingEnabled": true
+        "assembly": "subscriber.trigger.patient-patient-trigger-no-1"
     }],
     "createdBy": "erymuzuan",
     "id": "patient-email",
