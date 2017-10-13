@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Polly;
 
 namespace Bespokse.Sph.ElasticsearchRepository
 {
@@ -39,15 +40,28 @@ namespace Bespokse.Sph.ElasticsearchRepository
         ""messageId"": ""{messageId}"",
         ""worker"": ""{worker}""
 }}";
-            var response = await m_client.PostAsync($"{DailyTypeUri}/{id}", new StringContent(json));
-            response.EnsureSuccessStatusCode();
+            var task = m_client.PostAsync($"{DailyTypeUri}/{id}", new StringContent(json));
+            await Policy.Handle<Exception>()
+               .WaitAndRetryAsync(3, c => TimeSpan.FromMilliseconds(100 * Math.Pow(2, c)))
+               .ExecuteAsync(async () =>
+               {
+                   var r = await task;
+                   r.EnsureSuccessStatusCode();
+               });
         }
 
         public async Task RemoveAsync(string messageId, string worker)
         {
             var id = $"{messageId}{worker}".Replace("/", "");
-            var response = await m_client.DeleteAsync($"{AliasTypeUri}/{id}");
-            response.EnsureSuccessStatusCode();
+            var task = m_client.DeleteAsync($"{AliasTypeUri}/{id}");
+
+            await Policy.Handle<Exception>()
+                .WaitAndRetryAsync(3, c => TimeSpan.FromMilliseconds(100 * Math.Pow(2, c)))
+                .ExecuteAsync(async () =>
+                {
+                    var r = await task;
+                    r.EnsureSuccessStatusCode();
+                });
         }
 
 

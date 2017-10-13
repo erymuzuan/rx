@@ -25,6 +25,7 @@ namespace Bespokse.Sph.ElasticsearchRepository
         private string[] m_trackableEntities;
         private Trigger[] m_enabledTriggers;
 
+
         /// <summary>
         /// $"{Host}/{Index}/event"
         /// </summary>
@@ -44,15 +45,16 @@ namespace Bespokse.Sph.ElasticsearchRepository
         }
 
 
-        public async Task RegisterAcceptanceAsync(MessageTrackingEvent eventData)
+        public async Task RegisterAcceptanceAsync(MessageTrackingEvent @event)
         {
-            eventData.Event = "Accepted";
-            await PostEventAsync(eventData);
+            ObjectBuilder.GetObject<ILogger>().WriteVerbose($"Accepted {@event.Entity}{{{@event.ItemId}}}");
+            @event.Event = "Accepted";
+            await PostEventAsync(@event);
 
-            var should = m_trackableEntities.Contains(eventData.Entity);
+            var should = m_trackableEntities.Contains(@event.Entity);
             if (should)
             {
-                await this.InitializeMessageSlaAsyc("Accepted", eventData);
+                await this.InitializeMessageSlaAsyc("Accepted", @event);
             }
         }
 
@@ -224,8 +226,10 @@ namespace Bespokse.Sph.ElasticsearchRepository
             if (!m_trackableEntities.Contains(@event.Entity)) return false;
 
             var workerIsTracked = m_enabledTriggers.Any(x => $"trigger_subs_{x.Id}" == @event.Worker);
-            if (!string.IsNullOrWhiteSpace(@event.Worker) && workerIsTracked) return true;
-            return false;
+            if (!string.IsNullOrWhiteSpace(@event.Worker))
+                return workerIsTracked;
+
+            return true;
         }
 
         public void Initialize()

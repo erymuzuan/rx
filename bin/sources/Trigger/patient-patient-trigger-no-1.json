@@ -40,12 +40,15 @@
   "IsFiredOnDeleted": false,
   "IsFiredOnChanged": false,
   "FiredOnOperations": "",
+  "EnableTracking": true,
+  "ShouldProcessedOnceAccepted": 5000,
+  "ShouldProcessedOncePersisted": null,
   "ClassName": "PatientPatientTriggerNo1TriggerSubscriber",
   "CodeNamespace": "Bespoke.DevV1.TriggerSubscribers",
   "CreatedBy": "admin",
   "Id": "patient-patient-trigger-no-1",
   "CreatedDate": "2015-07-22T10:07:48.1250777+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2017-08-21T09:38:36.0740789+08:00",
+  "ChangedDate": "2017-10-13T10:42:17.641832+08:00",
   "WebId": "f1445372-fae7-40c9-c794-8c609022080c"
 }

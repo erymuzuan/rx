@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Extensions;
 using Bespoke.Sph.SubscribersInfrastructure;
+using Polly;
 using RabbitMQ.Client;
 
 namespace Bespoke.Sph.MessageTrackerSla
@@ -99,23 +100,33 @@ namespace Bespoke.Sph.MessageTrackerSla
         private async void Received(object sender, ReceivedMessageArgs e)
         {
             Interlocked.Increment(ref m_processing);
+            var logger = ObjectBuilder.GetObject<ILogger>();
 
             try
             {
                 var body = e.Body;
-                var json = await  body.DecompressAsync();
+                var json = await body.DecompressAsync();
                 var headers = new MessageHeaders(e);
 
                 var @event = json.DeserializeFromJson<MessageSlaEvent>();
 
                 var tracker = ObjectBuilder.GetObject<IMessageTracker>();
-                var status = await tracker.GetProcessStatusAsync(@event);
+                var statusResult = await Policy.Handle<Exception>()
+                    .WaitAndRetryAsync(3, c => TimeSpan.FromMilliseconds(100 * Math.Pow(2, c)))
+                    .ExecuteAndCaptureAsync(() => tracker.GetProcessStatusAsync(@event));
+                if (null != statusResult.FinalException)
+                {
+                    logger.WriteError($"Fail to get process status for {@event.MessageId}  after 3 attempts");
+                    await logger.LogAsync(new LogEntry(statusResult.FinalException));
+                    return;
+                }
+                var status = statusResult.Result;
 
                 this.WriteMessage($@"[{headers.MessageId}] is ""{status}"" for ""{@event.Worker}""");
 
                 var manager = ObjectBuilder.GetObject<IMessageSlaManager>();
                 await manager.ExecuteOnNotificationAsync(status, @event);
-                
+
                 m_channel.BasicAck(e.DeliveryTag, false);
             }
             finally

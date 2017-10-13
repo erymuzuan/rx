@@ -65,17 +65,11 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
         public async Task ExecuteOnNotificationAsync(MessageTrackingStatus status, MessageSlaEvent @event)
         {
-            // TODO 5984 : 
-            dynamic repository = new object();
-            Entity item = null;
-            if (!string.IsNullOrWhiteSpace(@event.ItemId))
-                item = await repository.LoadOneAsync(@event.ItemId);
-
             async Task<bool> ExcuteAsync(IList<MessageSlaNotificationAction> actions)
             {
-                var tasks = actions.Where(x => x.UseAsync).Select(x => x.ExecuteAsync(status, item, @event));
+                var tasks = actions.Where(x => x.UseAsync).Select(x => x.ExecuteAsync(status,  @event));
                 var results = (await Task.WhenAll(tasks)).ToList();
-                results = results.Concat(actions.Where(x => !x.UseAsync).ToList().Select(x => x.Execute(status, item, @event))).ToList();
+                results = results.Concat(actions.Where(x => !x.UseAsync).ToList().Select(x => x.Execute(status,  @event))).ToList();
                 return results.All(x => x);
             }
 

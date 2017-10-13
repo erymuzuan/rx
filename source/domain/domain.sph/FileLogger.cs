@@ -30,7 +30,7 @@ namespace Bespoke.Sph.Domain
             {
                 if (m_longSize.HasValue)
                     return m_longSize.Value;
-                
+
                 var factor = 1;
                 if (m_sizeLimit.EndsWith("MB", StringComparison.InvariantCultureIgnoreCase))
                     factor = 6;
@@ -43,7 +43,7 @@ namespace Bespoke.Sph.Domain
                     .Replace("MB", "")
                     .Replace("GB", ""), out var length))
                 {
-                    m_longSize =  Convert.ToInt64(length * Math.Pow(10, factor) * 1.024);
+                    m_longSize = Convert.ToInt64(length * Math.Pow(10, factor) * 1.024);
                     return m_longSize.Value;
                 }
                 // default to 1MB
@@ -120,10 +120,10 @@ namespace Bespoke.Sph.Domain
 
         public void Log(LogEntry entry)
         {
-            if ((int) entry.Severity < (int) TraceSwitch) return;
+            if ((int)entry.Severity < (int)TraceSwitch) return;
 
             var message = $"{DateTime.Now:s}[{entry.Severity}]{entry}";
-            var lines = new List<string> {message};
+            var lines = new List<string> { message };
             if (TraceSwitch == Severity.Debug)
             {
                 lines.Add($@"   [{entry.CallerMemberName}]{entry.CallerFilePath}:{entry.CallerLineNumber}");
@@ -132,7 +132,7 @@ namespace Bespoke.Sph.Domain
             lock (m_lock)
             {
                 Policy.Handle<IOException>()
-                    .Retry(3)
+                    .WaitAndRetry(3, c => TimeSpan.FromMilliseconds(100 * Math.Pow(2, c)))
                     .Execute(() => File.AppendAllLines(GetFileName(), lines.ToArray()));
             }
         }
