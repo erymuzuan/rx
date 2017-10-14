@@ -331,6 +331,78 @@
         "AllowMultiple": false,
         "DefaultValue": null,
         "WebId": "63c245e0-3d95-4a34-9977-669902e22b8c"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+        "TypeName": "System.Boolean, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 1,
+        "FullName": null,
+        "PropertyAttribute": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "HasCoastLine",
+        "AllowMultiple": false,
+        "DefaultValue": null,
+        "WebId": "bd21218b-bd69-47ac-9b5a-8d2e99156bee"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+        "TypeName": "System.Boolean, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 1,
+        "FullName": null,
+        "PropertyAttribute": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "HasMountain",
+        "AllowMultiple": false,
+        "DefaultValue": null,
+        "WebId": "fa86e4fe-d739-4d3b-a9f8-198065e2c68a"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+        "TypeName": "System.String, mscorlib",
+        "IsNullable": false,
+        "IsNotIndexed": false,
+        "IsAnalyzed": false,
+        "IsFilterable": false,
+        "IsExcludeInAll": false,
+        "Boost": 2,
+        "FullName": null,
+        "PropertyAttribute": null,
+        "MemberCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "FieldPermissionCollection": {
+          "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+          "$values": []
+        },
+        "Name": "Currency",
+        "AllowMultiple": false,
+        "DefaultValue": null,
+        "WebId": "f45e8e83-1966-4673-b332-29fabb781b45"
       }
     ]
   },
@@ -365,12 +437,13 @@
   "RecordName": "Name",
   "IsPublished": true,
   "TreatDataAsSource": true,
+  "Transient": false,
   "StoreInDatabase": null,
   "StoreInElasticsearch": null,
   "CreatedBy": "admin",
   "Id": "country",
   "CreatedDate": "2014-04-19T10:07:12.2060219+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-08-05T10:18:34.6704892+08:00",
+  "ChangedDate": "2017-08-18T16:41:51.7533684+08:00",
   "WebId": "5d31c43-852d-4a9d-b3be-1fc94d5cea05"
 }
