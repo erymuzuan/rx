@@ -1,8 +1,6 @@
 {
   "$type": "Bespoke.Sph.Domain.QueryEndpoint, domain.sph",
-  "CodeNamespace": "Bespoke.DevV1.Api",
-  "Icon": "fa fa-cloud-download",
-  "Url": "query.endpoint.designer/muslim-patients",
+  "ControllerName": "PatientMuslimPatientsQueryEndpoint",
   "FilterCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
     "$values": [
@@ -33,22 +31,25 @@
           "WebId": "7bfee170-3328-4ba7-b40d-dd5002b4c4c4"
         },
         "WebId": "494ccc00-de87-49d8-e047-ed31da5770be"
+      },
+      {
+        "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
+        "Term": "NextOfKin.FullName",
+        "Operator": "IsNotNull",
+        "Field": {
+          "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+          "TypeName": "System.Boolean, mscorlib",
+          "Value": true,
+          "Name": "true",
+          "Note": "",
+          "WebId": "3d75e956-a83d-4a30-c7ba-2c6fe04bd6db"
+        },
+        "WebId": "f62b8b97-9a95-4c19-bf05-f908c640c59d"
       }
     ]
   },
   "SortCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
-    "$values": []
-  },
-  "Performer": {
-    "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
-    "UserProperty": "Roles",
-    "Value": "developers",
-    "IsPublic": false,
-    "WebId": null
-  },
-  "RouteParameterCollection": {
-    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.RouteParameter, domain.sph]], domain.sph",
     "$values": []
   },
   "MemberCollection": {
@@ -81,6 +82,6 @@
   "Id": "muslim-patients",
   "CreatedDate": "2016-02-03T08:22:39.8653848+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-02-03T11:31:54.3034395+08:00",
+  "ChangedDate": "2017-10-14T15:48:01.0893576+08:00",
   "WebId": "9be2ded4-feb1-456c-8122-5f311169cae1"
 }
