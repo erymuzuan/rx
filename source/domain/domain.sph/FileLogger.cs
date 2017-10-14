@@ -120,13 +120,16 @@ namespace Bespoke.Sph.Domain
 
         public void Log(LogEntry entry)
         {
-            if ((int)entry.Severity < (int)TraceSwitch) return;
+            if ((int) entry.Severity < (int) TraceSwitch) return;
 
-            var message = $"{DateTime.Now:s}[{entry.Severity}]{entry}";
-            var lines = new List<string> { message };
+            var header = $"{DateTime.Now:G} [{entry.Severity}]";
+            var pad = new string(' ', header.Length);
+            var messages = entry.ToEmptyString().Split(new[] {"\r\n", "\n", "\r"}, StringSplitOptions.None);
+            var lines = new List<string> {$"{header} {messages.FirstOrDefault()}"};
+            lines.AddRange(messages.Skip(1).Select(x => $"{pad} {x}"));
             if (TraceSwitch == Severity.Debug)
             {
-                lines.Add($@"   [{entry.CallerMemberName}]{entry.CallerFilePath}:{entry.CallerLineNumber}");
+                lines.Add($@"{pad}\t[{entry.CallerMemberName}]{Path.GetFileName(entry.CallerFilePath)}:{entry.CallerLineNumber}");
             }
 
             lock (m_lock)
