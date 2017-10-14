@@ -2,22 +2,30 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Api;
 using Polly;
 
 namespace Bespokse.Sph.ElasticsearchRepository
 {
     public class CancelledMessageRepository : ICancelledMessageRepository
     {
+        // ReSharper disable MemberCanBePrivate.Global
+        // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
         public string Host { get; }
         private readonly HttpClient m_client;
-        public string DailyIndex = $"{ConfigurationManager.ApplicationName.ToLowerInvariant()}_sla_{DateTime.Today:yyyyMMdd}";
+        public readonly string DailyIndex = $"{ConfigurationManager.ApplicationName.ToLowerInvariant()}_sla_{DateTime.Today:yyyyMMdd}";
         public bool Profiled { get; set; }
+        public int HttpRequestRetryCount { get; set; } = 3;
+        public int HttpRequestWaitTime { get; set; } = 100;
+        public WaitAlgorithm HttpRequestWaitAlgorithm { get; set; } = WaitAlgorithm.Exponential;
+        // ReSharper restore MemberCanBePrivate.Global
+        // ReSharper restore AutoPropertyCanBeMadeGetOnly.Global
 
         /// <summary>
         /// $"{Host}/{Index}/event"
         /// </summary>
         private string DailyTypeUri => $"{DailyIndex}/cancelledmessage";
-        private string AliasTypeUri => $"{ConfigurationManager.ApplicationName.ToLowerInvariant()}_sla/cancelledmessage";
+        private static string AliasTypeUri => $"{ConfigurationManager.ApplicationName.ToLowerInvariant()}_sla/cancelledmessage";
 
         public CancelledMessageRepository()
         {
@@ -28,10 +36,29 @@ namespace Bespokse.Sph.ElasticsearchRepository
         public async Task<bool> CheckMessageAsync(string messageId, string worker)
         {
             var id = $"{messageId}{worker}".Replace("/", "");
-            var response = await m_client.GetAsync($"{AliasTypeUri}/{id}");
+            var pr = await Policy.Handle<Exception>()
+                .WaitAndRetryAsync(HttpRequestRetryCount, Wait)
+                .ExecuteAndCaptureAsync(() =>
+                m_client.GetAsync($"{AliasTypeUri}/{id}"));
+
+            var response = pr.Result;
             return response.IsSuccessStatusCode;
         }
 
+        TimeSpan Wait(int c)
+        {
+            switch (HttpRequestWaitAlgorithm)
+            {
+                case WaitAlgorithm.Linear:
+                    return TimeSpan.FromMilliseconds(this.HttpRequestWaitTime * c);
+                case WaitAlgorithm.Exponential:
+                    return TimeSpan.FromMilliseconds(this.HttpRequestWaitTime * Math.Pow(2, c));
+                case WaitAlgorithm.Constant:
+                    return TimeSpan.FromMilliseconds(this.HttpRequestWaitTime);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
         public async Task PutAsync(string messageId, string worker)
         {
 
@@ -40,12 +67,13 @@ namespace Bespokse.Sph.ElasticsearchRepository
         ""messageId"": ""{messageId}"",
         ""worker"": ""{worker}""
 }}";
-            var task = m_client.PostAsync($"{DailyTypeUri}/{id}", new StringContent(json));
+
+
             await Policy.Handle<Exception>()
-               .WaitAndRetryAsync(3, c => TimeSpan.FromMilliseconds(100 * Math.Pow(2, c)))
+               .WaitAndRetryAsync(HttpRequestRetryCount, Wait)
                .ExecuteAsync(async () =>
                {
-                   var r = await task;
+                   var r = await m_client.PostAsync($"{DailyTypeUri}/{id}", new StringContent(json));
                    r.EnsureSuccessStatusCode();
                });
         }
@@ -53,19 +81,19 @@ namespace Bespokse.Sph.ElasticsearchRepository
         public async Task RemoveAsync(string messageId, string worker)
         {
             var id = $"{messageId}{worker}".Replace("/", "");
-            var task = m_client.DeleteAsync($"{AliasTypeUri}/{id}");
 
             await Policy.Handle<Exception>()
-                .WaitAndRetryAsync(3, c => TimeSpan.FromMilliseconds(100 * Math.Pow(2, c)))
+                .WaitAndRetryAsync(HttpRequestRetryCount, Wait)
                 .ExecuteAsync(async () =>
                 {
-                    var r = await task;
+                    var r = await m_client.DeleteAsync($"{AliasTypeUri}/{id}");
                     r.EnsureSuccessStatusCode();
                 });
         }
 
 
         private bool m_initialized;
+
         public async Task InitializeAsync()
         {
             if (m_initialized) return;

@@ -9,6 +9,7 @@ using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Polly;
 
 namespace Bespokse.Sph.ElasticsearchRepository
 {
@@ -20,6 +21,9 @@ namespace Bespokse.Sph.ElasticsearchRepository
         private string LoweredApp => ConfigurationManager.ApplicationName.ToLowerInvariant();
         public string DailyIndex => $"{LoweredApp}_sla_{DateTime.Today:yyyyMMdd}";
         public string IndexAlias => $"{LoweredApp}_sla";
+        public int HttpRequestRetryCount { get; set; } = 3;
+        public int HttpRequestWaitTime { get; set; } = 100;
+        public WaitAlgorithm HttpRequestWaitAlgorithm { get; set; } = WaitAlgorithm.Exponential;
 
         public bool IsSystemTypeEnabled { get; set; } = false;
         private string[] m_trackableEntities;
@@ -202,19 +206,30 @@ namespace Bespokse.Sph.ElasticsearchRepository
             var content = new StringContent(json);
             var url = $"{DailyTypeUrl}";
 
-            HttpResponseMessage response = null;
-            try
+            TimeSpan Wait(int c)
             {
-                response = await m_client.PostAsync(url, content);
-            }
-            catch (HttpRequestException)
-            {
+                switch (HttpRequestWaitAlgorithm)
+                {
+                    case WaitAlgorithm.Linear:
+                        return TimeSpan.FromMilliseconds(this.HttpRequestWaitTime * c);
+                    case WaitAlgorithm.Exponential:
+                        return TimeSpan.FromMilliseconds(this.HttpRequestWaitTime * Math.Pow(2, c));
+                    case WaitAlgorithm.Constant:
+                        return TimeSpan.FromMilliseconds(this.HttpRequestWaitTime);
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
 
-            if (null != response)
+            var pr = await Policy.Handle<Exception>()
+                    .WaitAndRetryAsync(this.HttpRequestRetryCount, Wait)
+                    .ExecuteAndCaptureAsync(() => m_client.PostAsync(url, content));
+            if (null != pr.FinalException)
             {
-                Debug.Write(".");
+                ObjectBuilder.GetObject<ILogger>().WriteError(pr.FinalException, $"Fail to Post tracking event({eventData.MessageId}) to elasticsearch");
+                throw pr.FinalException;
             }
+            pr.Result.EnsureSuccessStatusCode();
         }
 
         private bool CanTrack(MessageTrackingEvent @event)
