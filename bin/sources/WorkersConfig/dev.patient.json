@@ -5,7 +5,7 @@
     "environment": "dev",
     "subscriberConfigs": [{
         "entity": "Patient",
-        "instancesCount": 1,
+        "instancesCount": 10,
         "prefetchCount": 1,
         "priority": 0,
         "queueName": "trigger_subs_patient-patient-trigger-no-1",
