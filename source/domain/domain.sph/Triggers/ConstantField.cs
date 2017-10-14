@@ -15,26 +15,22 @@ namespace Bespoke.Sph.Domain
             var value = $"{Value}";
             if (typeof(DateTime) == this.Type && !string.IsNullOrWhiteSpace(value))
             {
-                DateTime date;
-                if (!DateTime.TryParse(value, out date))
+                if (!DateTime.TryParse(value, out _))
                     errors.Add(new BuildError(this.WebId, $@"""{value}"" is not a valid DateTime value for {Name} in {filter.Term} filter"));
             }
             if (typeof(int) == this.Type && !string.IsNullOrWhiteSpace(value))
             {
-                int val;
-                if (!int.TryParse(value, out val))
+                if (!int.TryParse(value, out _))
                     errors.Add(new BuildError(this.WebId, $@"""{value}"" is not a valid Int32 value for {Name} in {filter.Term} filter"));
             }
             if (typeof(decimal) == this.Type && !string.IsNullOrWhiteSpace(value))
             {
-                decimal val;
-                if (!decimal.TryParse(value, out val))
+                if (!decimal.TryParse(value, out _))
                     errors.Add(new BuildError(this.WebId, $@"""{value}"" is not a valid decimal value for {Name} in {filter.Term} filter"));
             }
             if (typeof(bool) == this.Type && !string.IsNullOrWhiteSpace(value))
             {
-                bool val;
-                if (!bool.TryParse(value, out val))
+                if (!bool.TryParse(value, out _))
                     errors.Add(new BuildError(this.WebId, $@"""{value}"" is not a valid boolean value for {Name} in {filter.Term} filter, the only valid value is ""true"" or  ""false"""));
             }
             return errors;
@@ -46,14 +42,8 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         public Type Type
         {
-            get
-            {
-                return Strings.GetType(this.TypeName);
-            }
-            set
-            {
-                this.TypeName = value.GetShortAssemblyQualifiedName();
-            }
+            get => Strings.GetType(this.TypeName);
+            set => this.TypeName = value.GetShortAssemblyQualifiedName();
         }
 
 
@@ -62,7 +52,7 @@ namespace Bespoke.Sph.Domain
             if (propertyName == "TypeName" && !string.IsNullOrWhiteSpace(this.TypeName) && null != m_tempVal)
             {
 
-                var val = string.Format("{0}", m_tempVal);
+                var val = $"{m_tempVal}";
                 this.Value = this.ParseValue(val);
                 m_tempVal = null;
                 RaisePropertyChanged("Value");
@@ -90,7 +80,7 @@ namespace Bespoke.Sph.Domain
         private object m_tempVal;
         public object Value
         {
-            get { return m_value; }
+            get => m_value;
             set
             {
                 if (string.IsNullOrWhiteSpace(this.TypeName))
@@ -110,30 +100,26 @@ namespace Bespoke.Sph.Domain
             {
                 this.Type = m_tempVal.GetType();
             }
-            var val = string.Format("{0}", this.Value);
+            var val = $"{this.Value}";
             if (this.Type == typeof(int))
             {
-                int f;
-                if (int.TryParse(val, out f))
+                if (int.TryParse(val, out var f))
                     return f;
             }
 
             if (this.Type == typeof(DateTime))
             {
-                DateTime f;
-                if (DateTime.TryParse(val, out f))
+                if (DateTime.TryParse(val, out var f))
                     return f;
             }
             if (this.Type == typeof(bool))
             {
-                bool f;
-                if (bool.TryParse(val, out f))
+                if (bool.TryParse(val, out var f))
                     return f;
             }
             if (this.Type == typeof(decimal))
             {
-                decimal f;
-                if (decimal.TryParse(val, out f))
+                if (decimal.TryParse(val, out var f))
                     return f;
             }
 
