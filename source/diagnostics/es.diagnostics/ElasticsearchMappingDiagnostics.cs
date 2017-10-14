@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 /*using System.ComponentModel.Composition;*/
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +25,7 @@ namespace es.diagnostics
             map.AppendLine("            \"CreatedDate\": {\"type\": \"date\"},");
             map.AppendLine("            \"ChangedDate\": {\"type\": \"date\"},");
 
-            var memberMappings = string.Join(",\r\n", item.MemberCollection.Select(d =>/*TODO : removed for compilation error*/ "d.GetMemberMappings()"));
+            var memberMappings = item.MemberCollection.ToString("\r\n", d => "d.GetMemberMappings()");
             map.AppendLine(memberMappings);
 
             map.AppendLine("        }");

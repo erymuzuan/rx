@@ -38,14 +38,16 @@ namespace Bespokse.Sph.ElasticsearchRepository
         public MessageTracker()
         {
             IsEnabled = ConfigurationManager.GetEnvironmentVariableBoolean("ElasticsearchMessageTrackingIsEnabled");
-            Host = ConfigurationManager.GetEnvironmentVariable("ElasticsearchMessageTrackingHost") ?? ConfigurationManager.ElasticSearchHost;
-            m_client = new HttpClient { BaseAddress = new Uri(Host) };
+            Host = ConfigurationManager.GetEnvironmentVariable("ElasticsearchMessageTrackingHost") ??
+                   ConfigurationManager.ElasticSearchHost;
+            m_client = new HttpClient {BaseAddress = new Uri(Host)};
         }
+
         public MessageTracker(bool isEnabled, string host)
         {
             IsEnabled = isEnabled;
             Host = host;
-            m_client = new HttpClient { BaseAddress = new Uri(host) };
+            m_client = new HttpClient {BaseAddress = new Uri(host)};
         }
 
 
@@ -65,24 +67,22 @@ namespace Bespokse.Sph.ElasticsearchRepository
         private async Task InitializeMessageSlaAsyc(string eventName, MessageTrackingEvent data)
         {
             var events = (from trg in m_enabledTriggers
-                          where trg.ShouldProcessedOnceAccepted > 0
-                                && trg.Entity == data.Entity
-                          select new MessageSlaEvent
-                          {
-                              Event = eventName,
-                              ItemId = data.ItemId,
-                              Entity = data.Entity,
-                              DateTime = data.DateTime,
-                              MessageId = data.MessageId,
-                              ProcessingTimeSpanInMiliseconds = trg.ShouldProcessedOnceAccepted.Value,
-                              Worker = $"trigger_subs_{trg.Id}"
-
-                          }).ToArray();
+                where trg.ShouldProcessedOnceAccepted > 0
+                      && trg.Entity == data.Entity
+                select new MessageSlaEvent
+                {
+                    Event = eventName,
+                    ItemId = data.ItemId,
+                    Entity = data.Entity,
+                    DateTime = data.DateTime,
+                    MessageId = data.MessageId,
+                    ProcessingTimeSpanInMiliseconds = trg.ShouldProcessedOnceAccepted.Value,
+                    Worker = $"trigger_subs_{trg.Id}"
+                }).ToArray();
             //
             var slaManager = ObjectBuilder.GetObject<IMessageSlaManager>();
             var monitorTasks = events.Select(c => slaManager.PublishSlaOnAcceptanceAsync(c));
             await Task.WhenAll(monitorTasks);
-
         }
 
         public async Task RegisterSendingToWorkerAsync(MessageTrackingEvent eventData)
@@ -108,6 +108,7 @@ namespace Bespokse.Sph.ElasticsearchRepository
             @event.Event = "Cancelled";
             await PostEventAsync(@event);
         }
+
         public async Task RegisterCancelRequestedAsync(MessageTrackingEvent @event)
         {
             @event.Event = "CancelRequested";
@@ -167,7 +168,8 @@ namespace Bespokse.Sph.ElasticsearchRepository
    ""size"":50
 }}
 ";
-            var request = new HttpRequestMessage(HttpMethod.Post, $"{IndexAlias}/_search") { Content = new StringContent(query) };
+            var request =
+                new HttpRequestMessage(HttpMethod.Post, $"{IndexAlias}/_search") {Content = new StringContent(query)};
             var response = await m_client.SendAsync(request);
 
             if (!(response.Content is StreamContent content)) throw new Exception("Cannot execute query on es ");
@@ -221,15 +223,13 @@ namespace Bespokse.Sph.ElasticsearchRepository
                 }
             }
 
-            var pr = await Policy.Handle<Exception>()
-                    .WaitAndRetryAsync(this.HttpRequestRetryCount, Wait)
-                    .ExecuteAndCaptureAsync(() => m_client.PostAsync(url, content));
-            if (null != pr.FinalException)
-            {
-                ObjectBuilder.GetObject<ILogger>().WriteError(pr.FinalException, $"Fail to Post tracking event({eventData.MessageId}) to elasticsearch");
-                throw pr.FinalException;
-            }
-            pr.Result.EnsureSuccessStatusCode();
+            await Policy.Handle<Exception>()
+                .WaitAndRetryAsync(this.HttpRequestRetryCount, Wait)
+                .ExecuteAsync(async () =>
+                {
+                    var response = await m_client.PostAsync(url, content);
+                    response.EnsureSuccessStatusCode();
+                });
         }
 
         private bool CanTrack(MessageTrackingEvent @event)
@@ -254,20 +254,21 @@ namespace Bespokse.Sph.ElasticsearchRepository
 
         public async Task InitializeAsync()
         {
-            var logger = new ConsoleLogger { TraceSwitch = Severity.Debug };
+            var logger = new ConsoleLogger {TraceSwitch = Severity.Debug};
             // NOTE : do not use SphDataContext since it required the calls to RegistryContext, this is initialization code
             m_enabledTriggers = Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\Trigger", "*.json")
                 .Select(x => x.DeserializeFromJsonFile<Trigger>())
                 .Where(x => x.EnableTracking)
                 .ToArray();
 
-            m_trackableEntities = Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition", "*.json")
+            m_trackableEntities = Directory
+                .GetFiles($"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition", "*.json")
                 .Select(x => x.DeserializeFromJsonFile<EntityDefinition>())
                 .Where(x => x.EnableTracking)
                 .Select(x => x.Name)
                 .ToArray();
-            logger.WriteInfo($"Tracking entities : { m_trackableEntities.ToString(", ")}");
-            logger.WriteInfo($"Tracking triggers : { m_enabledTriggers.ToString(", ")}");
+            logger.WriteInfo($"Tracking entities : {m_trackableEntities.ToString(", ")}");
+            logger.WriteInfo($"Tracking triggers : {m_enabledTriggers.ToString(", ")}");
 
             const string TEMPLATE_URI = "_template/rx_sla";
             var templateStatus = await m_client.GetAsync(TEMPLATE_URI);
@@ -285,9 +286,6 @@ namespace Bespokse.Sph.ElasticsearchRepository
     }}
 }}";
             await m_client.PutAsync(TEMPLATE_URI, new StringContent(template));
-
         }
-
-
     }
 }

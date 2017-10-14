@@ -43,7 +43,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             this.WriteMessage($"!!Stoping : {this.QueueName}");
 
-            m_consumer.Received -= Received;
+            m_consumer.Received -= ReceivedWithTracker;
             m_stoppingTcs?.SetResult(true);
 
             while (m_processing > 0)
@@ -120,12 +120,58 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             m_channel.BasicQos(0, this.PrefetchCount, false);
 
             m_consumer = new TaskBasicConsumer(m_channel);
-            m_consumer.Received += Received;
+
+
+            var ed = (new SphDataContext()).LoadOneFromSources<EntityDefinition>(x => x.Name == typeof(T).Name);
+            if (ed?.EnableTracking ?? false)
+                m_consumer.Received += ReceivedWithTracker;
+            else
+                m_consumer.Received += Received;
+            
             m_channel.BasicConsume(this.QueueName, NO_ACK, m_consumer);
         }
 
 
         private async void Received(object sender, ReceivedMessageArgs e)
+        {
+            Interlocked.Increment(ref m_processing);
+
+            var body = e.Body;
+            var json = await this.DecompressAsync(body);
+            var header = new MessageHeaders(e);
+            var id = "";
+            try
+            {
+                var item = json.DeserializeFromJson<T>();
+                id = item.Id;
+
+                await ProcessMessage(item, header);
+                m_channel.BasicAck(e.DeliveryTag, false);
+            }
+            catch (Exception exc)
+            {
+                m_channel.BasicReject(e.DeliveryTag, false);
+
+                this.NotificicationService.WriteError(exc, $"Exception is thrown in {QueueName}");
+
+                var entry = new LogEntry(exc) {Source = this.QueueName, Log = EventLog.Subscribers};
+                entry.OtherInfo.Add("Type", typeof(T).Name.ToLowerInvariant());
+                entry.OtherInfo.Add("Id", id);
+                entry.OtherInfo.Add("Requeued", false);
+                entry.OtherInfo.Add("RequeuedBy", "");
+                entry.OtherInfo.Add("RequeuedOn", "");
+                entry.OtherInfo.Add("Id2", id.Replace("-", ""));
+
+                var logger = ObjectBuilder.GetObject<ILogger>();
+                logger.Log(entry);
+            }
+            finally
+            {
+                Interlocked.Decrement(ref m_processing);
+            }
+        }
+
+        private async void ReceivedWithTracker(object sender, ReceivedMessageArgs e)
         {
             var tracker = ObjectBuilder.GetObject<IMessageTracker>();
             var cancelledMessageRepository = ObjectBuilder.GetObject<ICancelledMessageRepository>();
