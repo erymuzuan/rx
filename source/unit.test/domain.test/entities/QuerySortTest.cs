@@ -2,11 +2,18 @@
 using Bespoke.Sph.Domain;
 using domain.test.triggers;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace domain.test.entities
 {
     public class QuerySortTest
     {
+        private readonly ITestOutputHelper m_output;
+
+        public QuerySortTest(ITestOutputHelper output)
+        {
+            m_output = output;
+        }
         [Fact]
         public void SimpleSort()
         {
@@ -109,6 +116,23 @@ namespace domain.test.entities
 
             var filter = Filter.GenerateElasticSearchFilterDsl(view, view.FilterCollection);
             Assert.Contains("\"to\":\"2000-01-01", filter);
+        }
+
+
+        [Fact]
+        public void UsingIsNotNullFilter()
+        {
+            var ed = new EntityDefinition {Id = "patient", Name = "Patient", WebId = "patient", Plural = "Patients", RecordName = "Mrn"};
+            ed.MemberCollection.Add(new SimpleMember{Name = "Mrn", Type = typeof(string)});
+            ed.MemberCollection.Add(new SimpleMember{Name = "FullName", Type = typeof(string)});
+            
+            var view = new QueryEndpoint{Name = "Patient with name", Route = "patient-with-name"};
+            view.AddFilter("FullName", Operator.IsNotNull, new ConstantField{Type = typeof(bool),Value = true});
+
+            var filter = Filter.GenerateElasticSearchFilterDsl(view, view.FilterCollection);
+            Assert.Contains("missing", filter);
+            
+            m_output.WriteLine(filter);
         }
     }
 }
