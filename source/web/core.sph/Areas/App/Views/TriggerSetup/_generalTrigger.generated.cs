@@ -149,8 +149,8 @@ WriteLiteral(" type=\"checkbox\"");
 
 WriteLiteral(" name=\"EnableTracking\"");
 
-WriteLiteral(" />\r\n                    Added\r\n                </label>\r\n            </div>\r\n   " +
-"     </div>\r\n    </div>\r\n    <div");
+WriteLiteral(" />\r\n                    Enable Tracking\r\n                </label>\r\n            <" +
+"/div>\r\n        </div>\r\n    </div>\r\n    <div");
 
 WriteLiteral(" class=\"form-group\"");
 
