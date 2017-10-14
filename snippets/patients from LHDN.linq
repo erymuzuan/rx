@@ -14,7 +14,7 @@
 
 void Main()
 {
-	var files = Directory.GetFiles(@"E:\temp\lhdn\23", "*.txt", SearchOption.AllDirectories);
+	var files = Directory.GetFiles(@"E:\temp\lhdn\22", "*.txt", SearchOption.AllDirectories);
 	foreach (var txt in files)
 	{
 		var reader = new PatientReader();
@@ -26,9 +26,9 @@ void Main()
 
 public class PatientReader
 {
-	const int BATCH_SIZE = 1;
+	const int BATCH_SIZE = 100;
 	const string BASE_URL = "http://localhost:4436";
-	const string TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYWRtaW4iLCJyb2xlcyI6WyJhZG1pbmlzdHJhdG9ycyIsImRldmVsb3BlcnMiXSwiZW1haWwiOiJhZG1pbkB5b3VyY29tcGFueS5jb20iLCJzdWIiOiI2MzYzNjczOTE0ODQwMTczMjY0MTdiMDFlYyIsIm5iZiI6MTUxNzAxMTE0OCwiaWF0IjoxNTAxMTEzNTQ4LCJleHAiOjE1MTQ3NjQ4MDAsImF1ZCI6IkRldlYxIn0.pQlh4Z0qk_8D2o0cEENR-K0y2DOn-yaZQ9_6vuMIVXs";
+	const string TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYWRtaW4iLCJyb2xlcyI6WyJhZG1pbmlzdHJhdG9ycyIsImRldmVsb3BlcnMiXSwiZW1haWwiOiJhZG1pbkB5b3VyY29tcGFueS5jb20iLCJzdWIiOiI2MzYzODkwMzA0ODgzNjc0MjZlNjRjMTNlZiIsIm5iZiI6MTUxOTE3NTA0OSwiaWF0IjoxNTAzMjc3NDQ5LCJleHAiOjE1MDk0MDgwMDAsImF1ZCI6IkRldlYxIn0._gdyzqOqVHP7sxPZ7VAEmj-sZ-JhIe4fS1yRzftMdNQ";
 	private HttpClient client = new HttpClient { BaseAddress = new Uri(BASE_URL) };
 	public PatientReader()
 	{
@@ -71,7 +71,6 @@ public class PatientReader
 
 	private async Task Register(Patient patient)
 	{
-		await Task.Delay(700);
 		// post it to
 		var json = patient.ToJsonString();
 		var request = new StringContent(json);
@@ -87,9 +86,6 @@ public class PatientReader
 			Console.Write(".");
 		else
 			Console.Write("FAILED :" + r);
-
-
-
 	}
 	
 	private Patient Parse(string l, int count)
