@@ -3,14 +3,14 @@
 /// <reference path="~/Scripts/moment.js" />
 /// <reference path="~/Scripts/require.js" />
 
-var bespoke = bespoke || {};
+const bespoke = bespoke || {};
 bespoke.sph = bespoke.sph || {};
 bespoke.sph.domain = bespoke.sph.domain || {};
 
 
 bespoke.sph.domain.WorkersConfig = function (optionOrWebid) {
 
-    var model = {
+    const model = {
             "$type": "Bespoke.Sph.Domain.WorkersConfig, domain.sph",
             Id: ko.observable("0"),
             Name: ko.observable(""),
@@ -24,10 +24,10 @@ bespoke.sph.domain.WorkersConfig = function (optionOrWebid) {
         },
         context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
-        for (var n in optionOrWebid) {
+        for (let n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
-                    var values = optionOrWebid[n].$values || optionOrWebid[n];
+                    const values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
                         model[n](_(values).map(function (ai) {
                             return context.toObservable(ai);
@@ -56,7 +56,7 @@ bespoke.sph.domain.WorkersConfig = function (optionOrWebid) {
 
 bespoke.sph.domain.SubscriberConfig = function (optionOrWebid) {
 
-    var model = {
+    const model = {
             "$type": "Bespoke.Sph.Domain.SubscriberConfig, domain.sph",
             QueueName: ko.observable(""),
             FullName: ko.observable(""),
@@ -75,10 +75,10 @@ bespoke.sph.domain.SubscriberConfig = function (optionOrWebid) {
         },
         context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
-        for (var n in optionOrWebid) {
+        for (let n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
-                    var values = optionOrWebid[n].$values || optionOrWebid[n];
+                    const values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
                         model[n](_(values).map(function (ai) {
                             return context.toObservable(ai);
@@ -107,7 +107,7 @@ bespoke.sph.domain.SubscriberConfig = function (optionOrWebid) {
 
 bespoke.sph.domain.WebServerConfig = function (optionOrWebid) {
 
-    var model = {
+    const model = {
             "$type": "Bespoke.Sph.Domain.WebServerConfig, domain.sph",
             Id: ko.observable("0"),
             Name: ko.observable(""),
@@ -126,10 +126,10 @@ bespoke.sph.domain.WebServerConfig = function (optionOrWebid) {
         },
         context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
-        for (var n in optionOrWebid) {
+        for (let n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
-                    var values = optionOrWebid[n].$values || optionOrWebid[n];
+                    const values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
                         model[n](_(values).map(function (ai) {
                             return context.toObservable(ai);
@@ -158,7 +158,7 @@ bespoke.sph.domain.WebServerConfig = function (optionOrWebid) {
 
 bespoke.sph.domain.WorkerServerConfig = function (optionOrWebid) {
 
-    var model = {
+    const model = {
             "$type": "Bespoke.Sph.Domain.WorkerServerConfig, domain.sph",
             Id: ko.observable("0"),
             Name: ko.observable(""),
@@ -177,10 +177,10 @@ bespoke.sph.domain.WorkerServerConfig = function (optionOrWebid) {
         },
         context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
-        for (var n in optionOrWebid) {
+        for (let n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
-                    var values = optionOrWebid[n].$values || optionOrWebid[n];
+                    const values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
                         model[n](_(values).map(function (ai) {
                             return context.toObservable(ai);
@@ -209,7 +209,7 @@ bespoke.sph.domain.WorkerServerConfig = function (optionOrWebid) {
 
 bespoke.sph.domain.BrokerConfig = function (optionOrWebid) {
 
-    var model = {
+    const model = {
             "$type": "Bespoke.Sph.Domain.BrokerConfig, domain.sph",
             Name: ko.observable(""),
             ComputerName: ko.observable(""),
@@ -221,10 +221,10 @@ bespoke.sph.domain.BrokerConfig = function (optionOrWebid) {
         },
         context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
-        for (var n in optionOrWebid) {
+        for (let n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
-                    var values = optionOrWebid[n].$values || optionOrWebid[n];
+                    const values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
                         model[n](_(values).map(function (ai) {
                             return context.toObservable(ai);
@@ -253,7 +253,7 @@ bespoke.sph.domain.BrokerConfig = function (optionOrWebid) {
 
 bespoke.sph.domain.ElasticsearchConfig = function (optionOrWebid) {
 
-    var model = {
+    const model = {
             "$type": "Bespoke.Sph.Domain.ElasticsearchConfig, domain.sph",
             Name: ko.observable(""),
             Environment: ko.observable(""),
@@ -264,10 +264,10 @@ bespoke.sph.domain.ElasticsearchConfig = function (optionOrWebid) {
         },
         context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
-        for (var n in optionOrWebid) {
+        for (let n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
-                    var values = optionOrWebid[n].$values || optionOrWebid[n];
+                    const values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
                         model[n](_(values).map(function (ai) {
                             return context.toObservable(ai);
@@ -296,7 +296,7 @@ bespoke.sph.domain.ElasticsearchConfig = function (optionOrWebid) {
 
 bespoke.sph.domain.DscConfig = function (optionOrWebid) {
 
-    var model = {
+    const model = {
             "$type": "Bespoke.Sph.Domain.DscConfig, domain.sph",
             Id: ko.observable("0"),
             Name: ko.observable(""),
@@ -311,10 +311,10 @@ bespoke.sph.domain.DscConfig = function (optionOrWebid) {
         },
         context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
-        for (var n in optionOrWebid) {
+        for (let n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
-                    var values = optionOrWebid[n].$values || optionOrWebid[n];
+                    const values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
                         model[n](_(values).map(function (ai) {
                             return context.toObservable(ai);
@@ -343,7 +343,7 @@ bespoke.sph.domain.DscConfig = function (optionOrWebid) {
 
 bespoke.sph.domain.ConfigData = function (optionOrWebid) {
 
-    var model = {
+    const model = {
             "$type": "Bespoke.Sph.Domain.ConfigData, domain.sph",
             Key: ko.observable(""),
             Value: ko.observable(""),
@@ -353,10 +353,10 @@ bespoke.sph.domain.ConfigData = function (optionOrWebid) {
         },
         context = require("services/datacontext");
     if (optionOrWebid && typeof optionOrWebid === "object") {
-        for (var n in optionOrWebid) {
+        for (let n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (ko.isObservable(model[n]) && 'push' in model[n]) {
-                    var values = optionOrWebid[n].$values || optionOrWebid[n];
+                    const values = optionOrWebid[n].$values || optionOrWebid[n];
                     if (_(values).isArray()) {
                         model[n](_(values).map(function (ai) {
                             return context.toObservable(ai);
