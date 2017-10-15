@@ -18,6 +18,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
     public abstract class Subscriber<T> : Subscriber where T : Entity
     {
         private TaskCompletionSource<bool> m_stoppingTcs;
+        private EntityDefinition m_entityDefinition;
         protected abstract Task ProcessMessage(T item, MessageHeaders header);
 
         public override void Run(IConnection connection)
@@ -41,9 +42,14 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         protected override void OnStop()
         {
-            this.WriteMessage($"!!Stoping : {this.QueueName}");
-
-            m_consumer.Received -= ReceivedWithTracker;
+            this.WriteMessage($"Stoping : {this.QueueName}");
+            
+            if (m_entityDefinition?.EnableTracking ?? false)
+                m_consumer.Received -= ReceivedWithTracker;
+            else
+                m_consumer.Received -= Received;
+            
+            
             m_stoppingTcs?.SetResult(true);
 
             while (m_processing > 0)
@@ -122,8 +128,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             m_consumer = new TaskBasicConsumer(m_channel);
 
 
-            var ed = (new SphDataContext()).LoadOneFromSources<EntityDefinition>(x => x.Name == typeof(T).Name);
-            if (ed?.EnableTracking ?? false)
+            m_entityDefinition = (new SphDataContext()).LoadOneFromSources<EntityDefinition>(x => x.Name == typeof(T).Name);
+            if (m_entityDefinition?.EnableTracking ?? false)
                 m_consumer.Received += ReceivedWithTracker;
             else
                 m_consumer.Received += Received;
