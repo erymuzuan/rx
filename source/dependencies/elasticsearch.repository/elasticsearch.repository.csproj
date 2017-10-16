@@ -57,6 +57,7 @@
       <Link>LoggerExtensions.cs</Link>
     </Compile>
     <Compile Include="CancelledMessageRepository.cs" />
+    <Compile Include="CircuitBreaker.cs" />
     <Compile Include="HttpClientExtensions.cs" />
     <Compile Include="MappingBuilder.cs" />
     <Compile Include="MessageTracker.cs" />

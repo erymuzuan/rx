@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -10,6 +9,9 @@ using Bespoke.Sph.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Polly;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable UnusedMember.Global
 
 namespace Bespokse.Sph.ElasticsearchRepository
 {
@@ -168,8 +170,7 @@ namespace Bespokse.Sph.ElasticsearchRepository
    ""size"":50
 }}
 ";
-            var request =
-                new HttpRequestMessage(HttpMethod.Post, $"{IndexAlias}/_search") {Content = new StringContent(query)};
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{IndexAlias}/_search") {Content = new StringContent(query)};
             var response = await m_client.SendAsync(request);
 
             if (!(response.Content is StreamContent content)) throw new Exception("Cannot execute query on es ");
