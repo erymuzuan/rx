@@ -17,7 +17,7 @@ namespace Bespokse.Sph.ElasticsearchRepository
 {
     public class MessageTracker : IMessageTracker
     {
-        public bool IsEnabled { get; }
+        public bool IsEnabled { get; set; } = true;
         public string Host { get; }
         private readonly HttpClient m_client;
         private string LoweredApp => ConfigurationManager.ApplicationName.ToLowerInvariant();
@@ -39,17 +39,13 @@ namespace Bespokse.Sph.ElasticsearchRepository
 
         public MessageTracker()
         {
-            IsEnabled = ConfigurationManager.GetEnvironmentVariableBoolean("ElasticsearchMessageTrackingIsEnabled");
-            Host = ConfigurationManager.GetEnvironmentVariable("ElasticsearchMessageTrackingHost") ??
-                   ConfigurationManager.ElasticSearchHost;
+            Host = ConfigurationManager.GetEnvironmentVariable("ElasticsearchMessageTrackingHost") ?? ConfigurationManager.ElasticSearchHost;
             m_client = new HttpClient {BaseAddress = new Uri(Host)};
         }
 
-        public MessageTracker(bool isEnabled, string host)
+        public MessageTracker(string host) : this()
         {
-            IsEnabled = isEnabled;
             Host = host;
-            m_client = new HttpClient {BaseAddress = new Uri(host)};
         }
 
 
