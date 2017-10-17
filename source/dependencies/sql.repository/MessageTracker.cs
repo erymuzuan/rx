@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -6,15 +8,20 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Extensions;
-using Newtonsoft.Json;
 using Polly;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable UnusedMember.Global
+
+// ReSharper disable UnassignedGetOnlyAutoProperty
 
 namespace Bespoke.Sph.SqlRepository
 {
     public class MessageTracker : IMessageTracker
     {
         private readonly string m_connectionString;
-        public bool IsEnabled { get; }
+        public bool IsEnabled { get; set; } = true;
         public int RetryCount { get; set; } = 3;
         public TimeSpan WaitDuration { get; set; } = TimeSpan.FromMilliseconds(200);
         public WaitAlgorithm HttpRequestWaitAlgorithm { get; set; } = WaitAlgorithm.Exponential;
@@ -23,21 +30,17 @@ namespace Bespoke.Sph.SqlRepository
         private string[] m_trackableEntities;
         private Trigger[] m_enabledTriggers;
 
-        public MessageTracker(string connectionString)
+        public MessageTracker(string connectionString, bool readFromEnvironmentVariable = false)
         {
-            m_connectionString = connectionString;
+            m_connectionString = readFromEnvironmentVariable ? ConfigurationManager.GetEnvironmentVariable(connectionString) : connectionString;
         }
+
         public MessageTracker()
         {
             m_connectionString = ConfigurationManager.SqlConnectionString;
         }
 
         public void Initialize()
-        {
-            this.InitializeAsync().Wait(9000);
-        }
-
-        public async Task InitializeAsync()
         {
             var logger = new ConsoleLogger { TraceSwitch = Severity.Debug };
             // NOTE : do not use SphDataContext since it required the calls to RegistryContext, this is initialization code
@@ -54,18 +57,7 @@ namespace Bespoke.Sph.SqlRepository
                 .ToArray();
             logger.WriteInfo($"Tracking entities : {m_trackableEntities.ToString(", ")}");
             logger.WriteInfo($"Tracking triggers : {m_enabledTriggers.ToString(", ")}");
-
-            const string TABLE_SQL = @"
-
-CREATE TABLE [Sph].[MessageEvent]
-()";
-            using (var conn = new SqlConnection(m_connectionString))
-            using (var cmd = new SqlCommand(TABLE_SQL, conn))
-            {
-                await conn.OpenAsync();
-                await cmd.ExecuteNonQueryAsync();
-            }
-
+            //
         }
 
 
@@ -87,11 +79,6 @@ CREATE TABLE [Sph].[MessageEvent]
         private async Task PostEventAsync(MessageTrackingEvent eventData)
         {
             if (!CanTrack(eventData)) return;
-            if (!IsEnabled) return;
-
-            var setting = new JsonSerializerSettings();
-            var json = JsonConvert.SerializeObject(eventData, setting);
-
 
             TimeSpan Wait(int c)
             {
@@ -108,14 +95,41 @@ CREATE TABLE [Sph].[MessageEvent]
                 }
             }
 
-            await Policy.Handle<Exception>()
+            await Policy.Handle<SqlException>(e => e.Message.Contains("timeout"))
                 .WaitAndRetryAsync(this.RetryCount, Wait)
                 .ExecuteAsync(async () =>
                 {
+                    using (var conn = new SqlConnection(m_connectionString))
+                    using (var cmd = new SqlCommand(@"[Sph].[InsertMessageTrackingEvent]", conn) { CommandType = CommandType.StoredProcedure })
+                    {
+                        cmd.Parameters.Add(new SqlParameter("@DateTime", SqlDbType.SmallDateTime, 8)).Value =
+                            eventData.DateTime;
+                        cmd.Parameters.Add(new SqlParameter("@Entity", SqlDbType.NVarChar, 255)).Value =
+                            eventData.Entity;
+                        cmd.Parameters.Add(new SqlParameter("@Event", SqlDbType.NVarChar, 255)).Value = eventData.Event;
+                        cmd.Parameters.Add(new SqlParameter("@ItemId", SqlDbType.NVarChar, 255)).Value =
+                            eventData.ItemId;
+                        cmd.Parameters.Add(new SqlParameter("@ProcessName", SqlDbType.NVarChar, 255)).Value =
+                            eventData.ProcessName.ToDbNull();
+                        cmd.Parameters.Add(new SqlParameter("@ProcessingTimeSpan", SqlDbType.NVarChar, 255)).Value =
+                            eventData.ProcessingTimeSpan.ToEmptyString().ToDbNull();
+                        cmd.Parameters.Add(new SqlParameter("@ProcessingTimeSpanInMiliseconds", SqlDbType.Float)).Value
+                            = eventData.ProcessingTimeSpanInMiliseconds.ToDbNull();
+                        cmd.Parameters.Add(new SqlParameter("@MachineName", SqlDbType.NVarChar, 255)).Value =
+                            eventData.MachineName.ToDbNull();
+                        cmd.Parameters.Add(new SqlParameter("@Worker", SqlDbType.NVarChar, 255)).Value =
+                            eventData.Worker.ToDbNull();
+                        cmd.Parameters.Add(new SqlParameter("@RoutingKey", SqlDbType.NVarChar, 255)).Value =
+                            eventData.RoutingKey.ToDbNull();
+                        cmd.Parameters.Add(new SqlParameter("@MessageId", SqlDbType.NVarChar, 255)).Value =
+                            eventData.MessageId;
+                        await conn.OpenAsync();
 
-                    await Task.Delay(100);
+                        await cmd.ExecuteNonQueryAsync();
+                    }
                 });
         }
+
         public async Task RegisterAcceptanceAsync(MessageTrackingEvent @event)
         {
             ObjectBuilder.GetObject<ILogger>().WriteVerbose($"Accepted {@event.Entity}{{{@event.ItemId}}}");
@@ -150,6 +164,7 @@ CREATE TABLE [Sph].[MessageEvent]
             var monitorTasks = events.Select(c => slaManager.PublishSlaOnAcceptanceAsync(c));
             await Task.WhenAll(monitorTasks);
         }
+
         public async Task RegisterSendingToWorkerAsync(MessageTrackingEvent eventData)
         {
             eventData.Event = "SendingToWorker";
@@ -198,10 +213,44 @@ CREATE TABLE [Sph].[MessageEvent]
             await PostEventAsync(eventData);
         }
 
-        public Task<MessageTrackingStatus> GetProcessStatusAsync(MessageSlaEvent @event)
+        public async Task<MessageTrackingStatus> GetProcessStatusAsync(MessageSlaEvent @event)
         {
-            throw new NotImplementedException();
-        }
 
+            using (var conn = new SqlConnection(m_connectionString))
+            using (var cmd = new SqlCommand("[Sph].[GetMessageProcessingStatus]", conn){CommandType = CommandType.StoredProcedure})
+            {
+                cmd.Parameters.Add(new SqlParameter("@MessageId", SqlDbType.VarChar, 255)).Value = @event.MessageId;
+                cmd.Parameters.Add(new SqlParameter("@Worker", SqlDbType.VarChar, 255)).Value = @event.Worker.ToDbNull();
+
+                await conn.OpenAsync();
+                var trackings = new List<MessageTrackingEvent>();
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        // ReSharper disable UseObjectOrCollectionInitializer
+                        var tracking = new MessageTrackingEvent();
+                        tracking.MessageId = reader.GetString(0);
+                        tracking.Event = reader.GetString(1);
+
+                        // ReSharper restore UseObjectOrCollectionInitializer
+                        trackings.Add(tracking);
+
+                    }
+                }
+                if (trackings.Count == 0) return MessageTrackingStatus.NotStarted;
+
+                if (trackings.Any(x => x.Event == "ProcessingCompleted"))
+                    return MessageTrackingStatus.Started | MessageTrackingStatus.Completed;
+
+                if (trackings.Any(x => x.Event == "StartProcessing") && trackings.Count == 1)
+                    return MessageTrackingStatus.Started;
+
+                if (trackings.Any(x => x.Event == "StartProcessing") && trackings.Count > 1)
+                    return MessageTrackingStatus.Started | MessageTrackingStatus.Error;
+
+                return MessageTrackingStatus.Terminated;
+            }
+        }
     }
 }

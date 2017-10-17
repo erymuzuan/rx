@@ -14,7 +14,7 @@
 
 void Main()
 {
-	var files = Directory.GetFiles(@"E:\temp\lhdn\22", "*.txt", SearchOption.AllDirectories);
+	var files = Directory.GetFiles(@"E:\temp\lhdn\18", "*.txt", SearchOption.AllDirectories);
 	foreach (var txt in files)
 	{
 		var reader = new PatientReader();
