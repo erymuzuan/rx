@@ -27,9 +27,11 @@ namespace workers.console.runner
             var password = ParseArg("p") ?? "guest";
             var debug = ParseArgExist("debug");
             var workerProcess = Process.GetCurrentProcess();
+            var envName = ParseArg("env") ?? "dev";
+            var configName = ParseArg("config") ?? "all";
+            Console.Title = $"Current process :[{workerProcess.Id}] {workerProcess.ProcessName}/{envName}.{configName}";
             if (debug)
             {
-                Console.Title = $"Current process :[{workerProcess.Id}] {workerProcess.ProcessName}";
                 Console.WriteLine($"Attach your debugger to [{workerProcess.Id}] {workerProcess.ProcessName}");
                 Console.WriteLine("Press [ENTER] to continue");
                 Console.ReadLine();
@@ -48,31 +50,29 @@ namespace workers.console.runner
             var log = new Logger();
             if (ParseArg("log") == "console")
             {
-                log.Loggers.Add(new ConsoleLogger {TraceSwitch = Severity.Debug});
+                log.Loggers.Add(new ConsoleLogger { TraceSwitch = Severity.Debug });
             }
             else
             {
-                log.Loggers.Add(new EventLogNotification {TraceSwitch = Severity.Info});
+                log.Loggers.Add(new EventLogNotification { TraceSwitch = Severity.Info });
             }
             var fileOut = ParseArg("out");
             var fileOutSize = ParseArg("outSize") ?? "100KB";
             var fileTraceSwitch = ParseArg("outSwitch") ?? "Debug";
+            const double BUFFER_SIZE = 100d;
             if (!string.IsNullOrWhiteSpace(fileOut))
             {
-                log.Loggers.Add(new FileLogger(fileOut, FileLogger.Interval.Day, fileOutSize)
+                log.Loggers.Add(new FileLogger(fileOut, FileLogger.Interval.Day, fileOutSize, BUFFER_SIZE)
                 {
-                    TraceSwitch = (Severity) (Enum.Parse(typeof(Severity), fileTraceSwitch, true))
+                    TraceSwitch = (Severity)(Enum.Parse(typeof(Severity), fileTraceSwitch, true))
                 });
             }
 
 
-            var title = string.Format($"[{workerProcess.Id}] Connecting to {userName}:{password}@{host}:{port}");
+            var title = $"[{envName}.{configName}][{workerProcess.Id}] Broker:{userName}:{password}@{host}:{port}";
             log.WriteInfo(Console.Title = title);
 
-            var envName = ParseArg("env") ?? "dev";
-            var configName = ParseArg("config") ?? "all";
-            var configFile =
-                $"{ConfigurationManager.SphSourceDirectory}\\{nameof(WorkersConfig)}\\{envName}.{configName}.json";
+            var configFile = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(WorkersConfig)}\\{envName}.{configName}.json";
             if (!File.Exists(configFile))
             {
                 Console.WriteLine($"Cannot find subscribers config in '{configFile}'");
@@ -135,14 +135,14 @@ namespace workers.console.runner
 
         public static string ParseArg(string name)
         {
-            var args = Environment.CommandLine.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+            var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             var val = args.SingleOrDefault(a => a.StartsWith("/" + name + ":"));
             return val?.Replace("/" + name + ":", string.Empty);
         }
 
         private static bool ParseArgExist(string name)
         {
-            var args = Environment.CommandLine.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+            var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             var val = args.SingleOrDefault(a => a.StartsWith("/" + name));
             return null != val;
         }
