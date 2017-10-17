@@ -95,7 +95,7 @@ namespace Bespoke.Sph.SqlRepository
                 }
             }
 
-            await Policy.Handle<SqlException>(e => e.Message.Contains("timeout"))
+            await Policy.Handle<Exception>(e => e.Message.Contains("timeout"))
                 .WaitAndRetryAsync(this.RetryCount, Wait)
                 .ExecuteAsync(async () =>
                 {
