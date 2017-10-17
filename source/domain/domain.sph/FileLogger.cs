@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Polly;
 
 namespace Bespoke.Sph.Domain
 {
-    public class FileLogger : ILogger
+    public class FileLogger : ILogger, IDisposable
     {
         public enum Interval
         {
@@ -21,6 +23,7 @@ namespace Bespoke.Sph.Domain
         private readonly string m_output;
         private readonly Interval m_rollingInterval;
         private readonly string m_sizeLimit;
+        private readonly double m_bufferSize;
         private readonly object m_lock = new object();
         private long? m_longSize;
 
@@ -52,11 +55,26 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public FileLogger(string output, Interval rollingInterval = Interval.Day, string sizeLimit = "1MB")
+        public FileLogger(string output, Interval rollingInterval = Interval.Day, string sizeLimit = "1MB", double bufferSize = 0d)
         {
             m_output = output;
             m_rollingInterval = rollingInterval;
             m_sizeLimit = sizeLimit;
+            m_bufferSize = bufferSize;
+
+            m_timer = new Timer(TimerCallback, this, 10000, 500);
+
+        }
+
+        private void TimerCallback(object state)
+        {
+            lock (m_lock)
+            {
+                Policy.Handle<IOException>()
+                    .WaitAndRetry(3, c => TimeSpan.FromMilliseconds(100 * Math.Pow(2, c)))
+                    .Execute(() => File.AppendAllLines(GetFileName(), m_lines.ToArray()));
+            }
+            m_lines.Clear();
         }
 
         public Severity TraceSwitch { get; set; } = Severity.Info;
@@ -117,19 +135,38 @@ namespace Bespoke.Sph.Domain
 
             return $"{folder}\\{fileName}-{timestamp}-{rolling:00}{extension}";
         }
+        private readonly ConcurrentBag<string> m_lines = new ConcurrentBag<string>();
+        private readonly Timer m_timer;
 
         public void Log(LogEntry entry)
         {
-            if ((int) entry.Severity < (int) TraceSwitch) return;
+            if ((int)entry.Severity < (int)TraceSwitch) return;
 
             var header = $"{DateTime.Now:G} [{entry.Severity}]";
             var pad = new string(' ', header.Length);
-            var messages = entry.ToEmptyString().Split(new[] {"\r\n", "\n", "\r"}, StringSplitOptions.None);
-            var lines = new List<string> {$"{header} {messages.FirstOrDefault()}"};
+            var messages = entry.ToEmptyString().Split(new[] { "\r\n", "\n", "\r" }, StringSplitOptions.None);
+            var lines = new List<string> { $"{header} {messages.FirstOrDefault()}" };
             lines.AddRange(messages.Skip(1).Select(x => $"{pad} {x}"));
             if (TraceSwitch == Severity.Debug)
             {
                 lines.Add($@"{pad}\t[{entry.CallerMemberName}]{Path.GetFileName(entry.CallerFilePath)}:{entry.CallerLineNumber}");
+            }
+
+            if (m_bufferSize > 0 && entry.Severity < Severity.Error)
+            {
+                m_lines.AddRange(lines);
+                if (m_lines.Count >= m_bufferSize)
+                {
+                    lock (m_lock)
+                    {
+                        Policy.Handle<IOException>()
+                            .WaitAndRetry(3, c => TimeSpan.FromMilliseconds(100 * Math.Pow(2, c)))
+                            .Execute(() => File.AppendAllLines(GetFileName(), m_lines.ToArray()));
+                    }
+
+                    m_lines.Clear();
+                }
+                return;
             }
 
             lock (m_lock)
@@ -138,6 +175,22 @@ namespace Bespoke.Sph.Domain
                     .WaitAndRetry(3, c => TimeSpan.FromMilliseconds(100 * Math.Pow(2, c)))
                     .Execute(() => File.AppendAllLines(GetFileName(), lines.ToArray()));
             }
+        }
+
+        private void ReleaseUnmanagedResources()
+        {
+            m_timer.Dispose();
+        }
+
+        public void Dispose()
+        {
+            ReleaseUnmanagedResources();
+            GC.SuppressFinalize(this);
+        }
+
+        ~FileLogger()
+        {
+            ReleaseUnmanagedResources();
         }
     }
 }
