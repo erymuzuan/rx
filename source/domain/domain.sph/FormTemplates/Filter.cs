@@ -55,9 +55,16 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private bool IsMustFilter(Filter filter, string field)
+        private bool IsMustFilter(Entity item, string field)
         {
-            switch (filter.Operator)
+            //must
+            //x.Term == f && x.Operator != Operator.Neq
+            
+            // mustnot
+            //x.Term == f && x.Operator == Operator.Neq
+            
+            var rc = new RuleContext(item);
+            switch (this.Operator)
             {
                 case Operator.Eq:
                 case Operator.Lt:
@@ -67,28 +74,23 @@ namespace Bespoke.Sph.Domain
                 case Operator.Substringof:
                 case Operator.StartsWith:
                 case Operator.EndsWith:
-                    return field == filter.Term;
+                    return field == this.Term;
                 case Operator.NotContains:
-                    break;
                 case Operator.Neq:
-                    break;
                 case Operator.NotStartsWith:
-                    break;
                 case Operator.NotEndsWith:
-                    break;
+                    return this.Term != field;
                 case Operator.IsNull:
-                    if (filter.Field is ConstantField cf)
+                    if (this.Field.GetValue(rc) is bool cf)
                     {
-                        if (cf.Value is bool cfv)
-                        {
-                            if (cfv)
-                            {
-                                
-                            }
-                        }
+                        return cf;
                     }
                     break;
                 case Operator.IsNotNull:
+                    if (this.Field.GetValue(rc) is bool cb)
+                    {
+                        return !cb;
+                    }
                     break;
             }
             return true;
@@ -102,11 +104,11 @@ namespace Bespoke.Sph.Domain
             var query = new StringBuilder();
 
             var mustFilters = fields.Select(f =>
-                GetFilterDsl(entity, list.Where(x => x.Term == f && x.Operator != Operator.Neq).ToArray())).ToList();
+                GetFilterDsl(entity, list.Where(x => x.IsMustFilter(entity,f)).ToArray())).ToList();
             var musts = string.Join(",\r\n", mustFilters.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray());
 
             var mustNotFilters = fields.Select(f =>
-                GetFilterDsl(entity, list.Where(x => x.Term == f && x.Operator == Operator.Neq).ToArray())).ToList();
+                GetFilterDsl(entity, list.Where(x => !x.IsMustFilter(entity,f)).ToArray())).ToList();
             var mustNots = mustNotFilters.Where(s => !string.IsNullOrWhiteSpace(s)).ToString("\r\n");
             query.AppendFormat(@"{{
                ""bool"": {{
@@ -184,18 +186,17 @@ namespace Bespoke.Sph.Domain
                 case Operator.IsNotNull:
                     if (ft.Field.GetValue(context) is bool cb)
                     {
-                        if (cb)
-                        {
-                            query.AppendLine($@"
+                        query.AppendLine($@"
                             ""missing"" : {{ ""field"" : ""{ft.Term}""}}
                             ");
-                        }
-                        else
-                        {
-                            query.AppendLine($@"
+                    }
+                    break;
+                case Operator.IsNull:
+                    if (ft.Field.GetValue(context) is bool cb1)
+                    {
+                        query.AppendLine($@"
                             ""missing"" : {{ ""field"" : ""{ft.Term}""}}
                             ");
-                        }
                     }
                     break;
                 default: throw new Exception(ft.Operator + " is not supported for filter DSL yet");
