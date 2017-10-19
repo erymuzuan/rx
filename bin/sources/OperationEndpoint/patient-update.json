@@ -31,6 +31,10 @@
       }
     ]
   },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
   "Name": "Update",
   "Route": "{id}/update",
   "IsHttpPut": false,
@@ -46,6 +50,6 @@
   "Id": "patient-update",
   "CreatedDate": "2016-04-08T18:36:53.5586986+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-04-09T07:37:43.02194+08:00",
+  "ChangedDate": "2017-10-01T08:18:03.9663389+08:00",
   "WebId": "3b796e98-5be2-448e-b7f8-9fa09b70063e"
 }

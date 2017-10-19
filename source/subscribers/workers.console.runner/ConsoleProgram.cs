@@ -4,15 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Extensions;
 using Bespoke.Sph.SubscribersInfrastructure;
-using INotificationService = Bespoke.Sph.SubscribersInfrastructure.INotificationService;
 
 namespace workers.console.runner
 {
-
     public class ConsoleProgram
     {
-
         public static int Main(string[] args)
         {
             if (ParseArgExist("?"))
@@ -29,9 +27,11 @@ namespace workers.console.runner
             var password = ParseArg("p") ?? "guest";
             var debug = ParseArgExist("debug");
             var workerProcess = Process.GetCurrentProcess();
+            var envName = ParseArg("env") ?? "dev";
+            var configName = ParseArg("config") ?? "all";
+            Console.Title = $"Current process :[{workerProcess.Id}] {workerProcess.ProcessName}/{envName}.{configName}";
             if (debug)
             {
-                Console.Title = $"Current process :[{workerProcess.Id}] {workerProcess.ProcessName}";
                 Console.WriteLine($"Attach your debugger to [{workerProcess.Id}] {workerProcess.ProcessName}");
                 Console.WriteLine("Press [ENTER] to continue");
                 Console.ReadLine();
@@ -47,18 +47,31 @@ namespace workers.console.runner
             sw.Start();
             Console.WriteLine("Stopwatch started");
 
-            INotificationService log = new ConsoleNotification();
-            if (ParseArg("log") != "console")
+            var log = new Logger();
+            if (ParseArg("log") == "console")
             {
-                log = new EventLogNotification();
+                log.Loggers.Add(new ConsoleLogger { TraceSwitch = Severity.Debug });
+            }
+            else
+            {
+                log.Loggers.Add(new EventLogNotification { TraceSwitch = Severity.Info });
+            }
+            var fileOut = ParseArg("out");
+            var fileOutSize = ParseArg("outSize") ?? "100KB";
+            var fileTraceSwitch = ParseArg("outSwitch") ?? "Debug";
+            const double BUFFER_SIZE = 100d;
+            if (!string.IsNullOrWhiteSpace(fileOut))
+            {
+                log.Loggers.Add(new FileLogger(fileOut, FileLogger.Interval.Day, fileOutSize, BUFFER_SIZE)
+                {
+                    TraceSwitch = (Severity)(Enum.Parse(typeof(Severity), fileTraceSwitch, true))
+                });
             }
 
 
-            var title = string.Format($"[{workerProcess.Id}] Connecting to {userName}:{password}@{host}:{port}");
-            log.Write(Console.Title = title);
+            var title = $"[{envName}.{configName}][{workerProcess.Id}] Broker:{userName}:{password}@{host}:{port}";
+            log.WriteInfo(Console.Title = title);
 
-            var envName = ParseArg("env") ?? "dev";
-            var configName = ParseArg("config") ?? "all";
             var configFile = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(WorkersConfig)}\\{envName}.{configName}.json";
             if (!File.Exists(configFile))
             {
@@ -138,18 +151,19 @@ namespace workers.console.runner
         {
             Console.WriteLine("Starts a RabbitMQ subscribers");
             Console.WriteLine("Use these command line parameter to specify your options");
-            Console.WriteLine("     /h:<host name> the name of the RabbitMq host, or the IP address, the default is locahost");
-            Console.WriteLine("     /v:<virtual host> the name of the virtual host on your RabbitMq Server, the default DevV1");
+            Console.WriteLine(
+                "     /h:<host name> the name of the RabbitMq host, or the IP address, the default is locahost");
+            Console.WriteLine(
+                "     /v:<virtual host> the name of the virtual host on your RabbitMq Server, the default DevV1");
             Console.WriteLine("     /u:<user name> username used to connect to RabbitMq server, the default is guest");
             Console.WriteLine("     /p:<password> password used to connect to RabbitMq server, the default is guest");
-            Console.WriteLine("     /port:<port number> the port number for connection to RabbitMq, the default is 5672");
-            Console.WriteLine("     /i:<instance name> if you need to run multiple instance of console.worker then you need to give them diferrent instance name");
+            Console.WriteLine(
+                "     /port:<port number> the port number for connection to RabbitMq, the default is 5672");
+            Console.WriteLine(
+                "     /i:<instance name> if you need to run multiple instance of console.worker then you need to give them diferrent instance name");
             Console.WriteLine("     /debug a switch to halt the loading so that you can attach a debugger ");
-            Console.WriteLine("     /log:<log name> to output the log to console use /log:console, else it will use Windows event logs");
+            Console.WriteLine(
+                "     /log:<log name> to output the log to console use /log:console, else it will use Windows event logs");
         }
-
     }
-
-
-
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.8
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dependencies", "dependencies", "{799A5437-62C7-4385-95CC-ADEB4177B3FA}"
 EndProject
@@ -228,7 +228,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "es.diagnostics", "source\di
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "web.test", "source\unit.test\web.test\web.test.csproj", "{020B92C2-BEA9-479A-A083-69F3ED53523E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "subscriber.message.sla", "subscriber.message.sla\subscriber.message.sla.csproj", "{36B073CA-F17F-4027-98E1-DBA76CEF0128}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "subscriber.message.sla", "source\subscribers\subscriber.message.sla\subscriber.message.sla.csproj", "{36B073CA-F17F-4027-98E1-DBA76CEF0128}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

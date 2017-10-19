@@ -76,14 +76,12 @@ namespace Bespoke.Sph.Domain
         public static int GetEnvironmentVariableInt32(string setting, int defaultValue = 0)
         {
             var val = GetEnvironmentVariable(setting);
-            int intValue;
-            return int.TryParse(val, out intValue) ? intValue : defaultValue;
+            return int.TryParse(val, out var intValue) ? intValue : defaultValue;
         }
         public static bool GetEnvironmentVariableBoolean(string setting, bool defaultValue = false)
         {
             var val = GetEnvironmentVariable(setting);
-            bool intValue;
-            return bool.TryParse(val, out intValue) ? intValue : defaultValue;
+            return bool.TryParse(val, out var intValue) ? intValue : defaultValue;
         }
         public static string GetEnvironmentVariable(string setting)
         {
@@ -99,9 +97,8 @@ namespace Bespoke.Sph.Domain
         public static void AddConnectionString()
         {
             var settings = ConnectionStrings;
-            var element = typeof(ConfigurationElement).GetField("_bReadOnly", BindingFlags.Instance | BindingFlags.NonPublic);
-            var collection = typeof(ConfigurationElementCollection).GetField("bReadOnly", BindingFlags.Instance | BindingFlags.NonPublic);
-
+            var element = typeof(ConfigurationElement).GetField("_bReadOnly", BindingFlags.Instance | BindingFlags.NonPublic) ?? throw new InvalidOperationException("Cannot find _bReadOnly element in ConnectionStrings element");
+            var collection = typeof(ConfigurationElementCollection).GetField("bReadOnly", BindingFlags.Instance | BindingFlags.NonPublic) ?? throw new InvalidOperationException("Cannot find collection in bReadOnly ConnectionStrings element");
             element.SetValue(settings, false);
             collection.SetValue(settings, false);
 

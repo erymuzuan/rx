@@ -27,10 +27,6 @@
 				<xs:element name="Priority" type="xs:int" nillable="true"/>
 				<xs:element name="MaxInstances" type="xs:int" nillable="true"/>
 				<xs:element name="MinInstances" type="xs:int" nillable="true"/>
-				<xs:element name="ShouldProcessedIn" type="xs:int" nillable="true"/>
-				<xs:element name="ShouldProcessedOnceAccepted" type="xs:int" nillable="true"/>
-				<xs:element name="ShouldProcessedOncePersisted" type="xs:int" nillable="true"/>
-				<xs:element name="TrackingEnabled" type="xs:boolean" nillable="true"/>
 			</xs:all>
 			<xs:attribute name="QueueName" type="xs:string" use="required"/>
 			<xs:attribute name="FullName" type="xs:string" use="required"/>

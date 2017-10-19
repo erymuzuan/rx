@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -253,30 +253,6 @@ namespace Bespoke.Sph.Domain
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int? m_minInstances;
         public const string PropertyNameMinInstances = "MinInstances";
-
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int? m_shouldProcessedIn;
-        public const string PropertyNameShouldProcessedIn = "ShouldProcessedIn";
-
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int? m_shouldProcessedOnceAccepted;
-        public const string PropertyNameShouldProcessedOnceAccepted = "ShouldProcessedOnceAccepted";
-
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int? m_shouldProcessedOncePersisted;
-        public const string PropertyNameShouldProcessedOncePersisted = "ShouldProcessedOncePersisted";
-
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool? m_trackingEnabled;
-        public const string PropertyNameTrackingEnabled = "TrackingEnabled";
 
 
 
@@ -567,94 +543,6 @@ namespace Bespoke.Sph.Domain
                 }
             }
             get { return m_minInstances; }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        public int? ShouldProcessedIn
-        {
-            set
-            {
-                if (m_shouldProcessedIn == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameShouldProcessedIn, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_shouldProcessedIn = value;
-                    OnPropertyChanged();
-                }
-            }
-            get { return m_shouldProcessedIn; }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        public int? ShouldProcessedOnceAccepted
-        {
-            set
-            {
-                if (m_shouldProcessedOnceAccepted == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameShouldProcessedOnceAccepted, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_shouldProcessedOnceAccepted = value;
-                    OnPropertyChanged();
-                }
-            }
-            get { return m_shouldProcessedOnceAccepted; }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        public int? ShouldProcessedOncePersisted
-        {
-            set
-            {
-                if (m_shouldProcessedOncePersisted == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameShouldProcessedOncePersisted, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_shouldProcessedOncePersisted = value;
-                    OnPropertyChanged();
-                }
-            }
-            get { return m_shouldProcessedOncePersisted; }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        public bool? TrackingEnabled
-        {
-            set
-            {
-                if (m_trackingEnabled == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameTrackingEnabled, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_trackingEnabled = value;
-                    OnPropertyChanged();
-                }
-            }
-            get { return m_trackingEnabled; }
         }
 
 

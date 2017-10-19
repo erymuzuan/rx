@@ -1220,13 +1220,14 @@
   "RecordName": "TellerID",
   "IsPublished": true,
   "TreatDataAsSource": false,
-  "Transient": true,
+  "Transient": false,
+  "EnableAuditing": false,
   "StoreInDatabase": false,
   "StoreInElasticsearch": null,
   "CreatedBy": "admin",
   "Id": "acceptance-data",
   "CreatedDate": "2017-07-24T14:43:39.3777982+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2017-07-27T07:43:22.8256446+08:00",
+  "ChangedDate": "2017-10-02T07:51:14.3836464+08:00",
   "WebId": "4be7c90b-8dde-445c-995c-588d866b99fa"
 }

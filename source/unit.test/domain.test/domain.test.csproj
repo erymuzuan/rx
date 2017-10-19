@@ -250,6 +250,7 @@
     <Compile Include="entities\ServiceContractTest.cs" />
     <Compile Include="entities\ValueObjectDefinitionCodeTest.cs" />
     <Compile Include="entities\QuerySortTest.cs" />
+    <Compile Include="FileLoggerTestFixture.cs" />
     <Compile Include="JsonSchemas\ObjectSchema.cs" />
     <Compile Include="WebApiControllerHelper.cs" />
     <Compile Include="MvcControllerHelper.cs" />

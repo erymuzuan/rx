@@ -131,6 +131,64 @@ WriteLiteral(">\r\n        <label");
 
 WriteLiteral(" class=\"control-label col-sm-2\"");
 
+WriteLiteral("></label>\r\n        <div");
+
+WriteLiteral(" class=\"col-sm-6\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"checkbox col-sm-6 checkbox-no-padding-left\"");
+
+WriteLiteral(">\r\n                <label>\r\n                    <input");
+
+WriteLiteral(" data-bind=\"checked: EnableTracking\"");
+
+WriteLiteral(" id=\"enable-tracking\"");
+
+WriteLiteral(" type=\"checkbox\"");
+
+WriteLiteral(" name=\"EnableTracking\"");
+
+WriteLiteral(" />\r\n                    Enable Tracking\r\n                </label>\r\n            <" +
+"/div>\r\n        </div>\r\n    </div>\r\n    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n        <label");
+
+WriteLiteral(" for=\"should-processed-once-accepted\"");
+
+WriteLiteral(" class=\"col-lg-2 control-label\"");
+
+WriteLiteral(">Accepted SLA</label>\r\n        <div");
+
+WriteLiteral(" class=\"col-lg-6\"");
+
+WriteLiteral(">\r\n            <input");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" data-bind=\"value: ShouldProcessedOnceAccepted, enabled: EnableTracking\"");
+
+WriteLiteral("\r\n                   pattern=\"^[0-9]*$\"");
+
+WriteLiteral("\r\n                   name=\"ShouldProcessedOnceAccepted\"");
+
+WriteLiteral("\r\n                   placeholder=\"Once item is accepted(202) then this trigger sh" +
+"ould successfully processed within timespan in miliseconds\"");
+
+WriteLiteral("\r\n                   class=\"form-control\"");
+
+WriteLiteral(" id=\"should-processed-once-accepted\"");
+
+WriteLiteral(">\r\n        </div>\r\n    </div>\r\n\r\n    <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n        <label");
+
+WriteLiteral(" class=\"control-label col-sm-2\"");
+
 WriteLiteral(">CRUD</label>\r\n        <div");
 
 WriteLiteral(" class=\"col-sm-6\"");

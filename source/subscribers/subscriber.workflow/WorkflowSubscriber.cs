@@ -95,7 +95,7 @@ namespace Bespoke.Sph.WorkflowsExecution
 
                 }
             }
-            this.WriteMessage(message);
+            this.WriteMessage(message.ToString());
         }
 
         public Breakpoint CurrentBreakpoint { get; set; }

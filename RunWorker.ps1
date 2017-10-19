@@ -38,10 +38,10 @@ ls -Filter *.config -Path .\bin\subscribers | Remove-Item
 ls -Filter *.xml -Path .\bin\subscribers | Remove-Item
 
 if($Debug -ne $false){
-    Start-Process -FilePath .\bin\subscribers.host\workers.console.runner.exe `
-        -ArgumentList "/log:console /config:$config /u:$env:RX_DEVV1_RabbitMqUserName /p:$env:RX_DEVV1_RabbitMqPassword /h:$env:RX_DEVV1_RabbitMqHost /debug"
+   Start-Process -FilePath .\bin\subscribers.host\workers.console.runner.exe `
+   -ArgumentList "/log:console /config:$config /u:$env:RX_DEVV1_RabbitMqUserName /p:$env:RX_DEVV1_RabbitMqPassword /h:$env:RX_DEVV1_RabbitMqHost /debug  /out:C:\temp\logs\workers.console.log /outSize:100KB /outSwitch:Info"
 }else{
-    Start-Process .\bin\subscribers.host\workers.console.runner.exe `
-        -ArgumentList "/log:console /u:$env:RX_DEVV1_RabbitMqUserName /p:$env:RX_DEVV1_RabbitMqPassword /h:$env:RX_DEVV1_RabbitMqHost /config:$config"
+    Start-Process -FilePath .\bin\subscribers.host\workers.console.runner.exe `
+    -ArgumentList " /log:console /u:$env:RX_DEVV1_RabbitMqUserName /p:$env:RX_DEVV1_RabbitMqPassword /h:$env:RX_DEVV1_RabbitMqHost /config:$config /out:C:\temp\logs\workers.console.log /outSize:100KB /outSwitch:Info"
 }
     

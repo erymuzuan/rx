@@ -8,38 +8,42 @@ API(Your OperationEndpoint) -> Trigger(Your custom trigger) -> Messaging Action(
 
 Lets say, once a message is accepted with 202 HTTP response code at your `OperationEndpoint API`, you want them to be delivered to you adapter and finish executing it with a time period , let's say 15 seconds.
 
-In your `WorkersConfig` select your config file which contains the `subsriber` for the trigger
+In your `EntityDefinition` you should `EnableTracking` to `true`
 ```json
 {
-    "name": "patient",
-    "description": "Development on local machines",
-    "isEnabled": true,
-    "environment": "dev",
-    "subscriberConfigs": [{
-        "entity": "Patient",
-        "instancesCount": 1,
-        "prefetchCount": 1,
-        "priority": 0,
-        "queueName": "trigger_subs_patient-patient-trigger-no-1",
-        "fullName": "Bespoke.DevV1.TriggerSubscribers.PatientPatientTriggerNo1TriggerSubscriber",
-        "assembly": "subscriber.trigger.patient-patient-trigger-no-1",
-        "shouldProcessedOnceAccepted": 5000,
-        "trackingEnabled": true
-    }],
-    "createdBy": "erymuzuan",
-    "id": "patient-email",
-    "createdDate": "2016-10-07T00:00:00+08:00",
-    "changedBy": "erymuzuan",
-    "changedDate": "2016-10-07T00:00:00+08:00",
-    "webId": "dev"
+  "$type": "Bespoke.Sph.Domain.EntityDefinition, domain.sph",
+  "Name": "Patient",
+  "EnableTracking": true,
+  "Id": "patient",
+   // remove for brevity
 }
 ```
 
-There are at least 3 properties you have to set
-1. `entity` is the name of your `EntityDefinition`
-2. `shouldProcessedOnceAccepted` once your `OperationEndpoint API` accepted with HTT 202 response code, this where the clock starts ticking, once it reach this time span (the default is in miliseconds). Reactive Developer will notify your `MessageSlaNotificationAction`.
-3. `trackingEnabled` tracking should be enabled for this trigger
+or use the designer
 
+![https://i.imgur.com/Vn8WcHh.png
+](https://i.imgur.com/Vn8WcHh.png
+)
+
+For the `Trigger` you will to do
+```json
+{
+  "$type": "Bespoke.Sph.Domain.Trigger, domain.sph",
+  "Name": "Patient trigger no 1",
+  "Entity": "Patient",
+  "EnableTracking": true,
+  "ShouldProcessedOnceAccepted": 5000,
+   // remove for brevity
+}
+
+```
+
+or via the designer
+
+![Trigger](https://i.imgur.com/VDrtv6b.png)
+
+1. Mark the trigger to track the process
+2. The time span that this trigger must be successfully processed once a message is accepted(HTTP status code 202) by your `OperationEndpoint`
 
 ## Notification action
 `MessageSlaNotificationAction` is the base class where you should write your own notification. Reactive Developer provides one notification
@@ -49,7 +53,7 @@ public class SlaNotCompletedEmailAction : MessageSlaNotificationAction
 {
     public SlaNotCompletedEmailAction(string emailTemplateMapping, string toAddresses){}
     public override bool UseAsync => true; // if false, you should implement bool Execute(...)
-    public override async Task<bool> ExecuteAsync(MessageTrackingStatus status, Entity item, MessageSlaEvent @event)
+    public override async Task<bool> ExecuteAsync(MessageTrackingStatus status, MessageSlaEvent @event)
     {
         // removed for brevity
     }
@@ -75,7 +79,7 @@ Registering your `NotificationAction` via your worker config file
 
 ## Message cancellation
 
-Your `NotificationAction.Execute(Async)` method returns a boolean value, if any return `false` then Reactive Developer will put up a flag to cancel your message. Thus it will not be process by your original subscriber anymore
+Your `NotificationAction.Execute(Async)` method returns a Boolean value, if any return `false` then Reactive Developer will put up a flag to cancel your message. Thus it will not be process by your original subscriber anymore
 
 ## `IMessageCancellationRepository`
 This interface is used by `Subscriber<T>` to verify that if your message is marked for cancellation. If the implementation return `true` when `CheckMessageAsync(messageId, worker)` is called, then the `Subscriber<T>` will not call `ProcessItem` method(skipping all your action) it just quickly `BacicAck` the message and  track the `Cancelled` event
@@ -89,11 +93,11 @@ this is how register your implementation in worker.config
 
 <object name="ICancelledMessageRepository"
     type="Bespokse.Sph.ElasticsearchRepository.CancelledMessageRepository, elasticsearch.repository"
-    init-method="InitializeAsync" />
+    init-method="Initialize" />
 
 ```
 
-The `InitializeAsync` method is used to create the mapping in your elastisearch index
+The `Initialize` method is used to create the mapping in your elastisearch index
 
 
 
@@ -105,7 +109,7 @@ The key is understanding how these features are built., using these combinations
 
 
 This is high level view of how it works
-1. When you configure your `Trigger` in your `WorkersConfig` to `trackingEnabled:true`, IMessageTracker, will inject an `id` to your message header `message-id` field.
+1. One an `EntityDefinition` is `EnableTracking`is configured, `IMessageTracker`, will inject a `message-id` headers. This is not a item id, but a unique id to identify a message rather than the item(message body)
 2. The `IMessageTracker` will track the `Entity` for every movement
 3. If your set `shouldProcessedOnceAccepted` value, then `IMessageSlaManager` will create an expiring message and publish it to `rx.delay.exchange.messages.sla` which only have 1 queue bind to `rx.delay.exchange.messages.sla`.
 4. When the message in `rx.delay.exchange.messages.sla` expires, it will be routed to `rx.notification.queue.messages.sla` where `Bespoke.Sph.MessageTrackerSla.MessageSlaTrackerSubscriber, subscriber.message.sla` subscriber is consuming to.

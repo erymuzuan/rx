@@ -11,6 +11,7 @@
     <AssemblyName>elasticsearch.repository</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,8 +53,19 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MessageSla.cs" />
+    <Compile Include="..\..\extensions\LoggerExtensions.cs">
+      <Link>LoggerExtensions.cs</Link>
+    </Compile>
+    <Compile Include="CancelledMessageRepository.cs" />
+    <Compile Include="CircuitBreaker.cs" />
+    <Compile Include="HttpClientExtensions.cs" />
     <Compile Include="MappingBuilder.cs" />
+    <Compile Include="MessageTracker.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="WorkflowService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadonlyRepository.cs" />
@@ -67,6 +79,12 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="CopyOutputDirClientAndWeb">

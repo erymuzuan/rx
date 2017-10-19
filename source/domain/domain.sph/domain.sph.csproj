@@ -246,6 +246,9 @@
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\extensions\LoggerExtensions.cs">
+      <Link>LoggerExtensions.cs</Link>
+    </Compile>
     <Compile Include="Api\Adapter.p.cs">
       <DependentUpon>Adapter.cs</DependentUpon>
     </Compile>
@@ -284,11 +287,13 @@
     <Compile Include="Business\Designation.cs" />
     <Compile Include="Business\EmailTemplate.cs" />
     <Compile Include="Business\Photo.cs" />
+    <Compile Include="ConsoleLogger.cs" />
     <Compile Include="Core\DictionaryExtensions.cs" />
     <Compile Include="Core\TypeExtensions.cs" />
     <Compile Include="diagnostics\FormDeleteOperationDiagnostics.cs" />
     <Compile Include="diagnostics\FormOperationDiagnostics.cs" />
     <Compile Include="diagnostics\LocationEndpointDiagnostics.cs" />
+    <Compile Include="FileLogger.cs" />
     <Compile Include="IMessageSlaManager.cs" />
     <Compile Include="IMessageTracker.cs" />
     <Compile Include="Management\ConfigData.cs" />
@@ -409,7 +414,6 @@
     <Compile Include="Business\DocumentVersion.cs" />
     <Compile Include="Business\EmailMessage.cs" />
     <Compile Include="EntityTypeAttribute.cs" />
-    <Compile Include="Extension.cs" />
     <Compile Include="FormTemplates\AddressElement.cs" />
     <Compile Include="FormTemplates\CheckBox.cs" />
     <Compile Include="FormTemplates\ComboBox.cs" />
@@ -775,7 +779,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Schema\AdaptersApi.xsd">
       <SubType>Designer</SubType>

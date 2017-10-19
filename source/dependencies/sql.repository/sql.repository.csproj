@@ -49,6 +49,9 @@
       <HintPath>..\..\..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Polly, Version=4.2.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Polly.4.2.4\lib\net45\Polly.dll</HintPath>
+    </Reference>
     <Reference Include="SQLSpatialTools">
       <HintPath>..\..\..\lib\SQLSpatialTools.dll</HintPath>
     </Reference>
@@ -73,10 +76,14 @@
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\extensions\LoggerExtensions.cs">
+      <Link>LoggerExtensions.cs</Link>
+    </Compile>
     <Compile Include="Builder.cs" />
     <Compile Include="CancelledMessageRepository.cs" />
     <Compile Include="Column.cs" />
     <Compile Include="ISqlServerMetadata.cs" />
+    <Compile Include="MessageTracker.cs" />
     <Compile Include="SqlBinaryStore.cs" />
     <Compile Include="FileStreamBinaryStore.cs" />
     <Compile Include="SqlPersistence.bulk.cs" />

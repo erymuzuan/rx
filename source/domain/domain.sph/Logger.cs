@@ -6,10 +6,13 @@ namespace Bespoke.Sph.Domain
 {
     public class Logger : ILogger
     {
+        public Severity TraceSwitch { get; set; } = Severity.Info;
         public ObjectCollection<ILogger> Loggers { get; } = new ObjectCollection<ILogger>();
 
         public Task LogAsync(LogEntry entry)
         {
+            if ((int)entry.Severity < (int)TraceSwitch) return Task.FromResult(0);
+
             entry.Time = DateTime.Now;
             entry.Computer = Environment.MachineName;
 
@@ -22,6 +25,8 @@ namespace Bespoke.Sph.Domain
 
         public void Log(LogEntry entry)
         {
+            if ((int)entry.Severity < (int)TraceSwitch) return;
+
             entry.Time = DateTime.Now;
             entry.Computer = Environment.MachineName;
 

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Extensions;
 using Bespoke.Sph.SubscribersInfrastructure;
+using Polly;
 using RabbitMQ.Client;
 
 namespace Bespoke.Sph.MessageTrackerSla
@@ -62,7 +62,7 @@ namespace Bespoke.Sph.MessageTrackerSla
 
         protected override void OnStop()
         {
-            this.WriteMessage("!!Stoping : {0}", this.QueueName);
+            this.WriteMessage($"!!Stoping : {QueueName}");
 
             m_consumer.Received -= Received;
             m_stoppingTcs?.SetResult(true);
@@ -80,7 +80,7 @@ namespace Bespoke.Sph.MessageTrackerSla
                 m_channel = null;
             }
 
-            this.WriteMessage("!!Stopped : {0}", this.QueueName);
+            this.WriteMessage($"!!Stopped : {QueueName}");
         }
 
         private IModel m_channel;
@@ -100,23 +100,33 @@ namespace Bespoke.Sph.MessageTrackerSla
         private async void Received(object sender, ReceivedMessageArgs e)
         {
             Interlocked.Increment(ref m_processing);
+            var logger = ObjectBuilder.GetObject<ILogger>();
 
             try
             {
                 var body = e.Body;
-                var json = await DecompressAsync(body);
+                var json = await body.DecompressAsync();
                 var headers = new MessageHeaders(e);
 
                 var @event = json.DeserializeFromJson<MessageSlaEvent>();
 
                 var tracker = ObjectBuilder.GetObject<IMessageTracker>();
-                var status = await tracker.GetProcessStatusAsync(@event);
+                var statusResult = await Policy.Handle<Exception>()
+                    .WaitAndRetryAsync(3, c => TimeSpan.FromMilliseconds(100 * Math.Pow(2, c)))
+                    .ExecuteAndCaptureAsync(() => tracker.GetProcessStatusAsync(@event));
+                if (null != statusResult.FinalException)
+                {
+                    logger.WriteError($"Fail to get process status for {@event.MessageId}  after 3 attempts");
+                    await logger.LogAsync(new LogEntry(statusResult.FinalException));
+                    return;
+                }
+                var status = statusResult.Result;
 
                 this.WriteMessage($@"[{headers.MessageId}] is ""{status}"" for ""{@event.Worker}""");
 
                 var manager = ObjectBuilder.GetObject<IMessageSlaManager>();
                 await manager.ExecuteOnNotificationAsync(status, @event);
-                
+
                 m_channel.BasicAck(e.DeliveryTag, false);
             }
             finally
@@ -126,28 +136,6 @@ namespace Bespoke.Sph.MessageTrackerSla
         }
 
 
-        private async Task<string> DecompressAsync(byte[] content)
-        {
-            using (var orginalStream = new MemoryStream(content))
-            using (var destinationStream = new MemoryStream())
-            using (var gzip = new GZipStream(orginalStream, CompressionMode.Decompress))
-            {
-                try
-                {
-                    await gzip.CopyToAsync(destinationStream);
-                }
-                catch (InvalidDataException)
-                {
-                    orginalStream.CopyTo(destinationStream);
-                }
-                destinationStream.Position = 0;
-                using (var sr = new StreamReader(destinationStream))
-                {
-                    var json = await sr.ReadToEndAsync();
-                    return json;
-                }
-            }
-        }
     }
 
 

@@ -11,7 +11,6 @@ namespace Bespoke.Sph.Domain
     {
         public Filter()
         {
-
         }
 
         public Filter(string term, object value)
@@ -24,6 +23,7 @@ namespace Bespoke.Sph.Domain
                 Type = typeof(string)
             };
         }
+
         public Filter(string term, Operator op, object value)
         {
             this.Term = term;
@@ -34,24 +34,66 @@ namespace Bespoke.Sph.Domain
                 Type = typeof(string)
             };
         }
+
         public static Filter Parse(string json)
         {
             var jo = JObject.Parse(json);
             var term = jo.SelectToken("$.term").Value<string>();
             var op1 = jo.SelectToken("$.operator").Value<string>();
-            var op = (Operator)Enum.Parse(typeof(Operator), op1);
-            var valueNode = (JValue)jo.SelectToken("$.value").Value<object>();
+            var op = (Operator) Enum.Parse(typeof(Operator), op1);
+            var valueNode = (JValue) jo.SelectToken("$.value").Value<object>();
             return new Filter(term, op, valueNode.Value);
-
         }
+
         public static Filter Parse(JToken jo)
         {
             var term = jo.SelectToken("$.term").Value<string>();
             var op1 = jo.SelectToken("$.operator").Value<string>();
-            var op = (Operator)Enum.Parse(typeof(Operator), op1);
-            var valueNode = (JValue)jo.SelectToken("$.value").Value<object>();
+            var op = (Operator) Enum.Parse(typeof(Operator), op1);
+            var valueNode = (JValue) jo.SelectToken("$.value").Value<object>();
             return new Filter(term, op, valueNode.Value);
+        }
 
+
+        private bool IsMustFilter(Entity item, string field)
+        {
+            //must
+            //x.Term == f && x.Operator != Operator.Neq
+            
+            // mustnot
+            //x.Term == f && x.Operator == Operator.Neq
+            
+            var rc = new RuleContext(item);
+            switch (this.Operator)
+            {
+                case Operator.Eq:
+                case Operator.Lt:
+                case Operator.Le:
+                case Operator.Gt:
+                case Operator.Ge:
+                case Operator.Substringof:
+                case Operator.StartsWith:
+                case Operator.EndsWith:
+                    return field == this.Term;
+                case Operator.NotContains:
+                case Operator.Neq:
+                case Operator.NotStartsWith:
+                case Operator.NotEndsWith:
+                    return this.Term != field;
+                case Operator.IsNull:
+                    if (this.Field.GetValue(rc) is bool cf)
+                    {
+                        return cf;
+                    }
+                    break;
+                case Operator.IsNotNull:
+                    if (this.Field.GetValue(rc) is bool cb)
+                    {
+                        return !cb;
+                    }
+                    break;
+            }
+            return true;
         }
 
         public static string GenerateElasticSearchFilterDsl(Entity entity, IEnumerable<Filter> filterCollection)
@@ -61,11 +103,13 @@ namespace Bespoke.Sph.Domain
 
             var query = new StringBuilder();
 
-            var mustFilters = fields.Select(f => Filter.GetFilterDsl(entity, list.Where(x => x.Term == f && x.Operator != Operator.Neq).ToArray())).ToList();
+            var mustFilters = fields.Select(f =>
+                GetFilterDsl(entity, list.Where(x => x.IsMustFilter(entity,f)).ToArray())).ToList();
             var musts = string.Join(",\r\n", mustFilters.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray());
 
-            var mustNotFilters = fields.Select(f => Filter.GetFilterDsl(entity, list.Where(x => x.Term == f && x.Operator == Operator.Neq).ToArray())).ToList();
-            var mustnots = string.Join(",\r\n", mustNotFilters.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray());
+            var mustNotFilters = fields.Select(f =>
+                GetFilterDsl(entity, list.Where(x => !x.IsMustFilter(entity,f)).ToArray())).ToList();
+            var mustNots = mustNotFilters.Where(s => !string.IsNullOrWhiteSpace(s)).ToString("\r\n");
             query.AppendFormat(@"{{
                ""bool"": {{
                   ""must"": [
@@ -75,7 +119,7 @@ namespace Bespoke.Sph.Domain
                     {1}
                   ]
                }}
-           }}", musts, mustnots);
+           }}", musts, mustNots);
 
             return query.ToString();
         }
@@ -95,10 +139,15 @@ namespace Bespoke.Sph.Domain
                     query.AppendLine("                     \"term\":{");
                     var val = ft.Field.GetValue(context);
                     var valJson = $"{val}";
-                    if (val is string)
-                        valJson = $"\"{val}\"";
-                    if (val is DateTime)
-                        valJson = $"\"{val:s}\"";
+                    switch (val)
+                    {
+                        case string _:
+                            valJson = $"\"{val}\"";
+                            break;
+                        case DateTime _:
+                            valJson = $"\"{val:s}\"";
+                            break;
+                    }
                     query.AppendLinf("                         \"{0}\":{1}", ft.Term, valJson);
                     query.AppendLine("                     }");
                     break;
@@ -113,21 +162,42 @@ namespace Bespoke.Sph.Domain
                     {
                         count++;
                         var ov = $"{t.Field.GetValue(context)}";
-                        DateTime dv;
-                        if (DateTime.TryParse(ov, out dv))
+                        if (DateTime.TryParse(ov, out var dv))
                             ov = $"\"{dv:O}\"";
 
-                        if (t.Operator == Operator.Ge || t.Operator == Operator.Gt)
-                            query.Append($"\"from\":{ov}");
-                        if (t.Operator == Operator.Le || t.Operator == Operator.Lt)
-                            query.Append($"\"to\":{ov}");
+                        switch (t.Operator)
+                        {
+                            case Operator.Ge:
+                            case Operator.Gt:
+                                query.Append($"\"from\":{ov}");
+                                break;
+                            case Operator.Le:
+                            case Operator.Lt:
+                                query.Append($"\"to\":{ov}");
+                                break;
+                        }
 
                         if (count < filters.Length)
                             query.Append(",");
-
                     }
                     query.AppendLine("}");
                     query.AppendLine("                     }");
+                    break;
+                case Operator.IsNotNull:
+                    if (ft.Field.GetValue(context) is bool cb)
+                    {
+                        query.AppendLine($@"
+                            ""missing"" : {{ ""field"" : ""{ft.Term}""}}
+                            ");
+                    }
+                    break;
+                case Operator.IsNull:
+                    if (ft.Field.GetValue(context) is bool cb1)
+                    {
+                        query.AppendLine($@"
+                            ""missing"" : {{ ""field"" : ""{ft.Term}""}}
+                            ");
+                    }
                     break;
                 default: throw new Exception(ft.Operator + " is not supported for filter DSL yet");
             }
@@ -154,6 +224,7 @@ namespace Bespoke.Sph.Domain
 
             return errors;
         }
+
         public virtual Task<IEnumerable<BuildError>> ValidateWarningsAsync()
         {
             return Task.FromResult(Array.Empty<BuildError>().AsEnumerable());

@@ -39,7 +39,7 @@ namespace Bespoke.Sph.WorkflowTriggerSubscriptions
             if (!item.IsActive) return emptyTask;
 
 
-            this.WriteMessage("Creating scheduler for " + item.Name);
+            this.WriteMessage($"Creating scheduler for {item.Name}");
             using (var ts = new TaskService())
             {
                 var td = ts.NewTask();

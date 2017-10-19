@@ -7,9 +7,9 @@ namespace Bespoke.Sph.SubscribersInfrastructure
     {
         /*
 
-        public static void Post(this DispatcherObject vm, Action action)
+        public static void Post(this SynchronizationContext vm, Action action)
         {
-            vm.Dispatcher.Invoke(DispatcherPriority.Normal, action);
+            vm.Send(new SendOrPostCallback((o,t) => action();) );
         }
 
         public static void Post<T>(this DispatcherObject vm, Action<T> action, T t)

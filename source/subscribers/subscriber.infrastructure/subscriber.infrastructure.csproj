@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -63,13 +64,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\extensions\LoggerExtensions.cs">
+      <Link>LoggerExtensions.cs</Link>
+    </Compile>
     <Compile Include="ActiveDirectory.cs" />
-    <Compile Include="ConsoleNotification.cs" />
     <Compile Include="CrudOperation.cs" />
     <Compile Include="Discoverer.cs" />
     <Compile Include="EventLogNotification.cs" />
-    <Compile Include="FileLog.cs" />
-    <Compile Include="INotificationService.cs" />
     <Compile Include="Isolated.cs" />
     <Compile Include="MessageHeaders.cs" />
     <Compile Include="ProcessTimeOutException.cs" />
@@ -96,13 +97,19 @@
       <Name>domain.sph</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <OutputFile Include="$(OutputPath)*.*">
+      <Visible>false</Visible>
+    </OutputFile>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+  <Target Name="CopyOutputDirClientAndWeb">
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\subscribers.host\" />
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <PropertyGroup>
+    <BuildDependsOn>
+      $(BuildDependsOn);CopyOutputDirClientAndWeb
+    </BuildDependsOn>
+  </PropertyGroup>
 </Project>

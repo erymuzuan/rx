@@ -44,7 +44,7 @@ namespace Bespoke.Sph.ElasticSearch
 
         protected override void OnStop()
         {
-            this.WriteMessage("!!Stoping : {0}", this.QueueName);
+            this.WriteMessage($"!!Stoping : {this.QueueName}");
 
             m_consumer.Received -= Received;
             m_stoppingTcs?.SetResult(true);
@@ -62,7 +62,7 @@ namespace Bespoke.Sph.ElasticSearch
                 m_channel = null;
             }
 
-            this.WriteMessage("!!Stopped : {0}", this.QueueName);
+            this.WriteMessage($"!!Stopped : {QueueName}");
         }
 
         private IModel m_channel;
@@ -138,7 +138,7 @@ namespace Bespoke.Sph.ElasticSearch
             }
             catch (Exception exc)
             {
-                this.WriteMessage("Error in {0}", this.GetType().Name);
+                this.WriteMessage($"Error in {this.GetType().Name}");
                 this.WriteError(exc);
                 m_channel.BasicReject(e.DeliveryTag, false);
             }

@@ -10,12 +10,12 @@ namespace Bespoke.Sph.Integrations.Adapters
         {
             public bool Equals(IEndpointsBuilder x, IEndpointsBuilder y)
             {
-                return x.GetType() == y.GetType();
+                return x?.GetType() == y?.GetType();
             }
 
             public int GetHashCode(IEndpointsBuilder obj)
             {
-                return obj.GetType().FullName.GetHashCode();
+                return obj?.GetType()?.FullName?.GetHashCode() ?? 0;
             }
         }
         public async Task<IEnumerable<IEndpointsBuilder>> CreateAsync(ServiceProvider serviceProvider, string storeId)

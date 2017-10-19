@@ -1,31 +1,36 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Polly;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable UnusedMember.Global
 
 namespace Bespokse.Sph.ElasticsearchRepository
 {
     public class MessageTracker : IMessageTracker
     {
-        public bool IsEnabled { get; }
+        public bool IsEnabled { get; set; } = true;
         public string Host { get; }
         private readonly HttpClient m_client;
         private string LoweredApp => ConfigurationManager.ApplicationName.ToLowerInvariant();
         public string DailyIndex => $"{LoweredApp}_sla_{DateTime.Today:yyyyMMdd}";
         public string IndexAlias => $"{LoweredApp}_sla";
+        public int HttpRequestRetryCount { get; set; } = 3;
+        public int HttpRequestWaitTime { get; set; } = 100;
+        public WaitAlgorithm HttpRequestWaitAlgorithm { get; set; } = WaitAlgorithm.Exponential;
 
         public bool IsSystemTypeEnabled { get; set; } = false;
-        public string[] EnabledEntities { get; set; }
-        public string[] EnabledQueues { get; private set; }
-        private WorkersConfig Options { get; set; }
-        public string[] OnceAcceptedSlaEnabledEntities { get; private set; } = Array.Empty<string>();
-        public string[] OncePersistedSlaEnabledEntities { get; private set; } = Array.Empty<string>();
+        private string[] m_trackableEntities;
+        private Trigger[] m_enabledTriggers;
+
 
         /// <summary>
         /// $"{Host}/{Index}/event"
@@ -34,51 +39,48 @@ namespace Bespokse.Sph.ElasticsearchRepository
 
         public MessageTracker()
         {
-            IsEnabled = ConfigurationManager.GetEnvironmentVariableBoolean("ElasticsearchMessageTrackingIsEnabled");
             Host = ConfigurationManager.GetEnvironmentVariable("ElasticsearchMessageTrackingHost") ?? ConfigurationManager.ElasticSearchHost;
-            m_client = new HttpClient { BaseAddress = new Uri(Host) };
+            m_client = new HttpClient {BaseAddress = new Uri(Host)};
         }
-        public MessageTracker(bool isEnabled, string host)
+
+        public MessageTracker(string host) : this()
         {
-            IsEnabled = isEnabled;
             Host = host;
-            m_client = new HttpClient { BaseAddress = new Uri(host) };
         }
 
 
-        public async Task RegisterAcceptanceAsync(MessageTrackingEvent eventData)
+        public async Task RegisterAcceptanceAsync(MessageTrackingEvent @event)
         {
-            eventData.Event = "Accepted";
-            await PostEventAsync(eventData);
+            ObjectBuilder.GetObject<ILogger>().WriteVerbose($"Accepted {@event.Entity}{{{@event.ItemId}}}");
+            @event.Event = "Accepted";
+            await PostEventAsync(@event);
 
-            var should = this.OnceAcceptedSlaEnabledEntities.Contains(eventData.Entity);
+            var should = m_trackableEntities.Contains(@event.Entity);
             if (should)
             {
-                await this.InitializeMessageSlaAsyc("Accepted", eventData);
+                await this.InitializeMessageSlaAsyc("Accepted", @event);
             }
         }
 
         private async Task InitializeMessageSlaAsyc(string eventName, MessageTrackingEvent data)
         {
-            var events = (from o in this.Options.SubscriberConfigs
-                          where o.ShouldProcessedOnceAccepted > 0
-                                && o.Entity == data.Entity
-                          select new MessageSlaEvent
-                          {
-                              Event = eventName,
-                              ItemId = data.ItemId,
-                              Entity = data.Entity,
-                              DateTime = data.DateTime,
-                              MessageId = data.MessageId,
-                              ProcessingTimeSpanInMiliseconds = o.ShouldProcessedOnceAccepted.Value,
-                              Worker = o.QueueName
-
-                          }).ToArray();
+            var events = (from trg in m_enabledTriggers
+                where trg.ShouldProcessedOnceAccepted > 0
+                      && trg.Entity == data.Entity
+                select new MessageSlaEvent
+                {
+                    Event = eventName,
+                    ItemId = data.ItemId,
+                    Entity = data.Entity,
+                    DateTime = data.DateTime,
+                    MessageId = data.MessageId,
+                    ProcessingTimeSpanInMiliseconds = trg.ShouldProcessedOnceAccepted.Value,
+                    Worker = $"trigger_subs_{trg.Id}"
+                }).ToArray();
             //
             var slaManager = ObjectBuilder.GetObject<IMessageSlaManager>();
             var monitorTasks = events.Select(c => slaManager.PublishSlaOnAcceptanceAsync(c));
             await Task.WhenAll(monitorTasks);
-
         }
 
         public async Task RegisterSendingToWorkerAsync(MessageTrackingEvent eventData)
@@ -104,6 +106,7 @@ namespace Bespokse.Sph.ElasticsearchRepository
             @event.Event = "Cancelled";
             await PostEventAsync(@event);
         }
+
         public async Task RegisterCancelRequestedAsync(MessageTrackingEvent @event)
         {
             @event.Event = "CancelRequested";
@@ -163,11 +166,10 @@ namespace Bespokse.Sph.ElasticsearchRepository
    ""size"":50
 }}
 ";
-            var request = new HttpRequestMessage(HttpMethod.Post, $"{IndexAlias}/_search") { Content = new StringContent(query) };
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{IndexAlias}/_search") {Content = new StringContent(query)};
             var response = await m_client.SendAsync(request);
 
-            var content = response.Content as StreamContent;
-            if (null == content) throw new Exception("Cannot execute query on es ");
+            if (!(response.Content is StreamContent content)) throw new Exception("Cannot execute query on es ");
             var responseString = await content.ReadAsStringAsync();
 
             var esJson = JObject.Parse(responseString);
@@ -203,19 +205,28 @@ namespace Bespokse.Sph.ElasticsearchRepository
             var content = new StringContent(json);
             var url = $"{DailyTypeUrl}";
 
-            HttpResponseMessage response = null;
-            try
+            TimeSpan Wait(int c)
             {
-                response = await m_client.PostAsync(url, content);
-            }
-            catch (HttpRequestException)
-            {
+                switch (HttpRequestWaitAlgorithm)
+                {
+                    case WaitAlgorithm.Linear:
+                        return TimeSpan.FromMilliseconds(this.HttpRequestWaitTime * c);
+                    case WaitAlgorithm.Exponential:
+                        return TimeSpan.FromMilliseconds(this.HttpRequestWaitTime * Math.Pow(2, c));
+                    case WaitAlgorithm.Constant:
+                        return TimeSpan.FromMilliseconds(this.HttpRequestWaitTime);
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
 
-            if (null != response)
-            {
-                Debug.Write(".");
-            }
+            await Policy.Handle<Exception>()
+                .WaitAndRetryAsync(this.HttpRequestRetryCount, Wait)
+                .ExecuteAsync(async () =>
+                {
+                    var response = await m_client.PostAsync(url, content);
+                    response.EnsureSuccessStatusCode();
+                });
         }
 
         private bool CanTrack(MessageTrackingEvent @event)
@@ -224,43 +235,37 @@ namespace Bespokse.Sph.ElasticsearchRepository
             if (!IsSystemTypeEnabled && @event.EntityNamespace == typeof(EntityDefinition).Namespace) return false;
             if (!IsSystemTypeEnabled && @event.EntityNamespace == typeof(Adapter).Namespace) return false;
 
-            if (null != this.EnabledEntities)
-                if (!EnabledEntities.Contains(@event.Entity)) return false;
+            if (!m_trackableEntities.Contains(@event.Entity)) return false;
 
-            if (null != this.EnabledQueues && !string.IsNullOrWhiteSpace(@event.Worker))
-                if (!EnabledQueues.Contains(@event.Worker)) return false;
+            var workerIsTracked = m_enabledTriggers.Any(x => $"trigger_subs_{x.Id}" == @event.Worker);
+            if (!string.IsNullOrWhiteSpace(@event.Worker))
+                return workerIsTracked;
+
             return true;
+        }
+
+        public void Initialize()
+        {
+            this.InitializeAsync().Wait(9000);
         }
 
         public async Task InitializeAsync()
         {
-            // TODO : get enabled queues, not just from current config file, but all the config in the current environment
-            var configFile = GetConfigFile();
-            if (!File.Exists(configFile))
-            {
-                Console.WriteLine($@"Cannot find subscribers config in '{configFile}'");
-                return;
-            }
-            this.Options = configFile.DeserializeFromJsonFile<WorkersConfig>();
-            var enabledQueues = Options.SubscriberConfigs.Where(x => x.TrackingEnabled ?? false)
-                .Select(x => x.QueueName)
+            var logger = new ConsoleLogger {TraceSwitch = Severity.Debug};
+            // NOTE : do not use SphDataContext since it required the calls to RegistryContext, this is initialization code
+            m_enabledTriggers = Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\Trigger", "*.json")
+                .Select(x => x.DeserializeFromJsonFile<Trigger>())
+                .Where(x => x.EnableTracking)
                 .ToArray();
-            this.EnabledQueues = enabledQueues;
 
-            var onceAcceptedSlaEnabledEntities = Options.SubscriberConfigs
-                .Where(x => x.TrackingEnabled ?? false)
-                .Where(x => x.ShouldProcessedOnceAccepted > 0)
-                .Where(x => !string.IsNullOrWhiteSpace(x.Entity))
-                .Select(x => x.Entity);
-            this.OnceAcceptedSlaEnabledEntities = onceAcceptedSlaEnabledEntities.ToArray();
-
-            var oncePersistedSlaEnabledEntities = Options.SubscriberConfigs
-                .Where(x => x.TrackingEnabled ?? false)
-                .Where(x => x.ShouldProcessedOncePersisted > 0)
-                .Where(x => !string.IsNullOrWhiteSpace(x.Entity))
-                .Select(x => x.Entity);
-            this.OncePersistedSlaEnabledEntities = oncePersistedSlaEnabledEntities.ToArray();
-
+            m_trackableEntities = Directory
+                .GetFiles($"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition", "*.json")
+                .Select(x => x.DeserializeFromJsonFile<EntityDefinition>())
+                .Where(x => x.EnableTracking)
+                .Select(x => x.Name)
+                .ToArray();
+            logger.WriteInfo($"Tracking entities : {m_trackableEntities.ToString(", ")}");
+            logger.WriteInfo($"Tracking triggers : {m_enabledTriggers.ToString(", ")}");
 
             const string TEMPLATE_URI = "_template/rx_sla";
             var templateStatus = await m_client.GetAsync(TEMPLATE_URI);
@@ -278,25 +283,6 @@ namespace Bespokse.Sph.ElasticsearchRepository
     }}
 }}";
             await m_client.PutAsync(TEMPLATE_URI, new StringContent(template));
-
-        }
-
-        private string GetConfigFile()
-        {
-            var envName = ConfigurationManager.GetEnvironmentVariable("Environment") ?? ParseArg("env") ?? "dev";
-            var configName = ConfigurationManager.AppSettings["sph:WorkersConfig"] ?? ParseArg("config") ?? "all";
-            var configFile = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(WorkersConfig)}\\{envName}.{configName}.json";
-            if (!File.Exists(configFile))
-                configFile = ConfigurationManager.GetEnvironmentVariable("MessageTrackerWorkersConfig");
-            return configFile;
-        }
-
-
-        public static string ParseArg(string name)
-        {
-            var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            var val = args.SingleOrDefault(a => a.StartsWith("/" + name + ":"));
-            return val?.Replace("/" + name + ":", string.Empty);
         }
     }
 }

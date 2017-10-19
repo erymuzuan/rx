@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq;
 using System.ServiceProcess;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Extensions;
 using Bespoke.Sph.SubscribersInfrastructure;
-using INotificationService = Bespoke.Sph.SubscribersInfrastructure.INotificationService;
 
 namespace workers.windowsservice.runner
 {
@@ -18,13 +18,13 @@ namespace workers.windowsservice.runner
         private Program m_program;
         protected override void OnStart(string[] args)
         {
-            INotificationService logger = new EventLogNotification();
+            ILogger logger = new EventLogNotification();
             var configName = ConfigurationManager.AppSettings["sph:WorkersConfig"];
             var env = ConfigurationManager.GetEnvironmentVariable("Environment");
             var configFile = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(WorkersConfig)}\\{env}.{configName}.json";
             if (!File.Exists(configFile))
             {
-                logger.WriteError($@"Cannot find subscribers config in '{configFile}'");
+                logger.WriteWarning($@"Cannot find subscribers config in '{configFile}'");
                 var controller = ServiceController.GetServices(this.ServiceName).First();
                 controller.Stop();
                 controller.WaitForStatus(ServiceControllerStatus.Stopped);
@@ -56,18 +56,7 @@ namespace workers.windowsservice.runner
             }
             catch (Exception e)
             {
-                logger.Write(e.ToString());
-                if (null != e.InnerException)
-                    logger.Write(e.InnerException.ToString());
-                var aeg = e as AggregateException;
-                if (null != aeg)
-                {
-                    foreach (var exc in aeg.InnerExceptions)
-                    {
-                        logger.Write(exc.ToString());
-                    }
-
-                }
+                logger.WriteError(e, "Exception starting the subscribers");
             }
 
         }

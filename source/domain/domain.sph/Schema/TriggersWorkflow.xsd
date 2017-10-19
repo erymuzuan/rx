@@ -36,6 +36,8 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="ShouldProcessedOnceAccepted" type="xs:int" nillable="true"/>
+				<xs:element name="ShouldProcessedOncePersisted" type="xs:int" nillable="true"/>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Entity" type="xs:string" use="required"/>
@@ -46,6 +48,7 @@
 			<xs:attribute name="IsFiredOnDeleted" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsFiredOnChanged" type="xs:boolean" use="required"/>
 			<xs:attribute name="FiredOnOperations" type="xs:string" use="required"/>
+			<xs:attribute name="EnableTracking" type="xs:boolean" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:complexType name="Field">

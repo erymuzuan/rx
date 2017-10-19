@@ -1,0 +1,24 @@
+subscriber.persistence
+sql.repository
+rabbitmq.changepublisher
+domain.sph
+tools/deployment.agent
+webapi.common
+core.sph
+elsticsearch.repository
+web.sph
+workers.console.runner.exe
+web.config
+-- IMessageTracker
+subscriber.message.sla
+subscriber.infrastructure
+subscriber.entities
+.nuget\NuGet.exe
+deployment.gui
+es.diagnostics
+view.dignostics
+Newtonsoft 8.0.2
+roslyn.scriptengine
+Roslyn assemblies **
+restapi.adapter
+trigger.action.entity

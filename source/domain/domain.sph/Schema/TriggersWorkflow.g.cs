@@ -64,6 +64,23 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameFiredOnOperations = "FiredOnOperations";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_enableTracking;
+        public const string PropertyNameEnableTracking = "EnableTracking";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_shouldProcessedOnceAccepted;
+        public const string PropertyNameShouldProcessedOnceAccepted = "ShouldProcessedOnceAccepted";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_shouldProcessedOncePersisted;
+        public const string PropertyNameShouldProcessedOncePersisted = "ShouldProcessedOncePersisted";
+
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -321,6 +338,75 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public bool EnableTracking
+        {
+            set
+            {
+                if (m_enableTracking == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEnableTracking, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_enableTracking = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_enableTracking;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? ShouldProcessedOnceAccepted
+        {
+            set
+            {
+                if (m_shouldProcessedOnceAccepted == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameShouldProcessedOnceAccepted, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_shouldProcessedOnceAccepted = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_shouldProcessedOnceAccepted; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? ShouldProcessedOncePersisted
+        {
+            set
+            {
+                if (m_shouldProcessedOncePersisted == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameShouldProcessedOncePersisted, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_shouldProcessedOncePersisted = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_shouldProcessedOncePersisted; }
+        }
 
 
     }

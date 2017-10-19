@@ -33,8 +33,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             get
             {
-                var operationBytes = m_args.Properties.Headers["log"] as byte[];
-                if (null != operationBytes)
+                if (m_args.Properties.Headers["log"] is byte[] operationBytes)
                 {
                     var json = ByteToString(operationBytes);
                     if (string.IsNullOrWhiteSpace(json)) return null;
@@ -49,8 +48,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             get
             {
-                var operationBytes = m_args.Properties.Headers["operation"] as byte[];
-                if (null != operationBytes)
+                if (m_args.Properties.Headers["operation"] is byte[] operationBytes)
                     return ByteToString(operationBytes);
 
                 return null;
@@ -60,8 +58,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             get
             {
-                var operationBytes = m_args.Properties.Headers["message-id"] as byte[];
-                if (null != operationBytes)
+                if (m_args.Properties.Headers["message-id"] is byte[] operationBytes)
                     return ByteToString(operationBytes);
 
                 return null;
@@ -71,7 +68,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         public T GetValue<T>(string key)
         {
             if (!m_args.Properties.Headers.ContainsKey(key))
-                return default(T);
+                return default;
             var blob = m_args.Properties.Headers[key];
             if (null != blob)
             {
@@ -79,13 +76,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     return (T) blob;
             }
 
-            var operationBytes = blob as byte[];
-            if (null == operationBytes) return default(T);
+            if (!(blob is byte[] operationBytes)) return default;
             var sct = ByteToString(operationBytes);
             if (typeof(T) == typeof(bool))
             {
-                bool boolValue;
-                if (bool.TryParse(sct, out boolValue))
+                if (bool.TryParse(sct, out var boolValue))
                 {
                     object f = boolValue;
                     return (T) f;
@@ -94,8 +89,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
             if (typeof(T) == typeof(int))
             {
-                int val;
-                if (int.TryParse(sct, out val))
+                if (int.TryParse(sct, out var val))
                 {
                     object f = val;
                     return (T) f;
@@ -103,8 +97,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
             if (typeof(T) == typeof(double))
             {
-                double val;
-                if (double.TryParse(sct, out val))
+                if (double.TryParse(sct, out var val))
                 {
                     object f = val;
                     return (T) f;
@@ -112,8 +105,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
             if (typeof(T) == typeof(decimal))
             {
-                decimal val;
-                if (decimal.TryParse(sct, out val))
+                if (decimal.TryParse(sct, out var val))
                 {
                     object f = val;
                     return (T) f;
@@ -121,8 +113,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
             if (typeof(T) == typeof(float))
             {
-                float val;
-                if (float.TryParse(sct, out val))
+                if (float.TryParse(sct, out var val))
                 {
                     object f = val;
                     return (T) f;
@@ -130,15 +121,14 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
             if (typeof(T) == typeof(DateTime))
             {
-                DateTime val;
-                if (DateTime.TryParse(sct, out val))
+                if (DateTime.TryParse(sct, out var val))
                 {
                     object f = val;
                     return (T) f;
                 }
             }
 
-            return default(T);
+            return default;
 
         }
 
@@ -153,13 +143,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     return (T) blob;
             }
 
-            var bytes = blob as byte[];
-            if (null == bytes) return default(T);
+            if (!(blob is byte[] bytes)) return default(T);
             var sct = ByteToString(bytes);
             if (typeof(T) == typeof(bool))
             {
-                bool boolValue;
-                if (bool.TryParse(sct, out boolValue))
+                if (bool.TryParse(sct, out var boolValue))
                 {
                     object f = boolValue;
                     return (T) f;
@@ -168,8 +156,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
             if (typeof(T) == typeof(int))
             {
-                int val;
-                if (int.TryParse(sct, out val))
+                if (int.TryParse(sct, out var val))
                 {
                     object f = val;
                     return (T) f;
@@ -177,8 +164,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
             if (typeof(T) == typeof(double))
             {
-                double val;
-                if (double.TryParse(sct, out val))
+                if (double.TryParse(sct, out var val))
                 {
                     object f = val;
                     return (T) f;
@@ -186,8 +172,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
             if (typeof(T) == typeof(decimal))
             {
-                decimal val;
-                if (decimal.TryParse(sct, out val))
+                if (decimal.TryParse(sct, out var val))
                 {
                     object f = val;
                     return (T) f;
@@ -195,8 +180,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
             if (typeof(T) == typeof(float))
             {
-                float val;
-                if (float.TryParse(sct, out val))
+                if (float.TryParse(sct, out var val))
                 {
                     object f = val;
                     return (T) f;
@@ -204,8 +188,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
             if (typeof(T) == typeof(DateTime))
             {
-                DateTime val;
-                if (DateTime.TryParse(sct, out val))
+                if (DateTime.TryParse(sct, out var val))
                 {
                     object f = val;
                     return (T) f;
@@ -223,15 +206,13 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 if (!m_args.Properties.Headers.ContainsKey(KEY))
                     return null;
                 var blob = m_args.Properties.Headers[KEY];
-                if (blob is bool)
-                    return (bool)blob;
+                if (blob is bool b)
+                    return b;
 
-                var operationBytes = blob as byte[];
-                if (null != operationBytes)
+                if (blob is byte[] operationBytes)
                 {
                     var sct = ByteToString(operationBytes);
-                    bool tryCount;
-                    if (bool.TryParse(sct, out tryCount))
+                    if (bool.TryParse(sct, out var tryCount))
                         return tryCount;
                 }
 
@@ -245,15 +226,13 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 if (!m_args.Properties.Headers.ContainsKey(SPH_TRYCOUNT))
                     return null;
                 var blob = m_args.Properties.Headers[SPH_TRYCOUNT];
-                if (blob is int)
-                    return (int)blob;
+                if (blob is int i)
+                    return i;
 
-                var operationBytes = blob as byte[];
-                if (null != operationBytes)
+                if (blob is byte[] operationBytes)
                 {
                     var sct = ByteToString(operationBytes);
-                    int tryCount;
-                    if (int.TryParse(sct, out tryCount))
+                    if (int.TryParse(sct, out var tryCount))
                         return tryCount;
                 }
 
@@ -267,17 +246,15 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 if (!m_args.Properties.Headers.ContainsKey(SPH_DELAY))
                     return null;
                 var blob = m_args.Properties.Headers[SPH_DELAY];
-                if (blob is int)
-                    return (int)blob;
-                if (blob is long)
-                    return (long)blob;
+                if (blob is int i)
+                    return i;
+                if (blob is long l)
+                    return l;
 
-                var operationBytes = blob as byte[];
-                if (null != operationBytes)
+                if (blob is byte[] operationBytes)
                 {
                     var sct = ByteToString(operationBytes);
-                    long delayText;
-                    if (long.TryParse(sct, out delayText))
+                    if (long.TryParse(sct, out var delayText))
                         return delayText;
                 }
 
@@ -293,8 +270,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 if (!string.IsNullOrWhiteSpace(user))
                     return user;
 
-                var operationBytes = m_args.Properties.Headers["username"] as byte[];
-                if (null != operationBytes)
+                if (m_args.Properties.Headers["username"] is byte[] operationBytes)
                     return ByteToString(operationBytes);
 
                 return null;
@@ -310,8 +286,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             get
             {
                 var crud = CrudOperation.None;
-                var operationBytes = m_args.Properties.Headers["crud"] as byte[];
-                if (null != operationBytes)
+                if (!m_args.Properties.Headers.ContainsKey("crud")) return crud;
+                if (m_args.Properties.Headers["crud"] is byte[] operationBytes)
                 {
                     var v = ByteToString(operationBytes);
                     if (Enum.TryParse(v, true, out crud))
@@ -337,27 +313,25 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 result = value as string;
                 return true;
             }
-            if (value is DateTime)
+            if (value is DateTime time)
             {
-                result = (DateTime)value;
+                result = time;
                 return true;
             }
 
-            if (value is int)
+            if (value is int i)
             {
-                result = (int)value;
+                result = i;
                 return true;
             }
 
-            if (value is decimal)
+            if (value is decimal @decimal)
             {
-                result = (decimal)value;
+                result = @decimal;
                 return true;
             }
 
-            var operationBytes = value as byte[];
-
-            if (null != operationBytes)
+            if (value is byte[] operationBytes)
             {
                 var r = ByteToString(operationBytes);
                 if (binder.ReturnType == typeof(string[]))
@@ -368,8 +342,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 }
                 if (binder.ReturnType == typeof(int))
                 {
-                    int no;
-                    if (int.TryParse(r, out no))
+                    if (int.TryParse(r, out var no))
                     {
                         result = no;
                         return true;
@@ -377,8 +350,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 }
                 if (binder.ReturnType == typeof(bool))
                 {
-                    bool no;
-                    if (bool.TryParse(r, out no))
+                    if (bool.TryParse(r, out var no))
                     {
                         result = no;
                         return true;
@@ -386,8 +358,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 }
                 if (binder.ReturnType == typeof(decimal))
                 {
-                    decimal no;
-                    if (decimal.TryParse(r, out no))
+                    if (decimal.TryParse(r, out var no))
                     {
                         result = no;
                         return true;
@@ -395,22 +366,18 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 }
                 if (binder.ReturnType == typeof(double))
                 {
-                    double no;
-                    if (double.TryParse(r, out no))
+                    if (double.TryParse(r, out var no))
                     {
                         result = no;
                         return true;
                     }
                 }
                 if (binder.ReturnType == typeof(DateTime))
-                {
-                    DateTime no;
-                    if (DateTime.TryParse(r, out no))
+                    if (DateTime.TryParse(r, out var no))
                     {
                         result = no;
                         return true;
                     }
-                }
 
                 result = r;
                 return true;
