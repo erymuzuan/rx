@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -15,7 +16,8 @@ using Polly;
 
 namespace Bespokse.Sph.ElasticsearchRepository
 {
-    public class MessageTracker : IMessageTracker
+    [Export("Bespoke.Sph.Domain.IMessageTracker", typeof(IMessageTracker))]
+    public class MessageTracker : IMessageTracker, IPartImportsSatisfiedNotification
     {
         public bool IsEnabled { get; set; } = true;
         public string Host { get; }
@@ -283,6 +285,11 @@ namespace Bespokse.Sph.ElasticsearchRepository
     }}
 }}";
             await m_client.PutAsync(TEMPLATE_URI, new StringContent(template));
+        }
+
+        public void OnImportsSatisfied()
+        {
+            this.Initialize();
         }
     }
 }
