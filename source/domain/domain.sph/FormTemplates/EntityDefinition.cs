@@ -255,5 +255,12 @@ namespace Bespoke.Sph.Domain
             var nextPath = string.Join(".", paths);
             return this.GetMember(nextPath, child);
         }
+
+        public Member AddMember<T>(string name)
+        {
+            var sm = new SimpleMember {Name = "Created", Type = typeof(T)};
+            this.MemberCollection.Add(sm);
+            return sm;
+        }
     }
 }
