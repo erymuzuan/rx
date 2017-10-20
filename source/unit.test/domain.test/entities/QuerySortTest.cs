@@ -60,10 +60,10 @@ namespace domain.test.entities
         public void UsingNotFilters()
         {
             var ed = new EntityDefinition {Name = "Building", Plural = "Buildings", RecordName = "Name"};
-            ed.MemberCollection.Add(new SimpleMember {Name = "Name", Type = typeof(string)});
-            ed.MemberCollection.Add(new SimpleMember {Name = "Floors", Type = typeof(int)});
-            ed.MemberCollection.Add(new SimpleMember {Name = "Age", Type = typeof(int)});
-            ed.MemberCollection.Add(new SimpleMember {Name = "Created", Type = typeof(DateTime)});
+            ed.AddMember<string>("Name");
+            ed.AddMember<int>("Floors");
+            ed.AddMember<int>("Age");
+            ed.AddMember<DateTime>("Created");
 
 
             var view = new QueryEndpoint {Name = "All buildings", Route = "all-buildings"};

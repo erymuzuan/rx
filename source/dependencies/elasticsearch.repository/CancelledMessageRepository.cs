@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -8,6 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Bespokse.Sph.ElasticsearchRepository
 {
+    [Export("Bespoke.Sph.Domain.ICancelledMessageRepository", typeof(ICancelledMessageRepository))]
     public class CancelledMessageRepository : ICancelledMessageRepository
     {
         // ReSharper disable MemberCanBePrivate.Global
