@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Persistence
     public class PersistenceContextSubscriber : Subscriber
     {
         public override string QueueName => "persistence";
-        public override string[] RoutingKeys => new[] {"persistence"};
+        public override string[] RoutingKeys => new[] { "persistence" };
         private TaskCompletionSource<bool> m_stoppingTcs;
         private readonly List<EntityPersistence> m_receivers = new List<EntityPersistence>();
 
@@ -64,7 +64,7 @@ namespace Bespoke.Sph.Persistence
                 m_channel = null;
             }
 
-            this.WriteMessage("!!Stopped : "+ this.QueueName);
+            this.WriteMessage("!!Stopped : " + this.QueueName);
         }
 
         private IModel m_channel;
@@ -83,7 +83,15 @@ namespace Bespoke.Sph.Persistence
             m_channel.BasicConsume(this.QueueName, NO_ACK, m_consumer);
 
             m_receivers.Clear();
-            var receivers = new SphDataContext().LoadFromSources<EntityDefinition>()
+            var receivers = (new SphDataContext().LoadFromSources<EntityDefinition>().Concat(new[]
+                {
+                    new EntityDefinition{Name = nameof(UserProfile), IsPublished = true},
+                    new EntityDefinition{Name = nameof(Workflow), IsPublished = true},
+                    new EntityDefinition{Name = nameof(Tracker), IsPublished = true},
+                    new EntityDefinition{Name = nameof(Watcher), IsPublished = true},
+                    new EntityDefinition{Name = nameof(Message), IsPublished = true},
+                    new EntityDefinition{Name = nameof(Setting), IsPublished = true}
+                }))
                 .Where(x => x.IsPublished)
                 .Select(StartConsume);
 
@@ -98,7 +106,7 @@ namespace Bespoke.Sph.Persistence
             m_channel.ExchangeDeclare(EXCHANGE_NAME, ExchangeType.Topic, true);
 
             m_channel.ExchangeDeclare(DEAD_LETTER_EXCHANGE, ExchangeType.Topic, true);
-            var args = new Dictionary<string, object> {{"x-dead-letter-exchange", DEAD_LETTER_EXCHANGE}};
+            var args = new Dictionary<string, object> { { "x-dead-letter-exchange", DEAD_LETTER_EXCHANGE } };
             m_channel.QueueDeclare(this.QueueName, true, false, false, args);
 
             m_channel.QueueDeclare(DEAD_LETTER_QUEUE, true, false, false, args);
@@ -115,7 +123,7 @@ namespace Bespoke.Sph.Persistence
         private EntityPersistence StartConsume(EntityDefinition ed)
         {
             var receiver =
-                new EntityPersistence(ed, m_channel, m=> this.WriteMessage(m), e => this.WriteError(e))
+                new EntityPersistence(ed, m_channel, m => this.WriteMessage(m), e => this.WriteError(e))
                 {
                     PrefetchCount = this.PrefetchCount
                 };
@@ -178,13 +186,13 @@ namespace Bespoke.Sph.Persistence
                 entities.AddRange(logs);
 
                 var persistedEntities = from r in entities
-                    let opt = r.GetPersistenceOption()
-                    where opt.IsSqlDatabase
-                    select r;
+                                        let opt = r.GetPersistenceOption()
+                                        where opt.IsSqlDatabase
+                                        select r;
                 var deletedEntities = from r in deletedItems
-                    let opt = r.GetPersistenceOption()
-                    where opt.IsSqlDatabase
-                    select r;
+                                      let opt = r.GetPersistenceOption()
+                                      where opt.IsSqlDatabase
+                                      select r;
 
                 var so = await persistence
                     .SubmitChanges(persistedEntities.ToArray(), deletedEntities.ToArray(), null, headers.Username)

@@ -10,11 +10,11 @@
         "Operator": "Ge",
         "Field": {
           "$type": "Bespoke.Sph.Domain.FunctionField, domain.sph",
-          "CodeNamespace": "ffffe4ce7f",
+          "CodeNamespace": "fffff0cb02",
           "Script": "DateTime.Today.AddDays(-7)",
           "Name": null,
           "Note": null,
-          "WebId": "ffe4ce7fce"
+          "WebId": "fff0cb027f"
         },
         "WebId": null
       }

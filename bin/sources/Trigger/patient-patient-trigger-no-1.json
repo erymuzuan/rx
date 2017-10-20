@@ -39,7 +39,7 @@
     "IsFiredOnChanged": false,
     "FiredOnOperations": "",
     "EnableTracking": true,
-    "ShouldProcessedOnceAccepted": 30000,
+    "ShouldProcessedOnceAccepted": 120000,
     "ShouldProcessedOncePersisted": null,
     "ClassName": "PatientPatientTriggerNo1TriggerSubscriber",
     "CodeNamespace": "Bespoke.DevV1.TriggerSubscribers",
