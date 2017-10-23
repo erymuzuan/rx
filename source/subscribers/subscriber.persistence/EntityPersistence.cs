@@ -142,7 +142,7 @@ namespace Bespoke.Sph.Persistence
             }
             catch (Exception exc)
             {
-                this.WriteMessage("Error in" + this.GetType().Name);
+                this.WriteMessage("Error in " + this.GetType().Name);
                 this.WriteError(exc);
                 m_channel.BasicReject(e.DeliveryTag, false);
             }

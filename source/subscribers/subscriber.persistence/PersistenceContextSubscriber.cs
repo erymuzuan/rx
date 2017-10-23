@@ -83,15 +83,11 @@ namespace Bespoke.Sph.Persistence
             m_channel.BasicConsume(this.QueueName, NO_ACK, m_consumer);
 
             m_receivers.Clear();
-            var receivers = (new SphDataContext().LoadFromSources<EntityDefinition>().Concat(new[]
-                {
-                    new EntityDefinition{Name = nameof(UserProfile), IsPublished = true},
-                    new EntityDefinition{Name = nameof(Workflow), IsPublished = true},
-                    new EntityDefinition{Name = nameof(Tracker), IsPublished = true},
-                    new EntityDefinition{Name = nameof(Watcher), IsPublished = true},
-                    new EntityDefinition{Name = nameof(Message), IsPublished = true},
-                    new EntityDefinition{Name = nameof(Setting), IsPublished = true}
-                }))
+
+            var rxEntities = (new[] {nameof(UserProfile), nameof(Workflow), nameof(Tracker), nameof(Setting), nameof(Watcher)})
+                .Select(x => new EntityDefinition{Name = x, IsPublished = true});
+            var receivers = new SphDataContext().LoadFromSources<EntityDefinition>()
+                .Concat(rxEntities)
                 .Where(x => x.IsPublished)
                 .Select(StartConsume);
 
