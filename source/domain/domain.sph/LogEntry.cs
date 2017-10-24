@@ -48,7 +48,6 @@ namespace Bespoke.Sph.Domain
                 switch (ie)
                 {
                     case ReflectionTypeLoadException le:
-                        details.AppendLine("Types : " + le.Types.ToString(";", x => x.AssemblyQualifiedName));
                         le.LoaderExceptions.ToList().ForEach(Write);
                         break;
                     case AggregateException ae:
