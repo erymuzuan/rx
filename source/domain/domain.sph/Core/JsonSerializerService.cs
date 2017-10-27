@@ -139,7 +139,7 @@ namespace Bespoke.Sph.Domain
             if (null != td && string.IsNullOrWhiteSpace(elements["type"]))
             {
                 var children = from p in td.LoadProperties()
-                                   where p.DeclaringType.FullName != typeof(DomainObject).FullName
+                               where p.DeclaringType.FullName != typeof(DomainObject).FullName
                                select p.GetJsonSchema();
                 elements.AddIfNotExist("required", "true");
                 elements["type"] = @"[""object"", ""null""]";
@@ -252,15 +252,7 @@ namespace Bespoke.Sph.Domain
                 if (readAllText)
                 {
                     var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-                    try
-                    {
-                        return JsonConvert.DeserializeObject<T>(File.ReadAllText(file), setting);
-                    }
-                    catch (IOException e) when (e.Message.Contains("because it is being used by another process"))
-                    {
-                        Thread.Sleep(500);
-                        return file.DeserializeFromJsonFile<T>();
-                    }
+                    return JsonConvert.DeserializeObject<T>(File.ReadAllText(file), setting);
                 }
 
                 using (var reader = File.OpenText(file))
@@ -268,6 +260,11 @@ namespace Bespoke.Sph.Domain
                     var serializer = new JsonSerializer();
                     return (T)serializer.Deserialize(reader, typeof(T));
                 }
+            }
+            catch (IOException ioe) when (ioe.Message.StartsWith("The process cannot access the file") && ioe.Message.EndsWith("because it is being used by another process"))
+            {
+                Thread.Sleep(200);
+                return file.DeserializeFromJsonFile<T>();
             }
             catch (JsonReaderException e)
             {

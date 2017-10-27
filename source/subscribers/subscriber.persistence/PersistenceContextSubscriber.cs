@@ -84,8 +84,13 @@ namespace Bespoke.Sph.Persistence
 
             m_receivers.Clear();
 
-            var rxEntities = (new[] {nameof(UserProfile), nameof(Workflow), nameof(Tracker), nameof(Setting), nameof(Watcher)})
-                .Select(x => new EntityDefinition{Name = x, IsPublished = true});
+            var rxEntities = (new[] {nameof(UserProfile),
+                nameof(WorkflowDefinition),
+                nameof(TransformDefinition),
+                nameof(EntityDefinition),
+                nameof(EntityView),nameof(EntityForm)
+                , nameof(Workflow), nameof(Tracker), nameof(Setting), nameof(Watcher)})
+                .Select(x => new EntityDefinition { Name = x, IsPublished = true });
             var receivers = new SphDataContext().LoadFromSources<EntityDefinition>()
                 .Concat(rxEntities)
                 .Where(x => x.IsPublished)
