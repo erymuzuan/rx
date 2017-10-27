@@ -18,13 +18,13 @@
 
 ## See also
 
-[Enum](Enum.html)
-[Severity](Severity.html)
-[LogEntry](LogEntry.html)
-[ActivityExecutionStatus](ActivityExecutionStatus.html)
-[SortDirection](SortDirection.html)
-[FieldType](FieldType.html)
-[Operator](Operator.html)
-[DbExpressionType](DbExpressionType.html)
-[OrderType](OrderType.html)
-[JoinType](JoinType.html)
+[Enum](Enum.md)
+[Severity](Severity.md)
+[LogEntry](LogEntry.md)
+[ActivityExecutionStatus](ActivityExecutionStatus.md)
+[SortDirection](SortDirection.md)
+[FieldType](FieldType.md)
+[Operator](Operator.md)
+[DbExpressionType](DbExpressionType.md)
+[OrderType](OrderType.md)
+[JoinType](JoinType.md)

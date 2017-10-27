@@ -13,7 +13,7 @@ There are 4 types of code that you can creates in your Rx Developer solution
 When you create an `EntityForm` or `EntityView`, Rx Developer will compile those into DurandalJS view(.html) and viewmodel(.js), and insert a route information into the application`router`. So you can actually do the same with you custom code
 
 ## Partial View
-When writing a lot custom forms, chances are you have a lot of repertive code, isn' it nice to have some kind of reusable piece of code that can be shared accross you custom form, We are not talking about code snippet, what we want is something universal, change once and it reflects every where.
+When writing a lot custom forms, chances are you have a lot of repetitive code, isn' it nice to have some kind of reusable piece of code that can be shared accross you custom form, We are not talking about code snippet, what we want is something universal, change once and it reflects every where.
 
 For example you want to have a piece of menu in all your custom forms, does it mean you have to write this menu over and over again, what if you need new item on the menu, do you have to go back to dozens of you custom forms to make the change
 
