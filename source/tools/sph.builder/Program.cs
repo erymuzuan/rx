@@ -47,20 +47,18 @@ namespace Bespoke.Sph.SourceBuilders
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-
+            var logger = new Logger();
+            logger.Loggers.Add(new ConsoleLogger { TraceSwitch = Severity.Info });
             if (TryParseArg("switch", out var tsw))
             {
                 var ts = (Severity)Enum.Parse(typeof(Severity), tsw, true);
-                var logger = new Logger();
-                logger.Loggers.Add(new ConsoleLogger { TraceSwitch = ts });
-
+                logger.Loggers.OfType<ConsoleLogger>().Single().TraceSwitch = ts;
                 if (TryParseArg("out", out var outputFile))
                 {
                     logger.Loggers.Add(new FileLogger(outputFile, FileLogger.Interval.Hour) { TraceSwitch = ts });
                 }
-
-                ObjectBuilder.AddCacheList<ILogger>(logger);
             }
+            ObjectBuilder.AddCacheList<ILogger>(logger);
 
             if (args.Length > 0)
             {
