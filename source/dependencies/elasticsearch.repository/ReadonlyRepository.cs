@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Bespokse.Sph.ElasticsearchRepository;
 using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.ElasticsearchRepository

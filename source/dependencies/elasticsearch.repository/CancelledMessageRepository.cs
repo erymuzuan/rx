@@ -7,7 +7,7 @@ using Bespoke.Sph.Domain.Api;
 using Polly;
 using Newtonsoft.Json.Linq;
 
-namespace Bespokse.Sph.ElasticsearchRepository
+namespace Bespoke.Sph.ElasticsearchRepository
 {
     [Export("Bespoke.Sph.Domain.ICancelledMessageRepository", typeof(ICancelledMessageRepository))]
     public class CancelledMessageRepository : ICancelledMessageRepository

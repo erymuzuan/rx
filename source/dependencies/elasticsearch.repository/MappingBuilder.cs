@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 using Polly;
 using static System.IO.File;
 
-namespace Bespokse.Sph.ElasticsearchRepository
+namespace Bespoke.Sph.ElasticsearchRepository
 {
     public class MappingBuilder : IDisposable
     {

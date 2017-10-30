@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespokse.Sph.ElasticsearchRepository.Properties {
+namespace Bespoke.Sph.ElasticsearchRepository.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Bespokse.Sph.ElasticsearchRepository.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Bespokse.Sph.ElasticsearchRepository.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Bespoke.Sph.ElasticsearchRepository.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
