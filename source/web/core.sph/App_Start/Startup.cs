@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using Bespoke.Sph.Web.App_Start;
 using Microsoft.Owin;
 using Owin;
 using System.Web.Http;
+using System.Web.Http.Controllers;
 using System.Web.Http.ExceptionHandling;
+using System.Web.Http.Routing;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.OwinMiddlewares;
 using Bespoke.Sph.WebApi;
@@ -49,7 +52,7 @@ namespace Bespoke.Sph.Web.App_Start
             setting.Formatting = Formatting.Indented;
 
             config.Formatters.JsonFormatter.SerializerSettings = setting;
-            config.MapHttpAttributeRoutes();
+            config.MapHttpAttributeRoutes(new CustomDirectRouteProvider());
 
             config.Filters.Add(new ResourceAuthorizeAttribute());
             config.Services.Replace(typeof(IExceptionHandler), ObjectBuilder.GetObject<IExceptionHandler>());
@@ -64,5 +67,16 @@ namespace Bespoke.Sph.Web.App_Start
         }
 
 
+    }
+
+    public class CustomDirectRouteProvider : DefaultDirectRouteProvider
+    {
+        protected override IReadOnlyList<IDirectRouteFactory>
+            GetActionRouteFactories(HttpActionDescriptor actionDescriptor)
+        {
+            // inherit route attributes decorated on base class controller's actions
+            return actionDescriptor.GetCustomAttributes<IDirectRouteFactory>
+                (inherit: true);
+        }
     }
 }
