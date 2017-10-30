@@ -8,8 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SqlRepository;
-using Bespokse.Sph.ElasticsearchRepository;
-using Newtonsoft.Json;
+using Bespoke.Sph.ElasticsearchRepository;
 using Newtonsoft.Json.Linq;
 using Console = Colorful.Console;
 

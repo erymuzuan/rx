@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Extensions;
 using Bespoke.Sph.SqlRepository;
-using Bespokse.Sph.ElasticsearchRepository;
+using Bespoke.Sph.ElasticsearchRepository;
 using Newtonsoft.Json;
 using Polly;
 
@@ -38,6 +38,7 @@ namespace Bespoke.Sph.SourceBuilders
             {
                 await RebuildDataFromSourceAsync(item);
             }
+            // TODO : migrate data for schema changes is options.IsSqlDatabase || options.IsElasticsearch
 
             return result;
         }

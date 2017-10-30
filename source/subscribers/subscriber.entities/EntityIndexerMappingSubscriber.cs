@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
 using static System.IO.File;
-using Bespokse.Sph.ElasticsearchRepository;
+using Bespoke.Sph.ElasticsearchRepository;
 
 namespace subscriber.entities
 {
