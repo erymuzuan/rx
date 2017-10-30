@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
+using Polly;
 
 namespace Bespoke.Sph.Persistence
 {
@@ -26,8 +27,10 @@ namespace Bespoke.Sph.Persistence
                     var file = $"{ConfigurationManager.SphSourceDirectory}\\{type.Name}\\{item.Id}.json";
                     if (!File.Exists(file))
                         continue;
-                    var old = File.ReadAllText(file).DeserializeFromJson<Entity>();
-                    list.Add(old);
+                    var old = Policy.Handle<IOException>()
+                        .WaitAndRetry(3, c => TimeSpan.FromMilliseconds(c * Math.Pow(2, c)))
+                        .ExecuteAndCapture(() => File.ReadAllText(file).DeserializeFromJson<Entity>());
+                    list.Add(old.Result);
 
                     continue;
                 }
@@ -48,37 +51,37 @@ namespace Bespoke.Sph.Persistence
         public static IEnumerable<Entity> GetChangedItems(IEnumerable<Entity> entities, Entity[] previous)
         {
             return (from r in entities
-                let e1 = previous.SingleOrDefault(t => t.Id == r.Id)
-                where null != e1
-                select r).ToArray();
+                    let e1 = previous.SingleOrDefault(t => t.Id == r.Id)
+                    where null != e1
+                    select r).ToArray();
         }
 
         public static IEnumerable<Entity> GetAddedItems(IEnumerable<Entity> entities, Entity[] previous)
         {
             return (from r in entities
-                let e1 = previous.SingleOrDefault(t => t.Id == r.Id)
-                where null == e1
-                select r).ToArray();
+                    let e1 = previous.SingleOrDefault(t => t.Id == r.Id)
+                    where null == e1
+                    select r).ToArray();
         }
 
         public static AuditTrail[] ComputeChanges(IEnumerable<Entity> current, IEnumerable<Entity> previous, string operation, MessageHeaders headers)
         {
             var logs = (from r in current
-                let e1 = previous.SingleOrDefault(t => t.Id == r.Id)
-                where null != e1
-                let diffs = (new ChangeGenerator().GetChanges(e1, r))
-                let logId = Guid.NewGuid().ToString()
-                select new AuditTrail(diffs)
-                {
-                    Operation = operation,
-                    DateTime = DateTime.Now,
-                    User = headers.Username,
-                    Type = r.GetType().Name,
-                    EntityId = r.Id,
-                    Id = logId,
-                    WebId = logId,
-                    Note = "-"
-                }).ToArray();
+                        let e1 = previous.SingleOrDefault(t => t.Id == r.Id)
+                        where null != e1
+                        let diffs = (new ChangeGenerator().GetChanges(e1, r))
+                        let logId = Guid.NewGuid().ToString()
+                        select new AuditTrail(diffs)
+                        {
+                            Operation = operation,
+                            DateTime = DateTime.Now,
+                            User = headers.Username,
+                            Type = r.GetType().Name,
+                            EntityId = r.Id,
+                            Id = logId,
+                            WebId = logId,
+                            Note = "-"
+                        }).ToArray();
             return logs;
         }
 
