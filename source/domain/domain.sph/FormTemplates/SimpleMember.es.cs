@@ -9,7 +9,8 @@ namespace Bespoke.Sph.Domain
         private string GetEsType()
         {
             var member = this;
-            if (typeof(string) == member.Type) return "string";
+            if (typeof(string) == member.Type && this.IsAnalyzed) return "text";
+            if (typeof(string) == member.Type && !this.IsAnalyzed) return "keyword";
             if (typeof(int) == member.Type) return "integer";
             if (typeof(decimal) == member.Type) return "float";
             if (typeof(bool) == member.Type) return "boolean";
@@ -51,23 +52,6 @@ namespace Bespoke.Sph.Domain
                 map.Append(",\"ignore_malformed\":false");
             }
             map.Append("}");
-            return map.ToString();
-        }
-
-        private string GetObjectMapping()
-        {
-
-            var map = new StringBuilder();
-            map.AppendLine($"    \"{Name}\":{{");
-
-            map.AppendLine("        \"type\":  \"object\",");
-            map.AppendLine("        \"properties\":{");
-
-            var memberMappings = string.Join(",\r\n", this.MemberCollection.Select(d => d.GetEsMapping()));
-            map.AppendLine(memberMappings);
-
-            map.AppendLine("        }");
-            map.AppendLine("    }");
             return map.ToString();
         }
 

@@ -199,6 +199,9 @@ namespace Bespoke.Sph.Integrations.Adapters
 
         public Task<IEnumerable<Member>> GetResponseBodyMembersAsync()
         {
+            if (string.IsNullOrWhiteSpace(this.ResponseBodySample))
+                throw new InvalidOperationException("You have not set the content for your response : " + this.BaseAddress);
+
             var json = JObject.Parse(this.ResponseBodySample);
             var members = from j in json.Children()
                           select GetContentMember((JProperty)j);

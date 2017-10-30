@@ -210,11 +210,11 @@ namespace Bespoke.Sph.Domain
             map.AppendLine($"    \"{Name.ToLowerInvariant()}\":{{");
             map.AppendLine("        \"properties\":{");
             // add entity default properties
-            map.AppendLine("            \"CreatedBy\": {\"type\": \"string\", \"index\":\"not_analyzed\"},");
-            map.AppendLine("            \"ChangedBy\": {\"type\": \"string\", \"index\":\"not_analyzed\"},");
-            map.AppendLine("            \"WebId\": {\"type\": \"string\", \"index\":\"not_analyzed\"},");
-            map.AppendLine("            \"CreatedDate\": {\"type\": \"date\"},");
-            map.AppendLine("            \"ChangedDate\": {\"type\": \"date\"},");
+            map.AppendLine(@"            ""CreatedBy"": {""type"": ""keyword"", ""index"":""not_analyzed""},");
+            map.AppendLine(@"            ""ChangedBy"": {""type"": ""keyword"", ""index"":""not_analyzed""},");
+            map.AppendLine(@"            ""WebId"": {""type"": ""keyword"", ""index"":""not_analyzed""},");
+            map.AppendLine(@"            ""CreatedDate"": {""type"": ""date""},");
+            map.AppendLine(@"            ""ChangedDate"": {""type"": ""date""},");
 
             var memberMappings = string.Join(",\r\n", this.MemberCollection.Select(d => d.GetEsMapping()));
             map.AppendLine(memberMappings);

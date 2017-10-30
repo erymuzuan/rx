@@ -50,7 +50,7 @@ namespace subscriber.entities
                 m=>this.WriteError(m));
             await builder.ReBuildAsync(item);
 
-        }
+            }
 
-    }
+        }
 }

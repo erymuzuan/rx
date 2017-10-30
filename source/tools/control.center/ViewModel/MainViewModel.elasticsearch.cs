@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Windows;
@@ -42,22 +43,13 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             Log("Elasticsearch Home " + esHome);
             Log("Version :" + version);
 
-            const string JAVA_OPTS = "-Xms256m -Xmx1g -Xss256k -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -XX:+HeapDumpOnOutOfMemoryError";
             // ReSharper disable InconsistentNaming
-
-
-            //NOTE : V2 CLASS_PATH is a little different than V1
-            string CLASS_PATH = $"\"{es}/lib/elasticsearch-{version}.jar;{es}/lib/*\"";
-            string ES_PARAMS = $@"-Delasticsearch -Des-foreground=yes -Des.path.home=""{es}""";
+            var JAVA_OPTS = string.Join(" ", File.ReadAllLines($@"{es}\config\jvm.options").Where(x => !string.IsNullOrWhiteSpace(x) && !x.Trim().StartsWith("#")).Select(x => x.Trim()));
+            var CLASS_PATH = $"{es}/lib/*";
+            var ES_PARAMS = $@"-Delasticsearch -Des.path.home=""{es}""";
             // ReSharper restore InconsistentNaming
 
-            // NOTE : V2 got to add "start" at the end
-            var arg = $@" {JAVA_OPTS} {ES_PARAMS} -cp {CLASS_PATH} ""org.elasticsearch.bootstrap.Elasticsearch"" start ";
-            if (version.StartsWith("1."))
-            {
-                CLASS_PATH = $"\";{es}/lib/elasticsearch-{version}.jar;{es}/lib/*;{es}/lib/sigar/*\"";
-                arg = $"{JAVA_OPTS} {ES_PARAMS} -cp {CLASS_PATH}  \"org.elasticsearch.bootstrap.Elasticsearch\"";
-            }
+            var arg = $@"{JAVA_OPTS} {ES_PARAMS} -cp ""{CLASS_PATH}"" ""org.elasticsearch.bootstrap.Elasticsearch""";
             var info = new ProcessStartInfo
             {
                 FileName = this.Settings.JavaHome + @"\bin\java.exe",

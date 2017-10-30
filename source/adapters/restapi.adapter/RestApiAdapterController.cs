@@ -31,7 +31,7 @@ namespace Bespoke.Sph.Integrations.Adapters
                 return Invalid(validationResults.SelectMany(x => x.ValidationErrors).ToArray());
 
             var tasks = builders.Select(x => x.BuildAsync());
-            var endpoints = (await Task.WhenAll(tasks));
+            var endpoints = await Task.WhenAll(tasks);
 
             var json = "[" + endpoints.JoinString(",", x => x.ToJsonString()) + "]";
             return Json(json);

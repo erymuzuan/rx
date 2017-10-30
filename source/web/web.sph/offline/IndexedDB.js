@@ -126,7 +126,7 @@ IDBDatabase.prototype.close = function () {};
 /**
  * @type {Function(Event)}
  */
-IDBDatabase.prototype..onabort = null;
+IDBDatabase.prototype.onabort = null;
 
 /**
  * @type {Function(Event)}
