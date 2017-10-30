@@ -94,6 +94,9 @@
       <HintPath>..\..\..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Polly, Version=4.2.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Polly.4.2.4\lib\net45\Polly.dll</HintPath>
+    </Reference>
     <Reference Include="Raygun.Diagnostics, Version=0.7.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Raygun.Diagnostics.0.7.3\lib\net45\Raygun.Diagnostics.dll</HintPath>
       <Private>True</Private>

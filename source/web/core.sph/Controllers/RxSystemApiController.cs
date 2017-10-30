@@ -11,7 +11,6 @@ using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.Properties;
 using Bespoke.Sph.WebApi;
 using LinqToQuerystring;
-using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -156,7 +155,7 @@ namespace Bespoke.Sph.Web.Controllers
         public IHttpActionResult EntityView(string filter = null, int page = 1, int size = 40, bool includeTotal = false,
             [FromUri(Name = "$orderby")]string orderby = null)
         {
-            return ReadFromSource<EntityView>(filter, page, size, orderby:orderby);
+            return ReadFromSource<EntityView>(filter, page, size, orderby: orderby);
         }
 
         [Route("OperationEndpoint/{id}")]
@@ -338,21 +337,18 @@ namespace Bespoke.Sph.Web.Controllers
             }
 
             var previousPageToken = DateTime.Now.ToShortTimeString();
-            var result = new
-            {
-                results = list.ToArray(),
-                rows,
-                page,
-                nextPageToken,
-                previousPageToken,
-                size
-            };
-            var setting = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Objects
-            };
+            var result = $@"
+{{
+    ""results"" :[{ list.ToString(",\r\n", x => x.ToJsonString())}],
+    ""rows"" : {rows},
+    ""page"": {page},
+    ""nextPageToken"":""{nextPageToken}"",
+    ""previousPageToken"":""{previousPageToken}"",
+    ""size"":{size},
+    ""__count"":{size}
+}}";
 
-            return Json(JsonConvert.SerializeObject(result, setting));
+            return Json(result);
         }
 
         private async Task<int> ExecuteScalarAsync(string sql)

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class Filter : DomainObject
+    public sealed partial class Filter : DomainObject
     {
         public Filter()
         {
@@ -35,34 +34,9 @@ namespace Bespoke.Sph.Domain
             };
         }
 
-        public static Filter Parse(string json)
-        {
-            var jo = JObject.Parse(json);
-            var term = jo.SelectToken("$.term").Value<string>();
-            var op1 = jo.SelectToken("$.operator").Value<string>();
-            var op = (Operator) Enum.Parse(typeof(Operator), op1);
-            var valueNode = (JValue) jo.SelectToken("$.value").Value<object>();
-            return new Filter(term, op, valueNode.Value);
-        }
-
-        public static Filter Parse(JToken jo)
-        {
-            var term = jo.SelectToken("$.term").Value<string>();
-            var op1 = jo.SelectToken("$.operator").Value<string>();
-            var op = (Operator) Enum.Parse(typeof(Operator), op1);
-            var valueNode = (JValue) jo.SelectToken("$.value").Value<object>();
-            return new Filter(term, op, valueNode.Value);
-        }
-
 
         private bool IsMustFilter(Entity item, string field)
         {
-            //must
-            //x.Term == f && x.Operator != Operator.Neq
-            
-            // mustnot
-            //x.Term == f && x.Operator == Operator.Neq
-            
             var rc = new RuleContext(item);
             switch (this.Operator)
             {
@@ -92,6 +66,8 @@ namespace Bespoke.Sph.Domain
                         return !cb;
                     }
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
             return true;
         }
@@ -184,15 +160,8 @@ namespace Bespoke.Sph.Domain
                     query.AppendLine("                     }");
                     break;
                 case Operator.IsNotNull:
-                    if (ft.Field.GetValue(context) is bool cb)
-                    {
-                        query.AppendLine($@"
-                            ""missing"" : {{ ""field"" : ""{ft.Term}""}}
-                            ");
-                    }
-                    break;
                 case Operator.IsNull:
-                    if (ft.Field.GetValue(context) is bool cb1)
+                    if (ft.Field.GetValue(context) is bool)
                     {
                         query.AppendLine($@"
                             ""missing"" : {{ ""field"" : ""{ft.Term}""}}
@@ -208,7 +177,7 @@ namespace Bespoke.Sph.Domain
             return query.ToString();
         }
 
-        public virtual async Task<IEnumerable<BuildError>> ValidateErrorsAsync()
+        public async Task<IEnumerable<BuildError>> ValidateErrorsAsync()
         {
             var errors = new List<BuildError>();
             if (string.IsNullOrWhiteSpace(this.Term))
@@ -225,7 +194,7 @@ namespace Bespoke.Sph.Domain
             return errors;
         }
 
-        public virtual Task<IEnumerable<BuildError>> ValidateWarningsAsync()
+        public Task<IEnumerable<BuildError>> ValidateWarningsAsync()
         {
             return Task.FromResult(Array.Empty<BuildError>().AsEnumerable());
         }

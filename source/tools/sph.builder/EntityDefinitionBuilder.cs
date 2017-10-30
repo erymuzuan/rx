@@ -1,16 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Extensions;
+using Bespoke.Sph.SqlRepository;
+using Bespokse.Sph.ElasticsearchRepository;
+using Newtonsoft.Json;
+using Polly;
 
 namespace Bespoke.Sph.SourceBuilders
 {
     public class EntityDefinitionBuilder : Builder<EntityDefinition>
     {
+        private readonly HttpClient m_elasticsearchHttpClient;
+
+        public EntityDefinitionBuilder()
+        {
+            m_elasticsearchHttpClient = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) };
+        }
+
         protected override async Task<WorkflowCompilerResult> CompileAssetAsync(EntityDefinition item)
         {
             var cr = CompileEntityDefinition(item);
@@ -19,6 +32,13 @@ namespace Bespoke.Sph.SourceBuilders
             result.Errors.AddRange(cr.Errors);
             result.Errors.AddRange(cr1.SelectMany(x => x.Errors));
             result.Output = cr.Output + "\r\n" + cr1.ToString("\r\n", x => x.Output);
+
+            var options = item.GetPersistenceOption();
+            if (options.IsSource)
+            {
+                await RebuildDataFromSourceAsync(item);
+            }
+
             return result;
         }
 
@@ -80,6 +100,103 @@ namespace Bespoke.Sph.SourceBuilders
             return results;
 
         }
+
+
+        private async Task RebuildDataFromSourceAsync(EntityDefinition ed)
+        {
+            if (ed.Transient) return;
+            if (!ed.GetPersistenceOption().IsSource) return;
+
+            await RebuildSqlTable(ed);
+            await RebuildElasticsearchMapping(ed);
+
+
+            var sqlDataBuilder = new Builder { EntityDefinition = ed, Name = ed.Name };
+            sqlDataBuilder.Initialize();
+
+            var taskBuckets = new List<Task>();
+            var files = Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{ed.Name}", "*.json");
+            foreach (var file in files)
+            {
+                var json = File.ReadAllText(file);
+                var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+                dynamic ent = JsonConvert.DeserializeObject(json, setting);
+                ent.Id = Path.GetFileNameWithoutExtension(file);
+
+                var esTask = IndexItemToElasticSearchAsync(ent);
+                var sqlTask = sqlDataBuilder.InsertAsync(ent);
+                taskBuckets.Add(esTask);
+                taskBuckets.Add(sqlTask);
+
+                if (taskBuckets.Count > 10)
+                {
+                    await Task.WhenAll(taskBuckets);
+                    taskBuckets.Clear();
+                }
+            }
+            if (taskBuckets.Any())
+                await Task.WhenAll(taskBuckets);
+
+        }
+
+        private async Task RebuildSqlTable(EntityDefinition ed)
+        {
+            WriteMessage($"Droping SQL table [{ConfigurationManager.ApplicationName}].[{ed.Name}]...");
+            using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
+            using (var dropTableCommand = new SqlCommand($"DROP TABLE [{ConfigurationManager.ApplicationName}].[{ed.Name}]", conn) { CommandType = CommandType.Text })
+            {
+                await conn.OpenAsync();
+                await dropTableCommand.ExecuteNonQueryAsync();
+                WriteMessage($"Droping SQL table [{ConfigurationManager.ApplicationName}].[{ed.Name}]...");
+            }
+            using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
+            {
+                var createTableSql = File.ReadAllText($@"{ConfigurationManager.SphSourceDirectory}\{nameof(EntityDefinition)}\{ed.Name}.sql");
+                using (var createTableCommand = new SqlCommand(createTableSql, conn) { CommandType = CommandType.Text })
+                {
+                    await conn.OpenAsync();
+                    WriteMessage($"Executing  create SQL table [{ConfigurationManager.ApplicationName}].[{ed.Name}]...");
+                    await createTableCommand.ExecuteNonQueryAsync();
+                }
+            }
+        }
+
+        private async Task RebuildElasticsearchMapping(EntityDefinition item)
+        {
+            WriteMessage($"Rebuilding {item.Name} elasticsearch mapping...");
+            var builder = new MappingBuilder();
+            await builder.DeleteMappingAsync(item);
+            await builder.PutMappingAsync(item);
+            WriteMessage($"Rebuilt {item.Name} elasticsearch mapping from source");
+
+        }
+
+        private async Task IndexItemToElasticSearchAsync(Entity item)
+        {
+            var setting = new JsonSerializerSettings();
+            var json = JsonConvert.SerializeObject(item, setting);
+
+            var content = new StringContent(json);
+            var id = item.Id;
+            if (item.GetType().Namespace == typeof(Entity).Namespace) return;// just custom entity
+
+
+            var name = item.GetType().Name.ToLowerInvariant();
+            var index = ConfigurationManager.ApplicationName.ToLowerInvariant();
+            var url = $"{index}/{name}/{id}";
+
+            var c = m_elasticsearchHttpClient;
+            var pr = await Policy.Handle<HttpRequestException>()
+                .WaitAndRetryAsync(5, x => TimeSpan.FromMilliseconds(Math.Pow(2, x) * 500))
+                .ExecuteAndCaptureAsync(async () => await c.PostAsync(url, content));
+            if (null != pr.FinalException)
+                pr.Result.EnsureSuccessStatusCode();
+
+            WriteMessage($"Indexed {name}({id}) ..");
+
+
+        }
+
 
         private static async Task<IEnumerable<WorkflowCompilerResult>> CompileReceivePortAsync(ReceivePort port)
         {

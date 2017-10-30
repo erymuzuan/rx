@@ -23,6 +23,7 @@ namespace Bespoke.Sph.SqlRepository
         private readonly string m_connectionString;
         public bool IsEnabled { get; set; } = true;
         public int RetryCount { get; set; } = 3;
+        public string Schema { get; set; } = "Sph";
         public TimeSpan WaitDuration { get; set; } = TimeSpan.FromMilliseconds(200);
         public WaitAlgorithm HttpRequestWaitAlgorithm { get; set; } = WaitAlgorithm.Exponential;
 
@@ -100,7 +101,7 @@ namespace Bespoke.Sph.SqlRepository
                 .ExecuteAsync(async () =>
                 {
                     using (var conn = new SqlConnection(m_connectionString))
-                    using (var cmd = new SqlCommand(@"[Sph].[InsertMessageTrackingEvent]", conn) { CommandType = CommandType.StoredProcedure })
+                    using (var cmd = new SqlCommand($@"[{Schema}].[InsertMessageTrackingEvent]", conn) { CommandType = CommandType.StoredProcedure })
                     {
                         cmd.Parameters.Add(new SqlParameter("@DateTime", SqlDbType.SmallDateTime, 8)).Value =
                             eventData.DateTime;
@@ -217,7 +218,7 @@ namespace Bespoke.Sph.SqlRepository
         {
 
             using (var conn = new SqlConnection(m_connectionString))
-            using (var cmd = new SqlCommand("[Sph].[GetMessageProcessingStatus]", conn){CommandType = CommandType.StoredProcedure})
+            using (var cmd = new SqlCommand($"[{Schema}].[GetMessageProcessingStatus]", conn){CommandType = CommandType.StoredProcedure})
             {
                 cmd.Parameters.Add(new SqlParameter("@MessageId", SqlDbType.VarChar, 255)).Value = @event.MessageId;
                 cmd.Parameters.Add(new SqlParameter("@Worker", SqlDbType.VarChar, 255)).Value = @event.Worker.ToDbNull();
