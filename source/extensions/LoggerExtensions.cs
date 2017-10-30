@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.CompilerServices;
 using Bespoke.Sph.Domain;
 
@@ -5,7 +6,7 @@ namespace Bespoke.Sph.Extensions
 {
     internal static class LoggerExtension
     {
-        public static void WritedVerbose(this ILogger logger, string message,
+        public static void WriteVerbose(this ILogger logger, string message,
             [CallerFilePath]string filePath = "", [CallerMemberName]string memberName = "", [CallerLineNumber]int lineNumber = 0)
         {
             var verbose = new LogEntry
@@ -63,6 +64,23 @@ namespace Bespoke.Sph.Extensions
             logger.Log(info);
 
         }
+        public static void WriteError(this ILogger logger , Exception exc, string message,
+            [CallerFilePath]string filePath = "", [CallerMemberName]string memberName = "", [CallerLineNumber]int lineNumber = 0)
+        {
+            var error = new LogEntry(exc)
+            {
+                Severity = Severity.Error,
+                Message = message,
+                CallerMemberName = memberName,
+                CallerLineNumber = lineNumber,
+                CallerFilePath = filePath
+
+            };
+            logger.Log(error);
+
+        }
+
+
         public static void WriteWarning(this ILogger logger, string message,
             [CallerFilePath]string filePath = "", [CallerMemberName]string memberName = "", [CallerLineNumber]int lineNumber = 0)
         {

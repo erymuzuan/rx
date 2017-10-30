@@ -38,7 +38,7 @@ namespace domain.test.triggers
         [Fact]
         public async Task Compile()
         {
-            var ed = this.CreateAccountDefinition();
+            var ed = CreateAccountDefinition();
             var account = this.CreateInstance(ed);
             Assert.NotNull(account);
 
@@ -95,7 +95,7 @@ namespace domain.test.triggers
         }
 
 
-        public EntityDefinition CreateAccountDefinition()
+        private static EntityDefinition CreateAccountDefinition()
         {
             var ent = new EntityDefinition
             {

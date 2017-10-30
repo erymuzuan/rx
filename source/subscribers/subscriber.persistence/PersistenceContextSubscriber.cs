@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Persistence
     public class PersistenceContextSubscriber : Subscriber
     {
         public override string QueueName => "persistence";
-        public override string[] RoutingKeys => new[] { "persistence" };
+        public override string[] RoutingKeys => new[] {"persistence"};
         private TaskCompletionSource<bool> m_stoppingTcs;
         private readonly List<EntityPersistence> m_receivers = new List<EntityPersistence>();
 
@@ -32,7 +32,6 @@ namespace Bespoke.Sph.Persistence
                 this.StartConsume(connection);
                 PrintSubscriberInformation(sw.Elapsed);
                 sw.Stop();
-
             }
             catch (Exception e)
             {
@@ -42,7 +41,7 @@ namespace Bespoke.Sph.Persistence
 
         protected override void OnStop()
         {
-            this.WriteMessage("!!Stoping : {0}", this.QueueName);
+            this.WriteMessage($"!!Stoping : {this.QueueName}");
 
             m_consumer.Received -= Received;
             m_stoppingTcs?.SetResult(true);
@@ -55,7 +54,6 @@ namespace Bespoke.Sph.Persistence
 
             while (m_processing > 0)
             {
-
             }
 
 
@@ -66,7 +64,7 @@ namespace Bespoke.Sph.Persistence
                 m_channel = null;
             }
 
-            this.WriteMessage("!!Stopped : {0}", this.QueueName);
+            this.WriteMessage("!!Stopped : "+ this.QueueName);
         }
 
         private IModel m_channel;
@@ -100,7 +98,7 @@ namespace Bespoke.Sph.Persistence
             m_channel.ExchangeDeclare(EXCHANGE_NAME, ExchangeType.Topic, true);
 
             m_channel.ExchangeDeclare(DEAD_LETTER_EXCHANGE, ExchangeType.Topic, true);
-            var args = new Dictionary<string, object> { { "x-dead-letter-exchange", DEAD_LETTER_EXCHANGE } };
+            var args = new Dictionary<string, object> {{"x-dead-letter-exchange", DEAD_LETTER_EXCHANGE}};
             m_channel.QueueDeclare(this.QueueName, true, false, false, args);
 
             m_channel.QueueDeclare(DEAD_LETTER_QUEUE, true, false, false, args);
@@ -116,7 +114,11 @@ namespace Bespoke.Sph.Persistence
 
         private EntityPersistence StartConsume(EntityDefinition ed)
         {
-            var receiver = new EntityPersistence(ed, m_channel, this.WriteMessage, this.WriteError) { PrefetchCount = this.PrefetchCount };
+            var receiver =
+                new EntityPersistence(ed, m_channel, m=> this.WriteMessage(m), e => this.WriteError(e))
+                {
+                    PrefetchCount = this.PrefetchCount
+                };
             receiver.DeclareQueue();
             const bool NO_ACK = false;
 
@@ -137,15 +139,18 @@ namespace Bespoke.Sph.Persistence
             var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
 
             var jo = JObject.Parse(json);
-            var entities = jo.SelectToken("$.attached").Select(t => t.ToString().DeserializeFromJson<Entity>()).ToList();
-            var deletedItems = jo.SelectToken("$.deleted").Select(t => t.ToString().DeserializeFromJson<Entity>()).ToList();
+            var entities = jo.SelectToken("$.attached").Select(t => t.ToString().DeserializeFromJson<Entity>())
+                .ToList();
+            var deletedItems = jo.SelectToken("$.deleted").Select(t => t.ToString().DeserializeFromJson<Entity>())
+                .ToList();
 
             var persistence = ObjectBuilder.GetObject<IPersistence>();
             if (headers.GetValue<bool>("data-import"))
             {
                 var retry = headers.GetNullableValue<int>("sql.retry") ?? 5;
                 var wait = headers.GetNullableValue<int>("sql.wait") ?? 2500;
-                var bulk = await DataImportUtility.InsertImportDataAsync(entities.ToArray(), retry, wait, this.WriteMessage);
+                var bulk = await DataImportUtility.InsertImportDataAsync(entities.ToArray(), retry, wait,
+                    m => this.WriteMessage(m));
                 if (bulk)
                     m_channel.BasicAck(e.DeliveryTag, false);
                 else
@@ -153,18 +158,19 @@ namespace Bespoke.Sph.Persistence
                 return;
             }
 
-            this.WriteMessage("{0} for {1}", headers.Operation, "item".ToQuantity(entities.Count));
+            this.WriteMessage($"{headers.Operation} for {"item".ToQuantity(entities.Count)}");
             foreach (var item in entities)
             {
-                this.WriteMessage("{0} for {1}{{ Id : \"{2}\"}}", headers.Operation, item.GetType().Name, item.Id);
+                this.WriteMessage($"{headers.Operation} for {item.GetType().Name}{{ Id : \"{item.Id}\"}}");
             }
             foreach (var item in deletedItems)
             {
-                this.WriteMessage("Deleting({0}) {1}{{ Id : \"{2}\"}}", headers.Operation, item.GetType().Name, item.Id);
+                this.WriteMessage($"Deleting({headers.Operation}) {item.GetEntityType().Name}{{ Id : \"{item.Id}\"}}");
             }
 
             try
-            {  // get changes to items
+            {
+                // get changes to items
                 var previous = await ChangeUtility.GetPersistedItems(entities);
                 var logs = ChangeUtility.ComputeChanges(entities, previous, operation, headers);
                 var addedItems = ChangeUtility.GetAddedItems(entities, previous);
@@ -172,15 +178,17 @@ namespace Bespoke.Sph.Persistence
                 entities.AddRange(logs);
 
                 var persistedEntities = from r in entities
-                                        let opt = r.GetPersistenceOption()
-                                        where opt.IsSqlDatabase
-                                        select r;
+                    let opt = r.GetPersistenceOption()
+                    where opt.IsSqlDatabase
+                    select r;
                 var deletedEntities = from r in deletedItems
-                                      let opt = r.GetPersistenceOption()
-                                      where opt.IsSqlDatabase
-                                      select r;
+                    let opt = r.GetPersistenceOption()
+                    where opt.IsSqlDatabase
+                    select r;
 
-                var so = await persistence.SubmitChanges(persistedEntities.ToArray(), deletedEntities.ToArray(), null, headers.Username).ConfigureAwait(false);
+                var so = await persistence
+                    .SubmitChanges(persistedEntities.ToArray(), deletedEntities.ToArray(), null, headers.Username)
+                    .ConfigureAwait(false);
                 Trace.WriteIf(null != so.Exeption, so.Exeption);
 
                 var logsAddedTask = publisher.PublishAdded(operation, logs, headers.GetRawHeaders());
@@ -194,14 +202,13 @@ namespace Bespoke.Sph.Persistence
             }
             catch (SqlException exc)
             {
-
                 // republish the message to a delayed queue
                 var delay = ConfigurationManager.SqlPersistenceDelay;
                 var maxTry = ConfigurationManager.SqlPersistenceMaxTry;
                 if ((headers.TryCount ?? 0) < maxTry)
                 {
                     var count = (headers.TryCount ?? 0) + 1;
-                    this.WriteMessage("{0} retry on SqlException : {1}", count.Ordinalize(), exc.Message);
+                    this.WriteMessage($"{count.Ordinalize()} retry on SqlException : {exc.Message}");
 
                     var ph = headers.GetRawHeaders();
                     ph.AddOrReplace(MessageHeaders.SPH_DELAY, delay);
@@ -209,18 +216,17 @@ namespace Bespoke.Sph.Persistence
 
                     m_channel.BasicAck(e.DeliveryTag, false);
                     await publisher.SubmitChangesAsync(operation, entities, deletedItems, ph);
-
                 }
                 else
                 {
-                    this.WriteMessage("Error in {0}", this.GetType().Name);
+                    this.WriteMessage($"Error in {this.GetType().Name}");
                     this.WriteError(exc);
                     m_channel.BasicReject(e.DeliveryTag, false);
                 }
             }
             catch (Exception exc)
             {
-                this.WriteMessage("Error in {0}", this.GetType().Name);
+                this.WriteMessage($"Error in {this.GetType().Name}");
                 this.WriteError(exc);
                 m_channel.BasicReject(e.DeliveryTag, false);
             }

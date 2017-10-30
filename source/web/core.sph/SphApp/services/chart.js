@@ -63,7 +63,7 @@ define(["services/datacontext", objectbuilders.system], function (context, syste
         },
         getMissingBucket = function (fd) {
 
-            var missingQuery = JSON.parse(JSON.stringify(_query));
+            const missingQuery = JSON.parse(JSON.stringify(_query));
             if (_aggregate() === "term") {
                 missingQuery.aggs = {
                     "category": {

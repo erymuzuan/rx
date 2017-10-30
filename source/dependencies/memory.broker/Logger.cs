@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -13,7 +14,7 @@ namespace Bespoke.Sph.Messaging
         public Severity TraceSwitch { get; set; } = Severity.Info;
         private void SendMessage(string json)
         {
-            WebSocketNotificationService.Instance.WriteRaw(json);
+            WebSocketNotificationService.Instance.WriteInfo(json);
         }
 
         public Task LogAsync(LogEntry entry)

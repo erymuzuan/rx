@@ -25,9 +25,7 @@ namespace Bespoke.Sph.Domain
 
             Debug.WriteLine("Evaluate : ({3}){0} {1} ({4}){2}", left, Operator, right, left.GetType().Name, right.GetType().Name);
 
-            var lc = left as IComparable;
-            var rc = right as IComparable;
-            if (null != lc && null != rc)
+            if (left is IComparable lc && right is IComparable rc)
             {
                 switch (Operator)
                 {

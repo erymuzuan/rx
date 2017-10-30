@@ -1060,6 +1060,7 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
         TreatDataAsSource: ko.observable(false),
         Transient: ko.observable(false),
         EnableAuditing: ko.observable(false),
+        EnableTracking: ko.observable(false),
         MemberCollection: ko.observableArray([]),
         BusinessRuleCollection: ko.observableArray([]),
         StoreInDatabase: ko.observable(),

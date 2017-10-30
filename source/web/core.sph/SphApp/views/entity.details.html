@@ -292,6 +292,16 @@
                                 <i data-bind="iconPicker: IconClass, attr:{'class':IconClass() + ' fa-2x' }, tooltip:'icon is only used for solution explorer for you to easily identify the correct item'" id="icon-class"></i>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-1 col-md-11">
+                                <div class="checkbox">
+                                    <label data-bind="tooltip : 'Enable messaging SLA'">
+                                        <input data-bind="checked: EnableTracking" id="enable-tracking" type="checkbox" name="EnableTracking" />
+                                        Enable Tracking
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
 
 
                         <h3>Data treatment</h3>

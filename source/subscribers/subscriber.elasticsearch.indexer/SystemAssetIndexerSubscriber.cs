@@ -69,7 +69,7 @@ namespace Bespoke.Sph.ElasticSearch
                 }
                 else
                 {
-                    this.WriteMessage("Error in {0}", this.GetType().Name);
+                    this.WriteMessage($"Error in {this.GetType().Name}");
                     this.WriteError(e);
                     throw;
                 }
@@ -82,7 +82,7 @@ namespace Bespoke.Sph.ElasticSearch
         {
 
             var count = (headers.TryCount ?? 0) + 1;
-            this.WriteMessage("{0} retry on HttpRequestException : {1}", count.Ordinalize(), e.Message);
+            this.WriteMessage($"{count.Ordinalize()} retry on HttpRequestException : {e.Message}");
 
             var ph = headers.GetRawHeaders();
             ph.AddOrReplace(MessageHeaders.SPH_DELAY, delay);

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Extensions;
@@ -67,16 +65,11 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
         public async Task ExecuteOnNotificationAsync(MessageTrackingStatus status, MessageSlaEvent @event)
         {
-            var repository = this.GetRepository(@event.Entity);
-            Entity item = null;
-            if (!string.IsNullOrWhiteSpace(@event.ItemId))
-                item = await repository.LoadOneAsync(@event.ItemId);
-
             async Task<bool> ExcuteAsync(IList<MessageSlaNotificationAction> actions)
             {
-                var tasks = actions.Where(x => x.UseAsync).Select(x => x.ExecuteAsync(status, item, @event));
+                var tasks = actions.Where(x => x.UseAsync).Select(x => x.ExecuteAsync(status,  @event));
                 var results = (await Task.WhenAll(tasks)).ToList();
-                results = results.Concat(actions.Where(x => !x.UseAsync).ToList().Select(x => x.Execute(status, item, @event))).ToList();
+                results = results.Concat(actions.Where(x => !x.UseAsync).ToList().Select(x => x.Execute(status,  @event))).ToList();
                 return results.All(x => x);
             }
 
@@ -169,32 +162,6 @@ namespace Bespoke.Sph.RabbitMqPublisher
             m_channel?.Dispose();
         }
 
-
-        private readonly ConcurrentDictionary<string, dynamic> m_entityRepositories = new ConcurrentDictionary<string, dynamic>();
-
-        private dynamic GetRepository(string entityName)
-        {
-            if (m_entityRepositories.TryGetValue(entityName, out dynamic r))
-                return r;
-
-            var context = new SphDataContext();
-
-            var ed = context.LoadOne<EntityDefinition>(x => x.Name == entityName);
-            var sqlAssembly = Assembly.Load("sql.repository");
-            var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
-
-            var edAssembly = Assembly.Load($"{ConfigurationManager.ApplicationName}.{ed.Name}");
-            var edTypeName = $"{ed.CodeNamespace}.{ed.Name}";
-            var edType = edAssembly.GetType(edTypeName);
-            if (null == edType)
-                Console.WriteLine(@"Cannot create type " + edTypeName);
-
-            var reposType = sqlRepositoryType.MakeGenericType(edType);
-            dynamic repository = Activator.CreateInstance(reposType);
-
-            m_entityRepositories.TryAdd(entityName, repository);
-
-            return repository;
-        }
+        
     }
 }

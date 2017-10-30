@@ -5,7 +5,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 {
     public class ProcessTimeOutException<T> : Exception where T : Entity
     {
-        public ProcessTimeOutException(Subscriber<T> subscriber, ulong deliveryTag) : base(string.Format("Time out exception {0} : {1}", subscriber.GetType().FullName, deliveryTag))
+        public ProcessTimeOutException(Subscriber<T> subscriber, ulong deliveryTag) : base(
+            $"Time out exception {subscriber.GetType().FullName} : {deliveryTag}")
         {
 
         }

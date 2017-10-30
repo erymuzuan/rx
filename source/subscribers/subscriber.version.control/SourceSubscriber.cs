@@ -12,7 +12,8 @@ namespace subscriber.version.control
         {
             "#.added.#",
             "#.changed.#",
-            "#.deleted.#"
+            "#.deleted.#",
+            "persistence.#"
         };
 
         protected override async Task ProcessMessage(Entity item, MessageHeaders header)
@@ -76,8 +77,8 @@ namespace subscriber.version.control
 
 
             var provider = new EntitySourceProvider();
-
-            if (header.Crud == CrudOperation.Deleted)
+            if (header.GetRawHeaders().ContainsKey("crud") && 
+                header.Crud == CrudOperation.Deleted)
                 await provider.RemoveItem(item);
             else
                 await provider.ProcessItem(item);

@@ -7,8 +7,6 @@
     
     >
     <vm:MainViewModel.DeploymentHistoryCollection>
-        <models:EntityDeployment>
-
-        </models:EntityDeployment>
+        
     </vm:MainViewModel.DeploymentHistoryCollection>
 </vm:MainViewModel>

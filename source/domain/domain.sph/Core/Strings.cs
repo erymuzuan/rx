@@ -19,12 +19,6 @@ namespace Bespoke.Sph.Domain
     {
         public const string DEFAULT_NAMESPACE = "http://www.bespoke.com.my/";
 
-        public static string WriteLine2(this string value)
-        {
-            Console.WriteLine(value);
-            return value;
-        }
-
         public static bool IsEqual<T>(this T value, T value2) where T : struct, IConvertible
         {
             if (!typeof(T).IsEnum)
@@ -454,16 +448,14 @@ namespace Bespoke.Sph.Domain
         public static DateTime? RegexDateTimeValue(string input, string pattern, string group, params string[] formats)
         {
             var val = RegexSingleValue(input, pattern, group);
-            DateTime dv;
-            if (DateTime.TryParseExact(val, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out dv))
+            if (DateTime.TryParseExact(val, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dv))
                 return dv;
             return null;
         }
         public static int? RegexInt32Value(string input, string pattern, string group)
         {
             var val = RegexSingleValue(input, pattern, group);
-            int dv;
-            if (int.TryParse(val, out dv))
+            if (int.TryParse(val, out var dv))
                 return dv;
             return null;
         }
@@ -562,14 +554,10 @@ namespace Bespoke.Sph.Domain
             if (literal is int) return typeof(int);
             if (literal is DateTime) return typeof(DateTime);
 
-            int intValue;
-            if (int.TryParse($"{literal}", out intValue)) return typeof(int);
-            decimal decimalValue;
-            if (decimal.TryParse($"{literal}", out decimalValue)) return typeof(decimal);
-            DateTime dateTimeValue;
-            if (DateTime.TryParse($"{literal}", out dateTimeValue)) return typeof(DateTime);
-            bool boolValue;
-            if (bool.TryParse($"{literal}", out boolValue)) return typeof(bool);
+            if (int.TryParse($"{literal}", out _)) return typeof(int);
+            if (decimal.TryParse($"{literal}", out _)) return typeof(decimal);
+            if (DateTime.TryParse($"{literal}", out _)) return typeof(DateTime);
+            if (bool.TryParse($"{literal}", out _)) return typeof(bool);
             return typeof(string);
         }
         public static Type GetType(string typeName)
@@ -644,8 +632,7 @@ namespace Bespoke.Sph.Domain
 
         public static object ToDbNull(this object value)
         {
-            var xml = value as XmlDocument;
-            if (null != xml)
+            if (value is XmlDocument xml)
                 return xml.OuterXml;
 
             return value ?? DBNull.Value;
@@ -655,32 +642,27 @@ namespace Bespoke.Sph.Domain
         public static int? ParseNullableInt32(this string val) 
         {
             if (val == null) return default(int);
-            int value;
-            return int.TryParse(val, out value) ? value : default(int?);
+            return int.TryParse(val, out var value) ? value : default(int?);
         }
         public static decimal? ParseNullableDecimal(this string val) 
         {
             if (val == null) return default(decimal);
-            decimal value;
-            return decimal.TryParse(val, out value) ? value : default(decimal?);
+            return decimal.TryParse(val, out var value) ? value : default(decimal?);
         }
         public static bool? ParseNullableBoolean(this string val) 
         {
             if (val == null) return default(bool);
-            bool value;
-            return bool.TryParse(val, out value) ? value : default(bool?);
+            return bool.TryParse(val, out var value) ? value : default(bool?);
         }
         public static DateTime? ParseNullableDateTime(this string val) 
         {
             if (val == null) return default(DateTime);
-            DateTime value;
-            return DateTime.TryParse(val, out value) ? value : default(DateTime?);
+            return DateTime.TryParse(val, out var value) ? value : default(DateTime?);
         }
 
         public static DateTime? ParseNullableDateTime(this string val, string format)
         {
-            DateTime dv;
-            if (DateTime.TryParseExact(val, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out dv))
+            if (DateTime.TryParseExact(val, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dv))
                 return dv;
             return null;
         }
@@ -707,11 +689,9 @@ namespace Bespoke.Sph.Domain
         {
             if (val == null) return null;
             if (val == DBNull.Value) return null;
-            var xml = val as XmlDocument;
-            if (null != xml) return xml;
+            if (val is XmlDocument xml) return xml;
 
-            var text = val as string;
-            if (null != text)
+            if (val is string text)
             {
                 var xd = new XmlDocument();
                 xd.LoadXml(text);

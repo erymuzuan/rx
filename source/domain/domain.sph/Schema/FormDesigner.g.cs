@@ -1,4 +1,4 @@
-
+﻿
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -2099,6 +2099,11 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_enableTracking;
+        public const string PropertyNameEnableTracking = "EnableTracking";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool? m_storeInDatabase;
         public const string PropertyNameStoreInDatabase = "StoreInDatabase";
 
@@ -2340,6 +2345,31 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_enableAuditing;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public bool EnableTracking
+        {
+            set
+            {
+                if (m_enableTracking == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEnableTracking, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_enableTracking = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_enableTracking;
             }
         }
 

@@ -2,12 +2,12 @@
 ##Overview
 The first core concept of `Rx Developer` is the `Entity`. This plays a very vital role in the whole `Rx Developer` programming concept. `Entity` is not a `table` translated from relational world. It is hugely different than `table` and `tuples` from relational world that you may know.
 
-To really understand the power of `Entity` is to forget everthing you know about relational database and it's related technologies such as `object relational mapper(ORM)`.The concepts of foreign key, parent child, and normal forms just simply didn't exist in the first place.
+To really understand the power of `Entity` is to forget everything you know about relational database and it's related technologies such as `object relational mapper(ORM)`.The concepts of foreign key, parent child, and normal forms just simply didn't exist in the first place.
 
 An `Entity` is a type of object that you are interested to track it's life in your problem domains. This could be `Customer` if you are developing a Customer relationship management or `Patient` in case clinical information system. It's also know as `Root` object. Then there are `Value` objects, these are objects that attached to an entity, and would not exist without the `Entity` for example `Address` for your `Customer`, the `Address` alone is not an `Entity` as it is quite useless without the `Customer`. But if you are developing a Geographic information System for postal service then an `Address` could be your `Entity`.
 
 
-As such, think an `Entity` as the a traditional paper folder where one folder hold one record, that may contains many documents inside. Take a folder for a `Patient` in a hospital environment. It might have these fields writen on it.
+As such, think an `Entity` as the a traditional paper folder where one folder hold one record, that may contains many documents inside. Take a folder for a `Patient` in a hospital environment. It might have these fields written on it.
 * The name of the patient
 * The registration number(MRN)
 * Date of birth
@@ -17,7 +17,7 @@ As such, think an `Entity` as the a traditional paper folder where one folder ho
     * Postal code
 * etc
 
-and there could be a number of documents inside it, such as visit records, medical history, referals etc.
+and there could be a number of documents inside it, such as visit records, medical history, referrals etc.
 
 So your `Entity` will be called `Patient`, and `Visit` will be your value object, well in this case there will be many `Visit`s
 
@@ -40,17 +40,17 @@ In `Rx Developer`, this could easily be modelled as follows
             Value : DateTime
             Value : ClinicalNote
           ...
-           ... 
+           ...
 
 ```
 
-This is very natural way storing your data, in a way that we all understand, there's no need to artificially model after tables and relatioships. The way `Rx Developer` take care of your data is known as `Document` store database. You can read more about [Document database](http://en.wikipedia.org/wiki/Document-oriented_database) in Wikipedia.
+This is very natural way storing your data, in a way that we all understand, there's no need to artificially model after tables and relationships. The way `Rx Developer` take care of your data is known as `Document` store database. You can read more about [Document database](http://en.wikipedia.org/wiki/Document-oriented_database) in Wikipedia.
 
-Notice that `Address` is just another object that belongs to the `Patient` entity, what makes  `Patient` and `Address` diferrent is very minimal
+Notice that `Address` is just another object that belongs to the `Patient` entity, what makes  `Patient` and `Address` different is very minimal
 *`Patient` is an object that you interested to track it's life time
 * `Address` is just an object that belong to another `Value` object or an `Entity`
 *`Patient` has an identifier field or what we call RecordName
-*`Address` doesn't have any identifier field, so without it's parent, it's imposible to tell if an `Address` belong to patient A or patient B. The key point to take home is `Value` object does not live in isolation.
+*`Address` doesn't have any identifier field, so without it's parent, it's impossible to tell if an `Address` belong to patient A or patient B. The key point to take home is `Value` object does not live in isolation.
 
 
 
@@ -73,7 +73,12 @@ Notice that `Address` is just another object that belongs to the `Patient` entit
 <tr><td>IconStoreId</td><td> - Set a icon image for your landing page, this should a PNG file. We recommend getting using Syncfusion Metro Studio for your image </td></tr>
 <tr><td>IconClass</td><td> - Icon for the item and navigation menu - pick one from fontawesome or bootstrap glyphicon </td></tr>
 <tr><td>RecordName</td><td> - The primary member where a reference is normally made, it's used as the primary way of identifying a record(instance of an `Entitydefinition`) apart from `Name`Id </td></tr>
-<tr><td>IsPublished</td><td> - The state wether the EntityDefinition is in development or has been published</td></tr>
+<tr><td>IsPublished</td><td> - The state whether the EntityDefinition is in development or has been published</td></tr>
+<tr><td>EnableAuditing</td><td> - Enable change tracking, to your fields value</td></tr>
+<tr><td>EnableTracking</td><td> - Enable message tracking and SLA</td></tr>
+<tr><td>TreatDataAsSource</td><td> - The data will be saved in your source folder, this will allow you to share the data and be part of your solution, commonly used for lookup data and references</td></tr>
+<tr><td>Transient</td><td> - For messaging purpose, you might not want to keep the data in transactional SQL Server database</td></tr>
+<tr><td>StoreInElasticsearch</td><td> - If your data is `Transient` then this option will let you keep the data in the readonly model</td></tr>
 </tbody></table>
 
 

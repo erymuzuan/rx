@@ -173,6 +173,7 @@ namespace Bespoke.Sph.Domain
             get {{ return new[] {{ {keys} }}; }}
         }}
         private Trigger m_trigger;
+
         protected override void OnStart()
         {{
             var context = new SphDataContext();
@@ -183,12 +184,10 @@ namespace Bespoke.Sph.Domain
         protected override async Task ProcessMessage({edTypeFullName} item, MessageHeaders header)
         {{
             if(null == m_trigger){{
-                this.WriteMessage(""{Id} trigger cannot be loaded"");
+                this.WriteWarning(""{Id} trigger cannot be loaded"");
                 return;
             }}
-            this.WriteMessage(""Running triggers({{0}}) with {{1}} actions and {{2}} rules"", m_trigger.Name,
-                m_trigger.ActionCollection.Count(x => x.IsActive),
-                m_trigger.RuleCollection.Count);
+            this.WriteMessage($""Running triggers({{m_trigger.Name}}) with {{m_trigger.ActionCollection.Count(x => x.IsActive)}} actions and {{m_trigger.RuleCollection.Count}} rules"");
 
             foreach (var rule in m_trigger.RuleCollection)
             {{
@@ -197,10 +196,10 @@ namespace Bespoke.Sph.Domain
                     var result = rule.Execute(new RuleContext(item) {{ Log = header.Log }});
                     if (!result)
                     {{
-                        this.WriteMessage(""Rule {{0}} evaluated to FALSE"", rule);
+                        this.WriteMessage($""Rule {{rule}} evaluated to FALSE"");
                         return;
                     }}
-                    this.WriteMessage(""Rule {{0}} evaluated to TRUE"", rule);
+                    this.WriteMessage($""Rule {{rule}} evaluated to TRUE"");
                 }}
                 catch (Exception e)
                 {{
@@ -211,13 +210,13 @@ namespace Bespoke.Sph.Domain
 
             foreach (var customAction in m_trigger.ActionCollection.Where(a => a.IsActive && !a.UseCode))
             {{
-                this.WriteMessage("" ==== Executing {{0}} ======"", customAction.Title);
+                this.WriteMessage($"" ==== Executing {{customAction.Title}} for {this.Entity}({{item.Id}}) ======"");
                 if (customAction.UseAsync)
                     await customAction.ExecuteAsync(new RuleContext(item)).ConfigureAwait(false);
                 else
                     customAction.Execute(new RuleContext(item));
 
-                this.WriteMessage(""done..."");
+                this.WriteMessage($""Executed '{{customAction.Title}}' for {this.Entity}({{item.Id}})"");
             }}
         ");
 
@@ -229,7 +228,7 @@ namespace Bespoke.Sph.Domain
                 .Distinct()
                 .Count();
             if (actions != this.ActionCollection.Count)
-                throw new InvalidOperationException($"Your actions WebId is not unique");
+                throw new InvalidOperationException("Your actions WebId is not unique");
             foreach (var ca in this.ActionCollection.Where(x => x.UseCode))
             {
                 if (string.IsNullOrWhiteSpace(ca.WebId))

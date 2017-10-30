@@ -5,7 +5,7 @@ namespace Bespoke.Sph.Domain
 {
     public interface IMessageTracker
     {
-        Task RegisterAcceptanceAsync(MessageTrackingEvent eventData);
+        Task RegisterAcceptanceAsync(MessageTrackingEvent @event);
         Task RegisterSendingToWorkerAsync(MessageTrackingEvent eventData);
         Task RegisterStartProcessingAsync(MessageTrackingEvent eventData);
         Task RegisterCompletedAsync(MessageTrackingEvent eventData);

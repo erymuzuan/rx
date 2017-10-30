@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Extensions;
 using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
 
@@ -21,8 +22,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             m_startOptions = startOptions;
         }
-        private INotificationService m_notificationService;
-        private static INotificationService m_notificationService2;
+        private ILogger m_notificationService;
+        private static ILogger m_notificationService2;
         public string Password { get; set; }
         public string UserName { get; set; }
         public string HostName { get; set; }
@@ -32,7 +33,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         public ConcurrentBag<Subscriber> SubscriberCollection { get; } = new ConcurrentBag<Subscriber>();
 
 
-        public INotificationService NotificationService
+        public ILogger NotificationService
         {
             get => m_notificationService;
             set
@@ -47,8 +48,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         public void Start(SubscriberMetadata[] subscribersMetadata)
         {
             this.SubscriberCollection.Clear();
-            this.NotificationService.Write("config {0}:{1}:{2}", this.HostName, this.UserName, this.Password);
-            this.NotificationService.Write("Starts...");
+            this.NotificationService.WriteInfo($"config {this.HostName}:{this.UserName}:{this.Password}");
+            this.NotificationService.WriteInfo("Starts...");
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             AppDomain.CurrentDomain.UnhandledException += AppdomainUnhandledException;
 
@@ -81,7 +82,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
                 for (var i = 0; i < count; i++)
                 {
-                    this.NotificationService.Write($"Starting... {mt.FullName}");
+                    this.NotificationService.WriteInfo($"Starting... {mt.FullName}");
                     try
                     {
                         mt.PrefetchCount = (ushort)(config.PrefetchCount ?? 1);
@@ -89,11 +90,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                         if (null != worker)
                         {
                             this.SubscriberCollection.Add(worker);
-                            this.NotificationService.Write($"Started : {mt.FullName}");
+                            this.NotificationService.WriteInfo($"Started : {mt.FullName}");
                         }
                         else
                         {
-                            this.NotificationService.WriteError("Cannot start {0}", mt.FullName);
+                            this.NotificationService.WriteError($"Cannot start {mt.FullName}");
                         }
 
                     }
@@ -137,7 +138,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             var processing = subscribers.Sum(x => x.PrefetchCount);
             var overloaded = (published > delivered + processing) || (length > processing);
 
-            this.NotificationService.Write(
+            this.NotificationService.WriteInfo(
                 $"Published:{published}, Delivered : {delivered}, length : {length} , Processing {processing}");
             if (overloaded && mt.MaxInstances.HasValue && subscribers.Count < mt.MaxInstances.Value)
             {
@@ -148,13 +149,12 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
             if (!overloaded && mt.MinInstances.HasValue && subscribers.Count > mt.MinInstances.Value)
             {
-                Subscriber sub2;
-                if (subscribers.TryTake(out sub2))
+                if (subscribers.TryTake(out var sub2))
                 {
                     sub2.Stop();
                 }
             }
-            this.NotificationService.Write("Current subscribers " + subscribers.Count);
+            this.NotificationService.WriteInfo("Current subscribers " + subscribers.Count);
         }
 
 
@@ -180,8 +180,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             var dll = Path.GetFileNameWithoutExtension(metadata.Assembly);
             if (string.IsNullOrWhiteSpace(dll)) return null;
-            var subs = Activator.CreateInstance(dll, metadata.FullName).Unwrap() as Subscriber;
-            if (null == subs) return null;
+            if (!(Activator.CreateInstance(dll, metadata.FullName).Unwrap() is Subscriber subs)) return null;
             subs.NotificicationService = this.NotificationService;
             subs.PrefetchCount = metadata.PrefetchCount;
             subs.Run(connection);

@@ -135,11 +135,19 @@ WriteLiteral(">Not StartsWith</option>\r\n                    <option");
 
 WriteLiteral(" value=\"NotEndsWith\"");
 
-WriteLiteral(">Not EndsWith</option>\r\n                </select>\r\n            </td>\r\n           " +
-" <td> ");
+WriteLiteral(">Not EndsWith</option>\r\n                    <option");
+
+WriteLiteral(" value=\"IsNotNull\"");
+
+WriteLiteral(">Is Not Null</option>\r\n                    <option");
+
+WriteLiteral(" value=\"IsNull\"");
+
+WriteLiteral(">Is Null</option>\r\n                </select>\r\n            </td>\r\n            <td>" +
+" ");
 
             
-            #line 40 "..\..\Areas\App\Views\QueryEndpointDesigner\_filters.cshtml"
+            #line 42 "..\..\Areas\App\Views\QueryEndpointDesigner\_filters.cshtml"
             Write(Html.Partial("_fields", new TypeModel {Path = "Field"}));
 
             
