@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -37,10 +38,11 @@ namespace Bespoke.Sph.SourceBuilders
             '-'.WriteFrame();
             Console.ResetColor();
 
-            var quiet = ParseArgExist("s", "q", "silent", "quiet");
-            if (!quiet)
+            var debug = ParseArgExist("d", "debug");
+            if (debug)
             {
-                "press [ENTER] to continue : to exit Ctrl + c".WriteLine();
+                $"Current Process [{Process.GetCurrentProcess().ProcessName}]({Process.GetCurrentProcess().Id}) ".WriteLine();
+                "Press [ENTER] to continue : to exit Ctrl + c ".WriteLine();
                 Console.ReadLine();
             }
 
