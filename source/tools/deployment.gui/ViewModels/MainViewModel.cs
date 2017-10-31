@@ -30,7 +30,7 @@ namespace Bespoke.Sph.Mangements.ViewModels
         public MainViewModel()
         {
             this.LoadCommand = new RelayCommand(Load, () => true);
-            this.DeploySelectedCommand = new RelayCommand<IList<EntityDeployment>>(DeploySelectedItems, list => SelectedCollection.Count > 0 &&  IsElasticsearchAccesible && IsSqlServerAccessible);
+            this.DeploySelectedCommand = new RelayCommand<IList<EntityDeployment>>(DeploySelectedItems, list => SelectedCollection.Count > 0 && IsElasticsearchAccesible && IsSqlServerAccessible);
             this.CompileCommand = new RelayCommand<EntityDeployment>(Compile, ed => ed.CanCompile);
             this.DiffCommand = new RelayCommand<EntityDeployment>(Diff, ed => ed.CanDiff);
         }
@@ -76,7 +76,7 @@ namespace Bespoke.Sph.Mangements.ViewModels
                 {
                     FileName = "deployment.agent.exe",
                     WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
-                    Arguments = $"/e:{ed.EntityDefinition.Name}"
+                    Arguments = $"/e:{ed.EntityDefinition.Name} /deploy /plan:{ed}"
 
                 };
                 var agent = Process.Start(info);

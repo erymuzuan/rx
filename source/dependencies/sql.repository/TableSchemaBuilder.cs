@@ -56,7 +56,7 @@ namespace Bespoke.Sph.SqlRepository
             var tableExistSql =
                 $"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{applicationName}'  AND  TABLE_NAME = '{ed.Name}'";
 
-            var createTable = "";
+            string createTable;
             var tableSql = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(EntityDefinition)}\\{ed.Name}.sql";
             if (deploy && System.IO.File.Exists(tableSql))
                 createTable = System.IO.File.ReadAllText(tableSql);

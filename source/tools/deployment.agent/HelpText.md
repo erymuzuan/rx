@@ -1,6 +1,6 @@
 ﻿# RX Developer data deployment tool
 Usage :
-deployment.agent <path-to-entity-definition-source>|/e:<entity-definition-name>|/e:entity-definition-id>|/nes /plan:<migration-plan>
+deployment.agent /deploy <path-to-entity-definition-source>|/e:<entity-definition-name>|/e:entity-definition-id>|/nes /plan:<migration-plan>
 
 ## Skipping elasticsearch
 `/nes`
