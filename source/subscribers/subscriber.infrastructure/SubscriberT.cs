@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
-using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -143,7 +141,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             Interlocked.Increment(ref m_processing);
 
             var body = e.Body;
-            var json = await this.DecompressAsync(body);
+            var json = await body.DecompressAsync();
             var header = new MessageHeaders(e);
             var id = "";
             try
@@ -186,7 +184,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             Interlocked.Increment(ref m_processing);
 
             var body = e.Body;
-            var json = await this.DecompressAsync(body);
+            var json = await body.DecompressAsync();
             var header = new MessageHeaders(e);
             var id = "";
             try
@@ -265,27 +263,5 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         }
 
 
-        private async Task<string> DecompressAsync(byte[] content)
-        {
-            using (var orginalStream = new MemoryStream(content))
-            using (var destinationStream = new MemoryStream())
-            using (var gzip = new GZipStream(orginalStream, CompressionMode.Decompress))
-            {
-                try
-                {
-                    await gzip.CopyToAsync(destinationStream);
-                }
-                catch (InvalidDataException)
-                {
-                    orginalStream.CopyTo(destinationStream);
-                }
-                destinationStream.Position = 0;
-                using (var sr = new StreamReader(destinationStream))
-                {
-                    var text = await sr.ReadToEndAsync();
-                    return text;
-                }
-            }
-        }
     }
 }
