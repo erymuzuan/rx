@@ -80,34 +80,34 @@ namespace Bespoke.Sph.Mangements
                 {
                     // Complex type name change, so we got to include all the children
                     var complexChanges = from cm in mbr.MemberCollection
-                        let em = existingMbr.MemberCollection.FirstOrDefault(x => x.WebId == cm.WebId)
-                        where null != em
-                        select new MemberChange
-                        {
-                            Action = "ParentChanged",
-                            Name = $"{parent}.{mbr.Name}.{em.Name}".Replace("$.", ""),
-                            WebId = em.WebId,
-                            OldPath = $"{oldParent}.{existingMbr.Name}.{em.Name}",
-                            NewPath = $"{parent}.{mbr.Name}.{cm.Name}",
-                            OldType = em.GetMemberTypeName(),
-                            NewType = em.GetMemberTypeName(),
-                            MigrationStrategy = MemberMigrationStrategies.Direct
-                        };
+                                         let em = existingMbr.MemberCollection.FirstOrDefault(x => x.WebId == cm.WebId)
+                                         where null != em
+                                         select new MemberChange
+                                         {
+                                             Action = "ParentChanged",
+                                             Name = $"{parent}.{mbr.Name}.{em.Name}".Replace("$.", ""),
+                                             WebId = em.WebId,
+                                             OldPath = $"{oldParent}.{existingMbr.Name}.{em.Name}",
+                                             NewPath = $"{parent}.{mbr.Name}.{cm.Name}",
+                                             OldType = em.GetMemberTypeName(),
+                                             NewType = em.GetMemberTypeName(),
+                                             MigrationStrategy = MemberMigrationStrategies.Direct
+                                         };
                     changes.AddRange(complexChanges);
                     var parentChangeAndAdded = from cm in mbr.MemberCollection
-                        let em = existingMbr.MemberCollection.FirstOrDefault(x => x.WebId == cm.WebId)
-                        where null == em
-                        select new MemberChange
-                        {
-                            Action = "Added",
-                            Name = $"{parent}.{mbr.Name}.{cm.Name}".Replace("$.", ""),
-                            WebId = cm.WebId,
-                            OldPath = null,
-                            NewPath = $"{parent}.{mbr.Name}.{cm.Name}",
-                            OldType = null,
-                            NewType = cm.GetMemberTypeName(),
-                            MigrationStrategy = MemberMigrationStrategies.Ignore /* may be its taken care by default*/
-                        };
+                                               let em = existingMbr.MemberCollection.FirstOrDefault(x => x.WebId == cm.WebId)
+                                               where null == em
+                                               select new MemberChange
+                                               {
+                                                   Action = "Added",
+                                                   Name = $"{parent}.{mbr.Name}.{cm.Name}".Replace("$.", ""),
+                                                   WebId = cm.WebId,
+                                                   OldPath = null,
+                                                   NewPath = $"{parent}.{mbr.Name}.{cm.Name}",
+                                                   OldType = null,
+                                                   NewType = cm.GetMemberTypeName(),
+                                                   MigrationStrategy = MemberMigrationStrategies.Ignore /* may be its taken care by default*/
+                                               };
                     changes.AddRange(parentChangeAndAdded);
                 }
                 changes.Add(change);
@@ -132,12 +132,14 @@ namespace Bespoke.Sph.Mangements
                     while (await reader.ReadAsync())
                     {
 #pragma warning disable IDE0017 // Simplify object initialization
+                        // ReSharper disable UseObjectOrCollectionInitializer
                         var row = new DeploymentHistory();
                         row.Name = reader.GetString(0);
                         row.Tag = reader.GetString(1);
                         row.Revision = reader.GetString(2);
                         row.DateTime = reader.GetDateTime(3);
 #pragma warning restore IDE0017 // Simplify object initialization
+                        // ReSharper restore UseObjectOrCollectionInitializer
 
                         list.Add(row);
                     }
@@ -158,6 +160,7 @@ namespace Bespoke.Sph.Mangements
 
             void Migration(JObject json, dynamic item)
             {
+                if (null == plan) return;
                 foreach (var change in plan.ChangeCollection)
                 {
                     change.Migrate(item, json);
@@ -207,7 +210,7 @@ namespace Bespoke.Sph.Mangements
                 await conn.OpenAsync();
                 var val = await cmd.ExecuteScalarAsync();
                 if (val == DBNull.Value) return default(DateTime);
-                return (DateTime) val;
+                return (DateTime)val;
             }
         }
 
@@ -272,7 +275,7 @@ CREATE TABLE [Sph].[DeploymentMetadata](
                  AND  TABLE_NAME = 'DeploymentMetadata'", conn))
             {
                 await conn.OpenAsync();
-                var exist = (int) await checkTableCommand.ExecuteScalarAsync() == 1;
+                var exist = (int)await checkTableCommand.ExecuteScalarAsync() == 1;
                 if (!exist)
                 {
                     using (var createTableCommand = new SqlCommand(SQL, conn))
