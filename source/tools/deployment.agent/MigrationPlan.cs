@@ -16,6 +16,11 @@ namespace Bespoke.Sph.Mangements
         public static MigrationPlan ParseFile(string migrationPlan)
         {
 
+            if (!File.Exists(migrationPlan))
+            {
+                return null;
+            }
+            
             var jsonSource = File.ReadAllText(migrationPlan);
             var setting = new JsonSerializerSettings
             {

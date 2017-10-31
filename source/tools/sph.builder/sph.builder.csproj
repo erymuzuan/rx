@@ -82,24 +82,12 @@
       <Private>True</Private>
       <HintPath>..\..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Mindscape.Raygun4Net, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Mindscape.Raygun4Net.5.0.0\lib\net40\Mindscape.Raygun4Net.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Mindscape.Raygun4Net4, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Mindscape.Raygun4Net.5.0.0\lib\net40\Mindscape.Raygun4Net4.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Polly, Version=4.2.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Polly.4.2.4\lib\net45\Polly.dll</HintPath>
-    </Reference>
-    <Reference Include="Raygun.Diagnostics, Version=0.7.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Raygun.Diagnostics.0.7.3\lib\net45\Raygun.Diagnostics.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -241,18 +229,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\dependencies\elasticsearch.repository\elasticsearch.repository.csproj">
-      <Project>{9C8CB6CA-65A3-4ED5-98FD-74E241C74451}</Project>
-      <Name>elasticsearch.repository</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\dependencies\rabbitmq.changepublisher\rabbitmq.changepublisher.csproj">
-      <Project>{CD3B01AB-CCC4-4324-AC06-9E0EC3DF4C2F}</Project>
-      <Name>rabbitmq.changepublisher</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\dependencies\sql.repository\sql.repository.csproj">
-      <Project>{79494592-2FE0-429E-8F79-CB97863378DC}</Project>
-      <Name>sql.repository</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>

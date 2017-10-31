@@ -27,20 +27,22 @@ namespace Bespoke.Sph.Mangements
         }
 
 
-
-
         public async Task<MigrationPlan> GetChangesAsync()
         {
             var cvs = ObjectBuilder.GetObject("CvsProvider");
-            var sourceJson = $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\{m_entityDefinition.Id}.json";
+            var sourceJson =
+                $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\{m_entityDefinition.Id}.json";
 
             var plan = new MigrationPlan
             {
                 CurrentCommitId = cvs.GetCommitId(sourceJson)
             };
-            var jsonSql = $"SELECT TOP 1 Source FROM [Sph].[DeploymentMetadata] WHERE [Name] = '{m_entityDefinition.Name}' ORDER BY [DateTime] DESC ";
-            var previousCommitIdSql = $"SELECT TOP 1 [Revision] FROM [Sph].[DeploymentMetadata] WHERE [Name] = '{m_entityDefinition.Name}' ORDER BY [DateTime] DESC ";
-            var deployedSql = $"SELECT TOP 1 [DateTime] FROM [Sph].[DeploymentMetadata] WHERE [Name] = '{m_entityDefinition.Name}' ORDER BY [DateTime] DESC ";
+            var jsonSql =
+                $"SELECT TOP 1 Source FROM [Sph].[DeploymentMetadata] WHERE [Name] = '{m_entityDefinition.Name}' ORDER BY [DateTime] DESC ";
+            var previousCommitIdSql =
+                $"SELECT TOP 1 [Revision] FROM [Sph].[DeploymentMetadata] WHERE [Name] = '{m_entityDefinition.Name}' ORDER BY [DateTime] DESC ";
+            var deployedSql =
+                $"SELECT TOP 1 [DateTime] FROM [Sph].[DeploymentMetadata] WHERE [Name] = '{m_entityDefinition.Name}' ORDER BY [DateTime] DESC ";
             string json;
 
             using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
@@ -58,11 +60,10 @@ namespace Bespoke.Sph.Mangements
             var changes = GetChanges(m_entityDefinition.MemberCollection, old.MemberCollection, "$", "$");
             plan.ChangeCollection.ClearAndAddRange(changes);
             return plan;
-
-
         }
 
-        private IEnumerable<MemberChange> GetChanges(IEnumerable<Member> members, IReadOnlyCollection<Member> oldMembers, string parent, string oldParent)
+        private IEnumerable<MemberChange> GetChanges(IEnumerable<Member> members,
+            IReadOnlyCollection<Member> oldMembers, string parent, string oldParent)
         {
             var changes = new List<MemberChange>();
             foreach (var mbr in members)
@@ -70,7 +71,8 @@ namespace Bespoke.Sph.Mangements
                 var existingMbr = oldMembers.FirstOrDefault(x => x.WebId == mbr.WebId);
                 if (mbr.MemberCollection.Count > 0 && null != existingMbr)
                 {
-                    GetChanges(mbr.MemberCollection, existingMbr.MemberCollection, $"{parent}.{mbr.Name}", $"{oldParent}.{existingMbr.Name}");
+                    GetChanges(mbr.MemberCollection, existingMbr.MemberCollection, $"{parent}.{mbr.Name}",
+                        $"{oldParent}.{existingMbr.Name}");
                 }
                 var change = new MemberChange(mbr, existingMbr, parent, oldParent);
                 var parentChanged = !change.IsEmpty && mbr.MemberCollection.Count > 0 && null != existingMbr;
@@ -78,34 +80,34 @@ namespace Bespoke.Sph.Mangements
                 {
                     // Complex type name change, so we got to include all the children
                     var complexChanges = from cm in mbr.MemberCollection
-                                         let em = existingMbr.MemberCollection.FirstOrDefault(x => x.WebId == cm.WebId)
-                                         where null != em
-                                         select new MemberChange
-                                         {
-                                             Action = "ParentChanged",
-                                             Name = $"{parent}.{mbr.Name}.{em.Name}".Replace("$.",""),
-                                             WebId = em.WebId,
-                                             OldPath = $"{oldParent}.{existingMbr.Name}.{em.Name}",
-                                             NewPath = $"{parent}.{mbr.Name}.{cm.Name}",
-                                             OldType = em.GetMemberTypeName(),
-                                             NewType = em.GetMemberTypeName(),
-                                             MigrationStrategy = MemberMigrationStrategies.Direct
-                                         };
+                        let em = existingMbr.MemberCollection.FirstOrDefault(x => x.WebId == cm.WebId)
+                        where null != em
+                        select new MemberChange
+                        {
+                            Action = "ParentChanged",
+                            Name = $"{parent}.{mbr.Name}.{em.Name}".Replace("$.", ""),
+                            WebId = em.WebId,
+                            OldPath = $"{oldParent}.{existingMbr.Name}.{em.Name}",
+                            NewPath = $"{parent}.{mbr.Name}.{cm.Name}",
+                            OldType = em.GetMemberTypeName(),
+                            NewType = em.GetMemberTypeName(),
+                            MigrationStrategy = MemberMigrationStrategies.Direct
+                        };
                     changes.AddRange(complexChanges);
                     var parentChangeAndAdded = from cm in mbr.MemberCollection
-                                         let em = existingMbr.MemberCollection.FirstOrDefault(x => x.WebId == cm.WebId)
-                                         where null == em
-                                         select new MemberChange
-                                         {
-                                             Action = "Added",
-                                             Name = $"{parent}.{mbr.Name}.{cm.Name}".Replace("$.",""),
-                                             WebId = cm.WebId,
-                                             OldPath = null,
-                                             NewPath = $"{parent}.{mbr.Name}.{cm.Name}",
-                                             OldType = null,
-                                             NewType = cm.GetMemberTypeName(),
-                                             MigrationStrategy = MemberMigrationStrategies.Ignore /* may be its taken care by default*/
-                                         };
+                        let em = existingMbr.MemberCollection.FirstOrDefault(x => x.WebId == cm.WebId)
+                        where null == em
+                        select new MemberChange
+                        {
+                            Action = "Added",
+                            Name = $"{parent}.{mbr.Name}.{cm.Name}".Replace("$.", ""),
+                            WebId = cm.WebId,
+                            OldPath = null,
+                            NewPath = $"{parent}.{mbr.Name}.{cm.Name}",
+                            OldType = null,
+                            NewType = cm.GetMemberTypeName(),
+                            MigrationStrategy = MemberMigrationStrategies.Ignore /* may be its taken care by default*/
+                        };
                     changes.AddRange(parentChangeAndAdded);
                 }
                 changes.Add(change);
@@ -113,7 +115,6 @@ namespace Bespoke.Sph.Mangements
 
             return changes;
         }
-
 
 
         public async Task<IList<DeploymentHistory>> QueryAsync()
@@ -140,9 +141,7 @@ namespace Bespoke.Sph.Mangements
 
                         list.Add(row);
                     }
-
                 }
-
             }
 
             return list;
@@ -150,7 +149,7 @@ namespace Bespoke.Sph.Mangements
 
         public async Task BuildAsync(bool truncate, bool nes, int sqlBatchSize, string migrationPlan)
         {
-            if(string.IsNullOrWhiteSpace(migrationPlan))throw new ArgumentNullException(nameof(migrationPlan));
+            if (string.IsNullOrWhiteSpace(migrationPlan)) throw new ArgumentNullException(nameof(migrationPlan));
             var ed = m_entityDefinition;
 
             var lastDeployedDate = await this.GetLastDeployedDateTimeAsyc();
@@ -163,11 +162,11 @@ namespace Bespoke.Sph.Mangements
                 {
                     change.Migrate(item, json);
                 }
-                
             }
+
             var tableBuilder = new TableSchemaBuilder(WriteMessage);
             if (hasChanges)
-                await tableBuilder.BuildAsync(ed, sqlBatchSize: sqlBatchSize, migration:Migration);
+                await tableBuilder.BuildAsync(ed, sqlBatchSize: sqlBatchSize, migration: Migration, deploy: true);
 
 
             if (ed.TreatDataAsSource)
@@ -177,23 +176,22 @@ namespace Bespoke.Sph.Mangements
                     await sourceMigrator.CleanAndBuildAsync(ed);
                 else
                     await sourceMigrator.BuildAsync(ed);
-
             }
 
-            using (var mappingBuilder = new MappingBuilder(WriteMessage, WriteWarning, WriteError))
+            if (!nes)
             {
-                if (!nes)
+                using (var mappingBuilder = new MappingBuilder(WriteMessage, WriteWarning, WriteError))
                 {
                     await mappingBuilder.DeleteMappingAsync(ed);
                     await mappingBuilder.BuildAllAsync(ed);
                 }
-
             }
 
             await InsertDeploymentMetadataAsync();
 
             if (!hasChanges)
-                Console.WriteLine($"\"{m_entityDefinition.Name}\" was last deployed on {lastDeployedDate} and the source has not changed since");
+                Console.WriteLine(
+                    $"\"{m_entityDefinition.Name}\" was last deployed on {lastDeployedDate} and the source has not changed since");
 
             Console.WriteLine($@"{ed.Name} was succesfully deployed ");
         }
@@ -201,19 +199,23 @@ namespace Bespoke.Sph.Mangements
         public async Task<DateTime?> GetLastDeployedDateTimeAsyc()
         {
             using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
-            using (var cmd = new SqlCommand($"SELECT MAX(DateTime) FROM [Sph].[DeploymentMetadata] WHERE [Name] = '{m_entityDefinition.Name}'", conn))
+            using (var cmd =
+                new SqlCommand(
+                    $"SELECT MAX(DateTime) FROM [Sph].[DeploymentMetadata] WHERE [Name] = '{m_entityDefinition.Name}'",
+                    conn))
             {
                 await conn.OpenAsync();
                 var val = await cmd.ExecuteScalarAsync();
                 if (val == DBNull.Value) return default(DateTime);
-                return (DateTime)val;
+                return (DateTime) val;
             }
         }
 
         private async Task InsertDeploymentMetadataAsync()
         {
             var cvs = ObjectBuilder.GetObject("CvsProvider");
-            var sourceJson = $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\{m_entityDefinition.Id}.json";
+            var sourceJson =
+                $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\{m_entityDefinition.Id}.json";
             using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
             using (var cmd = new SqlCommand(@"
 INSERT INTO [Sph].[DeploymentMetadata]( Name, EdId, Tag, Revision, [Source])
@@ -269,9 +271,8 @@ CREATE TABLE [Sph].[DeploymentMetadata](
                  WHERE TABLE_SCHEMA = 'Sph' 
                  AND  TABLE_NAME = 'DeploymentMetadata'", conn))
             {
-
                 await conn.OpenAsync();
-                var exist = (int)await checkTableCommand.ExecuteScalarAsync() == 1;
+                var exist = (int) await checkTableCommand.ExecuteScalarAsync() == 1;
                 if (!exist)
                 {
                     using (var createTableCommand = new SqlCommand(SQL, conn))
@@ -279,8 +280,6 @@ CREATE TABLE [Sph].[DeploymentMetadata](
                         await createTableCommand.ExecuteNonQueryAsync();
                     }
                 }
-
-
             }
         }
 
@@ -288,7 +287,7 @@ CREATE TABLE [Sph].[DeploymentMetadata](
         {
             var builder = new TableSchemaBuilder(WriteMessage, WriteWarning, WriteError);
             var plan = MigrationPlan.ParseFile(migrationPlan);
-            
+
 
             void Migration(JObject json, dynamic item)
             {

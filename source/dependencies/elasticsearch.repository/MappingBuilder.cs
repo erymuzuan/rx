@@ -21,10 +21,6 @@ namespace Bespoke.Sph.ElasticsearchRepository
         private readonly Action<string> m_writeWarning;
         private readonly Action<Exception> m_writeError;
 
-        public MappingBuilder()
-        {
-
-        }
         public MappingBuilder(Action<string> writeMessage, Action<string> writeWarning = null, Action<Exception> writeError = null)
         {
             m_writeMessage = writeMessage;
