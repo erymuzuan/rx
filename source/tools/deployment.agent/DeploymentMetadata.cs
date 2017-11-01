@@ -227,8 +227,8 @@ VALUES ( @Name, @EdId, @Tag, @Revision, @Source)
             {
                 cmd.Parameters.Add("@Name", SqlDbType.VarChar, 255).Value = m_entityDefinition.Name;
                 cmd.Parameters.Add("@EdId", SqlDbType.VarChar, 255).Value = m_entityDefinition.Id;
-                cmd.Parameters.Add("@Tag", SqlDbType.VarChar, 255).Value = cvs.GetCommitComment(sourceJson);
-                cmd.Parameters.Add("@Revision", SqlDbType.VarChar, 255).Value = cvs.GetCommitId(sourceJson);
+                cmd.Parameters.Add("@Tag", SqlDbType.VarChar, 255).Value = cvs.GetCommitComment(sourceJson) ?? "NA";
+                cmd.Parameters.Add("@Revision", SqlDbType.VarChar, 255).Value = cvs.GetCommitId(sourceJson) ?? "NA";
                 cmd.Parameters.Add("@Source", SqlDbType.VarChar, -1).Value = m_entityDefinition.ToJsonString();
                 await conn.OpenAsync();
 
