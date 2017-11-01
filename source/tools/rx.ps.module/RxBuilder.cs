@@ -25,6 +25,10 @@ namespace Bespoke.Sph.Powershells
         public string TraceSwitch { get; set; } = "Debug";
 
 
+        [Parameter(HelpMessage = "Start the process in new window", ParameterSetName = PARAMETER_SET_NAME)]
+        public SwitchParameter UseShellExecute { get; set; } = false;
+
+
         private string[] GetSources(string type)
         {
             var source = $@"{this.SessionState.Path.CurrentFileSystemLocation}\sources\{type}\";
@@ -41,24 +45,23 @@ namespace Bespoke.Sph.Powershells
 
         protected override void ProcessRecord()
         {
-            WriteObject($"Type = {this.AssetType}");
-            WriteObject($"TraceSwitch = {TraceSwitch}");
             var source = ((DynParamQuotedString)MyInvocation.BoundParameters["Source"]).OriginalString;
             var file = $@"{this.SessionState.Path.CurrentFileSystemLocation}\sources\{this.AssetType}\{source}.json /switch:{TraceSwitch}";
-            WriteObject($"Source = {file}");
+            WriteVerbose($"Source = {file}");
 
             var toolsSphBuilderExe = $@"{this.SessionState.Path.CurrentFileSystemLocation}\tools\sph.builder.exe";
             var info = new ProcessStartInfo
             {
                 FileName = toolsSphBuilderExe,
                 Arguments = file,
-                CreateNoWindow = true,
-                UseShellExecute = true
+                UseShellExecute = UseShellExecute.IsPresent
 
             };
 
             var builder = Process.Start(info);
             builder?.WaitForExit();
+
+            WriteObject(source);
         }
 
 

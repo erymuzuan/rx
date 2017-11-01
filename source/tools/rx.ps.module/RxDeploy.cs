@@ -13,10 +13,12 @@ namespace Bespoke.Sph.Powershells
     {
         public const string PARAMETER_SET_NAME = "RxDeploy";
 
-
         [Parameter(HelpMessage = "Trace switch for ConsoleLogger", ParameterSetName = PARAMETER_SET_NAME)]
         [ValidateSet("Debug", "Verbose", "Info", "Warning", "Error")]
         public string TraceSwitch { get; set; } = "Debug";
+
+        [Parameter(HelpMessage = "Start the process in new window", ParameterSetName = PARAMETER_SET_NAME)]
+        public SwitchParameter UseShellExecute { get; set; } = false;
 
         private string[] GetSources(string type)
         {
@@ -49,6 +51,7 @@ namespace Bespoke.Sph.Powershells
         protected override void ProcessRecord()
         {
             var args = "/i";
+            object pipeLine = null;
 
             if (MyInvocation.BoundParameters.ContainsKey(ENTITY_DEFINITION))
             {
@@ -59,23 +62,26 @@ namespace Bespoke.Sph.Powershells
                     plan = ((DynParamQuotedString)MyInvocation.BoundParameters["MigrationPlan"]).OriginalString;
 
                 args = $"/deploy /e:{ed} /plan:{plan}";
+                pipeLine = ed;
             }
 
 
             var deployExe = $@"{this.SessionState.Path.CurrentFileSystemLocation}\tools\deployment.agent.exe";
-            WriteObject($"Excuting deployment.agent.exe {args}");
+            WriteVerbose($"Executing deployment.agent.exe {args}");
 
             var info = new ProcessStartInfo
             {
                 FileName = deployExe,
                 Arguments = args,
-                CreateNoWindow = true,
-                UseShellExecute = true
+                UseShellExecute = UseShellExecute
 
             };
 
             var deployer = Process.Start(info);
             deployer?.WaitForExit();
+
+            if(null != pipeLine)
+                WriteObject(pipeLine);
         }
 
 
@@ -91,7 +97,8 @@ namespace Bespoke.Sph.Powershells
                     new ParameterAttribute {
                         ParameterSetName = PARAMETER_SET_NAME,
                         Position = 0,
-                        Mandatory = false
+                        Mandatory = false,
+                        ValueFromPipeline = true
                     },
                     new ValidateSetAttribute(DynParamQuotedString.GetQuotedStrings(GetSources("EntityDefinition"))),
                     new ValidateNotNullOrEmptyAttribute(),

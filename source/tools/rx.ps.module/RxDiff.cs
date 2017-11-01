@@ -12,11 +12,16 @@ namespace Bespoke.Sph.Powershells
     public class RxDiff : PSCmdlet, IDynamicParameters
     {
         public const string PARAMETER_SET_NAME = "RxDiff";
+        public const string ENTITY_DEFINITION = "EntityDefinition";
 
 
         [Parameter(HelpMessage = "Trace switch for ConsoleLogger", ParameterSetName = PARAMETER_SET_NAME)]
         [ValidateSet("Debug", "Verbose", "Info", "Warning", "Error")]
         public string TraceSwitch { get; set; } = "Debug";
+
+
+        [Parameter(HelpMessage = "Start the process in new window", ParameterSetName = PARAMETER_SET_NAME)]
+        public SwitchParameter UseShellExecute { get; set; } = false;
 
         private string[] GetSources(string type)
         {
@@ -32,7 +37,6 @@ namespace Bespoke.Sph.Powershells
             return files;
         }
 
-        public const string ENTITY_DEFINITION = "EntityDefinition";
         protected override void ProcessRecord()
         {
             var args = "/i";
@@ -52,8 +56,7 @@ namespace Bespoke.Sph.Powershells
             {
                 FileName = deployExe,
                 Arguments = args,
-                CreateNoWindow = true,
-                UseShellExecute = true
+                UseShellExecute = UseShellExecute.IsPresent
 
             };
 
