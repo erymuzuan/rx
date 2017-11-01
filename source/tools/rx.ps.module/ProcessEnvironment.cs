@@ -98,19 +98,13 @@ namespace Bespoke.Sph.Powershells
                 return Value.ToString();
             }
 
-            public bool FitsInNativePointer
-            {
-                get
-                {
-                    return Size <= IntPtr.Size;
-                }
-            }
+            public bool FitsInNativePointer => Size <= IntPtr.Size;
 
             public bool CanBeRepresentedByNativePointer
             {
                 get
                 {
-                    int actualSize = Size;
+                    var actualSize = Size;
 
                     if (actualSize == 8)
                     {
@@ -132,7 +126,7 @@ namespace Bespoke.Sph.Powershells
         {
             var penv = _GetPenv(hProcess);
 
-            const int maxEnvSize = 32767;
+            const int MAX_ENV_SIZE = 32767;
             byte[] envData;
 
             if (penv.CanBeRepresentedByNativePointer)
@@ -141,19 +135,19 @@ namespace Bespoke.Sph.Powershells
                 if (!_HasReadAccess(hProcess, penv, out dataSize))
                     throw new Exception("Unable to read environment block.");
 
-                if (dataSize > maxEnvSize)
-                    dataSize = maxEnvSize;
+                if (dataSize > MAX_ENV_SIZE)
+                    dataSize = MAX_ENV_SIZE;
 
                 envData = new byte[dataSize];
-                var res_len = IntPtr.Zero;
-                bool b = WindowsApi.ReadProcessMemory(
+                var resLen = IntPtr.Zero;
+                var b = WindowsApi.ReadProcessMemory(
                     hProcess,
                     penv,
                     envData,
                     new IntPtr(dataSize),
-                    ref res_len);
+                    ref resLen);
 
-                if (!b || (int)res_len != dataSize)
+                if (!b || (int)resLen != dataSize)
                     throw new Exception("Unable to read environment block data.");
             }
             else if (penv.Size == 8 && IntPtr.Size == 4)
@@ -164,19 +158,19 @@ namespace Bespoke.Sph.Powershells
                 if (!_HasReadAccessWow64(hProcess, penv.ToInt64(), out dataSize))
                     throw new Exception("Unable to read environment block with WOW64 API.");
 
-                if (dataSize > maxEnvSize)
-                    dataSize = maxEnvSize;
+                if (dataSize > MAX_ENV_SIZE)
+                    dataSize = MAX_ENV_SIZE;
 
                 envData = new byte[dataSize];
-                long res_len = 0;
-                int result = WindowsApi.NtWow64ReadVirtualMemory64(
+                long resLen = 0;
+                var result = WindowsApi.NtWow64ReadVirtualMemory64(
                     hProcess,
                     penv.ToInt64(),
                     envData,
                     dataSize,
-                    ref res_len);
+                    ref resLen);
 
-                if (result != WindowsApi.STATUS_SUCCESS || res_len != dataSize)
+                if (result != WindowsApi.STATUS_SUCCESS || resLen != dataSize)
                     throw new Exception("Unable to read environment block data with WOW64 API.");
             }
             else
@@ -191,17 +185,17 @@ namespace Bespoke.Sph.Powershells
         {
             var result = new StringDictionary();
 
-            int len = env.Length;
+            var len = env.Length;
             if (len < 4)
                 return result;
 
-            int n = len - 3;
-            for (int i = 0; i < n; ++i)
+            var n = len - 3;
+            for (var i = 0; i < n; ++i)
             {
-                byte c1 = env[i];
-                byte c2 = env[i + 1];
-                byte c3 = env[i + 2];
-                byte c4 = env[i + 3];
+                var c1 = env[i];
+                var c2 = env[i + 1];
+                var c3 = env[i + 2];
+                var c4 = env[i + 3];
 
                 if (c1 == 0 && c2 == 0 && c3 == 0 && c4 == 0)
                 {
@@ -210,11 +204,11 @@ namespace Bespoke.Sph.Powershells
                 }
             }
 
-            char[] environmentCharArray = Encoding.Unicode.GetChars(env, 0, len);
+            var environmentCharArray = Encoding.Unicode.GetChars(env, 0, len);
 
-            for (int i = 0; i < environmentCharArray.Length; i++)
+            for (var i = 0; i < environmentCharArray.Length; i++)
             {
-                int startIndex = i;
+                var startIndex = i;
                 while ((environmentCharArray[i] != '=') && (environmentCharArray[i] != '\0'))
                 {
                     i++;
@@ -230,14 +224,14 @@ namespace Bespoke.Sph.Powershells
                     }
                     else
                     {
-                        string str = new string(environmentCharArray, startIndex, i - startIndex);
+                        var str = new string(environmentCharArray, startIndex, i - startIndex);
                         i++;
-                        int num3 = i;
+                        var num3 = i;
                         while (environmentCharArray[i] != '\0')
                         {
                             i++;
                         }
-                        string str2 = new string(environmentCharArray, num3, i - num3);
+                        var str2 = new string(environmentCharArray, num3, i - num3);
                         result[str] = str2;
                     }
                 }
@@ -255,10 +249,10 @@ namespace Bespoke.Sph.Powershells
             }
             finally
             {
-                int dataSize = sizeof(Int32);
+                var dataSize = sizeof(Int32);
                 var data = Marshal.AllocHGlobal(dataSize);
-                IntPtr res_len = IntPtr.Zero;
-                bool b = WindowsApi.ReadProcessMemory(
+                var res_len = IntPtr.Zero;
+                var b = WindowsApi.ReadProcessMemory(
                     hProcess,
                     ptr,
                     data,
@@ -283,10 +277,10 @@ namespace Bespoke.Sph.Powershells
             }
             finally
             {
-                int dataSize = IntPtr.Size;
+                var dataSize = IntPtr.Size;
                 var data = Marshal.AllocHGlobal(dataSize);
-                IntPtr res_len = IntPtr.Zero;
-                bool b = WindowsApi.ReadProcessMemory(
+                var res_len = IntPtr.Zero;
+                var b = WindowsApi.ReadProcessMemory(
                     hProcess,
                     ptr,
                     data,
@@ -311,10 +305,10 @@ namespace Bespoke.Sph.Powershells
             }
             finally
             {
-                int dataSize = sizeof(long);
+                var dataSize = sizeof(long);
                 var data = Marshal.AllocHGlobal(dataSize);
                 long res_len = 0;
-                int status = WindowsApi.NtWow64ReadVirtualMemory64(
+                var status = WindowsApi.NtWow64ReadVirtualMemory64(
                     hProcess,
                     ptr,
                     data,
@@ -332,7 +326,7 @@ namespace Bespoke.Sph.Powershells
 
         static UniPtr _GetPenv(IntPtr hProcess)
         {
-            int processBitness = _GetProcessBitness(hProcess);
+            var processBitness = _GetProcessBitness(hProcess);
 
             if (processBitness == 64)
             {
@@ -373,7 +367,7 @@ namespace Bespoke.Sph.Powershells
             {
                 // Accessing 32 bit process under 32 bit host.
 
-                IntPtr pPeb = _GetPeb32(hProcess);
+                var pPeb = _GetPeb32(hProcess);
 
                 IntPtr ptr;
                 if (!_TryReadIntPtr32(hProcess, pPeb + 0x10, out ptr))
@@ -409,9 +403,9 @@ namespace Bespoke.Sph.Powershells
             if (Environment.Is64BitProcess)
             {
                 var ptr = IntPtr.Zero;
-                int res_len = 0;
-                int pbiSize = IntPtr.Size;
-                int status = WindowsApi.NtQueryInformationProcess(
+                var res_len = 0;
+                var pbiSize = IntPtr.Size;
+                var status = WindowsApi.NtQueryInformationProcess(
                     hProcess,
                     WindowsApi.ProcessWow64Information,
                     ref ptr,
@@ -430,9 +424,9 @@ namespace Bespoke.Sph.Powershells
         static IntPtr _GetPebNative(IntPtr hProcess)
         {
             var pbi = new WindowsApi.PROCESS_BASIC_INFORMATION();
-            int res_len = 0;
-            int pbiSize = Marshal.SizeOf(pbi);
-            int status = WindowsApi.NtQueryInformationProcess(
+            var res_len = 0;
+            var pbiSize = Marshal.SizeOf(pbi);
+            var status = WindowsApi.NtQueryInformationProcess(
                 hProcess,
                 WindowsApi.ProcessBasicInformation,
                 ref pbi,
@@ -453,9 +447,9 @@ namespace Bespoke.Sph.Powershells
             {
                 // Get PEB via WOW64 API.
                 var pbi = new WindowsApi.PROCESS_BASIC_INFORMATION_WOW64();
-                int res_len = 0;
-                int pbiSize = Marshal.SizeOf(pbi);
-                int status = WindowsApi.NtWow64QueryInformationProcess64(
+                var res_len = 0;
+                var pbiSize = Marshal.SizeOf(pbi);
+                var status = WindowsApi.NtWow64QueryInformationProcess64(
                     hProcess,
                     WindowsApi.ProcessBasicInformation,
                     ref pbi,
@@ -472,7 +466,7 @@ namespace Bespoke.Sph.Powershells
             size = 0;
 
             var memInfo = new WindowsApi.MEMORY_BASIC_INFORMATION();
-            int result = WindowsApi.VirtualQueryEx(
+            var result = WindowsApi.VirtualQueryEx(
                 hProcess,
                 address,
                 ref memInfo,
@@ -505,17 +499,17 @@ namespace Bespoke.Sph.Powershells
 
             WindowsApi.MEMORY_BASIC_INFORMATION_WOW64 memInfo;
             var memInfoType = typeof(WindowsApi.MEMORY_BASIC_INFORMATION_WOW64);
-            int memInfoLength = Marshal.SizeOf(memInfoType);
+            var memInfoLength = Marshal.SizeOf(memInfoType);
             const int memInfoAlign = 8;
 
             long resultLength = 0;
             int result;
 
-            IntPtr hMemInfo = Marshal.AllocHGlobal(memInfoLength + memInfoAlign * 2);
+            var hMemInfo = Marshal.AllocHGlobal(memInfoLength + memInfoAlign * 2);
             try
             {
                 // Align to 64 bits.
-                IntPtr hMemInfoAligned = new IntPtr(hMemInfo.ToInt64() & ~(memInfoAlign - 1L));
+                var hMemInfoAligned = new IntPtr(hMemInfo.ToInt64() & ~(memInfoAlign - 1L));
 
                 result = WindowsApi.NtWow64QueryVirtualMemory64(
                     hProcess,

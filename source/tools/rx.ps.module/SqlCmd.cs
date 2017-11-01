@@ -8,6 +8,7 @@ using System.Management.Automation;
 namespace Bespoke.Sph.Powershells
 {
     [Cmdlet(VerbsLifecycle.Invoke, "SqlCmdRx", DefaultParameterSetName = "TrustedConnection")]
+    [Alias("rx-sql")]
     [OutputType(typeof(DataTable))]
     public class SqlCmd : PSCmdlet
     {

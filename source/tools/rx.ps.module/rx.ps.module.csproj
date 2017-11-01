@@ -7,8 +7,8 @@
     <ProjectGuid>{0E76CF28-C1A8-417C-B672-10B6E0AFF102}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>sqlcmd</RootNamespace>
-    <AssemblyName>sqlcmd</AssemblyName>
+    <RootNamespace>Bespoke.Sph.RxPs</RootNamespace>
+    <AssemblyName>rx.ps.module</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -46,9 +47,10 @@
   <ItemGroup>
     <Compile Include="DynParamQuotedString.cs" />
     <Compile Include="GetProcessVariable.cs" />
-    <Compile Include="InvokeRxCompiler.cs" />
+    <Compile Include="RxBuilder.cs" />
     <Compile Include="ProcessEnvironment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RxDeploy.cs" />
     <Compile Include="SqlCmd.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -58,7 +60,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetPath) $(SolutionDir)\bin\utils\$(TargetFileName)</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetDir)\*.* $(SolutionDir)\bin\utils\</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
