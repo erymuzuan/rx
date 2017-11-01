@@ -51,6 +51,7 @@
     <Compile Include="ProcessEnvironment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RxDeploy.cs" />
+    <Compile Include="RxDiff.cs" />
     <Compile Include="SqlCmd.cs" />
   </ItemGroup>
   <ItemGroup>

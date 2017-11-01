@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Powershells
     {
         private readonly IDictionary<string, string[]> m_sources = new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase);
 
-        public const string PARAMETER_SET_NAME = "SphBuilder";
+        public const string PARAMETER_SET_NAME = "RxBuilder";
 
         [Parameter(HelpMessage = "Asset type trusted connection", ParameterSetName = PARAMETER_SET_NAME)]
         [ValidateSet("EntityDefinition", "Adapter", "OperationEndpoint", "QueryEndpoint", "ReceivePort", "ReceiveLocation", "TransformDefinition", "WorkflowDefinition", "Trigger")]
@@ -74,7 +74,7 @@ namespace Bespoke.Sph.Powershells
                 {
                         new ParameterAttribute {
                             ParameterSetName = PARAMETER_SET_NAME,
-                            Position = 1,
+                            Position = 0,
                             Mandatory = true
                         },
                         new ValidateSetAttribute(DynParamQuotedString.GetQuotedStrings(m_sources[this.AssetType])),

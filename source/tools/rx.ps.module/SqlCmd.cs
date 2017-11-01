@@ -54,25 +54,25 @@ namespace Bespoke.Sph.Powershells
 
         protected override void ProcessRecord()
         {
-            string connectionString = $"server={this.Server};database={this.Database};trusted_connection={this.TrustedConnection.IsPresent.ToString().ToLowerInvariant()}";
+            var connectionString = $"server={this.Server};database={this.Database};trusted_connection={this.TrustedConnection.IsPresent.ToString().ToLowerInvariant()}";
             WriteVerbose($"Connecting .. to {connectionString}");
             var sql = this.CommandQuery;
             if (string.IsNullOrWhiteSpace(sql) && string.IsNullOrWhiteSpace(this.InputFile))
             {
-                WriteError(new ErrorRecord(new PSArgumentNullException(nameof(SqlCmd.CommandQuery), "CommandQuery or InputFile must be supplied"), "1", ErrorCategory.InvalidArgument, this));
+                WriteError(new ErrorRecord(new PSArgumentNullException(nameof(CommandQuery), "CommandQuery or InputFile must be supplied"), "1", ErrorCategory.InvalidArgument, this));
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(sql) && !File.Exists(this.InputFile))
             {
-                WriteError(new ErrorRecord(new PSArgumentNullException(nameof(SqlCmd.CommandQuery), "InputFile does not exist"), "1", ErrorCategory.InvalidArgument, this));
+                WriteError(new ErrorRecord(new PSArgumentNullException(nameof(CommandQuery), "InputFile does not exist"), "1", ErrorCategory.InvalidArgument, this));
                 return;
             }
             if (string.IsNullOrWhiteSpace(sql))
             {
                 sql = File.ReadAllText(this.InputFile);
             }
-            string[] commands = sql.Split(new[] { "GO\r\n", "GO ", "GO\t" }, StringSplitOptions.RemoveEmptyEntries);
+            var commands = sql.Split(new[] { "GO\r\n", "GO ", "GO\t" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var c in commands)
             {
                 try
@@ -91,7 +91,7 @@ namespace Bespoke.Sph.Powershells
             base.ProcessRecord();
         }
 
-        private bool ExecuteSqlCommand(string connectionString, string sql)
+        private void ExecuteSqlCommand(string connectionString, string sql)
         {
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
@@ -121,7 +121,7 @@ namespace Bespoke.Sph.Powershells
                         }
                         WriteObject(table, true);
                     }
-                    return true;
+                    return;
                 }
                 if (ResultSetType == "Scalar")
                 {
@@ -137,7 +137,6 @@ namespace Bespoke.Sph.Powershells
                     WriteObject($"Execute nonquery {rows}");
                 }
             }
-            return false;
         }
     }
 }
