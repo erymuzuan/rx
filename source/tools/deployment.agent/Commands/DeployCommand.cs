@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Colorful;
+using Bespoke.Sph.Domain;
+using Console = Colorful.Console;
 
 namespace Bespoke.Sph.Mangements.Commands
 {
@@ -38,6 +41,25 @@ namespace Bespoke.Sph.Mangements.Commands
 
             var batchSize = this.GetCommandValue<int?>("batch-size") ?? 1000;
             await deployment.BuildAsync(truncate, nes, batchSize, migrationPlan);
+
+            var output = $"{ConfigurationManager.ApplicationName}.{ed.Name}";
+            var web = $@"{ConfigurationManager.WebPath}\bin";
+            var subscribers = ConfigurationManager.SubscriberPath;
+            try
+            {
+                File.Copy($@"{ConfigurationManager.CompilerOutputPath}\{output}.dll", $@"{web}\{output}.dll", true);
+                File.Copy($@"{ConfigurationManager.CompilerOutputPath}\{output}.pdb", $@"{web}\{output}.pdb", true);
+
+                File.Copy($@"{ConfigurationManager.CompilerOutputPath}\{output}.dll", $@"{subscribers}\{output}.dll", true);
+                File.Copy($@"{ConfigurationManager.CompilerOutputPath}\{output}.pdb", $@"{subscribers}\{output}.pdb", true);
+
+
+            }
+            catch (IOException ioe)
+            {
+                WriteError("Fail to copy dll and pdb to web/bin and subscribers");
+                WriteError(ioe.Message);
+            }
         }
 
 
