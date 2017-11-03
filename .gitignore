@@ -192,3 +192,6 @@ StartIisExpressProxy.bat
 /env.devv1.ws30.ps1
 /env.devv1.WINMAC-15.ps1
 bin/elasticsearch-1.7.5/
+
+/bin/utils/rx.ps.module.dll.config
+/bin/utils/Newtonsoft.Json.xml
