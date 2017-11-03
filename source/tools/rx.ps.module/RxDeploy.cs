@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
+using Bespoke.Sph.RxPs.Domain;
 
 namespace Bespoke.Sph.Powershells
 {
@@ -12,6 +13,14 @@ namespace Bespoke.Sph.Powershells
     public class RxDeploy : PSCmdlet, IDynamicParameters
     {
         public const string PARAMETER_SET_NAME = "RxDeploy";
+        public const string PARAMETER_SET_ED= "EntityDefinition";
+        
+        [Parameter(HelpMessage = "EntityDefinition from Get-RxEntityDefinition", ValueFromPipeline = true, ParameterSetName = PARAMETER_SET_ED)]
+        public EntityDefinition EntityDefinition { get; set; }
+        
+        [Parameter(ParameterSetName = PARAMETER_SET_NAME)]
+        [Parameter(ParameterSetName = PARAMETER_SET_ED)]
+        public string RxApplicationName { get; set; }
 
         [Parameter(HelpMessage = "Trace switch for ConsoleLogger", ParameterSetName = PARAMETER_SET_NAME)]
         [ValidateSet("Debug", "Verbose", "Info", "Warning", "Error")]

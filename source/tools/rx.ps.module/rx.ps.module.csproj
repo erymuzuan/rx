@@ -52,16 +52,35 @@
     <Compile Include="AssetNameCompleter.cs" />
     <Compile Include="Domain\ConfigurationManager.cs" />
     <Compile Include="Domain\EntityDefinition.cs" />
+    <Compile Include="Domain\OperationEndpointDefinition.cs" />
+    <Compile Include="Domain\QueryEndpointDefinition.cs" />
+    <Compile Include="Domain\ReceiveLocation.cs" />
+    <Compile Include="Domain\ReceivePort.cs" />
+    <Compile Include="Domain\TransformDefinition.cs" />
+    <Compile Include="Domain\TriggerDefinition.cs" />
+    <Compile Include="Domain\Worker.cs" />
+    <Compile Include="Domain\WorkflowDefinition.cs" />
     <Compile Include="DynParamQuotedString.cs" />
     <Compile Include="GetProcessVariable.cs" />
+    <Compile Include="IRxCmdlet.cs" />
     <Compile Include="RxBuilder.cs" />
     <Compile Include="ProcessEnvironment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RxCmdlet.cs" />
+    <Compile Include="RxControlCenterCmdlet.cs" />
     <Compile Include="RxDeploy.cs" />
     <Compile Include="RxDiff.cs" />
+    <Compile Include="RxElasticsearchCmdlet.cs" />
     <Compile Include="RxEntityDefinitionCmdLet.cs" />
     <Compile Include="AddRxMessageSlaCmdlet.cs" />
+    <Compile Include="RxEnvironmentCmdlet.cs" />
+    <Compile Include="RxRabbitMqCmdlet.cs" />
+    <Compile Include="RxTransformDefinitionCmdLet.cs" />
+    <Compile Include="RxUserProfileCmdlet.cs" />
+    <Compile Include="RxWebServerCmdlet.cs" />
+    <Compile Include="RxWorkerCmdlet.cs" />
     <Compile Include="SqlCmd.cs" />
+    <Compile Include="StartAspNetMembershipAdminWebsite.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -72,7 +91,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetDir)\*.* $(SolutionDir)\bin\tools\</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetDir)\*.* $(SolutionDir)\bin\utils\</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

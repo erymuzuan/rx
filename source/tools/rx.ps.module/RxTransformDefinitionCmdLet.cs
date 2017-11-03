@@ -7,12 +7,9 @@ using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.RxPs
 {
-    // TODO : create a abstract class RxAssetCmdlet<T> so that we cater for other assets, Trigger, WorkflowDefinition, TransformDefinition etc.
-
-    // TODO : create a abstract class RxAssetCmdlet<T> so that we cater for other assets, Trigger, WorkflowDefinition, TransformDefinition etc.
-    [Cmdlet(VerbsCommon.Get, "Rx" + nameof(EntityDefinition), DefaultParameterSetName = PARAMETER_SET_NAME_EMPTY)]
-    [OutputType(typeof(EntityDefinition))]
-    public class RxEntityDefinitionCmdLet : PSCmdlet
+    [Cmdlet(VerbsCommon.Get, "Rx" + nameof(TransformDefinition), DefaultParameterSetName = PARAMETER_SET_NAME_EMPTY)]
+    [OutputType(typeof(TransformDefinition))]
+    public class RxTransformDefinitionCmdLet : PSCmdlet
     {
         public const string PARAMETER_SET_NAME_EMPTY = "Empty";
         public const string PARAMETER_SET_NAME_NAME = "Name";
@@ -23,10 +20,10 @@ namespace Bespoke.Sph.RxPs
         [Parameter(ParameterSetName = PARAMETER_SET_NAME_EMPTY)]
         public string RxApplicationName { get; set; }
 
-        [Parameter(ParameterSetName = PARAMETER_SET_NAME_NAME), ArgumentCompleter(typeof(AssetNameCompleter<EntityDefinition>))]
+        [Parameter(ParameterSetName = PARAMETER_SET_NAME_NAME), ArgumentCompleter(typeof(AssetNameCompleter<TransformDefinition>))]
         public string Name { set; get; }
 
-        [Parameter(ParameterSetName = PARAMETER_SET_NAME_ID), ArgumentCompleter(typeof(AssetIdCompleter<EntityDefinition>))]
+        [Parameter(ParameterSetName = PARAMETER_SET_NAME_ID), ArgumentCompleter(typeof(AssetIdCompleter<TransformDefinition>))]
         public string Id { get; set; }
 
 
@@ -40,13 +37,13 @@ namespace Bespoke.Sph.RxPs
         {
             if (this.ParameterSetName == PARAMETER_SET_NAME_EMPTY)
             {
-                var files = Directory.GetFiles($@"{ConfigurationManager.SphSourceDirectory}\{nameof(EntityDefinition)}", "*.json");
+                var files = Directory.GetFiles($@"{ConfigurationManager.SphSourceDirectory}\{nameof(TransformDefinition)}", "*.json");
                 var list = files.Select(x => JObject.Parse(File.ReadAllText(x))).Select(EntityDefinition.Parse);
                 WriteObject(list, true);
             }
             if (this.ParameterSetName == PARAMETER_SET_NAME_NAME)
             {
-                var files = Directory.GetFiles($@"{ConfigurationManager.SphSourceDirectory}\{nameof(EntityDefinition)}", "*.json");
+                var files = Directory.GetFiles($@"{ConfigurationManager.SphSourceDirectory}\{nameof(TransformDefinition)}", "*.json");
                 var list = files.Select(x => JObject.Parse(File.ReadAllText(x))).Select(EntityDefinition.Parse)
                     .Where(x => x.Name == this.Name);
                 WriteObject(list, true);
