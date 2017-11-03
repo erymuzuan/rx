@@ -80,6 +80,15 @@
     <Compile Include="RxUserProfileCmdlet.cs" />
     <Compile Include="RxWebServerCmdlet.cs" />
     <Compile Include="RxWorkerCmdlet.cs" />
+    <Compile Include="RxWorkerCmdlet.Get.cs">
+      <DependentUpon>RxWorkerCmdlet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RxWorkerCmdlet.start.cs">
+      <DependentUpon>RxWorkerCmdlet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RxWorkerCmdlet.Stop.cs">
+      <DependentUpon>RxWorkerCmdlet.cs</DependentUpon>
+    </Compile>
     <Compile Include="SqlCmd.cs" />
     <Compile Include="StartAspNetMembershipAdminWebsite.cs" />
   </ItemGroup>
