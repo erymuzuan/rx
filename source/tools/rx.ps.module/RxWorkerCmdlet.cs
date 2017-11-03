@@ -8,6 +8,7 @@ using System.Management.Automation;
 using System.Management.Automation.Language;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Bespoke.Sph.Powershells;
 using Bespoke.Sph.RxPs.Domain;
 
 namespace Bespoke.Sph.RxPs
@@ -20,8 +21,9 @@ namespace Bespoke.Sph.RxPs
     [Cmdlet(VerbsLifecycle.Stop, "RxWorker")]
     public class StopRxWorkerCmdlet : PSCmdlet
     {
-        [Parameter(Position = 0, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "Name", Mandatory = true)]
-        public string Name { get; set; }
+        [Parameter(Position = 0, ValueFromPipeline = true, ParameterSetName = "Names")]
+        [ArgumentCompleter(typeof(WorkerProcessNameCompleter))]
+        public string[] Names { get; set; }
 
         [Parameter(Position = 0, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "Pid", Mandatory = true)]
         public int Pid { get; set; }
@@ -34,6 +36,21 @@ namespace Bespoke.Sph.RxPs
         static extern int SetForegroundWindow(IntPtr point);
         protected override void ProcessRecord()
         {
+            if (this.ParameterSetName == "Names")
+            {
+                var wps = from p in Process.GetProcessesByName("workers.console.runner")
+                          let envs = p.ReadEnvironmentVariables()
+                          let name = envs.ContainsKey("RxWorkerName") ? envs["RxWorkerName"] : "NA"
+                          where this.Names.Contains(name, StringComparer.InvariantCultureIgnoreCase)
+                          select p;
+                foreach (var worker in wps)
+                {
+                    var h = worker.MainWindowHandle;
+                    SetForegroundWindow(h);
+                    SendKeys.SendWait("^c");
+
+                }
+            }
             if (this.ParameterSetName == "Pid")
             {
                 var worker = Process.GetProcesses().SingleOrDefault(x => x.Id == Pid);
@@ -49,7 +66,7 @@ namespace Bespoke.Sph.RxPs
                 var worker = Process.GetProcesses().SingleOrDefault(x => x.Id == this.Worker.Pid);
                 WriteVerbose($"Worker {(worker == null ? "not " : "")}found");
                 if (null == worker) return;
-                IntPtr h = worker.MainWindowHandle;
+                var h = worker.MainWindowHandle;
                 SetForegroundWindow(h);
                 SendKeys.SendWait("^c");
 
@@ -89,6 +106,11 @@ namespace Bespoke.Sph.RxPs
             var debug = MyInvocation.BoundParameters.ContainsKey("Debug") ? " /debug " : "";
             var verbose = MyInvocation.BoundParameters.ContainsKey("Verbose") ? " /verbose " : "";
 
+            // hopefully this will attach it to the newly created worker process 
+            System.Environment.SetEnvironmentVariable("RxWorkerName", this.Name);
+            System.Environment.SetEnvironmentVariable("RxWorkerEnvironment", this.Environment);
+            System.Environment.SetEnvironmentVariable("RxWorkerConfiguration", this.Configuration);
+
             var info = new ProcessStartInfo
             {
                 FileName = $"{ConfigurationManager.Home}\\subscribers.host\\workers.console.runner.exe",
@@ -98,15 +120,6 @@ namespace Bespoke.Sph.RxPs
                             + $"/out:{this.LogDirectory} /outSize:100KB /outSwitch:{TraceSwitch}",
                 UseShellExecute = UseShellExecute
             };
-            // info.Verbs
-
-            /*
-                Environment =
-                {
-                    {"RxWorkerName",this.Name},
-                    {"RxWorkerEnvironment",this.Environment},
-                    {"RxWorkerConfiguration",this.Configuration},
-                },*/
             WriteVerbose($"Starting worker {info.Arguments}");
             var worker = Process.Start(info);
             WriteObject(new Worker
@@ -126,16 +139,70 @@ namespace Bespoke.Sph.RxPs
     [OutputType(typeof(Worker))]
     public class GetRxWorkerCmdlet : PSCmdlet
     {
-        [Parameter(Position = 0, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true)]
-        public string Name { get; set; }
+        [Parameter(Position = 0, ValueFromPipeline = true, ParameterSetName = "Names")]
+        [ArgumentCompleter(typeof(WorkerProcessNameCompleter))]
+        public string[] Names { get; set; }
 
         protected override void ProcessRecord()
         {
-            WriteObject("WIP: Send [Ctrl] + C");
+            if (this.ParameterSetName == "Names")
+            {
+                var wps = from p in Process.GetProcessesByName("workers.console.runner")
+                          let envs = p.ReadEnvironmentVariables()
+                          select new Worker
+                          {
+                              Name = envs.ContainsKey("RxWorkerName") ? envs["RxWorkerName"] : "NA",
+                              Environment = envs.ContainsKey("RxWorkerEnvironment") ? envs["RxWorkerEnvironment"] : "NA",
+                              Configuration = envs.ContainsKey("RxWorkerConfiguration") ? envs["RxWorkerConfiguration"] : "NA",
+                              Pid = p.Id,
+                              StartTime = p.StartTime,
+
+                          };
+
+                WriteObject(wps.Where(x => Names.Contains(x.Name)), true);
+            }
+            else
+            {
+                var wps = from p in Process.GetProcessesByName("workers.console.runner")
+                          let envs = p.ReadEnvironmentVariables()
+                          select new Worker
+                          {
+                              Name = envs.ContainsKey("RxWorkerName") ? envs["RxWorkerName"] : "NA",
+                              Environment = envs.ContainsKey("RxWorkerEnvironment") ? envs["RxWorkerEnvironment"] : "NA",
+                              Configuration = envs.ContainsKey("RxWorkerConfiguration") ? envs["RxWorkerConfiguration"] : "NA",
+                              Pid = p.Id,
+                              StartTime = p.StartTime,
+
+                          };
+
+                WriteObject(wps, true);
+
+            }
         }
 
     }
 
+
+    public class WorkerProcessNameCompleter : IArgumentCompleter
+    {
+        IEnumerable<CompletionResult> IArgumentCompleter.CompleteArgument(string commandName,
+            string parameterName,
+            string wordToComplete,
+            CommandAst commandAst,
+            IDictionary fakeBoundParameters)
+        {
+            return GetAllowedNames().
+                Where(new WildcardPattern(wordToComplete + "*", WildcardOptions.IgnoreCase).IsMatch).
+                Select(s => new CompletionResult(s));
+        }
+        private static string[] GetAllowedNames()
+        {
+            var wps = from p in Process.GetProcessesByName("workers.console.runner")
+                      let envs = p.ReadEnvironmentVariables()
+                      select envs.ContainsKey("RxWorkerName") ? envs["RxWorkerName"] : "NA";
+            return wps.ToArray();
+        }
+    }
 
     public class WorkerConfigCompleter : IArgumentCompleter
     {
