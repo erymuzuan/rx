@@ -27,6 +27,14 @@ namespace Bespoke.Sph.RxPs.Domain
         public static string RabbitMqVirtualHost => GetEnvironmentVariable("RabbitMqVirtualHost") ?? RxApplicationName;
 
 
+        public static long EsIndexingDelay => GetEnvironmentVariableInt32("EsIndexingDelay", 15000);
+        public static int EsIndexingMaxTry => GetEnvironmentVariableInt32("EsIndexingMaxTry", 3);
+        public static string ElasticSearchSystemIndex => GetEnvironmentVariable("ElasticsearchIndex") ?? RxApplicationName.ToLowerInvariant() + "_sys";
+        public static string ElasticSearchHost => GetEnvironmentVariable("ElasticSearchHost") ?? "http://localhost:9200";
+        public static string ElasticSearchIndex => GetEnvironmentVariable("ElasticSearchIndex") ?? RxApplicationName.ToLowerInvariant();
+        public static string ElasticsearchLogHost => GetEnvironmentVariable("ElasticsearchLogHost") ?? ElasticSearchHost;
+        public static string RequestLogIndexPattern => GetEnvironmentVariable("RequestLogIndexPattern") ?? "yyyyMMdd";
+
         public static void Initialize(string app)
         {
             RxApplicationName = app;

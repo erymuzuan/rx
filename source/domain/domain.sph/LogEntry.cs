@@ -93,6 +93,7 @@ namespace Bespoke.Sph.Domain
         public string CallerFilePath { get; set; }
         public string CallerMemberName { get; set; }
         public int CallerLineNumber { get; set; }
+        public string Hash { get; set; }
 
         public Dictionary<string, object> OtherInfo { get; } = new Dictionary<string, object>();
     }
