@@ -13,11 +13,11 @@ namespace Bespoke.Sph.Powershells
     public class RxDeploy : PSCmdlet, IDynamicParameters
     {
         public const string PARAMETER_SET_NAME = "RxDeploy";
-        public const string PARAMETER_SET_ED= "EntityDefinition";
-        
+        public const string PARAMETER_SET_ED = "EntityDefinition";
+
         [Parameter(HelpMessage = "EntityDefinition from Get-RxEntityDefinition", ValueFromPipeline = true, ParameterSetName = PARAMETER_SET_ED)]
-        public EntityDefinition EntityDefinition { get; set; }
-        
+        public EntityDefinition PipeLineEntityDefinition { get; set; }
+
         [Parameter(ParameterSetName = PARAMETER_SET_NAME)]
         [Parameter(ParameterSetName = PARAMETER_SET_ED)]
         public string RxApplicationName { get; set; }
@@ -74,6 +74,15 @@ namespace Bespoke.Sph.Powershells
                 pipeLine = ed;
             }
 
+            if (this.ParameterSetName == PARAMETER_SET_ED)
+            {
+                pipeLine = this.PipeLineEntityDefinition;
+                var plan = "Empty";
+                if (MyInvocation.BoundParameters.ContainsKey("MigrationPlan"))
+                    plan = ((DynParamQuotedString)MyInvocation.BoundParameters["MigrationPlan"]).OriginalString;
+                args = $"/deploy /e:{this.PipeLineEntityDefinition.Name} /plan:{plan}";
+            }
+
 
             var deployExe = $@"{this.SessionState.Path.CurrentFileSystemLocation}\tools\deployment.agent.exe";
             WriteVerbose($"Executing deployment.agent.exe {args}");
@@ -89,7 +98,7 @@ namespace Bespoke.Sph.Powershells
             var deployer = Process.Start(info);
             deployer?.WaitForExit();
 
-            if(null != pipeLine)
+            if (null != pipeLine)
                 WriteObject(pipeLine);
         }
 

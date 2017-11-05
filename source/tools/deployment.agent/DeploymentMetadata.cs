@@ -29,13 +29,13 @@ namespace Bespoke.Sph.Mangements
 
         public async Task<MigrationPlan> GetChangesAsync()
         {
-            var cvs = ObjectBuilder.GetObject("CvsProvider");
+            var cvs = ObjectBuilder.GetObject<ICvsProvider>();
             var sourceJson =
                 $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\{m_entityDefinition.Id}.json";
 
             var plan = new MigrationPlan
             {
-                CurrentCommitId = cvs.GetCommitId(sourceJson)
+                CurrentCommitId = await cvs.GetCommitIdAsync(sourceJson)
             };
             var jsonSql =
                 $"SELECT TOP 1 Source FROM [Sph].[DeploymentMetadata] WHERE [Name] = '{m_entityDefinition.Name}' ORDER BY [DateTime] DESC ";
@@ -216,7 +216,7 @@ namespace Bespoke.Sph.Mangements
 
         private async Task InsertDeploymentMetadataAsync()
         {
-            var cvs = ObjectBuilder.GetObject("CvsProvider");
+            var cvs = ObjectBuilder.GetObject<ICvsProvider>();
             var sourceJson =
                 $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\{m_entityDefinition.Id}.json";
             using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
@@ -227,12 +227,11 @@ VALUES ( @Name, @EdId, @Tag, @Revision, @Source)
             {
                 cmd.Parameters.Add("@Name", SqlDbType.VarChar, 255).Value = m_entityDefinition.Name;
                 cmd.Parameters.Add("@EdId", SqlDbType.VarChar, 255).Value = m_entityDefinition.Id;
-                cmd.Parameters.Add("@Tag", SqlDbType.VarChar, 255).Value = cvs.GetCommitComment(sourceJson) ?? "NA";
-                cmd.Parameters.Add("@Revision", SqlDbType.VarChar, 255).Value = cvs.GetCommitId(sourceJson) ?? "NA";
+                cmd.Parameters.Add("@Tag", SqlDbType.VarChar, 255).Value = await cvs.GetCommitCommentAsync(sourceJson) ?? "NA";
+                cmd.Parameters.Add("@Revision", SqlDbType.VarChar, 255).Value = await cvs.GetCommitIdAsync(sourceJson) ?? "NA";
                 cmd.Parameters.Add("@Source", SqlDbType.VarChar, -1).Value = m_entityDefinition.ToJsonString();
                 await conn.OpenAsync();
-
-
+                
                 await cmd.ExecuteNonQueryAsync();
             }
         }

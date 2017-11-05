@@ -5,7 +5,7 @@ using Bespoke.Sph.RxPs.Domain;
 
 namespace Bespoke.Sph.RxPs
 {
-    [Cmdlet(VerbsCommon.Get, "RxControlCenter")]
+    [Cmdlet(VerbsCommon.Get, "RxEventLog")]
     [OutputType(typeof(LogEntry))]
     public class GetRxEventLogCmdlet : RxCmdlet
     {

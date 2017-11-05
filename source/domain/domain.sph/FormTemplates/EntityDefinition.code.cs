@@ -28,6 +28,7 @@ namespace Bespoke.Sph.Domain
 
         public IEnumerable<Class> GenerateCode()
         {
+
             var @class = new Class { Name = this.Name, FileName = $"{Name}.cs", Namespace = CodeNamespace, BaseClass = nameof(Entity) };
             @class.ImportCollection.AddRange(m_importDirectives);
             var list = new ObjectCollection<Class> { @class };
@@ -98,8 +99,15 @@ namespace Bespoke.Sph.Domain
                 var file = Path.Combine(folder, cs.FileName);
                 File.WriteAllText(file, cs.GetCode());
             }
+
+            // add versioning information
+            var assemblyInfoCs = AssemblyInfoClass.GenerateAssemblyInfoAsync(this).Result;
+            File.WriteAllText(assemblyInfoCs.FileName, assemblyInfoCs.ToString());
+
+
             return sources
                     .Select(f => $"{ConfigurationManager.GeneratedSourceDirectory}\\{this.Name}\\{f.FileName}")
+                    .Concat(new[] { assemblyInfoCs.FileName })
                     .ToArray();
         }
         [JsonIgnore]

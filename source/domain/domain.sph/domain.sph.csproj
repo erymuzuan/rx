@@ -294,6 +294,7 @@
     <Compile Include="diagnostics\FormOperationDiagnostics.cs" />
     <Compile Include="diagnostics\LocationEndpointDiagnostics.cs" />
     <Compile Include="FileLogger.cs" />
+    <Compile Include="ICvsProvider.cs" />
     <Compile Include="IMessageSlaManager.cs" />
     <Compile Include="IMessageTracker.cs" />
     <Compile Include="Management\ConfigData.cs" />
