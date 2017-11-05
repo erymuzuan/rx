@@ -61,8 +61,12 @@ namespace Bespoke.Sph.Domain
                 var file = Path.Combine(folder, cs.FileName);
                 File.WriteAllText(file, cs.GetCode());
             }
+
+            var assemblyInfo = AssemblyInfoClass.GenerateAssemblyInfoAsync(this, true, this.Name).Result;
+
             return sources
                 .Select(f => $"{ConfigurationManager.GeneratedSourceDirectory}\\{this.Name}\\{f.FileName}")
+                .Concat(new[] { assemblyInfo.FileName })
                 .ToArray();
         }
 
@@ -413,7 +417,12 @@ namespace Bespoke.Sph.Domain
                     var file = $"{folder}\\{x.FileName}";
                     File.WriteAllText(file, x.GetCode());
                 });
-                var files = classes.Select(x => $"{folder}\\{x.FileName}").ToArray();
+
+                var assemblyInfo = AssemblyInfoClass.GenerateAssemblyInfoAsync(this, true, $"QueryEndpoint.{Entity}.{this.Name}").Result;
+
+                var files = classes.Select(x => $"{folder}\\{x.FileName}")
+                    .Concat(new []{assemblyInfo.FileName})
+                    .ToArray();
                 var result = provider.CompileAssemblyFromFile(parameters, files);
                 var cr = new WorkflowCompilerResult
                 {
