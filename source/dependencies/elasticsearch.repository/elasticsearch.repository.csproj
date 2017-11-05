@@ -59,9 +59,10 @@
     </Compile>
     <Compile Include="CancelledMessageRepository.cs" />
     <Compile Include="CircuitBreaker.cs" />
+    <Compile Include="Extensions\EntityDefinitionExtension.cs" />
+    <Compile Include="Extensions\MemberExtension.cs" />
     <Compile Include="HttpClientExtensions.cs" />
     <Compile Include="MappingBuilder.cs" />
-    <Compile Include="MemberExtensions.cs" />
     <Compile Include="MessageTracker.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

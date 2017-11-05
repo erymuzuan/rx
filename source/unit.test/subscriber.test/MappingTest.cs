@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.ElasticsearchRepository;
+using Bespoke.Sph.ElasticsearchRepository.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xunit;

@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.ElasticsearchRepository.Extensions;
 using Newtonsoft.Json;
 using Polly;
 using static System.IO.File;
