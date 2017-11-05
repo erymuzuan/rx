@@ -86,6 +86,15 @@
       <DependentUpon>RxEventLogCmdlet.cs</DependentUpon>
     </Compile>
     <Compile Include="RxRabbitMqCmdlet.cs" />
+    <Compile Include="RxRabbitMqCmdlet.Get.cs">
+      <DependentUpon>RxRabbitMqCmdlet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RxRabbitMqCmdlet.Start.cs">
+      <DependentUpon>RxRabbitMqCmdlet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RxRabbitMqCmdlet.Stop.cs">
+      <DependentUpon>RxRabbitMqCmdlet.cs</DependentUpon>
+    </Compile>
     <Compile Include="RxTransformDefinitionCmdLet.cs" />
     <Compile Include="RxUserProfileCmdlet.cs" />
     <Compile Include="RxWebServerCmdlet.cs" />
