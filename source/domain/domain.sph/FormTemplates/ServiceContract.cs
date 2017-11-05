@@ -59,13 +59,13 @@ namespace Bespoke.Sph.Domain
             "Bespoke.Sph.WebApi"
         };
 
-        public Task<WorkflowCompilerResult> CompileAsync(EntityDefinition entityDefinition)
+        public async Task<WorkflowCompilerResult> CompileAsync(EntityDefinition entityDefinition)
         {
             m_entityDefinition = entityDefinition;
 
             var controller = this.GenerateController();
             var source = controller.Save($"ServiceContract.{entityDefinition.Name}");
-
+            var assemblyInfo = await AssemblyInfoClass.GenerateAssemblyInfoAsync(entityDefinition, autoSave: true, folder: $"ServiceContract.{entityDefinition.Name}");
 
             using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
             {
@@ -93,7 +93,7 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll");
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.CompilerOutputPath + $@"\{ConfigurationManager.ApplicationName}.{m_entityDefinition.Name}.dll");
 
-                var result = provider.CompileAssemblyFromFile(parameters, source);
+                var result = provider.CompileAssemblyFromFile(parameters, source, assemblyInfo.FileName);
                 var cr = new WorkflowCompilerResult
                 {
                     Result = true,
@@ -107,7 +107,7 @@ namespace Bespoke.Sph.Domain
                                  FileName = x.FileName
                              };
                 cr.Errors.AddRange(errors);
-                return Task.FromResult(cr);
+                return cr;
             }
         }
         private EntityDefinition m_entityDefinition;

@@ -101,9 +101,7 @@ namespace Bespoke.Sph.Domain
             }
 
             // add versioning information
-            var assemblyInfoCs = AssemblyInfoClass.GenerateAssemblyInfoAsync(this).Result;
-            File.WriteAllText(assemblyInfoCs.FileName, assemblyInfoCs.ToString());
-
+            var assemblyInfoCs = AssemblyInfoClass.GenerateAssemblyInfoAsync(this, true).Result;
 
             return sources
                     .Select(f => $"{ConfigurationManager.GeneratedSourceDirectory}\\{this.Name}\\{f.FileName}")
