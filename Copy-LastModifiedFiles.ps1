@@ -3,9 +3,10 @@
        [string]$Path,
        [int]$First = 2,
        [Switch]$WhatIf,
-       [string[]] $Destinations
+       [string[]] $Destinations,
+       [string[]]$Excludes = @("*.config")
      )
-$files = ls $Path | sort -Descending LastWriteTime | select -First $First
+$files = ls $Path -Exclude $Excludes | sort -Descending LastWriteTime | select -First $First
 
 if($WhatIf.IsPresent -eq $true){
 
@@ -18,6 +19,6 @@ if($WhatIf.IsPresent -eq $true){
 }
 
 foreach($folder in $Destinations){
-    $files | Copy-Item -Destination $folder -Force -Verbose
+    $files| Copy-Item -Destination $folder -Force -Verbose
 }
 $files
