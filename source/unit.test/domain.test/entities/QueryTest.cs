@@ -146,8 +146,7 @@ namespace domain.test.entities
             };
             var fields = new[] { "Dob", "FullName", "Gender", "Race" };
             query.MemberCollection.AddRange(fields);
-
-
+            
             var json = await query.GenerateEsQueryAsync();
             var jo = JObject.Parse(json);
             var esFields = jo.SelectToken("$.fields").Values<string>().ToArrayString();

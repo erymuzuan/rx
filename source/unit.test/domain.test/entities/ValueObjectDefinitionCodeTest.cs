@@ -104,44 +104,5 @@ namespace domain.test.entities
         }
 
 
-        [Fact]
-        public void ElasticsearchMapping()
-        {
-            var ent = new EntityDefinition { Name = "Customer", Plural = "Customers", RecordName = "Name2" };
-            ent.MemberCollection.Add(new SimpleMember
-            {
-                Name = "Name2",
-                TypeName = "System.String, mscorlib",
-                IsFilterable = true
-            });
-            ent.MemberCollection.Add(new SimpleMember
-            {
-                Name = "Titles",
-                TypeName = "System.String, mscorlib",
-                IsFilterable = false,
-                AllowMultiple = true
-            });
-
-
-            var home = new ValueObjectMember { ValueObjectName = "Address", Name = "HomeAddress" };
-            ent.MemberCollection.Add(home);
-
-            var office = new ValueObjectMember { ValueObjectName = "Address", Name = "WorkPlaceAddress" };
-            ent.MemberCollection.Add(office);
-            ent.MemberCollection.Add(new ValueObjectMember { ValueObjectName = "Spouse", Name = "Wife" });
-            ent.MemberCollection.Add(new ValueObjectMember { ValueObjectName = "Child", Name = "Children", AllowMultiple = true});
-           
-
-            var contacts = new SimpleMember { Name = "ContactCollection", Type = typeof(Array) };
-            contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
-            ent.MemberCollection.Add(contacts);
-
-            var map = ent.GetElasticsearchMapping();
-            var json = JObject.Parse(map);
-            var ageType = json.SelectToken("$.customer.properties.Wife.properties.Age.type");
-            Assert.Equal(ageType.Value<string>(),"integer");
-
-
-        }
     }
 }

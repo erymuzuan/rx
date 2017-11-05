@@ -211,26 +211,6 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public string GetElasticsearchMapping()
-        {
-            var map = new StringBuilder();
-            map.AppendLine("{");
-            map.AppendLine($"    \"{Name.ToLowerInvariant()}\":{{");
-            map.AppendLine("        \"properties\":{");
-            // add entity default properties
-            map.AppendLine(@"            ""CreatedBy"": {""type"": ""keyword"", ""index"":""not_analyzed""},");
-            map.AppendLine(@"            ""ChangedBy"": {""type"": ""keyword"", ""index"":""not_analyzed""},");
-            map.AppendLine(@"            ""WebId"": {""type"": ""keyword"", ""index"":""not_analyzed""},");
-            map.AppendLine(@"            ""CreatedDate"": {""type"": ""date""},");
-            map.AppendLine(@"            ""ChangedDate"": {""type"": ""date""},");
-
-            var memberMappings = string.Join(",\r\n", this.MemberCollection.Select(d => d.GetEsMapping()));
-            map.AppendLine(memberMappings);
-
-            map.AppendLine("        }");
-            map.AppendLine("    }");
-            map.AppendLine("}");
-            return map.ToString();
-        }
+      
     }
 }

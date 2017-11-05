@@ -357,7 +357,6 @@
     <Compile Include="FormTemplates\ChildView.cs" />
     <Compile Include="FormTemplates\ComboBoxLookup.cs" />
     <Compile Include="FormTemplates\ComplexMember.cs" />
-    <Compile Include="FormTemplates\ComplexMember.es.cs" />
     <Compile Include="FormTemplates\ConditionalFormatting.cs" />
     <Compile Include="FormTemplates\CurrencyElement.cs" />
     <Compile Include="FormTemplates\DateTimePicker.cs" />
@@ -395,7 +394,6 @@
     <Compile Include="FormTemplates\ListView.cs" />
     <Compile Include="FormTemplates\ListViewColumn.cs" />
     <Compile Include="FormTemplates\MapElement.cs" />
-    <Compile Include="FormTemplates\Member.es.cs" />
     <Compile Include="FormTemplates\Member.cs" />
     <Compile Include="Core\Change.cs" />
     <Compile Include="Core\ChangeGenerator.cs" />
@@ -434,7 +432,6 @@
     <Compile Include="FormTemplates\ServiceContract.cs" />
     <Compile Include="FormTemplates\ServiceContractSetting.cs" />
     <Compile Include="FormTemplates\SimpleMember.cs" />
-    <Compile Include="FormTemplates\SimpleMember.es.cs" />
     <Compile Include="FormTemplates\Sort.cs" />
     <Compile Include="FormTemplates\TabControl.cs" />
     <Compile Include="FormTemplates\TabPanel.cs" />
@@ -444,7 +441,6 @@
     <Compile Include="FormTemplates\ValidationField.cs" />
     <Compile Include="FormTemplates\ValidationRule.cs" />
     <Compile Include="FormTemplates\ValueObjectDefinition.cs" />
-    <Compile Include="FormTemplates\ValueObjectMember.es.cs" />
     <Compile Include="FormTemplates\ValueObjectMember.cs" />
     <Compile Include="FormTemplates\ViewColumn.cs" />
     <Compile Include="FormTemplates\ViewTemplate.cs" />
