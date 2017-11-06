@@ -9,7 +9,7 @@ using Bespoke.Sph.RxPs.Domain;
 namespace Bespoke.Sph.Powershells
 {
     [Cmdlet(VerbsLifecycle.Invoke, "RxDeploy")]
-    [Alias("rx-deploy")]
+    [Alias("rxdeploy")]
     public class RxDeploy : PSCmdlet, IDynamicParameters
     {
         public const string PARAMETER_SET_NAME = "RxDeploy";

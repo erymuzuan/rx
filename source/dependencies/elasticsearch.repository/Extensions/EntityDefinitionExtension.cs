@@ -12,9 +12,16 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
             map.AppendLine($"    \"{ed.Name.ToLowerInvariant()}\":{{");
             map.AppendLine("        \"properties\":{");
             // add entity default properties
+#if ES5
             map.AppendLine(@"            ""CreatedBy"": {""type"": ""keyword"", ""index"":""not_analyzed""},");
             map.AppendLine(@"            ""ChangedBy"": {""type"": ""keyword"", ""index"":""not_analyzed""},");
             map.AppendLine(@"            ""WebId"": {""type"": ""keyword"", ""index"":""not_analyzed""},");
+           
+#elif ES1_7
+            map.AppendLine(@"            ""CreatedBy"": {""type"": ""string"", ""index"":""not_analyzed""},");
+            map.AppendLine(@"            ""ChangedBy"": {""type"": ""string"", ""index"":""not_analyzed""},");
+            map.AppendLine(@"            ""WebId"": {""type"": ""string"", ""index"":""not_analyzed""},");
+#endif
             map.AppendLine(@"            ""CreatedDate"": {""type"": ""date""},");
             map.AppendLine(@"            ""ChangedDate"": {""type"": ""date""},");
 

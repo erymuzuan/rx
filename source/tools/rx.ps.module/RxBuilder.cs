@@ -10,7 +10,7 @@ using Bespoke.Sph.RxPs.Domain;
 namespace Bespoke.Sph.Powershells
 {
     [Cmdlet(VerbsLifecycle.Invoke, "RxBuilder", DefaultParameterSetName = PARAMETER_SET_NAME)]
-    [Alias("rx-builder")]
+    [Alias("rxbuilder")]
     public class RxBuilder : PSCmdlet, IDynamicParameters
     {
         private readonly IDictionary<string, string[]> m_sources = new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase);

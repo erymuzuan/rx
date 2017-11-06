@@ -16,85 +16,134 @@ namespace Bespoke.Sph.RxPs
     /// <para type="description">The compiled version  of the dll is compared to the latest source version.</para>
     /// <para type="description">Revision no. or tag/commitid tells if the deployed version of the dll is up to date the asset source</para>
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "Rx" + nameof(DeploymentStatus))]
+    [Cmdlet(VerbsCommon.Get, "Rx" + nameof(DeploymentStatus), DefaultParameterSetName = "default")]
     [OutputType(typeof(DeploymentStatus))]
     public class GetRxDeploymentStatus : RxCmdlet
     {
         public const string PARAMETER_SET_ID = "Id";
         public const string PARAMETER_SET_NAME = "Names";
 
-        [Parameter(ParameterSetName = PARAMETER_SET_NAME), ArgumentCompleter(typeof(AssetNameCompleter<EntityDefinition>))]
-        public string Name { set; get; }
+        [Parameter(ParameterSetName = PARAMETER_SET_NAME, Position = 0), ArgumentCompleter(typeof(AssetNameCompleter<EntityDefinition>))]
+        public string[] Names { set; get; }
 
 
         [Parameter(ParameterSetName = PARAMETER_SET_ID), ArgumentCompleter(typeof(AssetIdCompleter<EntityDefinition>))]
-        public string Id { get; set; }
+        public string[] Ids { get; set; }
 
+        [Parameter(ParameterSetName = PARAMETER_SET_NAME)]
+        [Parameter(ParameterSetName = PARAMETER_SET_ID)]
+        [Parameter(ParameterSetName = "default")]
+        public SwitchParameter ShowOutdatedOnly { get; set; }
 
         [Parameter(ParameterSetName = PARAMETER_SET_NAME)]
         [Parameter(ParameterSetName = PARAMETER_SET_ID)]
         public ICvsProvider CvsProvider { get; set; } = new GitCvsProvider();
 
+
+
         protected override void ProcessRecord()
         {
             if (this.ParameterSetName == PARAMETER_SET_ID)
             {
-                var source = $@"{ConfigurationManager.SphSourceDirectory}\{nameof(EntityDefinition)}\{Id}.json";
-                WriteVerbose($"Source {source} [Exist]{File.Exists(source)}");
-                if (!File.Exists(source))
+                foreach (var id in Ids)
                 {
-                    WriteWarning($"Source {source} does not exist");
-                    return;
+                    var source = $@"{ConfigurationManager.SphSourceDirectory}\{nameof(EntityDefinition)}\{id}.json";
+                    ProcessRecord(source);
                 }
+                return;
+            }
+            if (this.ParameterSetName == PARAMETER_SET_NAME)
+            {
+                var entityDefintions = (
+                    from src in Directory.GetFiles(
+                        $"{ConfigurationManager.SphSourceDirectory}\\{nameof(EntityDefinition)}\\", "*.json")
+                    let text = File.ReadAllText(src)
+                    let json = JObject.Parse(text)
+                    let ed = EntityDefinition.Parse(json)
+                    select ed).ToDictionary(x => x.Name, x => x.Id);
 
-                var sourceJson = JObject.Parse(File.ReadAllText(source));
-                var sourceName = sourceJson.SelectToken("$.Name").Value<string>();
-                var sourceId = sourceJson.SelectToken("$.Id").Value<string>();
-                var sourceChangedDate = sourceJson.SelectToken("$.ChangedDate").Value<DateTime>();
-
-                var lo = this.CvsProvider.GetCommitLogsAsync(source, 1, 1).Result;
-                var sourceLog = lo.ItemCollection.FirstOrDefault() ?? new CommitLog
+                foreach (var name in this.Names.Where(x => entityDefintions.ContainsKey(x)))
                 {
-                    CommitId = "NA"
-                };
-                var output = new FileVersion($@"{ConfigurationManager.CompilerOutputPath}\{RxApplicationName}.{sourceName}.dll");
-                WriteVerbose($"output - {output} [Exist]{File.Exists(output.FullName)}");
-                WriteObject(new DeploymentStatus(WriteVerbose, output, sourceLog.CommitId, lo.TotalRows)
+                    var source = $@"{ConfigurationManager.SphSourceDirectory}\{nameof(EntityDefinition)}\{entityDefintions[name]}.json";
+                    ProcessRecord(source);
+                }
+                return;
+            }
+            foreach (var source in Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\{nameof(EntityDefinition)}\\", "*.json"))
+            {
+                ProcessRecord(source);
+            }
+        }
+
+        private void WriteObject(DeploymentStatus ds)
+        {
+            if (this.ShowOutdatedOnly.IsPresent)
+            {
+                if (ds.IsOutdated)
+                {
+                    base.WriteObject(ds);
+                }
+                return;
+            }
+            base.WriteObject(ds);
+        }
+
+        private void ProcessRecord(string source)
+        {
+            WriteVerbose($"Source {source} [Exist]{File.Exists(source)}");
+            if (!File.Exists(source))
+            {
+                WriteWarning($"Source {source} does not exist");
+                return;
+            }
+
+            var sourceJson = JObject.Parse(File.ReadAllText(source));
+            var sourceName = sourceJson.SelectToken("$.Name").Value<string>();
+            var sourceId = sourceJson.SelectToken("$.Id").Value<string>();
+            var sourceChangedDate = sourceJson.SelectToken("$.ChangedDate").Value<DateTime>();
+
+            var lo = this.CvsProvider.GetCommitLogsAsync(source, 1, 1).Result;
+            var sourceLog = lo.ItemCollection.FirstOrDefault() ?? new CommitLog
+            {
+                CommitId = "NA"
+            };
+            var output = new FileVersion($@"{ConfigurationManager.CompilerOutputPath}\{RxApplicationName}.{sourceName}.dll");
+            WriteVerbose($"output - {output} [Exist]{File.Exists(output.FullName)}");
+            WriteObject(new DeploymentStatus(WriteVerbose, output, sourceLog.CommitId, lo.TotalRows)
+            {
+                Name = sourceName,
+                Id = sourceId,
+                SourceChangedOn = sourceChangedDate,
+                Location = ConfigurationManager.CompilerOutputPath,
+                Type = nameof(EntityDefinition)
+
+            });
+            var web = new FileVersion($@"{ConfigurationManager.WebPath}\bin\{RxApplicationName}.{sourceName}.dll");
+            WriteVerbose($"Web - {web} [Exist]{File.Exists(web.FullName)}");
+            WriteObject(new DeploymentStatus(WriteVerbose, web, sourceLog.CommitId, lo.TotalRows)
+            {
+                Name = sourceName,
+                Id = sourceId,
+                SourceChangedOn = sourceChangedDate,
+                Location = ConfigurationManager.WebPath,
+                Type = nameof(EntityDefinition)
+
+            });
+
+            var subscribers = ConfigurationManager.SubscriberPath.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var subFolder in subscribers)
+            {
+                var sub = new FileVersion($@"{subFolder}\{RxApplicationName}.{sourceName}.dll");
+                WriteVerbose($"Sub - {sub} [Exist]{File.Exists(sub.FullName)}");
+                WriteObject(new DeploymentStatus(WriteVerbose, sub, sourceLog.CommitId, lo.TotalRows)
                 {
                     Name = sourceName,
                     Id = sourceId,
                     SourceChangedOn = sourceChangedDate,
-                    Location = ConfigurationManager.CompilerOutputPath,
+                    Location = subFolder,
                     Type = nameof(EntityDefinition)
-
-                });
-                var web = new FileVersion($@"{ConfigurationManager.WebPath}\bin\{RxApplicationName}.{sourceName}.dll");
-                WriteVerbose($"Web - {web} [Exist]{File.Exists(web.FullName)}");
-                WriteObject(new DeploymentStatus(WriteVerbose, web, sourceLog.CommitId, lo.TotalRows)
-                {
-                    Name = sourceName,
-                    Id = sourceId,
-                    SourceChangedOn = sourceChangedDate,
-                    Location = ConfigurationManager.WebPath,
-                    Type = nameof(EntityDefinition)
-
                 });
 
-                var subscribers = ConfigurationManager.SubscriberPath.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (var subFolder in subscribers)
-                {
-                    var sub = new FileVersion($@"{subFolder}\{RxApplicationName}.{sourceName}.dll");
-                    WriteVerbose($"Sub - {sub} [Exist]{File.Exists(sub.FullName)}");
-                    WriteObject(new DeploymentStatus(WriteVerbose, sub, sourceLog.CommitId, lo.TotalRows)
-                    {
-                        Name = sourceName,
-                        Id = sourceId,
-                        SourceChangedOn = sourceChangedDate,
-                        Location = subFolder,
-                        Type = nameof(EntityDefinition)
-                    });
-
-                }
             }
         }
     }
@@ -103,7 +152,8 @@ namespace Bespoke.Sph.RxPs
 
     public class DeploymentStatus
     {
-        public Action<string> WriteVerbose { get; }
+        private Action<string> WriteVerbose { get; }
+
         public DeploymentStatus(Action<string> writeVerbose, FileVersion deployedVersion, string sourceCommitId, int? sourceRevision)
         {
             WriteVerbose = writeVerbose;
@@ -123,9 +173,12 @@ namespace Bespoke.Sph.RxPs
             }
             SourceTag = sourceCommitId;
             SourceRevision = sourceRevision;
+            WriteVerbose("SourceRevision " + sourceRevision);
+            WriteVerbose("CompiledRevision " + CompiledRevision);
         }
 
 
+        public bool IsOutdated => this.SourceRevision > this.CompiledRevision || null == this.CompiledRevision;
         public string Type { get; set; }
         public string Name { get; set; }
         public string Id { get; set; }

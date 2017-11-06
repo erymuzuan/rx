@@ -9,6 +9,15 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
     {
         public static string GetEsMapping(this Member member)
         {
+            switch (member)
+            {
+                case SimpleMember sm:
+                    return GetEsMapping(sm);
+                case ComplexMember cm:
+                    return GetEsMapping(cm);
+                case ValueObjectMember vm:
+                    return GetEsMapping(vm);
+            }
             return null;
         }
 
@@ -86,8 +95,7 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
         {
             return $@"             ""{sm.Name}"":{GetEsMappingType(sm)}";
         }
-
-
+        
         public static string GetEsMapping(this ValueObjectMember mb)
         {
             var map = new StringBuilder();

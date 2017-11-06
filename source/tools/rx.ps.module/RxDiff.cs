@@ -8,7 +8,7 @@ using System.Management.Automation;
 namespace Bespoke.Sph.Powershells
 {
     [Cmdlet(VerbsLifecycle.Invoke, "RxDiff")]
-    [Alias("rx-diff")]
+    [Alias("rxdiff")]
     public class RxDiff : PSCmdlet, IDynamicParameters
     {
         public const string PARAMETER_SET_NAME = "RxDiff";
