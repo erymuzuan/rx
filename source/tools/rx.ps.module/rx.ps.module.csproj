@@ -73,6 +73,7 @@
     <Compile Include="RxControlCenterCmdlet.cs" />
     <Compile Include="RxDatabaseCmdlet.cs" />
     <Compile Include="RxDeploy.cs" />
+    <Compile Include="RxDeploymentStatus.cs" />
     <Compile Include="RxDiff.cs" />
     <Compile Include="RxElasticsearchCmdlet.cs" />
     <Compile Include="RxEntityDefinitionCmdLet.cs" />
