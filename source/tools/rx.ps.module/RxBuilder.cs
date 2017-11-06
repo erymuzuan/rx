@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Management.Automation;
 using Bespoke.Sph.RxPs.Domain;
+using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Powershells
 {
@@ -13,14 +14,15 @@ namespace Bespoke.Sph.Powershells
     [Alias("rxbuilder")]
     public class RxBuilder : PSCmdlet, IDynamicParameters
     {
-        private readonly IDictionary<string, string[]> m_sources = new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase);
+        private readonly IDictionary<string, string[]> m_idList = new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase);
 
-        public const string PARAMETER_SET_NAME = "RxBuilder";
+        public const string PARAMETER_SET_NAME = "Name";
         public const string PARAMETER_SET_ED = "EntityDefinition";
+        public const string PARAMETER_SET_ID = "Id";
 
         [Parameter(HelpMessage = "Asset type trusted connection", ParameterSetName = PARAMETER_SET_NAME)]
         [ValidateSet("EntityDefinition", "Adapter", "OperationEndpoint", "QueryEndpoint", "ReceivePort", "ReceiveLocation", "TransformDefinition", "WorkflowDefinition", "Trigger")]
-        public string AssetType { get; set; } = "EntityDefinition";
+        public string AssetType { get; set; } = nameof(EntityDefinition);
 
         [Parameter(HelpMessage = "Trace switch for ConsoleLogger", ParameterSetName = PARAMETER_SET_NAME)]
         [ValidateSet("Debug", "Verbose", "Info", "Warning", "Error")]
@@ -61,6 +63,23 @@ namespace Bespoke.Sph.Powershells
         protected override void ProcessRecord()
         {
             var toolsSphBuilderExe = $@"{this.SessionState.Path.CurrentFileSystemLocation}\tools\sph.builder.exe";
+            void ExecuteSphBuilder(string src)
+            {
+                var arg = $@"{ConfigurationManager.SphSourceDirectory}\{this.AssetType}\{src}.json /switch:{TraceSwitch}";
+                var info = new ProcessStartInfo
+                {
+                    FileName = toolsSphBuilderExe,
+                    Arguments = arg,
+                    UseShellExecute = UseShellExecute.IsPresent
+
+                };
+
+                var builder = Process.Start(info);
+                builder?.WaitForExit();
+
+                WriteObject(src);
+            }
+
             if (this.ParameterSetName == PARAMETER_SET_ED)
             {
                 var jsonFile = $@"{ConfigurationManager.SphSourceDirectory}\{nameof(EntityDefinition)}\{this.EntityDefinition.Id}.json /switch:{TraceSwitch}";
@@ -79,24 +98,29 @@ namespace Bespoke.Sph.Powershells
                 WriteObject(this.EntityDefinition);
                 return;
             }
-
-
-            var source = ((DynParamQuotedString)MyInvocation.BoundParameters["Source"]).OriginalString;
-            var file = $@"{this.SessionState.Path.CurrentFileSystemLocation}\sources\{this.AssetType}\{source}.json /switch:{TraceSwitch}";
-            WriteVerbose($"Source = {file}");
-
-            var info = new ProcessStartInfo
+            if (this.ParameterSetName == PARAMETER_SET_ID)
             {
-                FileName = toolsSphBuilderExe,
-                Arguments = file,
-                UseShellExecute = UseShellExecute.IsPresent
+                var source = ((DynParamQuotedString)MyInvocation.BoundParameters["Id"]).OriginalString;
+                ExecuteSphBuilder(source);
+                return;
+            }
 
-            };
+            if (this.ParameterSetName == PARAMETER_SET_NAME)
+            {
+                var nameValue = ((DynParamQuotedString)MyInvocation.BoundParameters["Name"]).OriginalString;
+                var list = from o in Directory.GetFiles($@"{ConfigurationManager.SphSourceDirectory}\{this.AssetType}\",
+                        "*.json")
+                           let text = File.ReadAllText(o)
+                           let json = JObject.Parse(text)
+                           let nameField = json.SelectToken("$.Name")
+                           where null != nameField
+                           let name = nameField.Value<string>()
+                           where name == nameValue
+                           select json.SelectToken("$.Id").Value<string>();
+                ExecuteSphBuilder(list.FirstOrDefault());
+            }
 
-            var builder = Process.Start(info);
-            builder?.WaitForExit();
 
-            WriteObject(source);
         }
 
 
@@ -133,29 +157,58 @@ namespace Bespoke.Sph.Powershells
         public object GetDynamicParameters()
         {
             var parameters = new RuntimeDefinedParameterDictionary();
+            m_idList[this.AssetType] = GetSources(this.AssetType);
 
-            m_sources[this.AssetType] = GetSources(this.AssetType);
-            var sourceParameter = new RuntimeDefinedParameter(
-                "Source",
+
+            parameters.Add("Id", new RuntimeDefinedParameter(
+                "Id",
                 typeof(DynParamQuotedString),
                 new Collection<Attribute>
                 {
-                        new ParameterAttribute {
-                            ParameterSetName = PARAMETER_SET_NAME,
-                            Position = 0,
-                            Mandatory = true
-                        },
-                        new ValidateSetAttribute(DynParamQuotedString.GetQuotedStrings(m_sources[this.AssetType])),
-                        new ValidateNotNullOrEmptyAttribute()
+                    new ParameterAttribute {
+                        ParameterSetName = PARAMETER_SET_ID,
+                        Position = 0,
+                        Mandatory = true,
+                        ValueFromPipeline = true,
+                        ValueFromPipelineByPropertyName = true
+                    },
+                    new ValidateSetAttribute(DynParamQuotedString.GetQuotedStrings(m_idList[this.AssetType])),
+                    new ValidateNotNullOrEmptyAttribute()
                 }
-                );
+            ));
 
-            parameters.Add(sourceParameter.Name, sourceParameter);
+            parameters.Add("Name", new RuntimeDefinedParameter(
+                "Name",
+                typeof(DynParamQuotedString),
+                new Collection<Attribute>
+                {
+                    new ParameterAttribute {
+                        ParameterSetName = PARAMETER_SET_NAME,
+                        Position = 0,
+                        Mandatory = true,
+                        ValueFromPipeline = true,
+                        ValueFromPipelineByPropertyName = true
+                    },
+                    new ValidateSetAttribute(DynParamQuotedString.GetQuotedStrings(GetAssetNames(this.AssetType))),
+                    new ValidateNotNullOrEmptyAttribute()
+                }
+            ));
 
 
             return parameters;
         }
 
+        private static IEnumerable<string> GetAssetNames(string assetType)
+        {
+            var list = from o in Directory.GetFiles($@"{ConfigurationManager.SphSourceDirectory}\{assetType}\",
+                    "*.json")
+                let text = File.ReadAllText(o)
+                let json = JObject.Parse(text)
+                let nameField = json.SelectToken("$.Name")
+                where null != nameField
+                select nameField.Value<string>();
 
+            return list.ToArray();
+        }
     }
 }

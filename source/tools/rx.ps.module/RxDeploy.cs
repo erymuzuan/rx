@@ -13,7 +13,7 @@ namespace Bespoke.Sph.Powershells
     public class RxDeploy : PSCmdlet, IDynamicParameters
     {
         public const string PARAMETER_SET_NAME = "RxDeploy";
-        public const string PARAMETER_SET_ED = "EntityDefinition";
+        public const string PARAMETER_SET_ED = nameof(EntityDefinition);
 
         [Parameter(HelpMessage = "EntityDefinition from Get-RxEntityDefinition", ValueFromPipeline = true, ParameterSetName = PARAMETER_SET_ED)]
         public EntityDefinition PipeLineEntityDefinition { get; set; }
