@@ -12,7 +12,7 @@ namespace Bespoke.Sph.WebTests.Helpers
     public class BrowserTest : ISqlConnectionConsumer
     {
         private IWebDriver m_driver;
-        [TestFixtureSetUp]
+        //TODO :[TestFixtureSetUp]
         public void Setup()
         {
             m_driver = InitiateDriver();
@@ -20,7 +20,7 @@ namespace Bespoke.Sph.WebTests.Helpers
             m_driver.Login()
                 .WaitUntil(By.ClassName("page-logo"), 2.Seconds());
         }
-        [TestFixtureTearDown]
+        //TODO :[TestFixtureTearDown]
         public void TearDown()
         {
             m_driver.LogOff();
