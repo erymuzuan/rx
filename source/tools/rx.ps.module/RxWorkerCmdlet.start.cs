@@ -9,7 +9,7 @@ namespace Bespoke.Sph.RxPs
     [OutputType(typeof(Worker))]
     public class StartRxWorkerCmdlet : RxCmdlet
     {
-        [Parameter(ParameterSetName = RxWorkerCmdlet.PARAMETER_SET_DEFAULT, Position = 0, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, Mandatory = true)]
+        [Parameter(ParameterSetName = RxWorkerCmdlet.PARAMETER_SET_DEFAULT, Position = 0, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true)]
         public string Name { get; set; }
 
         [Parameter(ValueFromPipeline = true, ValueFromPipelineByPropertyName = true)]
@@ -36,8 +36,10 @@ namespace Bespoke.Sph.RxPs
             var debug = MyInvocation.BoundParameters.ContainsKey("Debug") ? " /debug " : "";
             var verbose = MyInvocation.BoundParameters.ContainsKey("Verbose") ? " /verbose " : "";
 
+            var name = this.Name ?? GenerateRandomName();
+
             // hopefully this will attach it to the newly created worker process 
-            System.Environment.SetEnvironmentVariable("RxWorkerName", this.Name);
+            System.Environment.SetEnvironmentVariable("RxWorkerName", name);
             System.Environment.SetEnvironmentVariable("RxWorkerEnvironment", this.Environment);
             System.Environment.SetEnvironmentVariable("RxWorkerConfiguration", this.Configuration);
 
@@ -62,6 +64,11 @@ namespace Bespoke.Sph.RxPs
             });
         }
 
+        private string GenerateRandomName()
+        {
+            var count = Process.GetProcessesByName("workers.console.runner").Length;
+            return $"Worker{count + 1}";
+        }
     }
 
 }
