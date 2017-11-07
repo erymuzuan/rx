@@ -22,8 +22,8 @@
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
