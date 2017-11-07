@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.ElasticsearchRepository;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Humanizer;
 using Newtonsoft.Json;
@@ -16,7 +17,7 @@ namespace Bespoke.Sph.ElasticSearch
         private TrackerIndexer m_trackerIndexer;
         protected override void OnStart()
         {
-            m_client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) };
+            m_client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.ElasticSearchHost) };
             m_trackerIndexer = new TrackerIndexer(m_client);
             base.OnStart();
         }
@@ -39,7 +40,7 @@ namespace Bespoke.Sph.ElasticSearch
                 return;
             }
 
-            var url = $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchSystemIndex}/{type.Name.ToLowerInvariant()}/{item.Id}";
+            var url = $"{EsConfigurationManager.ElasticSearchHost}/{EsConfigurationManager.ElasticSearchSystemIndex}/{type.Name.ToLowerInvariant()}/{item.Id}";
 
 
             HttpResponseMessage response = null;
@@ -61,8 +62,8 @@ namespace Bespoke.Sph.ElasticSearch
             catch (HttpRequestException e)
             {
                 // republish the message to a delayed queue
-                var delay = ConfigurationManager.EsIndexingDelay;
-                var maxTry = ConfigurationManager.EsIndexingMaxTry;
+                var delay = EsConfigurationManager.EsIndexingDelay;
+                var maxTry = EsConfigurationManager.EsIndexingMaxTry;
                 if ((headers.TryCount ?? 0) < maxTry)
                 {
                     await RequeueMessageAsync(item, headers, e, delay);

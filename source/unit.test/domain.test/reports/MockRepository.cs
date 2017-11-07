@@ -33,6 +33,11 @@ namespace domain.test.reports
             throw new NotImplementedException();
         }
 
+        public Task<LoadOperation<T>> SearchAsync(Filter[] filters, int skip, int size)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<string> SearchAsync(string query)
         {
             throw new NotImplementedException();

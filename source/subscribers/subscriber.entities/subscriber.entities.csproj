@@ -56,7 +56,6 @@
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
     <Compile Include="EntityFormSubscriber.cs" />
-    <Compile Include="EntityIndexerMappingSubscriber.cs" />
     <Compile Include="EntityViewSubscriber.cs" />
     <Compile Include="EntityCodeSubscriber.cs" />
     <Compile Include="FormDialogSubscriber.cs" />
@@ -73,10 +72,6 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\dependencies\elasticsearch.repository\elasticsearch.repository.csproj">
-      <Project>{9C8CB6CA-65A3-4ED5-98FD-74E241C74451}</Project>
-      <Name>elasticsearch.repository</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\dependencies\Jsbeautifier\Jsbeautifier.csproj">
       <Project>{0ff8fea3-04fb-475c-9f56-d9337652c05a}</Project>
       <Name>Jsbeautifier</Name>

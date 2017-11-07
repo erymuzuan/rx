@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.ElasticsearchRepository;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -22,7 +23,7 @@ namespace Bespoke.Sph.ElasticSearch
         public override string[] RoutingKeys => new[] { "persistence" };
         private TaskCompletionSource<bool> m_stoppingTcs;
 
-        private readonly HttpClient m_client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) };
+        private readonly HttpClient m_client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.ElasticSearchHost) };
         public override void Run(IConnection connection)
         {
             var sw = new Stopwatch();
@@ -127,7 +128,7 @@ namespace Bespoke.Sph.ElasticSearch
                     .ToList();
                 // TODO : bulk insert into ES
                 var tasks = from item in entities
-                            let url = $"{ConfigurationManager.ElasticSearchIndex}/{item.Type}/{item.Id}"
+                            let url = $"{EsConfigurationManager.ElasticSearchIndex}/{item.Type}/{item.Id}"
                             let content = new StringContent(item.JsonPayload)
                             select Policy.Handle<Exception>()
                                 .WaitAndRetryAsync(retry, t => TimeSpan.FromMilliseconds(wait * t))

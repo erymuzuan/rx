@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -9,7 +8,6 @@ using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
 using domain.test.reports;
 using domain.test.triggers;
-using Newtonsoft.Json.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -20,12 +18,11 @@ namespace domain.test.entities
     public class QueryTest
     {
         private readonly ITestOutputHelper m_console;
-        private readonly MockPersistence m_persistence ;
 
         public QueryTest(ITestOutputHelper console)
         {
             m_console = console;
-            m_persistence = new MockPersistence(console);
+            var persistence = new MockPersistence(console);
             var efMock = new MockRepository<EntityDefinition>();
             efMock.AddToDictionary("", GetFromEmbeddedResource<EntityDefinition>("Patient"));
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
@@ -33,7 +30,7 @@ namespace domain.test.entities
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
             ObjectBuilder.AddCacheList<IEntityChangePublisher>(new MockChangePublisher(console));
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
-            ObjectBuilder.AddCacheList<IPersistence>(m_persistence);
+            ObjectBuilder.AddCacheList<IPersistence>(persistence);
             m_console.WriteLine("Init..");
         }
 
@@ -130,64 +127,8 @@ namespace domain.test.entities
         }
 
 
-        [Theory]
-        [InlineData(null, null)]
-        [InlineData("Roles", "Administrators")]
-        [InlineData("Designation", "Senior Manager")]
-        public async Task QueryFields(string performer, string performerValues)
-        {
-            var query = new QueryEndpoint
-            {
-                Name = "Patients Born in 60s",
-                Route = "~/api/patients/born-in-60s",
-                Id = "patients-born-in-60s",
-                Entity = "Patient",
-                WebId = "all-born-in-60s"
-            };
-            var fields = new[] { "Dob", "FullName", "Gender", "Race" };
-            query.MemberCollection.AddRange(fields);
-            
-            var json = await query.GenerateEsQueryAsync();
-            var jo = JObject.Parse(json);
-            var esFields = jo.SelectToken("$.fields").Values<string>().ToArrayString();
+    
 
-            Assert.Equal(fields, esFields);
-        }
-
-        [Fact]
-        [Trait("Query", "Elasticsearch")]
-        public async Task CompileQueryFieldsAndFilter()
-        {
-            var query = new QueryEndpoint
-            {
-                Name = "Patients Born in 60s",
-                Route = "~/api/patients/born-in-60s",
-                Id = "patients-born-in-60s",
-                Entity = "Patient",
-                WebId = "all-born-in-60s"
-            };
-            var sixty = new ConstantField { Type = typeof(DateTime), Value = "1960-01-01" };
-            var sixtyNine = new ConstantField { Type = typeof(DateTime), Value = "1969-12-31" };
-            query.FilterCollection.Add(new Filter
-            {
-                Field = sixty,
-                Operator = Operator.Ge,
-                Term = "Dob"
-            });
-            query.FilterCollection.Add(new Filter
-            {
-                Field = sixtyNine,
-                Operator = Operator.Le,
-                Term = "Dob"
-            });
-
-            query.MemberCollection.AddRange("Dob", "FullName", "Gender", "Race");
-
-            var json = await query.GenerateEsQueryAsync();
-            var jo = JObject.Parse(json);
-            var fields = jo.SelectToken("$.fields").Values<string>().ToArray();
-            Assert.Contains("Dob", fields);
-        }
 
         [Fact]
         public void CompileQueryWithFieldsAndFilter()

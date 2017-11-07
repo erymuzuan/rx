@@ -85,24 +85,10 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("logs/{id:guid}")]
         public async Task<IHttpActionResult> SearchById(string id)
         {
-            var url = $"{ ConfigurationManager.ElasticSearchSystemIndex}/log/{id}";
-            string responseString;
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticsearchLogHost);
-                var response = await client.GetAsync(url);
-                if (response.StatusCode == HttpStatusCode.NotFound)
-                    return NotFound();
+            var repos = ObjectBuilder.GetObject<ILoggerRepository>();
+            var source = await repos.LoadOneAsync(id);
 
-                var content = response.Content as StreamContent;
-                if (null == content) throw new Exception("Cannot execute query on es ");
-                responseString = await content.ReadAsStringAsync();
-
-            }
-            var esJson = JObject.Parse(responseString);
-            var source = esJson.SelectToken("$._source");
-
-            return Json(source.ToString());
+            return Json(source);
 
         }
 
@@ -110,20 +96,11 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [PostRoute("request-logs/{from}/{to}")]
-        public async Task<IHttpActionResult> SearchRequestLogs(string from, string to, [RawBody]string query)
+        public async Task<IHttpActionResult> SearchRequestLogs([JsonBody]Filter[] filters)
         {
-            var url = $"{ConfigurationManager.ElasticSearchIndex}_logs/request_log/_search";
-            using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticsearchLogHost) })
-            {
-                var response = await client.PostAsync(url, new StringContent(query));
-                response.EnsureSuccessStatusCode();
-
-                var content = response.Content as StreamContent;
-                if (null == content) throw new Exception("Cannot execute query on es ");
-                var responseString = await content.ReadAsStringAsync();
-                return Json(responseString);
-
-            }
+            var repos = ObjectBuilder.GetObject<IMeteringRepository>();
+            var lo = await repos.SearchAsync(filters);
+            return Json(lo);
 
         }
 

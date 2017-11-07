@@ -299,6 +299,7 @@
     <Compile Include="IMessageSlaManager.cs" />
     <Compile Include="IMessageTracker.cs" />
     <Compile Include="Management\ConfigData.cs" />
+    <Compile Include="Management\HttpRequestLog.cs" />
     <Compile Include="Management\SubscriberConfig.cs" />
     <Compile Include="Management\WorkersConfig.cs" />
     <Compile Include="Management\WorkerServerConfig.cs" />

@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.ElasticsearchRepository.Extensions;
+using Bespoke.Sph.Extensions;
 using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.ElasticsearchRepository
@@ -17,13 +20,13 @@ namespace Bespoke.Sph.ElasticsearchRepository
         public ReadonlyRepository()
         {
             if (null == m_client)
-                m_client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) };
+                m_client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.ElasticSearchHost) };
         }
 
         public ReadonlyRepository(HttpMessageHandler httpMessageHandler, bool disposeHandler)
         {
             if (null == m_client)
-                m_client = new HttpClient(httpMessageHandler, disposeHandler) { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) };
+                m_client = new HttpClient(httpMessageHandler, disposeHandler) { BaseAddress = new Uri(EsConfigurationManager.ElasticSearchHost) };
         }
 
         public async Task<LoadData<T>> LoadOneAsync(string id)
@@ -33,7 +36,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
             if (response.StatusCode == HttpStatusCode.NotFound)
                 return new LoadData<T>(null, null);
 
-            var esJson = await response.ReadContentAsJson();
+            var esJson = await response.ReadContentAsJsonAsync();
             var source = esJson.SelectToken("$._source");
             var version = esJson.SelectToken("$._version").Value<string>();
             var item = source.ToString().DeserializeFromJson<T>();
@@ -45,7 +48,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
         {
             var url = $"{ m_url}/_search?q={field}:{value}&version=true";
             var response = await m_client.GetAsync(url);
-            var json = await response.ReadContentAsJson();
+            var json = await response.ReadContentAsJsonAsync();
             var total = json.SelectToken("$.hits.total").Value<int>();
             if (total == 0)
                 return new LoadData<T>(null, null);
@@ -59,19 +62,30 @@ namespace Bespoke.Sph.ElasticsearchRepository
             return new LoadData<T>(item, version) { Json = source.ToString() };
         }
 
+        public async Task<LoadOperation<T>> SearchAsync(Filter[] filters, int skip, int size)
+        {
+            T item = default;
+            var query = item.GenerateElasticSearchFilterDsl(filters);
+
+            var response = await m_client.PostAsync($"{m_url}/_search", new StringContent(query));
+            var lo = await response.ReadContentAsLoadOperationAsync<T>(skip, size);
+
+            return lo;
+        }
+
         public async Task<string> SearchAsync(string query)
         {
             var request = new StringContent(query);
             var url = $"{m_url}/_search";
             var response = await m_client.PostAsync(url, request);
-            return await response.ReadContentAsString();
+            return await response.ReadContentAsStringAsync();
         }
         public async Task<string> SearchAsync(string query, string queryString)
         {
             var request = new StringContent(query);
             var url = $"{m_url}/_search?" + queryString;
             var response = await m_client.PostAsync(url, request);
-            return await response.ReadContentAsString();
+            return await response.ReadContentAsStringAsync();
         }
 
         public async Task<int> GetCountAsync(string query, string queryString)
@@ -81,7 +95,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
 
             var response = await m_client.PostAsync(url, request);
 
-            var json = await response.ReadContentAsJson();
+            var json = await response.ReadContentAsJsonAsync();
             var count = json.SelectToken("$.hits.total").Value<int>();
             return count;
 

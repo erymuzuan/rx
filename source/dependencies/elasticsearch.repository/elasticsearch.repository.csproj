@@ -54,14 +54,21 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\extensions\HttpClientExtensions.cs">
+      <Link>Extensions\HttpClientExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\extensions\LoggerExtensions.cs">
       <Link>LoggerExtensions.cs</Link>
     </Compile>
     <Compile Include="CancelledMessageRepository.cs" />
     <Compile Include="CircuitBreaker.cs" />
+    <Compile Include="ElasticsearchTokenRespository.cs" />
+    <Compile Include="EsConfigurationManager.cs" />
     <Compile Include="Extensions\EntityDefinitionExtension.cs" />
+    <Compile Include="Extensions\FilterExtension.cs" />
     <Compile Include="Extensions\MemberExtension.cs" />
-    <Compile Include="HttpClientExtensions.cs" />
+    <Compile Include="Extensions\QueryEndpointExtension.cs" />
+    <Compile Include="IndexNamingStrategy.cs" />
     <Compile Include="MappingBuilder.cs" />
     <Compile Include="MessageTracker.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -69,6 +76,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RequestMeteringRepository.cs" />
     <Compile Include="WorkflowService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadonlyRepository.cs" />
@@ -77,6 +85,10 @@
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\web\webapi.common\webapi.common.csproj">
+      <Project>{2A396BF5-09BD-4AE9-B6DE-CF93AEE99D66}</Project>
+      <Name>webapi.common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

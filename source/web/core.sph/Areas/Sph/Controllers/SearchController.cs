@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Http;
 using System.Web.Http;
 using System.Threading.Tasks;
 using System.Linq;
@@ -37,76 +36,30 @@ namespace Bespoke.Sph.Web.Controllers
                 var entNames = (await context.GetListAsync<EntityDefinition, string>(e => e.IsPublished, e => e.Name))
                     .Select(a => a.ToLowerInvariant())
                     .ToArray();
-                types = string.Join(",", entNames);
-                records = string.Join(",", en.Distinct().ToArray());
+                types = entNames.ToString(",");
+                records = en.Distinct().ToString(",");
 
                 CacheManager.Insert(TypesKey, types, 5.Minutes());
                 CacheManager.Insert(RecordKey, records, 5.Minutes());
             }
 
+            var repos = ObjectBuilder.GetObject<IReadonlyRepository>();
+            var result = await repos.SearchAsync(types, Filter.Parse(text));
 
+            return Json(result);
 
-            var query = @"
-                {
-                    ""query"": {
-                        ""query_string"": {
-                           ""default_field"": ""_all"",
-                           ""query"": """ + text + @"""
-                        }
-                    },
-                   ""highlight"": {
-                        ""fields"": {
-                            " + records + @"
-                        }
-                    },  
-                  ""from"": 0,
-                  ""size"": 20
-                }
-            ";
-
-            var request = new StringContent(query);
-            var url = $"{ConfigurationManager.ElasticSearchIndex}/{types}/_search";
-
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                var response = await client.PostAsync(url, request);
-                var content = response.Content as StreamContent;
-                if (null == content) throw new Exception("Cannot execute query on es " + request);
-                var result = await content.ReadAsStringAsync();
-
-                if (!response.IsSuccessStatusCode)
-                    throw new SearchException("Cannot execute query for :" + text) { Query = query, Result = result };
-                return Json(result);
-
-            }
         }
 
         [HttpPost]
         [Route("{type}")]
         public async Task<IHttpActionResult> Es(string type, [RawBody]string query, [FromUri]bool sys = true)
         {
-            var request = new StringContent(query);
-            var log = type == "log" || type == "request_log";
-            var index = sys ? ConfigurationManager.ElasticSearchSystemIndex : ConfigurationManager.ElasticSearchIndex;
-            if (log) index = $"{ConfigurationManager.ElasticSearchIndex}_logs";
-            var url = $"{index}/{type.ToLowerInvariant()}/_search";
 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(log ? ConfigurationManager.ElasticsearchLogHost : ConfigurationManager.ElasticSearchHost);
+            var repos = ObjectBuilder.GetObject<IReadonlyRepository>();
+            var result = await repos.SearchAsync(type, Filter.Parse(query));
 
-                var response = await client.PostAsync(url, request);
-                var content = response.Content as StreamContent;
-                if (null == content) throw new Exception("Cannot execute query on es " + request);
-
-                var result = await content.ReadAsStringAsync();
-                if (!response.IsSuccessStatusCode)
-                    throw new SearchException("Cannot execute query for : " + type) { Query = query, Result = result };
-
-                return Json(result);
-
-            }
+            return Json(result);
+    
         }
 
         [HttpPost]

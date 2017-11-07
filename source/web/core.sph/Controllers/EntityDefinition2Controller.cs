@@ -4,7 +4,6 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -256,22 +255,8 @@ namespace Bespoke.Sph.Web.Controllers
 
             if (ed.StoreInElasticsearch ?? false)
             {
-                // delete the elasticsearch data
-                using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) })
-                {
-                    var message = new HttpRequestMessage(HttpMethod.Delete,
-                        $"{ConfigurationManager.ElasticSearchIndex}/{name.ToLowerInvariant()}/_query")
-                    {
-                        Content = new StringContent(
-    @"{
-   ""query"": {
-      ""match_all"": {}
-   }
-}")
-                    };
-                    await client.SendAsync(message);
-                }
-
+                await ObjectBuilder.GetObject<IReadonlyRepository>()
+                       .TruncateAsync(ed);
             }
 
             if (!ed.Transient)

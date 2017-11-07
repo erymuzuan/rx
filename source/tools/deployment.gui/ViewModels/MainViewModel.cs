@@ -174,7 +174,12 @@ CREATE TABLE [Sph].[DeploymentMetadata](
                     }
                 }
 
-                using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) })
+                var esHost =
+                    Environment.GetEnvironmentVariable(
+                        $"RX_{ConfigurationManager.ApplicationNameToUpper}_ElasticSearchHost")
+                    ?? "http://localhost:9200";
+
+                using (var client = new HttpClient { BaseAddress = new Uri(esHost) })
                 {
                     try
                     {

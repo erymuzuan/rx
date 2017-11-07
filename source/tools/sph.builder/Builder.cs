@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -13,7 +12,7 @@ namespace Bespoke.Sph.SourceBuilders
 {
     public abstract class Builder<T> where T : Entity
     {
-        private ILogger m_logger;
+        private readonly ILogger m_logger;
         protected abstract Task<WorkflowCompilerResult> CompileAssetAsync(T item);
 
         protected Builder()
@@ -69,12 +68,10 @@ namespace Bespoke.Sph.SourceBuilders
         public void Clean()
         {
             var name = typeof(T).Name;
-            using (var client = new HttpClient())
-            {
-                client.DeleteAsync(
-                    $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchIndex}/_mapping/{name.ToLowerInvariant()}")
-                    .Wait(5000);
-            }
+            var ed = new EntityDefinition {Name = name, Id = name.ToIdFormat()};
+            ObjectBuilder.GetObject<IReadonlyRepository>()
+                .CleanAsync(ed)
+                .Wait(500);
         }
 
         protected void WriteMessage(string message, Severity level = Severity.Info,

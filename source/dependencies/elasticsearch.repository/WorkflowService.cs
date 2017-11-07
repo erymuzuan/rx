@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.ElasticsearchRepository.Extensions;
 using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.ElasticsearchRepository
@@ -16,13 +17,13 @@ namespace Bespoke.Sph.ElasticsearchRepository
         public WorkflowService()
         {
             if (null == m_client)
-                m_client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) };
+                m_client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.ElasticSearchHost) };
         }
 
         public WorkflowService(HttpMessageHandler httpMessageHandler, bool disposeHandler)
         {
             if (null == m_client)
-                m_client = new HttpClient(httpMessageHandler, disposeHandler) { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) };
+                m_client = new HttpClient(httpMessageHandler, disposeHandler) { BaseAddress = new Uri(EsConfigurationManager.ElasticSearchHost) };
         }
         public async Task<T> GetInstanceAsync<T>(WorkflowDefinition wd, string correlationName, string correlationValue) where T : Workflow, new()
         {
@@ -97,7 +98,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
             var wid = await ExecuteElasticsearchQueryAsync(q17.ToJson()) ??
                       await ExecuteElasticsearchQueryAsync(q16.ToJson());
             if (null == wid)
-                return default(T);
+                return default;
 
             var context = new SphDataContext();
             var instance = await context.LoadOneAsync<Workflow>(x => x.Id == wid.ToString());
@@ -108,10 +109,9 @@ namespace Bespoke.Sph.ElasticsearchRepository
 
         private async Task<string> ExecuteElasticsearchQueryAsync(string query)
         {
-            var url = $"{ConfigurationManager.ElasticSearchIndex}/correlationset/_search";
+            var url = $"{EsConfigurationManager.ElasticSearchIndex}/correlationset/_search";
             var esresult = await m_client.PostAsync(url, new StringContent(query));
-            var content = esresult.Content as StreamContent;
-            if (null == content) throw new InvalidOperationException("StreamContent is null");
+            if (!(esresult.Content is StreamContent content)) throw new InvalidOperationException("StreamContent is null");
 
             var json2 = await content.ReadAsStringAsync();
             var wid = JObject.Parse(json2).SelectToken("hits.hits[0]._source.wid");
@@ -121,8 +121,8 @@ namespace Bespoke.Sph.ElasticsearchRepository
         public async Task SaveInstanceAsync(Correlation corr)
         {
             var json = corr.ToJson();
-            var url = $"{ConfigurationManager.ElasticSearchIndex}/correlationset/{corr.Id}";
-            using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) })
+            var url = $"{EsConfigurationManager.ElasticSearchIndex}/correlationset/{corr.Id}";
+            using (var client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.ElasticSearchHost) })
             {
                 var response = await client.PutAsync(url, new StringContent(json)).ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
@@ -136,7 +136,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
             var wdid = wf.WorkflowDefinitionId;
             var list = new List<string>();
 
-            var url = $"{ConfigurationManager.ElasticSearchIndex}/pendingtask/_search";
+            var url = $"{EsConfigurationManager.ElasticSearchIndex}/pendingtask/_search";
 
             const int TASK_PAGE_SIZE = 50;
             var total = TASK_PAGE_SIZE;
@@ -173,9 +173,8 @@ namespace Bespoke.Sph.ElasticsearchRepository
 ";
                 var request = new StringContent(query);
                 var response = await m_client.PostAsync(url, request);
-                var content = response.Content as StreamContent;
 
-                if (null == content) throw new Exception("Cannot execute query on es " + request);
+                if (!(response.Content is StreamContent content)) throw new Exception("Cannot execute query on es " + request);
                 var json = await content.ReadAsStringAsync();
                 var jo = JObject.Parse(json);
                 total = jo.SelectToken("$.hits.total").Value<int>();
@@ -196,7 +195,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
             int size = 20) where T : Workflow, new()
         {
             var wf = new T();
-            var terms = predicates.Select(x => Filter.GetFilterDsl(wf, new[] {x}));
+            var terms = predicates.Select(x => wf.GetFilterDsl( new[] {x}));
             // TODO : Make the id field in mapping  as not-analyzed
             var ids = hits.Select(x => x.Remove(0, x.LastIndexOf("-", StringComparison.Ordinal) + 1))
                 .Select(x => $"\"{x}\"")
@@ -221,12 +220,11 @@ namespace Bespoke.Sph.ElasticsearchRepository
                        ""size"":{size}
                     }}";
             var request = new StringContent(query);
-            var url = $"{ConfigurationManager.ElasticSearchIndex}/{typeof(T).Name.ToLowerInvariant()}/_search?version";
+            var url = $"{EsConfigurationManager.ElasticSearchIndex}/{typeof(T).Name.ToLowerInvariant()}/_search?version";
 
             var response = await m_client.PostAsync(url, request);
-            var content = response.Content as StreamContent;
 
-            if (null == content) throw new Exception("Cannot execute query on es " + request);
+            if (!(response.Content is StreamContent content)) throw new Exception("Cannot execute query on es " + request);
             var json = await content.ReadAsStringAsync();
             var jo = JObject.Parse(json);
             var hits2 = jo.SelectToken("$.hits.hits")
@@ -257,13 +255,12 @@ namespace Bespoke.Sph.ElasticsearchRepository
 
         public async Task<T> GetOneAsync<T>(string id) where T : Workflow, new()
         {
-            var url = $"{ ConfigurationManager.ElasticSearchIndex}/{ typeof(T).Name.ToLowerInvariant()}/{  id}";
+            var url = $"{ EsConfigurationManager.ElasticSearchIndex}/{ typeof(T).Name.ToLowerInvariant()}/{  id}";
             var response = await m_client.GetAsync(url);
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 return null;
 
-            var content = response.Content as StreamContent;
-            if (null == content) return null;
+            if (!(response.Content is StreamContent content)) return null;
 
             var json = await content.ReadAsStringAsync();
             var jo = JObject.Parse(json);
@@ -280,7 +277,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
         public async Task<IEnumerable<T>> SearchAsync<T>(IEnumerable<Filter> predicates) where T : Workflow, new()
         {
             var wf = new T();
-            var terms = predicates.Select(x => Filter.GetFilterDsl(wf, new[] { x }));
+            var terms = predicates.Select(x => wf.GetFilterDsl(new[] { x }));
             var query = $@"{{
                        ""query"": {{
                           ""bool"": {{
@@ -291,12 +288,11 @@ namespace Bespoke.Sph.ElasticsearchRepository
                        }}
                     }}";
             var request = new StringContent(query);
-            var url = $"{ConfigurationManager.ElasticSearchIndex}/{typeof(T).Name.ToLowerInvariant()}/_search";
+            var url = $"{EsConfigurationManager.ElasticSearchIndex}/{typeof(T).Name.ToLowerInvariant()}/_search";
 
             var response = await m_client.PostAsync(url, request);
-            var content = response.Content as StreamContent;
 
-            if (null == content) throw new Exception("Cannot execute query on es " + request);
+            if (!(response.Content is StreamContent content)) throw new Exception("Cannot execute query on es " + request);
             var json = await content.ReadAsStringAsync();
             var jo = JObject.Parse(json);
             var workflows = from source in jo.SelectToken("$.hits.hits")

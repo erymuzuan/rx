@@ -1,27 +1,29 @@
-using System;
+﻿using System;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.WebApi;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Polly;
 
-namespace Bespoke.Sph.WebApi
+namespace Bespoke.Sph.ElasticsearchRepository
 {
+
     public class ElasticsearchTokenRespository : ITokenRepository
     {
         private readonly HttpClient m_client;
         public ElasticsearchTokenRespository()
         {
-            m_client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) };
+            m_client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.ElasticSearchHost) };
         }
         public async Task SaveAsync(AccessToken token)
         {
             var content = new StringContent(token.ToJson());
-            var index = ConfigurationManager.ElasticSearchSystemIndex;
+            var index = EsConfigurationManager.ElasticSearchSystemIndex;
             var url = $"{index}/access_token/{token.WebId}";
 
             var response = await m_client.PostAsync(url, content);
@@ -111,7 +113,7 @@ namespace Bespoke.Sph.WebApi
         private async Task<LoadOperation<AccessToken>> ExecuteSearchAsync(string query)
         {
             var request = new StringContent(query);
-            var url = $"{ConfigurationManager.ElasticSearchSystemIndex}/access_token/_search";
+            var url = $"{EsConfigurationManager.ElasticSearchSystemIndex}/access_token/_search";
 
             var pr = await Policy.Handle<HttpRequestException>()
                             .WaitAndRetryAsync(5, x => TimeSpan.FromMilliseconds(Math.Pow(2, x) * 500))
@@ -123,8 +125,7 @@ namespace Bespoke.Sph.WebApi
             var response = pr.Result;
             response.EnsureSuccessStatusCode();
 
-            var content = response.Content as StreamContent;
-            if (null == content) throw new Exception("Cannot execute query on es " + request);
+            if (!(response.Content is StreamContent content)) throw new Exception("Cannot execute query on es " + request);
             var json = await content.ReadAsStringAsync();
 
             var jo = JObject.Parse(json);
@@ -144,7 +145,7 @@ namespace Bespoke.Sph.WebApi
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentNullException(nameof(id));
 
-            var url = $"{ConfigurationManager.ElasticSearchSystemIndex}/access_token/{id}";
+            var url = $"{EsConfigurationManager.ElasticSearchSystemIndex}/access_token/{id}";
 
             var pr = await Policy.Handle<HttpRequestException>()
                             .WaitAndRetryAsync(5, x => TimeSpan.FromMilliseconds(Math.Pow(2, x) * 500))
@@ -230,7 +231,7 @@ namespace Bespoke.Sph.WebApi
             if (string.IsNullOrWhiteSpace(subject))
                 throw new ArgumentNullException(nameof(subject));
 
-            var url = $"{ConfigurationManager.ElasticSearchSystemIndex}/access_token/{subject}";
+            var url = $"{EsConfigurationManager.ElasticSearchSystemIndex}/access_token/{subject}";
             var pr = await Policy.Handle<HttpRequestException>()
                             .WaitAndRetryAsync(10, x => TimeSpan.FromMilliseconds(Math.Pow(2, x) * 500))
                             .ExecuteAndCaptureAsync(async () => await m_client.DeleteAsync(url));

@@ -1,6 +1,6 @@
 ﻿namespace Bespoke.Sph.Domain
 {
-    public class PendingTask
+    public class PendingTask : Entity
     {
         public PendingTask(string workflow, string worflowDefinition)
         {

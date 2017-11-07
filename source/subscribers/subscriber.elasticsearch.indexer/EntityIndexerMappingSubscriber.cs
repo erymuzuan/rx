@@ -5,7 +5,7 @@ using Bespoke.Sph.SubscribersInfrastructure;
 using static System.IO.File;
 using Bespoke.Sph.ElasticsearchRepository;
 
-namespace subscriber.entities
+namespace Bespoke.Sph.ElasticSearch
 {
     public class EntityIndexerMappingSubscriber : Subscriber<EntityDefinition>
     {
@@ -47,10 +47,10 @@ namespace subscriber.entities
         protected override async Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
             var builder = new MappingBuilder(m => this.WriteMessage(m), m => this.WriteWarning(m),
-                m=>this.WriteError(m));
+                m => this.WriteError(m));
             await builder.ReBuildAsync(item);
 
-            }
-
         }
+
+    }
 }

@@ -133,7 +133,6 @@
     <Compile Include="Constants.cs" />
     <Compile Include="CustomEntityRestSqlTranslator.cs" />
     <Compile Include="DeveloperService.cs" />
-    <Compile Include="ElasticsearchTokenRespository.cs" />
     <Compile Include="EndpointPermissionFactory.cs" />
     <Compile Include="EndpointPermissionRepository.cs" />
     <Compile Include="EndpointPermissonSetting.cs" />

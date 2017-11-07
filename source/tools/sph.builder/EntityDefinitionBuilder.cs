@@ -27,14 +27,8 @@ namespace Bespoke.Sph.SourceBuilders
         public override async Task RestoreAllAsync()
         {
             var folder = ConfigurationManager.SphSourceDirectory + @"\EntityDefinition";
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                var response = await client.DeleteAsync(ConfigurationManager.ApplicationName);
-                Console.WriteLine("DELETE {1} index : {0}", response.StatusCode, ConfigurationManager.ApplicationName);
-                await client.PutAsync(ConfigurationManager.ApplicationName, new StringContent(""));
-
-            }
+            var repos = ObjectBuilder.GetObject<IReadonlyRepository>();
+            await repos.CleanAsync();
             this.Initialize();
             this.Clean();
             Console.WriteLine("Reading from " + folder);

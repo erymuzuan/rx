@@ -21,7 +21,6 @@ namespace Bespoke.Sph.Web.Hubs
 
         private static bool m_isCancelRequested;
         private readonly HttpClient m_rabbitManagementHttpClient = new HttpClient { BaseAddress = new Uri($"{ConfigurationManager.RabbitMqManagementScheme}://{ConfigurationManager.RabbitMqHost}:{ConfigurationManager.RabbitMqManagementPort}") };
-        private readonly HttpClient m_elasticsearchHttpClient = new HttpClient { BaseAddress = new Uri($"{ConfigurationManager.ElasticSearchHost}") };
 
         public DataImportHub()
         {
@@ -45,20 +44,8 @@ namespace Bespoke.Sph.Web.Hubs
             await m_rabbitManagementHttpClient.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/es.data-import/contents");
 
             // delete the elasticsearch
-            using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) })
-            {
-                var message = new HttpRequestMessage(HttpMethod.Delete,
-                    $"{ConfigurationManager.ElasticSearchIndex}/{model.Entity.ToLowerInvariant()}/_query")
-                {
-                    Content = new StringContent(
-@"{
-   ""query"": {
-      ""match_all"": {}
-   }
-}")
-                };
-                await client.SendAsync(message);
-            }
+            await ObjectBuilder.GetObject<IReadonlyRepository>().TruncateAsync(new EntityDefinition { Name = model.Entity, Id = model.Entity.ToIdFormat() });
+       
 
             // truncate SQL Table
             using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
@@ -236,7 +223,7 @@ namespace Bespoke.Sph.Web.Hubs
             var sw = new Stopwatch();
             sw.Start();
             m_isCancelRequested = false;
-            
+
             var context = new SphDataContext();
             var model = context.LoadOneFromSources<DataTransferDefinition>(x => x.Id == id);
 
@@ -500,11 +487,8 @@ namespace Bespoke.Sph.Web.Hubs
 
         private async Task<int> GetElasticsearchCountAsync(DataTransferDefinition model)
         {
-            var json = await
-                m_elasticsearchHttpClient.GetStringAsync(
-                    $"{ConfigurationManager.ElasticSearchIndex}/{model.Entity.ToLowerInvariant()}/_count");
-            var jo = JObject.Parse(json);
-            return jo.SelectToken("$.count").Value<int>();
+            var repos = ObjectBuilder.GetObject<IReadonlyRepository>();
+            return await repos.GetCountAsync(model.Entity);
         }
         private async Task<int> GetSqlServerCountAsync(DataTransferDefinition model)
         {

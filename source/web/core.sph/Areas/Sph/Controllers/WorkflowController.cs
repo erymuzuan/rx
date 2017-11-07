@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
@@ -47,32 +45,15 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         }
 
-        public async Task<ActionResult> GetPendingTasksByUser(string id)
+        public async Task<ActionResult> GetPendingTasksByUser(string id, int skip = 20, int page = 1)
         {
-            var userName = id;
-            var query = new
+            var repos = ObjectBuilder.GetObject<IReadonlyRepository<PendingTask>>();
+            var lo = await repos.SearchAsync(new[]
             {
-                query = new
-                {
-                    term = new
-                    {
-                        Performers = new
-                        {
-                            value = userName
-                        }
-                    }
-                }
-            };
-            var json = JsonConvert.SerializeObject(query);
-            var request = new StringContent(json);
-            var url =  $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchIndex}/pendingtask/_search";
-
-            var client = new HttpClient();
-            var response = await client.PostAsync(url, request);
-            var content = response.Content as StreamContent;
-            if (null == content) throw new Exception("Cannot execute query on es " + request);
-            this.Response.ContentType = "application/json; charset=utf-8";
-            return Content(await content.ReadAsStringAsync());
+                new Domain.Filter("Performers", Operator.Eq, id),
+            }, skip, page);
+            
+            return Content(lo.ToJson());
 
         }
 

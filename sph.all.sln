@@ -232,6 +232,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rx.ps.module", "source\tool
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "git.cvsprovider", "source\dependencies\git.cvsprovider\git.cvsprovider.csproj", "{F94AF1A7-378C-4B95-BAF2-0A347EBEB3E8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "elasticsearch.repository.test", "source\unit.test\elasticsearch.repository.test\elasticsearch.repository.test.csproj", "{D61E68BE-55B3-4798-A972-F0D2178D1E0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -542,6 +544,10 @@ Global
 		{F94AF1A7-378C-4B95-BAF2-0A347EBEB3E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F94AF1A7-378C-4B95-BAF2-0A347EBEB3E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F94AF1A7-378C-4B95-BAF2-0A347EBEB3E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D61E68BE-55B3-4798-A972-F0D2178D1E0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D61E68BE-55B3-4798-A972-F0D2178D1E0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D61E68BE-55B3-4798-A972-F0D2178D1E0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D61E68BE-55B3-4798-A972-F0D2178D1E0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -625,6 +631,7 @@ Global
 		{36B073CA-F17F-4027-98E1-DBA76CEF0128} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 		{0E76CF28-C1A8-417C-B672-10B6E0AFF102} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 		{F94AF1A7-378C-4B95-BAF2-0A347EBEB3E8} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
+		{D61E68BE-55B3-4798-A972-F0D2178D1E0C} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7CCD16A-B3B1-4858-AA55-F327F46824D9}

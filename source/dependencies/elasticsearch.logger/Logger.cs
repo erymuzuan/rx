@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.ElasticsearchRepository;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -19,7 +20,7 @@ namespace Bespoke.Sph.ElasticSearchLogger
         public Logger()
         {
             if (null == m_client)
-                m_client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticsearchLogHost) };
+                m_client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.ElasticsearchLogHost) };
         }
 
         public async Task LogAsync(LogEntry entry)
@@ -31,8 +32,8 @@ namespace Bespoke.Sph.ElasticSearchLogger
 
             var content = GetJsonContent(entry);
 
-            var date = DateTime.Now.ToString(ConfigurationManager.RequestLogIndexPattern);
-            var index = $"{ConfigurationManager.ElasticSearchIndex}_logs_{date}";
+            var date = DateTime.Now.ToString(EsConfigurationManager.RequestLogIndexPattern);
+            var index = $"{EsConfigurationManager.ElasticSearchIndex}_logs_{date}";
             var url = $"{index}/log/{entry.Id}";
 
             var response = await m_client.PutAsync(url, content);

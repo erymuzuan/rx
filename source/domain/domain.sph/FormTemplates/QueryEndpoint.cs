@@ -116,44 +116,6 @@ namespace Bespoke.Sph.Domain
             return Task.FromResult(0);
         }
 
-        public Task<string> GenerateEsQueryAsync()
-        {
-            var filter = Filter.GenerateElasticSearchFilterDsl(this, this.FilterCollection);
-            var sort = "\"sort\": [" + this.SortCollection.ToString(",", x => $@"{{""{x.Path}"": {{""order"":""{x.Direction.ToString().ToLowerInvariant()}""}}}}") + "]";
-            var max = @"
-    ""aggs"" : {
-        ""filtered_max_date"" : { 
-              ""filter"" : " + filter + @",
-              ""aggs"": {
-                        ""last_changed_date"": {
-                           ""max"": {
-                              ""field"": ""ChangedDate""
-                            }
-                        }
-               }
-        }
-    }
-";
-            var query =
-                $@"{{
-                    ""filter"":{filter} 
-                    {this.GetFields()},
-                    {sort},
-                    {max} 
-
-    }}";
-
-            return Task.FromResult(query);
-
-        }
-
-        private string GetFields()
-        {
-            if (!this.MemberCollection.Any()) return string.Empty;
-            var fields = $@"""fields"" :[ { string.Join(",", this.MemberCollection.Select(x => $"\"{x}\""))}]";
-            return ","+ fields;
-        }
-
         public string GenerateListCode()
         {
             var code = new StringBuilder();
@@ -176,8 +138,7 @@ namespace Bespoke.Sph.Domain
                         select JsonConvert.SerializeObject( new {");
             foreach (var g in this.MemberCollection.Where(x => !x.Contains(".")))
             {
-                var mb = m_ed.GetMember(g) as SimpleMember;
-                if (null == mb) throw new InvalidOperationException("You can only select SimpleMember field, and " + g + " is not");
+                if (!(m_ed.GetMember(g) is SimpleMember mb)) throw new InvalidOperationException("You can only select SimpleMember field, and " + g + " is not");
                 code.AppendLine(
                     mb.Type == typeof(string)
                         ? $"      {g} = fields[\"{g}\"] != null ? fields[\"{g}\"].First.Value<string>() : null,"
@@ -202,8 +163,7 @@ namespace Bespoke.Sph.Domain
             var complexFields = members.Where(x => x.Contains(".")).OrderBy(x => x).ToList();
             foreach (var g in complexFields)
             {
-                var mb = m_ed.GetMember(g) as SimpleMember;
-                if (null == mb) throw new InvalidOperationException("You can only select SimpleMember field, and " + g + " is not");
+                if (!(m_ed.GetMember(g) is SimpleMember mb)) throw new InvalidOperationException("You can only select SimpleMember field, and " + g + " is not");
                 var paths = g.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries).ToList();
                 //if (paths.Count > 2)
                 //{
