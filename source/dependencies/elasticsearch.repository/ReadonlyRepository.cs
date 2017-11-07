@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -12,113 +8,109 @@ using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.ElasticsearchRepository
 {
-    public class ReadonlyRepository<T> : IDisposable, IReadonlyRepository<T> where T : Entity
+    public class ReadonlyRepository : IReadonlyRepository
     {
         private readonly HttpClient m_client;
-        private readonly string m_url = $"{ConfigurationManager.ApplicationName.ToLowerInvariant()}/{typeof(T).Name.ToLowerInvariant()}";
-
-        public ReadonlyRepository()
+        public ReadonlyRepository(string host)
         {
-            if (null == m_client)
-                m_client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.ElasticSearchHost) };
+            m_client = new HttpClient { BaseAddress = new Uri(host) };
         }
 
-        public ReadonlyRepository(HttpMessageHandler httpMessageHandler, bool disposeHandler)
+        public ReadonlyRepository() : this(EsConfigurationManager.ElasticSearchHost)
         {
-            if (null == m_client)
-                m_client = new HttpClient(httpMessageHandler, disposeHandler) { BaseAddress = new Uri(EsConfigurationManager.ElasticSearchHost) };
+
+        }
+        public async Task TruncateAsync(EntityDefinition ed)
+        {
+            var message = new HttpRequestMessage(HttpMethod.Delete,
+                $"{EsConfigurationManager.ElasticSearchIndex}/{ed.Name.ToLowerInvariant()}/_query")
+            {
+                Content = new StringContent(
+@"{
+       ""query"": {
+          ""match_all"": {}
+       }
+    }")
+            };
+            await m_client.SendAsync(message);
+
+
+
         }
 
-        public async Task<LoadData<T>> LoadOneAsync(string id)
+        public async Task CleanAsync(EntityDefinition ed)
         {
-            var url = $"{m_url}/{id}";
-            var response = await m_client.GetAsync(url);
-            if (response.StatusCode == HttpStatusCode.NotFound)
-                return new LoadData<T>(null, null);
-
-            var esJson = await response.ReadContentAsJsonAsync();
-            var source = esJson.SelectToken("$._source");
-            var version = esJson.SelectToken("$._version").Value<string>();
-            var item = source.ToString().DeserializeFromJson<T>();
-
-            return new LoadData<T>(item, version) { Json = source.ToString() };
+            await m_client.DeleteAsync(
+                $"{EsConfigurationManager.ElasticSearchIndex}/_mapping/{ed.Name.ToLowerInvariant()}");
         }
 
-        public async Task<LoadData<T>> LoadOneAsync(string field, string value)
+        public async Task CleanAsync()
         {
-            var url = $"{ m_url}/_search?q={field}:{value}&version=true";
-            var response = await m_client.GetAsync(url);
-            var json = await response.ReadContentAsJsonAsync();
-            var total = json.SelectToken("$.hits.total").Value<int>();
-            if (total == 0)
-                return new LoadData<T>(null, null);
-            if (total > 1)
-                throw new InvalidOperationException($"{typeof(T).Name} query returns more than one result - {field}:{value}");
 
-            var source = json.SelectToken("$.hits.hits[0]._source");
-            var version = json.SelectToken("$.hits.hits[0]._version").Value<string>();
-            var item = source.ToString().DeserializeFromJson<T>();
-
-            return new LoadData<T>(item, version) { Json = source.ToString() };
+            var response = await m_client.DeleteAsync(ConfigurationManager.ApplicationName);
+            Console.WriteLine($@"DELETE {ConfigurationManager.ApplicationName} index : {response.StatusCode}");
+            await m_client.PutAsync(ConfigurationManager.ApplicationName, new StringContent(""));
         }
 
-        public async Task<LoadOperation<T>> SearchAsync(Filter[] filters, int skip, int size)
+        public async Task<object> SearchAsync(string types, Filter[] filters)
         {
-            T item = default;
-            var query = item.GenerateElasticSearchFilterDsl(filters);
 
-            var response = await m_client.PostAsync($"{m_url}/_search", new StringContent(query));
-            var lo = await response.ReadContentAsLoadOperationAsync<T>(skip, size);
+            /*
+                var query = @"
+                    {
+                        ""query"": {
+                            ""query_string"": {
+                               ""default_field"": ""_all"",
+                               ""query"": """ + text + @"""
+                            }
+                        },
+                       ""highlight"": {
+                            ""fields"": {
+                                " + records + @"
+                            }
+                        },  
+                      ""from"": 0,
+                      ""size"": 20
+                    }
+                ";
+
+                var request = new StringContent(query);
+                var url = $"{ConfigurationManager.ElasticSearchIndex}/{types}/_search";
+
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+                    var response = await client.PostAsync(url, request);
+                    var content = response.Content as StreamContent;
+                    if (null == content) throw new Exception("Cannot execute query on es " + request);
+                    var result = await content.ReadAsStringAsync();
+
+                    if (!response.IsSuccessStatusCode)
+                        throw new SearchException("Cannot execute query for :" + text) { Query = query, Result = result };
+                    return Json(result);
+
+                }*/
+            //--
+            /*        /*
+        */
+            var query = (default(EntityDefinition)).GetFilterDsl(filters);
+            var request = new StringContent(query);
+            var index = EsConfigurationManager.ElasticSearchIndex;
+            var url = $"{index}/{types.ToLowerInvariant()}/_search";
+            
+            var response = await m_client.PostAsync(url, request);
+            var lo = await response.ReadContentAsLoadOperationAsync<Entity>();
 
             return lo;
-        }
-
-        public async Task<string> SearchAsync(string query)
-        {
-            var request = new StringContent(query);
-            var url = $"{m_url}/_search";
-            var response = await m_client.PostAsync(url, request);
-            return await response.ReadContentAsStringAsync();
-        }
-        public async Task<string> SearchAsync(string query, string queryString)
-        {
-            var request = new StringContent(query);
-            var url = $"{m_url}/_search?" + queryString;
-            var response = await m_client.PostAsync(url, request);
-            return await response.ReadContentAsStringAsync();
-        }
-
-        public async Task<int> GetCountAsync(string query, string queryString)
-        {
-            var request = new StringContent(query);
-            var url = $"{m_url}/_search";
-
-            var response = await m_client.PostAsync(url, request);
-
-            var json = await response.ReadContentAsJsonAsync();
-            var count = json.SelectToken("$.hits.total").Value<int>();
-            return count;
 
         }
 
-        public Task<int> GetCountAsync(Expression<Func<T, bool>> query)
+        public async Task<int> GetCountAsync(string entity)
         {
-            throw new NotImplementedException();
-        }
 
-        public Task<IEnumerable<TResult>> GetListAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<TResult> GetMaxAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            m_client.Dispose();
+            var json = await m_client.GetStringAsync($"{EsConfigurationManager.ElasticSearchIndex}/{entity.ToLowerInvariant()}/_count");
+            var jo = JObject.Parse(json);
+            return jo.SelectToken("$.count").Value<int>();
         }
     }
 }

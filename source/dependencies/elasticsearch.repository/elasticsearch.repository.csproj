@@ -76,6 +76,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ReadonlyRepository.T.cs" />
     <Compile Include="RequestMeteringRepository.cs" />
     <Compile Include="WorkflowService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
