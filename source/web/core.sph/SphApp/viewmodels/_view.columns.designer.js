@@ -1,42 +1,33 @@
+///<reference path="/Scripts/knockout-3.4.0.debug.js"/>
+///<reference path="/SphApp/schemas/__domain.js"/>
+
 define([objectbuilders.datacontext], function (context) {
 
-    var
-        _view = ko.observable(),
-        _entity = ko.observable(),
-        _item = ko.observable(new bespoke.sph.domain.ViewColumn()),
+    const view = ko.observable(),
+        entity = ko.observable(),
+        item = ko.observable(new bespoke.sph.domain.ViewColumn()),
         formsOptions = ko.observableArray(),
         activate = function (vw) {
-            _view(vw);
-            _item(new bespoke.sph.domain.ViewColumn());
-            var tcs = new $.Deferred(),
-                viewFilter = {
-                    "filter": {
-                        "bool": {
-                            "must": [
-                                {
-                                    "script": {
-                                        "script": "_source.RouteParameterCollection.size() > 0"
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                },
+            view(vw);
+            item(new bespoke.sph.domain.ViewColumn());
+            const tcs = new $.Deferred(),
                 query = String.format("Id eq '{0}'", vw.EntityDefinitionId()),
                 fquery = String.format("EntityDefinitionId eq '{0}'", vw.EntityDefinitionId()),
                 entityTask = context.loadOneAsync("EntityDefinition", query),
-                viewsTask = context.searchAsync({ entity: "EntityView", size: 50 }, viewFilter),
+                viewsTask = context.loadAsync("EntityView", `EntityDefinitionId eq '${ko.unwrap(vw.EntityDefinitionId)}'`),
                 formsTask = context.getTuplesAsync("EntityForm", fquery, "Name", "Route"),
                 customFormTask = $.get("/custom-forms/routes");
 
             $.when(entityTask, formsTask, viewsTask, customFormTask).done(function (b, flo, vlo, customForms) {
-                _entity(b);
+                entity(b);
                 formsOptions(flo);
 
                 formsOptions.push({ Name: " -- ", Route: "invalid" });
                 formsOptions.push({ Name: "[Or select a view]", Route: "invalid" });
                 _(vlo.itemCollection).each(function (v) {
+                    if (v.RouteParameterCollection().length) {
                         formsOptions.push(v);
+                    }
                 });
 
                 formsOptions.push({ Name: " -- ", Route: "invalid" });
@@ -50,7 +41,7 @@ define([objectbuilders.datacontext], function (context) {
             });
             return tcs.promise();
         },
-        attached = function (view) {
+        attached = function (htmlview) {
             $("#column-design").sortable({
                 items: ">li:not(:last)",
                 placeholder: "ph",
@@ -59,10 +50,10 @@ define([objectbuilders.datacontext], function (context) {
                 helper: "original"
             });
 
-            $(view).on("click", "ul#column-design>li:not(:last)", function () {
+            $(htmlview).on("click", "ul#column-design>li:not(:last)", function () {
                 $("ul#column-design>li.selected-th").removeClass("selected-th");
                 $(this).addClass("selected-th");
-                _item(ko.dataFor(this));
+                item(ko.dataFor(this));
             });
         };
 
@@ -70,8 +61,8 @@ define([objectbuilders.datacontext], function (context) {
         activate: activate,
         attached: attached,
         formsOptions: formsOptions,
-        view: _view,
-        item: _item,
-        entity: _entity
+        view: view,
+        item: item,
+        entity: entity
     };
 });
