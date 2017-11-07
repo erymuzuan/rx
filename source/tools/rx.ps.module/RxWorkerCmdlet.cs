@@ -15,7 +15,7 @@ namespace Bespoke.Sph.RxPs
     {
         public const string PARAMETER_SET_DEFAULT = "default";
     }
-    
+
 
     public class WorkerProcessNameCompleter : IArgumentCompleter
     {
@@ -56,8 +56,8 @@ namespace Bespoke.Sph.RxPs
             var list = files.Select(Path.GetFileNameWithoutExtension)
                 .Select(x => x.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault())
                 .Where(x => !string.IsNullOrWhiteSpace(x))
+                .Distinct()
                 .ToArray();
-            Console.WriteLine(string.Join(",", list));
             return list.ToArray();
         }
     }
@@ -80,8 +80,8 @@ namespace Bespoke.Sph.RxPs
             var list = files.Select(Path.GetFileNameWithoutExtension)
                     .Select(x => x.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault())
                     .Where(x => !string.IsNullOrWhiteSpace(x))
-                .ToArray();
-            Console.WriteLine("Environments..." + string.Join(",", list));
+                    .Distinct()
+                    .ToArray();
             return list.ToArray();
         }
     }
