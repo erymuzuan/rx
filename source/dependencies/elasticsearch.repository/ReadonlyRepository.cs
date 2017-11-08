@@ -16,14 +16,14 @@ namespace Bespoke.Sph.ElasticsearchRepository
             m_client = new HttpClient { BaseAddress = new Uri(host) };
         }
 
-        public ReadonlyRepository() : this(EsConfigurationManager.ElasticSearchHost)
+        public ReadonlyRepository() : this(EsConfigurationManager.Host)
         {
 
         }
-        public async Task TruncateAsync(EntityDefinition ed)
+        public async Task TruncateAsync(string entity)
         {
             var message = new HttpRequestMessage(HttpMethod.Delete,
-                $"{EsConfigurationManager.ElasticSearchIndex}/{ed.Name.ToLowerInvariant()}/_query")
+                $"{EsConfigurationManager.Index}/{entity.ToLowerInvariant()}/_query")
             {
                 Content = new StringContent(
 @"{
@@ -38,10 +38,10 @@ namespace Bespoke.Sph.ElasticsearchRepository
 
         }
 
-        public async Task CleanAsync(EntityDefinition ed)
+        public async Task CleanAsync(string entity)
         {
             await m_client.DeleteAsync(
-                $"{EsConfigurationManager.ElasticSearchIndex}/_mapping/{ed.Name.ToLowerInvariant()}");
+                $"{EsConfigurationManager.Index}/_mapping/{entity.ToLowerInvariant()}");
         }
 
         public async Task CleanAsync()
@@ -52,52 +52,15 @@ namespace Bespoke.Sph.ElasticsearchRepository
             await m_client.PutAsync(ConfigurationManager.ApplicationName, new StringContent(""));
         }
 
-        public async Task<object> SearchAsync(string types, Filter[] filters)
+        public async Task<LoadOperation<Entity>> SearchAsync(string[] entities, Filter[] filters = null, Sort[] sorts = null, int skip = 0, int size = 20)
         {
 
-            /*
-                var query = @"
-                    {
-                        ""query"": {
-                            ""query_string"": {
-                               ""default_field"": ""_all"",
-                               ""query"": """ + text + @"""
-                            }
-                        },
-                       ""highlight"": {
-                            ""fields"": {
-                                " + records + @"
-                            }
-                        },  
-                      ""from"": 0,
-                      ""size"": 20
-                    }
-                ";
-
-                var request = new StringContent(query);
-                var url = $"{ConfigurationManager.ElasticSearchIndex}/{types}/_search";
-
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                    var response = await client.PostAsync(url, request);
-                    var content = response.Content as StreamContent;
-                    if (null == content) throw new Exception("Cannot execute query on es " + request);
-                    var result = await content.ReadAsStringAsync();
-
-                    if (!response.IsSuccessStatusCode)
-                        throw new SearchException("Cannot execute query for :" + text) { Query = query, Result = result };
-                    return Json(result);
-
-                }*/
-            //--
-            /*        /*
-        */
-            var query = (default(EntityDefinition)).GetFilterDsl(filters);
+            var types = entities.ToString(",", x => x.ToLowerInvariant());
+            var query = (default(EntityDefinition)).GenerateQueryDsl(filters, sorts, skip, size);
             var request = new StringContent(query);
-            var index = EsConfigurationManager.ElasticSearchIndex;
-            var url = $"{index}/{types.ToLowerInvariant()}/_search";
-            
+            var index = EsConfigurationManager.Index;
+            var url = $"{index}/{types}/_search";
+
             var response = await m_client.PostAsync(url, request);
             var lo = await response.ReadContentAsLoadOperationAsync<Entity>();
 
@@ -107,8 +70,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
 
         public async Task<int> GetCountAsync(string entity)
         {
-
-            var json = await m_client.GetStringAsync($"{EsConfigurationManager.ElasticSearchIndex}/{entity.ToLowerInvariant()}/_count");
+            var json = await m_client.GetStringAsync($"{EsConfigurationManager.Index}/{entity.ToLowerInvariant()}/_count");
             var jo = JObject.Parse(json);
             return jo.SelectToken("$.count").Value<int>();
         }

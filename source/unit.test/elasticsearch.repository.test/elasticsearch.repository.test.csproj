@@ -56,10 +56,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="QueryTest.cs" />
+    <Compile Include="PatientRepositoryTest.cs" />
+    <Compile Include="QueryEndpointTest.cs" />
     <Compile Include="MockLdap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuerySortTest.cs" />
+    <Compile Include="TestOutputHelperExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -106,7 +106,7 @@ namespace subscriber.entities
         private async Task RemoveElasticSearchMappingsAsync(EntityDefinition item)
         {
             var repos = ObjectBuilder.GetObject<IReadonlyRepository>();
-            await repos.CleanAsync(item);
+            await repos.CleanAsync(item.Name);
         }
 
         private static async Task RemoveSqlTablesAsync(EntityDefinition item)

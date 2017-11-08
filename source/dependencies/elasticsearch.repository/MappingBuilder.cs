@@ -17,7 +17,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
 {
     public class MappingBuilder : IDisposable
     {
-        private readonly HttpClient m_elasticsearchHttpClient = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.ElasticSearchHost) };
+        private readonly HttpClient m_elasticsearchHttpClient = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.Host) };
         private readonly Action<string> m_writeMessage;
         private readonly Action<string> m_writeWarning;
         private readonly Action<Exception> m_writeError;

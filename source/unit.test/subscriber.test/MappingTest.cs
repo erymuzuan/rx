@@ -104,7 +104,7 @@ namespace subscriber.test
             var content = new StringContent(map);
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(EsConfigurationManager.ElasticSearchHost);
+                client.BaseAddress = new Uri(EsConfigurationManager.Host);
 
                 var response = await client.PutAsync(url, content);
                 m_outputHelper.WriteLine($"Response status : {response.StatusCode}");

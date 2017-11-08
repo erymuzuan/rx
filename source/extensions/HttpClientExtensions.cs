@@ -27,7 +27,7 @@ namespace Bespoke.Sph.Extensions
             var lo = new LoadOperation<T>();
             var json = await response.ReadContentAsJsonAsync(ensureSuccessStatusCode, exceptionMessage);
 
-            lo.TotalRows = json.SelectToken("$.hits.hits.total").Value<int>();
+            lo.TotalRows = json.SelectToken("$.hits.total").Value<int>();
             lo.CurrentPage = Convert.ToInt32((skip / size) + 1);
             lo.PageSize = size;
 

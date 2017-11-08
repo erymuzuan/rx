@@ -44,7 +44,7 @@ namespace Bespoke.Sph.Web.Hubs
             await m_rabbitManagementHttpClient.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/es.data-import/contents");
 
             // delete the elasticsearch
-            await ObjectBuilder.GetObject<IReadonlyRepository>().TruncateAsync(new EntityDefinition { Name = model.Entity, Id = model.Entity.ToIdFormat() });
+            await ObjectBuilder.GetObject<IReadonlyRepository>().TruncateAsync(model.Entity);
        
 
             // truncate SQL Table

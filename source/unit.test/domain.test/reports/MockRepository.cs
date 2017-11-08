@@ -33,6 +33,21 @@ namespace domain.test.reports
             throw new NotImplementedException();
         }
 
+        public Task<LoadOperation<T>> SearchAsync(Filter[] filters = null, Sort[] sorts = null, int skip = 0, int size = 20)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<LoadOperation<T>> IReadonlyRepository<T>.SearchAsync(string odataUri)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> GetCountAsync(Filter[] filters)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<LoadOperation<T>> SearchAsync(Filter[] filters, int skip, int size)
         {
             throw new NotImplementedException();
@@ -64,6 +79,11 @@ namespace domain.test.reports
         }
 
         public Task<TResult> GetMaxAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TResult> GetMaxAsync<TResult>(Filter[] filters = null, Sort[] sorts = null, int skip = 0, int size = 20)
         {
             throw new NotImplementedException();
         }

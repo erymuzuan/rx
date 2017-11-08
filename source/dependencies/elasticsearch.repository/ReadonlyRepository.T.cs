@@ -14,18 +14,29 @@ namespace Bespoke.Sph.ElasticsearchRepository
     public class ReadonlyRepository<T> : IDisposable, IReadonlyRepository<T> where T : Entity
     {
         private readonly HttpClient m_client;
-        private readonly string m_url = $"{ConfigurationManager.ApplicationName.ToLowerInvariant()}/{typeof(T).Name.ToLowerInvariant()}";
+        private readonly string m_url;
 
-        public ReadonlyRepository()
+        public ReadonlyRepository(string host, string indexName)
         {
+
             if (null == m_client)
-                m_client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.ElasticSearchHost) };
+                m_client = new HttpClient { BaseAddress = new Uri(host) };
+            m_url = indexName + "/" + typeof(T).Name.ToLowerInvariant();
+
         }
 
-        public ReadonlyRepository(HttpMessageHandler httpMessageHandler, bool disposeHandler)
+        public ReadonlyRepository() : this(EsConfigurationManager.Host, EsConfigurationManager.Index)
         {
-            if (null == m_client)
-                m_client = new HttpClient(httpMessageHandler, disposeHandler) { BaseAddress = new Uri(EsConfigurationManager.ElasticSearchHost) };
+        }
+
+        public ReadonlyRepository(string host, string indexName, HttpMessageHandler httpMessageHandler, bool disposeHandler) : this(host, indexName)
+        {
+            m_client = new HttpClient(httpMessageHandler, disposeHandler) { BaseAddress = new Uri(host) };
+        }
+
+        public ReadonlyRepository(HttpMessageHandler httpMessageHandler, bool disposeHandler) : this(EsConfigurationManager.Host, EsConfigurationManager.Index)
+        {
+            m_client = new HttpClient(httpMessageHandler, disposeHandler) { BaseAddress = new Uri(EsConfigurationManager.Host) };
         }
 
         public async Task<LoadData<T>> LoadOneAsync(string id)
@@ -61,24 +72,23 @@ namespace Bespoke.Sph.ElasticsearchRepository
             return new LoadData<T>(item, version) { Json = source.ToString() };
         }
 
-        public async Task<LoadOperation<T>> SearchAsync(Filter[] filters, int skip, int size)
+        public async Task<LoadOperation<T>> SearchAsync(Filter[] filters = null, Sort[] sorts = null, int skip = 0, int size = 20)
         {
-            T item = default;
-            var query = item.GenerateElasticSearchFilterDsl(filters);
-
+            var query = ((T)null).GenerateQueryDsl(filters, sorts, skip, size);
             var response = await m_client.PostAsync($"{m_url}/_search", new StringContent(query));
             var lo = await response.ReadContentAsLoadOperationAsync<T>(skip, size);
 
             return lo;
         }
 
-        public async Task<string> SearchAsync(string query)
+        public async Task<LoadOperation<T>> SearchAsync(string query)
         {
             var request = new StringContent(query);
             var url = $"{m_url}/_search";
             var response = await m_client.PostAsync(url, request);
-            return await response.ReadContentAsStringAsync();
+            return await response.ReadContentAsLoadOperationAsync<T>();
         }
+
         public async Task<string> SearchAsync(string query, string queryString)
         {
             var request = new StringContent(query);
@@ -87,20 +97,21 @@ namespace Bespoke.Sph.ElasticsearchRepository
             return await response.ReadContentAsStringAsync();
         }
 
-        public async Task<int> GetCountAsync(string query, string queryString)
+
+        public async Task<int> GetCountAsync(Filter[] filters)
         {
+            var query = (default(T)).GenerateBoolQueryDsl(filters);
             var request = new StringContent(query);
-            var url = $"{m_url}/_search";
+            var url = $"{m_url}/_count";
 
             var response = await m_client.PostAsync(url, request);
 
             var json = await response.ReadContentAsJsonAsync();
-            var count = json.SelectToken("$.hits.total").Value<int>();
+            var count = json.SelectToken("$.count").Value<int>();
             return count;
-
         }
 
-        public Task<int> GetCountAsync(Expression<Func<T, bool>> query)
+        public Task<int> GetCountAsync(Expression<Func<T, bool>> predicate)
         {
             throw new NotImplementedException();
         }
@@ -114,6 +125,12 @@ namespace Bespoke.Sph.ElasticsearchRepository
         {
             throw new NotImplementedException();
         }
+
+        public Task<TResult> GetMaxAsync<TResult>(Filter[] filters = null, Sort[] sorts = null, int skip = 0, int size = 20)
+        {
+            throw new NotImplementedException();
+        }
+
 
         public void Dispose()
         {

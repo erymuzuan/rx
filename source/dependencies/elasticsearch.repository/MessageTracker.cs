@@ -41,7 +41,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
 
         public MessageTracker()
         {
-            Host = ConfigurationManager.GetEnvironmentVariable("ElasticsearchMessageTrackingHost") ?? EsConfigurationManager.ElasticSearchHost;
+            Host = ConfigurationManager.GetEnvironmentVariable("ElasticsearchMessageTrackingHost") ?? EsConfigurationManager.Host;
             m_client = new HttpClient {BaseAddress = new Uri(Host)};
         }
 

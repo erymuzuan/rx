@@ -29,8 +29,8 @@ namespace Bespoke.Sph.ElasticSearch
 
             var type1 = item.GetType();
             var type = type1.Name.ToLowerInvariant();
-            var index = EsConfigurationManager.ElasticSearchIndex;
-            var url = $"{EsConfigurationManager.ElasticSearchHost}/{index}/{type}/{item.Id}";
+            var index = EsConfigurationManager.Index;
+            var url = $"{EsConfigurationManager.Host}/{index}/{type}/{item.Id}";
 
 
             HttpResponseMessage response = null;
@@ -52,8 +52,8 @@ namespace Bespoke.Sph.ElasticSearch
             catch (HttpRequestException e)
             {
                 // republish the message to a delayed queue
-                var delay = EsConfigurationManager.EsIndexingDelay;
-                var maxTry = EsConfigurationManager.EsIndexingMaxTry;
+                var delay = EsConfigurationManager.IndexingDelay;
+                var maxTry = EsConfigurationManager.IndexingMaxTry;
                 if ((headers.TryCount ?? 0) < maxTry)
                 {
                     await RequeueMessageAsync(item, headers, e, delay);

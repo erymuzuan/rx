@@ -23,7 +23,7 @@ namespace Bespoke.Sph.ElasticSearch
         public override string[] RoutingKeys => new[] { "persistence" };
         private TaskCompletionSource<bool> m_stoppingTcs;
 
-        private readonly HttpClient m_client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.ElasticSearchHost) };
+        private readonly HttpClient m_client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.Host) };
         public override void Run(IConnection connection)
         {
             var sw = new Stopwatch();
@@ -128,7 +128,7 @@ namespace Bespoke.Sph.ElasticSearch
                     .ToList();
                 // TODO : bulk insert into ES
                 var tasks = from item in entities
-                            let url = $"{EsConfigurationManager.ElasticSearchIndex}/{item.Type}/{item.Id}"
+                            let url = $"{EsConfigurationManager.Index}/{item.Type}/{item.Id}"
                             let content = new StringContent(item.JsonPayload)
                             select Policy.Handle<Exception>()
                                 .WaitAndRetryAsync(retry, t => TimeSpan.FromMilliseconds(wait * t))

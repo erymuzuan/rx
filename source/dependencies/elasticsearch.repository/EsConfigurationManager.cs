@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.ElasticsearchRepository
@@ -7,20 +6,14 @@ namespace Bespoke.Sph.ElasticsearchRepository
     public static class EsConfigurationManager
     {
 
-        public static long EsIndexingDelay => GetEnvironmentVariableInt32("EsIndexingDelay", 15000);
-        public static int EsIndexingMaxTry => GetEnvironmentVariableInt32("EsIndexingMaxTry", 3);
-        public static string ElasticSearchSystemIndex => GetEnvironmentVariable("ElasticsearchIndex") ?? ConfigurationManager.ApplicationName.ToLowerInvariant() + "_sys";
-        public static string ElasticSearchHost => GetEnvironmentVariable("ElasticSearchHost") ?? "http://localhost:9200";
-        public static string ElasticSearchIndex => GetEnvironmentVariable("ElasticSearchIndex") ?? ConfigurationManager.ApplicationName.ToLowerInvariant();
-        public static string ElasticsearchLogHost => GetEnvironmentVariable("ElasticsearchLogHost") ?? ElasticSearchHost;
+        public static long IndexingDelay => GetEnvironmentVariableInt32("ElasticsearchIndexingDelay", 15000);
+        public static int IndexingMaxTry => GetEnvironmentVariableInt32("ElasticsearchIndexingMaxTry", 3);
+        public static string SystemIndex => GetEnvironmentVariable("ElasticsearchIndex") ?? ConfigurationManager.ApplicationName.ToLowerInvariant() + "_sys";
+        public static string Host => GetEnvironmentVariable("ElasticsearchHost") ?? "http://localhost:9200";
+        public static string Index => GetEnvironmentVariable("ElasticsearchIndex") ?? ConfigurationManager.ApplicationName.ToLowerInvariant();
+        public static string LogHost => GetEnvironmentVariable("ElasticsearchLogHost") ?? Host;
         public static string RequestLogIndexPattern => GetEnvironmentVariable("RequestLogIndexPattern") ?? "yyyyMMdd";
 
-        private static string GetPath(string setting, string defaultPath)
-        {
-            var val = GetEnvironmentVariable(setting);
-            if (Path.IsPathRooted(val)) return val;
-            return (ConfigurationManager.Home + @"\" + defaultPath).Replace("\\\\", "\\");
-        }
         public static int GetEnvironmentVariableInt32(string setting, int defaultValue = 0)
         {
             var val = GetEnvironmentVariable(setting);
@@ -33,13 +26,14 @@ namespace Bespoke.Sph.ElasticsearchRepository
         }
         public static string GetEnvironmentVariable(string setting)
         {
-            var process = Environment.GetEnvironmentVariable($"RX_{ConfigurationManager.ApplicationNameToUpper}_{setting}", EnvironmentVariableTarget.Process);
+            var env = $"RX_{ConfigurationManager.ApplicationNameToUpper}_{setting}";
+            var process = Environment.GetEnvironmentVariable(env, EnvironmentVariableTarget.Process);
             if (!string.IsNullOrWhiteSpace(process)) return process;
 
-            var user = Environment.GetEnvironmentVariable($"RX_{ConfigurationManager.ApplicationNameToUpper}_{setting}", EnvironmentVariableTarget.User);
+            var user = Environment.GetEnvironmentVariable(env, EnvironmentVariableTarget.User);
             if (!string.IsNullOrWhiteSpace(user)) return user;
 
-            return Environment.GetEnvironmentVariable($"RX_{ConfigurationManager.ApplicationNameToUpper}_{setting}", EnvironmentVariableTarget.Machine);
+            return Environment.GetEnvironmentVariable(env, EnvironmentVariableTarget.Machine);
         }
     }
 }

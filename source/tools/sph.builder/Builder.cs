@@ -70,7 +70,7 @@ namespace Bespoke.Sph.SourceBuilders
             var name = typeof(T).Name;
             var ed = new EntityDefinition {Name = name, Id = name.ToIdFormat()};
             ObjectBuilder.GetObject<IReadonlyRepository>()
-                .CleanAsync(ed)
+                .CleanAsync(ed.Name)
                 .Wait(500);
         }
 

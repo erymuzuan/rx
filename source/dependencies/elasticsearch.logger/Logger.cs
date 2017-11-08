@@ -12,15 +12,23 @@ using Newtonsoft.Json.Serialization;
 namespace Bespoke.Sph.ElasticSearchLogger
 {
     [Export(typeof(ILogger))]
-    public class Logger : ILogger
+    public class Logger : RepositoryWithNamingStrategy, ILogger
     {
         public Severity TraceSwitch { get; set; } = Severity.Info;
         private readonly HttpClient m_client;
 
-        public Logger()
+        public Logger(string host, string baseIndexName, IndexNamingStrategy namingStrategy)
         {
+            this.IndexNamingStrategy = namingStrategy;
+            this.BaseIndexName = baseIndexName;
             if (null == m_client)
-                m_client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.ElasticsearchLogHost) };
+                m_client = new HttpClient { BaseAddress = new Uri(host) };
+        }
+        public Logger(string host, string baseIndexName) : this(EsConfigurationManager.LogHost, baseIndexName, IndexNamingStrategy.Daily)
+        {
+        }
+        public Logger() : this(EsConfigurationManager.LogHost, "logs", IndexNamingStrategy.Daily)
+        {
         }
 
         public async Task LogAsync(LogEntry entry)
@@ -31,9 +39,7 @@ namespace Bespoke.Sph.ElasticSearchLogger
                 entry.Id = Strings.GenerateId();
 
             var content = GetJsonContent(entry);
-
-            var date = DateTime.Now.ToString(EsConfigurationManager.RequestLogIndexPattern);
-            var index = $"{EsConfigurationManager.ElasticSearchIndex}_logs_{date}";
+            var index = GetIndexName();
             var url = $"{index}/log/{entry.Id}";
 
             var response = await m_client.PutAsync(url, content);

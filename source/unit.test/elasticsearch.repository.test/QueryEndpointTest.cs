@@ -5,13 +5,20 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.ElasticsearchRepository.Extensions;
 using Newtonsoft.Json.Linq;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace elasticsearc.repository.test
 {
     [Trait("Category", "Query endpoints")]
     [Collection("Endpoint")]
-    public class QueryTest
+    public class QueryEndpointTest
     {
+        public ITestOutputHelper Console { get; }
+
+        public QueryEndpointTest(ITestOutputHelper console)
+        {
+            Console = console;
+        }
 
         [Fact]
         [Trait("Query", "Elasticsearch")]
@@ -46,6 +53,7 @@ namespace elasticsearc.repository.test
             var jo = JObject.Parse(json);
             var fields = jo.SelectToken("$.fields").Values<string>().ToArray();
             Assert.Contains("Dob", fields);
+            Console.WriteLine(fields.ToString("\r\n"));
         }
         [Theory]
         [InlineData(null, null)]

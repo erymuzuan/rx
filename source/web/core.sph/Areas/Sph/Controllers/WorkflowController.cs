@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
@@ -51,7 +52,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var lo = await repos.SearchAsync(new[]
             {
                 new Domain.Filter("Performers", Operator.Eq, id),
-            }, skip, page);
+            }, Array.Empty<Sort>(), skip, page);
             
             return Content(lo.ToJson());
 

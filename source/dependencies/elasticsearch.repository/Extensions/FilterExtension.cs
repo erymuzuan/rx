@@ -6,9 +6,15 @@ using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.ElasticsearchRepository.Extensions
 {
+
     public static class FilterExtension
     {
-        public static bool IsMustFilter(this Filter filter, Entity item, string field)
+        public static bool IsMustNotFilter(this Filter filter, Entity item = null)
+        {
+            return !IsMustFilter(filter, item);
+        }
+
+        public static bool IsMustFilter(this Filter filter, Entity item = null)
         {
             var rc = new RuleContext(item);
             switch (filter.Operator)
@@ -21,12 +27,12 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
                 case Operator.Substringof:
                 case Operator.StartsWith:
                 case Operator.EndsWith:
-                    return field == filter.Term;
+                    return true;
                 case Operator.NotContains:
                 case Operator.Neq:
                 case Operator.NotStartsWith:
                 case Operator.NotEndsWith:
-                    return filter.Term != field;
+                    return false;
                 case Operator.IsNull:
                     if (filter.Field.GetValue(rc) is bool cf)
                     {
@@ -45,52 +51,91 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
             return true;
         }
 
-        public static string GenerateElasticSearchFilterDsl(this Entity entity, IEnumerable<Filter> filterCollection, int skip =0, int size = 20)
+
+        public static string GenerateQueryDsl(this Entity entity, Filter[] filters, Sort[] sorts = null,
+            int skip = 0, int size = 20)
         {
-            // TODO : skip and size
-            var list = new ObjectCollection<Filter>(filterCollection);
-            var fields = list.Select(f => f.Term).Distinct().ToArray();
 
-            var query = new StringBuilder();
+            var elements = new Dictionary<string, string>();
+            if (null != filters && filters.Any())
+                elements.Add("filter", entity.GenerateBoolQueryDsl(filters));
+            if (null != sorts && sorts.Any())
+                elements.Add("sort", GenerateSorts(sorts));
 
-            var mustFilters = fields.Select(f =>
-GetFilterDsl(entity, list.Where(x => x.IsMustFilter(entity, f)).ToArray())).ToList();
-            var musts = string.Join(",\r\n", mustFilters.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray());
+            elements.Add("from", skip.ToString());
+            elements.Add("size", size.ToString());
 
-            var mustNotFilters = fields.Select(f =>
-GetFilterDsl(entity, list.Where(x => !x.IsMustFilter(entity, f)).ToArray())).ToList();
-            var mustNots = mustNotFilters.Where(s => !string.IsNullOrWhiteSpace(s)).ToString("\r\n");
-            query.AppendFormat(@"{{
-               ""bool"": {{
-                  ""must"": [
-                    {0}
-                  ],
-                  ""must_not"": [
-                    {1}
-                  ]
-               }}
-           }}", musts, mustNots);
+            return $@"{{
+    {elements.ToString(",\r\n", x => $@"""{x.Key}"":{x.Value}")}
 
-            return query.ToString();
+}}";
         }
 
-        public static string GetFilterDsl(this Entity entity, Filter[] filters)
+        private static string GenerateSorts(this Sort[] sorts)
+        {
+            return $"[{sorts.ToString(",\r\n", x => x.GenerateQuery())}]";
+        }
+
+        public static string GenerateQuery(this Sort sort)
+        {
+            var direction = sort.Direction == SortDirection.Asc ? "asc" : "desc";
+            return $@"{{""{sort.Path}"" : {{""order"": ""{direction}""}}}}";
+        }
+
+
+        public static string GenerateBoolQueryDsl(this Entity entity, IEnumerable<Filter> filters)
+        {
+            var filterList = (filters ?? Array.Empty<Filter>()).ToArray();
+
+            var musts = filterList.Where(x => x.IsMustFilter(entity))
+                .Select(x => x.GetFilterDsl(entity, filterList))
+                .Distinct()
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .ToString(",\r\n");
+
+
+            var mustNots = filterList.Where(x => x.IsMustNotFilter(entity))
+                .Select(x => x.GetFilterDsl(entity, filterList))
+                .Distinct()
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .ToString(",\r\n");
+
+
+            // TODO : sorts , skip and size
+            return $@"{{
+               ""bool"": {{
+                  ""must"": [
+                    {musts}
+                  ],
+                  ""must_not"": [
+                    {mustNots}
+                  ]
+               }}
+           }}";
+
+        }
+
+        public static string GetFilterDsl(this Filter target, Entity entity, Filter[] filters)
         {
             var context = new RuleContext(entity);
-            var ft = filters.FirstOrDefault();
-            if (null == ft) return null;
             var query = new StringBuilder();
             query.AppendLine("                 {");
 
-            switch (ft.Operator)
+            switch (target.Operator)
             {
                 case Operator.Eq:
                 case Operator.Neq:
                     query.AppendLine("                     \"term\":{");
-                    var val = ft.Field.GetValue(context);
+                    var val = target.Field.GetValue(context);
                     var valJson = $"{val}";
                     switch (val)
                     {
+                        case decimal _:
+                            valJson = $"{val}";
+                            break;
+                        case int _:
+                            valJson = $"{val}";
+                            break;
                         case string _:
                             valJson = $"\"{val}\"";
                             break;
@@ -98,19 +143,19 @@ GetFilterDsl(entity, list.Where(x => !x.IsMustFilter(entity, f)).ToArray())).ToL
                             valJson = $"\"{val:s}\"";
                             break;
                     }
-                    query.AppendLinf("                         \"{0}\":{1}", ft.Term, valJson);
+                    query.AppendLinf("                         \"{0}\":{1}", target.Term, valJson);
                     query.AppendLine("                     }");
                     break;
                 case Operator.Ge:
                 case Operator.Gt:
                 case Operator.Le:
                 case Operator.Lt:
-                    query.AppendLine("                     \"range\":{");
-                    query.Append($"                         \"{ft.Term}\":{{");
-                    var count = 0;
-                    foreach (var t in filters)
+
+                    var ranges = new Dictionary<string, object>();
+                    query.AppendLine(@"                     ""range"":{");
+                    query.Append($@"                         ""{target.Term}"":{{");
+                    foreach (var t in filters.Where(x => x.Term == target.Term))
                     {
-                        count++;
                         var ov = $"{t.Field.GetValue(context)}";
                         if (DateTime.TryParse(ov, out var dv))
                             ov = $"\"{dv:O}\"";
@@ -118,31 +163,34 @@ GetFilterDsl(entity, list.Where(x => !x.IsMustFilter(entity, f)).ToArray())).ToL
                         switch (t.Operator)
                         {
                             case Operator.Ge:
+                                ranges.Add("gte", ov);
+                                break;
                             case Operator.Gt:
-                                query.Append($"\"from\":{ov}");
+                                ranges.Add("gt", ov);
                                 break;
                             case Operator.Le:
+                                ranges.Add("lte", ov);
+                                break;
                             case Operator.Lt:
-                                query.Append($"\"to\":{ov}");
+                                ranges.Add("lt", ov);
                                 break;
                         }
 
-                        if (count < filters.Length)
-                            query.Append(",");
                     }
+                    query.AppendLine(ranges.ToString(",\r\n", x => $@"""{x.Key}"":{x.Value}"));
                     query.AppendLine("}");
                     query.AppendLine("                     }");
                     break;
                 case Operator.IsNotNull:
                 case Operator.IsNull:
-                    if (ft.Field.GetValue(context) is bool)
+                    if (target.Field.GetValue(context) is bool)
                     {
                         query.AppendLine($@"
-                            ""missing"" : {{ ""field"" : ""{ft.Term}""}}
+                            ""missing"" : {{ ""field"" : ""{target.Term}""}}
                             ");
                     }
                     break;
-                default: throw new Exception(ft.Operator + " is not supported for filter DSL yet");
+                default: throw new Exception(target.Operator + " is not supported for filter DSL yet");
             }
 
 

@@ -44,7 +44,7 @@ namespace Bespoke.Sph.Web.Controllers
             }
 
             var repos = ObjectBuilder.GetObject<IReadonlyRepository>();
-            var result = await repos.SearchAsync(types, Filter.Parse(text));
+            var result = await repos.SearchAsync(types.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries), Filter.Parse(text));
 
             return Json(result);
 
@@ -56,10 +56,10 @@ namespace Bespoke.Sph.Web.Controllers
         {
 
             var repos = ObjectBuilder.GetObject<IReadonlyRepository>();
-            var result = await repos.SearchAsync(type, Filter.Parse(query));
+            var result = await repos.SearchAsync(new[] { type }, Filter.Parse(query));
 
             return Json(result);
-    
+
         }
 
         [HttpPost]

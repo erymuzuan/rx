@@ -9,7 +9,7 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
 
         public static Task<string> GenerateEsQueryAsync(this QueryEndpoint qe)
         {
-            var filter = qe.GenerateElasticSearchFilterDsl(qe.FilterCollection);
+            var filter = qe.GenerateBoolQueryDsl(qe.FilterCollection);
             var sort = "\"sort\": [" + qe.SortCollection.ToString(",", x => $@"{{""{x.Path}"": {{""order"":""{x.Direction.ToString().ToLowerInvariant()}""}}}}") + "]";
             var max = @"
     ""aggs"" : {

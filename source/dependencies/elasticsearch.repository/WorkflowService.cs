@@ -17,13 +17,13 @@ namespace Bespoke.Sph.ElasticsearchRepository
         public WorkflowService()
         {
             if (null == m_client)
-                m_client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.ElasticSearchHost) };
+                m_client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.Host) };
         }
 
         public WorkflowService(HttpMessageHandler httpMessageHandler, bool disposeHandler)
         {
             if (null == m_client)
-                m_client = new HttpClient(httpMessageHandler, disposeHandler) { BaseAddress = new Uri(EsConfigurationManager.ElasticSearchHost) };
+                m_client = new HttpClient(httpMessageHandler, disposeHandler) { BaseAddress = new Uri(EsConfigurationManager.Host) };
         }
         public async Task<T> GetInstanceAsync<T>(WorkflowDefinition wd, string correlationName, string correlationValue) where T : Workflow, new()
         {
@@ -109,7 +109,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
 
         private async Task<string> ExecuteElasticsearchQueryAsync(string query)
         {
-            var url = $"{EsConfigurationManager.ElasticSearchIndex}/correlationset/_search";
+            var url = $"{EsConfigurationManager.Index}/correlationset/_search";
             var esresult = await m_client.PostAsync(url, new StringContent(query));
             if (!(esresult.Content is StreamContent content)) throw new InvalidOperationException("StreamContent is null");
 
@@ -121,8 +121,8 @@ namespace Bespoke.Sph.ElasticsearchRepository
         public async Task SaveInstanceAsync(Correlation corr)
         {
             var json = corr.ToJson();
-            var url = $"{EsConfigurationManager.ElasticSearchIndex}/correlationset/{corr.Id}";
-            using (var client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.ElasticSearchHost) })
+            var url = $"{EsConfigurationManager.Index}/correlationset/{corr.Id}";
+            using (var client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.Host) })
             {
                 var response = await client.PutAsync(url, new StringContent(json)).ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
@@ -136,7 +136,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
             var wdid = wf.WorkflowDefinitionId;
             var list = new List<string>();
 
-            var url = $"{EsConfigurationManager.ElasticSearchIndex}/pendingtask/_search";
+            var url = $"{EsConfigurationManager.Index}/pendingtask/_search";
 
             const int TASK_PAGE_SIZE = 50;
             var total = TASK_PAGE_SIZE;
@@ -195,7 +195,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
             int size = 20) where T : Workflow, new()
         {
             var wf = new T();
-            var terms = predicates.Select(x => wf.GetFilterDsl( new[] {x}));
+            var terms = predicates.Select(x => x.GetFilterDsl(wf, new[] { x }));
             // TODO : Make the id field in mapping  as not-analyzed
             var ids = hits.Select(x => x.Remove(0, x.LastIndexOf("-", StringComparison.Ordinal) + 1))
                 .Select(x => $"\"{x}\"")
@@ -220,7 +220,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
                        ""size"":{size}
                     }}";
             var request = new StringContent(query);
-            var url = $"{EsConfigurationManager.ElasticSearchIndex}/{typeof(T).Name.ToLowerInvariant()}/_search?version";
+            var url = $"{EsConfigurationManager.Index}/{typeof(T).Name.ToLowerInvariant()}/_search?version";
 
             var response = await m_client.PostAsync(url, request);
 
@@ -255,7 +255,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
 
         public async Task<T> GetOneAsync<T>(string id) where T : Workflow, new()
         {
-            var url = $"{ EsConfigurationManager.ElasticSearchIndex}/{ typeof(T).Name.ToLowerInvariant()}/{  id}";
+            var url = $"{ EsConfigurationManager.Index}/{ typeof(T).Name.ToLowerInvariant()}/{  id}";
             var response = await m_client.GetAsync(url);
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 return null;
@@ -277,7 +277,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
         public async Task<IEnumerable<T>> SearchAsync<T>(IEnumerable<Filter> predicates) where T : Workflow, new()
         {
             var wf = new T();
-            var terms = predicates.Select(x => wf.GetFilterDsl(new[] { x }));
+            var terms = predicates.Select(x => x.GetFilterDsl(wf, new[] { x }));
             var query = $@"{{
                        ""query"": {{
                           ""bool"": {{
@@ -288,7 +288,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
                        }}
                     }}";
             var request = new StringContent(query);
-            var url = $"{EsConfigurationManager.ElasticSearchIndex}/{typeof(T).Name.ToLowerInvariant()}/_search";
+            var url = $"{EsConfigurationManager.Index}/{typeof(T).Name.ToLowerInvariant()}/_search";
 
             var response = await m_client.PostAsync(url, request);
 

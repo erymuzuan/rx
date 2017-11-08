@@ -51,7 +51,7 @@ namespace elasticsearc.repository.test
             view.AddFilter("Floors", Operator.Neq, new ConstantField { Type = typeof(int), Value = 0 });
             view.AddFilter("CreatedBy", Operator.Eq, new JavascriptExpressionField { Expression = "config.userName" });
 
-            var filter = view.GenerateElasticSearchFilterDsl(view.FilterCollection);
+            var filter = view.GenerateBoolQueryDsl(view.FilterCollection);
             Console.WriteLine(filter);
             Assert.Contains("\"CreatedBy\":config.userName", filter);
         }
@@ -74,7 +74,7 @@ namespace elasticsearc.repository.test
             view.AddFilter("Floors", Operator.Neq, new ConstantField { Type = typeof(int), Value = 0 });
             view.AddFilter("Created", Operator.Eq, new ConstantField { Type = typeof(DateTime), Value = DateTime.Today });
 
-            var filter = view.GenerateElasticSearchFilterDsl(view.FilterCollection);
+            var filter = view.GenerateBoolQueryDsl(view.FilterCollection);
             Console.WriteLine(filter);
             Assert.Contains("\"Floors\":0", filter);
         }
@@ -96,7 +96,7 @@ namespace elasticsearc.repository.test
             view.AddFilter("Age", Operator.Le, new ConstantField { Type = typeof(int), Value = 50 });
             view.AddFilter("Name", Operator.Eq, new ConstantField { Type = typeof(string), Value = "KLCC" });
 
-            var filter = view.GenerateElasticSearchFilterDsl(view.FilterCollection);
+            var filter = view.GenerateBoolQueryDsl(view.FilterCollection);
             Assert.Contains("\"Name\":\"KLCC\"", filter);
         }
 
@@ -118,7 +118,7 @@ namespace elasticsearc.repository.test
             view.AddFilter("Age", Operator.Le, new ConstantField { Type = typeof(int), Value = 50 });
             view.AddFilter("Name", Operator.Eq, new ConstantField { Type = typeof(string), Value = "KLCC" });
 
-            var filter = view.GenerateElasticSearchFilterDsl(view.FilterCollection);
+            var filter = view.GenerateBoolQueryDsl(view.FilterCollection);
             Assert.Contains("\"to\":\"2000-01-01", filter);
         }
 
@@ -144,7 +144,7 @@ namespace elasticsearc.repository.test
             var view = new QueryEndpoint { Name = "Patient with name", Route = "patient-with-name" };
             view.AddFilter("FullName", @operator, new ConstantField { Type = typeof(bool), Value = comparer });
 
-            var filter = view.GenerateElasticSearchFilterDsl(view.FilterCollection);
+            var filter = view.GenerateBoolQueryDsl(view.FilterCollection);
             Assert.Contains("missing", filter);
 
             var json = JObject.Parse(filter);

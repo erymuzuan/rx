@@ -18,12 +18,12 @@ namespace Bespoke.Sph.ElasticsearchRepository
         private readonly HttpClient m_client;
         public ElasticsearchTokenRespository()
         {
-            m_client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.ElasticSearchHost) };
+            m_client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.Host) };
         }
         public async Task SaveAsync(AccessToken token)
         {
             var content = new StringContent(token.ToJson());
-            var index = EsConfigurationManager.ElasticSearchSystemIndex;
+            var index = EsConfigurationManager.SystemIndex;
             var url = $"{index}/access_token/{token.WebId}";
 
             var response = await m_client.PostAsync(url, content);
@@ -113,7 +113,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
         private async Task<LoadOperation<AccessToken>> ExecuteSearchAsync(string query)
         {
             var request = new StringContent(query);
-            var url = $"{EsConfigurationManager.ElasticSearchSystemIndex}/access_token/_search";
+            var url = $"{EsConfigurationManager.SystemIndex}/access_token/_search";
 
             var pr = await Policy.Handle<HttpRequestException>()
                             .WaitAndRetryAsync(5, x => TimeSpan.FromMilliseconds(Math.Pow(2, x) * 500))
@@ -145,7 +145,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentNullException(nameof(id));
 
-            var url = $"{EsConfigurationManager.ElasticSearchSystemIndex}/access_token/{id}";
+            var url = $"{EsConfigurationManager.SystemIndex}/access_token/{id}";
 
             var pr = await Policy.Handle<HttpRequestException>()
                             .WaitAndRetryAsync(5, x => TimeSpan.FromMilliseconds(Math.Pow(2, x) * 500))
@@ -231,7 +231,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
             if (string.IsNullOrWhiteSpace(subject))
                 throw new ArgumentNullException(nameof(subject));
 
-            var url = $"{EsConfigurationManager.ElasticSearchSystemIndex}/access_token/{subject}";
+            var url = $"{EsConfigurationManager.SystemIndex}/access_token/{subject}";
             var pr = await Policy.Handle<HttpRequestException>()
                             .WaitAndRetryAsync(10, x => TimeSpan.FromMilliseconds(Math.Pow(2, x) * 500))
                             .ExecuteAndCaptureAsync(async () => await m_client.DeleteAsync(url));

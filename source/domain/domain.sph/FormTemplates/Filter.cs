@@ -28,8 +28,8 @@ namespace Bespoke.Sph.Domain
             this.Operator = op;
             this.Field = new ConstantField
             {
-                Value = value as string,
-                Type = typeof(string)
+                Value = $"{value}",
+                Type = value.GetType()
             };
         }
 

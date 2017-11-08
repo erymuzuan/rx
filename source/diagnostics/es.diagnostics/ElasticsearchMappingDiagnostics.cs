@@ -47,7 +47,7 @@ namespace es.diagnostics
 
             using (var client = new HttpClient())
             {
-                var text2 = await client.GetStringAsync($"{EsConfigurationManager.ElasticSearchHost}/{EsConfigurationManager.ElasticSearchIndex}/_mapping/" + entity);
+                var text2 = await client.GetStringAsync($"{EsConfigurationManager.Host}/{EsConfigurationManager.Index}/_mapping/" + entity);
                 esMap = JObject.Parse(text2);
             }
 
@@ -56,7 +56,7 @@ namespace es.diagnostics
             {
                 var element = field.First;
                 var member = field.Path.Replace(entity + ".properties.", "");
-                var es = esMap.SelectToken($"{EsConfigurationManager.ElasticSearchIndex}.mappings.{field.Path}");
+                var es = esMap.SelectToken($"{EsConfigurationManager.Index}.mappings.{field.Path}");
                 if (null == es) continue;
 
                 if (element["type"].Value<string>() != "boolean")
@@ -86,7 +86,7 @@ namespace es.diagnostics
 
             using (var client = new HttpClient())
             {
-                var text2 = await client.GetStringAsync($"{EsConfigurationManager.ElasticSearchHost}/{EsConfigurationManager.ElasticSearchIndex}/_mapping/" + entity);
+                var text2 = await client.GetStringAsync($"{EsConfigurationManager.Host}/{EsConfigurationManager.Index}/_mapping/" + entity);
                 esMap = JObject.Parse(text2);
             }
 
@@ -97,7 +97,7 @@ namespace es.diagnostics
 
 
                 var member = field.Path.Replace(entity + ".properties.", "");
-                var es = esMap.SelectToken($"{EsConfigurationManager.ElasticSearchIndex}.mappings.{field.Path}");
+                var es = esMap.SelectToken($"{EsConfigurationManager.Index}.mappings.{field.Path}");
                 if (es == null) continue;// new field
 
                 var type = map["type"].MapEquals<string>(es["type"]);

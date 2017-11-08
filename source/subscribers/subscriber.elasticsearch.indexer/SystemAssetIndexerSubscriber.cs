@@ -17,7 +17,7 @@ namespace Bespoke.Sph.ElasticSearch
         private TrackerIndexer m_trackerIndexer;
         protected override void OnStart()
         {
-            m_client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.ElasticSearchHost) };
+            m_client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.Host) };
             m_trackerIndexer = new TrackerIndexer(m_client);
             base.OnStart();
         }
@@ -40,7 +40,7 @@ namespace Bespoke.Sph.ElasticSearch
                 return;
             }
 
-            var url = $"{EsConfigurationManager.ElasticSearchHost}/{EsConfigurationManager.ElasticSearchSystemIndex}/{type.Name.ToLowerInvariant()}/{item.Id}";
+            var url = $"{EsConfigurationManager.Host}/{EsConfigurationManager.SystemIndex}/{type.Name.ToLowerInvariant()}/{item.Id}";
 
 
             HttpResponseMessage response = null;
@@ -62,8 +62,8 @@ namespace Bespoke.Sph.ElasticSearch
             catch (HttpRequestException e)
             {
                 // republish the message to a delayed queue
-                var delay = EsConfigurationManager.EsIndexingDelay;
-                var maxTry = EsConfigurationManager.EsIndexingMaxTry;
+                var delay = EsConfigurationManager.IndexingDelay;
+                var maxTry = EsConfigurationManager.IndexingMaxTry;
                 if ((headers.TryCount ?? 0) < maxTry)
                 {
                     await RequeueMessageAsync(item, headers, e, delay);

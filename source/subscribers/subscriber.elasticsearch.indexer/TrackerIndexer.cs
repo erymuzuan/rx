@@ -50,7 +50,7 @@ namespace Bespoke.Sph.ElasticSearch
 
      
             //delete previous pending tasks
-            var url1 = $"{EsConfigurationManager.ElasticSearchIndex}/pendingtask/{"_query?q=WorkflowId:" + tracker.WorkflowId}";
+            var url1 = $"{EsConfigurationManager.Index}/pendingtask/{"_query?q=WorkflowId:" + tracker.WorkflowId}";
             var response1 = await m_client.DeleteAsync(url1);
 
             Debug.WriteLine(response1);
@@ -67,7 +67,7 @@ namespace Bespoke.Sph.ElasticSearch
             var json = JsonConvert.SerializeObject(ea, setting);
             var content = new StringContent(json);
 
-            var url = $"{EsConfigurationManager.ElasticSearchHost}/{EsConfigurationManager.ElasticSearchIndex}/pendingtask/{id}";
+            var url = $"{EsConfigurationManager.Host}/{EsConfigurationManager.Index}/pendingtask/{id}";
             var response = await m_client.PutAsync(url, content);
 
             if (null != response)
@@ -83,7 +83,7 @@ namespace Bespoke.Sph.ElasticSearch
             var json = JsonConvert.SerializeObject(ea, setting);
             var content = new StringContent(json);
 
-            var url = $"{EsConfigurationManager.ElasticSearchIndex}/activity/{id}";
+            var url = $"{EsConfigurationManager.Index}/activity/{id}";
 
 
             HttpResponseMessage response = null;

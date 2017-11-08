@@ -61,7 +61,7 @@ namespace Bespoke.Sph.Mangements.ViewModels
             }
         }
         public string ElasticsearchServer =>
-            $"{EsConfigurationManager.ElasticSearchHost}/{EsConfigurationManager.ElasticSearchIndex}";
+            $"{EsConfigurationManager.Host}/{EsConfigurationManager.Index}";
         public EntityDeployment Selected
         {
             get => m_selected;

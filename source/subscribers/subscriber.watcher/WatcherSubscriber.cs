@@ -113,7 +113,7 @@ namespace Bespoke.Sph.WathersSubscribers
             };
 
             var repos = ObjectBuilder.GetObject<IReadonlyRepository<Watcher>>();
-            var lo = await repos.SearchAsync(filters, 0, 100);
+            var lo = await repos.SearchAsync(filters, new[] { new Sort { Direction = SortDirection.Desc, Path = nameof(Watcher.CreatedDate) } }, 0, 100);
 
             var watchers = lo.ItemCollection.Select(x => x.User).ToList();
             this.WriteMessage("Changed to " + e);

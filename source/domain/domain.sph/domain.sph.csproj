@@ -298,6 +298,8 @@
     <Compile Include="ICvsProvider.cs" />
     <Compile Include="IMessageSlaManager.cs" />
     <Compile Include="IMessageTracker.cs" />
+    <Compile Include="IReadOnlyRepository.LoadData.cs" />
+    <Compile Include="IReadonlyRepository.T.cs" />
     <Compile Include="Management\ConfigData.cs" />
     <Compile Include="Management\HttpRequestLog.cs" />
     <Compile Include="Management\SubscriberConfig.cs" />
