@@ -87,6 +87,7 @@ namespace Bespoke.Sph.Domain
             controller.ImportCollection.ClearAndAddRange(m_importDirectives);
             controller.ImportCollection.Add("Newtonsoft.Json.Linq");
             controller.ImportCollection.Add(ed.CodeNamespace);
+            controller.ImportCollection.Add(typeof(List<string>).Namespace);
 
             controller.PropertyCollection.Add(new Property { Name = "CacheManager", Type = typeof(ICacheManager) });
             controller.AddProperty($"public static readonly string SOURCE_FILE = $\"{{ConfigurationManager.SphSourceDirectory}}\\\\{nameof(QueryEndpoint)}\\\\{Id}.json\";");
@@ -124,45 +125,37 @@ namespace Bespoke.Sph.Domain
 
         private Method GenerateCountAction()
         {
-            var code = new StringBuilder();
             var route = $"{this.GetRoute()}/_metadata/_count".Replace("//", "/");
 
-            code.AppendLine("       [HttpGet]");
-            code.AppendLine($"       [GetRoute(\"{route}\")]");
-            code.AppendLine($@"       public async Task<IHttpActionResult> GetCountAsync([SourceEntity(""{Id}"")]QueryEndpoint eq,
-                                                    [IfNoneMatch]ETag etag,
-                                                    [ModifiedSince]ModifiedSinceHeader modifiedSince)");
-            code.Append("       {");
-            code.Append(GenerateGetQueryCode());
+            var code = $@"  
+        [HttpGet]
+        [GetRoute(""{route}"")]
+        public async Task<IHttpActionResult> GetCountAsync([SourceEntity(""{Id}"")]QueryEndpoint eq,
+                                                     [IfNoneMatch]ETag etag,
+                                                     [ModifiedSince]ModifiedSinceHeader modifiedSince)
+        {{
+            var repos = ObjectBuilder.GetObject<IReadonlyRepository<{Entity}>>();
+            var count = await repos.GetCountAsync(eq.FilterCollection.ToArray());
+            return Ok(new {{ _count = count }});
 
-            code.Append($@"
-                var repos = ObjectBuilder.GetObject<IReadonlyRepository<{Entity}>>();
-                var count = await repos.GetCountAsync(query, null);;
-            ");
-            code.AppendLine("return Ok(new {_count = count});");
+        }}";
 
-            code.AppendLine();
-            code.AppendLine("       }");
-            code.AppendLine();
-            return new Method { Code = code.ToString() };
+ 
+            return new Method { Code = code };
         }
 
         private string GenerateGetQueryCode()
         {
-            var code = new StringBuilder();
-            code.AppendLine("   var setting = await eq.LoadSettingAsync();");
-            code.AppendLine("   var query = CacheManager.Get<string>(ES_QUERY_CACHE_KEY);");
-            code.AppendLine("   if(null == query)");
-            code.AppendLine("   {");
-            code.AppendLine("       query = await eq.GenerateEsQueryAsync();");
-            code.AppendLine("       if(setting.CacheFilter.HasValue)");
-            code.AppendLine("       {");
-            code.AppendLine("           CacheManager.Insert(ES_QUERY_CACHE_KEY, query, TimeSpan.FromSeconds(setting.CacheFilter.Value), SOURCE_FILE);");
-            code.AppendLine("       }");
-            code.AppendLine("   }");
 
-            return code.ToString();
+            return @"   
+            var setting = await eq.LoadSettingAsync();
+            var skip = size * (page - 1);
+            var aggregates = new List<Aggregate>{
+              new MaxAggregate(name:""LastChangedDate"", path:""ChangedDate"")
+            };";
         }
+
+        public Query Query => new Query(this.FilterCollection.ToArray(), this.SortCollection.ToArray());
 
 
         private Method GenerateGetAction()
@@ -189,7 +182,6 @@ namespace Bespoke.Sph.Domain
                                    [ModifiedSince]ModifiedSinceHeader modifiedSince," + parameterlist.ToString(" ");
 
             code.AppendLine($@"       public async Task<IHttpActionResult> GetAction({parameters}");
-            code.AppendLine(@"                                   [FromUri(Name=""q"")]string q = null,");
             code.AppendLine(@"                                   [FromUri(Name=""page"")]int page = 1,");
             code.AppendLine(@"                                   [FromUri(Name=""size"")]int size = 20)");
             code.Append("       {");
@@ -211,13 +203,14 @@ namespace Bespoke.Sph.Domain
 
             }
             code.Append($@"
-            var queryString = $""from={{size * (page - 1)}}&size={{size}}"";
-            if(!string.IsNullOrWhiteSpace(q))
-                queryString += $""&q={{q}}"";
 
             var repos = ObjectBuilder.GetObject<IReadonlyRepository<{Entity}>>();
-            var response = await repos.SearchAsync(query, queryString);
-            var json = JObject.Parse(response);
+            var qr = eq.Query;
+            qr.Aggregates.Clear();
+            qr.Aggregates.AddRange(aggregates);
+            qr.Skip = skip;
+            qr.Size = size;
+            var lo = await repos.SearchAsync(qr);
 ");
 
             code.Append(this.GenerateCacheCode());
@@ -253,7 +246,7 @@ namespace Bespoke.Sph.Domain
                 var result = new 
                 {{
                     _results = list.Select(x => JObject.Parse(x)),
-                    _count = json.SelectToken(""$.hits.total"").Value<int>(),
+                    _count = lo.TotalRows,
                     _page = page,
                     _links = links.ToArray(),
                     _size = size
@@ -344,21 +337,56 @@ namespace Bespoke.Sph.Domain
 
         private string GenerateCacheCode()
         {
+
+            return $@"DateTime? lastModified = new DateTime?();
+            var count = lo.TotalRows;
+            if (count > 0)
+                lastModified = lo.GetAggregateValue<DateTime>(""LastChangedDate"");
+";
+        }
+
+
+        public string GenerateListCode()
+        {
             var code = new StringBuilder();
-            code.AppendLine("DateTime? lastModified = new DateTime?();");
-            code.AppendLine(@"var count = json.SelectToken(""aggregations.filtered_max_date.doc_count"").Value<int>();");
-            code.AppendLine("if( count > 0)");
-            code.AppendLine(@"  lastModified = json.SelectToken(""aggregations.filtered_max_date.last_changed_date.value_as_string"").Value<DateTime>();");
             code.AppendLine(@"var hashed = base.GetMd5Hash($""{lastModified}-{count}"");");
             code.AppendLine(@"var cache = new CacheMetadata(hashed, lastModified, setting.CachingSetting);");
-            code.AppendLine(@"  
-            if (modifiedSince.IsMatch(lastModified) || etag.IsMatch(hashed))
+
+            if (!this.MemberCollection.Any())
             {
-                return NotModified(cache);
+                code.Append(@" 
+                    var list = from f in lo.ItemCollection
+                               let link = $""\""link\"" :{{ \""href\"" :\""{ConfigurationManager.BaseUrl}/api/" + this.Resource + @"/{f.Id}\""}}""
+                               select f.ToJsonString().Replace($""{f.WebId}\"""",$""{f.WebId}\"","" + link);
+");
+                return code.ToString();
             }
-            ");
+
+            code.Append(@"
+            var list = from f in json.SelectToken(""$.hits.hits"")
+                        let fields = f.SelectToken(""fields"")
+                        let id = f.SelectToken(""_id"").Value<string>()
+                        select JsonConvert.SerializeObject( new {");
+            foreach (var g in this.MemberCollection.Where(x => !x.Contains(".")))
+            {
+                if (!(m_ed.GetMember(g) is SimpleMember mb)) throw new InvalidOperationException("You can only select SimpleMember field, and " + g + " is not");
+                code.AppendLine(
+                    mb.Type == typeof(string)
+                        ? $"      {g} = fields[\"{g}\"] != null ? fields[\"{g}\"].First.Value<string>() : null,"
+                        : $"      {g} = fields[\"{g}\"] != null ? fields[\"{g}\"].First.Value<{mb.Type.ToCSharp()}>() : new Nullable<{mb.Type.ToCSharp()}>(),");
+            }
+            code.Append(this.GenerateComplexMemberFields(this.MemberCollection.ToArray()));
+
+            code.Append($@"
+                            _links = new {{
+                                rel = ""self"",
+                                href = $""{{ConfigurationManager.BaseUrl}}/api/{Resource}/{{id}}""
+                            }}
+                        }});
+");
             return code.ToString();
         }
+
 
         public Task<WorkflowCompilerResult> CompileAsync(EntityDefinition ed)
         {
@@ -421,7 +449,7 @@ namespace Bespoke.Sph.Domain
                 var assemblyInfo = AssemblyInfoClass.GenerateAssemblyInfoAsync(this, true, $"QueryEndpoint.{Entity}.{this.Name}").Result;
 
                 var files = classes.Select(x => $"{folder}\\{x.FileName}")
-                    .Concat(new []{assemblyInfo.FileName})
+                    .Concat(new[] { assemblyInfo.FileName })
                     .ToArray();
                 var result = provider.CompileAssemblyFromFile(parameters, files);
                 var cr = new WorkflowCompilerResult

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -31,6 +32,24 @@ namespace domain.test.entities
             ObjectBuilder.AddCacheList<IEntityChangePublisher>(new MockChangePublisher(console));
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
             ObjectBuilder.AddCacheList<IPersistence>(persistence);
+            ObjectBuilder.AddCacheList<ICvsProvider>(new MockCvsProvider(new[]
+            {
+                new CommitLog
+                {
+                    Files = new []{"a.cs" ,"b"},
+                    CommitId = "1",
+                    Comment = "One",
+                    DateTime = DateTime.Today.AddHours(1)
+                },
+                new CommitLog
+                {
+                    Files = new []{"a.cs" ,"b"},
+                    CommitId = "2",
+                    Comment = "Two",
+                    DateTime = DateTime.Today.AddHours(2)
+                }
+            }));
+
             m_console.WriteLine("Init..");
         }
 
@@ -127,7 +146,7 @@ namespace domain.test.entities
         }
 
 
-    
+
 
 
         [Fact]
@@ -281,6 +300,36 @@ namespace domain.test.entities
 
             Assert.True(result.Result, result.ToString());
 
+        }
+    }
+
+    public class MockCvsProvider : ICvsProvider
+    {
+        private readonly CommitLog[] m_logs;
+
+        public MockCvsProvider(CommitLog[] logs)
+        {
+            m_logs = logs;
+        }
+        public Task<string> GetCommitIdAsync(string file)
+        {
+            var log = m_logs.OrderByDescending(x => x.DateTime).FirstOrDefault(x => x.Files.Contains(file));
+            return Task.FromResult(log?.CommitId);
+        }
+
+        public Task<string> GetCommitCommentAsync(string file)
+        {
+            var log = m_logs.OrderByDescending(x => x.DateTime).FirstOrDefault(x => x.Files.Contains(file));
+            return Task.FromResult(log?.Comment);
+        }
+
+        public Task<LoadOperation<CommitLog>> GetCommitLogsAsync(string file, int page, int size)
+        {
+            var lo = new LoadOperation<CommitLog>();
+            lo.ItemCollection.AddRange(m_logs);
+            lo.TotalRows = m_logs.Length;
+
+            return Task.FromResult(lo);
         }
     }
 }

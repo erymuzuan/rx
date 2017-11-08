@@ -18,6 +18,12 @@ namespace Bespoke.Sph.Domain
 
         public ObjectCollection<T> ItemCollection { get; } = new ObjectCollection<T>();
 
+
+        public TAggregate GetAggregateValue<TAggregate>(string name)
+        {
+            return default;
+        }
+
         public int? TotalPages
         {
             get

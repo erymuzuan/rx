@@ -116,46 +116,6 @@ namespace Bespoke.Sph.Domain
             return Task.FromResult(0);
         }
 
-        public string GenerateListCode()
-        {
-            var code = new StringBuilder();
-            if (!this.MemberCollection.Any())
-            {
-                code.Append(@" 
-                    var list = from f in json.SelectToken(""$.hits.hits"")
-                               let webId = f.SelectToken(""_source.WebId"").Value<string>()
-                               let id = f.SelectToken(""_id"").Value<string>()
-                               let link = $""\""link\"" :{{ \""href\"" :\""{ConfigurationManager.BaseUrl}/api/" + this.Resource + @"/{id}\""}}""
-                               select f.SelectToken(""_source"").ToString().Replace($""{webId}\"""",$""{webId}\"","" + link);
-");
-                return code.ToString();
-            }
-
-            code.Append(@"
-            var list = from f in json.SelectToken(""$.hits.hits"")
-                        let fields = f.SelectToken(""fields"")
-                        let id = f.SelectToken(""_id"").Value<string>()
-                        select JsonConvert.SerializeObject( new {");
-            foreach (var g in this.MemberCollection.Where(x => !x.Contains(".")))
-            {
-                if (!(m_ed.GetMember(g) is SimpleMember mb)) throw new InvalidOperationException("You can only select SimpleMember field, and " + g + " is not");
-                code.AppendLine(
-                    mb.Type == typeof(string)
-                        ? $"      {g} = fields[\"{g}\"] != null ? fields[\"{g}\"].First.Value<string>() : null,"
-                        : $"      {g} = fields[\"{g}\"] != null ? fields[\"{g}\"].First.Value<{mb.Type.ToCSharp()}>() : new Nullable<{mb.Type.ToCSharp()}>(),");
-            }
-            code.Append(this.GenerateComplexMemberFields(this.MemberCollection.ToArray()));
-
-            code.Append($@"
-                            _links = new {{
-                                rel = ""self"",
-                                href = $""{{ConfigurationManager.BaseUrl}}/api/{Resource}/{{id}}""
-                            }}
-                        }});
-");
-            return code.ToString();
-        }
-
         private string GenerateComplexMemberFields(string[] members)
         {
             var code = new StringBuilder();

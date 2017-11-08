@@ -33,7 +33,7 @@ namespace domain.test.reports
             throw new NotImplementedException();
         }
 
-        public Task<LoadOperation<T>> SearchAsync(Filter[] filters = null, Sort[] sorts = null, int skip = 0, int size = 20)
+        public Task<LoadOperation<T>> SearchAsync(Query query)
         {
             throw new NotImplementedException();
         }
@@ -83,10 +83,11 @@ namespace domain.test.reports
             throw new NotImplementedException();
         }
 
-        public Task<TResult> GetMaxAsync<TResult>(Filter[] filters = null, Sort[] sorts = null, int skip = 0, int size = 20)
+        public Task<TResult> GetMaxAsync<TResult>(Query query)
         {
             throw new NotImplementedException();
         }
+
     }
     class MockRepository<T> : IRepository<T> where T : Entity
     {

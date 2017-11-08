@@ -151,10 +151,10 @@ namespace elasticsearc.repository.test
         public async Task SimpleFilter()
         {
             var repos = new ReadonlyRepository<Patient>("http://localhost:9200", "devv1");
-            var lo = await repos.SearchAsync(new[]
+            var lo = await repos.SearchAsync(new Query(new[]
             {
                 new Filter("Gender",Operator.Eq, "Female")
-            });
+            }));
             Console.WriteLine(lo.ToString());
 
         }

@@ -72,11 +72,11 @@ namespace Bespoke.Sph.ElasticsearchRepository
             return new LoadData<T>(item, version) { Json = source.ToString() };
         }
 
-        public async Task<LoadOperation<T>> SearchAsync(Filter[] filters = null, Sort[] sorts = null, int skip = 0, int size = 20)
+        public async Task<LoadOperation<T>> SearchAsync(Query query)
         {
-            var query = ((T)null).GenerateQueryDsl(filters, sorts, skip, size);
+            var query = ((T)null).GenerateQueryDsl(query.Filters, query.Sorts, query.Skip, query.Size);
             var response = await m_client.PostAsync($"{m_url}/_search", new StringContent(query));
-            var lo = await response.ReadContentAsLoadOperationAsync<T>(skip, size);
+            var lo = await response.ReadContentAsLoadOperationAsync<T>(query.Skip, query.Size);
 
             return lo;
         }
