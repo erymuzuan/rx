@@ -8,13 +8,15 @@ namespace Bespoke.Sph.Domain
         }
         public Query(Filter[] filters = null, Sort[] sorts = null, int skip = 0, int size = 20)
         {
-            Filters.AddRange(filters);
-            Sorts.AddRange(sorts);
+            if (null != filters)
+                Filters.AddRange(filters);
+            if (null != sorts)
+                Sorts.AddRange(sorts);
             Skip = skip;
             Size = size;
         }
 
-        public int Skip { get; set; } = 0;
+        public int Skip { get; set; }
         public int Size { get; set; } = 20;
 
         public ObjectCollection<Aggregate> Aggregates { get; } = new ObjectCollection<Aggregate>();

@@ -119,7 +119,7 @@ namespace elasticsearc.repository.test
             view.AddFilter("Name", Operator.Eq, new ConstantField { Type = typeof(string), Value = "KLCC" });
 
             var filter = view.GenerateBoolQueryDsl(view.FilterCollection);
-            Assert.Contains("\"to\":\"2000-01-01", filter);
+            Assert.Contains(@"""lte"":""2000-01-01", filter);
         }
 
 
