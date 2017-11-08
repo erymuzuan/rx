@@ -75,7 +75,7 @@ namespace Bespoke.Sph.Domain
         }
         public string GenerateDefaultValueCode()
         {
-
+            if (!this.IsOptional) return null;
             if (string.IsNullOrWhiteSpace(this.DefaultValue))
                 return null;
 

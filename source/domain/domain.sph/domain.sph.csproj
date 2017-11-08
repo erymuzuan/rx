@@ -477,6 +477,7 @@
       <DependentUpon>ActivityJsResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Ports\ReceivePort.cs" />
+    <Compile Include="Query.cs" />
     <Compile Include="Schema\AdaptersApi.g.cs" />
     <Compile Include="Ports\SendPort.cs" />
     <Compile Include="Ports\SendPortDefinition.cs" />

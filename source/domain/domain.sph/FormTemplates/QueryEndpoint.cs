@@ -142,8 +142,8 @@ namespace Bespoke.Sph.Domain
                 }
                 code.AppendLine(
                     mb.Type == typeof(string)
-                        ? $"      {m} = fields[\"{g}\"] != null ? fields[\"{g}\"].First.Value<string>() : null,"
-                        : $"      {m} = fields[\"{g}\"] != null ? fields[\"{g}\"].First.Value<{mb.Type.ToCSharp()}>() : new Nullable<{mb.Type.ToCSharp()}>(),");
+                        ? $@"      {m} = (string)reader[""{g}""] ,"
+                        : $@"      {m} = reader[""{g}""] != null ? ({mb.Type.ToCSharp()})reader[""{g}""] : new Nullable<{mb.Type.ToCSharp()}>(),");
 
                 parent = cp;
             }

@@ -270,9 +270,9 @@ namespace domain.test.entities
                 CacheFilter = 300
             };
 
-            var mrnParameter = new RouteParameterField { Name = "mrn", Type = typeof(string) };
-            var start = new RouteParameterField { Name = "start", Type = typeof(DateTime), IsOptional = true, DefaultValue = "2016-01-01" };
-            var end = new RouteParameterField { Name = "end", Type = typeof(DateTime), IsOptional = true, DefaultValue = "2017-01-01" };
+            var mrnParameter = new RouteParameterField { Name = "mrn", Type = typeof(string) , WebId = "mrn"};
+            var start = new RouteParameterField { Name = "start", Type = typeof(DateTime), IsOptional = true, DefaultValue = "2016-01-01", WebId = "start"};
+            var end = new RouteParameterField { Name = "end", Type = typeof(DateTime), IsOptional = true, DefaultValue = "2017-01-01" , WebId = "end"};
             query.FilterCollection.Add(new Filter
             {
                 Field = mrnParameter,

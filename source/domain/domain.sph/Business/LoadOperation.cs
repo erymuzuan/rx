@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -17,7 +18,7 @@ namespace Bespoke.Sph.Domain
         public int? NextSkipToken { get; set; }
 
         public ObjectCollection<T> ItemCollection { get; } = new ObjectCollection<T>();
-
+        public ObjectCollection<Dictionary<string, object>> Readers { get; } = new ObjectCollection<Dictionary<string,object>>();
 
         public TAggregate GetAggregateValue<TAggregate>(string name)
         {
@@ -28,10 +29,10 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                if(PageSize == 0) return null;
-                if(null == TotalRows) return null;
-                var baki = TotalRows %PageSize;
-                var page = (TotalRows - baki)/PageSize;
+                if (PageSize == 0) return null;
+                if (null == TotalRows) return null;
+                var baki = TotalRows % PageSize;
+                var page = (TotalRows - baki) / PageSize;
                 return page + 1;
             }
 

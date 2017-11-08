@@ -74,8 +74,8 @@ namespace Bespoke.Sph.ElasticsearchRepository
 
         public async Task<LoadOperation<T>> SearchAsync(Query query)
         {
-            var query = ((T)null).GenerateQueryDsl(query.Filters, query.Sorts, query.Skip, query.Size);
-            var response = await m_client.PostAsync($"{m_url}/_search", new StringContent(query));
+            var dsl = ((T)null).GenerateQueryDsl(query.Filters.ToArray(), query.Sorts.ToArray(), query.Skip, query.Size);
+            var response = await m_client.PostAsync($"{m_url}/_search", new StringContent(dsl));
             var lo = await response.ReadContentAsLoadOperationAsync<T>(query.Skip, query.Size);
 
             return lo;
@@ -126,7 +126,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
             throw new NotImplementedException();
         }
 
-        public Task<TResult> GetMaxAsync<TResult>(Filter[] filters = null, Sort[] sorts = null, int skip = 0, int size = 20)
+        public Task<TResult> GetMaxAsync<TResult>(Query query)
         {
             throw new NotImplementedException();
         }

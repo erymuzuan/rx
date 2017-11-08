@@ -140,7 +140,7 @@ namespace Bespoke.Sph.Domain
 
         }}";
 
- 
+
             return new Method { Code = code };
         }
 
@@ -155,7 +155,16 @@ namespace Bespoke.Sph.Domain
             };";
         }
 
-        public Query Query => new Query(this.FilterCollection.ToArray(), this.SortCollection.ToArray());
+        public Query Query
+        {
+            get
+            {
+                var query = new Query(this.FilterCollection.ToArray(), this.SortCollection.ToArray());
+                if (this.MemberCollection.Any())
+                    query.Fields.AddRange(this.MemberCollection);
+                return query;
+            }
+        }
 
 
         private Method GenerateGetAction()
@@ -185,33 +194,32 @@ namespace Bespoke.Sph.Domain
             code.AppendLine(@"                                   [FromUri(Name=""page"")]int page = 1,");
             code.AppendLine(@"                                   [FromUri(Name=""size"")]int size = 20)");
             code.Append("       {");
-            foreach (var p in routeParameterFields)
+
+
+            code.Append(GenerateGetQueryCode());
+
+            code.Append($@"
+
+            var repos = ObjectBuilder.GetObject<IReadonlyRepository<{Entity}>>();
+            var qr = eq.Query.Clone();
+            qr.Aggregates.Clear();
+            qr.Aggregates.AddRange(aggregates);
+            qr.Skip = skip;
+            qr.Size = size;
+");
+            foreach (var p in routeParameterFields.Where(p => p.IsOptional))
             {
                 var defaultValue = p.GenerateDefaultValueCode();
                 if (!string.IsNullOrWhiteSpace(defaultValue))
                     code.AppendLine(defaultValue);
             }
-
-
-            code.Append(GenerateGetQueryCode());
-
             foreach (var p in routeParameterFields)
             {
-                code.AppendLine(p.Type == typeof(DateTime)
-                    ? $@"  query = query.Replace(""<<{p.Name}>>"", $""\""{{{p.Name}:O}}\"""");"
-                    : $@"  query = query.Replace(""<<{p.Name}>>"", $""{{{p.Name}}}"");");
-
+                var filterCode = $@"  qr.Filters.Single(x => x.Field.WebId == ""{p.WebId}"").Field = new ConstantField{{ Type = typeof({p.Type.ToCSharp()}), Value = {p.Name}, WebId = ""{p.WebId}""}};";
+                code.AppendLine(filterCode);
             }
-            code.Append($@"
-
-            var repos = ObjectBuilder.GetObject<IReadonlyRepository<{Entity}>>();
-            var qr = eq.Query;
-            qr.Aggregates.Clear();
-            qr.Aggregates.AddRange(aggregates);
-            qr.Skip = skip;
-            qr.Size = size;
-            var lo = await repos.SearchAsync(qr);
-");
+            code.AppendLine();
+            code.AppendLine("var lo = await repos.SearchAsync(qr);");
 
             code.Append(this.GenerateCacheCode());
             code.Append(this.GenerateListCode());
@@ -363,17 +371,16 @@ namespace Bespoke.Sph.Domain
             }
 
             code.Append(@"
-            var list = from f in json.SelectToken(""$.hits.hits"")
-                        let fields = f.SelectToken(""fields"")
-                        let id = f.SelectToken(""_id"").Value<string>()
+            var list = from reader in lo.Readers
+                        let id =  (string)reader[""Id""]
                         select JsonConvert.SerializeObject( new {");
             foreach (var g in this.MemberCollection.Where(x => !x.Contains(".")))
             {
                 if (!(m_ed.GetMember(g) is SimpleMember mb)) throw new InvalidOperationException("You can only select SimpleMember field, and " + g + " is not");
                 code.AppendLine(
                     mb.Type == typeof(string)
-                        ? $"      {g} = fields[\"{g}\"] != null ? fields[\"{g}\"].First.Value<string>() : null,"
-                        : $"      {g} = fields[\"{g}\"] != null ? fields[\"{g}\"].First.Value<{mb.Type.ToCSharp()}>() : new Nullable<{mb.Type.ToCSharp()}>(),");
+                        ? $@"      {g} = reader[""{g}""],"
+                        : $@"      {g} = reader[""{g}""] != null ? ({mb.Type.ToCSharp()})reader[""{g}""] :new Nullable<{mb.Type.ToCSharp()}>(), ");
             }
             code.Append(this.GenerateComplexMemberFields(this.MemberCollection.ToArray()));
 
