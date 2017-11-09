@@ -155,11 +155,11 @@ namespace Bespoke.Sph.Domain
             };";
         }
 
-        public Domain.QueryDsl QueryDsl
+        public QueryDsl QueryDsl
         {
             get
             {
-                var query = new Domain.QueryDsl(this.FilterCollection.ToArray(), this.SortCollection.ToArray());
+                var query = new QueryDsl(this.FilterCollection.ToArray(), this.SortCollection.ToArray());
                 if (this.MemberCollection.Any())
                     query.Fields.AddRange(this.MemberCollection);
                 return query;
@@ -201,11 +201,11 @@ namespace Bespoke.Sph.Domain
             code.Append($@"
 
             var repos = ObjectBuilder.GetObject<IReadonlyRepository<{Entity}>>();
-            var qr = eq.Query.Clone();
-            qr.Aggregates.Clear();
-            qr.Aggregates.AddRange(aggregates);
-            qr.Skip = skip;
-            qr.Size = size;
+            var query = eq.QueryDsl;
+            query.Aggregates.Clear();
+            query.Aggregates.AddRange(aggregates);
+            query.Skip = skip;
+            query.Size = size;
 ");
             foreach (var p in routeParameterFields.Where(p => p.IsOptional))
             {
@@ -215,7 +215,7 @@ namespace Bespoke.Sph.Domain
             }
             foreach (var p in routeParameterFields)
             {
-                var filterCode = $@"  qr.Filters.Single(x => x.Field.WebId == ""{p.WebId}"").Field = new ConstantField{{ Type = typeof({p.Type.ToCSharp()}), Value = {p.Name}, WebId = ""{p.WebId}""}};";
+                var filterCode = $@"  query.Filters.Single(x => x.Field.WebId == ""{p.WebId}"").Field = new ConstantField{{ Type = typeof({p.Type.ToCSharp()}), Value = {p.Name}, WebId = ""{p.WebId}""}};";
                 code.AppendLine(filterCode);
             }
             code.AppendLine();

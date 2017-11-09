@@ -54,9 +54,13 @@ namespace Bespoke.Sph.ElasticsearchRepository
 
         public async Task<LoadOperation<Entity>> SearchAsync(string[] entities, Filter[] filters = null, Sort[] sorts = null, int skip = 0, int size = 20)
         {
-
+            var dsl = new QueryDsl(filters, sorts)
+            {
+                Skip = skip,
+                Size = size
+            };
             var types = entities.ToString(",", x => x.ToLowerInvariant());
-            var query = (default(EntityDefinition)).GenerateQueryDsl(filters, sorts, skip, size);
+            var query = (default(EntityDefinition)).CompileToElasticsearchQueryDsl(dsl);
             var request = new StringContent(query);
             var index = EsConfigurationManager.Index;
             var url = $"{index}/{types}/_search";

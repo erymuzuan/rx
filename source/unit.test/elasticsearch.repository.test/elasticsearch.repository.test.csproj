@@ -7,7 +7,7 @@
     <ProjectGuid>{D61E68BE-55B3-4798-A972-F0D2178D1E0C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>elasticsearch.repository.test</RootNamespace>
+    <RootNamespace>Bespoke.Sph.Tests.Elasticsearch</RootNamespace>
     <AssemblyName>elasticsearch.repository.test</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

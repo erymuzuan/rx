@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 
-namespace elasticsearc.repository.test
+namespace Bespoke.Sph.Tests.Elasticsearch
 {
     internal class MockLdap : IDirectoryService
     {

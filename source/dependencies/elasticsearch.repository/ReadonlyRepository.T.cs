@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
 using System.Net.Http;
@@ -74,9 +75,9 @@ namespace Bespoke.Sph.ElasticsearchRepository
 
         public async Task<LoadOperation<T>> SearchAsync(QueryDsl queryDsl)
         {
-            var dsl = ((T)null).GenerateQueryDsl(queryDsl.Filters.ToArray(), queryDsl.Sorts.ToArray(), queryDsl.Skip, queryDsl.Size);
+            var dsl = ((T)null).CompileToElasticsearchQueryDsl(queryDsl);
             var response = await m_client.PostAsync($"{m_url}/_search", new StringContent(dsl));
-            var lo = await response.ReadContentAsLoadOperationAsync<T>(queryDsl.Skip, queryDsl.Size);
+            var lo = await response.ReadContentAsLoadOperationAsync<T>(queryDsl.Skip, queryDsl.Size, useSourceFields: queryDsl.Fields.Any());
 
             return lo;
         }

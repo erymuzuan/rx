@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace elasticsearc.repository.test
+namespace Bespoke.Sph.Tests.Elasticsearch
 {
     [Trait("Category", "Repository<T>")]
     [Collection("Repository")]
@@ -25,10 +25,11 @@ namespace elasticsearc.repository.test
         [Fact]
         public void OneEqTerm()
         {
-            var query = ((Patient)null).GenerateQueryDsl(new[]
+            var dsl = new QueryDsl(new[]
             {
                 new Filter("Gender", Operator.Eq, "Male")
             });
+            var query = ((Patient)null).CompileToElasticsearchQueryDsl(dsl);
             var json = JObject.Parse(query);
             Console.WriteLine(query);
             Assert.Equal(1, json.SelectToken("$.filter.bool.must").Count());
@@ -39,12 +40,13 @@ namespace elasticsearc.repository.test
         [Fact]
         public void TwoEqTerms()
         {
-            var query = ((Patient)null).GenerateQueryDsl(new[]
+            var dsl = new QueryDsl(new[]
             {
                 new Filter("Age", Operator.Neq, 45),
                 new Filter("Gender", Operator.Eq, "Female"),
                 new Filter("Race", Operator.Eq, "Chinese")
             });
+            var query = ((Patient)null).CompileToElasticsearchQueryDsl(dsl);
             var json = Console.WriteJson(query);
             Assert.Equal(2, json.SelectToken("$.filter.bool.must").Count());
             Assert.Equal(1, json.SelectToken("$.filter.bool.must_not").Count());
@@ -54,13 +56,14 @@ namespace elasticsearc.repository.test
         [Fact]
         public void Range()
         {
-            var query = ((Patient)null).GenerateQueryDsl(new[]
+            var dsl = new QueryDsl(new[]
             {
                 new Filter("Age", Operator.Gt, 45),
                 new Filter("Age", Operator.Lt, 65),
                 new Filter("Gender", Operator.Eq, "Female"),
                 new Filter("Race", Operator.Eq, "Chinese")
             });
+            var query = ((Patient)null).CompileToElasticsearchQueryDsl(dsl);
             var json = Console.WriteJson(query);
             Assert.Equal(3, json.SelectToken("$.filter.bool.must").Count());
             Assert.Equal(0, json.SelectToken("$.filter.bool.must_not").Count());
@@ -71,10 +74,11 @@ namespace elasticsearc.repository.test
         [Fact]
         public void FilterInt32Term()
         {
-            var query = ((Patient)null).GenerateQueryDsl(new[]
+            var dsl = new QueryDsl(new[]
             {
                 new Filter("Age", Operator.Eq, 45)
             });
+            var query = ((Patient)null).CompileToElasticsearchQueryDsl(dsl);
             var json = Console.WriteJson(query);
             Assert.Equal(json.SelectToken("$.filter.bool.must[0].term.Age").Value<int>(), 45);
 
@@ -138,10 +142,11 @@ namespace elasticsearc.repository.test
         [Fact]
         public void FilterDateTimeTerm()
         {
-            var query = ((Patient)null).GenerateQueryDsl(new[]
+            var dsl = new QueryDsl(new[]
             {
                 new Filter("Dob", Operator.Gt, new DateTime(1950,1,1))
             });
+            var query = ((Patient)null).CompileToElasticsearchQueryDsl(dsl);
             var json = Console.WriteJson(query);
             Assert.Equal(json.SelectToken("$.filter.bool.must[0].range.Dob.gt").Value<DateTime>(), new DateTime(1950, 1, 1));
 
@@ -158,6 +163,25 @@ namespace elasticsearc.repository.test
             Console.WriteLine(lo.ToString());
 
         }
+        [Fact]
+        public async Task Fields()
+        {
+            var repos = new ReadonlyRepository<Patient>("http://localhost:9200", "devv1");
+            var query = new QueryDsl(new[]
+            {
+                new Filter("Gender",Operator.Eq, "Female")
+            }, new[] { new Sort { Direction = SortDirection.Desc, Path = "Mrn" } });
+            query.Fields.AddRange("FullName", "Age");
+            var lo = await repos.SearchAsync(query);
+
+            var reader = lo.Readers.OrderBy(x => Guid.NewGuid()).First();
+            Assert.True(reader.ContainsKey("FullName"));
+            Assert.True(reader.ContainsKey("Age"));
+            Assert.True(reader.ContainsKey("Id"));
+            Assert.Equal(3, reader.Count);
+        }
+
+
     }
 
     [DebuggerDisplay("{Mrn}({FullName})")]

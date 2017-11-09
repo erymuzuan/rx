@@ -7,13 +7,13 @@ using Newtonsoft.Json.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace elasticsearc.repository.test
+namespace Bespoke.Sph.Tests.Elasticsearch
 {
     [Trait("Category", "Query endpoints")]
     [Collection("Endpoint")]
     public class QueryEndpointTest
     {
-        public ITestOutputHelper Console { get; }
+        private ITestOutputHelper Console { get; }
 
         public QueryEndpointTest(ITestOutputHelper console)
         {
@@ -22,7 +22,7 @@ namespace elasticsearc.repository.test
 
         [Fact]
         [Trait("Query", "Elasticsearch")]
-        public async Task CompileQueryFieldsAndFilter()
+        public void CompileQueryFieldsAndFilter()
         {
             var query = new QueryEndpoint
             {
@@ -49,9 +49,11 @@ namespace elasticsearc.repository.test
 
             query.MemberCollection.AddRange("Dob", "FullName", "Gender", "Race");
 
-            var json = await query.GenerateEsQueryAsync();
+            var dsl = query.QueryDsl;
+
+            var json = new Patient().CompileToElasticsearchQueryDsl(dsl);
             var jo = JObject.Parse(json);
-            var fields = jo.SelectToken("$.fields").Values<string>().ToArray();
+            var fields = jo.SelectToken("$._source").Values<string>().ToArray();
             Assert.Contains("Dob", fields);
             Console.WriteLine(fields.ToString("\r\n"));
         }
@@ -59,7 +61,7 @@ namespace elasticsearc.repository.test
         [InlineData(null, null)]
         [InlineData("Roles", "Administrators")]
         [InlineData("Designation", "Senior Manager")]
-        public async Task QueryFields(string performer, string performerValues)
+        public void QueryFields(string performer, string performerValues)
         {
             var query = new QueryEndpoint
             {
@@ -72,9 +74,9 @@ namespace elasticsearc.repository.test
             var fields = new[] { "Dob", "FullName", "Gender", "Race" };
             query.MemberCollection.AddRange(fields);
 
-            var json = await query.GenerateEsQueryAsync();
+            var json = default(Patient).CompileToElasticsearchQueryDsl(query.QueryDsl);
             var jo = JObject.Parse(json);
-            var esFields = jo.SelectToken("$.fields").Values<string>().ToArrayString();
+            var esFields = jo.SelectToken("$._source").Values<string>().ToArrayString();
 
             Assert.Equal(fields, esFields);
         }

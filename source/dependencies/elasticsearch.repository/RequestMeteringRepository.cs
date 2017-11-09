@@ -42,7 +42,8 @@ namespace Bespoke.Sph.ElasticsearchRepository
             var url = $"{EsConfigurationManager.Index}_logs/{alias}/_search";
             using (var client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.LogHost) })
             {
-                var query = default(Entity).GenerateQueryDsl(filters);
+
+                var query = default(Entity).CompileToElasticsearchQueryDsl(new QueryDsl(filters));
                 var response = await client.PostAsync(url, new StringContent(query));
                 var lo = await response.ReadContentAsLoadOperationAsync<HttpRequestLog>();
                 return lo;

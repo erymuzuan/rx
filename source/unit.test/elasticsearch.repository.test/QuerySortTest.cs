@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace elasticsearc.repository.test
+namespace Bespoke.Sph.Tests.Elasticsearch
 {
     public class QuerySortTest
     {

@@ -52,18 +52,20 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
         }
 
 
-        public static string GenerateQueryDsl(this Entity entity, Filter[] filters, Sort[] sorts = null,
-            int skip = 0, int size = 20)
+        public static string CompileToElasticsearchQueryDsl(this Entity entity, QueryDsl query)
         {
 
-            var elements = new Dictionary<string, string>();
-            if (null != filters && filters.Any())
-                elements.Add("filter", entity.GenerateBoolQueryDsl(filters));
-            if (null != sorts && sorts.Any())
-                elements.Add("sort", GenerateSorts(sorts));
+            var elements = new Dictionary<string, object>();
+            if (query.Filters.Any())
+                elements.Add("filter", entity.GenerateBoolQueryDsl(query.Filters.ToArray()));
+            if (query.Sorts.Any())
+                elements.Add("sort", GenerateSorts(query.Sorts.ToArray()));
 
-            elements.Add("from", skip.ToString());
-            elements.Add("size", size.ToString());
+            if (query.Fields.Any())
+                elements.Add("_source", "[" + query.Fields.ToString(",", x => $@"""{x}""") + "]");
+
+            elements.Add("from", query.Skip);
+            elements.Add("size", query.Size);
 
             return $@"{{
     {elements.ToString(",\r\n", x => $@"""{x.Key}"":{x.Value}")}
