@@ -63,47 +63,46 @@ namespace Bespoke.Sph.Extensions
             };
             string name;
 
-            void Loop(JToken jo)
+            void Loop(JProperty jp)
             {
-                foreach (var jt in jo.Children())
+
+                if (jp.HasValues && jp.Value is JValue jv)
                 {
-                    if (jt is JProperty jp)
+                    var key = string.IsNullOrWhiteSpace(name) ? jp.Name : name + "." + jp.Name;
+                    switch (jv.Value)
                     {
-                        var key = name + "." + jp.Name;
-                        if (jp.HasValues && jp.Value is JObject jo2)
-                        {
-                            name = key;
-                            Loop(jo2);
-                        }
+                        case long big:
+                            reader.Add(key, Convert.ToInt32(big));
+                            break;
+                        case int numberInt:
+                            reader.Add(key, Convert.ToInt32(numberInt));
+                            break;
+                        case double number:
+                            reader.Add(key, Convert.ToDecimal(number));
+                            break;
+                        case float number:
+                            reader.Add(key, Convert.ToDecimal(number));
+                            break;
+                    }
 
-                        if (jp.HasValues && jp.Value is JValue jv)
-                        {
-                            reader.Add(key, jp.Value);
-                        }
-
+                    if (!reader.ContainsKey(key))
+                        reader.Add(key, jv.Value);
+                    return;
+                }
+                if (jp.HasValues && jp.Value is JObject jo2)
+                {
+                    name = string.IsNullOrWhiteSpace(name) ? jp.Name : name + "." + jp.Name;
+                    foreach (var child in jo2.Children().OfType<JProperty>())
+                    {
+                        Loop(child);
                     }
                 }
-
-
             }
 
-            foreach (var jt in token.Children())
+            foreach (var cp in token.Children().OfType<JProperty>())
             {
-                if (jt is JProperty jp)
-                {
-                    if (jp.HasValues && jp.Value is JObject jo)
-                    {
-                        name = jp.Name;
-                        Loop(jo);
-                        continue;
-                    }
-
-                    if (jp.HasValues && jp.Value is JValue jv)
-                    {
-                        reader.Add(jp.Name, jp.Value);
-                    }
-
-                }
+                name = "";
+                Loop(cp);
             }
             return reader;
         }

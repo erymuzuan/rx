@@ -171,14 +171,19 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             {
                 new Filter("Gender",Operator.Eq, "Female")
             }, new[] { new Sort { Direction = SortDirection.Desc, Path = "Mrn" } });
-            query.Fields.AddRange("FullName", "Age");
+            query.Fields.AddRange("FullName", "Age", "Dob", "Wife.Name");
             var lo = await repos.SearchAsync(query);
 
             var reader = lo.Readers.OrderBy(x => Guid.NewGuid()).First();
             Assert.True(reader.ContainsKey("FullName"));
+            Assert.True(reader.ContainsKey("Dob"));
             Assert.True(reader.ContainsKey("Age"));
             Assert.True(reader.ContainsKey("Id"));
-            Assert.Equal(3, reader.Count);
+            Assert.False(reader.ContainsKey("Religion"));
+
+            Assert.Null(reader["Wife.Name"]);
+            Assert.IsType<DateTime>(reader["Dob"]);
+            Assert.IsType<int>(reader["Age"]);
         }
 
 
