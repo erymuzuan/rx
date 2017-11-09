@@ -72,11 +72,11 @@ namespace Bespoke.Sph.ElasticsearchRepository
             return new LoadData<T>(item, version) { Json = source.ToString() };
         }
 
-        public async Task<LoadOperation<T>> SearchAsync(Query query)
+        public async Task<LoadOperation<T>> SearchAsync(QueryDsl queryDsl)
         {
-            var dsl = ((T)null).GenerateQueryDsl(query.Filters.ToArray(), query.Sorts.ToArray(), query.Skip, query.Size);
+            var dsl = ((T)null).GenerateQueryDsl(queryDsl.Filters.ToArray(), queryDsl.Sorts.ToArray(), queryDsl.Skip, queryDsl.Size);
             var response = await m_client.PostAsync($"{m_url}/_search", new StringContent(dsl));
-            var lo = await response.ReadContentAsLoadOperationAsync<T>(query.Skip, query.Size);
+            var lo = await response.ReadContentAsLoadOperationAsync<T>(queryDsl.Skip, queryDsl.Size);
 
             return lo;
         }
@@ -126,7 +126,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
             throw new NotImplementedException();
         }
 
-        public Task<TResult> GetMaxAsync<TResult>(Query query)
+        public Task<TResult> GetMaxAsync<TResult>(QueryDsl queryDsl)
         {
             throw new NotImplementedException();
         }

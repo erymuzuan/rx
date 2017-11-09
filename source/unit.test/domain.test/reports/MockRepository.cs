@@ -33,7 +33,7 @@ namespace domain.test.reports
             throw new NotImplementedException();
         }
 
-        public Task<LoadOperation<T>> SearchAsync(Query query)
+        public Task<LoadOperation<T>> SearchAsync(QueryDsl queryDsl)
         {
             throw new NotImplementedException();
         }
@@ -83,7 +83,7 @@ namespace domain.test.reports
             throw new NotImplementedException();
         }
 
-        public Task<TResult> GetMaxAsync<TResult>(Query query)
+        public Task<TResult> GetMaxAsync<TResult>(QueryDsl queryDsl)
         {
             throw new NotImplementedException();
         }

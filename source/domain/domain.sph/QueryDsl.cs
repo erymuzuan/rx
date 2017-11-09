@@ -1,12 +1,12 @@
 namespace Bespoke.Sph.Domain
 {
-    public class Query
+    public class QueryDsl
     {
-        public Query()
+        public QueryDsl()
         {
 
         }
-        public Query(Filter[] filters = null, Sort[] sorts = null, int skip = 0, int size = 20)
+        public QueryDsl(Filter[] filters = null, Sort[] sorts = null, int skip = 0, int size = 20)
         {
             if (null != filters)
                 Filters.AddRange(filters);

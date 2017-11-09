@@ -155,11 +155,11 @@ namespace Bespoke.Sph.Domain
             };";
         }
 
-        public Query Query
+        public Domain.QueryDsl QueryDsl
         {
             get
             {
-                var query = new Query(this.FilterCollection.ToArray(), this.SortCollection.ToArray());
+                var query = new Domain.QueryDsl(this.FilterCollection.ToArray(), this.SortCollection.ToArray());
                 if (this.MemberCollection.Any())
                     query.Fields.AddRange(this.MemberCollection);
                 return query;

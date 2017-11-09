@@ -10,7 +10,7 @@ namespace Bespoke.Sph.Domain
         Task<LoadData<T>> LoadOneAsync(string id);
         Task<LoadData<T>> LoadOneAsync(string field, string value);
 
-        Task<LoadOperation<T>> SearchAsync(Query query);
+        Task<LoadOperation<T>> SearchAsync(QueryDsl queryDsl);
         Task<LoadOperation<T>> SearchAsync(string odataUri);
 
         Task<int> GetCountAsync(Filter[] filters);
@@ -19,7 +19,7 @@ namespace Bespoke.Sph.Domain
         Task<IEnumerable<TResult>> GetListAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector);
 
         Task<TResult> GetMaxAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector);
-        Task<TResult> GetMaxAsync<TResult>(Query query);
+        Task<TResult> GetMaxAsync<TResult>(QueryDsl queryDsl);
     }
 
 

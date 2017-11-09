@@ -15,7 +15,7 @@ namespace elasticsearc.repository.test
     [Collection("Repository")]
     public class PatientRepositoryTest
     {
-        public ITestOutputHelper Console { get; }
+        private ITestOutputHelper Console { get; }
 
         public PatientRepositoryTest(ITestOutputHelper console)
         {
@@ -151,7 +151,7 @@ namespace elasticsearc.repository.test
         public async Task SimpleFilter()
         {
             var repos = new ReadonlyRepository<Patient>("http://localhost:9200", "devv1");
-            var lo = await repos.SearchAsync(new Query(new[]
+            var lo = await repos.SearchAsync(new QueryDsl(new[]
             {
                 new Filter("Gender",Operator.Eq, "Female")
             }));
