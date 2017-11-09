@@ -12,7 +12,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.ElasticsearchRepository
 {
-    public class ReadonlyRepository<T> : IDisposable, IReadonlyRepository<T> where T : Entity
+    public class ReadonlyRepository<T> : IDisposable, IReadonlyRepository<T> where T : Entity, new()
     {
         private readonly HttpClient m_client;
         private readonly string m_url;
@@ -101,7 +101,8 @@ namespace Bespoke.Sph.ElasticsearchRepository
 
         public async Task<int> GetCountAsync(Filter[] filters)
         {
-            var query = (default(T)).GenerateBoolQueryDsl(filters);
+            var query = filters.CompileToElasticsearchBoolQuery<T>();
+            //(default(T)).CompileToElasticsearchBoolQuery(filters);
             var request = new StringContent(query);
             var url = $"{m_url}/_count";
 

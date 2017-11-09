@@ -133,7 +133,7 @@ namespace Bespoke.Sph.Domain
             return await repos.GetCountAsync(query).ConfigureAwait(false);
         }
 
-        public async Task<int> GetCountAsync<T>(Expression<Func<T, bool>> predicate) where T : Entity
+        public async Task<int> GetCountAsync<T>(Expression<Func<T, bool>> predicate) where T : Entity, new()
         {
             var option = PersistenceOptionAttribute.GetAttribute<T>();
             if (null == option) return 0;
@@ -230,7 +230,7 @@ namespace Bespoke.Sph.Domain
         }
 
         public async Task<TResult> GetMaxAsync<T, TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)
-            where T : Entity
+            where T : Entity, new()
             where TResult : struct
         {
             var options = PersistenceOptionAttribute.GetAttribute<T>();
@@ -284,7 +284,7 @@ namespace Bespoke.Sph.Domain
 
 
         public async Task<IEnumerable<TResult>> GetListAsync<T, TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)
-            where T : Entity
+            where T : Entity, new()
         {
             var options = PersistenceOptionAttribute.GetAttribute<T>();
             if (null == options)

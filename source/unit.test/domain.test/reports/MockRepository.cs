@@ -7,7 +7,7 @@ using Bespoke.Sph.Domain;
 
 namespace domain.test.reports
 {
-    internal class ReadonlyRepository<T> : IReadonlyRepository<T> where T : Entity
+    internal class ReadonlyRepository<T> : IReadonlyRepository<T> where T : Entity, new()
     {
 
         private readonly Dictionary<string, T> m_dictionary = new Dictionary<string, T>();

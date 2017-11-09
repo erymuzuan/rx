@@ -67,7 +67,8 @@
     <Compile Include="Extensions\EntityDefinitionExtension.cs" />
     <Compile Include="Extensions\FilterExtension.cs" />
     <Compile Include="Extensions\MemberExtension.cs" />
-    <Compile Include="Extensions\QueryEndpointExtension.cs" />
+    <Compile Include="Extensions\QueryDslExtension.cs" />
+    <Compile Include="Extensions\SortExtension.cs" />
     <Compile Include="IndexNamingStrategy.cs" />
     <Compile Include="MappingBuilder.cs" />
     <Compile Include="MessageTracker.cs" />

@@ -6,7 +6,6 @@ using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.ElasticsearchRepository.Extensions
 {
-
     public static class FilterExtension
     {
         public static bool IsMustNotFilter(this Filter filter, Entity item = null)
@@ -52,58 +51,29 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
         }
 
 
-        public static string CompileToElasticsearchQueryDsl(this Entity entity, QueryDsl query)
+
+        public static string CompileToElasticsearchBoolQuery<T>(this IEnumerable<Filter> filters) where T : Entity, new()
         {
-
-            var elements = new Dictionary<string, object>();
-            if (query.Filters.Any())
-                elements.Add("filter", entity.GenerateBoolQueryDsl(query.Filters.ToArray()));
-            if (query.Sorts.Any())
-                elements.Add("sort", GenerateSorts(query.Sorts.ToArray()));
-
-            if (query.Fields.Any())
-                elements.Add("_source", "[" + query.Fields.ToString(",", x => $@"""{x}""") + "]");
-
-            elements.Add("from", query.Skip);
-            elements.Add("size", query.Size);
-
-            return $@"{{
-    {elements.ToString(",\r\n", x => $@"""{x.Key}"":{x.Value}")}
-
-}}";
+            return new T().CompileToElasticsearchBoolQuery(filters);
         }
 
-        private static string GenerateSorts(this Sort[] sorts)
-        {
-            return $"[{sorts.ToString(",\r\n", x => x.GenerateQuery())}]";
-        }
-
-        public static string GenerateQuery(this Sort sort)
-        {
-            var direction = sort.Direction == SortDirection.Asc ? "asc" : "desc";
-            return $@"{{""{sort.Path}"" : {{""order"": ""{direction}""}}}}";
-        }
-
-
-        public static string GenerateBoolQueryDsl(this Entity entity, IEnumerable<Filter> filters)
+        public static string CompileToElasticsearchBoolQuery(this Entity entity, IEnumerable<Filter> filters)
         {
             var filterList = (filters ?? Array.Empty<Filter>()).ToArray();
 
             var musts = filterList.Where(x => x.IsMustFilter(entity))
-                .Select(x => x.GetFilterDsl(entity, filterList))
+                .Select(x => x.CompileToElasticsearchTermLevelQuery(entity, filterList))
                 .Distinct()
                 .Where(x => !string.IsNullOrWhiteSpace(x))
                 .ToString(",\r\n");
 
 
             var mustNots = filterList.Where(x => x.IsMustNotFilter(entity))
-                .Select(x => x.GetFilterDsl(entity, filterList))
+                .Select(x => x.CompileToElasticsearchTermLevelQuery(entity, filterList))
                 .Distinct()
                 .Where(x => !string.IsNullOrWhiteSpace(x))
                 .ToString(",\r\n");
 
-
-            // TODO : sorts , skip and size
             return $@"{{
                ""bool"": {{
                   ""must"": [
@@ -117,8 +87,16 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
 
         }
 
-        public static string GetFilterDsl(this Filter target, Entity entity, Filter[] filters)
+        public static string CompileToElasticsearchTermLevelQuery<T>(this Filter target, Filter[] filters = null) where T : Entity, new()
         {
+            return target.CompileToElasticsearchTermLevelQuery(new T());
+        }
+
+        private static string CompileToElasticsearchTermLevelQuery(this Filter target, Entity entity, Filter[] filters = null)
+        {
+            if (null == filters)
+                filters = new[] { target };
+
             var context = new RuleContext(entity);
             var query = new StringBuilder();
             query.AppendLine("                 {");

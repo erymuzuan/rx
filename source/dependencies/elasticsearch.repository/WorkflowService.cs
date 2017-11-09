@@ -11,20 +11,26 @@ namespace Bespoke.Sph.ElasticsearchRepository
 {
     public class WorkflowService : IWorkflowService
     {
-
         private readonly HttpClient m_client;
-
-        public WorkflowService()
+        public WorkflowService(string host)
         {
-            if (null == m_client)
-                m_client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.Host) };
+            m_client = new HttpClient { BaseAddress = new Uri(host) };
+        }
+        public WorkflowService() : this(EsConfigurationManager.Host)
+        {
+
         }
 
         public WorkflowService(HttpMessageHandler httpMessageHandler, bool disposeHandler)
         {
-            if (null == m_client)
-                m_client = new HttpClient(httpMessageHandler, disposeHandler) { BaseAddress = new Uri(EsConfigurationManager.Host) };
+            m_client = new HttpClient(httpMessageHandler, disposeHandler) { BaseAddress = new Uri(EsConfigurationManager.Host) };
         }
+        public WorkflowService(string host, HttpMessageHandler httpMessageHandler, bool disposeHandler)
+        {
+            m_client = new HttpClient(httpMessageHandler, disposeHandler) { BaseAddress = new Uri(host) };
+        }
+
+
         public async Task<T> GetInstanceAsync<T>(WorkflowDefinition wd, string correlationName, string correlationValue) where T : Workflow, new()
         {
             var q16 = new
@@ -195,10 +201,10 @@ namespace Bespoke.Sph.ElasticsearchRepository
             int size = 20) where T : Workflow, new()
         {
             var wf = new T();
-            var terms = predicates.Select(x => x.GetFilterDsl(wf, new[] { x }));
+            var terms = predicates.Select(x => x.CompileToElasticsearchTermLevelQuery<T>());
             // TODO : Make the id field in mapping  as not-analyzed
             var ids = hits.Select(x => x.Remove(0, x.LastIndexOf("-", StringComparison.Ordinal) + 1))
-                .Select(x => $"\"{x}\"")
+                .Select(x => $@"""{x}""")
                 .ToList();
 
             // TODO : breaks the id into a chunck of 1024 , and do the request in a while loop
@@ -244,7 +250,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
             var low = new LoadOperation<WorkflowPresentation>
             {
                 TotalRows = ids.Count,
-                CurrentPage = (from / size) + 1,
+                CurrentPage = @from / size + 1,
                 PageSize = size
             };
             low.ItemCollection.AddRange(hits2);
@@ -265,19 +271,13 @@ namespace Bespoke.Sph.ElasticsearchRepository
             var json = await content.ReadAsStringAsync();
             var jo = JObject.Parse(json);
             var source = jo.SelectToken("$._source");
-
-            //var cache = new CacheMetadata {{
-            //                    Etag = jo.SelectToken("$._version").Value<string>(),
-            //                    LastModified = jo.SelectToken("$._source.ChangedDate").Value<DateTime>()
-            //                }};
-
+            //TODO : cache settings
             return source.ToString().DeserializeFromJson<T>();
         }
 
         public async Task<IEnumerable<T>> SearchAsync<T>(IEnumerable<Filter> predicates) where T : Workflow, new()
         {
-            var wf = new T();
-            var terms = predicates.Select(x => x.GetFilterDsl(wf, new[] { x }));
+            var terms = predicates.Select(x => x.CompileToElasticsearchTermLevelQuery<T>());
             var query = $@"{{
                        ""query"": {{
                           ""bool"": {{

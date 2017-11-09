@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
-    public interface IReadonlyRepository<T> where T : Entity
+    public interface IReadonlyRepository<T> where T : Entity, new()
     {
         Task<LoadData<T>> LoadOneAsync(string id);
         Task<LoadData<T>> LoadOneAsync(string field, string value);
