@@ -7,17 +7,6 @@ namespace Bespoke.Sph.Domain
 {
     public partial class SimpleMember : Member
     {
-        public override string GenerateJavascriptMember(string ns)
-        {
-            return this.AllowMultiple ?
-                $"     {Name}: ko.observableArray([])," :
-                $"     {Name}: ko.observable(),";
-        }
-
-        public override string GenerateJavascriptInitValue(string ns)
-        {
-            return $"model.{Name}(optionOrWebid.{Name});";
-        }
 
         public override string GetDefaultValueCode(int count, string itemIdentifier = "this")
         {

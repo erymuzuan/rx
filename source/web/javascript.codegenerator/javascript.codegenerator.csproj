@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{36B073CA-F17F-4027-98E1-DBA76CEF0128}</ProjectGuid>
+    <ProjectGuid>{50FA5725-6099-4676-A669-2DB6F2F62290}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bespoke.Sph.MessageTrackerSla</RootNamespace>
-    <AssemblyName>subscriber.message.sla</AssemblyName>
+    <RootNamespace>Bespoke.Sph.WebJavascriptUtils</RootNamespace>
+    <AssemblyName>javascript.codegenerator</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,19 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Humanizer, Version=1.37.7.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Humanizer.1.37.7\lib\portable-win+net40+sl50+wp8+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Humanizer.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Polly, Version=4.2.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Polly.4.2.4\lib\net45\Polly.dll</HintPath>
-    </Reference>
-    <Reference Include="RabbitMQ.Client, Version=3.6.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
-      <HintPath>..\packages\RabbitMQ.Client.3.6.0\lib\net45\RabbitMQ.Client.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -52,30 +42,44 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\extensions\BinaryExtensions.cs">
-      <Link>BinaryExtensions.cs</Link>
+    <Compile Include="EntityDefinitionExtension.cs" />
+    <Compile Include="JavascriptLanguageProvider.cs" />
+    <Compile Include="JavascriptMemberVisitor.cs" />
+    <Compile Include="MemberExtension.Columns.cs">
+      <DependentUpon>MemberExtension.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\..\extensions\LoggerExtensions.cs">
-      <Link>LoggerExtensions.cs</Link>
+    <Compile Include="MemberExtension.ComplexMember.cs">
+      <DependentUpon>MemberExtension.cs</DependentUpon>
     </Compile>
-    <Compile Include="MessageSlaTrackerSubscriber.cs" />
+    <Compile Include="MemberExtension.cs" />
+    <Compile Include="MemberExtension.SimpleMember.cs">
+      <DependentUpon>MemberExtension.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MemberExtension.ValueObjectMember.cs">
+      <DependentUpon>MemberExtension.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <Compile Include="VariableExtension.ValueObjectVariable.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>
     </ProjectReference>
-    <ProjectReference Include="..\subscriber.infrastructure\subscriber.infrastructure.csproj">
-      <Project>{40892CEA-FD47-4C1F-B821-7939776E9B6B}</Project>
-      <Name>subscriber.infrastructure</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <OutputFile Include="$(OutputPath)*.*">
+      <Visible>false</Visible>
+    </OutputFile>
+  </ItemGroup>
+  <Target Name="CopyOutputDirClientAndWeb">
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\web\web.sph\bin" />
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\web\bin\" />
+  </Target>
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetDir)*.* $(SolutionDir)bin\subscribers</PostBuildEvent>
+    <BuildDependsOn>
+      $(BuildDependsOn);CopyOutputDirClientAndWeb
+    </BuildDependsOn>
   </PropertyGroup>
 </Project>

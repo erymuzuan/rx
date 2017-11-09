@@ -236,8 +236,7 @@ namespace Bespoke.Sph.Domain
         {
             if (!path.Contains("."))
             {
-                var vm = member2 as ValueObjectMember;
-                if (null != vm)
+                if (member2 is ValueObjectMember vm)
                 {
                     var members = vm.MemberCollection;
                     var rm1 = members.SingleOrDefault(a => a.Name == path);

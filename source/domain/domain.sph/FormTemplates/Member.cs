@@ -13,18 +13,6 @@ namespace Bespoke.Sph.Domain
         {
             return null;
         }
-        public virtual string GenerateJavascriptMember(string ns)
-        {
-            return null;
-        }
-        public virtual string GenerateJavascriptContructor(string ns)
-        {
-            return null;
-        }
-        public virtual string GenerateJavascriptInitValue(string ns)
-        {
-            return null;
-        }
         public virtual string GenerateParameterCode()
         {
             return null;
@@ -78,9 +66,5 @@ namespace Bespoke.Sph.Domain
             return list.ToArray();
         }
 
-        public virtual string GenerateJavascriptClass(string jns, string csNs, string assemblyName)
-        {
-            return null;
-        }
     }
 }

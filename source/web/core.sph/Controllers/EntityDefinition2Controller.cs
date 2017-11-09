@@ -13,6 +13,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
 using Humanizer;
+using WebGrease.Css.Extensions;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -155,10 +156,11 @@ namespace Bespoke.Sph.Web.Controllers
             var list = context.LoadFromSources<EntityDefinition>(x => x.IsPublished);
 
             var script = new StringBuilder();
+            var provider = CodeGeneratorFactory.Instance.LanguageProviders.Single(x => x.Language == "javascript");
             foreach (var ef in list)
             {
-                var code = await ef.GenerateCustomXsdJavascriptClassAsync();
-                script.AppendLine(code);
+                var sources = await provider.GenerateCodeAsync(ef);
+                sources.ForEach(src => script.AppendLine(src.Value));
             }
             return JavaScript(script.ToString());
         }
