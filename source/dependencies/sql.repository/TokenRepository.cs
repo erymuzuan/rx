@@ -26,7 +26,7 @@ namespace Bespoke.Sph.SqlRepository
             {
 
                 cmd.Parameters.AddWithValue("@Subject", token.Subject);
-                cmd.Parameters.AddWithValue("@Email", token.Email);
+                cmd.Parameters.AddWithValue("@Email", token.Email.ToDbNull());
                 cmd.Parameters.AddWithValue("@UserName", token.Username);
                 cmd.Parameters.AddWithValue("@Payload", token.ToJson());
                 cmd.Parameters.AddWithValue("@ExpiryDate", token.ExpiryDate);

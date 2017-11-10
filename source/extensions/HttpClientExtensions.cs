@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.ElasticsearchRepository.Extensions;
 using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Extensions
@@ -35,6 +36,17 @@ namespace Bespoke.Sph.Extensions
             lo.CurrentPage = Convert.ToInt32(skip / size + 1);
             lo.PageSize = size;
 
+
+            var hasAggregates = query?.Aggregates.Any() ?? false;
+            if (hasAggregates)
+            {
+                foreach (var agg in query.Aggregates)
+                {
+                    agg.ExtractValueFromSearchResult(json);
+                }
+            }
+
+
             var tokens = json.SelectToken("$.hits.hits");
 
             if (useSourceFields)
@@ -51,23 +63,6 @@ namespace Bespoke.Sph.Extensions
                        let src = t.SelectToken("$._source")
                        where null != src
                        select src.ToString().DeserializeFromJson<T>();
-            if (query?.Aggregates.Any() ?? false)
-            {
-                foreach (var agg in query.Aggregates)
-                {
-                    var vp = $"$.aggregations.{agg.Name}.value";
-                    var vps = $"$.aggregations.{agg.Name}.value_as_string";
-                    if (json.SelectToken(vp) is JValue valueToken)
-                    {
-                        agg.SetValue(valueToken.Value);
-                    }
-                    if (json.SelectToken(vps) is JValue vs)
-                    {
-                        agg.SetValue(vs.Value);
-                        agg.SetStringValue($"{vs.Value}");
-                    }
-                }
-            }
 
             lo.ItemCollection.AddRange(list);
 
