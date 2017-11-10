@@ -22,12 +22,12 @@ namespace Bespoke.Sph.Extensions
             var text = await response.ReadContentAsStringAsync(ensureSuccessStatusCode, exceptionMessage);
             return JObject.Parse(text);
         }
-        public static async Task<LoadOperation<T>> ReadContentAsLoadOperationAsync<T>(this HttpResponseMessage response, QueryDsl query = null, bool ensureSuccessStatusCode = true, string exceptionMessage = "Cannot execute query on es "
-            , bool useSourceFields = false)
+        public static async Task<LoadOperation<T>> ReadContentAsLoadOperationAsync<T>(this HttpResponseMessage response, QueryDsl query = null, bool ensureSuccessStatusCode = true, string exceptionMessage = "Cannot execute query on es ")
             where T : DomainObject
         {
             var skip = query?.Skip ?? 0;
             var size = query?.Size ?? 1;
+            var useSourceFields = query?.Fields.Any() ?? false;
             var lo = new LoadOperation<T>(query);
             var json = await response.ReadContentAsJsonAsync(ensureSuccessStatusCode, exceptionMessage);
 
