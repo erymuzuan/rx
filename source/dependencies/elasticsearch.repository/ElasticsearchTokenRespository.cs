@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Extensions;
 using Bespoke.Sph.WebApi;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -12,14 +12,24 @@ using Polly;
 
 namespace Bespoke.Sph.ElasticsearchRepository
 {
-
     public class ElasticsearchTokenRespository : ITokenRepository
     {
+        private readonly ITokenRepository[] m_failOverRepositories;
         private readonly HttpClient m_client;
-        public ElasticsearchTokenRespository()
+        public ElasticsearchTokenRespository(string host, ITokenRepository[] failOverRepositories = null)
         {
-            m_client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.Host) };
+            m_failOverRepositories = failOverRepositories ?? Array.Empty<ITokenRepository>();
+            m_client = new HttpClient { BaseAddress = new Uri(host) };
         }
+        public ElasticsearchTokenRespository(ITokenRepository[] failOverRepositories) : this(EsConfigurationManager.Host, failOverRepositories)
+        {
+        }
+
+        public ElasticsearchTokenRespository() : this(EsConfigurationManager.Host)
+        {
+        }
+
+
         public async Task SaveAsync(AccessToken token)
         {
             var content = new StringContent(token.ToJson());
@@ -27,7 +37,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
             var url = $"{index}/access_token/{token.WebId}";
 
             var response = await m_client.PostAsync(url, content);
-            await this.AddSqlServerAsync(token);
+            await AddToFailOversAsync(token);
             response.EnsureSuccessStatusCode();
         }
 
@@ -140,90 +150,52 @@ namespace Bespoke.Sph.ElasticsearchRepository
             return lo;
         }
 
-        public async Task<AccessToken> LoadOneAsync(string id)
+        public async Task<AccessToken> LoadOneAsync(string subject)
         {
-            if (string.IsNullOrWhiteSpace(id))
-                throw new ArgumentNullException(nameof(id));
+            if (string.IsNullOrWhiteSpace(subject))
+                throw new ArgumentNullException(nameof(subject));
 
-            var url = $"{EsConfigurationManager.SystemIndex}/access_token/{id}";
+            var url = $"{EsConfigurationManager.SystemIndex}/access_token/{subject}";
 
             var pr = await Policy.Handle<HttpRequestException>()
                             .WaitAndRetryAsync(5, x => TimeSpan.FromMilliseconds(Math.Pow(2, x) * 500))
                             .ExecuteAndCaptureAsync(async () => await m_client.GetAsync(url));
             if (null != pr.FinalException)
-                return null;
+                return await LoadFromFailOversAsync(subject);
 
             var response = pr.Result;
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
-                // look in sql server
-                return await LoadFromSqlServerAsync(id);
-
+                return await LoadFromFailOversAsync(subject);
             }
 
-
-            var content = response.Content as StreamContent;
-            if (null == content) throw new Exception("Cannot execute query on es ");
-            var json = await content.ReadAsStringAsync();
-
-            var jo = JObject.Parse(json);
+            var jo = await response.ReadContentAsJsonAsync();
             var token = jo.SelectToken("$._source").ToString().DeserializeFromJson<AccessToken>();
 
             return token;
         }
 
-        private async Task<AccessToken> LoadFromSqlServerAsync(string subject)
+        private async Task<AccessToken> LoadFromFailOversAsync(string subject)
         {
-            using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
-            using (var cmd = new SqlCommand("SELECT [Payload] FROM [Sph].[AccessToken] WHERE [Subject] = @Subject", conn))
-            {
-                cmd.Parameters.AddWithValue("@Subject", subject);
-                await conn.OpenAsync();
-                var json = await cmd.ExecuteScalarAsync();
-                if (json == DBNull.Value) return default(AccessToken);
-                if (string.IsNullOrWhiteSpace($"{json}")) return default(AccessToken);
+            var tasks = from fo in m_failOverRepositories
+                        select fo.LoadOneAsync(subject);
+            var winning = await Task.WhenAny(tasks);
 
-                return ((string)json).DeserializeFromJson<AccessToken>();
+            return await winning;
 
-            }
         }
-        private async Task RemoveFromSqlServerAsync(string subject)
+        private async Task RemoveFromFailOversAsync(string subject)
         {
-            using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
-            using (var cmd = new SqlCommand("DELETE FROM [Sph].[AccessToken] WHERE [Subject] = @Subject", conn))
-            {
-                cmd.Parameters.AddWithValue("@Subject", subject);
-                await conn.OpenAsync();
-                await cmd.ExecuteNonQueryAsync();
-            }
+            var tasks = from fo in m_failOverRepositories
+                        select fo.RemoveAsync(subject);
+            await Task.WhenAll(tasks);
+
         }
-        private async Task AddSqlServerAsync(AccessToken token)
+        private async Task AddToFailOversAsync(AccessToken token)
         {
-            using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
-            using (var cmd = new SqlCommand(@"INSERT INTO [Sph].[AccessToken]
-           ([Subject]
-           ,[Email]
-           ,[UserName]
-           ,[Payload]
-           ,[ExpiryDate])
-     VALUES
-           (@Subject
-           ,@Email
-           ,@UserName
-           ,@Payload
-           ,@ExpiryDate)", conn))
-            {
-
-                cmd.Parameters.AddWithValue("@Subject", token.Subject);
-                cmd.Parameters.AddWithValue("@Email", token.Email);
-                cmd.Parameters.AddWithValue("@UserName", token.Username);
-                cmd.Parameters.AddWithValue("@Payload", token.ToJson());
-                cmd.Parameters.AddWithValue("@ExpiryDate", token.ExpiryDate);
-                await conn.OpenAsync();
-                var json = await cmd.ExecuteNonQueryAsync();
-                System.Diagnostics.Debug.Assert(json == 1, "1 row must be added");
-
-            }
+            var tasks = from fo in m_failOverRepositories
+                        select fo.SaveAsync(token);
+            await Task.WhenAll(tasks);
         }
 
         public async Task RemoveAsync(string subject)
@@ -239,7 +211,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
                 throw pr.FinalException;
 
             var response = pr.Result;
-            await RemoveFromSqlServerAsync(subject);
+            await RemoveFromFailOversAsync(subject);
             response.EnsureSuccessStatusCode();
 
         }
