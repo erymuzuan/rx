@@ -22,11 +22,13 @@ namespace Bespoke.Sph.Extensions
             var text = await response.ReadContentAsStringAsync(ensureSuccessStatusCode, exceptionMessage);
             return JObject.Parse(text);
         }
-        public static async Task<LoadOperation<T>> ReadContentAsLoadOperationAsync<T>(this HttpResponseMessage response, int skip = 0, int size = 1, bool ensureSuccessStatusCode = true, string exceptionMessage = "Cannot execute query on es "
+        public static async Task<LoadOperation<T>> ReadContentAsLoadOperationAsync<T>(this HttpResponseMessage response, QueryDsl query = null, bool ensureSuccessStatusCode = true, string exceptionMessage = "Cannot execute query on es "
             , bool useSourceFields = false)
             where T : DomainObject
         {
-            var lo = new LoadOperation<T>();
+            var skip = query?.Skip ?? 0;
+            var size = query?.Size ?? 1;
+            var lo = new LoadOperation<T>(query);
             var json = await response.ReadContentAsJsonAsync(ensureSuccessStatusCode, exceptionMessage);
 
             lo.TotalRows = json.SelectToken("$.hits.total").Value<int>();
@@ -49,6 +51,23 @@ namespace Bespoke.Sph.Extensions
                        let src = t.SelectToken("$._source")
                        where null != src
                        select src.ToString().DeserializeFromJson<T>();
+            if (query?.Aggregates.Any() ?? false)
+            {
+                foreach (var agg in query.Aggregates)
+                {
+                    var vp = $"$.aggregations.{agg.Name}.value";
+                    var vps = $"$.aggregations.{agg.Name}.value_as_string";
+                    if (json.SelectToken(vp) is JValue valueToken)
+                    {
+                        agg.SetValue(valueToken.Value);
+                    }
+                    if (json.SelectToken(vps) is JValue vs)
+                    {
+                        agg.SetValue(vs.Value);
+                        agg.SetStringValue($"{vs.Value}");
+                    }
+                }
+            }
 
             lo.ItemCollection.AddRange(list);
 

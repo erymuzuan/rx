@@ -8,6 +8,16 @@ namespace Bespoke.Sph.Domain
 {
     public class LoadOperation<T> where T : DomainObject
     {
+        public QueryDsl QueryDsl { get; }
+        public LoadOperation()
+        {
+            
+        }
+
+        public LoadOperation(QueryDsl query)
+        {
+            QueryDsl = query;
+        }
         public bool HasError { get; set; }
         public Exception Exception { get; set; }
         public int CurrentPage { get; set; }
@@ -22,7 +32,10 @@ namespace Bespoke.Sph.Domain
 
         public TAggregate GetAggregateValue<TAggregate>(string name)
         {
-            return default;
+            var agg = QueryDsl?.Aggregates.SingleOrDefault(x => x.Name == name);
+            if (agg == null) return default;
+
+            return agg.GetValue<TAggregate>();
         }
 
         public int? TotalPages

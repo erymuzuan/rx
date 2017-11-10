@@ -64,6 +64,7 @@
     <Compile Include="CircuitBreaker.cs" />
     <Compile Include="ElasticsearchTokenRespository.cs" />
     <Compile Include="EsConfigurationManager.cs" />
+    <Compile Include="Extensions\AggregateExtension.cs" />
     <Compile Include="Extensions\EntityDefinitionExtension.cs" />
     <Compile Include="Extensions\FilterExtension.cs" />
     <Compile Include="Extensions\MemberExtension.cs" />

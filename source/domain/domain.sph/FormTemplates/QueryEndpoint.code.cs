@@ -219,7 +219,7 @@ namespace Bespoke.Sph.Domain
                 code.AppendLine(filterCode);
             }
             code.AppendLine();
-            code.AppendLine("var lo = await repos.SearchAsync(qr);");
+            code.AppendLine("var lo = await repos.SearchAsync(query);");
 
             code.Append(this.GenerateCacheCode());
             code.Append(this.GenerateListCode());

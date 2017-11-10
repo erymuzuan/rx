@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.ElasticsearchRepository;
@@ -184,6 +185,64 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             Assert.Null(reader["Wife.Name"]);
             Assert.IsType<DateTime>(reader["Dob"]);
             Assert.IsType<int>(reader["Age"]);
+        }
+        [Fact]
+        public async Task MaxAggregate()
+        {
+            var repos = new ReadonlyRepository<Patient>("http://localhost:9200", "devv1");
+            var query = new QueryDsl(new[]
+            {
+                new Filter("Gender",Operator.Eq, "Female")
+            }, new[] { new Sort { Direction = SortDirection.Desc, Path = "Mrn" } });
+            query.Fields.AddRange("FullName", "Age", "Dob", "Wife.Name");
+            query.Aggregates.Add(new MaxAggregate("LastModifiedDate", "ChangedDate"));
+            var lo = await repos.SearchAsync(query);
+
+
+            var lastChanged = await GetLastModifiedDate(query.Aggregates.First());
+            var max = lo.GetAggregateValue<DateTime>("LastModifiedDate");
+            Assert.Equal(lastChanged.ToString("s"), max.ToString("s"));
+        }
+
+        private async Task<DateTime> GetLastModifiedDate(Aggregate agg)
+        {
+            var content = $@"
+{{
+   ""filter"": {{
+      ""bool"": {{
+         ""must"": [
+            {{
+               ""term"": {{
+                  ""Gender"": ""Female""
+               }}
+            }}
+         ],
+         ""must_not"": []
+      }}
+   }},
+   ""sort"": [
+      {{
+         ""Mrn"": {{
+            ""order"": ""desc""
+         }}
+      }}
+   ],
+  ""size"": 0,
+   ""aggs"": {{
+      ""{agg.Name}"": {{
+         ""max"": {{
+             ""field"":""{agg.Path}""
+         }}
+      }}
+   }}
+}}";
+            using (var client = new HttpClient { BaseAddress = new Uri("http://localhost:9200") })
+            {
+                var response = await client.PostAsync("/devv1/patient/_search", new StringContent(content));
+                var json = await Extensions.HttpClientExtensions.ReadContentAsJsonAsync(response);
+
+                return json.SelectToken($"$.aggregations.{agg.Name}.value_as_string").Value<DateTime>();
+            }
         }
 
 

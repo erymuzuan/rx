@@ -56,6 +56,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\extensions\HttpClientExtensions.cs">
+      <Link>HttpClientExtensions.cs</Link>
+    </Compile>
     <Compile Include="PatientRepositoryTest.cs" />
     <Compile Include="QueryEndpointTest.cs" />
     <Compile Include="MockLdap.cs" />

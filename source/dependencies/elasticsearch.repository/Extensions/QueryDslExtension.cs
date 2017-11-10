@@ -6,7 +6,7 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
 {
     public static class QueryDslExtension
     {
-        
+
         public static string CompileToElasticsearchQueryDsl(this Entity entity, QueryDsl query)
         {
 
@@ -18,6 +18,9 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
 
             if (query.Fields.Any())
                 elements.Add("_source", "[" + query.Fields.ToString(",", x => $@"""{x}""") + "]");
+
+            if (query.Aggregates.Any())
+                elements.Add("aggs", "{" + query.Aggregates.ToString(",", x => x.GenerateQuery()) + "}");
 
             elements.Add("from", query.Skip);
             elements.Add("size", query.Size);
