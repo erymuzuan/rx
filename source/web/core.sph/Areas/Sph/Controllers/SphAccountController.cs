@@ -247,6 +247,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Redirect("/");
         }
 
+        public ActionResult UpdateProfile()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class ResetPaswordModel

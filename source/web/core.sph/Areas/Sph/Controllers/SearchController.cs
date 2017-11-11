@@ -2,7 +2,6 @@
 using System.Web.Http;
 using System.Threading.Tasks;
 using System.Linq;
-using System.Text;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.WebApi;
 using Humanizer;
@@ -17,7 +16,7 @@ namespace Bespoke.Sph.Web.Controllers
             this.CacheManager = ObjectBuilder.GetObject<ICacheManager>();
         }
 
-        public ICacheManager CacheManager { get; set; }
+        private ICacheManager CacheManager { get; set; }
 
         private const string TypesKey = "search:published-types";
         private const string RecordKey = "search:published-records";
@@ -43,8 +42,9 @@ namespace Bespoke.Sph.Web.Controllers
                 CacheManager.Insert(RecordKey, records, 5.Minutes());
             }
 
-            var repos = ObjectBuilder.GetObject<IReadonlyRepository>();
-            var result = await repos.SearchAsync(types.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries), Filter.Parse(text));
+            var parser = ObjectBuilder.GetObject<IQueryParser>();
+            var repos = ObjectBuilder.GetObject<IReadOnlyRepository>();
+            var result = await repos.SearchAsync(types.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries), parser.Parse(text));
 
             return Json(result);
 
@@ -52,11 +52,13 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("{type}")]
-        public async Task<IHttpActionResult> Es(string type, [RawBody]string query, [FromUri]bool sys = true)
+        public async Task<IHttpActionResult> Es(string type, [RawBody]string queryText, [FromUri]bool sys = true)
         {
-
-            var repos = ObjectBuilder.GetObject<IReadonlyRepository>();
-            var result = await repos.SearchAsync(new[] { type }, Filter.Parse(query));
+            var parser = ObjectBuilder.GetObject<IQueryParser>();
+            var query = parser.Parse(queryText);
+            
+            var repos = ObjectBuilder.GetObject<IReadOnlyRepository>();
+            var result = await repos.SearchAsync(new[] { type }, query);
 
             return Json(result);
 
@@ -71,24 +73,5 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
 
-    }
-
-    public class SearchException : Exception
-    {
-        public string Query { get; set; }
-        public string Result { get; set; }
-        public SearchException(string message) : base(message) { }
-        public SearchException(string message, Exception exception) : base(message, exception)
-        {
-        }
-
-        public override string ToString()
-        {
-            var ex = new StringBuilder();
-            ex.AppendLine(this.Message);
-            ex.AppendLine("Query " + this.Query);
-            ex.AppendLine("Result " + this.Result);
-            return ex.ToString();
-        }
     }
 }

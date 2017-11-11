@@ -10,5 +10,9 @@ namespace Bespoke.Sph.Web.Controllers
             return View();
         }
 
+        public ActionResult ContactUs()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
