@@ -3,23 +3,22 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.ElasticsearchRepository.Extensions;
-using Bespoke.Sph.Extensions;
 using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.ElasticsearchRepository
 {
-    public class ReadonlyRepository : IReadonlyRepository
+    public class ReadOnlyRepository : IReadOnlyRepository
     {
         private readonly HttpClient m_client;
-        public ReadonlyRepository(string host)
+        public ReadOnlyRepository(string host)
         {
             m_client = new HttpClient { BaseAddress = new Uri(host) };
         }
 
-        public ReadonlyRepository() : this(EsConfigurationManager.Host)
+        public ReadOnlyRepository() : this(EsConfigurationManager.Host)
         {
-
         }
+        
         public async Task TruncateAsync(string entity)
         {
             var message = new HttpRequestMessage(HttpMethod.Delete,

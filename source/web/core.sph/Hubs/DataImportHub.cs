@@ -44,7 +44,7 @@ namespace Bespoke.Sph.Web.Hubs
             await m_rabbitManagementHttpClient.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/es.data-import/contents");
 
             // delete the elasticsearch
-            await ObjectBuilder.GetObject<IReadonlyRepository>().TruncateAsync(model.Entity);
+            await ObjectBuilder.GetObject<IReadOnlyRepository>().TruncateAsync(model.Entity);
        
 
             // truncate SQL Table
@@ -487,7 +487,7 @@ namespace Bespoke.Sph.Web.Hubs
 
         private async Task<int> GetElasticsearchCountAsync(DataTransferDefinition model)
         {
-            var repos = ObjectBuilder.GetObject<IReadonlyRepository>();
+            var repos = ObjectBuilder.GetObject<IReadOnlyRepository>();
             return await repos.GetCountAsync(model.Entity);
         }
         private async Task<int> GetSqlServerCountAsync(DataTransferDefinition model)

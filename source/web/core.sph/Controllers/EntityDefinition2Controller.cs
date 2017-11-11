@@ -257,7 +257,7 @@ namespace Bespoke.Sph.Web.Controllers
 
             if (ed.StoreInElasticsearch ?? false)
             {
-                await ObjectBuilder.GetObject<IReadonlyRepository>()
+                await ObjectBuilder.GetObject<IReadOnlyRepository>()
                        .TruncateAsync(ed.Name);
             }
 

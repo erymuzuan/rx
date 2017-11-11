@@ -2,12 +2,12 @@ using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
-    public interface IReadonlyRepository
+    public interface IReadOnlyRepository
     {
         Task TruncateAsync(string entity);
         Task CleanAsync(string entity);
         Task CleanAsync();
-        Task<LoadOperation<Entity>> SearchAsync(string[] entities, Filter[] filters = null, Sort[] sorts = null, int skip = 0, int size = 20);
+        Task<LoadOperation<Entity>> SearchAsync(string[] entities, QueryDsl query);
 
         Task<int> GetCountAsync(string entity);
     }

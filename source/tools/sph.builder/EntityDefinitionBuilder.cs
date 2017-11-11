@@ -27,7 +27,7 @@ namespace Bespoke.Sph.SourceBuilders
         public override async Task RestoreAllAsync()
         {
             var folder = ConfigurationManager.SphSourceDirectory + @"\EntityDefinition";
-            var repos = ObjectBuilder.GetObject<IReadonlyRepository>();
+            var repos = ObjectBuilder.GetObject<IReadOnlyRepository>();
             await repos.CleanAsync();
             this.Initialize();
             this.Clean();

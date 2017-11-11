@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
-    public interface IReadonlyRepository<T> where T : Entity, new()
+    public interface IReadOnlyRepository<T> where T : Entity, new()
     {
         Task<LoadData<T>> LoadOneAsync(string id);
         Task<LoadData<T>> LoadOneAsync(string field, string value);
@@ -67,5 +67,41 @@ namespace Bespoke.Sph.Domain
 
         }
 
+    }
+
+    public class AverageAggregate : Aggregate
+    {
+        public AverageAggregate(string name, string path) : base(name, path)
+        {
+            
+        }
+    }
+    public class MinAggregate : Aggregate
+    {
+        public MinAggregate(string name, string path) : base(name, path)
+        {
+            
+        }
+    }
+    public class SumAggregate : Aggregate
+    {
+        public SumAggregate(string name, string path) : base(name, path)
+        {
+            
+        }
+    }
+    public class CountDistinctAggregate : Aggregate
+    {
+        public CountDistinctAggregate(string name, string path) : base(name, path)
+        {
+            
+        }
+    }
+    public class GroupByAggregate : Aggregate
+    {
+        public GroupByAggregate(string name, string path) : base(name, path)
+        {
+            
+        }
     }
 }

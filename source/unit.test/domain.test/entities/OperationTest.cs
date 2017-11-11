@@ -384,7 +384,7 @@ namespace domain.test.entities
             var reposType = mock.MakeGenericType(edType);
             var repository = Activator.CreateInstance(reposType);
 
-            var ff = typeof(IReadonlyRepository<>).MakeGenericType(edType);
+            var ff = typeof(IReadOnlyRepository<>).MakeGenericType(edType);
 
             ObjectBuilder.AddCacheList(ff, repository);
 

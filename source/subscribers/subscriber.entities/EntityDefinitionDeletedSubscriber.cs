@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
@@ -105,7 +104,7 @@ namespace subscriber.entities
 
         private async Task RemoveElasticSearchMappingsAsync(EntityDefinition item)
         {
-            var repos = ObjectBuilder.GetObject<IReadonlyRepository>();
+            var repos = ObjectBuilder.GetObject<IReadOnlyRepository>();
             await repos.CleanAsync(item.Name);
         }
 

@@ -150,7 +150,7 @@ namespace Bespoke.Sph.Domain
             }
             if (option.IsElasticsearch)
             {
-                var readOnlyStore = ObjectBuilder.GetObject<IReadonlyRepository<T>>();
+                var readOnlyStore = ObjectBuilder.GetObject<IReadOnlyRepository<T>>();
                 return await readOnlyStore.GetCountAsync(predicate);
             }
 
@@ -250,7 +250,7 @@ namespace Bespoke.Sph.Domain
             if (options.IsElasticsearch)
             {
 
-                var readOnlyRepos = ObjectBuilder.GetObject<IReadonlyRepository<T>>();
+                var readOnlyRepos = ObjectBuilder.GetObject<IReadOnlyRepository<T>>();
                 return await readOnlyRepos.GetMaxAsync(predicate, selector).ConfigureAwait(false);
             }
             throw new Exception($"The type {typeof(T).FullName} didn't have storage option specified");
@@ -306,7 +306,7 @@ namespace Bespoke.Sph.Domain
             }
             if (options.IsElasticsearch)
             {
-                var readOnlyRepos = ObjectBuilder.GetObject<IReadonlyRepository<T>>();
+                var readOnlyRepos = ObjectBuilder.GetObject<IReadOnlyRepository<T>>();
                 return await readOnlyRepos.GetListAsync(predicate, selector).ConfigureAwait(false);
             }
 

@@ -134,7 +134,7 @@ namespace Bespoke.Sph.Domain
                                                      [IfNoneMatch]ETag etag,
                                                      [ModifiedSince]ModifiedSinceHeader modifiedSince)
         {{
-            var repos = ObjectBuilder.GetObject<IReadonlyRepository<{Entity}>>();
+            var repos = ObjectBuilder.GetObject<IReadOnlyRepository<{Entity}>>();
             var count = await repos.GetCountAsync(eq.FilterCollection.ToArray());
             return Ok(new {{ _count = count }});
 
@@ -200,7 +200,7 @@ namespace Bespoke.Sph.Domain
 
             code.Append($@"
 
-            var repos = ObjectBuilder.GetObject<IReadonlyRepository<{Entity}>>();
+            var repos = ObjectBuilder.GetObject<IReadOnlyRepository<{Entity}>>();
             var query = eq.QueryDsl;
             query.Aggregates.Clear();
             query.Aggregates.AddRange(aggregates);

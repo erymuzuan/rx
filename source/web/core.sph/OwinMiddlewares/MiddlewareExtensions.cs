@@ -97,7 +97,7 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
 
                     var esReposType = esRepositoryType.MakeGenericType(edType);
                     var readonlyRepository = Activator.CreateInstance(esReposType);
-                    var rf = typeof(IReadonlyRepository<>).MakeGenericType(edType);
+                    var rf = typeof(IReadOnlyRepository<>).MakeGenericType(edType);
                     ObjectBuilder.AddCacheList(rf, readonlyRepository);
                 }
                 catch (FileNotFoundException e)

@@ -11,12 +11,12 @@ using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.ElasticsearchRepository
 {
-    public class ReadonlyRepository<T> : IDisposable, IReadonlyRepository<T> where T : Entity, new()
+    public class ReadOnlyRepository<T> : IDisposable, IReadOnlyRepository<T> where T : Entity, new()
     {
         private readonly HttpClient m_client;
         private readonly string m_url;
 
-        public ReadonlyRepository(string host, string indexName)
+        public ReadOnlyRepository(string host, string indexName)
         {
 
             if (null == m_client)
@@ -25,16 +25,16 @@ namespace Bespoke.Sph.ElasticsearchRepository
 
         }
 
-        public ReadonlyRepository() : this(EsConfigurationManager.Host, EsConfigurationManager.Index)
+        public ReadOnlyRepository() : this(EsConfigurationManager.Host, EsConfigurationManager.Index)
         {
         }
 
-        public ReadonlyRepository(string host, string indexName, HttpMessageHandler httpMessageHandler, bool disposeHandler) : this(host, indexName)
+        public ReadOnlyRepository(string host, string indexName, HttpMessageHandler httpMessageHandler, bool disposeHandler) : this(host, indexName)
         {
             m_client = new HttpClient(httpMessageHandler, disposeHandler) { BaseAddress = new Uri(host) };
         }
 
-        public ReadonlyRepository(HttpMessageHandler httpMessageHandler, bool disposeHandler) : this(EsConfigurationManager.Host, EsConfigurationManager.Index)
+        public ReadOnlyRepository(HttpMessageHandler httpMessageHandler, bool disposeHandler) : this(EsConfigurationManager.Host, EsConfigurationManager.Index)
         {
             m_client = new HttpClient(httpMessageHandler, disposeHandler) { BaseAddress = new Uri(EsConfigurationManager.Host) };
         }

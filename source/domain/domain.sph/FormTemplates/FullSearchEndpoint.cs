@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Domain
             search.AppendLinf("       public async Task<IHttpActionResult> Search([RawBody]string query)");
             search.AppendLine("       {");
             search.Append($@"
-            var repos = ObjectBuilder.GetObject<IReadonlyRepository<{ed.Name}>>();
+            var repos = ObjectBuilder.GetObject<IReadOnlyRepository<{ed.Name}>>();
             var response = await repos.SearchAsync(query);
             return Json(response);
             ");

@@ -48,7 +48,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
         public async Task<ActionResult> GetPendingTasksByUser(string id, int skip = 20, int page = 1)
         {
-            var repos = ObjectBuilder.GetObject<IReadonlyRepository<PendingTask>>();
+            var repos = ObjectBuilder.GetObject<IReadOnlyRepository<PendingTask>>();
             var lo = await repos.SearchAsync(new QueryDsl(new[]
             {
                 new Domain.Filter("Performers", Operator.Eq, id),

@@ -52,7 +52,7 @@ namespace Bespoke.Sph.Domain
             code.Append($@"
           
             var setting = await ed.ServiceContract.LoadSettingAsync(ed.Name);
-            var repos = ObjectBuilder.GetObject<IReadonlyRepository<{ed.Name}>>();
+            var repos = ObjectBuilder.GetObject<IReadOnlyRepository<{ed.Name}>>();
             var lo = await repos.LoadOneAsync(id);  
             if(null == lo.Source) 
                 lo = await repos.LoadOneAsync(""{ed.RecordName}"", id);            

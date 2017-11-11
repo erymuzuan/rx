@@ -7,7 +7,7 @@ using Bespoke.Sph.Domain;
 
 namespace domain.test.reports
 {
-    internal class ReadonlyRepository<T> : IReadonlyRepository<T> where T : Entity, new()
+    internal class ReadonlyRepository<T> : IReadOnlyRepository<T> where T : Entity, new()
     {
 
         private readonly Dictionary<string, T> m_dictionary = new Dictionary<string, T>();
@@ -38,7 +38,7 @@ namespace domain.test.reports
             throw new NotImplementedException();
         }
 
-        Task<LoadOperation<T>> IReadonlyRepository<T>.SearchAsync(string odataUri)
+        Task<LoadOperation<T>> IReadOnlyRepository<T>.SearchAsync(string odataUri)
         {
             throw new NotImplementedException();
         }
