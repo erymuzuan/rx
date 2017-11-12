@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Http;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Net.Http.Headers;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.WebApi;
 using Humanizer;
@@ -24,7 +25,7 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpGet]
         [Route("")]
-        public async Task<IHttpActionResult> Index([FromUri(Name = "q")]string text, [CustomHeader("QueryParser")]IEnumerable<string> providers)
+        public async Task<IHttpActionResult> Index([FromUri(Name = "q")]string text, [ContentType]MediaTypeHeaderValue contentType)
         {
             var types = this.CacheManager.Get<string>(TypesKey);
             var records = this.CacheManager.Get<string>(RecordKey);
@@ -43,8 +44,8 @@ namespace Bespoke.Sph.Web.Controllers
                 CacheManager.Insert(RecordKey, records, 5.Minutes());
             }
 
-            var provider = providers.ToArray().SingleOrDefault();
-            var parser = QueryParserFactory.Instance.Get(provider ?? "odata");
+            var provider = contentType?.MediaType ?? "odata";
+            var parser = QueryParserFactory.Instance.Get(provider);
             var repos = ObjectBuilder.GetObject<IReadOnlyRepository>();
             var result = await repos.SearchAsync(types.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries), parser.Parse(text));
 
@@ -54,10 +55,10 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("{type}")]
-        public async Task<IHttpActionResult> SearchAsync(string type, [RawBody]string queryText, [CustomHeader("QueryParser")]IEnumerable<string> providers)
+        public async Task<IHttpActionResult> SearchAsync(string type, [RawBody]string queryText, [ContentType]MediaTypeHeaderValue contentType)
         {
-            var provider = providers.ToArray().SingleOrDefault();
-            var parser = QueryParserFactory.Instance.Get(provider ?? "elasticsearch");
+            var provider = contentType?.MediaType ?? "odata";
+            var parser = QueryParserFactory.Instance.Get(provider ?? "odata");
             var query = parser.Parse(queryText);
 
             var repos = ObjectBuilder.GetObject<IReadOnlyRepository>();
@@ -72,7 +73,7 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<IHttpActionResult> Workflow(string id, string version, [RawBody]string json)
         {
             var wfes = $"{id}workflow".Replace("-", "");
-            return await SearchAsync(wfes, json, new[] { "" });
+            return await SearchAsync(wfes, json, new MediaTypeHeaderValue("odata/V2"));
         }
 
 

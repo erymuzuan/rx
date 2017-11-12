@@ -49,13 +49,7 @@ namespace Bespoke.Sph.WebApi
 
         public bool IsMatch(string input)
         {
-
-            DateTime dateTime;
-            if (DateTime.TryParse(input, out dateTime))
-            {
-                return this.IsMatch(dateTime);
-            }
-            return false;
+            return DateTime.TryParse(input, out var dateTime) && this.IsMatch(dateTime);
         }
     }
 }

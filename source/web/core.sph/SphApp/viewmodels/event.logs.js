@@ -34,29 +34,21 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 });
             },
             query = ko.observable({
-                "sort": [
-                 {
-                     "time": {
-                         "order": "desc"
-                     }
-                 }
-                ]
+                "Sorts": [
+                 {"Path": "time", "Direction" : "desc"}
+                ],
+                "Aggregates" : [],
+                "Fields" :[]
             }),
             getKeysAsync = function (field) {
                 const tcs = new $.Deferred(),
-                    agg = {
-                        "category": {
-                            "terms": {
-                                "field": field,
-                                "size": 0
-                            }
-                        }
-                    },
-                    filteredAgg = ko.toJS(query);
-                filteredAgg.aggs = agg;
-                filteredAgg.fields = ["computer"];
+                    query2 = ko.toJS(query);
 
-                context.searchAsync("log", filteredAgg)
+                query2.Aggregates.push({$type:"Bespoke.Sph.Domain.GroupAggregate, domain.sph", "Path" : field, "Name" : "category"});
+
+                query2.Fields.push("computer");
+
+                context.searchAsync("log", `$orderby=time desc&$apply=groupby(${field}, aggregate($count with count as Count))`)
                  .then(function (result) {
                      const buckets = result.aggregations.category.buckets;
                      tcs.resolve(buckets);

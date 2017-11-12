@@ -131,7 +131,10 @@
     <Compile Include="ClaimSetting.cs" />
     <Compile Include="ClaimSettingResolver.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="ContentTypeAttribute.cs" />
+    <Compile Include="ContentTypeParameterBinding.cs" />
     <Compile Include="CustomEntityRestSqlTranslator.cs" />
+    <Compile Include="CustomHeaderParameterBinding.cs" />
     <Compile Include="DeveloperService.cs" />
     <Compile Include="EndpointPermissionFactory.cs" />
     <Compile Include="EndpointPermissionRepository.cs" />
