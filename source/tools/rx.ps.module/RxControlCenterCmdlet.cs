@@ -1,4 +1,7 @@
-﻿using System.Management.Automation;
+﻿using System.Diagnostics;
+using System.IO;
+using System.Management.Automation;
+using Bespoke.Sph.RxPs.Domain;
 
 namespace Bespoke.Sph.RxPs
 {
@@ -18,7 +21,20 @@ namespace Bespoke.Sph.RxPs
     {
         protected override void ProcessRecord()
         {
-            WriteObject("ToDO...");
+            var exe = @".\control.center\controlcenter.exe";
+            if (!File.Exists(exe))
+            {
+                WriteError(new ErrorRecord(new FileNotFoundException("exe is not found", exe), exe, ErrorCategory.ObjectNotFound, this));
+                return;
+            }
+            var info = new ProcessStartInfo
+            {
+                FileName = exe,
+
+            };
+
+            Process.Start(info);
+            WriteVerbose("control center started");
         }
 
     }
