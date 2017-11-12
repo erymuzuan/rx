@@ -67,6 +67,7 @@
     <Compile Include="Extensions\AggregateExtension.cs" />
     <Compile Include="Extensions\EntityDefinitionExtension.cs" />
     <Compile Include="Extensions\FilterExtension.cs" />
+    <Compile Include="Extensions\HttpResponseMessageExtension.cs" />
     <Compile Include="Extensions\MemberExtension.cs" />
     <Compile Include="Extensions\QueryDslExtension.cs" />
     <Compile Include="Extensions\SortExtension.cs" />
