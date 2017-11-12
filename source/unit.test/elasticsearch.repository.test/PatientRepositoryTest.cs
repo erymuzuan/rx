@@ -156,7 +156,7 @@ namespace Bespoke.Sph.Tests.Elasticsearch
         [Fact]
         public async Task SimpleFilter()
         {
-            var repos = new ReadonlyRepository<Patient>("http://localhost:9200", "devv1");
+            var repos = new ReadOnlyRepository<Patient>("http://localhost:9200", "devv1");
             var lo = await repos.SearchAsync(new QueryDsl(new[]
             {
                 new Filter("Gender",Operator.Eq, "Female")
@@ -167,7 +167,7 @@ namespace Bespoke.Sph.Tests.Elasticsearch
         [Fact]
         public async Task Fields()
         {
-            var repos = new ReadonlyRepository<Patient>("http://localhost:9200", "devv1");
+            var repos = new ReadOnlyRepository<Patient>("http://localhost:9200", "devv1");
             var query = new QueryDsl(new[]
             {
                 new Filter("Gender",Operator.Eq, "Female")
@@ -189,7 +189,7 @@ namespace Bespoke.Sph.Tests.Elasticsearch
         [Fact]
         public async Task MaxAggregate()
         {
-            var repos = new ReadonlyRepository<Patient>("http://localhost:9200", "devv1");
+            var repos = new ReadOnlyRepository<Patient>("http://localhost:9200", "devv1");
             var query = new QueryDsl(new[]
             {
                 new Filter("Gender",Operator.Eq, "Female")

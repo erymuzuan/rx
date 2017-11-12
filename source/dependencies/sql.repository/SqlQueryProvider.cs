@@ -50,8 +50,7 @@ namespace Bespoke.Sph.SqlRepository
 
         private TranslateResult Translate(Expression expression)
         {
-            var projection = expression as ProjectionExpression;
-            if (projection == null)
+            if (!(expression is ProjectionExpression projection))
             {
                 expression = Evaluator.PartialEval(expression, CanBeEvaluatedLocally);
                 expression = new QueryBinder(this).Bind(expression);
@@ -60,7 +59,7 @@ namespace Bespoke.Sph.SqlRepository
                 expression = new RedundantSubqueryRemover().Remove(expression);
                 projection = (ProjectionExpression)expression;
             }
-            string commandText = new TsqlQueryFormatter().Format(projection.Source);
+            var commandText = new TsqlQueryFormatter().Format(projection.Source);
             LambdaExpression projector = new ProjectionBuilder().Build(projection.Projector, projection.Source.Alias);
             return new TranslateResult { CommandText = commandText, Projector = projector };
         }

@@ -302,6 +302,7 @@
     <Compile Include="ICvsProvider.cs" />
     <Compile Include="IMessageSlaManager.cs" />
     <Compile Include="IMessageTracker.cs" />
+    <Compile Include="IQueryParser.cs" />
     <Compile Include="IReadOnlyRepository.LoadData.cs" />
     <Compile Include="IReadonlyRepository.T.cs" />
     <Compile Include="Management\ConfigData.cs" />
@@ -480,6 +481,7 @@
     </Compile>
     <Compile Include="Ports\ReceivePort.cs" />
     <Compile Include="QueryDsl.cs" />
+    <Compile Include="QueryParserFactory.cs" />
     <Compile Include="Schema\AdaptersApi.g.cs" />
     <Compile Include="Ports\SendPort.cs" />
     <Compile Include="Ports\SendPortDefinition.cs" />

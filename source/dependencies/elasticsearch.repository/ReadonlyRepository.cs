@@ -32,9 +32,6 @@ namespace Bespoke.Sph.ElasticsearchRepository
     }")
             };
             await m_client.SendAsync(message);
-
-
-
         }
 
         public async Task CleanAsync(string entity)
@@ -51,13 +48,9 @@ namespace Bespoke.Sph.ElasticsearchRepository
             await m_client.PutAsync(ConfigurationManager.ApplicationName, new StringContent(""));
         }
 
-        public async Task<LoadOperation<Entity>> SearchAsync(string[] entities, Filter[] filters = null, Sort[] sorts = null, int skip = 0, int size = 20)
+        public async Task<LoadOperation<Entity>> SearchAsync(string[] entities,QueryDsl dsl)
         {
-            var dsl = new QueryDsl(filters, sorts)
-            {
-                Skip = skip,
-                Size = size
-            };
+            
             var types = entities.ToString(",", x => x.ToLowerInvariant());
             var query = (default(EntityDefinition)).CompileToElasticsearchQueryDsl(dsl);
             var request = new StringContent(query);

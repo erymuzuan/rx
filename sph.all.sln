@@ -236,6 +236,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "elasticsearch.repository.te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "javascript.codegenerator", "source\web\javascript.codegenerator\javascript.codegenerator.csproj", "{50FA5725-6099-4676-A669-2DB6F2F62290}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "odata.queryparser", "source\dependencies\odata.queryparser\odata.queryparser.csproj", "{630A59F5-1DAD-4D90-A3D4-F7AE3A0B8FDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "odata.queryparser.test", "source\unit.test\odata.queryparser.test\odata.queryparser.test.csproj", "{1FAEA92C-8022-4388-B6DF-0C74A0E955E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -554,6 +558,14 @@ Global
 		{50FA5725-6099-4676-A669-2DB6F2F62290}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50FA5725-6099-4676-A669-2DB6F2F62290}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50FA5725-6099-4676-A669-2DB6F2F62290}.Release|Any CPU.Build.0 = Release|Any CPU
+		{630A59F5-1DAD-4D90-A3D4-F7AE3A0B8FDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{630A59F5-1DAD-4D90-A3D4-F7AE3A0B8FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{630A59F5-1DAD-4D90-A3D4-F7AE3A0B8FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{630A59F5-1DAD-4D90-A3D4-F7AE3A0B8FDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FAEA92C-8022-4388-B6DF-0C74A0E955E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FAEA92C-8022-4388-B6DF-0C74A0E955E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FAEA92C-8022-4388-B6DF-0C74A0E955E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FAEA92C-8022-4388-B6DF-0C74A0E955E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -639,6 +651,8 @@ Global
 		{F94AF1A7-378C-4B95-BAF2-0A347EBEB3E8} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 		{D61E68BE-55B3-4798-A972-F0D2178D1E0C} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{50FA5725-6099-4676-A669-2DB6F2F62290} = {402F5682-5851-4DC5-AC3D-B176A302BBE1}
+		{630A59F5-1DAD-4D90-A3D4-F7AE3A0B8FDA} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
+		{1FAEA92C-8022-4388-B6DF-0C74A0E955E7} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7CCD16A-B3B1-4858-AA55-F327F46824D9}

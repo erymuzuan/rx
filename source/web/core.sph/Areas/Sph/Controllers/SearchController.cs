@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Http;
 using System.Threading.Tasks;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpGet]
         [Route("")]
-        public async Task<IHttpActionResult> Index([FromUri(Name = "q")]string text)
+        public async Task<IHttpActionResult> Index([FromUri(Name = "q")]string text, [CustomHeader("QueryParser")]IEnumerable<string> providers)
         {
             var types = this.CacheManager.Get<string>(TypesKey);
             var records = this.CacheManager.Get<string>(RecordKey);
@@ -42,7 +43,8 @@ namespace Bespoke.Sph.Web.Controllers
                 CacheManager.Insert(RecordKey, records, 5.Minutes());
             }
 
-            var parser = ObjectBuilder.GetObject<IQueryParser>();
+            var provider = providers.ToArray().SingleOrDefault();
+            var parser = QueryParserFactory.Instance.Get(provider ?? "odata");
             var repos = ObjectBuilder.GetObject<IReadOnlyRepository>();
             var result = await repos.SearchAsync(types.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries), parser.Parse(text));
 
@@ -52,11 +54,12 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("{type}")]
-        public async Task<IHttpActionResult> Es(string type, [RawBody]string queryText, [FromUri]bool sys = true)
+        public async Task<IHttpActionResult> SearchAsync(string type, [RawBody]string queryText, [CustomHeader("QueryParser")]IEnumerable<string> providers)
         {
-            var parser = ObjectBuilder.GetObject<IQueryParser>();
+            var provider = providers.ToArray().SingleOrDefault();
+            var parser = QueryParserFactory.Instance.Get(provider ?? "elasticsearch");
             var query = parser.Parse(queryText);
-            
+
             var repos = ObjectBuilder.GetObject<IReadOnlyRepository>();
             var result = await repos.SearchAsync(new[] { type }, query);
 
@@ -69,7 +72,7 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<IHttpActionResult> Workflow(string id, string version, [RawBody]string json)
         {
             var wfes = $"{id}workflow".Replace("-", "");
-            return await Es(wfes, json, false);
+            return await SearchAsync(wfes, json, new[] { "" });
         }
 
 

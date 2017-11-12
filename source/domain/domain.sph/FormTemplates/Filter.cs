@@ -5,7 +5,18 @@ using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
-    public sealed partial class Filter : DomainObject
+    public class CompoundAndFilter : Filter
+    {
+        public ObjectCollection<Filter> Filters { get; } = new ObjectCollection<Filter>();
+    }
+    
+    
+    public class CompoundOrFilter : Filter
+    {
+        public ObjectCollection<Filter> Filters { get; } = new ObjectCollection<Filter>();
+    }
+    
+    public partial class Filter : DomainObject
     {
         public Filter()
         {
@@ -56,17 +67,6 @@ namespace Bespoke.Sph.Domain
             return Task.FromResult(Array.Empty<BuildError>().AsEnumerable());
         }
 
-        public static Filter[] Parse(string query)
-        {
-            var queries = query.Split(new[] { "and", "or" }, StringSplitOptions.RemoveEmptyEntries);
-            var filters = from q in queries
-                let words = q.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries)
-                let term = words[0]
-                let op = (Operator)Enum.Parse(typeof(Operator), words[1], true)
-                let value = words[2] // TODO:  create aprroriate constant field for value
-                select new Filter(term, op, value);
-
-            return filters.ToArray();
-        }
+      
     }
 }
