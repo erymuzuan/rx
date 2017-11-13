@@ -14,6 +14,8 @@ namespace Bespoke.Sph.QueryParserTests
         {
             Console = console;
         }
+
+
         [Fact]
         public void Term()
         {
@@ -30,7 +32,7 @@ namespace Bespoke.Sph.QueryParserTests
             Assert.Equal(Operator.Eq, term.Operator);
             Assert.IsType<ConstantField>(term.Field);
             Assert.Equal("Kimchy", term.Field.GetValue(default));
-            Console.WriteLine(term.ToString());
+            Console.WriteLine(term);
         }
         [Fact]
         public void BoolWithMustMustNotAndShould()
@@ -71,23 +73,32 @@ namespace Bespoke.Sph.QueryParserTests
 
 
         [Fact]
-        public void BoolShould()
+        public void BoolMustAndMustNot()
         {
             var text = @"{
   ""query"": {
     ""bool"": {
-      ""should"": [
+      ""must"": [
         {
           ""term"": {
-            ""status"": {
-              ""value"": ""urgent"",
-              ""boost"": 2.0 
-            }
+            ""Race"":  ""Chinese""
           }
         },
         {
           ""term"": {
-            ""status"": ""normal"" 
+            ""HomeAddress.State"": ""Kelantan"" 
+          }
+        }
+      ],
+      ""must_not"": [
+        {
+          ""term"": {
+            ""Gender"":  ""Male""
+          }
+        },
+        {
+          ""term"": {
+            ""HomeAddress.District"": ""Pasir Mas"" 
           }
         }
       ]
@@ -96,12 +107,14 @@ namespace Bespoke.Sph.QueryParserTests
 }";
             var query = new QueryParser().Parse(text);
 
-            Assert.Equal(1, query.Filters.Count);
-            var term = query.Filters.Single();
-            Assert.Equal("user", term.Term);
-            Assert.Equal(Operator.Eq, term.Operator);
-            Assert.IsType<ConstantField>(term.Field);
-            Assert.Equal("Kimchy", term.Field.GetValue(default));
+            Assert.Equal(4, query.Filters.Count);
+            var chinese = query.Filters.First();
+            Assert.Equal("Race", chinese.Term);
+            Assert.IsType<ConstantField>(chinese.Field);
+            Assert.Equal("Chinese", chinese.Field.GetValue(default));
+
+            var gender = query.Filters.Single(x => x.Term == "Gender");
+            Assert.Equal(Operator.Neq, gender.Operator);
         }
     }
 }

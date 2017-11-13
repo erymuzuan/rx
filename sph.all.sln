@@ -238,7 +238,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "javascript.codegenerator", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "odata.queryparser", "source\dependencies\odata.queryparser\odata.queryparser.csproj", "{630A59F5-1DAD-4D90-A3D4-F7AE3A0B8FDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "odata.queryparser.test", "source\unit.test\odata.queryparser.test\odata.queryparser.test.csproj", "{1FAEA92C-8022-4388-B6DF-0C74A0E955E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "odata.queryparser.test", "source\unit.test\odata.queryparser.test\odata.queryparser.test.csproj", "{1FAEA92C-8022-4388-B6DF-0C74A0E955E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "es.queryparser", "source\dependencies\es.queryparser\es.queryparser.csproj", "{C2CA8A03-0A63-4E1D-AEDE-4BA688E3B4A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "es.queryparser.test", "source\unit.test\es.queryparser.test\es.queryparser.test.csproj", "{AE8A790B-84B4-4223-A383-CF38E07AC773}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -566,6 +570,14 @@ Global
 		{1FAEA92C-8022-4388-B6DF-0C74A0E955E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FAEA92C-8022-4388-B6DF-0C74A0E955E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FAEA92C-8022-4388-B6DF-0C74A0E955E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2CA8A03-0A63-4E1D-AEDE-4BA688E3B4A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2CA8A03-0A63-4E1D-AEDE-4BA688E3B4A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2CA8A03-0A63-4E1D-AEDE-4BA688E3B4A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2CA8A03-0A63-4E1D-AEDE-4BA688E3B4A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE8A790B-84B4-4223-A383-CF38E07AC773}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE8A790B-84B4-4223-A383-CF38E07AC773}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE8A790B-84B4-4223-A383-CF38E07AC773}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE8A790B-84B4-4223-A383-CF38E07AC773}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -653,6 +665,8 @@ Global
 		{50FA5725-6099-4676-A669-2DB6F2F62290} = {402F5682-5851-4DC5-AC3D-B176A302BBE1}
 		{630A59F5-1DAD-4D90-A3D4-F7AE3A0B8FDA} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 		{1FAEA92C-8022-4388-B6DF-0C74A0E955E7} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
+		{C2CA8A03-0A63-4E1D-AEDE-4BA688E3B4A9} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
+		{AE8A790B-84B4-4223-A383-CF38E07AC773} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7CCD16A-B3B1-4858-AA55-F327F46824D9}

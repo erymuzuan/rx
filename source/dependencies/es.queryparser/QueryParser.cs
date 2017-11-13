@@ -13,14 +13,18 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
             var queryToken = json.SelectToken("$.query");
             if (null != queryToken)
             {
-                var filters = from st in queryToken.OfType<JProperty>()
-                              let term = st.First as JObject
-                              where null != term
-                              let field = term.First as JProperty
-                              where null != field
-                              select new Filter(field.Name, Operator.Eq, field.Value);
-
+                var filters = new FiltersVisitor().DynamicVisit(queryToken).ToArray();
                 query.Filters.AddRange(filters);
+            }
+            var fromToken = json.SelectToken("$.from");
+            if (null != fromToken)
+            {
+                query.Skip = fromToken.Value<int>();
+            }
+            var sizeToken = json.SelectToken("$.size");
+            if (null != sizeToken)
+            {
+                query.Size = sizeToken.Value<int>();
             }
 
             var sortToken = json.SelectToken("$.sort");
