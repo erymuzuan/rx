@@ -16,16 +16,10 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
                 var filters = new FiltersVisitor().DynamicVisit(queryToken).ToArray();
                 query.Filters.AddRange(filters);
             }
-            var fromToken = json.SelectToken("$.from");
-            if (null != fromToken)
-            {
-                query.Skip = fromToken.Value<int>();
-            }
-            var sizeToken = json.SelectToken("$.size");
-            if (null != sizeToken)
-            {
-                query.Size = sizeToken.Value<int>();
-            }
+           
+            query.Skip = json.GetTokenValue<int>("$.from");
+            query.Size = json.GetTokenValue<int>("$.size");
+
 
             var sortToken = json.SelectToken("$.sort");
             if (null != sortToken)

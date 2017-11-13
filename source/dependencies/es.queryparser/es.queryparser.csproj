@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="FiltersVisitor.cs" />
     <Compile Include="JObjectVisitor.cs" />
+    <Compile Include="JTokenExtension.cs" />
     <Compile Include="OperatorExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryParser.cs" />

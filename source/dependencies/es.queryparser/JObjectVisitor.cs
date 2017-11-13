@@ -23,35 +23,30 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
     {
         public ShouldJProperty(JProperty prop) : base("should", prop.Value)
         {
-
         }
     }
     public class MustNotJProperty : JProperty
     {
         public MustNotJProperty(JProperty prop) : base("must_not", prop.Value)
         {
-
         }
     }
     public class MustJProperty : JProperty
     {
         public MustJProperty(JProperty prop) : base("must", prop.Value)
         {
-
         }
     }
     public class BoolJProperty : JProperty
     {
         public BoolJProperty(JProperty prop) : base("bool", prop.Value)
         {
-
         }
     }
     public class TermJProperty : JProperty
     {
         public TermJProperty(JProperty prop) : base("term", prop.Value)
         {
-
         }
     }
 }

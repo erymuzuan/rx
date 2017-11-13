@@ -21,6 +21,7 @@ namespace Bespoke.Sph.ElasticSearch
             var setting = new JsonSerializerSettings();
             var json = JsonConvert.SerializeObject(item, setting);
 
+
             var content = new StringContent(json);
             if (item.IsSystemType()) return; // just custom entity
 
