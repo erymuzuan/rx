@@ -4,7 +4,7 @@ using odata.queryparser;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace domain.test.Queries
+namespace Bespoke.Sph.QueryParserTests
 {
     /*
      *

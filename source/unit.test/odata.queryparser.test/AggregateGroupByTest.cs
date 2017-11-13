@@ -3,7 +3,7 @@ using Bespoke.Sph.Domain;
 using odata.queryparser;
 using Xunit;
 
-namespace domain.test.Queries
+namespace Bespoke.Sph.QueryParserTests
 {
     public class AggregateGroupByTest
     {

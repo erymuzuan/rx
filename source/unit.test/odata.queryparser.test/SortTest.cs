@@ -1,9 +1,10 @@
 using System.Linq;
 using Bespoke.Sph.Domain;
+using odata.queryparser;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace odata.queryparser.test
+namespace Bespoke.Sph.QueryParserTests
 {
     public class SortTest
     {
