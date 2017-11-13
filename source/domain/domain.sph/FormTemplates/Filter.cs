@@ -67,6 +67,21 @@ namespace Bespoke.Sph.Domain
             return Task.FromResult(Array.Empty<BuildError>().AsEnumerable());
         }
 
-      
+
+        public override string ToString()
+        {
+            object value = null;
+            try
+            {
+                value = Field.GetValue(default);
+                if (value is string sv)
+                    value = $@"""{sv}""";
+            }
+            catch (Exception)
+            {
+                //ignore
+            }
+            return $"{Term} {Operator} {value}";
+        }
     }
 }

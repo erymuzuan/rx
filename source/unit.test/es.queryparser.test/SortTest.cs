@@ -4,7 +4,7 @@ using Bespoke.Sph.ElasticsearchQueryParsers;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace es.queryparser.test
+namespace Bespoke.Sph.QueryParserTests
 {
     public class SortTest
     {
