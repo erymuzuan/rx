@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Bespoke.Sph.Domain;
 using Newtonsoft.Json.Linq;
@@ -27,6 +28,35 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
                 var childs = DynamicVisit(new BoolJProperty(c));
                 list.AddRange(childs);
             }
+            if (c.Name == "range")
+            {
+                var childs = DynamicVisit(new RangeJProperty(c));
+                list.AddRange(childs);
+            }
+
+            return list;
+        }
+
+        protected override IList<Filter> Visit(RangeJProperty c)
+        {
+            var list = new List<Filter>();
+            if (c.Value.First is JProperty jp && jp.First is JObject range)
+            {
+                var lte = range.GetTokenValue<int?>("lte");
+                var gte = range.GetTokenValue<int?>("gte");
+                var gt = range.GetTokenValue<int?>("gt");
+                var lt = range.GetTokenValue<int?>("lt");
+
+                if (null != gt)
+                    list.Add(new Filter(jp.Name, Operator.Gt, gt.Value));
+                if (null != lt)
+                    list.Add(new Filter(jp.Name, Operator.Lt, lt.Value));
+                if (null != lte)
+                    list.Add(new Filter(jp.Name, Operator.Le, lte.Value));
+                if (null != gte)
+                    list.Add(new Filter(jp.Name, Operator.Ge, gte.Value));
+            }
+
 
             return list;
         }
@@ -41,19 +71,18 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
                 var mustFilters = DynamicVisit(must);
                 list.AddRange(mustFilters);
             }
-           
+
             foreach (var mn in prop.SelectToken2("$.must_not"))
             {
                 var mustNotFilters = DynamicVisit(mn);
                 mustNotFilters.ToList().ForEach(x => x.Operator = x.Operator.Invert());
                 list.AddRange(mustNotFilters);
             }
+            if(prop.SelectToken("should") is JArray sjp)
+                list.AddRange(DynamicVisit(new ShouldJProperty(sjp)));
+          
 
-            if (prop.First is JProperty should && should.Name == "should")
-            {
-                var childs = DynamicVisit(new ShouldJProperty(should));
-                list.AddRange(childs);
-            }
+            // TODO : when should is just a property not an array
 
             return list;
         }
@@ -65,13 +94,13 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
             {
                 or.Filters.AddRange(DynamicVisit(node));
             }
-            return new List<Filter>{or};
+            return new List<Filter> { or };
         }
 
         protected override IList<Filter> Visit(JArray c)
         {
             var list = c.Select(DynamicVisit).SelectMany(x => x).ToList();
-           
+
             return list;
         }
 

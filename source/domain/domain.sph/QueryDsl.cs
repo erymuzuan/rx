@@ -22,6 +22,12 @@ namespace Bespoke.Sph.Domain
         public ObjectCollection<Filter> Filters { get; } = new ObjectCollection<Filter>();
         public ObjectCollection<Sort> Sorts { get; } = new ObjectCollection<Sort>();
         public ObjectCollection<string> Fields { get; } = new ObjectCollection<string>();
-     
+
+        public override string ToString()
+        {
+            return $@"
+Filters :
+    {Filters.ToString("\r\n\t")}";
+        }
     }
 }

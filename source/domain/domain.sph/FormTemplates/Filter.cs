@@ -5,17 +5,6 @@ using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
-    public class CompoundAndFilter : Filter
-    {
-        public ObjectCollection<Filter> Filters { get; } = new ObjectCollection<Filter>();
-    }
-    
-    
-    public class CompoundOrFilter : Filter
-    {
-        public ObjectCollection<Filter> Filters { get; } = new ObjectCollection<Filter>();
-    }
-    
     public partial class Filter : DomainObject
     {
         public Filter()

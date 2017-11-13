@@ -23,8 +23,8 @@ namespace Bespoke.Sph.QueryParserTests
     }
 }";
             var query = new QueryParser().Parse(text);
-            Assert.Equal(10, query.Skip);
-            Assert.Equal(20, query.Size);
+            Assert.Equal(100, query.Skip);
+            Assert.Equal(10, query.Size);
             Console.WriteLine(query);
         }
     }

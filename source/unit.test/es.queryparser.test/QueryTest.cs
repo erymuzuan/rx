@@ -63,8 +63,8 @@ namespace Bespoke.Sph.QueryParserTests
   }
 }";
             var query = new QueryParser().Parse(text);
-
-            Assert.Equal(4, query.Filters.Count);
+            Console.WriteLine(query);
+            Assert.Equal(5, query.Filters.Count);
 
             var user = query.Filters.Single(x => x.Term == "user");
             Assert.Equal("user", user.Term);
@@ -72,8 +72,9 @@ namespace Bespoke.Sph.QueryParserTests
             Assert.IsType<ConstantField>(user.Field);
             Assert.Equal("kimchy", user.Field.GetValue(default));
 
-
-            Console.WriteLine(user.ToString());
+            Assert.Equal(1, query.Filters.OfType<CompoundOrFilter>().Count());
+            var or = query.Filters.OfType<CompoundOrFilter>().Single();
+            Assert.Equal(2, or.Filters.Count);
         }
 
 
@@ -144,6 +145,7 @@ namespace Bespoke.Sph.QueryParserTests
   }
 }";
             var query = new QueryParser().Parse(text);
+            Console.WriteLine(query);
 
             Assert.Equal(1, query.Filters.OfType<CompoundOrFilter>().Count());
             var or = query.Filters.OfType<CompoundOrFilter>().First();
