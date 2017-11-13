@@ -57,7 +57,7 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<IHttpActionResult> SearchAsync(string type, [RawBody]string queryText, [ContentType]MediaTypeHeaderValue contentType)
         {
             var provider = contentType?.MediaType ?? "odata";
-            var parser = QueryParserFactory.Instance.Get(provider ?? "odata");
+            var parser = QueryParserFactory.Instance.Get(provider);
             var query = parser.Parse(queryText);
 
             var repos = ObjectBuilder.GetObject<IReadOnlyRepository>();

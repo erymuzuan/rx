@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
+using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.ElasticsearchQueryParsers
 {
@@ -8,6 +9,14 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
         {
             var token = json.SelectToken(path);
             return null != token ? token.Value<T>() : default;
+        }
+
+        public static IJEnumerable<JToken> SelectToken2(this JToken prop, string path)
+        {
+            var token = prop.SelectToken(path);
+            if(null == token)
+                return Array.Empty<JToken>().AsJEnumerable();
+            return token.Children();
         }
     }
 }

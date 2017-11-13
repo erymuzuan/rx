@@ -34,6 +34,8 @@ namespace Bespoke.Sph.QueryParserTests
             Assert.Equal("Kimchy", term.Field.GetValue(default));
             Console.WriteLine(term);
         }
+
+
         [Fact]
         public void BoolWithMustMustNotAndShould()
         {
@@ -62,13 +64,16 @@ namespace Bespoke.Sph.QueryParserTests
 }";
             var query = new QueryParser().Parse(text);
 
-            Assert.Equal(1, query.Filters.Count);
-            var term = query.Filters.Single();
-            Assert.Equal("user", term.Term);
-            Assert.Equal(Operator.Eq, term.Operator);
-            Assert.IsType<ConstantField>(term.Field);
-            Assert.Equal("Kimchy", term.Field.GetValue(default));
-            Console.WriteLine(term.ToString());
+            Assert.Equal(4, query.Filters.Count);
+
+            var user = query.Filters.Single(x => x.Term == "user");
+            Assert.Equal("user", user.Term);
+            Assert.Equal(Operator.Eq, user.Operator);
+            Assert.IsType<ConstantField>(user.Field);
+            Assert.Equal("kimchy", user.Field.GetValue(default));
+
+
+            Console.WriteLine(user.ToString());
         }
 
 
@@ -115,6 +120,40 @@ namespace Bespoke.Sph.QueryParserTests
 
             var gender = query.Filters.Single(x => x.Term == "Gender");
             Assert.Equal(Operator.Neq, gender.Operator);
+        }
+
+        [Fact]
+        public void ShouldCompileToOr()
+        {
+            var text = @"{
+  ""query"": {
+    ""bool"": {
+      ""should"": [
+        {
+          ""term"": {
+            ""Race"":  ""Chinese""
+          }
+        },
+        {
+          ""term"": {
+            ""HomeAddress.State"": ""Kelantan"" 
+          }
+        }
+      ]
+    }
+  }
+}";
+            var query = new QueryParser().Parse(text);
+
+            Assert.Equal(1, query.Filters.OfType<CompoundOrFilter>().Count());
+            var or = query.Filters.OfType<CompoundOrFilter>().First();
+            var race = or.Filters.First(x => x.Term == "Race");
+            Assert.Equal("Race", race.Term);
+            Assert.IsType<ConstantField>(race.Field);
+            Assert.Equal("Chinese", race.Field.GetValue(default));
+
+            var state = or.Filters.Single(x => x.Term == "HomeAddress.State");
+            Assert.Equal(Operator.Eq, state.Operator);
         }
     }
 }
