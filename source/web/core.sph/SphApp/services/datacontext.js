@@ -369,20 +369,14 @@ function (logger, system, ko2) {
             dataType: "json",
             error: tcs.reject,
             success: function (msg) {
-
-                const hits = _(msg.hits.hits).chain()
-                    .map(function (h) {
-                        return h._source;
-                    })
-                    .value();
-
+                
                 const lo = new LoadOperation();
-                lo.itemCollection = hits;
-                lo.page = page;
-                lo.size = size;
-                lo.rows = msg.hits.total;
-                lo.facets = msg.facets;
-                lo.aggregations = msg.aggregations;
+                lo.itemCollection = msg.ItemCollection;
+                lo.page = msg.Page;
+                lo.size = size.PageSize = 20;
+                lo.rows = msg.TotalRows;
+                //TODO:lo.facets = msg.facets;
+                //TODO: lo.aggregations = msg.aggregations;
 
                 tcs.resolve(lo);
             }

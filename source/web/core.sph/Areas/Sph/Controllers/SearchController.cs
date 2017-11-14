@@ -53,11 +53,23 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
         [HttpPost]
+        [Route("log")]
+        public async Task<IHttpActionResult> SearchLogAsync( [RawBody]string queryText, [ContentType]MediaTypeHeaderValue contentType)
+        {
+            var parser = QueryParserFactory.Instance.Get(null, contentType?.MediaType ?? "appplication/json+elasticsearch");
+            var query = parser.Parse(queryText);
+
+            var repos = ObjectBuilder.GetObject<ILoggerRepository>();
+            var result = await repos.SearchAsync( query);
+
+            return Json(result);
+
+        }
+        [HttpPost]
         [Route("{type}")]
         public async Task<IHttpActionResult> SearchAsync(string type, [RawBody]string queryText, [ContentType]MediaTypeHeaderValue contentType)
         {
-            var provider = contentType?.MediaType ?? "odata";
-            var parser = QueryParserFactory.Instance.Get(provider);
+            var parser = QueryParserFactory.Instance.Get(null, contentType?.MediaType ?? "appplication/json+elasticsearch");
             var query = parser.Parse(queryText);
 
             var repos = ObjectBuilder.GetObject<IReadOnlyRepository>();

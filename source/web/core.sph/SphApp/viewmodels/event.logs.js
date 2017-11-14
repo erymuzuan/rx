@@ -34,25 +34,33 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 });
             },
             query = ko.observable({
-                "Sorts": [
-                 {"Path": "time", "Direction" : "desc"}
-                ],
-                "Aggregates" : [],
-                "Fields" :[]
+                "sort": [
+                    {
+                        "time": {
+                            "order": "desc"
+                        }
+                    }
+                ]
             }),
             getKeysAsync = function (field) {
                 const tcs = new $.Deferred(),
-                    query2 = ko.toJS(query);
+                    agg = {
+                        "category": {
+                            "terms": {
+                                "field": field,
+                                "size": 0
+                            }
+                        }
+                    },
+                    filteredAgg = ko.toJS(query);
+                filteredAgg.aggs = agg;
+                filteredAgg.fields = ["computer"];
 
-                query2.Aggregates.push({$type:"Bespoke.Sph.Domain.GroupAggregate, domain.sph", "Path" : field, "Name" : "category"});
-
-                query2.Fields.push("computer");
-
-                context.searchAsync("log", `$orderby=time desc&$apply=groupby(${field}, aggregate($count with count as Count))`)
-                 .then(function (result) {
-                     const buckets = result.aggregations.category.buckets;
-                     tcs.resolve(buckets);
-                 });
+                context.searchAsync("log", filteredAgg)
+                    .then(function (result) {
+                        const buckets = result.aggregations.category.buckets;
+                        tcs.resolve(buckets);
+                    });
 
                 return tcs.promise();
             },
@@ -85,11 +93,11 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                         }
                     },
                     "sort": [
-                     {
-                         "time": {
-                             "order": "desc"
-                         }
-                     }
+                        {
+                            "time": {
+                                "order": "desc"
+                            }
+                        }
                     ]
                 },
                     pushTerms = function (term, options) {
@@ -158,7 +166,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 commands: ko.observableArray([
                     {
                         command: function () {
-                           // return changed(1, 20);
+                            // return changed(1, 20);
                         },
                         caption: "Reload",
                         icon: "bowtie-icon bowtie-navigate-refresh",

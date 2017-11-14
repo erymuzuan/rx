@@ -5,7 +5,7 @@ using Bespoke.Sph.Domain;
 
 namespace odata.queryparser
 {
-    [Export(typeof(IQueryParser))]
+    [Export("QueryParser", typeof(IQueryParser))]
     public class OdataQueryParser : IQueryParser
     {
         public QueryDsl Parse(string text)
@@ -31,7 +31,7 @@ namespace odata.queryparser
         }
 
         public string Provider => "Odata";
-        public string Version => "V4";
+        public string ContentType => "application/odata";
 
         private Filter[] ParseFilters(string query)
         {

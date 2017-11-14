@@ -4,6 +4,6 @@ namespace Bespoke.Sph.Domain
     {
         QueryDsl Parse(string text);
         string Provider { get; }
-        string Version { get; }
+        string ContentType { get; }
     }
 }

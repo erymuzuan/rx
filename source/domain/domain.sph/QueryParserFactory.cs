@@ -32,16 +32,18 @@ namespace Bespoke.Sph.Domain
                 }
             }
         }
+        // ReSharper disable once MemberCanBePrivate.Global
 
         [ImportMany("QueryParser", typeof(IQueryParser), AllowRecomposition = true)]
-        // ReSharper disable once MemberCanBePrivate.Global
         public IQueryParser[] QueryParserProviders { get; set; }
 
-        public IQueryParser Get(string name, string version = "")
+        public IQueryParser Get(string provider, string contentType = "")
         {
-            if (string.IsNullOrEmpty(version))
-                return this.QueryParserProviders.SingleOrDefault(x => x.Provider == name);
-            return this.QueryParserProviders.SingleOrDefault(x => x.Provider == name && x.Version == version);
+            if (string.IsNullOrEmpty(contentType))
+                return this.QueryParserProviders.SingleOrDefault(x => x.Provider == provider);
+            if (string.IsNullOrEmpty(provider))
+                return this.QueryParserProviders.SingleOrDefault(x => x.ContentType.StartsWith(contentType));
+            return this.QueryParserProviders.SingleOrDefault(x => x.Provider == provider && x.ContentType == contentType);
         }
     }
 }
