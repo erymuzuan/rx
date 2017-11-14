@@ -36,12 +36,22 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
                         return DynamicVisit(new PercentileRanksJProperty(agg, prop.Name));
                     case "sum":
                         return DynamicVisit(new SumJProperty(agg, prop.Name));
+                    case "terms":
+                        return DynamicVisit(new AggregageTermsJProperty(agg, prop.Name));
                 }
             }
 
             return new List<Aggregate>();
         }
 
+
+        protected override IList<Aggregate> Visit(AggregageTermsJProperty terms)
+        {
+            return new List<Aggregate>
+            {
+                new GroupByAggregate(terms.AggregateName, terms.FieldName)
+            };
+        }
 
         protected override IList<Aggregate> Visit(PercentilesJProperty agg)
         {

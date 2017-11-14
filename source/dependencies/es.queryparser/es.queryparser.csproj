@@ -35,6 +35,7 @@
       <HintPath>..\..\..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -71,5 +72,19 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <OutputFile Include="$(OutputPath)*.*">
+      <Visible>false</Visible>
+    </OutputFile>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="CopyOutputDirClientAndWeb">
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\web\web.sph\bin" />
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\subscribers.host\" />
+  </Target>
+  <PropertyGroup>
+    <BuildDependsOn>
+      $(BuildDependsOn);CopyOutputDirClientAndWeb
+    </BuildDependsOn>
+  </PropertyGroup>
 </Project>

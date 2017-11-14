@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System.ComponentModel.Composition;
+using System.Linq;
 using Bespoke.Sph.Domain;
 using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.ElasticsearchQueryParsers
 {
+    [Export("QueryParser", typeof(IQueryParser))]
     public class QueryParser : IQueryParser
     {
         public QueryDsl Parse(string text)
@@ -60,6 +62,6 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
         }
 
         public string Provider => "elasticsearch";
-        public string Version => "1.7";
+        public string ContentType => "application/json+elasticsearch";
     }
 }
