@@ -17,8 +17,8 @@ namespace Bespoke.Sph.Domain
             this.Operator = Operator.Eq;
             this.Field = new ConstantField
             {
-                Value = value as string,
-                Type = typeof(string)
+                Value = $"{value}",
+                Type = value?.GetType()
             };
         }
 
@@ -29,7 +29,7 @@ namespace Bespoke.Sph.Domain
             this.Field = new ConstantField
             {
                 Value = $"{value}",
-                Type = value.GetType()
+                Type = value?.GetType()
             };
         }
 
