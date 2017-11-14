@@ -23,65 +23,6 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
         protected virtual T Visit(JArray c) { return Visit((JArray)c); }
     }
 
-    public class ShouldJProperty : JProperty
-    {
-        public ShouldJProperty(JProperty prop) : base("should", prop.Value)
-        {
-        }
-        public ShouldJProperty(JToken prop) : base("should", prop.Children())
-        {
-        }
-    }
-
-
-    public class MustNotJProperty : JProperty
-    {
-        public MustNotJProperty(JProperty prop) : base("must_not", prop.Value)
-        {
-        }
-    }
-    public class MustJProperty : JProperty
-    {
-        public MustJProperty(JProperty prop) : base("must", prop.Value)
-        {
-        }
-    }
-    public class BoolJProperty : JProperty
-    {
-        public BoolJProperty(JProperty prop) : base("bool", prop.Value)
-        {
-        }
-    }
-    public class TermJProperty : JProperty
-    {
-        public TermJProperty(JProperty prop) : base("term", prop.Value)
-        {
-        }
-    }
-    public class RangeJProperty : JProperty
-    {
-        public RangeJProperty(JProperty prop) : base("range", prop.Value)
-        {
-        }
-    }
-    public class ExistsJProperty : JProperty
-    {
-        public ExistsJProperty(JProperty prop) : base("exists", prop.Value)
-        {
-        }
-    }
-    public class WildcardJProperty : JProperty
-    {
-        public WildcardJProperty(JProperty prop) : base("wildcard", prop.Value)
-        {
-        }
-    }
-    public class PrefixJProperty : JProperty
-    {
-        public PrefixJProperty(JProperty prop) : base("prefix", prop.Value)
-        {
-        }
-    }
 
     /*
      term query

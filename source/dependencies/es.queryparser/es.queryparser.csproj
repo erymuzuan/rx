@@ -44,12 +44,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoolJProperty.cs" />
+    <Compile Include="ExistsJProperty.cs" />
     <Compile Include="FiltersVisitor.cs" />
     <Compile Include="JObjectVisitor.cs" />
     <Compile Include="JTokenExtension.cs" />
+    <Compile Include="MustJProperty.cs" />
+    <Compile Include="MustNotJProperty.cs" />
     <Compile Include="OperatorExtension.cs" />
+    <Compile Include="PrefixJProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryParser.cs" />
+    <Compile Include="RangeJProperty.cs" />
+    <Compile Include="ShouldJProperty.cs" />
+    <Compile Include="TermJProperty.cs" />
+    <Compile Include="WildcardJProperty.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
