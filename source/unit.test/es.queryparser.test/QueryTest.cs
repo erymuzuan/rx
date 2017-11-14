@@ -26,7 +26,7 @@ namespace Bespoke.Sph.QueryParserTests
 }";
             var query = new QueryParser().Parse(text);
 
-            Assert.Equal(1, query.Filters.Count);
+            Assert.Single(query.Filters);
             var term = query.Filters.Single();
             Assert.Equal("user", term.Term);
             Assert.Equal(Operator.Eq, term.Operator);

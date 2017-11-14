@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AggregateGroupByTest.cs" />
     <Compile Include="AggregatesTest.cs" />
     <Compile Include="QueryTest.cs" />
     <Compile Include="SortTest.cs" />
