@@ -33,9 +33,9 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             var query = ((Patient)null).CompileToElasticsearchQueryDsl(dsl);
             var json = JObject.Parse(query);
             Console.WriteLine(query);
-            Assert.Equal(1, json.SelectToken("$.filter.bool.must").Count());
-            Assert.Equal(0, json.SelectToken("$.filter.bool.must_not").Count());
-            Assert.Equal(json.SelectToken("$.filter.bool.must[0].term.Gender").Value<string>(), "Male");
+            Assert.Single(json.SelectToken("$.filter.bool.must"));
+            Assert.Empty(json.SelectToken("$.filter.bool.must_not"));
+            Assert.Equal("Male", json.SelectToken("$.filter.bool.must[0].term.Gender").Value<string>());
 
         }
         [Fact]
@@ -50,8 +50,8 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             var query = ((Patient)null).CompileToElasticsearchQueryDsl(dsl);
             var json = Console.WriteJson(query);
             Assert.Equal(2, json.SelectToken("$.filter.bool.must").Count());
-            Assert.Equal(1, json.SelectToken("$.filter.bool.must_not").Count());
-            Assert.Equal(json.SelectToken("$.filter.bool.must[0].term.Gender").Value<string>(), "Female");
+            Assert.Single(json.SelectToken("$.filter.bool.must_not"));
+            Assert.Equal("Female", json.SelectToken("$.filter.bool.must[0].term.Gender").Value<string>());
 
         }
         [Fact]
@@ -67,8 +67,8 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             var query = ((Patient)null).CompileToElasticsearchQueryDsl(dsl);
             var json = Console.WriteJson(query);
             Assert.Equal(3, json.SelectToken("$.filter.bool.must").Count());
-            Assert.Equal(0, json.SelectToken("$.filter.bool.must_not").Count());
-            Assert.Equal(json.SelectToken("$.filter.bool.must[1].term.Gender").Value<string>(), "Female");
+            Assert.Empty(json.SelectToken("$.filter.bool.must_not"));
+            Assert.Equal("Female", json.SelectToken("$.filter.bool.must[1].term.Gender").Value<string>());
 
         }
 
@@ -81,7 +81,7 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             });
             var query = ((Patient)null).CompileToElasticsearchQueryDsl(dsl);
             var json = Console.WriteJson(query);
-            Assert.Equal(json.SelectToken("$.filter.bool.must[0].term.Age").Value<int>(), 45);
+            Assert.Equal(45, json.SelectToken("$.filter.bool.must[0].term.Age").Value<int>());
 
         }
 
@@ -202,6 +202,16 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             var lastChanged = await GetLastModifiedDate(query.Aggregates.First());
             var max = lo.GetAggregateValue<DateTime>("LastModifiedDate");
             Assert.Equal(lastChanged.ToString("s"), max.ToString("s"));
+        }
+        [Fact]
+        public async Task TermsGroupByAggregate()
+        {
+            var repos = new ReadOnlyRepository<Patient>("http://localhost:9200", "devv1_logs");
+            var query = new QueryDsl();
+            query.Aggregates.Add(new GroupByAggregate("severities", "severity"));
+            var lo = await repos.SearchAsync(query);
+            Console.WriteLine(lo);
+            Assert.True(false, "TODO : get the buckets");
         }
 
         private async Task<DateTime> GetLastModifiedDate(Aggregate agg)

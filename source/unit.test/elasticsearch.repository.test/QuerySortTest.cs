@@ -9,11 +9,11 @@ namespace Bespoke.Sph.Tests.Elasticsearch
 {
     public class QuerySortTest
     {
-        private readonly ITestOutputHelper m_output;
+        private ITestOutputHelper Console { get; }
 
-        public QuerySortTest(ITestOutputHelper output)
+        public QuerySortTest(ITestOutputHelper console)
         {
-            m_output = output;
+            Console = console;
         }
 
         [Fact]
@@ -154,7 +154,7 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             var path = mustBeNull ? "$.bool.must[0].missing.field" : "$.bool.must_not[0].missing.field";
 
             Assert.Equal("FullName", json.SelectToken(path).Value<string>());
-            m_output.WriteLine(filter);
+            Console.WriteLine(filter);
         }
     }
 }
