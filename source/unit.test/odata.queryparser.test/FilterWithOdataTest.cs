@@ -124,9 +124,9 @@ bool IsOf(expression p0, type p1) 	http://services.odata.org/Northwind/Northwind
             var parser = new OdataQueryParser();
             var query = parser.Parse(filter);
 
-            var ft = query.Filters.OfType<CompoundOrFilter>().FirstOrDefault();
+            var ft = query.Filters.OfType<BinaryOrFilter>().FirstOrDefault();
             Assert.NotNull(ft);
-            Assert.IsType<CompoundOrFilter>(ft);
+            Assert.IsType<BinaryOrFilter>(ft);
             Assert.Equal(childFilters, ft.Filters.Count);
             
             Console.WriteLine($"filter : {ft.Term} {ft.Operator} {ft.Field.GetValue(default)}");

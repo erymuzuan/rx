@@ -89,7 +89,7 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
 
         protected override IList<Filter> Visit(ShouldJProperty should)
         {
-            var or = new CompoundOrFilter();
+            var or = new BinaryOrFilter();
             foreach (var node in should.Children())
             {
                 or.Filters.AddRange(DynamicVisit(node));

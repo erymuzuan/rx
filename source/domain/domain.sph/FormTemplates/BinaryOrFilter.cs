@@ -1,6 +1,6 @@
 ﻿namespace Bespoke.Sph.Domain
 {
-    public class CompoundOrFilter : Filter
+    public class BinaryOrFilter : Filter
     {
         public ObjectCollection<Filter> Filters { get; } = new ObjectCollection<Filter>();
         public override string ToString()

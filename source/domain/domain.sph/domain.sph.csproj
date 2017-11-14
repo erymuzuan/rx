@@ -298,8 +298,9 @@
     <Compile Include="diagnostics\FormOperationDiagnostics.cs" />
     <Compile Include="diagnostics\LocationEndpointDiagnostics.cs" />
     <Compile Include="FileLogger.cs" />
-    <Compile Include="FormTemplates\CompoundAndFilter.cs" />
-    <Compile Include="FormTemplates\CompoundOrFilter.cs" />
+    <Compile Include="FormTemplates\BinaryAndFilter.cs" />
+    <Compile Include="FormTemplates\BinaryExpressionFilter.cs" />
+    <Compile Include="FormTemplates\BinaryOrFilter.cs" />
     <Compile Include="FormTemplates\MemberVisitor.cs" />
     <Compile Include="ICvsProvider.cs" />
     <Compile Include="IMessageSlaManager.cs" />

@@ -72,8 +72,8 @@ namespace Bespoke.Sph.QueryParserTests
             Assert.IsType<ConstantField>(user.Field);
             Assert.Equal("kimchy", user.Field.GetValue(default));
 
-            Assert.Equal(1, query.Filters.OfType<CompoundOrFilter>().Count());
-            var or = query.Filters.OfType<CompoundOrFilter>().Single();
+            Assert.Equal(1, query.Filters.OfType<BinaryOrFilter>().Count());
+            var or = query.Filters.OfType<BinaryOrFilter>().Single();
             Assert.Equal(2, or.Filters.Count);
         }
 
@@ -147,8 +147,8 @@ namespace Bespoke.Sph.QueryParserTests
             var query = new QueryParser().Parse(text);
             Console.WriteLine(query);
 
-            Assert.Equal(1, query.Filters.OfType<CompoundOrFilter>().Count());
-            var or = query.Filters.OfType<CompoundOrFilter>().First();
+            Assert.Equal(1, query.Filters.OfType<BinaryOrFilter>().Count());
+            var or = query.Filters.OfType<BinaryOrFilter>().First();
             var race = or.Filters.First(x => x.Term == "Race");
             Assert.Equal("Race", race.Term);
             Assert.IsType<ConstantField>(race.Field);
