@@ -39,13 +39,16 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
 
             }
             var sourcesToken = json.SelectToken("$._source");
+            var fieldsToken = json.SelectToken("$.fields");
             if (null != sourcesToken)
             {
-                var sources = from jt in sourcesToken
-                            select jt.Value<string>();
-
+                var sources = sourcesToken.Select(jt => jt.Value<string>());
                 query.Fields.AddRange(sources);
-
+            }
+            if (null != fieldsToken)
+            {
+                var sources = fieldsToken.Select(jt => jt.Value<string>());
+                query.Fields.AddRange(sources);
             }
             return query;
         }

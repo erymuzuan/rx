@@ -24,10 +24,21 @@ namespace Bespoke.Sph.QueryParserTests
 
         }
         [Fact]
-        public void Fields()
+        public void Sources()
         {
             var text = @"{
     ""_source"" : [""FullName"", ""Mrn""]
+}";
+            var query = new QueryParser().Parse(text);
+            Console.WriteLine(query);
+            Assert.Equal(2, query.Fields.Count);
+
+        }
+        [Fact]
+        public void Fields()
+        {
+            var text = @"{
+    ""fields"" : [""FullName"", ""Mrn""]
 }";
             var query = new QueryParser().Parse(text);
             Console.WriteLine(query);
