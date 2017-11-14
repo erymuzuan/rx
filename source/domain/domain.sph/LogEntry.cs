@@ -7,9 +7,12 @@ using System.Text;
 
 namespace Bespoke.Sph.Domain
 {
-    public class LogEntry
+    public class LogEntry : DomainObject
     {
-
+        public LogEntry()
+        {
+            
+        }
         public LogEntry([CallerFilePath]string filePath = "", [CallerMemberName]string memberName = "", [CallerLineNumber]int lineNumber = 0)
         {
 

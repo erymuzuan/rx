@@ -24,6 +24,7 @@ namespace Bespoke.Sph.Domain
             var source = esJson.SelectToken("$._source");
             */
         Task<LogEntry> LoadOneAsync(string id);
+        Task<LoadOperation<LogEntry>> SearchAsync(QueryDsl query);
     }
 
     public interface ILogger
