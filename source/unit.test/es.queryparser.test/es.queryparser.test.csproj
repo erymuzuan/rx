@@ -61,9 +61,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AggregatesTest.cs" />
     <Compile Include="QueryTest.cs" />
     <Compile Include="SortTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SourceFieldsTest.cs" />
     <Compile Include="TestOutputHelperExtensions.cs" />
     <Compile Include="TopSkipTest.cs" />
   </ItemGroup>

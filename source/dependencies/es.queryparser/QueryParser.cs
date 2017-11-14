@@ -38,6 +38,15 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
                 query.Sorts.AddRange(sorts);
 
             }
+            var sourcesToken = json.SelectToken("$._source");
+            if (null != sourcesToken)
+            {
+                var sources = from jt in sourcesToken
+                            select jt.Value<string>();
+
+                query.Fields.AddRange(sources);
+
+            }
             return query;
         }
 

@@ -27,7 +27,13 @@ namespace Bespoke.Sph.Domain
         {
             return $@"
 Filters :
-    {Filters.ToString("\r\n\t")}";
+    {Filters.ToString("\r\n\t")}
+Sorts :
+    {Sorts.ToString("\r\n\t")}
+Aggregates :
+    {Aggregates.ToString("\r\n\t")}
+Fields :
+    {Fields.ToString("\r\n\t")}";
         }
     }
 }

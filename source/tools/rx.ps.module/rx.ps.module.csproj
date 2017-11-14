@@ -67,6 +67,7 @@
     <Compile Include="Domain\Worker.cs" />
     <Compile Include="Domain\WorkflowDefinition.cs" />
     <Compile Include="DynParamQuotedString.cs" />
+    <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="GetProcessVariable.cs" />
     <Compile Include="IRxCmdlet.cs" />
     <Compile Include="RxBuilder.cs" />
