@@ -251,6 +251,25 @@
     <Compile Include="..\..\extensions\LoggerExtensions.cs">
       <Link>LoggerExtensions.cs</Link>
     </Compile>
+    <Compile Include="Aggregate.Average.cs">
+      <DependentUpon>Aggregate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Aggregate.CountDistinct.cs">
+      <DependentUpon>Aggregate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Aggregate.cs" />
+    <Compile Include="Aggregate.GroupBy.cs">
+      <DependentUpon>Aggregate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Aggregate.Max.cs">
+      <DependentUpon>Aggregate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Aggregate.Min.cs">
+      <DependentUpon>Aggregate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Aggregate.Sum.cs">
+      <DependentUpon>Aggregate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Api\Adapter.p.cs">
       <DependentUpon>Adapter.cs</DependentUpon>
     </Compile>

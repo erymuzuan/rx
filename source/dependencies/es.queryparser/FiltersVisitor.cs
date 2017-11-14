@@ -8,29 +8,29 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
 {
     public class FiltersVisitor : JTokenVisitor<IList<Filter>>
     {
-        protected override IList<Filter> Visit(JToken p)
+        protected override IList<Filter> Visit(JToken token)
         {
-            var filters = from st in p
+            var filters = from st in token
                           select DynamicVisit(st);
             return filters.SelectMany(x => x).ToList();
         }
 
-        protected override IList<Filter> Visit(JProperty c)
+        protected override IList<Filter> Visit(JProperty prop)
         {
             var list = new List<Filter>();
-            if (c.Name == "term")
+            if (prop.Name == "term")
             {
-                var childs = DynamicVisit(new TermJProperty(c));
+                var childs = DynamicVisit(new TermJProperty(prop));
                 list.AddRange(childs);
             }
-            if (c.Name == "bool")
+            if (prop.Name == "bool")
             {
-                var childs = DynamicVisit(new BoolJProperty(c));
+                var childs = DynamicVisit(new BoolJProperty(prop));
                 list.AddRange(childs);
             }
-            if (c.Name == "range")
+            if (prop.Name == "range")
             {
-                var childs = DynamicVisit(new RangeJProperty(c));
+                var childs = DynamicVisit(new RangeJProperty(prop));
                 list.AddRange(childs);
             }
 

@@ -16,6 +16,12 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
                 var filters = new FiltersVisitor().DynamicVisit(queryToken).ToArray();
                 query.Filters.AddRange(filters);
             }
+            var aggregateToken = json.SelectToken("$.aggs");
+            if (null != aggregateToken)
+            {
+                var aggs = new AggregatesVisitor().DynamicVisit(aggregateToken).ToArray();
+                query.Aggregates.AddRange(aggs);
+            }
            
             query.Skip = json.GetTokenValue<int>("$.from");
             query.Size = json.GetTokenValue<int>("$.size");

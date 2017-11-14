@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AggregatesVisitor.cs" />
     <Compile Include="BoolJProperty.cs" />
     <Compile Include="ExistsJProperty.cs" />
     <Compile Include="FiltersVisitor.cs" />

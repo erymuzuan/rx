@@ -8,9 +8,9 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
 {
     public abstract class JTokenVisitor<T>
     {
-        public T DynamicVisit(JToken p) { return Visit((dynamic)p); }
-        protected abstract T Visit(JToken p);
-        protected virtual T Visit(JProperty c) { return Visit((JProperty)c); }
+        public T DynamicVisit(JToken token) { return Visit((dynamic)token); }
+        protected abstract T Visit(JToken token);
+        protected virtual T Visit(JProperty prop) { return Visit((JProperty)prop); }
         protected virtual T Visit(BoolJProperty c) { return Visit((BoolJProperty)c); }
         protected virtual T Visit(TermJProperty c) { return Visit((TermJProperty)c); }
         protected virtual T Visit(MustJProperty c) { return Visit((MustJProperty)c); }
@@ -21,6 +21,17 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
         protected virtual T Visit(WildcardJProperty c) { return Visit((WildcardJProperty)c); }
         protected virtual T Visit(PrefixJProperty c) { return Visit((PrefixJProperty)c); }
         protected virtual T Visit(JArray c) { return Visit((JArray)c); }
+
+
+        // aggregations
+        protected virtual T Visit(FieldAggregateJProperty max) { return Visit((FieldAggregateJProperty)max); }
+        protected virtual T Visit(MaxJProperty max) { return Visit((MaxJProperty)max); }
+        protected virtual T Visit(ValueCountJProperty valueCount) { return Visit((ValueCountJProperty)valueCount); }
+        protected virtual T Visit(MinJProperty min) { return Visit((MinJProperty)min); }
+        protected virtual T Visit(AvgJProperty avg) { return Visit((AvgJProperty)avg); }
+        protected virtual T Visit( SumJProperty sum) { return Visit((SumJProperty)sum); }
+        protected virtual T Visit(PercentileRanksJProperty percentileRanks) { return Visit((PercentileRanksJProperty)percentileRanks); }
+        protected virtual T Visit(PercentilesJProperty percentiles) { return Visit((PercentilesJProperty)percentiles); }
     }
 
 
@@ -38,7 +49,7 @@ Find documents where the field specified contains terms which begin with the exa
 wildcard query
 Find documents where the field specified contains terms which match the pattern specified, where the pattern supports single character wildcards (?) and multi-character wildcards (*)
 regexp query
-Find documents where the field specified contains terms which match the regular expression specified.
+Find documents where the field specified contains terms which match the reguxxxxxlar expression specified.
 fuzzy query
 Find documents where the field specified contains terms which are fuzzily similar to the specified term. Fuzziness is measured as a Levenshtein edit distance of 1 or 2.
 type query
