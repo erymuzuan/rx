@@ -79,6 +79,7 @@
     <Compile Include="RxDeploymentStatus.cs" />
     <Compile Include="RxDiff.cs" />
     <Compile Include="RxElasticsearchCmdlet.cs" />
+    <Compile Include="RxElasticsearchCmdlet.Start.cs" />
     <Compile Include="RxEntityDefinitionCmdLet.cs" />
     <Compile Include="AddRxMessageSlaCmdlet.cs" />
     <Compile Include="RxEnvironmentCmdlet.cs" />
