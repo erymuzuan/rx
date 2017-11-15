@@ -56,9 +56,10 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
         }
         protected override IList<Aggregate> Visit(AggregageDateHistorgramJProperty dhg)
         {
+            var interval = dhg.First["interval"].ToEmptyString();
             return new List<Aggregate>
             {
-                new DateHistogramAggregate(dhg.AggregateName, dhg.FieldName, "hour")
+                new DateHistogramAggregate(dhg.AggregateName, dhg.FieldName, interval)
             };
         }
 

@@ -106,7 +106,7 @@ namespace Bespoke.Sph.QueryParserTests
         [InlineData(AggsAvgGradeAvgFieldGrade, typeof(AverageAggregate), "avg_grade", "grade")]
         [InlineData(SumAgg, typeof(SumAggregate), "hat_prices", "price")]    /* Sum */
         [InlineData(RequestLog, typeof(GroupByAggregate), "path", "request.path.raw")]
-        [InlineData(DateHistogram, typeof(DateHistogramAggregate), "pathx", "requests_over_time")]
+        [InlineData(DateHistogram, typeof(DateHistogramAggregate), "requests_over_time", "time")]
         public void Test(string text, Type expectedType, string expectedName, string expectedField)
         {
             var query = new QueryParser().Parse(text);
