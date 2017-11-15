@@ -8,6 +8,12 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
         {
         }
     }
+    public class QueryStringJProperty : JProperty
+    {
+        public QueryStringJProperty(JProperty prop) : base("query_string", prop.Value)
+        {
+        }
+    }
     public class ValueCountJProperty : FieldAggregateJProperty
     {
         public ValueCountJProperty(JProperty prop, string aggregateName) : base(prop.Value, aggregateName, "value_count")

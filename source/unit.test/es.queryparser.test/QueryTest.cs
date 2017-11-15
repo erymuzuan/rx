@@ -35,6 +35,41 @@ namespace Bespoke.Sph.QueryParserTests
             Console.WriteLine(term);
         }
 
+        [Fact]
+        public void QueryString()
+        {
+            var text = @"{
+   ""query"": {
+      ""bool"": {
+         ""must"": [
+            {
+               ""query_string"": {
+                  ""default_field"": ""_all"",
+                  ""query"": ""sql network interfaces""
+               }
+            }
+         ]
+      }
+   },
+   ""sort"": [
+      {
+         ""time"": {
+            ""order"": ""desc""
+         }
+      }
+   ]
+}";
+            var query = new QueryParser().Parse(text);
+
+            Assert.Single(query.Filters);
+            var qs = query.Filters.Single();
+            Assert.Equal("sql network interfaces", qs.Field.GetValue(default));
+            Assert.Equal(".", qs.Term);
+            Assert.Equal(Operator.Substringof, qs.Operator);
+            Assert.IsType<ConstantField>(qs.Field);
+            Console.WriteLine(qs);
+        }
+
 
         [Fact]
         public void BoolWithMustMustNotAndShould()
@@ -72,7 +107,7 @@ namespace Bespoke.Sph.QueryParserTests
             Assert.IsType<ConstantField>(user.Field);
             Assert.Equal("kimchy", user.Field.GetValue(default));
 
-            Assert.Equal(1, query.Filters.OfType<BinaryOrFilter>().Count());
+            Assert.Single(query.Filters.OfType<BinaryOrFilter>());
             var or = query.Filters.OfType<BinaryOrFilter>().Single();
             Assert.Equal(2, or.Filters.Count);
         }
@@ -147,7 +182,7 @@ namespace Bespoke.Sph.QueryParserTests
             var query = new QueryParser().Parse(text);
             Console.WriteLine(query);
 
-            Assert.Equal(1, query.Filters.OfType<BinaryOrFilter>().Count());
+            Assert.Single(query.Filters.OfType<BinaryOrFilter>());
             var or = query.Filters.OfType<BinaryOrFilter>().First();
             var race = or.Filters.First(x => x.Term == "Race");
             Assert.Equal("Race", race.Term);

@@ -170,6 +170,13 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
                             ");
                     }
                     break;
+                case Operator.Substringof:
+                    var field = target.Term == "." ? "_all" : target.Term;
+                    query.AppendLine($@"
+                            ""query_string"" : {{ ""default_field"" : ""{field}"",""query"" : ""{target.Field.GetValue(context)}""}}
+                            ");
+
+                    break;
                 default: throw new Exception(target.Operator + " is not supported for filter DSL yet");
             }
 

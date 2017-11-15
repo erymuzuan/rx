@@ -1439,9 +1439,9 @@ ko.bindingHandlers.money = {
                 var val = parseFloat(ko.unwrap(value) || "0"),
                     fm = val.toFixed(decimal())
                         .replace(/./g,
-                            function (c, i, a) {
-                                return i && c !== "." && !((a.length - i) % 3) ? "," + c : c;
-                            });
+                        function (c, i, a) {
+                            return i && c !== "." && !((a.length - i) % 3) ? "," + c : c;
+                        });
                 if (element.tagName.toLowerCase() === "span") {
                     textbox.text(fm);
                     return;
@@ -1473,11 +1473,11 @@ ko.bindingHandlers.money = {
                 }
                 return parseInt(allBindings.decimal);
             },
-             textbox = $(element),
-             val = parseFloat(ko.unwrap(value) || "0"),
-             fm = val.toFixed(decimal()).replace(/./g, function (c, i, a) {
-                 return i && c !== "." && !((a.length - i) % 3) ? "," + c : c;
-             });
+            textbox = $(element),
+            val = parseFloat(ko.unwrap(value) || "0"),
+            fm = val.toFixed(decimal()).replace(/./g, function (c, i, a) {
+                return i && c !== "." && !((a.length - i) % 3) ? "," + c : c;
+            });
 
         textbox.val(fm);
 
@@ -1594,10 +1594,10 @@ ko.bindingHandlers.date = {
 ko.bindingHandlers.kendoUpload = {
     init: function (element, valueAccessor) {
         var context = require(objectbuilders.datacontext),
-             logger = require(objectbuilders.logger),
-             value = valueAccessor(),
-             options = valueAccessor(),
-                 extensions = [];
+            logger = require(objectbuilders.logger),
+            value = valueAccessor(),
+            options = valueAccessor(),
+            extensions = [];
         if (options && typeof options === "object") {
             value = options.value;
             extensions = options.extensions;
@@ -1874,10 +1874,10 @@ ko.bindingHandlers.command = {
             action(viewModel, e)
                 .fail(function (err, o, message) {
                     $button
-                       .button("complete")
-                       .prop("disabled", false)
-                       .val(inputValue)
-                       .removeClass("btn-disabled");
+                        .button("complete")
+                        .prop("disabled", false)
+                        .val(inputValue)
+                        .removeClass("btn-disabled");
                     $spinner.hide();
                     $warning.show();
                     if (err.status === 404) {
@@ -1973,18 +1973,18 @@ ko.bindingHandlers.stringArrayAutoComplete = {
             options = allBindings.data();
 
         $(element).data("kendoAutoComplete") ||
-           $(element).kendoAutoComplete({
-               dataSource: options,
-               change: function () {
-                   var data = _(this.value().split(",")).filter(function (s) {
-                       return s;
-                   });
-                   value(data);
-               },
-               filter: "startswith",
-               placeholder: "....",
-               separator: ","
-           }).val(value());
+            $(element).kendoAutoComplete({
+                dataSource: options,
+                change: function () {
+                    var data = _(this.value().split(",")).filter(function (s) {
+                        return s;
+                    });
+                    value(data);
+                },
+                filter: "startswith",
+                placeholder: "....",
+                separator: ","
+            }).val(value());
     },
     update: function (element, valueAccessor) {
         var value = valueAccessor();
@@ -2021,25 +2021,25 @@ ko.bindingHandlers.pathAutoComplete = {
                     data: data
                 });
                 var input = $(element).data("kendoAutoComplete") ||
-                   $(element).kendoAutoComplete({
-                       dataSource: tree,
-                       dataTextField: "path",
-                       change: function () {
-                           var path = this.value();
-                           console.log("selected path ", path);
+                    $(element).kendoAutoComplete({
+                        dataSource: tree,
+                        dataTextField: "path",
+                        change: function () {
+                            var path = this.value();
+                            console.log("selected path ", path);
 
-                       },
-                       filter: "startswith",
-                       placeholder: "Select path...",
-                       separator: ""
-                   }).data("kendoAutoComplete");
+                        },
+                        filter: "startswith",
+                        placeholder: "Select path...",
+                        separator: ""
+                    }).data("kendoAutoComplete");
 
                 $(element)
-                        .change(function () {
-                            value($(this).val());
-                            console.log("new value", value());
-                        })
-                       .val(value())
+                    .change(function () {
+                        value($(this).val());
+                        console.log("new value", value());
+                    })
+                    .val(value())
                     .on("keydown3", function (e) {
                         if (e.which === 110 || e.which === 190) {
                             var path = $(this).val() + ".";
@@ -2089,10 +2089,10 @@ ko.bindingHandlers.commandWithParameter = {
             callback(parameter)
                 .fail(function (err, o, message) {
                     button
-                       .button("complete")
-                       .prop("disabled", false)
-                       .val(inputValue)
-                       .removeClass("btn-disabled");
+                        .button("complete")
+                        .prop("disabled", false)
+                        .val(inputValue)
+                        .removeClass("btn-disabled");
                     $spinner.hide();
                     $warning.show();
                     if (err.status === 404) {
@@ -2172,29 +2172,29 @@ ko.bindingHandlers.filter = {
 
         var previousFilter = "",
             dofilter = function () {
-               var $rows = $element.find(path),
-                   filter = $filterInput.val().toLowerCase();
-               if (previousFilter === filter) {
-                   return;
-               }
-               previousFilter = filter;
-               $rows.each(function () {
-                   var $tr = $(this),
-                       text = $tr.text().toLowerCase().trim();
-                   if (!text) {
-                       $("input", $tr).each(function (i, v) { text += " " + $(v).val() });
-                       text = text.toLowerCase().trim();
-                   }
-                   if (text.indexOf(filter) > -1) {
-                       $tr.show();
-                   } else {
-                       $tr.hide();
-                   }
-               });
+                var $rows = $element.find(path),
+                    filter = $filterInput.val().toLowerCase();
+                if (previousFilter === filter) {
+                    return;
+                }
+                previousFilter = filter;
+                $rows.each(function () {
+                    var $tr = $(this),
+                        text = $tr.text().toLowerCase().trim();
+                    if (!text) {
+                        $("input", $tr).each(function (i, v) { text += " " + $(v).val() });
+                        text = text.toLowerCase().trim();
+                    }
+                    if (text.indexOf(filter) > -1) {
+                        $tr.show();
+                    } else {
+                        $tr.hide();
+                    }
+                });
 
 
-           },
-        throttled = _.throttle(dofilter, 800);
+            },
+            throttled = _.throttle(dofilter, 800);
 
         $filterInput.on("keyup", throttled).siblings("span.input-group-addon")
             .click(function () {
@@ -2251,10 +2251,10 @@ ko.bindingHandlers.serverPaging = {
                     size: size,
                     includeTotal: true
                 }, query)
-                     .then(function (lo) {
-                         setItemsSource(lo.itemCollection);
-                         endLoad();
-                     });
+                    .then(function (lo) {
+                        setItemsSource(lo.itemCollection);
+                        endLoad();
+                    });
             };
 
         if (enableReload && hasCommands) {
@@ -2287,23 +2287,23 @@ ko.bindingHandlers.serverPaging = {
             size: 20,
             includeTotal: true
         }, query)
-        .then(function (lo) {
+            .then(function (lo) {
 
-            var options = {
-                element: $pagerPanel,
-                count: lo.rows,
-                changed: changed,
-                hidden: pagerHidden
-            },
-                pager = new bespoke.utils.ServerPager(options);
-            console.log(pager);
-            setTimeout(function () {
-                setItemsSource(lo.itemCollection);
-                tcs.resolve(true);
-                endLoad();
-            }, 500);
+                var options = {
+                    element: $pagerPanel,
+                    count: lo.rows,
+                    changed: changed,
+                    hidden: pagerHidden
+                },
+                    pager = new bespoke.utils.ServerPager(options);
+                console.log(pager);
+                setTimeout(function () {
+                    setItemsSource(lo.itemCollection);
+                    tcs.resolve(true);
+                    endLoad();
+                }, 500);
 
-        });
+            });
         return tcs.promise();
 
 
@@ -2367,10 +2367,10 @@ ko.bindingHandlers.searchPaging = {
                     page: page,
                     size: size
                 }, executedQuery)
-                     .then(function (lo) {
-                         setItemsSource(lo.itemCollection);
-                         endLoad();
-                     });
+                    .then(function (lo) {
+                        setItemsSource(lo.itemCollection);
+                        endLoad();
+                    });
             },
             search = function (q, page, size) {
                 executedQuery = q;
@@ -2405,30 +2405,33 @@ ko.bindingHandlers.searchPaging = {
                 return tcs1.promise();
             },
             filterAndSearch = function (text) {
-                var q = JSON.parse(ko.toJSON(value.query || value.initialQuery)),
-                    q2 = {
+                const originalQuery = JSON.parse(ko.toJSON(value.query || value.initialQuery)),
+                    fullTextQuery = {
                         "from": 0,
                         "size": 20,
                         "query": {}
                     };
-                q.query = q.query || {};
-                q.query.filtered = q.query.filtered || {};
+                originalQuery.query = originalQuery.query || {};
+                originalQuery.query.bool = originalQuery.query.bool || {};
 
-                q2.query.filtered = q.query.filtered;
-                q2.query.filtered.query = {
+                //TODO : append with intialQueryFilter
+                originalQuery.query = originalQuery.query || {};
+                originalQuery.query.bool = originalQuery.query.bool || {};
+                originalQuery.query.bool.must = originalQuery.query.bool.must || [];
+                originalQuery.query.bool.must.push({
                     "query_string": {
                         "default_field": "_all",
                         "query": text
                     }
-                };
-                if (q.query.bool) {
-                    q2.filter = q2.filter || {};
-                    q2.filter.bool = q.query.bool;
+                });
+                if (originalQuery.query.bool) {
+                    fullTextQuery.filter = fullTextQuery.filter || {};
+                    fullTextQuery.filter.bool = originalQuery.query.bool;
                 }
-                q2.sort = q.sort;
+                fullTextQuery.sort = originalQuery.sort;
                 pager.destroy();
                 pager = null;
-                search(q2);
+                search(fullTextQuery);
             };
 
         if (typeof query.subscribe === "function") {

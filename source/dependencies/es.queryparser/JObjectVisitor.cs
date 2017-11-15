@@ -12,7 +12,8 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
         protected abstract T Visit(JToken token);
         protected virtual T Visit(JProperty prop) { return Visit((JProperty)prop); }
         protected virtual T Visit(BoolJProperty c) { return Visit((BoolJProperty)c); }
-        protected virtual T Visit(TermJProperty c) { return Visit((TermJProperty)c); }
+        protected virtual T Visit(TermJProperty qs) { return Visit((TermJProperty)qs); }
+        protected virtual T Visit(QueryStringJProperty c) { return Visit((QueryStringJProperty)c); }
         protected virtual T Visit(MustJProperty c) { return Visit((MustJProperty)c); }
         protected virtual T Visit(MustNotJProperty c) { return Visit((MustNotJProperty)c); }
         protected virtual T Visit(ShouldJProperty c) { return Visit((ShouldJProperty)c); }
@@ -29,7 +30,7 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
         protected virtual T Visit(ValueCountJProperty valueCount) { return Visit((ValueCountJProperty)valueCount); }
         protected virtual T Visit(MinJProperty min) { return Visit((MinJProperty)min); }
         protected virtual T Visit(AvgJProperty avg) { return Visit((AvgJProperty)avg); }
-        protected virtual T Visit( SumJProperty sum) { return Visit((SumJProperty)sum); }
+        protected virtual T Visit(SumJProperty sum) { return Visit((SumJProperty)sum); }
         protected virtual T Visit(PercentileRanksJProperty percentileRanks) { return Visit((PercentileRanksJProperty)percentileRanks); }
         protected virtual T Visit(PercentilesJProperty percentiles) { return Visit((PercentilesJProperty)percentiles); }
         protected virtual T Visit(AggregageTermsJProperty terms) { return Visit((AggregageTermsJProperty)terms); }

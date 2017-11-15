@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Bespoke.Sph.Domain;
 using Newtonsoft.Json.Linq;
@@ -31,6 +30,11 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
             if (prop.Name == "range")
             {
                 var childs = DynamicVisit(new RangeJProperty(prop));
+                list.AddRange(childs);
+            }
+            if (prop.Name == "query_string")
+            {
+                var childs = DynamicVisit(new QueryStringJProperty(prop));
                 list.AddRange(childs);
             }
 
@@ -78,9 +82,9 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
                 mustNotFilters.ToList().ForEach(x => x.Operator = x.Operator.Invert());
                 list.AddRange(mustNotFilters);
             }
-            if(prop.SelectToken("should") is JArray sjp)
+            if (prop.SelectToken("should") is JArray sjp)
                 list.AddRange(DynamicVisit(new ShouldJProperty(sjp)));
-          
+
 
             // TODO : when should is just a property not an array
 
@@ -110,6 +114,17 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
             if (term.First?.First is JProperty field)
             {
                 list.Add(new Filter(field.Name, Operator.Eq, field.Value));
+            }
+            return list;
+        }
+        protected override IList<Filter> Visit(QueryStringJProperty qs)
+        {
+            var list = new List<Filter>();
+            if (qs.First is JObject field)
+            {
+                var column = field.SelectToken("$.default_field").Value<string>();
+                var query = field.SelectToken("$.query");
+                list.Add(new Filter(column == "_all" ? "." : column, Operator.Substringof, query.Value<string>()));
             }
             return list;
         }
