@@ -2414,20 +2414,14 @@ ko.bindingHandlers.searchPaging = {
                 originalQuery.query = originalQuery.query || {};
                 originalQuery.query.bool = originalQuery.query.bool || {};
 
-                //TODO : append with intialQueryFilter
-                originalQuery.query = originalQuery.query || {};
-                originalQuery.query.bool = originalQuery.query.bool || {};
-                originalQuery.query.bool.must = originalQuery.query.bool.must || [];
-                originalQuery.query.bool.must.push({
+                fullTextQuery.query.bool = originalQuery.query.bool;
+                fullTextQuery.query.bool.must = originalQuery.query.bool.must || [];
+                fullTextQuery.query.bool.must.push({
                     "query_string": {
                         "default_field": "_all",
                         "query": text
                     }
                 });
-                if (originalQuery.query.bool) {
-                    fullTextQuery.filter = fullTextQuery.filter || {};
-                    fullTextQuery.filter.bool = originalQuery.query.bool;
-                }
                 fullTextQuery.sort = originalQuery.sort;
                 pager.destroy();
                 pager = null;
