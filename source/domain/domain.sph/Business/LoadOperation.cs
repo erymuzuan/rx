@@ -11,7 +11,7 @@ namespace Bespoke.Sph.Domain
         public QueryDsl QueryDsl { get; }
         public LoadOperation()
         {
-            
+
         }
 
         public LoadOperation(QueryDsl query)
@@ -28,7 +28,7 @@ namespace Bespoke.Sph.Domain
         public int? NextSkipToken { get; set; }
 
         public ObjectCollection<T> ItemCollection { get; } = new ObjectCollection<T>();
-        public ObjectCollection<Dictionary<string, object>> Readers { get; } = new ObjectCollection<Dictionary<string,object>>();
+        public ObjectCollection<Dictionary<string, object>> Readers { get; } = new ObjectCollection<Dictionary<string, object>>();
 
         public TAggregate GetAggregateValue<TAggregate>(string name)
         {
@@ -37,6 +37,22 @@ namespace Bespoke.Sph.Domain
 
             return agg.GetValue<TAggregate>();
         }
+
+        public Dictionary<string, object> Aggregates
+        {
+            get
+            {
+                var aggregates = new Dictionary<string, object>();
+                if (null == QueryDsl) return aggregates;
+                foreach (var agg in QueryDsl.Aggregates)
+                {
+                    aggregates.Add(agg.Name, this.GetAggregateValue<object>(agg.Name));
+                }
+
+                return aggregates;
+            }
+        }
+
 
         public int? TotalPages
         {
@@ -78,7 +94,11 @@ namespace Bespoke.Sph.Domain
             sb.AppendFormat("Total Pages : {0}", this.TotalPages);
             sb.AppendLine();
             sb.AppendFormat("Total Rows : {0}", this.TotalRows);
-            sb.AppendLine();
+            sb.AppendLine("Aggregates");
+            foreach (var agg in this.Aggregates.Keys)
+            {
+                sb.AppendLine($"{agg} : {this.Aggregates[agg]}");
+            }
             return sb.ToString();
         }
     }

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Bespoke.Sph.Domain
 {
     public class QueryDsl
@@ -35,5 +37,6 @@ Aggregates :
 Fields :
     {Fields.ToString("\r\n\t")}";
         }
+        
     }
 }

@@ -203,16 +203,6 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             var max = lo.GetAggregateValue<DateTime>("LastModifiedDate");
             Assert.Equal(lastChanged.ToString("s"), max.ToString("s"));
         }
-        [Fact]
-        public async Task TermsGroupByAggregate()
-        {
-            var repos = new ReadOnlyRepository<Patient>("http://localhost:9200", "devv1_logs");
-            var query = new QueryDsl();
-            query.Aggregates.Add(new GroupByAggregate("severities", "severity"));
-            var lo = await repos.SearchAsync(query);
-            Console.WriteLine(lo);
-            Assert.True(false, "TODO : get the buckets");
-        }
 
         private async Task<DateTime> GetLastModifiedDate(Aggregate agg)
         {

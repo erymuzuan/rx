@@ -34,8 +34,9 @@ namespace Bespoke.Sph.Tests.Elasticsearch
                 console.WriteLine(text2);
                 return JObject.Parse(text2);
             }
-
-            throw new InvalidOperationException($"{value} Cannot be turn into json");
+            var jtext = value.ToJson();
+            console.WriteLine(jtext);
+            return JObject.Parse(jtext);
         }
     }
 }

@@ -47,7 +47,6 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
                 return lo;
             }
 
-
             var list = from t in tokens
                        let src = t.SelectToken("$._source")
                        where null != src
