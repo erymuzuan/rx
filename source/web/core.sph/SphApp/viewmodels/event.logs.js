@@ -58,7 +58,8 @@ define(["services/datacontext", "services/logger", "plugins/router"],
 
                 context.searchAsync("log", filteredAgg)
                     .then(function (result) {
-                        const buckets = result.aggregations.category.buckets;
+                        const categories = result.aggregates.category;
+                        const buckets = Object.keys(categories).map(x => {return { "key":x, "doc_count":categories[x]};});
                         tcs.resolve(buckets);
                     });
 

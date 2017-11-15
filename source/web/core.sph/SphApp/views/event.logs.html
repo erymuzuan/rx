@@ -23,28 +23,28 @@
             <tr>
                 <td style="width: 180px">
                     <a href="#" data-bind="click : $parent.openDetails">
-                        <!-- ko if : severity === "Warning" -->
+                        <!-- ko if : Severity === "Warning" -->
                         <i class="fa fa-exclamation-triangle" style="color: darkgoldenrod"></i>
                         <!-- /ko -->
-                        <!-- ko if : severity === "Error" -->
+                        <!-- ko if : Severity === "Error" -->
                         <i class="fa fa-exclamation-circle" style="color:rgb(241, 51, 51)"></i>
                         <!-- /ko -->
-                        <!-- ko if : severity === "Critical" -->
+                        <!-- ko if : Severity === "Critical" -->
                         <i class="fa fa-exclamation-triangle" style="color:rgb(192, 2, 2)"></i>
                         <!-- /ko -->
-                        <!-- ko if : severity === "Log" -->
+                        <!-- ko if : Severity === "Log" -->
                         <i class="fa fa-info-circle" style="color:rgb(16, 172, 97)"></i>
                         <!-- /ko -->
-                        <!-- ko if : severity === "Info" -->
+                        <!-- ko if : Severity === "Info" -->
                         <i class="fa fa-info-circle" style="color:rgb(21, 93, 211)"></i>
                         <!-- /ko -->
-                            <span data-bind="date: { value: time, format:'YYYY-MM-DD HH:mm ss', inputFormat : moment.ISO_8601}"></span>
+                            <span data-bind="date: { value: Time, format:'YYYY-MM-DD HH:mm ss', inputFormat : moment.ISO_8601}"></span>
                         </a>
                     </td>
-                    <td data-bind="text: (operation || '') + ': ' + message"></td>
-                    <td data-bind="text:computer"></td>
-                    <td data-bind="text:log"></td>
-                    <td data-bind="text:source"></td>
+                    <td data-bind="text: (Operation || '') + ': ' + Message"></td>
+                    <td data-bind="text:Computer"></td>
+                    <td data-bind="text:Log"></td>
+                    <td data-bind="text:Source"></td>
                 </tr>
             </tbody>
         </table></div>

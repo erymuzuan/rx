@@ -6,6 +6,8 @@ using System.Net.Http.Headers;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.WebApi;
 using Humanizer;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -48,7 +50,9 @@ namespace Bespoke.Sph.Web.Controllers
             var repos = ObjectBuilder.GetObject<IReadOnlyRepository>();
             var result = await repos.SearchAsync(types.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries), parser.Parse(text));
 
-            return Json(result);
+            var setting = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+            return Json(result, setting);
 
         }
 
@@ -60,9 +64,11 @@ namespace Bespoke.Sph.Web.Controllers
             var query = parser.Parse(queryText);
 
             var repos = ObjectBuilder.GetObject<ILoggerRepository>();
-            var result = await repos.SearchAsync( query);
+            var result = await repos.SearchAsync(query);
 
-            return Json(result);
+            var setting = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+            return Json(result, setting);
 
         }
         [HttpPost]
@@ -75,7 +81,9 @@ namespace Bespoke.Sph.Web.Controllers
             var repos = ObjectBuilder.GetObject<IReadOnlyRepository>();
             var result = await repos.SearchAsync(new[] { type }, query);
 
-            return Json(result);
+            var setting = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+            return Json(result, setting);
 
         }
 

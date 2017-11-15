@@ -375,6 +375,7 @@ function (logger, system, ko2) {
                 lo.page = msg.Page;
                 lo.size = size.PageSize = 20;
                 lo.rows = msg.TotalRows;
+                lo.aggregates = msg.Aggregates;
                 //TODO:lo.facets = msg.facets;
                 //TODO: lo.aggregations = msg.aggregations;
 
