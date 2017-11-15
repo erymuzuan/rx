@@ -90,7 +90,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return context.post(data, "/management-api/request-logs/" + ko.unwrap(from) + "/" + ko.unwrap(to))
                     .then(function (result) {
                         isBusy(false);
-                        createCharts(result.aggregations.path.buckets);
+                        createCharts(result.aggregates.path);
                     });
             },
             activate = function () {

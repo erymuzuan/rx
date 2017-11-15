@@ -39,20 +39,7 @@ namespace Bespoke.Sph.Domain
     {
         // fire and forget
         void Log(HttpRequestLog request);
-
-        /*var url = $"{ConfigurationManager.ElasticSearchIndex}_logs/request_log/_search";
-            using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticsearchLogHost) })
-            {
-                var response = await client.PostAsync(url, new StringContent(query));
-                response.EnsureSuccessStatusCode();
-
-                var content = response.Content as StreamContent;
-                if (null == content) throw new Exception("Cannot execute query on es ");
-                var responseString = await content.ReadAsStringAsync();
-                return Json(responseString);
-
-            }*/
-        Task<LoadOperation<HttpRequestLog>> SearchAsync(Filter[] filters);
+        Task<LoadOperation<HttpRequestLog>> SearchAsync(QueryDsl query);
     }
 
 }

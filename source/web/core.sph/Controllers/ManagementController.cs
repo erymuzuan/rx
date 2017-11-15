@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
@@ -96,10 +97,13 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [PostRoute("request-logs/{from}/{to}")]
-        public async Task<IHttpActionResult> SearchRequestLogs([JsonBody]Filter[] filters)
+        public async Task<IHttpActionResult> SearchRequestLogs(string from, string to, [RawBody]string text, [ContentType]MediaTypeHeaderValue contentType)
         {
+            var parser = QueryParserFactory.Instance.Get(null, contentType?.MediaType ?? "appplication/json+elasticsearch");
+            var query = parser.Parse(text);
+
             var repos = ObjectBuilder.GetObject<IMeteringRepository>();
-            var lo = await repos.SearchAsync(filters);
+            var lo = await repos.SearchAsync(query);
             return Json(lo);
 
         }

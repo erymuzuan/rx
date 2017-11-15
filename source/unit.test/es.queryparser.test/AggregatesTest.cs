@@ -11,6 +11,39 @@ namespace Bespoke.Sph.QueryParserTests
     {
         private ITestOutputHelper Console { get; }
 
+        private const string RequestLog = @"{
+  ""query"": {
+    ""range"": {
+      ""time"": {
+        ""from"": ""2015-01-14"",
+        ""to"": ""2017-11-16""
+      }
+    }
+  },
+  ""aggs"": {
+    ""path"": {
+      ""terms"": {
+        ""field"": ""request.path.raw""
+      }
+    }
+  },
+  ""fields"": [],
+  ""from"": 0,
+  ""size"": 1
+}";
+
+        private const string SumAgg = @"{
+    ""query"" : {
+        ""constant_score"" : {
+            ""filter"" : {
+                ""match"" : { ""type"" : ""hat"" }
+            }
+        }
+    },
+    ""aggs"" : {
+        ""hat_prices"" : { ""sum"" : { ""field"" : ""price"" } }
+    }
+}";
         public AggregatesTest(ITestOutputHelper console)
         {
             Console = console;
@@ -47,18 +80,8 @@ namespace Bespoke.Sph.QueryParserTests
 }", typeof(AverageAggregate), "avg_grade", "grade")]
 
         /* Sum */
-        [InlineData(@"{
-    ""query"" : {
-        ""constant_score"" : {
-            ""filter"" : {
-                ""match"" : { ""type"" : ""hat"" }
-            }
-        }
-    },
-    ""aggs"" : {
-        ""hat_prices"" : { ""sum"" : { ""field"" : ""price"" } }
-    }
-}", typeof(SumAggregate), "hat_prices", "price")]
+        [InlineData(SumAgg, typeof(SumAggregate), "hat_prices", "price")]    /* Sum */
+        [InlineData(RequestLog, typeof(GroupByAggregate), "path", "request.path.raw")]
         public void Test(string text, Type expectedType, string expectedName, string expectedField)
         {
             var query = new QueryParser().Parse(text);
