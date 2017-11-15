@@ -12,6 +12,8 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
             {
                 case MaxAggregate max:
                     return GenerateEsAggs(max);
+                case DateHistogramAggregate dhg:
+                    return GenerateEsAggs(dhg);
                 case GroupByAggregate grp:
                     return GenerateEsAggs(grp);
             }
@@ -27,12 +29,25 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
             return $@"""{grp.Name}"" : {{ ""terms"" : {{ ""field"":  ""{grp.Path}""}}}}";
         }
 
+        private static string GenerateEsAggs(DateHistogramAggregate grp)
+        {
+            return $@"""{grp.Name}"" : {{ ""date_histogram"" : {{ 
+                    ""field"":  ""{grp.Path}"",
+                    ""interval"": ""{grp.Interval}"",
+                    ""offset"": ""+8h"",
+                    ""format"": ""yyy-MM-dd:HH""
+
+}}}}";
+        }
+
         public static bool ExtractValueFromSearchResult(this Aggregate agg, JToken json)
         {
             switch (agg)
             {
                 case MaxAggregate max:
                     return max.ExtractValueFromSearchResult(json);
+                case DateHistogramAggregate dhg:
+                    return dhg.ExtractValueFromSearchResult(json);
                 case GroupByAggregate grp:
                     return grp.ExtractValueFromSearchResult(json);
             }
@@ -53,7 +68,25 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
             }
             return true;
         }
+
         private static bool ExtractValueFromSearchResult(this GroupByAggregate agg, JToken json)
+        {
+            var path = $"$.aggregations.{agg.Name}.buckets";
+            if (json.SelectToken(path) is JArray buckets)
+            {
+                var result = new Dictionary<string, int>();
+                foreach (var bucket in buckets)
+                {
+                    var key = (string)bucket["key"];
+                    var count = (int)bucket["doc_count"];
+                    result.Add(key, count);
+                }
+                agg.SetValue(result);
+                agg.SetStringValue(result.ToJson());
+            }
+            return true;
+        }
+        private static bool ExtractValueFromSearchResult(this DateHistogramAggregate agg, JToken json)
         {
             var path = $"$.aggregations.{agg.Name}.buckets";
             if (json.SelectToken(path) is JArray buckets)

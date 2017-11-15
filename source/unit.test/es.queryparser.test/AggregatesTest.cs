@@ -44,6 +44,43 @@ namespace Bespoke.Sph.QueryParserTests
         ""hat_prices"" : { ""sum"" : { ""field"" : ""price"" } }
     }
 }";
+
+        private const string DateHistogram = @"{
+                ""query"": {
+                    ""range"": {
+                        ""time"": {
+                            ""from"": ""2015-01-11"",
+                            ""to"": ""2020-01-01""
+                        }
+                    }
+                },
+                ""aggs"": {
+                    ""requests_over_time"": {
+                        ""date_histogram"": {
+                            ""field"": ""time"",
+                            ""interval"": ""hour"",
+                            ""offset"": ""+8h"",
+                            ""format"": ""yyy-MM-dd:HH""
+                        }
+                    }
+                },
+                ""fields"": [],
+                ""from"": 0,
+                ""size"": 1
+            }";
+
+        private const string AggsAvgGradeAvgFieldGrade = @"{
+    ""aggs"" : {
+        ""avg_grade"" : { ""avg"" : { ""field"" : ""grade"" } }
+    }
+}";
+
+        private const string AggsTypesCountValueCountFieldType = @"{
+    ""aggs"" : {
+        ""types_count"" : { ""value_count"" : { ""field"" : ""type"" } }
+    }
+}";
+
         public AggregatesTest(ITestOutputHelper console)
         {
             Console = console;
@@ -65,23 +102,11 @@ namespace Bespoke.Sph.QueryParserTests
         }
 
         [Theory]
-        /*count*/
-        [InlineData(@"{
-    ""aggs"" : {
-        ""types_count"" : { ""value_count"" : { ""field"" : ""type"" } }
-    }
-}", typeof(CountDistinctAggregate), "types_count", "type")]
-
-        /*average */
-        [InlineData(@"{
-    ""aggs"" : {
-        ""avg_grade"" : { ""avg"" : { ""field"" : ""grade"" } }
-    }
-}", typeof(AverageAggregate), "avg_grade", "grade")]
-
-        /* Sum */
+        [InlineData(AggsTypesCountValueCountFieldType, typeof(CountDistinctAggregate), "types_count", "type")]
+        [InlineData(AggsAvgGradeAvgFieldGrade, typeof(AverageAggregate), "avg_grade", "grade")]
         [InlineData(SumAgg, typeof(SumAggregate), "hat_prices", "price")]    /* Sum */
         [InlineData(RequestLog, typeof(GroupByAggregate), "path", "request.path.raw")]
+        [InlineData(DateHistogram, typeof(DateHistogramAggregate), "pathx", "requests_over_time")]
         public void Test(string text, Type expectedType, string expectedName, string expectedField)
         {
             var query = new QueryParser().Parse(text);

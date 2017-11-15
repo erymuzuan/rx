@@ -16,7 +16,7 @@
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app],
     function (context, logger, router, app, ko) {
 
-        var isBusy = ko.observable(false),
+        const isBusy = ko.observable(false),
             from = ko.observable(moment().subtract(1, "day").format("YYYY-MM-DD")),
             to = ko.observable(moment().add(1, "day").format("YYYY-MM-DD")),
             query = {
@@ -43,21 +43,14 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 "size": 1
             },
             activate = function () {
-
+                return true;
             },
             createCharts = function(buckets) {
-                var categories = _(buckets)
-                    .map(function (v) {
-                            return v.key_as_string || v.key.toString();
-                        }),
-                    data = _(buckets)
-                    .map(function(v) {
-                        return {
-                            category: v.key_as_string || v.key.toString(),
-                            value: v.doc_count
-                        };
-                    });
-                var chart = $("#request-logs-charts").empty().kendoChart({
+
+                const categories = Object.keys(buckets),
+                    data = Object.keys(buckets).map(v => { return { category: v, value: buckets[v] }; });
+
+                const chart = $("#request-logs-charts").empty().kendoChart({
                     theme: "metro",
                     title: {
                         text: "Request by hour"
@@ -100,7 +93,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return context.post(data, "/management-api/request-logs/" + ko.unwrap(from) + "/" + ko.unwrap(to))
                     .then(function (result) {
                         isBusy(false);
-                        createCharts(result.aggregates.requests_over_time.buckets);
+                        createCharts(result.Aggregates.requests_over_time);
                     });
             },
             attached = function (view) {

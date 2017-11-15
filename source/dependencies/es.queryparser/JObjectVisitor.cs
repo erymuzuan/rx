@@ -33,6 +33,7 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
         protected virtual T Visit(PercentileRanksJProperty percentileRanks) { return Visit((PercentileRanksJProperty)percentileRanks); }
         protected virtual T Visit(PercentilesJProperty percentiles) { return Visit((PercentilesJProperty)percentiles); }
         protected virtual T Visit(AggregageTermsJProperty terms) { return Visit((AggregageTermsJProperty)terms); }
+        protected virtual T Visit(AggregageDateHistorgramJProperty dates) { return Visit((AggregageDateHistorgramJProperty)dates); }
     }
 
 

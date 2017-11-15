@@ -38,6 +38,8 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
                         return DynamicVisit(new SumJProperty(agg, prop.Name));
                     case "terms":
                         return DynamicVisit(new AggregageTermsJProperty(agg, prop.Name));
+                    case "date_histogram":
+                        return DynamicVisit(new AggregageDateHistorgramJProperty(agg, prop.Name));
                 }
             }
 
@@ -50,6 +52,13 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
             return new List<Aggregate>
             {
                 new GroupByAggregate(terms.AggregateName, terms.FieldName)
+            };
+        }
+        protected override IList<Aggregate> Visit(AggregageDateHistorgramJProperty dhg)
+        {
+            return new List<Aggregate>
+            {
+                new DateHistogramAggregate(dhg.AggregateName, dhg.FieldName, "hour")
             };
         }
 

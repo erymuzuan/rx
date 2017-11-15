@@ -7,4 +7,15 @@ namespace Bespoke.Sph.Domain
 
         }
     }
+
+    public class DateHistogramAggregate : GroupByAggregate
+    {
+        public string Interval { get; }
+
+        public DateHistogramAggregate(string name, string path, string interval) : base(name, path)
+        {
+            Interval = interval;
+        }
+
+    }
 }

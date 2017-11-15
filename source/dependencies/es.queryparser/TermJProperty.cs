@@ -51,6 +51,12 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
         {
         }
     }
+    public class AggregageDateHistorgramJProperty : FieldAggregateJProperty
+    {
+        public AggregageDateHistorgramJProperty(JProperty prop, string aggregateName) : base(prop.Value, aggregateName, "date_histogram")
+        {
+        }
+    }
     public class AvgJProperty : FieldAggregateJProperty
     {
         public AvgJProperty(JProperty prop, string aggregateName) : base(prop.Value, aggregateName, "avg")
