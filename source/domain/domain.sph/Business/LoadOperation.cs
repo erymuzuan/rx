@@ -87,17 +87,30 @@ namespace Bespoke.Sph.Domain
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.AppendFormat("Items Counts : {0}", this.ItemCollection.Count);
-            sb.AppendLine();
-            sb.AppendFormat("Next skip : {0}", this.NextSkipToken);
-            sb.AppendLine();
-            sb.AppendFormat("Total Pages : {0}", this.TotalPages);
-            sb.AppendLine();
-            sb.AppendFormat("Total Rows : {0}", this.TotalRows);
+            sb.AppendLine($"Items Counts : {ItemCollection.Count}");
+            sb.AppendLine($"Next skip : {NextSkipToken}");
+            sb.AppendLine($"Total Pages : {TotalPages}");
+            sb.AppendLine($"Total Rows : {TotalRows}");
             sb.AppendLine("Aggregates");
             foreach (var agg in this.Aggregates.Keys)
             {
-                sb.AppendLine($"{agg} : {this.Aggregates[agg]}");
+                sb.AppendLine($"\t{agg}");
+                if (this.Aggregates[agg] is Dictionary<string, int> rs)
+                {
+                    foreach (var key in rs.Keys)
+                    {
+                        sb.AppendLine($"\t{key} : {rs[key]}");
+                    }
+                    
+                }
+                if (this.Aggregates[agg] is Dictionary<DateTime, int> ds)
+                {
+                    foreach (var key in ds.Keys)
+                    {
+                        sb.AppendLine($"\t{key} : {ds[key]}");
+                    }
+                    
+                }
             }
             return sb.ToString();
         }

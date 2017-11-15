@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Bespoke.Sph.Domain;
 using Newtonsoft.Json.Linq;
 
@@ -35,7 +36,7 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
                     ""field"":  ""{grp.Path}"",
                     ""interval"": ""{grp.Interval}"",
                     ""offset"": ""+8h"",
-                    ""format"": ""yyy-MM-dd:HH""
+                    ""format"": ""yyyy-MM-dd HH:mm:ss""
 
 }}}}";
         }
@@ -92,11 +93,25 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
             if (json.SelectToken(path) is JArray buckets)
             {
                 var result = new Dictionary<string, int>();
+                var result2 = new Dictionary<DateTime, int>();
                 foreach (var bucket in buckets)
                 {
                     var key = (string)bucket["key"];
+                    var keyAsString = bucket["key_as_string"];
                     var count = (int)bucket["doc_count"];
+                    if (DateTime.TryParse($"{keyAsString}", out var date))
+                    {
+                        key = date.ToString("s");
+                        result2.Add(date, count);
+                    }
                     result.Add(key, count);
+                }
+                if (result2.Count > 0)
+                {
+
+                    agg.SetValue(result2);
+                    agg.SetStringValue(result2.ToJson());
+                    return true;
                 }
                 agg.SetValue(result);
                 agg.SetStringValue(result.ToJson());
