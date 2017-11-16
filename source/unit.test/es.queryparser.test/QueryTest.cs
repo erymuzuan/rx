@@ -36,29 +36,6 @@ namespace Bespoke.Sph.QueryParserTests
         }
 
         [Fact]
-        public void QueryString()
-        {
-            var text = @"{
-    ""query"": {
-        ""query_string"" : {
-            ""default_field"" : ""content"",
-            ""query"" : ""this AND that OR thus""
-        }
-    }
-}";
-            var query = new QueryParser().Parse(text);
-
-            Assert.Single(query.Filters);
-            var qs = query.Filters.Single();
-            Assert.Equal("sql network interfaces", qs.Field.GetValue(default));
-            Assert.Equal(".", qs.Term);
-            Assert.Equal(Operator.FullText, qs.Operator);
-            Assert.IsType<ConstantField>(qs.Field);
-            Console.WriteLine(qs);
-        }
-
-
-        [Fact]
         public void BoolWithMustMustNotAndShould()
         {
             var text = @"{
