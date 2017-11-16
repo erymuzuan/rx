@@ -6945,6 +6945,7 @@ namespace Bespoke.Sph.Domain
         NotEndsWith,
         IsNull,
         IsNotNull,
+        FullText
 
     }
 

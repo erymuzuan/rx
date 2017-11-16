@@ -8,6 +8,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.ElasticsearchRepository.Extensions;
 using Bespoke.Sph.Extensions;
 using Newtonsoft.Json.Linq;
+using Bespoke.Sph.Extensions;
 
 namespace Bespoke.Sph.ElasticsearchRepository
 {
@@ -74,7 +75,12 @@ namespace Bespoke.Sph.ElasticsearchRepository
 
         public async Task<LoadOperation<T>> SearchAsync(QueryDsl queryDsl)
         {
+            var logger = ObjectBuilder.GetObject<ILogger>();
+
+            logger.WriteDebug($"SearchAsync for {typeof(T).Name}");
             var dsl = ((T)null).CompileToElasticsearchQueryDsl(queryDsl);
+            logger.WriteDebug($"QueryDsl: {queryDsl}\r\nes\r\n{dsl}");
+
             var response = await m_client.PostAsync($"{m_url}/_search", new StringContent(dsl));
             var lo = await response.ReadContentAsLoadOperationAsync<T>(queryDsl);
 
