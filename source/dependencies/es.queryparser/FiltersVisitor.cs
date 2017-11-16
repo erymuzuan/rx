@@ -124,7 +124,7 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
             {
                 var column = field.SelectToken("$.default_field").Value<string>();
                 var query = field.SelectToken("$.query");
-                list.Add(new Filter(column == "_all" ? "." : column, Operator.Substringof, query.Value<string>()));
+                list.Add(new Filter(column, Operator.FullText, query.Value<string>()));
             }
             return list;
         }
