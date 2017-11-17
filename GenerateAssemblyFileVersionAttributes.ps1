@@ -1,17 +1,13 @@
-﻿
-# mkdir .\source\assembly.versions
-<#
-     var y2012 = new DateTime(2012, 1, 1);
-            var commit = logs.ItemCollection.FirstOrDefault() ?? new CommitLog
-            {
-                CommitId = "NA",
-                DateTime = fileInfo.LastWriteTime,
-                Commiter = "NA",
-                Comment = "NA"
-            };using System.Runtime.InteropServices;
-            var version = $"{ConfigurationManager.MajorVersion}.{ConfigurationManager.MinorVersion}.{Convert.ToInt32((commit.DateTime - y2012).TotalDays)}.{logs.TotalRows}";
+﻿Param(
+       [string]$Version = '2.1',
+       [string]$AssemblyVersion="1.0.2.1007"
+     )
 
-#>
+if((Test-Path(".\source\assembly.versions")) -eq $false)
+{ 
+    mkdir .\source\assembly.versions
+}
+
 $y2012 = [System.DateTime]::Parse("2012-01-01")
 
 ls .\source -Filter *.csproj -Recurse | % { 
@@ -35,8 +31,8 @@ ls .\source -Filter *.csproj -Recurse | % {
 "`r`n[assembly: AssemblyCulture(`"`")]" + `
 "`r`n[assembly: ComVisible(false)]" + `
 "`r`n[assembly: AssemblyVersion(`"1.0.2.1007`")]" + `
-"`r`n[assembly: AssemblyInformationalVersion(`"1.0.$days.$rev-$commitId`")]" + `
-"`r`n[assembly: AssemblyFileVersion(`"1.0.$days.$rev`")]"
+"`r`n[assembly: AssemblyInformationalVersion(`"$Version.$days.$rev-$commitId`")]" + `
+"`r`n[assembly: AssemblyFileVersion(`"$Version.$days.$rev`")]"
     $content | Out-File -FilePath .\source\assembly.versions\$cs
 
 }
