@@ -5,7 +5,6 @@ namespace Bespoke.Sph.ElasticsearchRepository
 {
     public static class EsConfigurationManager
     {
-
         public static long IndexingDelay => GetEnvironmentVariableInt32("ElasticsearchIndexingDelay", 15000);
         public static int IndexingMaxTry => GetEnvironmentVariableInt32("ElasticsearchIndexingMaxTry", 3);
         public static string SystemIndex => GetEnvironmentVariable("ElasticsearchIndex") ?? ConfigurationManager.ApplicationName.ToLowerInvariant() + "_sys";
