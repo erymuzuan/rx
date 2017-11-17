@@ -196,3 +196,5 @@ bin/elasticsearch-1.7.5/
 /bin/utils/rx.ps.module.dll.config
 /bin/utils/Newtonsoft.Json.xml
 bin/utils/
+bin/elasticsearch-*/
+env.devv1.*.ps1

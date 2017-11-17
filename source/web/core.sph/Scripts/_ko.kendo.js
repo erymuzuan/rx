@@ -1100,7 +1100,7 @@ ko.bindingHandlers.searchPaging = {
 
                 fullTextQuery.query.bool = originalQuery.query.bool;
                 fullTextQuery.query.bool.must = originalQuery.query.bool.must || [];
-                fullTextQuery.query.bool.must.push({
+                fullTextQuery.query = ({
                     "query_string": {
                         "default_field": "_all",
                         "query": text

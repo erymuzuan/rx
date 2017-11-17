@@ -110,7 +110,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		        list(temp);
 		    },
 		    scroll = function () {
-		        var elem = document.getElementById("developers-log-footer");
+		        const elem = document.getElementById("developers-log-footer");
 		        elem.scrollTop = elem.scrollHeight;
 		    },
 		    clear = function () {
@@ -137,15 +137,15 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
 	            var message = ko.unwrap(entry.message);
 	            if (entry.log === "WebServer") {
-	                var any = _(setting().iis.excludeWhenContains().split(";")).any(function (v) {
+	                const any = _(setting().iis.excludeWhenContains().split(";")).any(function (v) {
 	                    return (message || "<>").indexOf(v) > -1;
 	                });
 	                if (any) {
 	                    return false;
 	                }
 
-	                var codes = /HTTP status ([0-9]{3})/.exec(message);
-	                var code = _(setting().iis.excludeStatusCodes()).any(function (v) {
+	                const  codes = /HTTP status ([0-9]{3})/.exec(message);
+	                const code = _(setting().iis.excludeStatusCodes()).any(function (v) {
 	                    if (!_.isArray(codes)) {
 	                        return false;
 	                    }
@@ -195,7 +195,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		            }
 		            if (typeof model.outputFile === "string") {
 
-		                const existing = _(outputFiles()).find(function (v) { return v.outputFile === model.outputFile; });
+		                const existing = _(outputFiles()).find(v => v.outputFile === model.outputFile);
 		                if (existing) {
 		                    outputFiles.remove(existing);
 		                }
