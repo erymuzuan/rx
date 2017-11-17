@@ -548,10 +548,6 @@
     <Content Include="docs\EntityLookupElement.html">
       <DependentUpon>EntityLookupElement.md</DependentUpon>
     </Content>
-    <Content Include="docs\EntityOperation.html">
-      <DependentUpon>EntityOperation.md</DependentUpon>
-    </Content>
-    <Content Include="docs\EntityOperation.md" />
     <Content Include="docs\EntityPermission.html">
       <DependentUpon>EntityPermission.md</DependentUpon>
     </Content>
