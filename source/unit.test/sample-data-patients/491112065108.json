@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00481232081",
+  "FullName": "ROAINI BT HJ ARSHAD",
+  "Dob": "1949-11-12T00:00:00",
+  "Gender": "Female",
+  "Religion": "Islam",
+  "Race": "Malay",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "491112065108",
+  "PassportNo": "2734209",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "DEWAN BAHASA DAN PUSTAKA",
+    "Street2": null,
+    "Postcode": "50926",
+    "City": "KUALA LUMPUR",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 68,
+  "Income": 24842.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "491112065108",
+  "CreatedDate": "1929-11-06T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1952-03-04T00:00:00",
+  "WebId": "c80275dc-3ff4-473e-b1d1-c17e6cee7f25"
+}

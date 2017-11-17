@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00533955030",
+  "FullName": "ABUL HASSAN BIN ABDUL KASSIM",
+  "Dob": "1943-04-24T00:00:00",
+  "Gender": "Male",
+  "Religion": "Islam",
+  "Race": "Malay",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "430424715043",
+  "PassportNo": "3504402",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "233 JALAN BESAR",
+    "Street2": null,
+    "Postcode": "32400",
+    "City": "AYER TAWAR",
+    "State": "PERAK",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 75,
+  "Income": 27236.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "430424715043",
+  "CreatedDate": "1978-08-20T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1983-03-27T00:00:00",
+  "WebId": "87c77eb1-f51a-4c1f-9a66-0e167357805e"
+}

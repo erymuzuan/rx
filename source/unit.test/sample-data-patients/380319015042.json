@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00258688061",
+  "FullName": "LIM TEH",
+  "Dob": "1938-03-19T00:00:00",
+  "Gender": "Female",
+  "Religion": "Others",
+  "Race": "Others",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "380319015042",
+  "PassportNo": "1241967",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "23, TAMAN JAYA DIRI",
+    "Street2": null,
+    "Postcode": "83500",
+    "City": "BATU PAHAT",
+    "State": "JOHOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 80,
+  "Income": 29098.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "380319015042",
+  "CreatedDate": "1960-01-21T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1961-04-02T00:00:00",
+  "WebId": "0fe855a0-6e92-4175-babd-1ff2a52ab758"
+}

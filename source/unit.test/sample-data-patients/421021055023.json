@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00362677060",
+  "FullName": "MOHD SHAH HAMZAH",
+  "Dob": "1942-10-21T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "421021055023",
+  "PassportNo": "0067711",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "0",
+    "Street2": null,
+    "Postcode": "0",
+    "City": "0",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 75,
+  "Income": 27421.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "421021055023",
+  "CreatedDate": "1912-03-16T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1943-07-02T00:00:00",
+  "WebId": "6006bf63-3f43-441f-8334-58967f2f8302"
+}

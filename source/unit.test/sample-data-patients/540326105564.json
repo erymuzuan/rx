@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00480315091",
+  "FullName": "NIRMALANI SUSILA A/P SINGARATNAM",
+  "Dob": "1954-03-26T00:00:00",
+  "Gender": "Female",
+  "Religion": "Hinduism",
+  "Race": "Indian",
+  "RegisteredDate": "2001-09-24T00:00:00",
+  "IdentificationNo": "540326105564",
+  "PassportNo": "4885569",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "NO 7 JALAN ROZARIO",
+    "Street2": null,
+    "Postcode": "50470",
+    "City": "K LUMPUR",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 64,
+  "Income": 23247.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "540326105564",
+  "CreatedDate": "1985-11-25T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1990-12-07T00:00:00",
+  "WebId": "c40d51b2-2f7c-4887-8ecf-17521148a9e8"
+}

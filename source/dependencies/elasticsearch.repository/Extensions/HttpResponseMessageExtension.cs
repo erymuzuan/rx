@@ -34,10 +34,8 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
                     agg.ExtractValueFromSearchResult(json);
                 }
             }
-
-
+            
             var tokens = json.SelectToken("$.hits.hits");
-
             if (useSourceFields)
             {
                 var rows = tokens.Select(t => t.SelectToken("$._source")).Where(x => null != x);

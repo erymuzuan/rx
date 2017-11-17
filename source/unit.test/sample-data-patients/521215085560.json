@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00642290101",
+  "FullName": "KHOR YOKE LIM",
+  "Dob": "1952-12-15T00:00:00",
+  "Gender": "Female",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "521215085560",
+  "PassportNo": "8100306",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "45 CANGKAT MINDEN",
+    "Street2": null,
+    "Postcode": "11700",
+    "City": "GELUGOR",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 65,
+  "Income": 23713.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "521215085560",
+  "CreatedDate": "1914-12-22T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1954-01-23T00:00:00",
+  "WebId": "45512983-63c5-47b1-80e9-57c9cfc4bab0"
+}

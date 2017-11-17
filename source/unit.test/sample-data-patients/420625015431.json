@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00480850090",
+  "FullName": "FOO MOH LUANG",
+  "Dob": "1942-06-25T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "420625015431",
+  "PassportNo": "1240059",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "LIN HUP SENG AUTO PARTS SDN BHD",
+    "Street2": null,
+    "Postcode": "51200",
+    "City": "KUALA LUMPUR",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 75,
+  "Income": 27539.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "420625015431",
+  "CreatedDate": "1962-03-16T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1969-01-13T00:00:00",
+  "WebId": "3639373b-a835-4bfa-aad1-67ec68cbb2b1"
+}

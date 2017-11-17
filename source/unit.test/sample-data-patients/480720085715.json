@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00416186060",
+  "FullName": "DENNY CHOO SIN YOON",
+  "Dob": "1948-07-20T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Others",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "480720085715",
+  "PassportNo": "0575603",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "SAMA",
+    "Street2": null,
+    "Postcode": "31650",
+    "City": "IPOH",
+    "State": "PERAK",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 69,
+  "Income": 25322.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "480720085715",
+  "CreatedDate": "1963-12-20T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1983-12-26T00:00:00",
+  "WebId": "b1bb7087-84d5-43ec-ae16-6ec3ac929060"
+}

@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00476098000",
+  "FullName": "RANJIT SINGH AL TARA SINGH",
+  "Dob": "1923-02-22T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Others",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "230222085315",
+  "PassportNo": "8061550",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "47-2 JALAN CECAWI 6/19A",
+    "Street2": null,
+    "Postcode": "47810",
+    "City": "PETALING JAYA",
+    "State": "SELANGOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 95,
+  "Income": 34602.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "230222085315",
+  "CreatedDate": "1958-01-06T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1959-11-01T00:00:00",
+  "WebId": "7c32fb5f-d290-4435-bdc8-551d0c033505"
+}

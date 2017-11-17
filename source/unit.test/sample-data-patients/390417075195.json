@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00479880050",
+  "FullName": "YEANG KIM SIEW",
+  "Dob": "1939-04-17T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "390417075195",
+  "PassportNo": "3638205",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "33 JLN 5/98 TAMAN SUPREME",
+    "Street2": null,
+    "Postcode": "56100",
+    "City": "K LUMPUR",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 79,
+  "Income": 28704.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "390417075195",
+  "CreatedDate": "1953-02-06T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1961-09-22T00:00:00",
+  "WebId": "b8ac37f9-4ab4-457f-af3d-2d6af6af0269"
+}

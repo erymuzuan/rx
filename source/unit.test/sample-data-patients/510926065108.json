@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00495402051",
+  "FullName": "CHEW SEH PING",
+  "Dob": "1951-09-26T00:00:00",
+  "Gender": "Female",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "510926065108",
+  "PassportNo": "3865864",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "45, LORONG SEKILAU 39, BUKIT SEKILAU",
+    "Street2": null,
+    "Postcode": "25200",
+    "City": "KUANTAN",
+    "State": "PAHANG",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 66,
+  "Income": 24159.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "510926065108",
+  "CreatedDate": "1932-06-15T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1967-09-08T00:00:00",
+  "WebId": "e62ff554-a66d-4d1f-b5f4-49c888bc9030"
+}

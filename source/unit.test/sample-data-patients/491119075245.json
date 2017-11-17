@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00439505000",
+  "FullName": "KEE THUAN CHUAN",
+  "Dob": "1949-11-19T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "491119075245",
+  "PassportNo": "3455733",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "31C-20-02 LRG PEKAKA 1",
+    "Street2": null,
+    "Postcode": "11700",
+    "City": "GELUGOR",
+    "State": "PULAU PINANG",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 68,
+  "Income": 24835.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "491119075245",
+  "CreatedDate": "1949-05-23T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1989-11-01T00:00:00",
+  "WebId": "717c072e-2cf5-4737-a51a-5c0b9e11339b"
+}

@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00464132090",
+  "FullName": "NG BOON HONG",
+  "Dob": "1948-12-10T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "481210015359",
+  "PassportNo": "0029331",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "ELECTROLUX MARKETING SDN BHD",
+    "Street2": null,
+    "Postcode": "93450",
+    "City": "KUCHING",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 69,
+  "Income": 25179.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "481210015359",
+  "CreatedDate": "1955-12-24T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1981-04-01T00:00:00",
+  "WebId": "f6df137a-859b-4db2-b37b-5da9a79cfaf5"
+}

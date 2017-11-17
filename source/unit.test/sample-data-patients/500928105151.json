@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00593838040",
+  "FullName": "THANARAJASINGAM AL SUBRAMANIAM",
+  "Dob": "1950-09-28T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "500928105151",
+  "PassportNo": "8027118",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "KEMENTERIAN LUAR NEGERI",
+    "Street2": null,
+    "Postcode": "62602",
+    "City": "PUTRAJAYA",
+    "State": "WP PUTRAJAYA",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 67,
+  "Income": 24522.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "500928105151",
+  "CreatedDate": "1965-02-06T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1974-06-03T00:00:00",
+  "WebId": "7c1f050e-b0e5-4cd0-92b1-8584237c3093"
+}

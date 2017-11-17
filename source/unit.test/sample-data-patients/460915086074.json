@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00466638000",
+  "FullName": "ZALIHAH BINTI MUSTAPHA",
+  "Dob": "1946-09-15T00:00:00",
+  "Gender": "Female",
+  "Religion": "Islam",
+  "Race": "Malay",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "460915086074",
+  "PassportNo": "0367981",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "JAB BAHASA FAKULTI PENGAJIAN PENDIDIKAN",
+    "Street2": null,
+    "Postcode": "43400",
+    "City": "SERDANG SEL",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 71,
+  "Income": 25996.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "460915086074",
+  "CreatedDate": "1921-12-14T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1960-10-19T00:00:00",
+  "WebId": "16f90b36-fea3-4281-81b5-9349f1c55378"
+}

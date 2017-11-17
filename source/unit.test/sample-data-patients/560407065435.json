@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00565019040",
+  "FullName": "BAHARUDDIN BIN ISA",
+  "Dob": "1956-04-07T00:00:00",
+  "Gender": "Male",
+  "Religion": "Islam",
+  "Race": "Malay",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "560407065435",
+  "PassportNo": "5089618",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "182 LORONG KENANGA 3B",
+    "Street2": null,
+    "Postcode": "09000",
+    "City": "KULIM",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 62,
+  "Income": 22504.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "560407065435",
+  "CreatedDate": "1945-02-13T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1979-03-31T00:00:00",
+  "WebId": "8e81d5b9-41f3-4def-83cc-675c11925213"
+}

@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00603565051",
+  "FullName": "NORMAH BINTI MOHAMED SAID",
+  "Dob": "1953-10-18T00:00:00",
+  "Gender": "Female",
+  "Religion": "Islam",
+  "Race": "Malay",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "531018015298",
+  "PassportNo": "4506333",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "3 JALAN SERI PUTRA 4/2",
+    "Street2": null,
+    "Postcode": "43000",
+    "City": "KAJANG",
+    "State": "SELANGOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 64,
+  "Income": 23406.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "531018015298",
+  "CreatedDate": "1944-06-13T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1968-03-21T00:00:00",
+  "WebId": "554e60ca-c85d-4e16-9bbf-e30657491a3a"
+}

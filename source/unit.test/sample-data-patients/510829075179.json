@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00519269020",
+  "FullName": "CHEW TENG MIN",
+  "Dob": "1951-08-29T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "510829075179",
+  "PassportNo": "4096557",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "25 KIMBERLEY STREET",
+    "Street2": null,
+    "Postcode": "10100",
+    "City": "GEORGETOWN",
+    "State": "PULAU PINANG",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 66,
+  "Income": 24187.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "510829075179",
+  "CreatedDate": "1961-11-11T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1989-08-01T00:00:00",
+  "WebId": "4fcc9a28-d6b7-400d-a050-b2cb9c42fa7d"
+}

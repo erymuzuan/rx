@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00337164060",
+  "FullName": "TAN HOCK HIN",
+  "Dob": "1947-04-24T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "470424075273",
+  "PassportNo": "2193487",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "3 LORONG ABBAS 2",
+    "Street2": null,
+    "Postcode": "11200",
+    "City": "TANJUNG BUNGA",
+    "State": "PULAU PINANG",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 71,
+  "Income": 25775.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "470424075273",
+  "CreatedDate": "1932-06-11T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1954-04-10T00:00:00",
+  "WebId": "fbdee4a7-9df1-4251-90fa-a264f9d71f24"
+}

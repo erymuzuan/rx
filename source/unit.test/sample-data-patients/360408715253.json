@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00450833050",
+  "FullName": "NG YOKE CHEOW",
+  "Dob": "1936-04-08T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "360408715253",
+  "PassportNo": "2295990",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "83 JALAN JEJAKA 9",
+    "Street2": null,
+    "Postcode": "55100",
+    "City": "KUALA LUMPUR",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 82,
+  "Income": 29808.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "360408715253",
+  "CreatedDate": "1967-09-15T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1971-04-11T00:00:00",
+  "WebId": "4e4e4461-8f6b-4a44-9baa-bd90ea1b73db"
+}

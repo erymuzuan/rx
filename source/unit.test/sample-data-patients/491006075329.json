@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00644337000",
+  "FullName": "THULASIRAMAN AL PONNUSAMY",
+  "Dob": "1949-10-06T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "491006075329",
+  "PassportNo": "2706494",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "35B LORONG PERAI JAYA 6",
+    "Street2": null,
+    "Postcode": "13600",
+    "City": "PERAI",
+    "State": "PULAU PINANG",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 68,
+  "Income": 24879.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "491006075329",
+  "CreatedDate": "1934-02-21T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1969-07-19T00:00:00",
+  "WebId": "ca626907-2899-4d91-b270-4e66e88d1018"
+}

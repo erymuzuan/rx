@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00474474080",
+  "FullName": "KOH HONG YAP @ KO0 FANG YIK",
+  "Dob": "1945-05-04T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Others",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "450504105227",
+  "PassportNo": "7779008",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "UNIT 929 9TH FLOOR 1 JALAN",
+    "Street2": null,
+    "Postcode": "47400",
+    "City": "PETALING JAYA",
+    "State": "SELANGOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 73,
+  "Income": 26495.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "450504105227",
+  "CreatedDate": "1937-03-05T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1950-05-15T00:00:00",
+  "WebId": "ff0f88a6-6b52-40fc-a9f9-926b48b315db"
+}

@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00663518000",
+  "FullName": "WOON FEH WAH",
+  "Dob": "1954-05-21T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "540521105543",
+  "PassportNo": "8392151",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "86 BLOCK A",
+    "Street2": null,
+    "Postcode": "56100",
+    "City": "KUALA LUMPUR",
+    "State": "SELANGOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 64,
+  "Income": 23191.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "540521105543",
+  "CreatedDate": "1967-01-01T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1975-10-06T00:00:00",
+  "WebId": "2762d47c-f371-4188-ab22-50ac36ef5b29"
+}

@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00641891000",
+  "FullName": "AZIZAN BIN WAHAB",
+  "Dob": "1952-08-05T00:00:00",
+  "Gender": "Male",
+  "Religion": "Islam",
+  "Race": "Malay",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "520805025619",
+  "PassportNo": "4320751",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "589 MUKIM 18",
+    "Street2": null,
+    "Postcode": "11200",
+    "City": "TANJONG BUNGAH",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 65,
+  "Income": 23845.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "520805025619",
+  "CreatedDate": "1984-03-14T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1992-11-03T00:00:00",
+  "WebId": "dc29cabc-a603-4578-85a7-7cd7d77306d8"
+}

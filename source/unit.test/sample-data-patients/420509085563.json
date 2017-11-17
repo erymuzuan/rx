@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00364568010",
+  "FullName": "CHEONG ALEK @ CHEONG KUM SEONG",
+  "Dob": "1942-05-09T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Others",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "420509085563",
+  "PassportNo": "3972848",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "26 JALAN THEATRE",
+    "Street2": null,
+    "Postcode": "30300",
+    "City": "IPOH",
+    "State": "PERAK",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 76,
+  "Income": 27586.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "420509085563",
+  "CreatedDate": "1929-12-03T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1967-06-23T00:00:00",
+  "WebId": "cda823f8-3b3c-4fae-82d8-fddd5791bc21"
+}

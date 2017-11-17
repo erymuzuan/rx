@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00336848030",
+  "FullName": "PUN YEW KEE",
+  "Dob": "1945-05-13T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "450513105157",
+  "PassportNo": "1142121",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "2, JALAN SS18/3D",
+    "Street2": null,
+    "Postcode": "47500",
+    "City": "SUBANG JAYA",
+    "State": "SELANGOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 73,
+  "Income": 26486.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "450513105157",
+  "CreatedDate": "1930-07-01T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1952-04-29T00:00:00",
+  "WebId": "7bc62fd0-cecb-45d0-bdba-3b7f9dd1ab7a"
+}

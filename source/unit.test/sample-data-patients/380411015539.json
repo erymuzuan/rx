@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00553550060",
+  "FullName": "KHAW KIA HUN",
+  "Dob": "1938-04-11T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "380411015539",
+  "PassportNo": "0396274",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "843 BUNTONG N/V",
+    "Street2": null,
+    "Postcode": "",
+    "City": "PERAK DARUL RIDZUAN",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 80,
+  "Income": 29075.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "380411015539",
+  "CreatedDate": "1952-09-02T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1966-05-10T00:00:00",
+  "WebId": "dca4ca31-8b6d-4f45-8436-f191b2e1e0a2"
+}

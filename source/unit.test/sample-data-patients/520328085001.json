@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00667167050",
+  "FullName": "MOHD ABD RAHMAN BIN MOHD HASHIM",
+  "Dob": "1952-03-28T00:00:00",
+  "Gender": "Male",
+  "Religion": "Islam",
+  "Race": "Malay",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "520328085001",
+  "PassportNo": "4235596",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "38F, LEVEL 2, JALAN RADIN ANUM",
+    "Street2": null,
+    "Postcode": "57000",
+    "City": "KUALA LUMPUR",
+    "State": "WILAYAH PERSEKUTUAN",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 66,
+  "Income": 23975.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "520328085001",
+  "CreatedDate": "1953-06-15T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1976-06-14T00:00:00",
+  "WebId": "7442125b-ef73-4df4-9100-31b2fce69fe9"
+}

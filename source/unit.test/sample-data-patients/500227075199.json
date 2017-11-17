@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00435769080",
+  "FullName": "IBRAHIM BIN OTHMAN",
+  "Dob": "1950-02-27T00:00:00",
+  "Gender": "Male",
+  "Religion": "Islam",
+  "Race": "Malay",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "500227075199",
+  "PassportNo": "3011563",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "61 JALAN PJU",
+    "Street2": null,
+    "Postcode": "47830",
+    "City": "PETALINGJAYA",
+    "State": "SELANGOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 68,
+  "Income": 24735.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "500227075199",
+  "CreatedDate": "1942-03-31T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1974-11-28T00:00:00",
+  "WebId": "ed7a3709-c7d9-4af2-88de-8b459ee59b78"
+}

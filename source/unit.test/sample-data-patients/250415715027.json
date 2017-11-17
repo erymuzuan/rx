@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00198848040",
+  "FullName": "VEERAPPAN A/L VYTHILINGAM PILLAI",
+  "Dob": "1925-04-15T00:00:00",
+  "Gender": "Male",
+  "Religion": "Hinduism",
+  "Race": "Indian",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "250415715027",
+  "PassportNo": "7644694",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "24, JALAN DATUK AHMAD YUNUS",
+    "Street2": null,
+    "Postcode": "32000",
+    "City": "SITIAWAN",
+    "State": "PERAK",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 93,
+  "Income": 33819.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "250415715027",
+  "CreatedDate": "1897-07-30T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1933-01-25T00:00:00",
+  "WebId": "7978d476-0bda-4ddf-a584-47a94c65402c"
+}

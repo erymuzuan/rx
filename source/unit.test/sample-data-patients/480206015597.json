@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00614534050",
+  "FullName": "BADERI BIN DASUKI",
+  "Dob": "1948-02-06T00:00:00",
+  "Gender": "Male",
+  "Religion": "Islam",
+  "Race": "Malay",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "480206015597",
+  "PassportNo": "0698511",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "77 STRAITS VIEW",
+    "Street2": null,
+    "Postcode": "80200",
+    "City": "JOHOR BHARU",
+    "State": "JOHOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 70,
+  "Income": 25487.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "480206015597",
+  "CreatedDate": "1946-09-27T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1961-02-10T00:00:00",
+  "WebId": "112ed7f2-12eb-4d96-a83e-f8fac954b653"
+}

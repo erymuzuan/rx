@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.ElasticsearchRepository;
@@ -14,13 +13,16 @@ namespace Bespoke.Sph.Tests.Elasticsearch
 {
     [Trait("Category", "Repository<T>")]
     [Collection("Repository")]
-    public class PatientRepositoryTest
+    public class PatientRepositoryTest : IClassFixture<ElasticsearchServerFixture>
     {
+        public ElasticsearchServerFixture Fixture { get; }
         private ITestOutputHelper Console { get; }
 
-        public PatientRepositoryTest(ITestOutputHelper console)
+        public PatientRepositoryTest(ElasticsearchServerFixture fixture, ITestOutputHelper console)
         {
+            Fixture = fixture;
             Console = console;
+            ObjectBuilder.AddCacheList<ILogger>(new XunitConsoleLogger(console));
         }
 
         [Fact]
@@ -156,18 +158,24 @@ namespace Bespoke.Sph.Tests.Elasticsearch
         [Fact]
         public async Task SimpleFilter()
         {
-            var repos = new ReadOnlyRepository<Patient>("http://localhost:9200", "devv1");
-            var lo = await repos.SearchAsync(new QueryDsl(new[]
+            var female = await Fixture.Repository.SearchAsync(new QueryDsl(new[]
             {
                 new Filter("Gender",Operator.Eq, "Female")
             }));
-            Console.WriteLine(lo.ToString());
+            Assert.Equal(33, female.TotalRows);
+            var male = await Fixture.Repository.SearchAsync(new QueryDsl(new[]
+            {
+                new Filter("Gender",Operator.Neq, "Female")
+            }));
+            Assert.Equal(67, male.TotalRows);
 
         }
+
+
         [Fact]
         public async Task Fields()
         {
-            var repos = new ReadOnlyRepository<Patient>("http://localhost:9200", "devv1");
+            var repos = new ReadOnlyRepository<Patient>(Fixture.Url, Fixture.Index);
             var query = new QueryDsl(new[]
             {
                 new Filter("Gender",Operator.Eq, "Female")
@@ -185,11 +193,13 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             Assert.Null(reader["Wife.Name"]);
             Assert.IsType<DateTime>(reader["Dob"]);
             Assert.IsType<int>(reader["Age"]);
+
+            Assert.Equal(74, lo.TotalRows);
         }
         [Fact]
         public async Task MaxAggregate()
         {
-            var repos = new ReadOnlyRepository<Patient>("http://localhost:9200", "devv1");
+            var repos = Fixture.Repository;
             var query = new QueryDsl(new[]
             {
                 new Filter("Gender",Operator.Eq, "Female")
@@ -198,52 +208,10 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             query.Aggregates.Add(new MaxAggregate("LastModifiedDate", "ChangedDate"));
             var lo = await repos.SearchAsync(query);
 
-
-            var lastChanged = await GetLastModifiedDate(query.Aggregates.First());
             var max = lo.GetAggregateValue<DateTime>("LastModifiedDate");
-            Assert.Equal(lastChanged.ToString("s"), max.ToString("s"));
+            Assert.Equal("2001-05-26T00:00:00", max.ToString("s"));
         }
 
-        private async Task<DateTime> GetLastModifiedDate(Aggregate agg)
-        {
-            var content = $@"
-{{
-   ""filter"": {{
-      ""bool"": {{
-         ""must"": [
-            {{
-               ""term"": {{
-                  ""Gender"": ""Female""
-               }}
-            }}
-         ],
-         ""must_not"": []
-      }}
-   }},
-   ""sort"": [
-      {{
-         ""Mrn"": {{
-            ""order"": ""desc""
-         }}
-      }}
-   ],
-  ""size"": 0,
-   ""aggs"": {{
-      ""{agg.Name}"": {{
-         ""max"": {{
-             ""field"":""{agg.Path}""
-         }}
-      }}
-   }}
-}}";
-            using (var client = new HttpClient { BaseAddress = new Uri("http://localhost:9200") })
-            {
-                var response = await client.PostAsync("/devv1/patient/_search", new StringContent(content));
-                var json = await Extensions.HttpClientExtensions.ReadContentAsJsonAsync(response);
-
-                return json.SelectToken($"$.aggregations.{agg.Name}.value_as_string").Value<DateTime>();
-            }
-        }
 
 
     }

@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00550750021",
+  "FullName": "LEE HAN NIONG",
+  "Dob": "1957-03-09T00:00:00",
+  "Gender": "Female",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "570309715114",
+  "PassportNo": "5147030",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "NO 50 CHENERAS JAYA",
+    "Street2": null,
+    "Postcode": "27200",
+    "City": "KUALA LIPIS",
+    "State": "PAHANG",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 61,
+  "Income": 22168.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "570309715114",
+  "CreatedDate": "1957-02-14T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1983-07-18T00:00:00",
+  "WebId": "ab90a224-4db9-4f7c-8165-f78b616a056d"
+}

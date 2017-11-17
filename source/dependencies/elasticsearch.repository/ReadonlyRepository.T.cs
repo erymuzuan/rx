@@ -8,7 +8,6 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.ElasticsearchRepository.Extensions;
 using Bespoke.Sph.Extensions;
 using Newtonsoft.Json.Linq;
-using Bespoke.Sph.Extensions;
 
 namespace Bespoke.Sph.ElasticsearchRepository
 {
