@@ -198,3 +198,4 @@ bin/elasticsearch-1.7.5/
 bin/utils/
 bin/elasticsearch-*/
 env.devv1.*.ps1
+source/assembly.versions/

@@ -22,7 +22,7 @@ ls .\source -Filter *.csproj -Recurse | % {
     $logDate = git log -n 1 --pretty=%aI $project
     $date = [System.DateTime]::Parse($logDate)
     $days = [System.Convert]::ToInt32( ($date - $y2012).TotalDays)
-    Write-Host   " $days $_"
+    Write-Host   " $days $commitId $_"
 
     $cs = $_.DirectoryName.Replace("$PWD\source\","").Replace("\", "-") +  ".cs"
 
