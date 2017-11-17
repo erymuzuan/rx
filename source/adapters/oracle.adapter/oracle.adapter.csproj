@@ -87,6 +87,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\adapters-oracle.adapter.cs">
+      <Link>adapters-oracle.adapter.cs</Link>
+    </Compile>
     <Compile Include="Column.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="OdataOracleTranslator.cs" />
