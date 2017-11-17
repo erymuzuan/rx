@@ -54,6 +54,9 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\dependencies-elasticsearch.repository.cs">
+      <Link>dependencies-elasticsearch.repository.cs</Link>
+    </Compile>
     <Compile Include="..\..\extensions\HttpClientExtensions.cs">
       <Link>Extensions\HttpClientExtensions.cs</Link>
     </Compile>

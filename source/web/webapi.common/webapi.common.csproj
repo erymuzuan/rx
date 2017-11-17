@@ -122,6 +122,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\web-webapi.common.cs">
+      <Link>web-webapi.common.cs</Link>
+    </Compile>
     <Compile Include="AcceptedResult.cs" />
     <Compile Include="AccessToken.cs" />
     <Compile Include="AuthorizationHandler.cs" />

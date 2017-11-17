@@ -48,6 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\diagnostics-es.diagnostics.cs">
+      <Link>diagnostics-es.diagnostics.cs</Link>
+    </Compile>
     <Compile Include="ElasticsearchMappingDiagnostics.cs" />
     <Compile Include="EsMappingHelper.cs" />
     <Compile Include="Helper.cs" />

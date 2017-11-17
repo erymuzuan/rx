@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\subscribers-subscriber.data.transfer.cs">
+      <Link>subscribers-subscriber.data.transfer.cs</Link>
+    </Compile>
     <Compile Include="..\subscriber.workflowscheduler\TaskHelper.cs">
       <Link>TaskHelper.cs</Link>
     </Compile>

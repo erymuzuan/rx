@@ -380,6 +380,9 @@
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\assembly.versions\web-core.sph.cs">
+      <Link>web-core.sph.cs</Link>
+    </Compile>
     <Compile Include="Api\AggregateController.cs" />
     <Compile Include="Api\ApiDocumentationController.cs" />
     <Compile Include="Api\ListController.cs" />

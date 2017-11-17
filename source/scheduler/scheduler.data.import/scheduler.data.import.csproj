@@ -60,6 +60,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\scheduler-scheduler.data.import.cs">
+      <Link>scheduler-scheduler.data.import.cs</Link>
+    </Compile>
     <Compile Include="ConsoleSpinner.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgressData.cs" />

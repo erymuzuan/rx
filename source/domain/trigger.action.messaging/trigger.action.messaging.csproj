@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\domain-trigger.action.messaging.cs">
+      <Link>domain-trigger.action.messaging.cs</Link>
+    </Compile>
     <Compile Include="MessagingAction.cs" />
     <Compile Include="MessagingAction.p.cs">
       <DependentUpon>MessagingAction.cs</DependentUpon>

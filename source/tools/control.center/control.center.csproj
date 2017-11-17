@@ -139,6 +139,9 @@
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\assembly.versions\tools-control.center.cs">
+      <Link>tools-control.center.cs</Link>
+    </Compile>
     <Compile Include="ConfigurationManager.cs" />
     <Compile Include="ViewModel\MainViewModel.elasticsearch.cs" />
     <Compile Include="ViewModel\MainViewModel.iis.cs" />

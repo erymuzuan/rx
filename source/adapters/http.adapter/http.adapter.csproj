@@ -84,6 +84,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\adapters-http.adapter.cs">
+      <Link>adapters-http.adapter.cs</Link>
+    </Compile>
     <Compile Include="AuthenticationMode.cs" />
     <Compile Include="DefaultNameSuggestionHarProcessor.cs">
       <DependentUpon>IHarProcessor.cs</DependentUpon>

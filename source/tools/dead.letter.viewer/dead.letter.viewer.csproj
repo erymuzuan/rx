@@ -117,6 +117,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\..\assembly.versions\tools-dead.letter.viewer.cs">
+      <Link>tools-dead.letter.viewer.cs</Link>
+    </Compile>
     <Compile Include="ConfigurationManager.cs" />
     <Compile Include="ConnectionDialog.xaml.cs">
       <DependentUpon>ConnectionDialog.xaml</DependentUpon>

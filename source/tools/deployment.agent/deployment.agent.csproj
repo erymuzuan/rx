@@ -66,6 +66,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\tools-deployment.agent.cs">
+      <Link>tools-deployment.agent.cs</Link>
+    </Compile>
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandParameter.cs" />
     <Compile Include="Commands\DebugCommand.cs" />

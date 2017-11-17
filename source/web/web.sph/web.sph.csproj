@@ -29,6 +29,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -290,6 +291,9 @@
       <Link>Scripts\adapter.api.g.js</Link>
     </Content>
     <Content Include="App_Code\TestErrorController.cs" />
+    <Compile Include="..\..\assembly.versions\web-web.sph.cs">
+      <Link>web-web.sph.cs</Link>
+    </Compile>
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

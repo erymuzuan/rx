@@ -110,6 +110,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\..\assembly.versions\tools-deployment.gui.cs">
+      <Link>tools-deployment.gui.cs</Link>
+    </Compile>
     <Compile Include="..\deployment.agent\MemberChange.cs">
       <Link>Models\MemberChange.cs</Link>
     </Compile>

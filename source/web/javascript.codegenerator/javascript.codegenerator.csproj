@@ -42,6 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\web-javascript.codegenerator.cs">
+      <Link>web-javascript.codegenerator.cs</Link>
+    </Compile>
     <Compile Include="EntityDefinitionExtension.cs" />
     <Compile Include="JavascriptLanguageProvider.cs" />
     <Compile Include="JavascriptMemberVisitor.cs" />

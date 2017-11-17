@@ -88,6 +88,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\adapters-flatfile.adapter.cs">
+      <Link>adapters-flatfile.adapter.cs</Link>
+    </Compile>
     <Compile Include="FileSystemReceiveLocationDefinition.cs" />
     <Compile Include="FlatFileAdapter.cs" />
     <Compile Include="FlatFileAdapter.p.cs" />

@@ -53,6 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\tools-rx.ps.module.cs">
+      <Link>tools-rx.ps.module.cs</Link>
+    </Compile>
     <Compile Include="AssetIdCompleter.cs" />
     <Compile Include="AssetNameCompleter.cs" />
     <Compile Include="Domain\ConfigurationManager.cs" />
