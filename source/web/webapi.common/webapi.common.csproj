@@ -150,6 +150,7 @@
     <Compile Include="JsonBodyAttribute.cs" />
     <Compile Include="JsonCachedResult.cs" />
     <Compile Include="JsonContent.cs" />
+    <Compile Include="JsonpResult.cs" />
     <Compile Include="JwtAuthorizationMiddleware.cs" />
     <Compile Include="JwtTokenService.cs" />
     <Compile Include="LocalExceptionResult.cs" />
