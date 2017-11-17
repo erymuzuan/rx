@@ -57,6 +57,40 @@ namespace Bespoke.Sph.Tests.Elasticsearch
 
         }
         [Fact]
+        public async Task FullTextAllField()
+        {
+            var dsl = new QueryDsl(new[]
+            {
+                new Filter("*", Operator.FullText, "RANJIT OR LOW OR Islam")
+            });
+            var lo = await Fixture.Repository.SearchAsync(dsl);
+            Assert.Equal(30, lo.TotalRows);
+
+        }
+        [Fact]
+        public async Task FullTextFullName()
+        {
+            var dsl = new QueryDsl(new[]
+            {
+                new Filter("FullName", Operator.FullText, "RANJIT OR LOW OR Islam")
+            });
+            var lo = await Fixture.Repository.SearchAsync(dsl);
+            Assert.Equal(2, lo.TotalRows);
+
+        }
+        [Fact]
+        public async Task FullTextFullNameAndHomeAddress()
+        {
+            var dsl = new QueryDsl(new[]
+            {
+                new Filter("FullName", Operator.FullText, "RANJIT OR LOW OR Islam"),
+                new Filter("HomeAddress.Street", Operator.FullText, "SS 2/72")
+            });
+            var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await Fixture.Repository.SearchAsync(dsl));
+            Assert.Contains("more than 1 FullText", ex.Message);
+
+        }
+        [Fact]
         public void Range()
         {
             var dsl = new QueryDsl(new[]
@@ -194,7 +228,7 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             Assert.IsType<DateTime>(reader["Dob"]);
             Assert.IsType<int>(reader["Age"]);
 
-            Assert.Equal(74, lo.TotalRows);
+            Assert.Equal(33, lo.TotalRows);
         }
         [Fact]
         public async Task MaxAggregate()

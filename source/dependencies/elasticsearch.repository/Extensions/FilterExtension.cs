@@ -8,12 +8,12 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
 {
     public static class FilterExtension
     {
-        public static bool IsMustNotFilter(this Filter filter, Entity item = null)
+        public static bool? IsMustNotFilter(this Filter filter, Entity item = null)
         {
             return !IsMustFilter(filter, item);
         }
 
-        public static bool IsMustFilter(this Filter filter, Entity item = null)
+        public static bool? IsMustFilter(this Filter filter, Entity item = null)
         {
             var rc = new RuleContext(item);
             switch (filter.Operator)
@@ -27,6 +27,8 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
                 case Operator.StartsWith:
                 case Operator.EndsWith:
                     return true;
+                case Operator.FullText:
+                    return default;
                 case Operator.NotContains:
                 case Operator.Neq:
                 case Operator.NotStartsWith:
@@ -57,18 +59,33 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
             return new T().CompileToElasticsearchBoolQuery(filters);
         }
 
+        public static string CompileToElasticsearchFullTextQuery(this Entity entity, IEnumerable<Filter> filters)
+        {
+            var filterList = (filters ?? Array.Empty<Filter>()).ToArray();
+            if(filterList.Count(x => x.Operator == Operator.FullText) > 1)
+                throw new ArgumentException("You cannot have more than 1 FullText operator specifed in a query", nameof(filters));
+
+            var queries = filterList.Where(x => !x.IsMustFilter(entity).HasValue)
+                .Select(x => x.CompileToElasticsearchTermLevelQuery(entity, filterList))
+                .Distinct()
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .ToString(",\r\n");
+
+            return queries;
+
+        }
         public static string CompileToElasticsearchBoolQuery(this Entity entity, IEnumerable<Filter> filters)
         {
             var filterList = (filters ?? Array.Empty<Filter>()).ToArray();
 
-            var musts = filterList.Where(x => x.IsMustFilter(entity))
+            var musts = filterList.Where(x => x.IsMustFilter(entity) ?? false)
                 .Select(x => x.CompileToElasticsearchTermLevelQuery(entity, filterList))
                 .Distinct()
                 .Where(x => !string.IsNullOrWhiteSpace(x))
                 .ToString(",\r\n");
 
 
-            var mustNots = filterList.Where(x => x.IsMustNotFilter(entity))
+            var mustNots = filterList.Where(x => x.IsMustNotFilter(entity) ?? false)
                 .Select(x => x.CompileToElasticsearchTermLevelQuery(entity, filterList))
                 .Distinct()
                 .Where(x => !string.IsNullOrWhiteSpace(x))
@@ -170,13 +187,14 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
                             ");
                     }
                     break;
-                case Operator.Substringof:
-                    var field = target.Term == "." ? "_all" : target.Term;
+                case Operator.FullText:
+                    var field = target.Term == "*" ? "_all" : target.Term;
                     query.AppendLine($@"
                             ""query_string"" : {{ ""default_field"" : ""{field}"",""query"" : ""{target.Field.GetValue(context)}""}}
                             ");
 
                     break;
+
                 default: throw new Exception(target.Operator + " is not supported for filter DSL yet");
             }
 
