@@ -27,9 +27,7 @@ namespace Bespoke.Sph.RxPs
         [Parameter(HelpMessage = "Trace switch for ConsoleLogger", ParameterSetName = RxWorkerCmdlet.PARAMETER_SET_DEFAULT)]
         [ValidateSet("Debug", "Verbose", "Info", "Warning", "Error")]
         public string TraceSwitch { get; set; } = "Debug";
-
-        [Parameter(HelpMessage = "Start the process in new window", ParameterSetName = RxWorkerCmdlet.PARAMETER_SET_DEFAULT)]
-        public SwitchParameter UseShellExecute { get; set; } = false;
+        
 
         protected override void ProcessRecord()
         {
@@ -50,7 +48,7 @@ namespace Bespoke.Sph.RxPs
                             + $"/config:{this.Configuration} /env:{this.Environment}"
                             + $" /v:{RxApplicationName} /u:{ConfigurationManager.RabbitMqUserName} /p:{ConfigurationManager.RabbitMqPassword} /h:{ConfigurationManager.RabbitMqHost} "
                             + $"/out:{this.LogDirectory} /outSize:100KB /outSwitch:{TraceSwitch}",
-                UseShellExecute = UseShellExecute
+                UseShellExecute = true
             };
             WriteVerbose($"Starting worker {info.Arguments}");
             var worker = Process.Start(info);
