@@ -2,5 +2,6 @@
 {
     public partial class Action : DomainObject
     {
+    	// test
     }
 }
