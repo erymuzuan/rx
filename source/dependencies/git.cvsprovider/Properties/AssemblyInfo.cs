@@ -1,5 +1,9 @@
 ﻿using System.Reflection;
 
 [assembly: AssemblyTitle("git.cvsprovider")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyDescription("rovides git implementation for ICvsProvider")]
+#if DEBUG
+[assembly: AssemblyConfiguration("Debug")]
+#else
+[assembly: AssemblyConfiguration("Release")]
+#endif
