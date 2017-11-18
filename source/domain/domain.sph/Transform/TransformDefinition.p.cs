@@ -28,10 +28,7 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         public Type InputType
         {
-            get
-            {
-                return Strings.GetType(this.InputTypeName);
-            }
+            get => Strings.GetType(this.InputTypeName);
             set
             {
                 this.InputTypeName = value.GetShortAssemblyQualifiedName();
