@@ -17,6 +17,9 @@ namespace odata.queryparser
                 var pair = qs.SingleOrDefault(x => x.StartsWith(key))
                     .ToEmptyString().Split(new[] {"="}, StringSplitOptions.RemoveEmptyEntries);
 
+                if (pair.Length <= 1)
+                    return string.Empty;
+
                 return pair.LastOrDefault().ToEmptyString();
             }
 
@@ -51,7 +54,7 @@ namespace odata.queryparser
         }
 
         //TODO : when the Field is a function call .e.g "$filter=year(Dob) eq 1950"
-        private object ParseValue(string[] words, int index = 2)
+        private static object ParseValue(string[] words, int index = 2)
         {
             if (words.Length <= index)
                 return null;
