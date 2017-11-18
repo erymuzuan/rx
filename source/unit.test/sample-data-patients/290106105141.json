@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00688321040",
+  "FullName": "LOO PENG KEE",
+  "Dob": "1929-01-06T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "290106105141",
+  "PassportNo": "2145235",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "647 BATU 4",
+    "Street2": null,
+    "Postcode": "51200",
+    "City": "KUALA LUMPUR",
+    "State": "WP KUALA LUMPUR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 89,
+  "Income": 32457.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "290106105141",
+  "CreatedDate": "1936-12-27T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1951-05-08T00:00:00",
+  "WebId": "2a7fd536-861b-4134-bdfb-9fa948d40ec4"
+}

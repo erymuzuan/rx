@@ -22,12 +22,16 @@
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,6 +42,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -225,7 +230,7 @@
     </Reference>
     <Reference Include="System.Management" />
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.PowerShell.5.ReferenceAssemblies.1.0.0\lib\net4\System.Management.Automation.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.PowerShell.5.ReferenceAssemblies.1.1.0\lib\net4\System.Management.Automation.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http" />
@@ -375,6 +380,9 @@
   <ItemGroup>
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\assembly.versions\web-core.sph.cs">
+      <Link>web-core.sph.cs</Link>
     </Compile>
     <Compile Include="Api\AggregateController.cs" />
     <Compile Include="Api\ApiDocumentationController.cs" />
@@ -1804,6 +1812,10 @@
     <EmbeddedResource Include="SphApp\objectbuilders.js" />
     <EmbeddedResource Include="Content\32px.png" />
     <EmbeddedResource Include="Content\40px.png" />
+    <Content Include="Areas\App\Views\EntityFormDesigner\Script.cshtml" />
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\ReportDefinitionExecuteHtml.cshtml" />
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\ReportDefinitionExecuteJs.cshtml" />
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\ReportDefinitionPreview.cshtml" />
     <Content Include="Content\bowtie-codepen.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
@@ -3428,6 +3440,7 @@
     <EmbeddedResource Include="SphApp\views\_formatter.wizard.xml.html" />
     <EmbeddedResource Include="SphApp\views\_field.mapping.xml.attribute.html" />
     <EmbeddedResource Include="SphApp\views\_field.mapping.xml.element.html" />
+    <Content Include="Views\ApiDocumentation\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>

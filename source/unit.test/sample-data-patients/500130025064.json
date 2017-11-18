@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00546135091",
+  "FullName": "NORHASNI BINTI TAN SRI MOHD ARIFF",
+  "Dob": "1950-01-30T00:00:00",
+  "Gender": "Female",
+  "Religion": "Islam",
+  "Race": "Malay",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "500130025064",
+  "PassportNo": "3855685",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "7 JALAN SS22/32A",
+    "Street2": null,
+    "Postcode": "47400",
+    "City": "PETALING JAYA",
+    "State": "SELANGOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 68,
+  "Income": 24763.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "500130025064",
+  "CreatedDate": "1941-09-15T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1982-09-16T00:00:00",
+  "WebId": "2f7af9b6-8b30-44e4-905f-7f8736d88ebd"
+}

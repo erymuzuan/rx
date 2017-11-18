@@ -4977,7 +4977,7 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    public sealed partial class Filter
+    public partial class Filter
     {
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]

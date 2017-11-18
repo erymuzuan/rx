@@ -94,35 +94,15 @@ namespace Bespoke.Sph.Domain
             }
             Array.Sort(this.ToArray(), index, count, comparer);
         }
-
-
+                           
         public string ToString(string delimiter)
         {
-            var sb = new StringBuilder();
-            this.ToArrayString()
-                .ToList()
-                .ForEach(s => sb.AppendFormat("{0}{1}", s, delimiter));
-
-            if (sb.Length > 1) // remove the last ","
-            {
-                sb.Remove(sb.Length - 1, 1);
-            }
-            return sb.ToString();
+            return this.ToString(delimiter, x => x.ToString());
         }
 
         public override string ToString()
         {
-            var sb = new StringBuilder();
-            var list = this.ToArrayString();
-            foreach (var s in list)
-            {
-                sb.AppendFormat("{0},", s);
-            }
-            if (sb.Length > 1) // remove the last ","
-            {
-                sb.Remove(sb.Length - 1, 1);
-            }
-            return sb.ToString();
+            return this.ToString(",");
         }
 
 

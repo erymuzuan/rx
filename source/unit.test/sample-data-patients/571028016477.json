@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00565097060",
+  "FullName": "MUSLIM @ RIZAL BIN AHMAD",
+  "Dob": "1957-10-28T00:00:00",
+  "Gender": "Male",
+  "Religion": "Islam",
+  "Race": "Malay",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "571028016477",
+  "PassportNo": "5407712",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "MUZLAN BIN AHMAD",
+    "Street2": null,
+    "Postcode": "71450",
+    "City": "SUNGEI GADUT",
+    "State": "NEGERI SEMBILAN",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 60,
+  "Income": 21935.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "571028016477",
+  "CreatedDate": "1960-02-03T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1995-11-24T00:00:00",
+  "WebId": "4af3128f-6a2d-4113-ab2d-476e19458607"
+}

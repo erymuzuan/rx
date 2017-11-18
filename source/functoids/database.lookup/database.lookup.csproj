@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\functoids-database.lookup.cs">
+      <Link>functoids-database.lookup.cs</Link>
+    </Compile>
     <Compile Include="ConfigurationSettingFunctoid.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

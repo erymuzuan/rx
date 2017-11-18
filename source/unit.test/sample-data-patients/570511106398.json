@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00602743011",
+  "FullName": "AMINAH BTE BASIR",
+  "Dob": "1957-05-11T00:00:00",
+  "Gender": "Female",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "570511106398",
+  "PassportNo": "5226581",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "17 JALAN SRI DAMAK 51",
+    "Street2": null,
+    "Postcode": "41200",
+    "City": "KLANG",
+    "State": "SELANGOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 61,
+  "Income": 22105.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "570511106398",
+  "CreatedDate": "1931-05-07T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1957-09-19T00:00:00",
+  "WebId": "7212ef90-4fad-431d-973f-d73f23d46ca9"
+}

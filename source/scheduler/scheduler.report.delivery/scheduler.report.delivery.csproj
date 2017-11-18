@@ -52,6 +52,9 @@
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\assembly.versions\scheduler-scheduler.report.delivery.cs">
+      <Link>scheduler-scheduler.report.delivery.cs</Link>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

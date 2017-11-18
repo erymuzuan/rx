@@ -122,6 +122,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\web-webapi.common.cs">
+      <Link>web-webapi.common.cs</Link>
+    </Compile>
     <Compile Include="AcceptedResult.cs" />
     <Compile Include="AccessToken.cs" />
     <Compile Include="AuthorizationHandler.cs" />
@@ -131,9 +134,11 @@
     <Compile Include="ClaimSetting.cs" />
     <Compile Include="ClaimSettingResolver.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="ContentTypeAttribute.cs" />
+    <Compile Include="ContentTypeParameterBinding.cs" />
     <Compile Include="CustomEntityRestSqlTranslator.cs" />
+    <Compile Include="CustomHeaderParameterBinding.cs" />
     <Compile Include="DeveloperService.cs" />
-    <Compile Include="ElasticsearchTokenRespository.cs" />
     <Compile Include="EndpointPermissionFactory.cs" />
     <Compile Include="EndpointPermissionRepository.cs" />
     <Compile Include="EndpointPermissonSetting.cs" />
@@ -148,6 +153,7 @@
     <Compile Include="JsonBodyAttribute.cs" />
     <Compile Include="JsonCachedResult.cs" />
     <Compile Include="JsonContent.cs" />
+    <Compile Include="JsonpResult.cs" />
     <Compile Include="JwtAuthorizationMiddleware.cs" />
     <Compile Include="JwtTokenService.cs" />
     <Compile Include="LocalExceptionResult.cs" />

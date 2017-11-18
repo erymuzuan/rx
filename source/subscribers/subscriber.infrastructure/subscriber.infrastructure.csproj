@@ -64,6 +64,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\subscribers-subscriber.infrastructure.cs">
+      <Link>subscribers-subscriber.infrastructure.cs</Link>
+    </Compile>
+    <Compile Include="..\..\extensions\BinaryExtensions.cs">
+      <Link>BinaryExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\extensions\LoggerExtensions.cs">
       <Link>LoggerExtensions.cs</Link>
     </Compile>

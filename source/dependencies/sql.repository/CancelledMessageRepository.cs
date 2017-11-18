@@ -41,7 +41,7 @@ namespace Bespoke.Sph.SqlRepository
                 .ExecuteAndCaptureAsync(async () =>
                 {
                     using (var conn = new SqlConnection(m_connectionString))
-                    using (var cmd = new SqlCommand("[Sph].[CheckCancelledMessage]", conn){CommandType = CommandType.StoredProcedure})
+                    using (var cmd = new SqlCommand($"[{Schema}].[CheckCancelledMessage]", conn){CommandType = CommandType.StoredProcedure})
                     {
                         cmd.Parameters.Add(new SqlParameter("@MessageId", SqlDbType.VarChar, 255)).Value = messageId;
                         cmd.Parameters.Add(new SqlParameter("@Worker", SqlDbType.VarChar, 255)).Value = worker;
@@ -54,6 +54,8 @@ namespace Bespoke.Sph.SqlRepository
                 });
             return pr.Result;
         }
+
+        public string Schema { get; set; } = "Sph";
 
         TimeSpan Wait(int c)
         {
@@ -79,7 +81,7 @@ namespace Bespoke.Sph.SqlRepository
                 .ExecuteAsync(async () =>
                 {
                     using (var conn = new SqlConnection(m_connectionString))
-                    using (var cmd = new SqlCommand("[Sph].[PutCancelledMessage]", conn) { CommandType = CommandType.StoredProcedure })
+                    using (var cmd = new SqlCommand($"[{Schema}].[PutCancelledMessage]", conn) { CommandType = CommandType.StoredProcedure })
                     {
                         cmd.Parameters.Add(new SqlParameter("@MessageId", SqlDbType.VarChar, 255)).Value = messageId;
                         cmd.Parameters.Add(new SqlParameter("@Worker", SqlDbType.VarChar, 255)).Value = worker;
@@ -96,7 +98,7 @@ namespace Bespoke.Sph.SqlRepository
                 .ExecuteAsync(async () =>
                 {
                     using (var conn = new SqlConnection(m_connectionString))
-                    using (var cmd = new SqlCommand("[Sph].[RemoveCancelledMessage]", conn) { CommandType = CommandType.StoredProcedure })
+                    using (var cmd = new SqlCommand($"[{Schema}].[RemoveCancelledMessage]", conn) { CommandType = CommandType.StoredProcedure })
                     {
                         cmd.Parameters.Add(new SqlParameter("@MessageId", SqlDbType.VarChar, 255)).Value = messageId;
                         cmd.Parameters.Add(new SqlParameter("@Worker", SqlDbType.VarChar, 255)).Value = worker;

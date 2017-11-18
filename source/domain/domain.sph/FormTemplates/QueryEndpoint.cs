@@ -116,85 +116,6 @@ namespace Bespoke.Sph.Domain
             return Task.FromResult(0);
         }
 
-        public Task<string> GenerateEsQueryAsync()
-        {
-            var filter = Filter.GenerateElasticSearchFilterDsl(this, this.FilterCollection);
-            var sort = "\"sort\": [" + this.SortCollection.ToString(",", x => $@"{{""{x.Path}"": {{""order"":""{x.Direction.ToString().ToLowerInvariant()}""}}}}") + "]";
-            var max = @"
-    ""aggs"" : {
-        ""filtered_max_date"" : { 
-              ""filter"" : " + filter + @",
-              ""aggs"": {
-                        ""last_changed_date"": {
-                           ""max"": {
-                              ""field"": ""ChangedDate""
-                            }
-                        }
-               }
-        }
-    }
-";
-            var query =
-                $@"{{
-                    ""filter"":{filter} 
-                    {this.GetFields()},
-                    {sort},
-                    {max} 
-
-    }}";
-
-            return Task.FromResult(query);
-
-        }
-
-        private string GetFields()
-        {
-            if (!this.MemberCollection.Any()) return string.Empty;
-            var fields = $@"""fields"" :[ { string.Join(",", this.MemberCollection.Select(x => $"\"{x}\""))}]";
-            return ","+ fields;
-        }
-
-        public string GenerateListCode()
-        {
-            var code = new StringBuilder();
-            if (!this.MemberCollection.Any())
-            {
-                code.Append(@" 
-                    var list = from f in json.SelectToken(""$.hits.hits"")
-                               let webId = f.SelectToken(""_source.WebId"").Value<string>()
-                               let id = f.SelectToken(""_id"").Value<string>()
-                               let link = $""\""link\"" :{{ \""href\"" :\""{ConfigurationManager.BaseUrl}/api/" + this.Resource + @"/{id}\""}}""
-                               select f.SelectToken(""_source"").ToString().Replace($""{webId}\"""",$""{webId}\"","" + link);
-");
-                return code.ToString();
-            }
-
-            code.Append(@"
-            var list = from f in json.SelectToken(""$.hits.hits"")
-                        let fields = f.SelectToken(""fields"")
-                        let id = f.SelectToken(""_id"").Value<string>()
-                        select JsonConvert.SerializeObject( new {");
-            foreach (var g in this.MemberCollection.Where(x => !x.Contains(".")))
-            {
-                var mb = m_ed.GetMember(g) as SimpleMember;
-                if (null == mb) throw new InvalidOperationException("You can only select SimpleMember field, and " + g + " is not");
-                code.AppendLine(
-                    mb.Type == typeof(string)
-                        ? $"      {g} = fields[\"{g}\"] != null ? fields[\"{g}\"].First.Value<string>() : null,"
-                        : $"      {g} = fields[\"{g}\"] != null ? fields[\"{g}\"].First.Value<{mb.Type.ToCSharp()}>() : new Nullable<{mb.Type.ToCSharp()}>(),");
-            }
-            code.Append(this.GenerateComplexMemberFields(this.MemberCollection.ToArray()));
-
-            code.Append($@"
-                            _links = new {{
-                                rel = ""self"",
-                                href = $""{{ConfigurationManager.BaseUrl}}/api/{Resource}/{{id}}""
-                            }}
-                        }});
-");
-            return code.ToString();
-        }
-
         private string GenerateComplexMemberFields(string[] members)
         {
             var code = new StringBuilder();
@@ -202,8 +123,7 @@ namespace Bespoke.Sph.Domain
             var complexFields = members.Where(x => x.Contains(".")).OrderBy(x => x).ToList();
             foreach (var g in complexFields)
             {
-                var mb = m_ed.GetMember(g) as SimpleMember;
-                if (null == mb) throw new InvalidOperationException("You can only select SimpleMember field, and " + g + " is not");
+                if (!(m_ed.GetMember(g) is SimpleMember mb)) throw new InvalidOperationException("You can only select SimpleMember field, and " + g + " is not");
                 var paths = g.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries).ToList();
                 //if (paths.Count > 2)
                 //{
@@ -222,8 +142,8 @@ namespace Bespoke.Sph.Domain
                 }
                 code.AppendLine(
                     mb.Type == typeof(string)
-                        ? $"      {m} = fields[\"{g}\"] != null ? fields[\"{g}\"].First.Value<string>() : null,"
-                        : $"      {m} = fields[\"{g}\"] != null ? fields[\"{g}\"].First.Value<{mb.Type.ToCSharp()}>() : new Nullable<{mb.Type.ToCSharp()}>(),");
+                        ? $@"      {m} = (string)reader[""{g}""] ,"
+                        : $@"      {m} = reader[""{g}""] != null ? ({mb.Type.ToCSharp()})reader[""{g}""] : new Nullable<{mb.Type.ToCSharp()}>(),");
 
                 parent = cp;
             }

@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00650938100",
+  "FullName": "TEO GEOK TECK",
+  "Dob": "1952-11-24T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "521124105511",
+  "PassportNo": "4367596",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "NO 17 JALAN 10/26 TAMAN SRI RAMPAI",
+    "Street2": null,
+    "Postcode": "53300",
+    "City": "KUALA LUMPUR",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 65,
+  "Income": 23734.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "521124105511",
+  "CreatedDate": "1923-01-17T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1956-04-25T00:00:00",
+  "WebId": "20d80f57-a68a-4bf5-8cc4-e5422f776494"
+}

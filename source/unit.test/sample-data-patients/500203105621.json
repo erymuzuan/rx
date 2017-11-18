@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00672958040",
+  "FullName": "HARUN BIN MOHD SEH",
+  "Dob": "1950-02-03T00:00:00",
+  "Gender": "Male",
+  "Religion": "Islam",
+  "Race": "Malay",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "500203105621",
+  "PassportNo": "3676012",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "NO.4 TINGKAT BAWAH",
+    "Street2": null,
+    "Postcode": "41400",
+    "City": "KLANG",
+    "State": "SELANGOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 68,
+  "Income": 24759.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "500203105621",
+  "CreatedDate": "1927-11-26T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1966-08-17T00:00:00",
+  "WebId": "3705d994-46ab-4c9d-9fe6-4d28e5129184"
+}

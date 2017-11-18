@@ -10,7 +10,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Bespoke.Sph.Mangements</RootNamespace>
     <AssemblyName>deployment.agent</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>
@@ -66,6 +66,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\tools-deployment.agent.cs">
+      <Link>tools-deployment.agent.cs</Link>
+    </Compile>
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandParameter.cs" />
     <Compile Include="Commands\DebugCommand.cs" />
@@ -78,7 +81,6 @@
     <Compile Include="ConsoleTable.cs" />
     <Compile Include="DeploymentHistory.cs" />
     <Compile Include="DeploymentMetadata.cs" />
-    <Compile Include="GitCvsProvider.cs" />
     <Compile Include="InteractivePrompt.cs" />
     <Compile Include="MemberChange.cs" />
     <Compile Include="MemberMigrationStrategies.cs" />

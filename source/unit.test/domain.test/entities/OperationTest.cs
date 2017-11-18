@@ -380,11 +380,11 @@ namespace domain.test.entities
 
         private dynamic AddMockRespository(Type edType)
         {
-            var mock = typeof(ReadonlyRepository<>);
+            var mock = typeof(MockReadOnlyRepository<>);
             var reposType = mock.MakeGenericType(edType);
             var repository = Activator.CreateInstance(reposType);
 
-            var ff = typeof(IReadonlyRepository<>).MakeGenericType(edType);
+            var ff = typeof(IReadOnlyRepository<>).MakeGenericType(edType);
 
             ObjectBuilder.AddCacheList(ff, repository);
 

@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00657537040",
+  "FullName": "ALLAHYARHAM MOHD SHARIF BIN AB RAHIM",
+  "Dob": "1949-11-25T00:00:00",
+  "Gender": "Male",
+  "Religion": "Islam",
+  "Race": "Malay",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "491125065131",
+  "PassportNo": "1766845",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "NO 27A TINGKAT ATAS",
+    "Street2": null,
+    "Postcode": "27000",
+    "City": "JERANTUT",
+    "State": "PAHANG",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 68,
+  "Income": 24829.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "491125065131",
+  "CreatedDate": "1953-01-16T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1961-11-24T00:00:00",
+  "WebId": "3ff0829a-4426-41f0-a316-469b8ed9e2a7"
+}

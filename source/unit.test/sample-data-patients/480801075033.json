@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00636972030",
+  "FullName": "WONG KOW CHYE @ OOI KIM SENG",
+  "Dob": "1948-08-01T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Others",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "480801075033",
+  "PassportNo": "2912076",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "24 JALAN AIR ITAM",
+    "Street2": null,
+    "Postcode": "10460",
+    "City": "PULAU PINANG",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 69,
+  "Income": 25310.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "480801075033",
+  "CreatedDate": "1941-06-18T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1963-11-18T00:00:00",
+  "WebId": "71a9f8fd-41c0-4774-970b-ebc741ad079c"
+}

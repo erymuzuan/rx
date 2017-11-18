@@ -46,6 +46,9 @@
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\assembly.versions\scheduler-scheduler.workflow.trigger.cs">
+      <Link>scheduler-scheduler.workflow.trigger.cs</Link>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

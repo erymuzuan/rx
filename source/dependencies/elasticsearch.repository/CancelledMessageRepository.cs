@@ -4,10 +4,11 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Extensions;
 using Polly;
 using Newtonsoft.Json.Linq;
 
-namespace Bespokse.Sph.ElasticsearchRepository
+namespace Bespoke.Sph.ElasticsearchRepository
 {
     [Export("Bespoke.Sph.Domain.ICancelledMessageRepository", typeof(ICancelledMessageRepository))]
     public class CancelledMessageRepository : ICancelledMessageRepository
@@ -39,8 +40,8 @@ namespace Bespokse.Sph.ElasticsearchRepository
 
         public CancelledMessageRepository()
         {
-            Host = ConfigurationManager.GetEnvironmentVariable("ElasticsearchMessageTrackingHost") ?? ConfigurationManager.ElasticSearchHost;
-            m_client = new HttpClient {BaseAddress = new Uri(Host)};
+            Host = ConfigurationManager.GetEnvironmentVariable("ElasticsearchMessageTrackingHost") ?? EsConfigurationManager.Host;
+            m_client = new HttpClient { BaseAddress = new Uri(Host) };
         }
 
 
@@ -88,11 +89,11 @@ namespace Bespokse.Sph.ElasticsearchRepository
                 .ExecuteAndCaptureAsync(async () =>
                 {
                     var response = await m_client.PostAsync(url, new StringContent(query));
-                    var json =await response.ReadContentAsJson();
+                    var json = await response.ReadContentAsJsonAsync();
                     var total = json.SelectToken("$.count").Value<int>();
                     return total > 0;
                 });
-               return m_checkMessageCircuitBreaker.GetResult(pr);
+            return m_checkMessageCircuitBreaker.GetResult(pr);
         }
 
         TimeSpan Wait(int c)

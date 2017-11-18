@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00454538091",
+  "FullName": "ZAIDAH BT ABBAD",
+  "Dob": "1952-01-03T00:00:00",
+  "Gender": "Female",
+  "Religion": "Islam",
+  "Race": "Malay",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "520103075224",
+  "PassportNo": "4169045",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "D/A RUMAH EHSAN. JABATAN KEBAJIKAN",
+    "Street2": null,
+    "Postcode": "44000",
+    "City": "KUALA KUBU BHARU",
+    "State": "SELANGOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 66,
+  "Income": 24060.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "520103075224",
+  "CreatedDate": "1982-06-20T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1986-04-21T00:00:00",
+  "WebId": "591e612f-5da8-4a7a-b167-cef092da8d17"
+}

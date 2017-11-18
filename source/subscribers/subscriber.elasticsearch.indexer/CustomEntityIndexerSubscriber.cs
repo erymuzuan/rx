@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.ElasticsearchRepository;
 using Humanizer;
 using Newtonsoft.Json;
 
@@ -20,6 +21,7 @@ namespace Bespoke.Sph.ElasticSearch
             var setting = new JsonSerializerSettings();
             var json = JsonConvert.SerializeObject(item, setting);
 
+
             var content = new StringContent(json);
             if (item.IsSystemType()) return; // just custom entity
 
@@ -28,8 +30,8 @@ namespace Bespoke.Sph.ElasticSearch
 
             var type1 = item.GetType();
             var type = type1.Name.ToLowerInvariant();
-            var index = ConfigurationManager.ElasticSearchIndex;
-            var url = $"{ConfigurationManager.ElasticSearchHost}/{index}/{type}/{item.Id}";
+            var index = EsConfigurationManager.Index;
+            var url = $"{EsConfigurationManager.Host}/{index}/{type}/{item.Id}";
 
 
             HttpResponseMessage response = null;
@@ -51,8 +53,8 @@ namespace Bespoke.Sph.ElasticSearch
             catch (HttpRequestException e)
             {
                 // republish the message to a delayed queue
-                var delay = ConfigurationManager.EsIndexingDelay;
-                var maxTry = ConfigurationManager.EsIndexingMaxTry;
+                var delay = EsConfigurationManager.IndexingDelay;
+                var maxTry = EsConfigurationManager.IndexingMaxTry;
                 if ((headers.TryCount ?? 0) < maxTry)
                 {
                     await RequeueMessageAsync(item, headers, e, delay);

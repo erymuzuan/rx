@@ -28,8 +28,8 @@ namespace Bespoke.Sph.SqlRepository
 
         internal int IndentationWidth
         {
-            get { return this.m_indent; }
-            set { this.m_indent = value; }
+            get => this.m_indent;
+            set => this.m_indent = value;
         }
 
         private void AppendNewLine(Indentation style)
@@ -58,9 +58,8 @@ namespace Bespoke.Sph.SqlRepository
         private string GetPropertyName(Expression expression)
         {
             string propertyName01;
-            var cl02 = expression as ColumnExpression;
 
-            if (null != cl02)
+            if (expression is ColumnExpression cl02)
                 propertyName01 = cl02.Name;
             else
             {
@@ -165,18 +164,15 @@ namespace Bespoke.Sph.SqlRepository
         {
             m_sb.Append("(");
             this.Visit(b.Left);
-            var mb = b.Left as MemberExpression;
-            if (null != mb)
+            if (b.Left is MemberExpression mb)
             {
-                var inner = mb.Expression as MemberExpression;
-                if (null != inner)
+                if (mb.Expression is MemberExpression inner)
                     m_sb.Append(inner.Member.Name);
 
                 m_sb.Append(mb.Member.Name);
             }
 
-            var ce = b.Left as ColumnExpression;
-            if (null != ce && ce.Type == typeof(bool))
+            if (b.Left is ColumnExpression ce && ce.Type == typeof(bool))
             {
                 if (!(b.Right is ConstantExpression))
                     m_sb.Append(" = 1 ");

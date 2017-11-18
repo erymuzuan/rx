@@ -51,6 +51,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\tools-receive.locations.host.cs">
+      <Link>tools-receive.locations.host.cs</Link>
+    </Compile>
     <Compile Include="ConverterService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

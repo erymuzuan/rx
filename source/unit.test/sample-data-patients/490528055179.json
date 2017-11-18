@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00479584090",
+  "FullName": "YEONG KIT ONN",
+  "Dob": "1949-05-28T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "490528055179",
+  "PassportNo": "7872999",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "BG 4 HAPPY MANSION",
+    "Street2": null,
+    "Postcode": "47400",
+    "City": "PETALING JAYA",
+    "State": "SELANGOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 69,
+  "Income": 25010.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "490528055179",
+  "CreatedDate": "1945-06-22T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1957-05-06T00:00:00",
+  "WebId": "820ff0a0-f726-4402-8e6c-f71eb0957871"
+}

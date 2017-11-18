@@ -1,10 +1,9 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.0.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
-/// <reference path="../../Scripts/respond.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
 
@@ -12,14 +11,14 @@
 define(["services/datacontext", "services/logger", "plugins/router"],
     function(context, logger, router) {
 
-        var list = ko.observableArray(),
+        const list = ko.observableArray(),
             severityOptions = ko.observableArray(),
             isBusy = ko.observable(false),
             activate = function() {
-
+                return true;
             },
-            attached = function(view) {
-
+            attached = function() {
+                return true;
             },
             openDetails = function (log) {
                 require(["viewmodels/log.details.dialog", "durandal/app"], function (dialog, app2) {
@@ -32,15 +31,15 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             },
             query = {
                 "sort": [
-                 {
-                     "time": {
-                         "order": "desc"
-                     }
-                 }
+                    {
+                        "time": {
+                            "order": "desc"
+                        }
+                    }
                 ]
             };
 
-        var vm = {
+        const vm = {
             openDetails: openDetails,
             severityOptions: severityOptions,
             query: query,

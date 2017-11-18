@@ -35,19 +35,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 "size": 1
             },
             createCharts = function (buckets) {
-                var categories = _(buckets)
-                    .map(function (v) {
-                        return v.key_as_string || v.key.toString();
-                    }),
-                    data = _(buckets)
-                    .map(function (v) {
-                        return {
-                            category: v.key_as_string || v.key.toString(),
-                            value: v.doc_count
-                        };
-                    });
+                const categories = Object.keys(buckets),
+                    data = Object.keys(buckets).map(v => { return { category: v, value: buckets[v]}; });
                 results(data);
-                var chart = $("#request-path-charts").empty().kendoChart({
+                const chart = $("#request-path-charts").empty().kendoChart({
                     theme: "metro",
                     title: {
                         text: "Request by hour"
@@ -84,13 +75,13 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 console.log(chart);
             },
             search = function () {
-                var data = ko.mapping.toJSON(query);
+                const data = ko.mapping.toJSON(query);
                 isBusy(true);
 
-                return context.post(data, "/management-api/request-logs/" + ko.unwrap(from) + "/" + ko.unwrap(to))
+                return context.post(data, `/management-api/request-logs/${ko.unwrap(from)}/${ko.unwrap(to)}`)
                     .then(function (result) {
                         isBusy(false);
-                        createCharts(result.aggregations.path.buckets);
+                        createCharts(result.Aggregates.path);
                     });
             },
             activate = function () {

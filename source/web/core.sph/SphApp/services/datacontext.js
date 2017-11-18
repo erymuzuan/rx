@@ -6,7 +6,7 @@
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="logger.js" />
 /// <reference path="../objectbuilders.js" />
-/// <reference path="/SphApp/schemas/sph.domain.g.js" />
+/// <reference path="/SphApp/schemas/__domain.js" />
 
 define(["services/logger", objectbuilders.system, "durandal/knockout"],
 function (logger, system, ko2) {
@@ -352,7 +352,7 @@ function (logger, system, ko2) {
             size = entityOrOptions.size || 20;
         }
 
-        var url = "/search/" + entity.toLowerCase() + "/";
+        var url = `/search/${entity.toLowerCase()}/`;
         //NOTE: for workflows
         if (entity.indexOf("_") > 0) {
             url = entity.toLowerCase() + "/search/";
@@ -369,20 +369,15 @@ function (logger, system, ko2) {
             dataType: "json",
             error: tcs.reject,
             success: function (msg) {
-
-                var hits = _(msg.hits.hits).chain()
-                    .map(function (h) {
-                        return h._source;
-                    })
-                .value();
-
-                var lo = new LoadOperation();
-                lo.itemCollection = hits;
-                lo.page = page;
-                lo.size = size;
-                lo.rows = msg.hits.total;
-                lo.facets = msg.facets;
-                lo.aggregations = msg.aggregations;
+                
+                const lo = new LoadOperation();
+                lo.itemCollection = msg.ItemCollection;
+                lo.page = msg.Page;
+                lo.size = size.PageSize = 20;
+                lo.rows = msg.TotalRows;
+                lo.aggregates = msg.Aggregates;
+                //TODO:lo.facets = msg.facets;
+                //TODO: lo.aggregations = msg.aggregations;
 
                 tcs.resolve(lo);
             }
@@ -404,19 +399,19 @@ function (logger, system, ko2) {
 
         var url = "/api/list/tuple?";
         if (query) {
-            url += "filter=" + encodeURIComponent(query) + "&";
+            url += `filter=${encodeURIComponent(query)}&`;
         }
         url += "column=";
         url += encodeURIComponent(field);
         url += "&column2=";
         url += encodeURIComponent(field2);
         if (field3) {
-            url += "&column3=" + encodeURIComponent(field3);
+            url += `&column3=${encodeURIComponent(field3)}`;
         }
         if (field4) {
-            url += "&column4=" + encodeURIComponent(field4);
+            url += `&column4=${encodeURIComponent(field4)}`;
         }
-        url += "&table=" + encodeURIComponent(entity);
+        url += `&table=${encodeURIComponent(entity)}`;
 
         var tcs = new $.Deferred();
         $.ajax({

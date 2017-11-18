@@ -30,7 +30,7 @@ namespace Bespoke.Sph.Mangements.ViewModels
         public MainViewModel()
         {
             this.LoadCommand = new RelayCommand(Load, () => true);
-            this.DeploySelectedCommand = new RelayCommand<IList<EntityDeployment>>(DeploySelectedItems, list => SelectedCollection.Count > 0 &&  IsElasticsearchAccesible && IsSqlServerAccessible);
+            this.DeploySelectedCommand = new RelayCommand<IList<EntityDeployment>>(DeploySelectedItems, list => SelectedCollection.Count > 0 && IsElasticsearchAccesible && IsSqlServerAccessible);
             this.CompileCommand = new RelayCommand<EntityDeployment>(Compile, ed => ed.CanCompile);
             this.DiffCommand = new RelayCommand<EntityDeployment>(Diff, ed => ed.CanDiff);
         }
@@ -76,7 +76,7 @@ namespace Bespoke.Sph.Mangements.ViewModels
                 {
                     FileName = "deployment.agent.exe",
                     WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
-                    Arguments = $"/e:{ed.EntityDefinition.Name}"
+                    Arguments = $"/e:{ed.EntityDefinition.Name} /deploy /plan:{ed}"
 
                 };
                 var agent = Process.Start(info);
@@ -95,6 +95,39 @@ namespace Bespoke.Sph.Mangements.ViewModels
 
         }
 
+
+        public async Task InitializeAsync()
+        {
+            const string SQL = @"
+CREATE TABLE [Sph].[DeploymentMetadata](
+     [Id] INT PRIMARY KEY NOT NULL IDENTITY(1,1)
+    ,[Name] VARCHAR(255)  NULL
+    ,[EdId] VARCHAR(255) NOT NULL
+    ,[Tag] VARCHAR(255) NOT NULL
+    ,[Revision] VARCHAR(255)  NULL
+    ,[DateTime] SMALLDATETIME NOT NULL DEFAULT GETDATE()
+    ,[Source] VARCHAR(MAX)
+)
+
+                ";
+            using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
+            using (var checkTableCommand = new SqlCommand(@"SELECT COUNT(*)
+                 FROM INFORMATION_SCHEMA.TABLES 
+                 WHERE TABLE_SCHEMA = 'Sph' 
+                 AND  TABLE_NAME = 'DeploymentMetadata'", conn))
+            {
+                await conn.OpenAsync();
+                var exist = (int)await checkTableCommand.ExecuteScalarAsync() == 1;
+                if (!exist)
+                {
+                    using (var createTableCommand = new SqlCommand(SQL, conn))
+                    {
+                        await createTableCommand.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+        }
+
         private async void LoadHelperAsync()
         {
             var context = new SphDataContext();
@@ -102,6 +135,7 @@ namespace Bespoke.Sph.Mangements.ViewModels
                 .Select(x => new EntityDeployment { EntityDefinition = x })
                 .ToList();
 
+            await this.InitializeAsync();
             using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
             {
                 await conn.OpenAsync();
@@ -140,7 +174,12 @@ namespace Bespoke.Sph.Mangements.ViewModels
                     }
                 }
 
-                using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) })
+                var esHost =
+                    Environment.GetEnvironmentVariable(
+                        $"RX_{ConfigurationManager.ApplicationNameToUpper}_ElasticSearchHost")
+                    ?? "http://localhost:9200";
+
+                using (var client = new HttpClient { BaseAddress = new Uri(esHost) })
                 {
                     try
                     {

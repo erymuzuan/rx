@@ -122,7 +122,7 @@ namespace Bespoke.Sph.Domain
 
             patch.Append(
                 $@"
-            var repos = ObjectBuilder.GetObject<IReadonlyRepository<{ed.Name}>>();
+            var repos = ObjectBuilder.GetObject<IReadOnlyRepository<{ed.Name}>>();
             var lo = await repos.LoadOneAsync(id);
             var item = lo.Source;
             if(null == item) return NotFound(""Cannot find any {ed.Name} with Id "" + id);");
@@ -244,7 +244,7 @@ namespace Bespoke.Sph.Domain
             put.AppendLine("           var context = new SphDataContext(); ");
             put.AppendLine(
                 $@"
-            var repos = ObjectBuilder.GetObject<IReadonlyRepository<{ed.Name}>>();
+            var repos = ObjectBuilder.GetObject<IReadOnlyRepository<{ed.Name}>>();
             var lo = await repos.LoadOneAsync(id);
             var baru = null == lo.Source;
             item.Id = id ?? Strings.GenerateId();
@@ -317,7 +317,7 @@ namespace Bespoke.Sph.Domain
 
             delete.AppendLine(
                 $@"
-            var repos = ObjectBuilder.GetObject<IReadonlyRepository<{ed.Name}>>();
+            var repos = ObjectBuilder.GetObject<IReadOnlyRepository<{ed.Name}>>();
             var item = (await repos.LoadOneAsync(id)).Source;
             if(null == item)
                 return NotFound();");

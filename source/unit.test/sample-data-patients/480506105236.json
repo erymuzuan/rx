@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00598827061",
+  "FullName": "RUSINAH BTE MOHAMED",
+  "Dob": "1948-05-06T00:00:00",
+  "Gender": "Female",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "480506105236",
+  "PassportNo": "1184486",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "2 JALAN ATHINAHAPAN DUA",
+    "Street2": null,
+    "Postcode": "60000",
+    "City": "KUALA LUMPUR",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 70,
+  "Income": 25397.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "480506105236",
+  "CreatedDate": "1977-01-20T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1988-03-06T00:00:00",
+  "WebId": "33f876d7-662f-4e76-a933-d47fae93e10c"
+}

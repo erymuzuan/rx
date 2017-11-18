@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web.Http;
@@ -8,6 +9,7 @@ using System.Web.Http.Results;
 using System.Xml;
 using Bespoke.Sph.Domain;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.WebApi
 {
@@ -89,9 +91,40 @@ namespace Bespoke.Sph.WebApi
             var response = new HtmlResult(HttpStatusCode.OK, html);
             return response;
         }
+
         protected IHttpActionResult Javascript(string script)
         {
             var response = new JavascriptResult(HttpStatusCode.OK, script);
+            return response;
+        }
+
+        protected IHttpActionResult Jsonp<T>(T data, string callback = null)
+        {
+            if (string.IsNullOrWhiteSpace(callback))
+            {
+                callback = this.Request.GetQueryNameValuePairs()
+                        .Where(x => x.Key.Equals("$callback", StringComparison.InvariantCultureIgnoreCase))
+                        .Select(x => x.Value)
+                        .SingleOrDefault();
+                if (string.IsNullOrWhiteSpace(callback))
+                    return Invalid(HttpStatusCode.BadRequest, "no callback funtion is defined in $callback");
+            }
+            var json = data.ToJson();
+            if (typeof(T) == typeof(string))
+            {
+                try
+                {
+                    JObject.Parse(data.ToEmptyString());
+                    json = data.ToEmptyString();
+                }
+                catch
+                { 
+                    // ignore
+                }
+            }
+
+            var script = $@"{callback}({json})";
+            var response = new JsonpResult(HttpStatusCode.OK, script);
             return response;
         }
 

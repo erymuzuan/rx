@@ -1,10 +1,13 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Markup;
+using Bespoke.Sph.Domain;
+using Bespoke.Sph.Mangements;
 
 namespace deployment.gui
 {
@@ -35,9 +38,11 @@ namespace deployment.gui
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            this.DispatcherUnhandledException += App_DispatcherUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             base.OnStartup(e);
             this.LoadDependencies();
-            if (Compose())
+            if (Compose() && null != MainWindow)
             {
                 MainWindow.Show();
             }
@@ -48,6 +53,27 @@ namespace deployment.gui
 
         }
 
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var entry = new LogEntry(e.ExceptionObject as Exception);
+            this.MainWindow.Post(m =>
+            {
+                var window = new ErrorWindow(m);
+                window.ShowDialog();
+                this.Shutdown(-1);
+            }, entry);
+        }
+
+        private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            var entry = new LogEntry(e.Exception);
+            this.MainWindow.Post(m =>
+            {
+                var window = new ErrorWindow(m);
+                window.ShowDialog();
+                this.Shutdown(-1);
+            }, entry);
+        }
 
         private void LoadDependencies()
         {

@@ -35,6 +35,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return View("ide.shell", vm);
         }
 
+        public ActionResult Features()
+        {
+            throw new System.NotImplementedException();
+        }
     }
    
 }

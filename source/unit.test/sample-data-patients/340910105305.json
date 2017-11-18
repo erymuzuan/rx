@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00448810050",
+  "FullName": "CHIA CHONG NGIN @ LEE HIU",
+  "Dob": "1934-02-23T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Others",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "340910105305",
+  "PassportNo": "3915926",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "74 TAMAN AIK ANN",
+    "Street2": null,
+    "Postcode": "43500",
+    "City": "SELANGOR",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 84,
+  "Income": 30583.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "340910105305",
+  "CreatedDate": "1956-10-04T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1974-12-26T00:00:00",
+  "WebId": "963f7b31-caff-4fde-9232-669e530b1ecd"
+}

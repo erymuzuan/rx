@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00212079080",
+  "FullName": "SIM BECK BENG",
+  "Dob": "1934-12-21T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "341221045065",
+  "PassportNo": "1625998",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "136 JALAN TENGKERA",
+    "Street2": null,
+    "Postcode": "75200",
+    "City": "MELAKA",
+    "State": "MELAKA",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 83,
+  "Income": 30282.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "341221045065",
+  "CreatedDate": "1959-01-26T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1961-01-13T00:00:00",
+  "WebId": "76d0b62d-844e-4e6d-8a4e-36f36451c635"
+}

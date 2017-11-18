@@ -66,6 +66,9 @@
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\assembly.versions\subscribers-subscriber.workflow.cs">
+      <Link>subscribers-subscriber.workflow.cs</Link>
+    </Compile>
     <Compile Include="ChildWorkflowMonitorSubscriber.cs" />
     <Compile Include="DebuggerModel.cs" />
     <Compile Include="WorkflowInstantTerminatedSubscriber.cs" />

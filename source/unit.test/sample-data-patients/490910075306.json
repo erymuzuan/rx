@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00644646090",
+  "FullName": "WONG SOOI NOON DOROTHY",
+  "Dob": "1949-09-10T00:00:00",
+  "Gender": "Female",
+  "Religion": "Others",
+  "Race": "Others",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "490910075306",
+  "PassportNo": "1848565",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "10 JALAN PANTAI JERJAK",
+    "Street2": null,
+    "Postcode": "11900",
+    "City": "BAYAN LEPAS",
+    "State": "PULAU PINANG",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 68,
+  "Income": 24905.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "490910075306",
+  "CreatedDate": "1928-03-17T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1969-02-15T00:00:00",
+  "WebId": "70618d63-763b-4b77-a0bb-cfd51ab5f49f"
+}

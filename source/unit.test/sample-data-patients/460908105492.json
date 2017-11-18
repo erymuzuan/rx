@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00694540061",
+  "FullName": "LOW YOKE LAN @ LOW LEE WAR",
+  "Dob": "1946-09-08T00:00:00",
+  "Gender": "Female",
+  "Religion": "Others",
+  "Race": "Others",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "460908105492",
+  "PassportNo": "7842006",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "15 JALAN WANGSA 1/2B",
+    "Street2": null,
+    "Postcode": "52200",
+    "City": "KUALA  LUMPUR",
+    "State": "WP KUALA LUMPUR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 71,
+  "Income": 26003.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "460908105492",
+  "CreatedDate": "1936-04-21T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1965-10-12T00:00:00",
+  "WebId": "fdfe5f35-c877-4b73-a07e-2cb47e9ca6c1"
+}

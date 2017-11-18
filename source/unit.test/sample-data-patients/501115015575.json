@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00392615100",
+  "FullName": "TAI KIM WONE",
+  "Dob": "1950-11-15T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "501115015575",
+  "PassportNo": "3730204",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "NO 2 JALAN PJU 3/28",
+    "Street2": null,
+    "Postcode": "47810",
+    "City": "PETALING JAYA",
+    "State": "SELANGOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 67,
+  "Income": 24474.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "501115015575",
+  "CreatedDate": "1952-02-04T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1988-03-11T00:00:00",
+  "WebId": "27b3213b-d877-492c-8ffa-fe793e229153"
+}

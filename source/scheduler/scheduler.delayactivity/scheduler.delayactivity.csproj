@@ -56,6 +56,9 @@
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\assembly.versions\scheduler-scheduler.delayactivity.cs">
+      <Link>scheduler-scheduler.delayactivity.cs</Link>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

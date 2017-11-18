@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Extensions;
 
 namespace Bespoke.Sph.SqlRepository
 {
@@ -43,7 +44,8 @@ namespace Bespoke.Sph.SqlRepository
             ).ToList();
             var paramsValue = string.Join("\r\n",
                 parms.Select(p => $"{p.ParameterName}\t=> {p.Value}"));
-            Debug.WriteLine(sql + "\r\n" + paramsValue);
+            ObjectBuilder.GetObject<ILogger>().WriteInfo($"Inserting {name}({item.Id}) ...");
+            ObjectBuilder.GetObject<ILogger>().WriteDebug(sql + "\r\n" + paramsValue);
             await SPH_CONNECTION.ExecuteNonQueryAsync(sql, parms.ToArray());
 
 

@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00297401000",
+  "FullName": "BANTA SINGH A/L CHANAM SINGH",
+  "Dob": "1928-05-19T00:00:00",
+  "Gender": "Male",
+  "Religion": "Hinduism",
+  "Race": "Indian",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "280519105175",
+  "PassportNo": "3298169",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "5 KG SG CHIK",
+    "Street2": null,
+    "Postcode": "44300",
+    "City": "BATANG KALI",
+    "State": "SELANGOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 90,
+  "Income": 32689.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "280519105175",
+  "CreatedDate": "1965-07-19T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1967-03-04T00:00:00",
+  "WebId": "c34481af-b844-4e97-838c-dba369dad583"
+}

@@ -4,7 +4,6 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -14,6 +13,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
 using Humanizer;
+using WebGrease.Css.Extensions;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -156,10 +156,11 @@ namespace Bespoke.Sph.Web.Controllers
             var list = context.LoadFromSources<EntityDefinition>(x => x.IsPublished);
 
             var script = new StringBuilder();
+            var provider = CodeGeneratorFactory.Instance.LanguageProviders.Single(x => x.Language == "javascript");
             foreach (var ef in list)
             {
-                var code = await ef.GenerateCustomXsdJavascriptClassAsync();
-                script.AppendLine(code);
+                var sources = await provider.GenerateCodeAsync(ef);
+                sources.ForEach(src => script.AppendLine(src.Value));
             }
             return JavaScript(script.ToString());
         }
@@ -256,22 +257,8 @@ namespace Bespoke.Sph.Web.Controllers
 
             if (ed.StoreInElasticsearch ?? false)
             {
-                // delete the elasticsearch data
-                using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) })
-                {
-                    var message = new HttpRequestMessage(HttpMethod.Delete,
-                        $"{ConfigurationManager.ElasticSearchIndex}/{name.ToLowerInvariant()}/_query")
-                    {
-                        Content = new StringContent(
-    @"{
-   ""query"": {
-      ""match_all"": {}
-   }
-}")
-                    };
-                    await client.SendAsync(message);
-                }
-
+                await ObjectBuilder.GetObject<IReadOnlyRepository>()
+                       .TruncateAsync(ed.Name);
             }
 
             if (!ed.Transient)

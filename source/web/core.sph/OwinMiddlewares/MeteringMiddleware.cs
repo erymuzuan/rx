@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Microsoft.Owin;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using AppFunc = System.Func<
 System.Collections.Generic.IDictionary<string, object>,
 System.Threading.Tasks.Task
@@ -17,12 +14,10 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
     public class MeteringMiddleware
     {
         private readonly AppFunc m_next;
-        private readonly HttpClient m_client;
 
         public MeteringMiddleware(AppFunc next)
         {
             m_next = next;
-            m_client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticsearchLogHost) };
         }
 
         public async Task Invoke(IDictionary<string, object> environment)
@@ -34,48 +29,42 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
             sw.Stop();
 
             var accepts = context.Request.Accept.ToEmptyString();
-            var request = new
+            var request = new HttpRequestLog
             {
                 Elapsed = sw.ElapsedMilliseconds,
                 Time = DateTime.Now.ToString("s"),
                 User = context.Request.User.Identity.Name,
                 Controller = context.Get<string>("rx:controller"),
                 Action = context.Get<string>("rx:action"),
-                Request = new
-                {
+                Request = new HttpRequestPayload
+                {   
                     Path = context.Request.Path.ToString(),
                     PathBase = context.Request.PathBase.ToString(),
                     Host = context.Request.Host.ToString(),
-                    context.Request.RemoteIpAddress,
+                    RemoteIpAddress = context.Request.RemoteIpAddress,
                     Accepts = accepts.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                     .Select(x => x.Trim())
                     .ToArray(),
-                    context.Request.CacheControl,
-                    context.Request.IsSecure,
-                    context.Request.LocalIpAddress,
-                    context.Request.Method,
-                    context.Request.Protocol,
-                    context.Request.Scheme
+                    CacheControl = context.Request.CacheControl,
+                    IsSecure = context.Request.IsSecure,
+                    LocalIpAddress = context.Request.LocalIpAddress,
+                    Method = context.Request.Method,
+                    Protocol = context.Request.Protocol,
+                    Scheme = context.Request.Scheme
                 },
-                Response = new
+                Response = new HttpResponsePayload
                 {
-                    context.Response.ContentLength,
-                    context.Response.ContentType,
-                    context.Response.ReasonPhrase,
-                    context.Response.StatusCode
+                    ContentLength = context.Response.ContentLength,
+                    ContentType =  context.Response.ContentType,
+                    ReasonPhrase = context.Response.ReasonPhrase,
+                    StatusCode = context.Response.StatusCode
                 }
             };
             try
             {
-                // TODO : may be use RabbitMQ, no-persistence queue for logging this
+                var repos = ObjectBuilder.GetObject<IMeteringRepository>();
+                repos.Log(request);
 
-                var setting = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-                var json = JsonConvert.SerializeObject(request, setting);
-                var content = new StringContent(json);
-                var date = DateTime.Now.ToString(ConfigurationManager.RequestLogIndexPattern);
-                var index = $"{ConfigurationManager.ElasticSearchIndex}_logs_{date}";
-                await m_client.PostAsync(index + "/request_log", content)
-                     .ConfigureAwait(false);
             }
             catch
             {

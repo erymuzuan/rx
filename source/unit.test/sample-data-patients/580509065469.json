@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00703551090",
+  "FullName": "LEE SOI FUI",
+  "Dob": "1958-05-09T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "580509065469",
+  "PassportNo": "5364672",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "NO. 38 JLN TERATAI 2/1",
+    "Street2": null,
+    "Postcode": "56100",
+    "City": "KUALA LUMPUR",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 60,
+  "Income": 21742.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "580509065469",
+  "CreatedDate": "1972-05-11T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1990-10-05T00:00:00",
+  "WebId": "d7271552-83bf-468b-a14f-f5c1927b7274"
+}

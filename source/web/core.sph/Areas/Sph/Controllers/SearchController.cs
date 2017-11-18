@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Net.Http;
 using System.Web.Http;
 using System.Threading.Tasks;
 using System.Linq;
-using System.Text;
+using System.Net.Http.Headers;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.WebApi;
 using Humanizer;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -18,14 +18,14 @@ namespace Bespoke.Sph.Web.Controllers
             this.CacheManager = ObjectBuilder.GetObject<ICacheManager>();
         }
 
-        public ICacheManager CacheManager { get; set; }
+        private ICacheManager CacheManager { get; set; }
 
         private const string TypesKey = "search:published-types";
         private const string RecordKey = "search:published-records";
 
         [HttpGet]
         [Route("")]
-        public async Task<IHttpActionResult> Index([FromUri(Name = "q")]string text)
+        public async Task<IHttpActionResult> Index([FromUri(Name = "q")]string text, [ContentType]MediaTypeHeaderValue contentType)
         {
             var types = this.CacheManager.Get<string>(TypesKey);
             var records = this.CacheManager.Get<string>(RecordKey);
@@ -37,76 +37,53 @@ namespace Bespoke.Sph.Web.Controllers
                 var entNames = (await context.GetListAsync<EntityDefinition, string>(e => e.IsPublished, e => e.Name))
                     .Select(a => a.ToLowerInvariant())
                     .ToArray();
-                types = string.Join(",", entNames);
-                records = string.Join(",", en.Distinct().ToArray());
+                types = entNames.ToString(",");
+                records = en.Distinct().ToString(",");
 
                 CacheManager.Insert(TypesKey, types, 5.Minutes());
                 CacheManager.Insert(RecordKey, records, 5.Minutes());
             }
 
+            var provider = contentType?.MediaType ?? "odata";
+            var parser = QueryParserFactory.Instance.Get(provider);
+            var repos = ObjectBuilder.GetObject<IReadOnlyRepository>();
+            var result = await repos.SearchAsync(types.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries), parser.Parse(text));
 
+            var setting = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+            return Json(result, setting);
 
-            var query = @"
-                {
-                    ""query"": {
-                        ""query_string"": {
-                           ""default_field"": ""_all"",
-                           ""query"": """ + text + @"""
-                        }
-                    },
-                   ""highlight"": {
-                        ""fields"": {
-                            " + records + @"
-                        }
-                    },  
-                  ""from"": 0,
-                  ""size"": 20
-                }
-            ";
-
-            var request = new StringContent(query);
-            var url = $"{ConfigurationManager.ElasticSearchIndex}/{types}/_search";
-
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                var response = await client.PostAsync(url, request);
-                var content = response.Content as StreamContent;
-                if (null == content) throw new Exception("Cannot execute query on es " + request);
-                var result = await content.ReadAsStringAsync();
-
-                if (!response.IsSuccessStatusCode)
-                    throw new SearchException("Cannot execute query for :" + text) { Query = query, Result = result };
-                return Json(result);
-
-            }
         }
 
         [HttpPost]
-        [Route("{type}")]
-        public async Task<IHttpActionResult> Es(string type, [RawBody]string query, [FromUri]bool sys = true)
+        [Route("log")]
+        public async Task<IHttpActionResult> SearchLogAsync( [RawBody]string queryText, [ContentType]MediaTypeHeaderValue contentType)
         {
-            var request = new StringContent(query);
-            var log = type == "log" || type == "request_log";
-            var index = sys ? ConfigurationManager.ElasticSearchSystemIndex : ConfigurationManager.ElasticSearchIndex;
-            if (log) index = $"{ConfigurationManager.ElasticSearchIndex}_logs";
-            var url = $"{index}/{type.ToLowerInvariant()}/_search";
+            var parser = QueryParserFactory.Instance.Get(null, contentType?.MediaType ?? "appplication/json+elasticsearch");
+            var query = parser.Parse(queryText);
 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(log ? ConfigurationManager.ElasticsearchLogHost : ConfigurationManager.ElasticSearchHost);
+            var repos = ObjectBuilder.GetObject<ILoggerRepository>();
+            var result = await repos.SearchAsync(query);
 
-                var response = await client.PostAsync(url, request);
-                var content = response.Content as StreamContent;
-                if (null == content) throw new Exception("Cannot execute query on es " + request);
+            var setting = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+            return Json(result, setting);
 
-                var result = await content.ReadAsStringAsync();
-                if (!response.IsSuccessStatusCode)
-                    throw new SearchException("Cannot execute query for : " + type) { Query = query, Result = result };
+        }
+        [HttpPost]
+        [Route("{type}")]
+        public async Task<IHttpActionResult> SearchAsync(string type, [RawBody]string queryText, [ContentType]MediaTypeHeaderValue contentType)
+        {
+            var parser = QueryParserFactory.Instance.Get(null, contentType?.MediaType ?? "appplication/json+elasticsearch");
+            var query = parser.Parse(queryText);
 
-                return Json(result);
+            var repos = ObjectBuilder.GetObject<IReadOnlyRepository>();
+            var result = await repos.SearchAsync(new[] { type }, query);
 
-            }
+            var setting = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+            return Json(result, setting);
+
         }
 
         [HttpPost]
@@ -114,28 +91,9 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<IHttpActionResult> Workflow(string id, string version, [RawBody]string json)
         {
             var wfes = $"{id}workflow".Replace("-", "");
-            return await Es(wfes, json, false);
+            return await SearchAsync(wfes, json, new MediaTypeHeaderValue("odata/V2"));
         }
 
 
-    }
-
-    public class SearchException : Exception
-    {
-        public string Query { get; set; }
-        public string Result { get; set; }
-        public SearchException(string message) : base(message) { }
-        public SearchException(string message, Exception exception) : base(message, exception)
-        {
-        }
-
-        public override string ToString()
-        {
-            var ex = new StringBuilder();
-            ex.AppendLine(this.Message);
-            ex.AppendLine("Query " + this.Query);
-            ex.AppendLine("Result " + this.Result);
-            return ex.ToString();
-        }
     }
 }

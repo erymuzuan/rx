@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00583851070",
+  "FullName": "ZAKARIA BIN MOHD JADI",
+  "Dob": "1947-08-20T00:00:00",
+  "Gender": "Male",
+  "Religion": "Islam",
+  "Race": "Malay",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "470820045201",
+  "PassportNo": "2698709",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "358 LORONG IKAN EMAS 9",
+    "Street2": null,
+    "Postcode": "68000",
+    "City": "AMPANG",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 70,
+  "Income": 25657.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "470820045201",
+  "CreatedDate": "1922-02-10T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1956-04-07T00:00:00",
+  "WebId": "9f918579-b5ca-4567-9110-f454a5242fa4"
+}

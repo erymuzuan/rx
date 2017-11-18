@@ -8,23 +8,20 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.ElasticsearchRepository.Extensions;
 using Newtonsoft.Json;
 using Polly;
 using static System.IO.File;
 
-namespace Bespokse.Sph.ElasticsearchRepository
+namespace Bespoke.Sph.ElasticsearchRepository
 {
     public class MappingBuilder : IDisposable
     {
-        private readonly HttpClient m_elasticsearchHttpClient = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost) };
+        private readonly HttpClient m_elasticsearchHttpClient = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.Host) };
         private readonly Action<string> m_writeMessage;
         private readonly Action<string> m_writeWarning;
         private readonly Action<Exception> m_writeError;
 
-        public MappingBuilder()
-        {
-
-        }
         public MappingBuilder(Action<string> writeMessage, Action<string> writeWarning = null, Action<Exception> writeError = null)
         {
             m_writeMessage = writeMessage;

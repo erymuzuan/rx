@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00169309030",
+  "FullName": "CHANG LAM SANG",
+  "Dob": "1939-07-10T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "390710085093",
+  "PassportNo": "0580468",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "7 JALAN BUKIT DESA 6",
+    "Street2": null,
+    "Postcode": "58100",
+    "City": "KUALA LUMPUR",
+    "State": "WP KUALA LUMPUR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 78,
+  "Income": 28620.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "390710085093",
+  "CreatedDate": "1937-02-26T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1974-07-18T00:00:00",
+  "WebId": "943c62f3-efb8-443b-96f4-388094a62dbf"
+}

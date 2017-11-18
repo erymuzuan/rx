@@ -27,6 +27,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,6 +36,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -243,11 +245,30 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
-      <Link>AssemblyVersionInfo.cs</Link>
+    <Compile Include="..\..\assembly.versions\domain-domain.sph.cs">
+      <Link>domain-domain.sph.cs</Link>
     </Compile>
     <Compile Include="..\..\extensions\LoggerExtensions.cs">
       <Link>LoggerExtensions.cs</Link>
+    </Compile>
+    <Compile Include="Aggregate.Average.cs">
+      <DependentUpon>Aggregate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Aggregate.CountDistinct.cs">
+      <DependentUpon>Aggregate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Aggregate.cs" />
+    <Compile Include="Aggregate.GroupBy.cs">
+      <DependentUpon>Aggregate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Aggregate.Max.cs">
+      <DependentUpon>Aggregate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Aggregate.Min.cs">
+      <DependentUpon>Aggregate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Aggregate.Sum.cs">
+      <DependentUpon>Aggregate.cs</DependentUpon>
     </Compile>
     <Compile Include="Api\Adapter.p.cs">
       <DependentUpon>Adapter.cs</DependentUpon>
@@ -287,6 +308,8 @@
     <Compile Include="Business\Designation.cs" />
     <Compile Include="Business\EmailTemplate.cs" />
     <Compile Include="Business\Photo.cs" />
+    <Compile Include="CodeGeneratorFactory.cs" />
+    <Compile Include="Codes\AssemblyInfoClass.cs" />
     <Compile Include="ConsoleLogger.cs" />
     <Compile Include="Core\DictionaryExtensions.cs" />
     <Compile Include="Core\TypeExtensions.cs" />
@@ -294,9 +317,18 @@
     <Compile Include="diagnostics\FormOperationDiagnostics.cs" />
     <Compile Include="diagnostics\LocationEndpointDiagnostics.cs" />
     <Compile Include="FileLogger.cs" />
+    <Compile Include="FormTemplates\BinaryAndFilter.cs" />
+    <Compile Include="FormTemplates\BinaryExpressionFilter.cs" />
+    <Compile Include="FormTemplates\BinaryOrFilter.cs" />
+    <Compile Include="FormTemplates\MemberVisitor.cs" />
+    <Compile Include="ICvsProvider.cs" />
     <Compile Include="IMessageSlaManager.cs" />
     <Compile Include="IMessageTracker.cs" />
+    <Compile Include="IQueryParser.cs" />
+    <Compile Include="IReadOnlyRepository.LoadData.cs" />
+    <Compile Include="IReadonlyRepository.T.cs" />
     <Compile Include="Management\ConfigData.cs" />
+    <Compile Include="Management\HttpRequestLog.cs" />
     <Compile Include="Management\SubscriberConfig.cs" />
     <Compile Include="Management\WorkersConfig.cs" />
     <Compile Include="Management\WorkerServerConfig.cs" />
@@ -356,7 +388,6 @@
     <Compile Include="FormTemplates\ChildView.cs" />
     <Compile Include="FormTemplates\ComboBoxLookup.cs" />
     <Compile Include="FormTemplates\ComplexMember.cs" />
-    <Compile Include="FormTemplates\ComplexMember.es.cs" />
     <Compile Include="FormTemplates\ConditionalFormatting.cs" />
     <Compile Include="FormTemplates\CurrencyElement.cs" />
     <Compile Include="FormTemplates\DateTimePicker.cs" />
@@ -394,7 +425,6 @@
     <Compile Include="FormTemplates\ListView.cs" />
     <Compile Include="FormTemplates\ListViewColumn.cs" />
     <Compile Include="FormTemplates\MapElement.cs" />
-    <Compile Include="FormTemplates\Member.es.cs" />
     <Compile Include="FormTemplates\Member.cs" />
     <Compile Include="Core\Change.cs" />
     <Compile Include="Core\ChangeGenerator.cs" />
@@ -433,7 +463,6 @@
     <Compile Include="FormTemplates\ServiceContract.cs" />
     <Compile Include="FormTemplates\ServiceContractSetting.cs" />
     <Compile Include="FormTemplates\SimpleMember.cs" />
-    <Compile Include="FormTemplates\SimpleMember.es.cs" />
     <Compile Include="FormTemplates\Sort.cs" />
     <Compile Include="FormTemplates\TabControl.cs" />
     <Compile Include="FormTemplates\TabPanel.cs" />
@@ -443,7 +472,6 @@
     <Compile Include="FormTemplates\ValidationField.cs" />
     <Compile Include="FormTemplates\ValidationRule.cs" />
     <Compile Include="FormTemplates\ValueObjectDefinition.cs" />
-    <Compile Include="FormTemplates\ValueObjectMember.es.cs" />
     <Compile Include="FormTemplates\ValueObjectMember.cs" />
     <Compile Include="FormTemplates\ViewColumn.cs" />
     <Compile Include="FormTemplates\ViewTemplate.cs" />
@@ -474,6 +502,8 @@
       <DependentUpon>ActivityJsResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Ports\ReceivePort.cs" />
+    <Compile Include="QueryDsl.cs" />
+    <Compile Include="QueryParserFactory.cs" />
     <Compile Include="Schema\AdaptersApi.g.cs" />
     <Compile Include="Ports\SendPort.cs" />
     <Compile Include="Ports\SendPortDefinition.cs" />

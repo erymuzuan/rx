@@ -11,6 +11,7 @@ namespace Bespoke.Sph.SourceBuilders
 {
     public class EntityDefinitionBuilder : Builder<EntityDefinition>
     {
+
         protected override async Task<WorkflowCompilerResult> CompileAssetAsync(EntityDefinition item)
         {
             var cr = CompileEntityDefinition(item);
@@ -19,20 +20,15 @@ namespace Bespoke.Sph.SourceBuilders
             result.Errors.AddRange(cr.Errors);
             result.Errors.AddRange(cr1.SelectMany(x => x.Errors));
             result.Output = cr.Output + "\r\n" + cr1.ToString("\r\n", x => x.Output);
+
             return result;
         }
 
         public override async Task RestoreAllAsync()
         {
             var folder = ConfigurationManager.SphSourceDirectory + @"\EntityDefinition";
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                var response = await client.DeleteAsync(ConfigurationManager.ApplicationName);
-                Console.WriteLine("DELETE {1} index : {0}", response.StatusCode, ConfigurationManager.ApplicationName);
-                await client.PutAsync(ConfigurationManager.ApplicationName, new StringContent(""));
-
-            }
+            var repos = ObjectBuilder.GetObject<IReadOnlyRepository>();
+            await repos.CleanAsync();
             this.Initialize();
             this.Clean();
             Console.WriteLine("Reading from " + folder);
@@ -43,11 +39,11 @@ namespace Bespoke.Sph.SourceBuilders
 
             await Task.WhenAll(tasks);
 
-            Console.WriteLine("Done Custom Entities");
+            WriteMessage("Done Custom Entities");
 
         }
 
-        private async Task<IEnumerable<WorkflowCompilerResult>> CompileDependenciesAsync(EntityDefinition ed)
+        private static async Task<IEnumerable<WorkflowCompilerResult>> CompileDependenciesAsync(EntityDefinition ed)
         {
             var results = new List<WorkflowCompilerResult>();
             await ed.ServiceContract.CompileAsync(ed);
@@ -81,6 +77,7 @@ namespace Bespoke.Sph.SourceBuilders
 
         }
 
+
         private static async Task<IEnumerable<WorkflowCompilerResult>> CompileReceivePortAsync(ReceivePort port)
         {
             var results = new List<WorkflowCompilerResult>();
@@ -109,8 +106,6 @@ namespace Bespoke.Sph.SourceBuilders
 
         }
 
-
-
         private WorkflowCompilerResult CompileEntityDefinition(EntityDefinition ed)
         {
             var options = new CompilerOptions
@@ -128,8 +123,6 @@ namespace Bespoke.Sph.SourceBuilders
             return ed.Compile(options, sources);
 
         }
-
-
 
     }
 }

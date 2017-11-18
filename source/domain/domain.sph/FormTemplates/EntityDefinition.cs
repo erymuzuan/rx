@@ -159,8 +159,8 @@ namespace Bespoke.Sph.Domain
         {
             if (files.Length == 0)
                 throw new ArgumentException(Resources.Adapter_Compile_No_source_files_supplied_for_compilation, nameof(files));
-
-
+            
+            
             using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
             {
                 var outputPath = ConfigurationManager.CompilerOutputPath;
@@ -236,8 +236,7 @@ namespace Bespoke.Sph.Domain
         {
             if (!path.Contains("."))
             {
-                var vm = member2 as ValueObjectMember;
-                if (null != vm)
+                if (member2 is ValueObjectMember vm)
                 {
                     var members = vm.MemberCollection;
                     var rm1 = members.SingleOrDefault(a => a.Name == path);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -37,30 +38,29 @@ namespace Bespoke.Sph.SourceBuilders
             '-'.WriteFrame();
             Console.ResetColor();
 
-            var quiet = ParseArgExist("s", "q", "silent", "quiet");
-            if (!quiet)
+            var debug = ParseArgExist("d", "debug");
+            if (debug)
             {
-                "press [ENTER] to continue : to exit Ctrl + c".WriteLine();
+                $"Current Process [{Process.GetCurrentProcess().ProcessName}]({Process.GetCurrentProcess().Id}) ".WriteLine();
+                "Press [ENTER] to continue : to exit Ctrl + c ".WriteLine();
                 Console.ReadLine();
             }
 
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-
+            var logger = new Logger();
+            logger.Loggers.Add(new ConsoleLogger { TraceSwitch = Severity.Info });
             if (TryParseArg("switch", out var tsw))
             {
                 var ts = (Severity)Enum.Parse(typeof(Severity), tsw, true);
-                var logger = new Logger();
-                logger.Loggers.Add(new ConsoleLogger { TraceSwitch = ts });
-
+                logger.Loggers.OfType<ConsoleLogger>().Single().TraceSwitch = ts;
                 if (TryParseArg("out", out var outputFile))
                 {
                     logger.Loggers.Add(new FileLogger(outputFile, FileLogger.Interval.Hour) { TraceSwitch = ts });
                 }
-
-                ObjectBuilder.AddCacheList<ILogger>(logger);
             }
+            ObjectBuilder.AddCacheList<ILogger>(logger);
 
             if (args.Length > 0)
             {

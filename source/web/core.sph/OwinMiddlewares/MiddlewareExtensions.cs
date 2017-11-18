@@ -7,7 +7,6 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Controllers;
 using Bespoke.Sph.Web.Hubs;
 using Microsoft.AspNet.SignalR;
-using Microsoft.Owin;
 using Owin;
 
 namespace Bespoke.Sph.Web.OwinMiddlewares
@@ -75,8 +74,9 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
             var sqlAssembly = Assembly.Load("sql.repository");
             var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
 
+            // TODO : use the RepositoryFactory or providers for custom entity
             var esAssembly = Assembly.Load("elasticsearch.repository");
-            var esRepositoryType = esAssembly.GetType("Bespoke.Sph.ElasticsearchRepository.ReadonlyRepository`1");
+            var esRepositoryType = esAssembly.GetType("Bespoke.Sph.ElasticsearchRepository.ReadOnlyRepository`1");
 
             foreach (var ed in list)
             {
@@ -97,7 +97,7 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
 
                     var esReposType = esRepositoryType.MakeGenericType(edType);
                     var readonlyRepository = Activator.CreateInstance(esReposType);
-                    var rf = typeof(IReadonlyRepository<>).MakeGenericType(edType);
+                    var rf = typeof(IReadOnlyRepository<>).MakeGenericType(edType);
                     ObjectBuilder.AddCacheList(rf, readonlyRepository);
                 }
                 catch (FileNotFoundException e)

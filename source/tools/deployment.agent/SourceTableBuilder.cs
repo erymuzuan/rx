@@ -50,7 +50,13 @@ namespace Bespoke.Sph.Mangements
             var builder = new Builder { Name = ed.Name, EntityDefinition = ed };
             builder.Initialize();
 
-            var files = Directory.GetFiles($@"{ConfigurationManager.SphSourceDirectory}\{ed.Name}\", "*.json");
+            var sourcesDirectory = $@"{ConfigurationManager.SphSourceDirectory}\{ed.Name}\";
+            if (!Directory.Exists(sourcesDirectory))
+            {
+                m_writeWarning($"The source folder for {ed.Name} does not exist");
+                return;
+            }
+            var files = Directory.GetFiles(sourcesDirectory, "*.json");
             foreach (var f in files)
             {
                 var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };

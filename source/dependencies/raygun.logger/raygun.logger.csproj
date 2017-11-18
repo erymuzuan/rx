@@ -63,6 +63,9 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\dependencies-raygun.logger.cs">
+      <Link>dependencies-raygun.logger.cs</Link>
+    </Compile>
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

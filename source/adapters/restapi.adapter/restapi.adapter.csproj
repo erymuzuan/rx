@@ -61,6 +61,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\adapters-restapi.adapter.cs">
+      <Link>adapters-restapi.adapter.cs</Link>
+    </Compile>
     <Compile Include="HttpHeaderMember.cs" />
     <Compile Include="QueryStringMember.cs" />
     <Compile Include="RequestWithoutBodyApiOperationDefinition.code.cs" />

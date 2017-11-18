@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00526846100",
+  "FullName": "BAJI THOMAS",
+  "Dob": "1948-02-04T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Others",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "480204715127",
+  "PassportNo": "7874248",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "NO 48 JALAN MAXWELL",
+    "Street2": null,
+    "Postcode": "48000",
+    "City": "RAWANG",
+    "State": "SELANGOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 70,
+  "Income": 25489.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "480204715127",
+  "CreatedDate": "1933-12-09T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1961-10-29T00:00:00",
+  "WebId": "60e19a0e-e618-44e3-bad8-a21201a5245d"
+}

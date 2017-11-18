@@ -129,9 +129,9 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Changed On" Width="130" DisplayMemberBinding="{Binding EntityDefinition.ChangedDate, StringFormat=s}"></GridViewColumn>
-                    <GridViewColumn Header="Compiled On" Width="130" DisplayMemberBinding="{Binding CompiledDateTime, StringFormat=s}"></GridViewColumn>
-                    <GridViewColumn Header="Deployed On" Width="130" DisplayMemberBinding="{Binding LastDeployedDateTime, StringFormat=s}"></GridViewColumn>
+                    <GridViewColumn Header="Changed On" Width="135" DisplayMemberBinding="{Binding EntityDefinition.ChangedDate, StringFormat=G}"></GridViewColumn>
+                    <GridViewColumn Header="Compiled On" Width="135" DisplayMemberBinding="{Binding CompiledDateTime, StringFormat=G}"></GridViewColumn>
+                    <GridViewColumn Header="Deployed On" Width="135" DisplayMemberBinding="{Binding LastDeployedDateTime, StringFormat=G}"></GridViewColumn>
                     <GridViewColumn Header="Tag" Width="120" DisplayMemberBinding="{Binding LastDeployedTag}"></GridViewColumn>
                     <GridViewColumn Header="Revision" Width="120" DisplayMemberBinding="{Binding LastDeployedRevision}"></GridViewColumn>
 

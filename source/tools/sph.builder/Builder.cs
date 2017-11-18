@@ -1,16 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Extensions;
+// ReSharper disable ExplicitCallerInfoArgument
 
 namespace Bespoke.Sph.SourceBuilders
 {
     public abstract class Builder<T> where T : Entity
     {
+        private readonly ILogger m_logger;
         protected abstract Task<WorkflowCompilerResult> CompileAssetAsync(T item);
+
+        protected Builder()
+        {
+            m_logger = ObjectBuilder.GetObject<ILogger>();
+        }
 
         public virtual async Task RestoreAllAsync()
         {
@@ -60,12 +68,55 @@ namespace Bespoke.Sph.SourceBuilders
         public void Clean()
         {
             var name = typeof(T).Name;
-            using (var client = new HttpClient())
+            var ed = new EntityDefinition {Name = name, Id = name.ToIdFormat()};
+            ObjectBuilder.GetObject<IReadOnlyRepository>()
+                .CleanAsync(ed.Name)
+                .Wait(500);
+        }
+
+        protected void WriteMessage(string message, Severity level = Severity.Info,
+            [CallerFilePath]string filePath = "", [CallerMemberName]string memberName = "", [CallerLineNumber]int lineNumber = 0)
+        {
+            var logger = ObjectBuilder.GetObject<ILogger>();
+            switch (level)
             {
-                client.DeleteAsync(
-                    $"{ConfigurationManager.ElasticSearchHost}/{ConfigurationManager.ElasticSearchIndex}/_mapping/{name.ToLowerInvariant()}")
-                    .Wait(5000);
+                case Severity.Debug:
+                    logger.WriteDebug(message, filePath, memberName, lineNumber);
+                    break;
+                case Severity.Verbose:
+                    logger.WriteVerbose(message, filePath, memberName, lineNumber);
+                    break;
+                case Severity.Info:
+                case Severity.Log:
+                    logger.WriteInfo(message, filePath, memberName, lineNumber);
+                    break;
+                case Severity.Warning:
+                    logger.WriteWarning(message, filePath, memberName, lineNumber);
+                    break;
+                case Severity.Error:
+                case Severity.Critical:
+                    logger.WriteError(message, filePath, memberName, lineNumber);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(level), level, null);
             }
+        }
+
+        protected void WriteDebug(string message,
+            [CallerFilePath]string filePath = "", [CallerMemberName]string memberName = "", [CallerLineNumber]int lineNumber = 0)
+        {
+            m_logger.WriteDebug(message, filePath, memberName, lineNumber);
+        }
+        protected void WriteError(string message,
+            [CallerFilePath]string filePath = "", [CallerMemberName]string memberName = "", [CallerLineNumber]int lineNumber = 0)
+        {
+            m_logger.WriteError(message, filePath, memberName, lineNumber);
+        }
+
+        protected void WriteWarning(string message,
+            [CallerFilePath]string filePath = "", [CallerMemberName]string memberName = "", [CallerLineNumber]int lineNumber = 0)
+        {
+            m_logger.WriteWarning(message, filePath, memberName, lineNumber);
         }
 
 

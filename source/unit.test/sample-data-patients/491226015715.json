@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00435142080",
+  "FullName": "AZMAN BIN SHARIFF",
+  "Dob": "1949-12-26T00:00:00",
+  "Gender": "Male",
+  "Religion": "Islam",
+  "Race": "Malay",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "491226015715",
+  "PassportNo": "2935324",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "NO 15 JALAN 26/62B",
+    "Street2": null,
+    "Postcode": "55200",
+    "City": "KUALA LUMPUR",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 68,
+  "Income": 24798.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "491226015715",
+  "CreatedDate": "1936-01-20T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1971-12-28T00:00:00",
+  "WebId": "2f041163-7e17-4124-882c-f89651a02490"
+}

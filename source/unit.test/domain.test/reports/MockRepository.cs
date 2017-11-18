@@ -7,7 +7,7 @@ using Bespoke.Sph.Domain;
 
 namespace domain.test.reports
 {
-    internal class ReadonlyRepository<T> : IReadonlyRepository<T> where T : Entity
+    internal class MockReadOnlyRepository<T> : IReadOnlyRepository<T> where T : Entity, new()
     {
 
         private readonly Dictionary<string, T> m_dictionary = new Dictionary<string, T>();
@@ -29,6 +29,26 @@ namespace domain.test.reports
         }
 
         public Task<LoadData<T>> LoadOneAsync(string field, string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<LoadOperation<T>> SearchAsync(QueryDsl queryDsl)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<LoadOperation<T>> IReadOnlyRepository<T>.SearchAsync(string odataUri)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> GetCountAsync(Filter[] filters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<LoadOperation<T>> SearchAsync(Filter[] filters, int skip, int size)
         {
             throw new NotImplementedException();
         }
@@ -62,6 +82,12 @@ namespace domain.test.reports
         {
             throw new NotImplementedException();
         }
+
+        public Task<TResult> GetMaxAsync<TResult>(QueryDsl queryDsl)
+        {
+            throw new NotImplementedException();
+        }
+
     }
     class MockRepository<T> : IRepository<T> where T : Entity
     {

@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00536350000",
+  "FullName": "MOHAMED TAHRIM MOHD DAHLAN",
+  "Dob": "1948-10-20T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Others",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "481020086121",
+  "PassportNo": "0666688",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "0",
+    "Street2": null,
+    "Postcode": "0",
+    "City": "0",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 69,
+  "Income": 25230.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "481020086121",
+  "CreatedDate": "1937-12-25T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1978-12-12T00:00:00",
+  "WebId": "46595230-90d7-425a-8b6d-25b54e0b3320"
+}

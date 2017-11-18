@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00698285090",
+  "FullName": "LEONG KIM THYE",
+  "Dob": "1948-03-08T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "480308105307",
+  "PassportNo": "7801880",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "30 JALAN MERAK 14",
+    "Street2": null,
+    "Postcode": "47100",
+    "City": "PUCHONG",
+    "State": "SELANGOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 70,
+  "Income": 25456.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "480308105307",
+  "CreatedDate": "1914-04-13T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1952-02-14T00:00:00",
+  "WebId": "bfd285f0-e089-4a2f-9cfb-00387d186916"
+}

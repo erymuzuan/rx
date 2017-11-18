@@ -28,6 +28,7 @@ namespace Bespoke.Sph.Domain
 
         public IEnumerable<Class> GenerateCode()
         {
+
             var @class = new Class { Name = this.Name, FileName = $"{Name}.cs", Namespace = CodeNamespace, BaseClass = nameof(Entity) };
             @class.ImportCollection.AddRange(m_importDirectives);
             var list = new ObjectCollection<Class> { @class };
@@ -98,8 +99,13 @@ namespace Bespoke.Sph.Domain
                 var file = Path.Combine(folder, cs.FileName);
                 File.WriteAllText(file, cs.GetCode());
             }
+
+            // add versioning information
+            var assemblyInfoCs = AssemblyInfoClass.GenerateAssemblyInfoAsync(this, true).Result;
+
             return sources
                     .Select(f => $"{ConfigurationManager.GeneratedSourceDirectory}\\{this.Name}\\{f.FileName}")
+                    .Concat(new[] { assemblyInfoCs.FileName })
                     .ToArray();
         }
         [JsonIgnore]
@@ -116,113 +122,7 @@ namespace Bespoke.Sph.Domain
         public string FullTypeName => $"{CodeNamespace}.{Name}, {ConfigurationManager.ApplicationName}.{Name}";
 
 
-        public Task<string> GenerateCustomXsdJavascriptClassAsync()
-        {
-            var jsNamespace = $"{ConfigurationManager.ApplicationName}_{this.Name.ToCamelCase()}";
-            var assemblyName = $"{ConfigurationManager.ApplicationName}.{this.Name}";
-            var script = new StringBuilder();
-            script.AppendLine("var bespoke = bespoke ||{};");
-            script.AppendLinf("bespoke.{0} = bespoke.{0} ||{{}};", jsNamespace);
-            script.AppendLinf("bespoke.{0}.domain = bespoke.{0}.domain ||{{}};", jsNamespace);
 
-            script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jsNamespace, this.Name);
-            script.AppendLine(" var system = require('services/system'),");
-            script.AppendLine(" model = {");
-            script.AppendLine($"     $type : ko.observable(\"{CodeNamespace}.{Name}, {assemblyName}\"),");
-            script.AppendLine("     Id : ko.observable(\"0\"),");
-
-            var members = from item in this.MemberCollection
-                          let m = item.GenerateJavascriptMember(jsNamespace)
-                          where !string.IsNullOrWhiteSpace(m)
-                          select m;
-            members.ToList().ForEach(m => script.AppendLine(m));
-
-            script.AppendFormat(@"
-    addChildItem : function(list, type){{
-                        return function(){{                          
-                            list.push(new type(system.guid()));
-                        }}
-                    }},
-            
-   removeChildItem : function(list, obj){{
-                        return function(){{
-                            list.remove(obj);
-                        }}
-                    }},
-");
-            script.AppendLine("     WebId: ko.observable()");
-
-            script.AppendLine(" };");
-
-            script.AppendLine(@" 
-             if (typeof optionOrWebid === ""object"") {
-
-                if(optionOrWebid.Id){
-                    model.Id(optionOrWebid.Id);
-                }
-                if(optionOrWebid.WebId){
-                    model.WebId(optionOrWebid.WebId);
-                }");
-
-
-            foreach (var cm in this.MemberCollection)
-            {
-                var initCode = cm.GenerateJavascriptInitValue(jsNamespace);
-                if (string.IsNullOrWhiteSpace(initCode)) continue;
-                script.AppendLine($@"
-                if(optionOrWebid.{cm.Name}){{
-                    {initCode}
-                }}");
-            }
-
-            script.AppendLine(@"
-            }");
-
-            script.AppendLine(@"
-            if (optionOrWebid && typeof optionOrWebid === ""string"") {
-                model.WebId(optionOrWebid);
-            }");
-
-            script.AppendFormat(@"
-
-                if (bespoke.{0}.domain.{1}Partial) {{
-                    return _(model).extend(new bespoke.{0}.domain.{1}Partial(model));
-                }}", jsNamespace, this.Name);
-
-            script.AppendLine(" return model;");
-            script.AppendLine("};");
-
-            var classes = from m in this.MemberCollection
-                          let c = m.GenerateJavascriptClass(jsNamespace, CodeNamespace, assemblyName)
-                          where !string.IsNullOrWhiteSpace(c)
-                          select c;
-            classes.ToList().ForEach(x => script.AppendLine(x));
-
-
-            return Task.FromResult(script.ToString());
-        }
-
-
-        public string GetElasticsearchMapping()
-        {
-            var map = new StringBuilder();
-            map.AppendLine("{");
-            map.AppendLine($"    \"{Name.ToLowerInvariant()}\":{{");
-            map.AppendLine("        \"properties\":{");
-            // add entity default properties
-            map.AppendLine(@"            ""CreatedBy"": {""type"": ""keyword"", ""index"":""not_analyzed""},");
-            map.AppendLine(@"            ""ChangedBy"": {""type"": ""keyword"", ""index"":""not_analyzed""},");
-            map.AppendLine(@"            ""WebId"": {""type"": ""keyword"", ""index"":""not_analyzed""},");
-            map.AppendLine(@"            ""CreatedDate"": {""type"": ""date""},");
-            map.AppendLine(@"            ""ChangedDate"": {""type"": ""date""},");
-
-            var memberMappings = string.Join(",\r\n", this.MemberCollection.Select(d => d.GetEsMapping()));
-            map.AppendLine(memberMappings);
-
-            map.AppendLine("        }");
-            map.AppendLine("    }");
-            map.AppendLine("}");
-            return map.ToString();
-        }
+      
     }
 }

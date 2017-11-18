@@ -45,6 +45,9 @@
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\assembly.versions\dependencies-email.service.cs">
+      <Link>dependencies-email.service.cs</Link>
+    </Compile>
     <Compile Include="EmailService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

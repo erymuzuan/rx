@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bespoke.Sph.MessageTrackerSla</RootNamespace>
     <AssemblyName>subscriber.message.sla</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -52,6 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\subscribers-subscriber.message.sla.cs">
+      <Link>subscribers-subscriber.message.sla.cs</Link>
+    </Compile>
     <Compile Include="..\..\extensions\BinaryExtensions.cs">
       <Link>BinaryExtensions.cs</Link>
     </Compile>

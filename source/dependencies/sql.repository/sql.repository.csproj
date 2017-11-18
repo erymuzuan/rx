@@ -31,6 +31,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -76,6 +77,9 @@
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\assembly.versions\dependencies-sql.repository.cs">
+      <Link>dependencies-sql.repository.cs</Link>
+    </Compile>
     <Compile Include="..\..\extensions\LoggerExtensions.cs">
       <Link>LoggerExtensions.cs</Link>
     </Compile>
@@ -106,6 +110,7 @@
     <Compile Include="SqlSpatial.cs" />
     <Compile Include="Table.cs" />
     <Compile Include="TableSchemaBuilder.cs" />
+    <Compile Include="TokenRepository.cs" />
     <Compile Include="TsqlQueryFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +129,10 @@
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\web\webapi.common\webapi.common.csproj">
+      <Project>{2A396BF5-09BD-4AE9-B6DE-CF93AEE99D66}</Project>
+      <Name>webapi.common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

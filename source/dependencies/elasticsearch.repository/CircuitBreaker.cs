@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Polly;
 
-namespace Bespokse.Sph.ElasticsearchRepository
+namespace Bespoke.Sph.ElasticsearchRepository
 {
     public class CircuitBreaker
     {

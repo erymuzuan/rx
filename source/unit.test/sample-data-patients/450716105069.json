@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00541450040",
+  "FullName": "GAN CHONG HO",
+  "Dob": "1945-07-16T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "450716105069",
+  "PassportNo": "1128649",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "PERLIS PLANTATIONS BHD",
+    "Street2": null,
+    "Postcode": "01700",
+    "City": "KANGAR PERLIS",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 72,
+  "Income": 26422.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "450716105069",
+  "CreatedDate": "1955-02-11T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1980-01-23T00:00:00",
+  "WebId": "21a7a009-4753-44a5-bb95-d395d9d4123f"
+}

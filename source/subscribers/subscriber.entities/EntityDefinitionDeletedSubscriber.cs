@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
@@ -105,24 +104,8 @@ namespace subscriber.entities
 
         private async Task RemoveElasticSearchMappingsAsync(EntityDefinition item)
         {
-            var url = $"{ConfigurationManager.ElasticSearchIndex}/_mapping/{item.Name}";
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
-                try
-                {
-                    var response = await client.DeleteAsync(url);
-                    this.WriteMessage("Success "+ response.StatusCode);
-                }
-                catch (HttpRequestException e)
-                {
-                    this.WriteMessage($"Error in deleting ElasticSearch mapping for {item.Name}");
-                    this.WriteError(e);
-                    throw;
-                }
-
-            }
-
+            var repos = ObjectBuilder.GetObject<IReadOnlyRepository>();
+            await repos.CleanAsync(item.Name);
         }
 
         private static async Task RemoveSqlTablesAsync(EntityDefinition item)
@@ -161,7 +144,7 @@ namespace subscriber.entities
                 foreach (var table in tables)
                 {
                     var cmdText = $"DROP TABLE [{applicationName}].[{table}]";
-                    using (var cmd = new SqlCommand(cmdText,conn))
+                    using (var cmd = new SqlCommand(cmdText, conn))
                     {
                         if (conn.State != ConnectionState.Open) await conn.OpenAsync();
                         await cmd.ExecuteNonQueryAsync();

@@ -7,9 +7,12 @@ using System.Text;
 
 namespace Bespoke.Sph.Domain
 {
-    public class LogEntry
+    public class LogEntry : DomainObject
     {
-
+        public LogEntry()
+        {
+            
+        }
         public LogEntry([CallerFilePath]string filePath = "", [CallerMemberName]string memberName = "", [CallerLineNumber]int lineNumber = 0)
         {
 
@@ -48,7 +51,6 @@ namespace Bespoke.Sph.Domain
                 switch (ie)
                 {
                     case ReflectionTypeLoadException le:
-                        details.AppendLine("Types : " + le.Types.ToString(";", x => x.AssemblyQualifiedName));
                         le.LoaderExceptions.ToList().ForEach(Write);
                         break;
                     case AggregateException ae:
@@ -94,6 +96,7 @@ namespace Bespoke.Sph.Domain
         public string CallerFilePath { get; set; }
         public string CallerMemberName { get; set; }
         public int CallerLineNumber { get; set; }
+        public string Hash { get; set; }
 
         public Dictionary<string, object> OtherInfo { get; } = new Dictionary<string, object>();
     }

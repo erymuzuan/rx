@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00355879070",
+  "FullName": "MOHAMAD BIN YAHYA",
+  "Dob": "1942-03-22T00:00:00",
+  "Gender": "Male",
+  "Religion": "Islam",
+  "Race": "Malay",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "420322015047",
+  "PassportNo": "1588553",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "0",
+    "Street2": null,
+    "Postcode": "0",
+    "City": "0",
+    "State": "",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 76,
+  "Income": 27634.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "420322015047",
+  "CreatedDate": "1954-01-05T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1972-02-20T00:00:00",
+  "WebId": "6cdebbd5-30c3-4e49-ad97-326797ebd7f1"
+}

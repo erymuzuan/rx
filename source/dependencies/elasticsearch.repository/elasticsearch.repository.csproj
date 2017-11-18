@@ -7,7 +7,7 @@
     <ProjectGuid>{9C8CB6CA-65A3-4ED5-98FD-74E241C74451}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bespokse.Sph.ElasticsearchRepository</RootNamespace>
+    <RootNamespace>Bespoke.Sph.ElasticsearchRepository</RootNamespace>
     <AssemblyName>elasticsearch.repository</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;ES1_7</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -54,12 +54,28 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\dependencies-elasticsearch.repository.cs">
+      <Link>dependencies-elasticsearch.repository.cs</Link>
+    </Compile>
+    <Compile Include="..\..\extensions\HttpClientExtensions.cs">
+      <Link>Extensions\HttpClientExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\extensions\LoggerExtensions.cs">
       <Link>LoggerExtensions.cs</Link>
     </Compile>
     <Compile Include="CancelledMessageRepository.cs" />
     <Compile Include="CircuitBreaker.cs" />
-    <Compile Include="HttpClientExtensions.cs" />
+    <Compile Include="ElasticsearchTokenRespository.cs" />
+    <Compile Include="EsConfigurationManager.cs" />
+    <Compile Include="EventLogRepository.cs" />
+    <Compile Include="Extensions\AggregateExtension.cs" />
+    <Compile Include="Extensions\EntityDefinitionExtension.cs" />
+    <Compile Include="Extensions\FilterExtension.cs" />
+    <Compile Include="Extensions\HttpResponseMessageExtension.cs" />
+    <Compile Include="Extensions\MemberExtension.cs" />
+    <Compile Include="Extensions\QueryDslExtension.cs" />
+    <Compile Include="Extensions\SortExtension.cs" />
+    <Compile Include="IndexNamingStrategy.cs" />
     <Compile Include="MappingBuilder.cs" />
     <Compile Include="MessageTracker.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -67,6 +83,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ReadonlyRepository.T.cs" />
+    <Compile Include="RepositoryWithNamingStrategy.cs" />
+    <Compile Include="RequestMeteringRepository.cs" />
     <Compile Include="WorkflowService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadonlyRepository.cs" />
@@ -75,6 +94,10 @@
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\web\webapi.common\webapi.common.csproj">
+      <Project>{2A396BF5-09BD-4AE9-B6DE-CF93AEE99D66}</Project>
+      <Name>webapi.common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

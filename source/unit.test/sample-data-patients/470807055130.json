@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00422613051",
+  "FullName": "DINA BT ABDULLAH @ RITA PHILOMENA ALCANTRA",
+  "Dob": "1947-08-07T00:00:00",
+  "Gender": "Female",
+  "Religion": "Islam",
+  "Race": "Malay",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "470807055130",
+  "PassportNo": "3571402",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "NO 60",
+    "Street2": null,
+    "Postcode": "55100",
+    "City": "KUALA LUMPUR",
+    "State": "WP KUALA LUMPUR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 70,
+  "Income": 25670.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "470807055130",
+  "CreatedDate": "1933-08-31T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1969-08-08T00:00:00",
+  "WebId": "42e15c87-cf0f-41d2-b63f-a567599e695b"
+}

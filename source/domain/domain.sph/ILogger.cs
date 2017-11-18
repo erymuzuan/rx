@@ -2,6 +2,31 @@
 
 namespace Bespoke.Sph.Domain
 {
+    public interface ILoggerRepository
+    {
+        /*
+         
+            var url = $"{ ConfigurationManager.ElasticSearchSystemIndex}/log/{id}";
+            string responseString;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ConfigurationManager.ElasticsearchLogHost);
+                var response = await client.GetAsync(url);
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                    return NotFound();
+
+                var content = response.Content as StreamContent;
+                if (null == content) throw new Exception("Cannot execute query on es ");
+                responseString = await content.ReadAsStringAsync();
+
+            }
+            var esJson = JObject.Parse(responseString);
+            var source = esJson.SelectToken("$._source");
+            */
+        Task<LogEntry> LoadOneAsync(string id);
+        Task<LoadOperation<LogEntry>> SearchAsync(QueryDsl query);
+    }
+
     public interface ILogger
     {
         Task LogAsync(LogEntry entry);

@@ -15,33 +15,8 @@ namespace Bespoke.Sph.Domain
             return $"[ComplexMember]{this.Name}; AllowMultiple = {AllowMultiple}, Members = {MemberCollection.Count}";
         }
 
-        public override string GenerateJavascriptMember(string ns)
-        {
-            return this.AllowMultiple ?
-                $"     {Name}: ko.observableArray([])," :
-                $"     {Name}: ko.observable(new {this.GenerateJavascriptContructor(ns)}()),";
-        }
 
-        public override string GenerateJavascriptContructor(string ns)
-        {
-            return $"bespoke.{ns}.domain.{TypeName}";
-        }
 
-        public override string GenerateJavascriptInitValue(string ns)
-        {
-            var ctor = this.GenerateJavascriptContructor(ns);
-            if (this.AllowMultiple)
-            {
-                var code = new StringBuilder();
-                var items = $"{Name}List".ToCamelCase();
-                code.AppendLine($@"var {items} = _(optionOrWebid.{Name}).map(function(v){{");
-                code.AppendLine($@"                 return new {ctor}(v);");
-                code.AppendLine(@"            });");
-                code.AppendLine($@"model.{Name}({items});");
-                return code.ToString();
-            }
-            return $"model.{Name}(new {ctor}(optionOrWebid.{Name}));";
-        }
 
         public override string GetDefaultValueCode(int count, string itemIdentifier = "this")
         {
@@ -152,82 +127,6 @@ namespace Bespoke.Sph.Domain
             classes.AddRange(childClasses);
 
             return classes;
-        }
-        public override string GenerateJavascriptClass(string jns, string csNs, string assemblyName)
-        {
-            var script = new StringBuilder();
-            var name = this.TypeName.Replace("Collection", "");
-
-            script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jns, name);
-            script.AppendLine(" var model = {");
-            if (!string.IsNullOrWhiteSpace(assemblyName) && !string.IsNullOrWhiteSpace(csNs))
-                script.AppendLine($"     $type : ko.observable(\"{csNs}.{name}, {assemblyName}\"),");
-
-
-            var members = from item in this.MemberCollection
-                          let m = item.GenerateJavascriptMember(jns)
-                          where !string.IsNullOrWhiteSpace(m)
-                          select m;
-            members.ToList().ForEach(m => script.AppendLine(m));
-
-            script.AppendFormat(@"
-    addChildItem : function(list, type){{
-                        return function(){{
-                            list.push(new childType(system.guid()));
-                        }}
-                    }},
-            
-   removeChildItem : function(list, obj){{
-                        return function(){{
-                            list.remove(obj);
-                        }}
-                    }},
-");
-            script.AppendLine("     WebId: ko.observable()");
-
-            script.AppendLine(" };");
-
-
-            script.AppendLine(@" 
-             if (typeof optionOrWebid === ""object"") {
-
-                if(optionOrWebid.WebId){
-                    model.WebId(optionOrWebid.WebId);
-                }");
-            foreach (var cm in this.MemberCollection)
-            {
-                var initCode = cm.GenerateJavascriptInitValue(jns);
-                if (string.IsNullOrWhiteSpace(initCode)) continue;
-                script.AppendLine($@"
-                if(optionOrWebid.{cm.Name}){{
-                    {initCode}
-                }}");
-            }
-
-            script.AppendLine(@"
-            }");
-
-            script.AppendLine(@"
-            if (optionOrWebid && typeof optionOrWebid === ""string"") {
-                model.WebId(optionOrWebid);
-            }");
-
-            script.AppendLine($@"
-
-    if (bespoke.{jns}.domain.{name}Partial) {{
-        return _(model).extend(new bespoke.{jns}.domain.{name}Partial(model));
-    }}
-");
-
-            script.AppendLine(" return model;");
-            script.AppendLine("};");
-
-            var classes = from m in this.MemberCollection
-                          let c = m.GenerateJavascriptClass(jns, csNs, assemblyName)
-                          where !string.IsNullOrWhiteSpace(c)
-                          select c;
-            classes.ToList().ForEach(x => script.AppendLine(x));
-            return script.ToString();
         }
 
         public void Add(Dictionary<string, Type> dictionary)

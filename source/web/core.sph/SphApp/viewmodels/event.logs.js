@@ -35,11 +35,11 @@ define(["services/datacontext", "services/logger", "plugins/router"],
             },
             query = ko.observable({
                 "sort": [
-                 {
-                     "time": {
-                         "order": "desc"
-                     }
-                 }
+                    {
+                        "time": {
+                            "order": "desc"
+                        }
+                    }
                 ]
             }),
             getKeysAsync = function (field) {
@@ -57,10 +57,11 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 filteredAgg.fields = ["computer"];
 
                 context.searchAsync("log", filteredAgg)
-                 .then(function (result) {
-                     const buckets = result.aggregations.category.buckets;
-                     tcs.resolve(buckets);
-                 });
+                    .then(function (result) {
+                        const categories = result.aggregates.category;
+                        const buckets = Object.keys(categories).map(x => {return { "key":x, "doc_count":categories[x]};});
+                        tcs.resolve(buckets);
+                    });
 
                 return tcs.promise();
             },
@@ -93,11 +94,11 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                         }
                     },
                     "sort": [
-                     {
-                         "time": {
-                             "order": "desc"
-                         }
-                     }
+                        {
+                            "time": {
+                                "order": "desc"
+                            }
+                        }
                     ]
                 },
                     pushTerms = function (term, options) {
@@ -166,7 +167,7 @@ define(["services/datacontext", "services/logger", "plugins/router"],
                 commands: ko.observableArray([
                     {
                         command: function () {
-                           // return changed(1, 20);
+                            // return changed(1, 20);
                         },
                         caption: "Reload",
                         icon: "bowtie-icon bowtie-navigate-refresh",

@@ -70,6 +70,9 @@
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\assembly.versions\dependencies-roslyn.scriptengine.cs">
+      <Link>dependencies-roslyn.scriptengine.cs</Link>
+    </Compile>
     <Compile Include="HostObject.cs" />
     <Compile Include="RoslynScriptEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

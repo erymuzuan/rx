@@ -13,6 +13,8 @@ namespace Bespoke.Sph.Domain
         public static string ApplicationName => AppSettings["sph:ApplicationName"] ?? "MyApp";
 
         public static string TokenSecret => GetEnvironmentVariable("TokenSecret") ?? $"{ApplicationName}{Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Home))}";
+        public static string MajorVersion => GetEnvironmentVariable("MajorVersion") ?? "1";
+        public static string MinorVersion => GetEnvironmentVariable("MinorVersion") ?? "0";
         public static string ApplicationFullName => GetEnvironmentVariable("ApplicationFullName") ?? "Reactive Developer platform showcase";
         public static string FromEmailAddress => GetEnvironmentVariable("FromEmailAddress") ?? "admin@rxdeveloper.com";
         public static int SourceDataCache => GetEnvironmentVariableInt32("SourceDataCache", 300);
@@ -43,13 +45,6 @@ namespace Bespoke.Sph.Domain
         public static string RabbitMqVirtualHost => GetEnvironmentVariable("RabbitMqVirtualHost") ?? ApplicationName;
         public static int ManageSubscribersWorkloadInterval => GetEnvironmentVariableInt32("ManageSubscribersWorkloadInterval", 5000);
 
-        public static long EsIndexingDelay => GetEnvironmentVariableInt32("EsIndexingDelay", 15000);
-        public static int EsIndexingMaxTry => GetEnvironmentVariableInt32("EsIndexingMaxTry", 3);
-        public static string ElasticSearchSystemIndex => GetEnvironmentVariable("ElasticsearchIndex") ?? ApplicationName.ToLowerInvariant() + "_sys";
-        public static string ElasticSearchHost => GetEnvironmentVariable("ElasticSearchHost") ?? "http://localhost:9200";
-        public static string ElasticSearchIndex => GetEnvironmentVariable("ElasticSearchIndex") ?? ApplicationName.ToLowerInvariant();
-        public static string ElasticsearchLogHost => GetEnvironmentVariable("ElasticsearchLogHost") ?? ElasticSearchHost;
-        public static string RequestLogIndexPattern => GetEnvironmentVariable("RequestLogIndexPattern") ?? "yyyyMMdd";
 
         public static string ReportDeliveryExecutable => GetPath("ReportDeliveryExecutable", @"schedulers\scheduler.report.delivery.exe");
         public static string ScheduledDataTransferExecutable => GetPath("ScheduledDataTransferExecutable", @"schedulers\scheduler.data.import.exe");

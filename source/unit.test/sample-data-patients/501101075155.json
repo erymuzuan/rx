@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00485930080",
+  "FullName": "NG CHIT MENG",
+  "Dob": "1950-11-01T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "501101075155",
+  "PassportNo": "3905596",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "15, LEBUH NANGKA SATU,",
+    "Street2": null,
+    "Postcode": "14000",
+    "City": "BUKIT MERTAJAM",
+    "State": "PULAU PINANG",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 67,
+  "Income": 24488.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "501101075155",
+  "CreatedDate": "1966-12-27T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1982-12-22T00:00:00",
+  "WebId": "3d3e0385-9ff6-4f8c-b220-8dd6a7ce01e8"
+}

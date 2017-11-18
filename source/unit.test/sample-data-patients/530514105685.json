@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00329888040",
+  "FullName": "DONALD LAU KWONG KHEONG",
+  "Dob": "1953-05-14T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Others",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "530514105685",
+  "PassportNo": "4406986",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "D-WG-03 MUTIARA ORIENTAL",
+    "Street2": null,
+    "Postcode": "47301",
+    "City": "PETALING JAYA",
+    "State": "SELANGOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 65,
+  "Income": 23563.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "530514105685",
+  "CreatedDate": "1938-09-13T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1979-06-09T00:00:00",
+  "WebId": "db57bfc9-6247-4398-bcb4-88ce93cfdad5"
+}

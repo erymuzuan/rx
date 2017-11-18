@@ -88,6 +88,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\adapters-mysql.adapter.cs">
+      <Link>adapters-mysql.adapter.cs</Link>
+    </Compile>
     <Compile Include="JsonBodyAttribute.cs" />
     <Compile Include="JsonContent.cs" />
     <Compile Include="MySqlAdapter.cs" />

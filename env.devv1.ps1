@@ -1,4 +1,5 @@
-﻿$RxHome = "$PWD\bin"
+﻿$RxApplicationName="DevV1"
+$RxHome = "$PWD\bin"
 $machine = ($env:COMPUTERNAME).Replace("-","_")
 [System.Environment]::SetEnvironmentVariable("RX_DEVV1_RabbitMqPassword","guest", "Process")
 [System.Environment]::SetEnvironmentVariable("RX_DEVV1_RabbitMqBase","$RxHome\rabbitmq_base", "Process")

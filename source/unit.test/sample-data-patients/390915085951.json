@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00648502020",
+  "FullName": "VOON THAN KIM",
+  "Dob": "1939-09-15T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "390915085951",
+  "PassportNo": "1405438",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "74 JALAN SEKOLAH",
+    "Street2": null,
+    "Postcode": "31500",
+    "City": "LAHAT",
+    "State": "PERAK",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 78,
+  "Income": 28553.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "390915085951",
+  "CreatedDate": "1927-07-27T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1943-10-23T00:00:00",
+  "WebId": "929eeb1f-f57f-4ab4-9481-05602787656c"
+}

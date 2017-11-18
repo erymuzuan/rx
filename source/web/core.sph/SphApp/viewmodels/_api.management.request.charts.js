@@ -14,9 +14,9 @@
  */
 
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app],
-    function (context, logger, router, app, ko) {
+    function (context, logger, router, app) {
 
-        var isBusy = ko.observable(false),
+        const isBusy = ko.observable(false),
             from = ko.observable(moment().subtract(1, "day").format("YYYY-MM-DD")),
             to = ko.observable(moment().add(1, "day").format("YYYY-MM-DD")),
             query = {
@@ -43,21 +43,24 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 "size": 1
             },
             activate = function () {
-
+                return true;
             },
-            createCharts = function(buckets) {
-                var categories = _(buckets)
-                    .map(function (v) {
-                            return v.key_as_string || v.key.toString();
-                        }),
-                    data = _(buckets)
-                    .map(function(v) {
-                        return {
-                            category: v.key_as_string || v.key.toString(),
-                            value: v.doc_count
-                        };
-                    });
-                var chart = $("#request-logs-charts").empty().kendoChart({
+            createCharts = function (buckets) {
+                let lastDate = null;
+                const toDate = function (v) {
+                    const time = moment(parseFloat(v));
+                    
+                    if (lastDate === null || time.diff(lastDate, 'days') === 0) {
+                        lastDate = time;
+                        return time.format("DD/MM HH");
+                    }
+                    lastDate = time;
+                    return time.format("HH:mm");
+                },
+                    categories = Object.keys(buckets).map(toDate),
+                    data = Object.keys(buckets).map(v => { return { category: toDate, value: buckets[v] }; });
+
+                const chart = $("#request-logs-charts").empty().kendoChart({
                     theme: "metro",
                     title: {
                         text: "Request by hour"
@@ -84,7 +87,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         }
                     },
                     seriesClick: function (e) {
-                       
+                        console.log(e);
                     }, tooltip: {
                         visible: true,
                         format: "{0}",
@@ -94,38 +97,38 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 console.log(chart);
             },
             search = function () {
-                var data = ko.mapping.toJSON(query);
+                const data = ko.mapping.toJSON(query);
                 isBusy(true);
 
-                return context.post(data, "/management-api/request-logs/" + ko.unwrap(from) + "/" + ko.unwrap(to))
+                return context.post(data, `/management-api/request-logs/${ko.unwrap(from)}/${ko.unwrap(to)}`)
                     .then(function (result) {
                         isBusy(false);
-                        createCharts(result.aggregations.requests_over_time.buckets);
+                        createCharts(result.Aggregates.requests_over_time);
                     });
             },
             attached = function (view) {
                 $(view).find("div.date-range")
                     .daterangepicker(
-                        {
-                            ranges: {
-                                'Today': [moment(), moment()],
-                                'Yesterday': [moment().subtract(1, "days"), moment().subtract(1, "days")],
-                                'Last 7 Days': [moment().subtract(6, "days"), moment()],
-                                'Last 30 Days': [moment().subtract(29, "days"), moment()],
-                                'This Month': [moment().startOf("month"), moment().endOf("month")],
-                                'Last Month': [
-                                    moment().subtract(1, "month").startOf("month"),
-                                    moment().subtract(1, "month").endOf("month")
-                                ]
-                            },
-                            startDate: moment().subtract(29, "days"),
-                            endDate: moment()
+                    {
+                        ranges: {
+                            'Today': [moment(), moment()],
+                            'Yesterday': [moment().subtract(1, "days"), moment().subtract(1, "days")],
+                            'Last 7 Days': [moment().subtract(6, "days"), moment()],
+                            'Last 30 Days': [moment().subtract(29, "days"), moment()],
+                            'This Month': [moment().startOf("month"), moment().endOf("month")],
+                            'Last Month': [
+                                moment().subtract(1, "month").startOf("month"),
+                                moment().subtract(1, "month").endOf("month")
+                            ]
                         },
-                        function (start, end) {
-                            from(start.format("YYYY-MM-DD"));
-                            to(end.format("YYYY-MM-DD"));
-                            return search();
-                        }
+                        startDate: moment().subtract(29, "days"),
+                        endDate: moment()
+                    },
+                    function (start, end) {
+                        from(start.format("YYYY-MM-DD"));
+                        to(end.format("YYYY-MM-DD"));
+                        return search();
+                    }
                     );
                 return search();
             };

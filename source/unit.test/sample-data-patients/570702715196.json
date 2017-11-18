@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00565010001",
+  "FullName": "TUNKU JEMILAH BINTI TUNKU MOHD ARCHIBALD",
+  "Dob": "1957-07-02T00:00:00",
+  "Gender": "Female",
+  "Religion": "Islam",
+  "Race": "Malay",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "570702715196",
+  "PassportNo": "5240334",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "TST NO 2",
+    "Street2": null,
+    "Postcode": "81800",
+    "City": "ULU TIRAM",
+    "State": "JOHOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 60,
+  "Income": 22053.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "570702715196",
+  "CreatedDate": "1974-10-23T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1991-08-14T00:00:00",
+  "WebId": "28dc7656-2c26-42fa-bc6c-9562fd50f5e1"
+}

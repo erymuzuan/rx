@@ -51,6 +51,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\dependencies-Jsbeautifier.cs">
+      <Link>dependencies-Jsbeautifier.cs</Link>
+    </Compile>
     <Compile Include="Beautifier.cs" />
     <Compile Include="BeautifierFlags.cs" />
     <Compile Include="BeautifierOptions.cs" />

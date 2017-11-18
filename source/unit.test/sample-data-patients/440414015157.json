@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00391874020",
+  "FullName": "WONG KIM HONG",
+  "Dob": "1944-04-14T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "440414015157",
+  "PassportNo": "3723172",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "70-2 LORONG BAHAGIA",
+    "Street2": null,
+    "Postcode": "82000",
+    "City": "PONTIAN",
+    "State": "JOHOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 74,
+  "Income": 26880.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "440414015157",
+  "CreatedDate": "1944-01-20T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1981-08-09T00:00:00",
+  "WebId": "ecf43bf2-093d-4722-ab0a-9356f01b8798"
+}

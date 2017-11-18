@@ -19,10 +19,10 @@ namespace Bespoke.Sph.SqlRepository
 
         public TableSchemaBuilder()
         {
-
         }
 
-        public TableSchemaBuilder(Action<string> writeMessage, Action<string> writeWarning = null, Action<Exception> writeError = null)
+        public TableSchemaBuilder(Action<string> writeMessage, Action<string> writeWarning = null,
+            Action<Exception> writeError = null)
         {
             m_writeMessage = writeMessage;
             m_writeWarning = writeWarning;
@@ -33,20 +33,21 @@ namespace Bespoke.Sph.SqlRepository
         {
             m_writeMessage?.Invoke(string.Format(message, args));
         }
+
         private void WriteWarning(string message, params object[] args)
         {
             m_writeWarning?.Invoke(string.Format(message, args));
         }
+
         private void WriteError(Exception exception)
         {
             m_writeError?.Invoke(exception);
         }
 
 
-
-        public async Task BuildAsync(EntityDefinition ed, Action<JObject, dynamic> migration, int sqlBatchSize = 50)
+        public async Task BuildAsync(EntityDefinition ed, Action<JObject, dynamic> migration, int sqlBatchSize = 50,
+            bool deploy = false)
         {
-
             if (ed.Transient) return;
             if (ed.StoreInDatabase.HasValue && ed.StoreInDatabase.Value == false) return;
 
@@ -54,7 +55,15 @@ namespace Bespoke.Sph.SqlRepository
             var applicationName = ConfigurationManager.ApplicationName;
             var tableExistSql =
                 $"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{applicationName}'  AND  TABLE_NAME = '{ed.Name}'";
-            var createTable = await this.CreateTableSqlAsync(ed, applicationName);
+
+            string createTable;
+            var tableSql = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(EntityDefinition)}\\{ed.Name}.sql";
+            if (deploy && System.IO.File.Exists(tableSql))
+                createTable = System.IO.File.ReadAllText(tableSql);
+            else
+                createTable = await this.CreateTableSqlAsync(ed, applicationName);
+
+
             var createIndex = this.CreateIndexSql(ed, applicationName);
             var oldTable = $"{ed.Name}_{DateTime.Now:yyyyMMdd_HHmmss}";
             using (var conn = new SqlConnection(connectionString))
@@ -71,7 +80,8 @@ namespace Bespoke.Sph.SqlRepository
 
 
                     // rename table for migration
-                    using (var renameTableCommand = new SqlCommand("sp_rename", conn) { CommandType = CommandType.StoredProcedure })
+                    using (var renameTableCommand =
+                        new SqlCommand("sp_rename", conn) {CommandType = CommandType.StoredProcedure})
                     {
                         renameTableCommand.Parameters.AddWithValue("@objname", $"[{applicationName}].[{ed.Name}]");
                         renameTableCommand.Parameters.AddWithValue("@newname", oldTable);
@@ -79,15 +89,11 @@ namespace Bespoke.Sph.SqlRepository
 
                         await renameTableCommand.ExecuteNonQueryAsync();
                     }
-
                 }
 
                 using (var createTableCommand = new SqlCommand(createTable, conn))
                 {
                     await createTableCommand.ExecuteNonQueryAsync();
-                    // save to disk for source
-                    var file = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(EntityDefinition)}\\{ed.Name}.sql";
-                    System.IO.File.WriteAllText(file, createTable);
                 }
                 foreach (var s in createIndex)
                 {
@@ -102,7 +108,8 @@ namespace Bespoke.Sph.SqlRepository
             }
         }
 
-        public async Task MigrateDataAsync(EntityDefinition ed, int sqlBatchSize, string oldTable, Action<JObject, dynamic> migration, bool insert = false)
+        public async Task MigrateDataAsync(EntityDefinition ed, int sqlBatchSize, string oldTable,
+            Action<JObject, dynamic> migration, bool insert = false)
         {
             this.WriteMessage("Migrating data for {0}", ed.Name);
             var row = 0;
@@ -111,15 +118,17 @@ namespace Bespoke.Sph.SqlRepository
             {
                 await conn.OpenAsync();
 
-                var builder = new Builder { EntityDefinition = ed, Name = ed.Name };
+                var builder = new Builder {EntityDefinition = ed, Name = ed.Name};
                 builder.Initialize();
 
-                var total = await conn.GetScalarValueAsync<int>($"SELECT COUNT(*)  FROM [{ConfigurationManager.ApplicationName}].[{oldTable}]");
+                var total = await conn.GetScalarValueAsync<int>(
+                    $"SELECT COUNT(*)  FROM [{ConfigurationManager.ApplicationName}].[{oldTable}]");
 
                 while (row <= total)
                 {
                     this.WriteMessage($"Migrating batch of {row} of total {total}");
-                    var sql = $"SELECT [Id],[Json] FROM [{ConfigurationManager.ApplicationName}].[{oldTable}] ORDER BY [Id] OFFSET {row} ROWS FETCH NEXT {sqlBatchSize} ROWS ONLY";
+                    var sql =
+                        $"SELECT [Id],[Json] FROM [{ConfigurationManager.ApplicationName}].[{oldTable}] ORDER BY [Id] OFFSET {row} ROWS FETCH NEXT {sqlBatchSize} ROWS ONLY";
                     using (var cmd = new SqlCommand(sql, conn))
                     {
                         using (var reader = await cmd.ExecuteReaderAsync())
@@ -129,7 +138,7 @@ namespace Bespoke.Sph.SqlRepository
                                 var id = reader.GetString(0);
                                 var json = reader.GetString(1);
                                 this.WriteMessage($"Sql migration from {oldTable} to {ed.Name}");
-                                var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+                                var setting = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All};
                                 dynamic ent = JsonConvert.DeserializeObject(json, setting);
                                 ent.Id = id;
                                 //
@@ -181,7 +190,6 @@ namespace Bespoke.Sph.SqlRepository
                 .ToList().ForEach(m => m.FullName = parent + m.Name);
 
             return filterables;
-
         }
 
         private bool HasSchemaChanged(EntityDefinition ed)
@@ -218,7 +226,8 @@ namespace Bespoke.Sph.SqlRepository
                 var col1 = col;
                 var member = members.OfType<SimpleMember>().SingleOrDefault(m =>
                     m.Name.Equals(col1.Name, StringComparison.InvariantCultureIgnoreCase)
-                    && string.Equals(GetSqlType(m.TypeName).Replace("(255)", string.Empty), col1.SqlType, StringComparison.InvariantCultureIgnoreCase)
+                    && string.Equals(GetSqlType(m.TypeName).Replace("(255)", string.Empty), col1.SqlType,
+                        StringComparison.InvariantCultureIgnoreCase)
                     && col.IsNullable == m.IsNullable);
                 if (null == member)
                 {
@@ -234,15 +243,13 @@ namespace Bespoke.Sph.SqlRepository
         {
             var members = this.GetFilterableMembers("", item.MemberCollection);
             var sql = from m in members.OfType<SimpleMember>()
-                      let column = m.FullName ?? m.Name
-                      select
-                      $@"
+                let column = m.FullName ?? m.Name
+                select
+                    $@"
 CREATE NONCLUSTERED INDEX [{column}_index]
 ON [{applicationName}].[{item.Name}] ([{column}]) ";
 
             return sql.ToArray();
-
-
         }
 
         private async Task<string> CreateTableSqlAsync(EntityDefinition item, string applicationName)
@@ -264,7 +271,8 @@ ON [{applicationName}].[{item.Name}] ([{column}]) ";
             {
                 // TODO : #4510 If SQL server version 13 and above is used,  Filtered member should be computed column
                 Console.WriteLine($@"SQL Server version {version} ");
-                sql.AppendLine($",[{member.FullName}] {GetSqlType(member.TypeName)} {(member.IsNullable ? "" : "NOT")} NULL");
+                sql.AppendLine(
+                    $",[{member.FullName}] {GetSqlType(member.TypeName)} {(member.IsNullable ? "" : "NOT")} NULL");
             }
             sql.AppendLine(",[Json] VARCHAR(MAX)");
             sql.AppendLine(",[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()");
@@ -273,9 +281,12 @@ ON [{applicationName}].[{item.Name}] ([{column}]) ";
             sql.AppendLine(",[ChangedBy] VARCHAR(255) NULL");
             sql.AppendLine(")");
 
+
+            // save to disk for source
+            var file = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(EntityDefinition)}\\{item.Name}.sql";
+            System.IO.File.WriteAllText(file, sql.ToString());
+
             return sql.ToString();
         }
-
-
     }
 }

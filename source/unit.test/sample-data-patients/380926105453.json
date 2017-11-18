@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00204131060",
+  "FullName": "CHOONG TUCK YEW",
+  "Dob": "1938-09-26T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "380926105453",
+  "PassportNo": "1137940",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "NO 4 JALAN 19/30",
+    "Street2": null,
+    "Postcode": "46300",
+    "City": "PETALING JAYA",
+    "State": "SELANGOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 79,
+  "Income": 28907.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "380926105453",
+  "CreatedDate": "1962-11-01T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1964-10-19T00:00:00",
+  "WebId": "9a6d64dd-1e61-4921-8adb-3048c9d517a2"
+}

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Bespoke.Sph.Domain;
-using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.WathersSubscribers
 {
@@ -19,18 +17,22 @@ namespace Bespoke.Sph.WathersSubscribers
         protected override Task ProcessMessage(Watcher item, MessageHeaders header)
         {
             this.WriteMessage($"A watcher has been {header.Crud} : \r\n{item}");
-            if (header.Crud == CrudOperation.Added)
+            switch (header.Crud)
             {
-                m_watchers.Add(item);
-            }
-            if (header.Crud == CrudOperation.Deleted)
-            {
-                m_watchers.RemoveAll(w => w.Id == item.Id);
-            }
-            if (header.Crud == CrudOperation.Changed)
-            {
-                m_watchers.RemoveAll(w => w.Id == item.Id);
-                m_watchers.Add(item);
+                case CrudOperation.Added:
+                    m_watchers.Add(item);
+                    break;
+                case CrudOperation.Deleted:
+                    m_watchers.RemoveAll(w => w.Id == item.Id);
+                    break;
+                case CrudOperation.Changed:
+                    m_watchers.RemoveAll(w => w.Id == item.Id);
+                    m_watchers.Add(item);
+                    break;
+                case CrudOperation.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
             return Task.FromResult(0);
         }
@@ -40,6 +42,7 @@ namespace Bespoke.Sph.WathersSubscribers
         protected override async void OnStart()
         {
             var context = new SphDataContext();
+            // ReSharper disable once RedundantBoolCompare
             var query = context.Watchers.Where(w => w.IsActive == true);
             var lo = await context.LoadAsync(query, includeTotalRows: true);
             m_watchers.ClearAndAddRange(lo.ItemCollection);
@@ -48,7 +51,7 @@ namespace Bespoke.Sph.WathersSubscribers
                 lo = await context.LoadAsync(query, lo.CurrentPage + 1, includeTotalRows: true);
                 m_watchers.AddRange(lo.ItemCollection);
             }
-            
+
             var definitions = context.LoadFromSources<EntityDefinition>(x => x.IsPublished);
 
             this.ListenerCollection.Clear();
@@ -103,59 +106,16 @@ namespace Bespoke.Sph.WathersSubscribers
         {
             var entityName = e.Item.GetType().Name;
             var id = e.Item.Id;
-            var query = @"{
-   ""query"": {
-      ""filtered"": {
-         ""filter"": {
-            ""bool"": {
-               ""must"": [
-                  {
-                     ""term"": {
-                        ""EntityName"": ""<EntityName>""
-                     }
-                  },
-                  {
-                      ""term"": {
-                         ""EntityId"": ""<EntityId>""
-                      }
-                  }
-               ],
-               ""must_not"": []
-            }
-         }
-      }
-   }
-}".Replace("<EntityName>", entityName)
-  .Replace("<EntityId>", id);
-
-            var request = new StringContent(query);
-            var url = $"{ConfigurationManager.ApplicationName.ToLowerInvariant()}_sys/watcher/_search";
-
-            var watchers = new ObjectCollection<string>();
-            using (var client = new HttpClient())
+            var filters = new[]
             {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticSearchHost);
+                new Filter("EntityName", Operator.Eq, entityName),
+                new Filter("EntityId", Operator.Eq, id),
+            };
 
-                var response = await client.PostAsync(url, request);
-                var content = response.Content as StreamContent;
-                if (null == content) throw new Exception("Cannot execute query on es " + request);
+            var repos = ObjectBuilder.GetObject<IReadOnlyRepository<Watcher>>();
+            var lo = await repos.SearchAsync(new QueryDsl(filters, new[] { new Sort { Direction = SortDirection.Desc, Path = nameof(Watcher.CreatedDate) } }, 0, 100));
 
-                var text = await content.ReadAsStringAsync();
-                var jo = JObject.Parse(text);
-                var tokens = jo.SelectToken("$.hits.hits");
-                if (null == tokens)
-                {
-                    this.WriteMessage("No getting the expected json from watcher _search !!!!!!!");
-                    return;
-                }
-                var list = from t in tokens
-                           let user = t.SelectToken("$._source.User")
-                           where null != user
-                           select user.Value<string>();
-                watchers.ClearAndAddRange(list);
-
-            }
-
+            var watchers = lo.ItemCollection.Select(x => x.User).ToList();
             this.WriteMessage("Changed to " + e);
 
             this.WriteMessage($"There { watchers.Count} watchers");

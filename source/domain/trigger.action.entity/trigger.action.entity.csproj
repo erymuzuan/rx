@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\domain-trigger.action.entity.cs">
+      <Link>domain-trigger.action.entity.cs</Link>
+    </Compile>
     <Compile Include="EntityAction.cs" />
     <Compile Include="EntityAction.p.cs">
       <DependentUpon>EntityAction.cs</DependentUpon>

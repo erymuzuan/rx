@@ -33,6 +33,8 @@ namespace Bespoke.Sph.Domain.Codes
         public ObjectCollection<Method> MethodCollection { get; } = new ObjectCollection<Method>();
         public ObjectCollection<Property> PropertyCollection { get; } = new ObjectCollection<Property>();
 
+
+
         public string FileName
         {
             get
@@ -41,7 +43,7 @@ namespace Bespoke.Sph.Domain.Codes
                     return this.Name + ".cs";
                 return m_fileName;
             }
-            set { m_fileName = value; }
+            set => m_fileName = value;
         }
 
 
@@ -84,9 +86,9 @@ namespace Bespoke.Sph.Domain.Codes
                 return m_code;
             var code = new StringBuilder();
             var imported = new List<string>();
-            foreach (var @import in this.ImportCollection)
+            foreach (var import in this.ImportCollection)
             {
-                var directive = @import.StartsWith("using ") ? $"{@import};" : $"using {@import};";
+                var directive = import.StartsWith("using ") ? $"{import};" : $"using {import};";
                 var importUsing = directive.Replace(";;", ";");
                 if (imported.Contains(importUsing)) continue;
 

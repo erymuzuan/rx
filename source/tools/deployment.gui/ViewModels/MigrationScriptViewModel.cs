@@ -87,7 +87,10 @@ namespace Bespoke.Sph.Mangements.ViewModels
 
         public Task Load()
         {
-            var plans = Directory.GetFiles($"{ConfigurationManager.SphSourceDirectory}\\MigrationPlan", "*.json")
+            var sourcesDirectory = $"{ConfigurationManager.SphSourceDirectory}\\MigrationPlan";
+            if (!Directory.Exists(sourcesDirectory))
+                return Task.FromResult(0);
+            var plans = Directory.GetFiles(sourcesDirectory, "*.json")
                 .Select(Path.GetFileNameWithoutExtension)
                 .ToList();
             this.PlanCollection.ClearAndAddRange(plans);
@@ -115,17 +118,14 @@ namespace Bespoke.Sph.Mangements.ViewModels
             if (propertyName == nameof(Selected) && null != this.Selected)
             {
                 var script = this.Selected.MigrationScript;
-                if (string.IsNullOrWhiteSpace(script))
-                    this.Script = this.SuggestScript();
-                else
-                    this.Script = this.Selected.MigrationScript;
+                this.Script = string.IsNullOrWhiteSpace(script) ? this.SuggestScript() : script;
             }
         }
 
         private string SuggestScript()
         {
             var id = this.Selected.WebId;
-            var edName = this.SelectedPlan.Split(new string[] {"-"}, StringSplitOptions.RemoveEmptyEntries).First();
+            var edName = this.SelectedPlan.Split(new[] { "-" }, StringSplitOptions.RemoveEmptyEntries).First();
             var context = new SphDataContext();
             var ed = context.LoadOneFromSources<EntityDefinition>(x => x.Name == edName);
             var members = new List<Member>(ed.MemberCollection);
@@ -143,7 +143,7 @@ namespace Bespoke.Sph.Mangements.ViewModels
             var member = members.FirstOrDefault(x => x.WebId == id);
 
 
-            var type = member?.GetMemberTypeName()?? "/* TODO : specify your return type here*/";
+            var type = member?.GetMemberTypeName() ?? "/* TODO : specify your return type here*/";
             return $@"
 // NOTE : the return type must be the type expected by {member?.Name}
 public {type} GetValue(string source)

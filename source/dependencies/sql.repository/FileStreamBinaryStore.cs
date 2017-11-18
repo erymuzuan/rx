@@ -35,7 +35,7 @@ namespace Bespoke.Sph.SqlRepository
                     m_connectionString = connectionString;
                     break;
                 default:
-                    throw new ArgumentException($"Must specify either Environment, ConfigConnectionStringName, ConfigAppSetting or Plain", nameof(mode));
+                    throw new ArgumentException($@"Must specify either Environment, ConfigConnectionStringName, ConfigAppSetting or Plain", nameof(mode));
             }
         }
         public void Add(BinaryStore document)

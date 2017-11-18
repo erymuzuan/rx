@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
@@ -85,24 +86,10 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("logs/{id:guid}")]
         public async Task<IHttpActionResult> SearchById(string id)
         {
-            var url = $"{ ConfigurationManager.ElasticSearchSystemIndex}/log/{id}";
-            string responseString;
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(ConfigurationManager.ElasticsearchLogHost);
-                var response = await client.GetAsync(url);
-                if (response.StatusCode == HttpStatusCode.NotFound)
-                    return NotFound();
+            var repos = ObjectBuilder.GetObject<ILoggerRepository>();
+            var source = await repos.LoadOneAsync(id);
 
-                var content = response.Content as StreamContent;
-                if (null == content) throw new Exception("Cannot execute query on es ");
-                responseString = await content.ReadAsStringAsync();
-
-            }
-            var esJson = JObject.Parse(responseString);
-            var source = esJson.SelectToken("$._source");
-
-            return Json(source.ToString());
+            return Json(source);
 
         }
 
@@ -110,20 +97,14 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [PostRoute("request-logs/{from}/{to}")]
-        public async Task<IHttpActionResult> SearchRequestLogs(string from, string to, [RawBody]string query)
+        public async Task<IHttpActionResult> SearchRequestLogs(string from, string to, [RawBody]string text, [ContentType]MediaTypeHeaderValue contentType)
         {
-            var url = $"{ConfigurationManager.ElasticSearchIndex}_logs/request_log/_search";
-            using (var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.ElasticsearchLogHost) })
-            {
-                var response = await client.PostAsync(url, new StringContent(query));
-                response.EnsureSuccessStatusCode();
+            var parser = QueryParserFactory.Instance.Get(null, contentType?.MediaType ?? "appplication/json+elasticsearch");
+            var query = parser.Parse(text);
 
-                var content = response.Content as StreamContent;
-                if (null == content) throw new Exception("Cannot execute query on es ");
-                var responseString = await content.ReadAsStringAsync();
-                return Json(responseString);
-
-            }
+            var repos = ObjectBuilder.GetObject<IMeteringRepository>();
+            var lo = await repos.SearchAsync(query);
+            return Json(lo);
 
         }
 

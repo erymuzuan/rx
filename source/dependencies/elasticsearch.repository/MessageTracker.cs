@@ -14,7 +14,7 @@ using Polly;
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 // ReSharper disable UnusedMember.Global
 
-namespace Bespokse.Sph.ElasticsearchRepository
+namespace Bespoke.Sph.ElasticsearchRepository
 {
     [Export("Bespoke.Sph.Domain.IMessageTracker", typeof(IMessageTracker))]
     public class MessageTracker : IMessageTracker, IPartImportsSatisfiedNotification
@@ -41,7 +41,7 @@ namespace Bespokse.Sph.ElasticsearchRepository
 
         public MessageTracker()
         {
-            Host = ConfigurationManager.GetEnvironmentVariable("ElasticsearchMessageTrackingHost") ?? ConfigurationManager.ElasticSearchHost;
+            Host = ConfigurationManager.GetEnvironmentVariable("ElasticsearchMessageTrackingHost") ?? EsConfigurationManager.Host;
             m_client = new HttpClient {BaseAddress = new Uri(Host)};
         }
 

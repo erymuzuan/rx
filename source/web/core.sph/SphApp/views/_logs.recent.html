@@ -25,11 +25,11 @@
         <tbody data-bind="foreach :list">
             <tr>
                 <td >
-                    <a href="#" data-bind="click : $parent.openDetails, date: { value: time, format:'YYYY-MM-DD HH:mm ss', inputFormat : moment.ISO_8601}"></a>
+                    <a href="#" data-bind="click : $parent.openDetails, date: { value: Time, format:'YYYY-MM-DD HH:mm ss', inputFormat : moment.ISO_8601}"></a>
                 </td>
-                <td data-bind="text: (operation || '<No Category>') + ': ' + message"></td>
-                <td data-bind="text:severity"></td>
-                <td data-bind="text:log"></td>
+                <td data-bind="text: (Operation || '<No Category>') + ': ' + Message"></td>
+                <td data-bind="text:Severity"></td>
+                <td data-bind="text:Log"></td>
             </tr>
         </tbody>
     </table>

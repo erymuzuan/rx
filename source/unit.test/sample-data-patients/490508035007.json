@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00567739040",
+  "FullName": "PERUMAL AL THAMBIRAYAN",
+  "Dob": "1949-05-08T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "490508035007",
+  "PassportNo": "7994770",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "19 - 1 - 5 TERATAI MEWAH",
+    "Street2": null,
+    "Postcode": "53000",
+    "City": "SETAPAK",
+    "State": "WP KUALA LUMPUR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 69,
+  "Income": 25030.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "490508035007",
+  "CreatedDate": "1920-06-05T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1957-04-15T00:00:00",
+  "WebId": "d60907d9-db3d-43e3-b150-73509c9c68f4"
+}

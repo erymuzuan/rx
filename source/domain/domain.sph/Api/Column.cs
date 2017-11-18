@@ -35,11 +35,8 @@ namespace Bespoke.Sph.Domain.Api
         [JsonIgnore]
         public override Type Type
         {
-            get { return this.ClrType; }
-            set
-            {
-                this.TypeName = value.GetShortAssemblyQualifiedName();
-            }
+            get => this.ClrType;
+            set => this.TypeName = value.GetShortAssemblyQualifiedName();
         }
 
         public virtual Column Initialize(Adapter adapter, TableDefinition td, ColumnMetadata mt)
@@ -184,8 +181,7 @@ namespace Bespoke.Sph.Domain.Api
 
         public override bool Equals(object obj)
         {
-            var o = obj as Column;
-            if (null == o) return false;
+            if (!(obj is Column o)) return false;
             return this.WebId.Equals(o.WebId);
         }
 

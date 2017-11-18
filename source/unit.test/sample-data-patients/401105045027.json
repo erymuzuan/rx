@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00682945070",
+  "FullName": "FOO POT UN",
+  "Dob": "1940-11-05T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Chinese",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "401105045027",
+  "PassportNo": "2367641",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "NO 21 JLN DATO BENTARA DALAM",
+    "Street2": null,
+    "Postcode": "85400",
+    "City": "CHAAH",
+    "State": "JOHOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 77,
+  "Income": 28136.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "401105045027",
+  "CreatedDate": "1948-05-13T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1964-09-17T00:00:00",
+  "WebId": "04fa6047-007e-4645-b156-9f5f63df9426"
+}

@@ -30,12 +30,14 @@ namespace Bespoke.Sph.Domain
             "Bespoke.Sph.WebApi"
         };
 
-        public Task<WorkflowCompilerResult> CompileAsync(EntityDefinition entityDefinition)
+        public async Task<WorkflowCompilerResult> CompileAsync(EntityDefinition entityDefinition)
         {
             m_entityDefinition = entityDefinition;
 
             var controller = this.GenerateController();
-            var source = controller.Save($"{nameof(OperationEndpoint)}.{Entity}.{Name}");
+            var folder = $"{nameof(OperationEndpoint)}.{Entity}.{Name}";
+            var source = controller.Save(folder);
+            var assemblyInfo = await AssemblyInfoClass.GenerateAssemblyInfoAsync(this, true, folder);
 
 
             using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
@@ -66,7 +68,7 @@ namespace Bespoke.Sph.Domain
                 
                 this.ReferencedAssemblyCollection.ForEach(x => parameters.ReferencedAssemblies.Add(x.Location));
 
-                var result = provider.CompileAssemblyFromFile(parameters, source);
+                var result = provider.CompileAssemblyFromFile(parameters, source, assemblyInfo.FileName);
                 var cr = new WorkflowCompilerResult
                 {
                     Result = true,
@@ -80,7 +82,7 @@ namespace Bespoke.Sph.Domain
                                  FileName = x.FileName
                              };
                 cr.Errors.AddRange(errors);
-                return Task.FromResult(cr);
+                return cr;
             }
         }
         private EntityDefinition m_entityDefinition;

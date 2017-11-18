@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00341782040",
+  "FullName": "TAN KENG TEH @ TAN SING CHAI",
+  "Dob": "1941-05-01T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Others",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "410501015545",
+  "PassportNo": "0048386",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "51 JALAN SS2/19",
+    "Street2": null,
+    "Postcode": "47300",
+    "City": "PETALING JAYA",
+    "State": "SELANGOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 77,
+  "Income": 27959.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "410501015545",
+  "CreatedDate": "1928-08-08T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1942-07-11T00:00:00",
+  "WebId": "fe826ac3-2d50-4a8d-a8e3-cdb04b489b9a"
+}

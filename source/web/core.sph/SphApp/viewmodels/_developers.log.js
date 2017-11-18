@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -31,7 +31,7 @@ bespoke.sph.domain.LogEntry = function (optionOrWebid) {
         WebId: ko.observable()
     };
     if (optionOrWebid && typeof optionOrWebid === "object") {
-        for (var n in optionOrWebid) {
+        for (let n in optionOrWebid) {
             if (optionOrWebid.hasOwnProperty(n)) {
                 if (typeof model[n] === "function") {
                     model[n](optionOrWebid[n]);
@@ -91,26 +91,26 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		    error = ko.observable(true),
 		    critical = ko.observable(true),
 		    filter = function () {
-		        var temp = _(logs()).filter(function (v) {
-		            var sv = ko.unwrap(v.severity);
+		        const temp = _(logs()).filter(function (v) {
+		            const sv = ko.unwrap(v.severity);
 
 		            switch (sv) {
-		                case "Verbose": return verbose();
-		                case "Info": return info();
-		                case "Log": return log();
-		                case "Debug": return debug();
-		                case "Warning": return warning();
-		                case "Error": return error();
-		                case "Critical": return critical();
+		            case "Verbose": return verbose();
+		            case "Info": return info();
+		            case "Log": return log();
+		            case "Debug": return debug();
+		            case "Warning": return warning();
+		            case "Error": return error();
+		            case "Critical": return critical();
 
-		                default:
-		                    return false;
+		            default:
+		                return false;
 		            }
 		        });
 		        list(temp);
-		    },
+	        },
 		    scroll = function () {
-		        var elem = document.getElementById("developers-log-footer");
+		        const elem = document.getElementById("developers-log-footer");
 		        elem.scrollTop = elem.scrollHeight;
 		    },
 		    clear = function () {
@@ -120,9 +120,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		    },
             cleanup = function () {
                 setInterval(function () {
-                    var temp = logs(),
-                        count = temp.length,
-                        max = setting().max();
+                    const temp = logs();
+                    const count = temp.length;
+                    const max = setting().max();
                     if (count <= max) {
                         return;
                     }
@@ -137,15 +137,15 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
 	            var message = ko.unwrap(entry.message);
 	            if (entry.log === "WebServer") {
-	                var any = _(setting().iis.excludeWhenContains().split(";")).any(function (v) {
+	                const any = _(setting().iis.excludeWhenContains().split(";")).any(function (v) {
 	                    return (message || "<>").indexOf(v) > -1;
 	                });
 	                if (any) {
 	                    return false;
 	                }
 
-	                var codes = /HTTP status ([0-9]{3})/.exec(message);
-	                var code = _(setting().iis.excludeStatusCodes()).any(function (v) {
+	                const  codes = /HTTP status ([0-9]{3})/.exec(message);
+	                const code = _(setting().iis.excludeStatusCodes()).any(function (v) {
 	                    if (!_.isArray(codes)) {
 	                        return false;
 	                    }
@@ -195,7 +195,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 		            }
 		            if (typeof model.outputFile === "string") {
 
-		                const existing = _(outputFiles()).find(function (v) { return v.outputFile === model.outputFile; });
+		                const existing = _(outputFiles()).find(v => v.outputFile === model.outputFile);
 		                if (existing) {
 		                    outputFiles.remove(existing);
 		                }
@@ -339,8 +339,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         if (v.status !== "added") {
                             return;
                         }
-                        var entry = v.value,
-		                    severity = ko.unwrap(entry.severity);
+                        const entry = v.value;
+                        const severity = ko.unwrap(entry.severity);
                         if (typeof self[severity.toLowerCase()] === "function" && self[severity.toLocaleLowerCase()]()) {
                             list.push(entry);
                         }
@@ -367,9 +367,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                 });
                 var expand = function () {
-                    var dev = $("#developers-log-panel").height(),
-                        top = $(window).height(),
-                        height = top - dev - 90; //TODO: WHERE's the magic no coming from
+                    const dev = $("#developers-log-panel").height();
+                    const top = $(window).height();
+                    const height = top - dev - 90; //TODO: WHERE's the magic no coming from
                     $("#content").css({
                         "margin-left": 0,
                         "height": "100%",
@@ -460,7 +460,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 	            ws.send("POST /bring-to-view:");
 	        },
 	        deployOutputFiles = function () {
-	            var files = _(ko.unwrap(outputFiles)).map(function (v) { return v.outputFile; });
+	            const files = _(ko.unwrap(outputFiles)).map(function (v) { return v.outputFile; });
 	            ws.send("POST /deploy:" + files.join(";"));
 	            outputFiles([]);
 
@@ -495,7 +495,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 	            list(logs());
 	            return;
 	        }
-	        var temp = _(logs()).filter(function (v) {
+	        const temp = _(logs()).filter(function (v) {
 	            return ko.unwrap(v.message).toLowerCase().indexOf(text.toLowerCase()) > -1;
 	        });
 	        list(temp);

@@ -1,0 +1,58 @@
+{
+  "Mrn": "SG00479527101",
+  "FullName": "NG CHOI HA @ NG CHOY KEOW",
+  "Dob": "1934-07-12T00:00:00",
+  "Gender": "Female",
+  "Religion": "Others",
+  "Race": "Others",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "340712105056",
+  "PassportNo": "1157171",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "2,2A & 6 JALAN KRI 4",
+    "Street2": null,
+    "Postcode": "48000",
+    "City": "RAWANG",
+    "State": "SELANGOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 83,
+  "Income": 30444.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "340712105056",
+  "CreatedDate": "1951-08-04T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1953-07-03T00:00:00",
+  "WebId": "e2a930c6-ddea-4e0c-98c9-f4e7a84b3ba6"
+}

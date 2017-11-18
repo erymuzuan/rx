@@ -54,6 +54,9 @@
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\assembly.versions\subscribers-subscriber.workflowscheduler.cs">
+      <Link>subscribers-subscriber.workflowscheduler.cs</Link>
+    </Compile>
     <Compile Include="TaskHelper.cs" />
     <Compile Include="WorkflowSchedulerTriggerSubscriber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

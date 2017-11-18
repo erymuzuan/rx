@@ -1,0 +1,58 @@
+{
+  "Mrn": "OG00689505000",
+  "FullName": "CHAI KIM FAH @ CHAI YUN YEW",
+  "Dob": "1946-12-13T00:00:00",
+  "Gender": "Male",
+  "Religion": "Others",
+  "Race": "Others",
+  "RegisteredDate": "1948-11-01T00:00:00",
+  "IdentificationNo": "461213085127",
+  "PassportNo": "7639566",
+  "Nationality": "Malaysian",
+  "NextOfKin": {
+    "FullName": null,
+    "Relationship": null,
+    "MobilePhone": null,
+    "Email": null,
+    "Telephone": null,
+    "WebId": null
+  },
+  "HomeAddress": {
+    "Street": "26 JALAN SS 2/79",
+    "Street2": null,
+    "Postcode": "47300",
+    "City": "PETALING JAYA",
+    "State": "SELANGOR",
+    "Country": null,
+    "WebId": null
+  },
+  "Occupation": "",
+  "Status": "New",
+  "Age": 71,
+  "Income": 25907.0,
+  "Empty": null,
+  "Spouse": null,
+  "MaritalStatus": "Married",
+  "OldIC": null,
+  "DeathDate": null,
+  "OccupationStatus": null,
+  "Wife": {
+    "Name": null,
+    "Age": 0,
+    "WorkPlaceAddress": {
+      "Street1": null,
+      "Street2": null,
+      "State": null,
+      "Postcode": null,
+      "WebId": null
+    },
+    "WebId": null
+  },
+  "Ward": null,
+  "CreatedBy": "erymuzuan",
+  "Id": "461213085127",
+  "CreatedDate": "1913-11-26T00:00:00",
+  "ChangedBy": "azrol",
+  "ChangedDate": "1953-11-19T00:00:00",
+  "WebId": "d7150c3e-0df1-4dc9-a4ef-d9dfe09dd721"
+}
