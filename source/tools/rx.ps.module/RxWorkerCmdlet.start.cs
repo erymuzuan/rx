@@ -54,7 +54,7 @@ namespace Bespoke.Sph.RxPs
             var worker = Process.Start(info);
             WriteObject(new Worker
             {
-                Name = this.Name,
+                Name = name,
                 Configuration = this.Configuration,
                 Environment = this.Environment,
                 Pid = worker?.Id,
