@@ -1,7 +1,15 @@
-﻿define([objectbuilders.datacontext, objectbuilders.config, objectbuilders.logger],
+﻿/// <reference path="/Scripts/knockout-3.4.0.debug.js"/>
+/// <reference path="/Scripts/jquery-2.2.0.intellisense.js"/>
+/// <reference path="/Scripts/jquery-2.2.0.intellisense.js"/>
+/// <reference path="/SphApp/objectbuilders.js"/>
+/// <reference path="/SphApp/services/tracker.js"/>
+/// <reference path="~/Scripts/_task.js" />
+/// <reference path="~/Scripts/jquery.signalR-2.2.0.js" />
+
+define([objectbuilders.datacontext, objectbuilders.config, objectbuilders.logger],
   function (context, config, logger) {
 
-      var isBusy = ko.observable(false),
+      const isBusy = ko.observable(false),
         messages = ko.observableArray(),
         unread = ko.observable(),
         query = String.format("UserName eq '{0}' and IsRead eq 0", config.userName),
@@ -16,23 +24,23 @@
                   unread(lo.rows);
 
                   if (typeof $.connection !== "function") {
-                      return $.getScript("/scripts/jquery.signalR-2.1.2.min.js");
+                      return $.getScript("/scripts/jquery.signalR-2.2.0.min.js");
                   }
                   return Task.fromResult(true);
               });
 
         },
         getTimeSpan = function (m) {
-            var date = moment(ko.unwrap(m.CreatedDate), "YYYY-MM-DDTHH:mm.ss");
-            var ms = moment().diff(date);
-            var d = moment.duration(ms);
+            const date = moment(ko.unwrap(m.CreatedDate), "YYYY-MM-DDTHH:mm.ss");
+            const ms = moment().diff(date);
+            const d = moment.duration(ms);
             return d.humanize();
         },
         attached = function () {
 
             return activate()
             .done(function () {
-                var connection = $.connection("/signalr_message");
+                const connection = $.connection("/signalr_message");
 
                 connection.received(function (data) {
                     if (typeof data.unread === "number") {

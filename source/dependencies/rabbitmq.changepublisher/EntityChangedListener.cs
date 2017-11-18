@@ -90,8 +90,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
             }
 
-            if (null != this.Callback)
-                Callback(arg);
+            Callback?.Invoke(arg);
         }
 
         public Action<object> Callback { get; set; }
@@ -111,9 +110,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
         private AuditTrail GetLog(ReceivedMessageArgs args)
         {
-
-            var operationBytes = args.Properties.Headers["log"] as byte[];
-            if (null != operationBytes)
+            if (args.Properties.Headers["log"] is byte[] operationBytes)
             {
                 var json = ByteToString(operationBytes);
                 if (string.IsNullOrWhiteSpace(json)) return null;
