@@ -9,6 +9,7 @@ using System.Web.Http.Results;
 using System.Xml;
 using Bespoke.Sph.Domain;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.WebApi
 {
@@ -109,6 +110,19 @@ namespace Bespoke.Sph.WebApi
                     return Invalid(HttpStatusCode.BadRequest, "no callback funtion is defined in $callback");
             }
             var json = data.ToJson();
+            if (typeof(T) == typeof(string))
+            {
+                try
+                {
+                    JObject.Parse(data.ToEmptyString());
+                    json = data.ToEmptyString();
+                }
+                catch
+                { 
+                    // ignore
+                }
+            }
+
             var script = $@"{callback}({json})";
             var response = new JsonpResult(HttpStatusCode.OK, script);
             return response;
