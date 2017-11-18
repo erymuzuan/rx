@@ -31,6 +31,8 @@ namespace Bespoke.Sph.Mangements.Commands
                 Console.WriteLine("Cannot find EntityDefinition");
                 return;
             }
+            CopyFiles(ed);
+
             var migrationPlan = this.GetCommandValue<string>("plan");
             var nes = this.GetCommandValue<bool>("nes");
             var truncate = this.GetCommandValue<bool>("truncate");
@@ -41,6 +43,10 @@ namespace Bespoke.Sph.Mangements.Commands
             var batchSize = this.GetCommandValue<int?>("batch-size") ?? 1000;
             await deployment.BuildAsync(truncate, nes, batchSize, migrationPlan);
 
+        }
+
+        private void CopyFiles(EntityDefinition ed)
+        {
             var output = $"{ConfigurationManager.ApplicationName}.{ed.Name}";
             var web = $@"{ConfigurationManager.WebPath}\bin";
             var subscribers = ConfigurationManager.SubscriberPath;
@@ -51,8 +57,6 @@ namespace Bespoke.Sph.Mangements.Commands
 
                 File.Copy($@"{ConfigurationManager.CompilerOutputPath}\{output}.dll", $@"{subscribers}\{output}.dll", true);
                 File.Copy($@"{ConfigurationManager.CompilerOutputPath}\{output}.pdb", $@"{subscribers}\{output}.pdb", true);
-
-
             }
             catch (IOException ioe)
             {
@@ -60,7 +64,5 @@ namespace Bespoke.Sph.Mangements.Commands
                 WriteError(ioe.Message);
             }
         }
-
-
     }
 }
