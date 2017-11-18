@@ -7,7 +7,6 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.WebApi;
 using Humanizer;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Web.Controllers
 {

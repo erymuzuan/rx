@@ -7,7 +7,6 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Controllers;
 using Bespoke.Sph.Web.Hubs;
 using Microsoft.AspNet.SignalR;
-using Microsoft.Owin;
 using Owin;
 
 namespace Bespoke.Sph.Web.OwinMiddlewares

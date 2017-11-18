@@ -15,6 +15,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Web.Hubs
 {
+    //TODO : remove SQL Server and Elasticsearch concrete implementation and work with IRepository and IReadOnlyRepository 
     [Authorize(Roles = "developers,administrators")]
     public class DataImportHub : Hub
     {

@@ -28,8 +28,7 @@ namespace Bespoke.Sph.Web.Hubs
             if (string.IsNullOrWhiteSpace(user))
                 return Task.FromResult(0);
 
-            IList<string> connections;
-            if (m_connections.TryGetValue(user, out connections))
+            if (m_connections.TryGetValue(user, out var connections))
             {
                 var list = new List<string>(connections.ToArray()) { connectionId };
                 m_connections.TryUpdate(user, list, connections);
@@ -39,7 +38,7 @@ namespace Bespoke.Sph.Web.Hubs
                 m_connections.TryAdd(user, new List<string> { connectionId });
             }
 
-            return Connection.Send(connectionId, $"You are now connected to messaging connection");
+            return Connection.Send(connectionId, "You are now connected to messaging connection");
         }
 
         protected override Task OnDisconnected(IRequest request, string connectionId, bool stopCalled)
@@ -47,8 +46,7 @@ namespace Bespoke.Sph.Web.Hubs
             var user = request?.User?.Identity?.Name;
             if (string.IsNullOrWhiteSpace(user))
                 return base.OnDisconnected(request, connectionId, stopCalled);
-            IList<string> connections;
-            if (m_connections.TryGetValue(user, out connections))
+            if (m_connections.TryGetValue(user, out var connections))
             {
                 var list = new List<string>(connections);
                 list.Remove(connectionId);
@@ -59,8 +57,7 @@ namespace Bespoke.Sph.Web.Hubs
 
         private async void ListenerChanged(object sender, EntityChangedEventArgs<Message> e)
         {
-            IList<string> connections;
-            if (!m_connections.TryGetValue(e.Item.UserName, out connections)) return;
+            if (!m_connections.TryGetValue(e.Item.UserName, out var connections)) return;
             if (connections.Count == 0) return;
 
             var context = new SphDataContext();
