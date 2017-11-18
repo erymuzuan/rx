@@ -1,10 +1,12 @@
-﻿Param(
+﻿[CmdLetBinding()]
+Param(
        [string[]] $Destinations,
        [string]$ProductName = "Rx Developer"
      )
 
      
 function Get-ProductName {
+[CmdLetBinding()]
   param(
     [Parameter(Mandatory=$true)]
     [System.IO.FileInfo]$File
@@ -19,7 +21,8 @@ function Get-ProductName {
     
 }
 function Get-FileVersion{
-  param(
+  [CmdLetBinding()]
+param(
     [Parameter(Mandatory=$true)]
     [System.IO.FileInfo]$File
   )
@@ -35,7 +38,8 @@ function Get-FileVersion{
 }
 
 function Get-FileRevision{
-  param(
+  [CmdLetBinding()]
+param(
     [Parameter(Mandatory=$true)]
     [System.IO.FileInfo]$File
   )
@@ -50,7 +54,8 @@ function Get-FileRevision{
 
 
 function Get-FileCommitHash{
-  param(
+  [CmdLetBinding()]
+param(
     [Parameter(Mandatory=$true)]
     [System.IO.FileInfo]$File
   )
@@ -67,33 +72,32 @@ function Get-FileCommitHash{
 
 
 $latest = @{}
+$count = 0;
 
-ls -Path .\source, .\bin -Recurse -Filter *.dll | % {
+ls -Path .\source, .\bin -Recurse -Include *.dll,*.exe -Exclude System.*, Microsoft.* | % {
     $pn = Get-ProductName($_)
-    if($pn -ne $ProductName){
-        #Write-Host $_.Name $pn        
-        return
-    }
-
-    $rev =Get-FileRevision($_)
-    if($rev -eq $null){
-        continue;
-    }
-
-    if($latest.ContainsKey($_.Name)){
-        $last = $latest[$_.Name];
-        if($rev -gt $last){
-            $latest[$_.Name] = $rev
-        }            
-    }else{         
-        $latest.Add($_.Name, $rev)  
+    if($pn -eq $ProductName){    
+        $rev =Get-FileRevision($_)
+        if($rev -ne $null){
+        
+            Write-Host ($count = $count + 1)            
+            if($latest.ContainsKey($_.Name)){
+                $last = $latest[$_.Name];
+                if($rev -gt $last){
+                    $latest[$_.Name] = $rev
+                }            
+            }else{         
+                $latest.Add($_.Name, $rev)  
+            }
+        }    
+    
     }    
 
 }
 
 Write-Output $latest
 
-ls -Path .\source,.\bin -Recurse -Filter *.dll | % {
+ls -Path .\source,.\bin -Recurse -Include *.dll,*.exe -Exclude System.*, Microsoft.* | % {
     $vi = $_.VersionInfo
     if($vi -eq $null){
         continue;
@@ -110,11 +114,19 @@ ls -Path .\source,.\bin -Recurse -Filter *.dll | % {
       
        
        foreach($folder in $Destinations){            
-            #Write-Host "Deploying to $folder" 
-            $deployedRev = Get-FileRevision((ls "$folder\$dll"))
+            #Write-Host "Deploying to $folder"
+            $deployedRev = 0;
+            if( Test-Path("$folder\$dll")){                
+                $deployedRev = Get-FileRevision((ls "$folder\$dll"))
+            }
             if($deployedRev -lt $rev){
                 Write-Host "Overriding $dll REV : $deployedRev with REV: $rev" 
                 $_ | Copy-Item -Destination $folder -Force
+
+                $pdb = $_.DirectoryName + "\" + [System.IO.Path]::GetFileNameWithoutExtension($_.FullName) + ".pdb";
+                if(Test-Path($pdb)){
+                    Copy-Item $pdb -Destination $folder -Force
+                }
             }
         }
         
