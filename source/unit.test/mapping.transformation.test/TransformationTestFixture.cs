@@ -159,7 +159,7 @@ namespace mapping.transformation.test
         [TestMethod]
         public async Task OracleEmployeeToEntityCustomer()
         {
-            var customerType = Assembly.LoadFrom(@".\DevV1.Customer.dll").GetType("Bespoke.Dev_1.Domain.Customer");
+            var customerType = Assembly.LoadFrom($@"{ConfigurationManager.CompilerOutputPath}\DevV1.Customer.dll").GetType("Bespoke.DevV1.Customers.Domain.Customer");
             var oracleEmployeeType = Assembly.LoadFrom(@".\DevV1.HR_EMPLOYEES.dll").GetType("DevV1.Adapters.HR.EMPLOYEES");
 
             dynamic staff = Activator.CreateInstance(oracleEmployeeType);
@@ -373,7 +373,7 @@ namespace mapping.transformation.test
         public async Task ParseDateMapping()
         {
             var customerType = Assembly.LoadFrom($@"{ConfigurationManager.CompilerOutputPath}\DevV1.Customer.dll").GetType("Bespoke.DevV1.Customers.Domain.Customer");
-            var oracleEmployeeType = Assembly.LoadFrom(@".\DevV1.HR_EMPLOYEES.dll").GetType("DevV1.Adapters.HR.EMPLOYEES");
+            var oracleEmployeeType = Assembly.LoadFrom($@"{ConfigurationManager.CompilerOutputPath}\DevV1.HR_EMPLOYEES.dll").GetType("DevV1.Adapters.HR.EMPLOYEES");
 
             dynamic staff = Activator.CreateInstance(oracleEmployeeType);
             staff.EMAIL = "erymuzuan@hotmail.com";
