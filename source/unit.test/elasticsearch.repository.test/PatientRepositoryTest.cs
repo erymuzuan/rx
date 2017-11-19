@@ -11,9 +11,9 @@ using Xunit.Abstractions;
 
 namespace Bespoke.Sph.Tests.Elasticsearch
 {
-    [Trait("Category", "Repository<T>")]
-    [Collection("Repository")]
-    public class PatientRepositoryTest : IClassFixture<ElasticsearchServerFixture>
+    [Trait("Category", "Elasticsearch Server")]
+    [Collection(ElasticsearchServerCollection.ELASTICSEARCH_COLLECTION)]
+    public class PatientRepositoryTest
     {
         public ElasticsearchServerFixture Fixture { get; }
         private ITestOutputHelper Console { get; }

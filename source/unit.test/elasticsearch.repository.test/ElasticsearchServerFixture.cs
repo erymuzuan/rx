@@ -5,6 +5,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.ElasticsearchRepository;
 using Bespoke.Sph.Extensions;
 using Newtonsoft.Json.Linq;
+using Xunit;
 
 namespace Bespoke.Sph.Tests.Elasticsearch
 {
@@ -48,5 +49,14 @@ namespace Bespoke.Sph.Tests.Elasticsearch
         }
 
         public HttpClient Client { get; private set; }
+    }
+
+    [CollectionDefinition(ELASTICSEARCH_COLLECTION)]
+    public class ElasticsearchServerCollection : ICollectionFixture<ElasticsearchServerFixture>
+    {
+        public const string ELASTICSEARCH_COLLECTION = "Elasticsearch collection";
+        // This class has no code, and is never created. Its purpose is simply
+        // to be the place to apply [CollectionDefinition] and all the
+        // ICollectionFixture<> interfaces.
     }
 }
