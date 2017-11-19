@@ -17,6 +17,40 @@ namespace Bespoke.Sph.QueryParserTests
 
 
         [Fact]
+        public void Range()
+        {
+            var text = @"{
+                ""query"": {
+                    ""range"": {
+                        ""time"": {
+                            ""from"": ""2017-01-01"",
+                            ""to"": ""2017-01-10""
+                        }
+                    }
+                },
+                ""aggs"": {
+                    ""path"": {
+                        ""terms"": { ""field"": ""request.path.raw"" }
+                    }
+                },
+                ""fields"": [],
+                ""from"": 0,
+                ""size"": 1
+            }";
+            var query = new QueryParser().Parse(text);
+
+            Assert.Equal(2, query.Filters.Count);
+            var @from = query.Filters.Single(x => x.Operator == Operator.Ge);
+            Assert.Equal("time", @from.Term);
+            Assert.Equal("\"2017-01-01\"", @from.Field.GetValue(default));
+
+            var to = query.Filters.Single(x => x.Operator == Operator.Le);
+            Assert.Equal("time", to.Term);
+            Assert.Equal("\"2017-01-10\"", to.Field.GetValue(default));
+            
+        }
+
+        [Fact]
         public void Term()
         {
             var text = @"{

@@ -46,8 +46,8 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
             var list = new List<Filter>();
             if (c.Value.First is JProperty jp && jp.First is JObject range)
             {
-                var lte = range.GetTokenValue("lte");
-                var gte = range.GetTokenValue("gte");
+                var lte = range.GetTokenValue("lte") ?? range.GetTokenValue("to");
+                var gte = range.GetTokenValue("gte") ?? range.GetTokenValue("from");
                 var gt  = range.GetTokenValue("gt");
                 var lt  = range.GetTokenValue("lt");
 
