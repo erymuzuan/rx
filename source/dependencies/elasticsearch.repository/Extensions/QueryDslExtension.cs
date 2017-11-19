@@ -11,14 +11,22 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
         {
 
             var elements = new Dictionary<string, object>();
-            if (query.Filters.Any())
-                elements.Add("filter", entity.CompileToElasticsearchBoolQuery(query.Filters.ToArray()));
-            if (query.Filters.Any())
+
+            var hasFilters = query.Filters.Any();
+            if (hasFilters)
             {
+                if (query.Aggregates.Any())
+                    elements.Add("query", entity.CompileToElasticsearchBoolQuery(query.Filters.ToArray()));
+
+                if (!query.Aggregates.Any())
+                    elements.Add("filter", entity.CompileToElasticsearchBoolQuery(query.Filters.ToArray()));
+
                 var fullText = entity.CompileToElasticsearchFullTextQuery(query.Filters.ToArray());
                 if (!string.IsNullOrWhiteSpace(fullText))
-                    elements.Add("query", fullText);
+                    elements.AddOrReplace("query", fullText);
             }
+
+
             if (query.Sorts.Any())
                 elements.Add("sort", "[" + query.Sorts.ToString(",", x => x.GenerateQuery()) + "]");
 
