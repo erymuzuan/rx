@@ -46,19 +46,19 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
             var list = new List<Filter>();
             if (c.Value.First is JProperty jp && jp.First is JObject range)
             {
-                var lte = range.GetTokenValue<int?>("lte");
-                var gte = range.GetTokenValue<int?>("gte");
-                var gt = range.GetTokenValue<int?>("gt");
-                var lt = range.GetTokenValue<int?>("lt");
+                var lte = range.GetTokenValue("lte");
+                var gte = range.GetTokenValue("gte");
+                var gt  = range.GetTokenValue("gt");
+                var lt  = range.GetTokenValue("lt");
 
                 if (null != gt)
-                    list.Add(new Filter(jp.Name, Operator.Gt, gt.Value));
+                    list.Add(new Filter(jp.Name, Operator.Gt, gt));
                 if (null != lt)
-                    list.Add(new Filter(jp.Name, Operator.Lt, lt.Value));
+                    list.Add(new Filter(jp.Name, Operator.Lt, lt));
                 if (null != lte)
-                    list.Add(new Filter(jp.Name, Operator.Le, lte.Value));
+                    list.Add(new Filter(jp.Name, Operator.Le, lte));
                 if (null != gte)
-                    list.Add(new Filter(jp.Name, Operator.Ge, gte.Value));
+                    list.Add(new Filter(jp.Name, Operator.Ge, gte));
             }
 
 

@@ -12,17 +12,23 @@
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.app, "knockout"],
     function (context, logger, router, app, ko) {
 
-        var isBusy = ko.observable(false),
+        const isBusy = ko.observable(false),
             results = ko.observableArray(),
             from = ko.observable(moment().subtract(1, "day").format("YYYY-MM-DD")),
             to = ko.observable(moment().add(1, "day").format("YYYY-MM-DD")),
             query = {
                 "query": {
-                    "range": {
-                        "time": {
-                            "from": from,
-                            "to": to
-                        }
+                    "bool": {
+                        "must": [
+                            {
+                                "range": {
+                                    "time": {
+                                        "gte": from,
+                                        "lte": to
+                                    }
+                                }
+                            }
+                        ]
                     }
                 },
                 "aggs": {
