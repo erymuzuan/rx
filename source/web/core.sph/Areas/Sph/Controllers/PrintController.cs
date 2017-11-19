@@ -18,22 +18,12 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Name == entity);
             var form = await context.LoadOneAsync<EntityForm>(f => f.EntityDefinitionId == ed.Id && f.IsDefault == true);
             vm.FormDesign = form.FormDesign;
+            
 
+            var resolved = ObjectBuilder.GetObject<ICustomEntityDependenciesResolver>()
+                .ResolveRepository(ed);
+            var item = await resolved.Implementation.LoadOneAsync(id);
 
-
-            var sqlAssembly = Assembly.Load("sql.repository");
-            var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
-
-            var edAssembly = Assembly.Load($"{ConfigurationManager.ApplicationName}.{ed.Name}");
-            var edTypeName = $"{ed.CodeNamespace}.{ed.Name}";
-            var edType = edAssembly.GetType(edTypeName);
-            if (null == edType)
-                Console.WriteLine("Cannot create type " + edTypeName);
-
-
-            var reposType = sqlRepositoryType.MakeGenericType(edType);
-            dynamic repository = Activator.CreateInstance(reposType);
-            var item = await repository.LoadOneAsync(id);
 
             vm.Item = item;
             vm.Name = item.ToString();

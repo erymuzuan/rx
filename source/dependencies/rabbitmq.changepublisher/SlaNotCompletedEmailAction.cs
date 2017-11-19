@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 
@@ -75,21 +74,12 @@ namespace Bespoke.Sph.RabbitMqPublisher
             var context = new SphDataContext();
 
             var ed = context.LoadOne<EntityDefinition>(x => x.Name == entityName);
-            var sqlAssembly = Assembly.Load("sql.repository");
-            var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
+            var resolved = ObjectBuilder.GetObject<ICustomEntityDependenciesResolver>()
+                .ResolveRepository(ed);
 
-            var edAssembly = Assembly.Load($"{ConfigurationManager.ApplicationName}.{ed.Name}");
-            var edTypeName = $"{ed.CodeNamespace}.{ed.Name}";
-            var edType = edAssembly.GetType(edTypeName);
-            if (null == edType)
-                Console.WriteLine(@"Cannot create type " + edTypeName);
+            m_entityRepositories.TryAdd(entityName, resolved.Implementation);
 
-            var reposType = sqlRepositoryType.MakeGenericType(edType);
-            dynamic repository = Activator.CreateInstance(reposType);
-
-            m_entityRepositories.TryAdd(entityName, repository);
-
-            return repository;
+            return resolved.Implementation;
         }
     }
 }

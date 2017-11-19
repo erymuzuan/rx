@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -127,8 +126,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         public Task RegisterCustomEntityDependencies()
         {
-            var sqlAssembly = Assembly.Load("sql.repository");
-            var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
 
             var context = new SphDataContext();
             var entityDefinitions = context.LoadFromSources<EntityDefinition>(x => x.IsPublished);
@@ -137,19 +134,12 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             var bags = new ConcurrentDictionary<Type, object>();
             Parallel.ForEach(entityDefinitions, (ed, count) =>
             {
-                var ed1 = ed;
+
                 try
                 {
-                    var edAssembly = Assembly.Load($"{ConfigurationManager.ApplicationName}.{ed1.Name}");
-                    var edType = edAssembly.GetType(ed.TypeName);
-                    if (null == edType)
-                        Console.WriteLine("Cannot create type " + ed.TypeName);
-
-                    var reposType = sqlRepositoryType.MakeGenericType(edType);
-                    var repository = Activator.CreateInstance(reposType);
-
-                    var ff = typeof(IRepository<>).MakeGenericType(edType);
-                    bags.AddOrReplace(ff, repository);
+                    var resolved = ObjectBuilder.GetObject<ICustomEntityDependenciesResolver>()
+                        .ResolveRepository(ed);
+                    bags.TryAdd(resolved.DependencyType, resolved.Implementation);
                 }
                 catch (FileLoadException e)
                 {

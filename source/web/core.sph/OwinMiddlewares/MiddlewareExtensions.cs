@@ -2,7 +2,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Controllers;
 using Bespoke.Sph.Web.Hubs;
@@ -69,36 +68,19 @@ namespace Bespoke.Sph.Web.OwinMiddlewares
 
         public static IAppBuilder RegisterCustomEntityDependencies(this IAppBuilder app)
         {
+            var resolver = ObjectBuilder.GetObject<ICustomEntityDependenciesResolver>();
             var context = new SphDataContext();
             var list = context.LoadFromSources<EntityDefinition>(x => x.IsPublished).ToList();
-            var sqlAssembly = Assembly.Load("sql.repository");
-            var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
-
-            // TODO : use the RepositoryFactory or providers for custom entity
-            var esAssembly = Assembly.Load("elasticsearch.repository");
-            var esRepositoryType = esAssembly.GetType("Bespoke.Sph.ElasticsearchRepository.ReadOnlyRepository`1");
 
             foreach (var ed in list)
             {
-                var ed1 = ed;
                 try
                 {
-                    var edAssembly = Assembly.Load($"{ConfigurationManager.ApplicationName}.{ed1.Name}");
-                    var edTypeName = $"{ed1.CodeNamespace}.{ed1.Name}";
-                    var edType = edAssembly.GetType(edTypeName);
-                    if (null == edType)
-                        Console.WriteLine("Cannot create type " + edTypeName);
+                    var repos = resolver.ResolveRepository(ed);
+                    ObjectBuilder.AddCacheList(repos.DependencyType, repos.Implementation);
 
-                    var reposType = sqlRepositoryType.MakeGenericType(edType);
-                    var repository = Activator.CreateInstance(reposType);
-                    var ff = typeof(IRepository<>).MakeGenericType(edType);
-                    ObjectBuilder.AddCacheList(ff, repository);
-
-
-                    var esReposType = esRepositoryType.MakeGenericType(edType);
-                    var readonlyRepository = Activator.CreateInstance(esReposType);
-                    var rf = typeof(IReadOnlyRepository<>).MakeGenericType(edType);
-                    ObjectBuilder.AddCacheList(rf, readonlyRepository);
+                    var readOnly = resolver.ResolveReadOnlyRepository(ed);
+                    ObjectBuilder.AddCacheList(readOnly.DependencyType, readOnly.Implementation);
                 }
                 catch (FileNotFoundException e)
                 {

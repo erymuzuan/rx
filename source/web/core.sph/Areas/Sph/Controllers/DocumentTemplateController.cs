@@ -1,5 +1,4 @@
 using System;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -81,19 +80,9 @@ namespace Bespoke.Sph.Web.Controllers
             if (!buildValidation.Result)
                 return Json(buildValidation);
 
-            var sqlAssembly = Assembly.Load("sql.repository");
-            var sqlRepositoryType = sqlAssembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
-
-            var edAssembly = Assembly.Load(ConfigurationManager.ApplicationName + "." + ed.Name);
-            var edTypeName = $"{ed.CodeNamespace}.{ed.Name}";
-            var edType = edAssembly.GetType(edTypeName);
-            if (null == edType)
-                Console.WriteLine("Cannot create type " + edTypeName);
-
-
-            var reposType = sqlRepositoryType.MakeGenericType(edType);
-            dynamic repository = Activator.CreateInstance(reposType);
-            var item = await repository.LoadOneAsync(itemId);
+            var resolved = ObjectBuilder.GetObject<ICustomEntityDependenciesResolver>()
+                .ResolveRepository(ed);
+            var item = await resolved.Implementation.LoadOneAsync(itemId);
 
             var file = System.IO.Path.GetTempFileName() + ".docx";
             var store = ObjectBuilder.GetObject<IBinaryStore>();
@@ -104,7 +93,7 @@ namespace Bespoke.Sph.Web.Controllers
             wordGen.Generate(file, item);
 
 
-            return File(System.IO.File.ReadAllBytes(file), MimeMapping.GetMimeMapping(file), string.Format("{0}.{1}.docx", template.Name, item.Id));
+            return File(System.IO.File.ReadAllBytes(file), MimeMapping.GetMimeMapping(file),$"{template.Name}.{item.Id}.docx");
 
         }
     }

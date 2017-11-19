@@ -312,6 +312,8 @@
     <Compile Include="Codes\AssemblyInfoClass.cs" />
     <Compile Include="ConsoleLogger.cs" />
     <Compile Include="Core\DictionaryExtensions.cs" />
+    <Compile Include="Core\GenericCustomEntityDependenciesResolver.cs" />
+    <Compile Include="Core\ICustomEntityDependenciesResolver.cs" />
     <Compile Include="Core\TypeExtensions.cs" />
     <Compile Include="diagnostics\FormDeleteOperationDiagnostics.cs" />
     <Compile Include="diagnostics\FormOperationDiagnostics.cs" />
