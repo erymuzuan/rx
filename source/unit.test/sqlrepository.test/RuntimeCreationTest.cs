@@ -1,36 +1,34 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using Bespoke.Sph.Domain;
-using NUnit.Framework;
+using Xunit;
 
 namespace sqlrepository.test
 {
-    [TestFixture]
     public class RuntimeCreationTest
     {
-        [Test]
+        [Fact]
         public void Create()
         {
             var assembly = Assembly.Load("sql.repository");
-            Assert.IsNotNull(assembly,"Assembly is null");
+            Assert.NotNull(assembly);
 
             var sql = assembly.GetType("Bespoke.Sph.SqlRepository.SqlRepository`1");
-            Assert.IsNotNull(sql, "SqlRepository<T> is null");
+            Assert.NotNull(sql);
 
             var ce = typeof (Designation);
 
             var reposType = sql.MakeGenericType(ce);
-            Assert.IsNotNull(reposType);
+            Assert.NotNull(reposType);
             var repository = Activator.CreateInstance(reposType);
-            Assert.IsNotNull(repository);
+            Assert.NotNull(repository);
 
             var ff = typeof(IRepository<>).MakeGenericType(new[] { ce });
 
             ObjectBuilder.AddCacheList(ff, repository);
 
             var dep = ObjectBuilder.GetObject(ff);
-            Assert.IsNotNull(dep);
+            Assert.NotNull(dep);
 
         }
     }
