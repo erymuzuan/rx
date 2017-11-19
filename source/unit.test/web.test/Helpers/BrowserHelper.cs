@@ -4,10 +4,10 @@ using System.Linq.Expressions;
 using System.Threading;
 using Castle.Core.Internal;
 using Humanizer;
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
+using Xunit;
 
 namespace Bespoke.Sph.WebTests.Helpers
 {
@@ -16,7 +16,7 @@ namespace Bespoke.Sph.WebTests.Helpers
 
         public static IWebDriver NavigateToUrl(this IWebDriver driver, string url, TimeSpan wait = new TimeSpan())
         {
-            driver.Navigate().GoToUrl(BrowserTest.BaseUrl + url);
+            driver.Navigate().GoToUrl(RxIdeFixture.BaseUrl + url);
             return driver.Sleep(wait);
         }
 
@@ -127,7 +127,7 @@ namespace Bespoke.Sph.WebTests.Helpers
         public static IWebDriver ExecuteScript(this IWebDriver driver, string script)
         {
             var jse = driver as IJavaScriptExecutor;
-            Console.WriteLine(" execute scripts : " + script);
+            Console.WriteLine(@" execute scripts : " + script);
             jse?.ExecuteScript(script);
 
             return driver;
@@ -211,7 +211,7 @@ $"There's only {elements.Count} elements for {selector} selector");
         {
             var elements = driver.FindElements(By.CssSelector(selector)).AsQueryable();
             var ele = elements.SingleOrDefault(assert);
-            Assert.IsTrue(null != ele, message);
+            Assert.True(null != ele, message);
             return driver;
         }
 
@@ -309,36 +309,45 @@ $"There's only {elements.Count} elements for {selector} selector");
         public static IWebDriver Wait(this IWebDriver driver, int miliseconds, string message = "")
         {
             Console.WriteLine("Wait {0} : {1}", miliseconds, message);
-            driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMilliseconds(miliseconds));
+            //driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMilliseconds(miliseconds));
+            Thread.Sleep(TimeSpan.FromMilliseconds(miliseconds));
             return driver;
         }
         public static IWebDriver Wait(this IWebDriver driver, TimeSpan span, string message = "")
         {
             Console.WriteLine("Wait {0} : {1}", span, message);
-            driver.Manage().Timeouts().ImplicitlyWait(span);
+            //driver.Manage().Timeouts().ImplicitlyWait(span);
+            Thread.Sleep(span);
             return driver;
         }
         public static IWebDriver WaitUntil(this IWebDriver driver, By by, TimeSpan span, string message = "")
         {
-            Console.WriteLine("Wait {0} : {1}", span, message);
-            driver.Manage().Timeouts().ImplicitlyWait(span);
-            var wait = new WebDriverWait(driver, span);
-            wait.Until(d => d.FindElement(by));
+            Console.WriteLine(@"Wait {0} : {1}", span, message);
+            var waited = 0;
+            while (driver.FindElement(by) == null && waited > span.TotalMilliseconds)
+            {
+                Thread.Sleep(250);
+                waited += 250;
+            }
 
             return driver;
         }
-        public static IWebDriver WaitUntil(this IWebDriver driver,string selector, double seconds = 2, string message = "")
+        public static IWebDriver WaitUntil(this IWebDriver driver, string selector, double seconds = 2, string message = "")
         {
-            Console.WriteLine("Wait {0} : {1}", seconds, message);
-            driver.Manage().Timeouts().ImplicitlyWait(seconds.Seconds());
-            var wait = new WebDriverWait(driver, seconds.Seconds());
-            wait.Until(d => d.FindElement(By.CssSelector(selector)));
+            Console.WriteLine($@"Wait {seconds} {"second".ToQuantity(Convert.ToInt32(seconds))} : {message}");
 
+            var waited = 0d;
+            var by = By.CssSelector(selector);
+            while (driver.FindElement(by) == null && waited > TimeSpan.FromSeconds(seconds).TotalMilliseconds)
+            {
+                Thread.Sleep(250);
+                waited += 250;
+            }
             return driver;
         }
         public static IWebDriver Sleep(this IWebDriver driver, int miliseconds, string message = "")
         {
-            Console.WriteLine("Sleep {0} : {1}", miliseconds, message);
+            Console.WriteLine($@"Sleep {miliseconds} : {message}");
             Thread.Sleep(miliseconds);
             return driver;
         }

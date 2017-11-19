@@ -1,12 +1,11 @@
 ﻿using System.Web.Security;
-using NUnit.Framework;
+using Xunit;
 
 namespace Bespoke.Sph.WebTests.Helpers
 {
-    [TestFixture]
     public class MembershipAndRoles
     {
-        [Test]
+        [Fact]
         public void AddRoles()
         {
             var roles = new string[] {"developers", "administrators"};
