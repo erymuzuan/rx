@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Bespoke.Sph.WebTests.Helpers
 {
-    public static class BrowserHelper
+    public static class DriverExtension
     {
 
         public static IWebDriver NavigateToUrl(this IWebDriver driver, string url, TimeSpan wait = new TimeSpan())
@@ -177,7 +177,7 @@ $"There's only {elements.Count} elements for {selector} selector");
             }
             catch
             {
-                Console.WriteLine("Error executing click on {0}", selector);
+                Console.WriteLine($@"Error executing click on {selector}");
                 throw;
             }
         }
@@ -201,7 +201,7 @@ $"There's only {elements.Count} elements for {selector} selector");
             }
             catch
             {
-                Console.WriteLine("Error executing click on {0}", selector);
+                Console.WriteLine($@"Error executing click on {selector}");
                 throw;
             }
         }
@@ -222,7 +222,7 @@ $"There's only {elements.Count} elements for {selector} selector");
             if (null != ele)
                 ele.Click();
             else
-                Console.WriteLine("Cannot find element {0} : {1}", selector, filter);
+                Console.WriteLine($@"Cannot find element {selector} : {filter}");
             return driver.Sleep(wait);
         }
 
@@ -233,11 +233,11 @@ $"There's only {elements.Count} elements for {selector} selector");
             var ele = elements.LastOrDefault(filter);
             if (null != ele)
             {
-                Console.WriteLine("Clicking last on :{0}", ele.Text);
+                Console.WriteLine($@"Clicking last on :{ele.Text}");
                 ele.Click();
             }
             else
-                Console.WriteLine("Cannot find element {0} : {1}", selector, filter);
+                Console.WriteLine($@"Cannot find element {selector} : {filter}");
             return driver;
         }
         public static IWebDriver ClickAll(this IWebDriver driver, string selector, Expression<Func<IWebElement, bool>> filter)
@@ -245,11 +245,7 @@ $"There's only {elements.Count} elements for {selector} selector");
             var elements = driver.FindElements(By.CssSelector(selector)).AsQueryable();
             elements.Where(filter).ForEach(e =>
                 {
-                    Console.WriteLine("Click on #{0}[name='{1}'][class='{2}']<{3}>"
-                        , e.GetAttribute("id")
-                        , e.GetAttribute("name")
-                        , e.GetAttribute("class")
-                        , e.Text);
+                    Console.WriteLine($@"Click on #{e.GetAttribute("id")}[name='{e.GetAttribute("name")}'][class='{e.GetAttribute("class")}']<{e.Text}>");
                     e.Click();
                 });
             return driver;
@@ -266,7 +262,7 @@ $"There's only {elements.Count} elements for {selector} selector");
             if (null != ele)
                 ele.Click();
             else
-                Console.WriteLine("Cannot find element {0} : {1}", selector, filter);
+                Console.WriteLine($@"Cannot find element {selector} : {filter}");
             return driver;
         }
 
@@ -277,7 +273,7 @@ $"There's only {elements.Count} elements for {selector} selector");
             if (null != ele)
                 ele.Click();
             else
-                Console.WriteLine("Cannot find element {0} : {1}", selector, filter);
+                Console.WriteLine($@"Cannot find element {selector} : {filter}");
             return driver;
         }
 
@@ -308,15 +304,13 @@ $"There's only {elements.Count} elements for {selector} selector");
 
         public static IWebDriver Wait(this IWebDriver driver, int miliseconds, string message = "")
         {
-            Console.WriteLine("Wait {0} : {1}", miliseconds, message);
-            //driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMilliseconds(miliseconds));
-            Thread.Sleep(TimeSpan.FromMilliseconds(miliseconds));
+            Console.WriteLine($@"Wait {"milisecond".ToQuantity(miliseconds)} : {message}");
+            Thread.Sleep(miliseconds.Milliseconds());
             return driver;
         }
         public static IWebDriver Wait(this IWebDriver driver, TimeSpan span, string message = "")
         {
-            Console.WriteLine("Wait {0} : {1}", span, message);
-            //driver.Manage().Timeouts().ImplicitlyWait(span);
+            Console.WriteLine($@"Wait {span} : {message}");
             Thread.Sleep(span);
             return driver;
         }
@@ -353,7 +347,7 @@ $"There's only {elements.Count} elements for {selector} selector");
         }
         public static IWebDriver Sleep(this IWebDriver driver, TimeSpan span, string message = "")
         {
-            Console.WriteLine("Sleep {0} : {1}", span, message);
+            Console.WriteLine($@"Sleep {span} : {message}");
             Thread.Sleep(span);
             return driver;
         }

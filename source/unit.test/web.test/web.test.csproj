@@ -96,7 +96,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Helpers\TestHelper.cs" />
-    <Compile Include="Helpers\BrowserHelper.cs" />
+    <Compile Include="Helpers\DriverExtension.cs" />
     <Compile Include="Helpers\MembershipAndRoles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\SqlPersistenceHelper.cs" />
