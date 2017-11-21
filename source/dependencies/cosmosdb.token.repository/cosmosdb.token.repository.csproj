@@ -7,7 +7,7 @@
     <ProjectGuid>{FD4FB9DF-DC56-460D-9F35-54EA79BFB496}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bespoke.Sph.CosmosRepository</RootNamespace>
+    <RootNamespace>Bespoke.Sph.CosmosDbRepository</RootNamespace>
     <AssemblyName>cosmosdb.token.repository</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -51,6 +51,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\dependencies-cosmosdb.token.repository.cs">
+      <Link>dependencies-cosmosdb.token.repository.cs</Link>
+    </Compile>
+    <Compile Include="Extensions\JTokenExtension.cs" />
     <Compile Include="TokenRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -71,7 +75,9 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(TargetDir)$(TargetName).dll $(SolutionDir)source\web\web.sph\bin
-copy $(TargetDir)$(TargetName).pdb $(SolutionDir)source\web\web.sph\bin</PostBuildEvent>
+copy $(TargetDir)$(TargetName).pdb $(SolutionDir)source\web\web.sph\bin
+
+copy $(TargetDir)Microsoft.Azure.*.dll $(SolutionDir)source\web\web.sph\bin</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\..\..\packages\Microsoft.Azure.DocumentDB.1.19.1\build\Microsoft.Azure.DocumentDB.targets" Condition="Exists('..\..\..\packages\Microsoft.Azure.DocumentDB.1.19.1\build\Microsoft.Azure.DocumentDB.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

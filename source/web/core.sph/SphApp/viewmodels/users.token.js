@@ -25,7 +25,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return app.showMessage("Are you sure you want to revoke this token, This action cannot be undone", "Reactive Develeoper", ["Yes", "No"])
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
-                            $.ajax({ type: "DELETE", url: `/api/auth-tokens/${ko.unwrap(v.sub)}` })
+                            $.ajax({ type: "DELETE", url: `/api/auth-tokens/${ko.unwrap(v.WebId)}` })
                                     .done(function () {
                                         logger.info("The token has been succesfully revoked");
                                         tokens.remove(v);
