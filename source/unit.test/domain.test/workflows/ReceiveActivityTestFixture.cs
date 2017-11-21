@@ -79,7 +79,7 @@ namespace domain.test.workflows
             dynamic patient = Activator.CreateInstance(patientType);
             patient.Mrn = "784529";
 
-            Assert.Equal("".GetType(), typeof(string));
+            Assert.Equal(typeof(string), "".GetType());
             //Assert.Equal(patient.GetType(), wf.patient.GetType());
             await wf.RegisterPatientAsync(patient);
             Assert.Equal(patient.Mrn, wf.patient.Mrn);
@@ -151,7 +151,7 @@ namespace domain.test.workflows
             patient.Mrn = "784529";
             patient.FullName = "Adam";
 
-            Assert.Equal("".GetType(), typeof(string));
+            Assert.Equal(typeof(string), "".GetType());
             Assert.Equal(patient.GetType(), wf.pesakit.GetType());
             await wf.RegisterAsync(patient);
             Assert.Equal(patient.Mrn, wf.pesakit.Mrn);
@@ -182,7 +182,7 @@ namespace domain.test.workflows
 
             var br = wd.ValidateBuild();
             br.Errors.ForEach(e => Console.WriteLine(e.Message));
-            Assert.Equal(false, br.Result);
+            Assert.False(br.Result);
 
         }
 
@@ -255,7 +255,7 @@ namespace domain.test.workflows
             dynamic patient = Activator.CreateInstance(patientType);
             patient.Mrn = "784529";
 
-            Assert.Equal("".GetType(), typeof(string));
+            Assert.Equal(typeof(string), "".GetType());
             Assert.Equal(patient.GetType(), wf.patient.GetType(), "Type should be the same");
             await wf.RegisterPatientAsync(patient);
             Assert.Equal(patient.Mrn, wf.patient.Mrn);

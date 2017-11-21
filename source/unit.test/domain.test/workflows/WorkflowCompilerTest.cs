@@ -20,7 +20,7 @@ namespace domain.test.workflows
             var result =await this.CompileAsync(wd, true, assertError: false);
 
             Assert.False(result.Result);
-            Assert.Equal(1, result.Errors.Count);
+            Assert.Single(result.Errors);
             Assert.Contains("; expected", result.Errors[0].Message);
             Assert.Contains(exp.Expression, result.Errors[0].Code);
             Assert.Equal(exp.WebId, result.Errors[0].ItemWebId);

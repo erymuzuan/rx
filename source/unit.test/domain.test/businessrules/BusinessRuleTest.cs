@@ -82,7 +82,7 @@ namespace domain.test.businessrules
             Console.WriteLine(result.ValidationErrors);
             Assert.True(result.Success);
 
-            Assert.Equal(0, result.ValidationErrors.Count);
+            Assert.Empty(result.ValidationErrors);
 
 
         }
@@ -120,7 +120,7 @@ namespace domain.test.businessrules
             Console.WriteLine(result.ValidationErrors);
             Assert.True(result.Success);
 
-            Assert.Equal(0, result.ValidationErrors.Count);
+            Assert.Empty(result.ValidationErrors);
 
 
         }
@@ -145,7 +145,7 @@ namespace domain.test.businessrules
             ValidationResult result = patient.ValidateBusinessRule(ed.BusinessRuleCollection);
             Assert.False(result.Success);
 
-            Assert.Equal(1, result.ValidationErrors.Count);
+            Assert.Single(result.ValidationErrors);
 
 
         }
@@ -186,7 +186,7 @@ namespace domain.test.businessrules
             ValidationResult result = patient.ValidateBusinessRule(ed.BusinessRuleCollection);
             Assert.False(result.Success);
 
-            Assert.Equal(1, result.ValidationErrors.Count);
+            Assert.Single(result.ValidationErrors);
             Assert.Equal(br2.ErrorMessage, result.ValidationErrors[0].Message);
 
 

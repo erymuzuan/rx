@@ -41,7 +41,7 @@ namespace domain.test.change.tracker
                 Console.WriteLine("{0}: {1} -> {2}", change.PropertyName.PadRight(15), change.OldValue, change.NewValue);
             }
 
-            Assert.Equal(1, changes.Count());
+            Assert.Single(changes);
         }
 
         [Fact]
@@ -61,7 +61,7 @@ namespace domain.test.change.tracker
 
             changes.ForEach(Console.WriteLine);
             Assert.Equal(2, changes.Count);
-            Assert.True(changes.Any(c => c.PropertyName == "Address.State"));
+            Assert.Contains(changes, c => c.PropertyName == "Address.State");
         }
 
         [Fact]
@@ -95,7 +95,7 @@ namespace domain.test.change.tracker
             Assert.NotNull(changes);
 
             changes.ForEach(Console.WriteLine);
-            Assert.Equal(1, changes.Count);
+            Assert.Single(changes);
         }
 
         [Fact]
@@ -120,7 +120,7 @@ namespace domain.test.change.tracker
             Assert.NotNull(changes);
 
             changes.ForEach(Console.WriteLine);
-            Assert.Equal(1, changes.Count);
+            Assert.Single(changes);
         }
 
         [Fact]
@@ -146,7 +146,7 @@ namespace domain.test.change.tracker
             Assert.NotNull(changes);
 
             changes.ForEach(Console.WriteLine);
-            Assert.Equal(1, changes.Count);
+            Assert.Single(changes);
         }
 
 
@@ -164,7 +164,7 @@ namespace domain.test.change.tracker
 
             var generator = new ChangeGenerator();
             var changes = generator.GetChanges(c2, c1).ToList();
-            Assert.Equal(1, changes.Count());
+            Assert.Single(changes);
             changes.ForEach(Console.WriteLine);
         }
 
@@ -190,7 +190,7 @@ namespace domain.test.change.tracker
             var changes = generator.GetChanges(c2, c1).ToList();
             Assert.Equal(3, changes.Count());
             changes.ForEach(System.Console.WriteLine);
-            Assert.True(changes.Any(c => c.PropertyName == "Owner.Name"));
+            Assert.Contains(changes, c => c.PropertyName == "Owner.Name");
         }
 
         [Fact]
@@ -215,7 +215,7 @@ namespace domain.test.change.tracker
             var changes = generator.GetChanges(c2, c1).ToList();
             Assert.Equal(3, changes.Count());
             changes.ForEach(System.Console.WriteLine);
-            Assert.True(changes.Any(c => c.PropertyName == "Owner.Name"));
+            Assert.Contains(changes, c => c.PropertyName == "Owner.Name");
         }
 
     }
