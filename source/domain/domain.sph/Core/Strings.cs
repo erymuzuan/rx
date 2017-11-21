@@ -520,9 +520,9 @@ namespace Bespoke.Sph.Domain
 
         public static string ToCSharp(this Type type)
         {
-            if(null == type)
+            if (null == type)
                 throw new ArgumentNullException($@"Type cannot be null", nameof(type));
-                    
+
             if (type == typeof(void)) return "void";
             if (type == typeof(DateTime)) return "DateTime";
             if (type == typeof(string)) return "string";
@@ -586,6 +586,7 @@ namespace Bespoke.Sph.Domain
             var assemblyName = splits.LastOrDefault().ToEmptyString().Trim();
             var path = $"{ConfigurationManager.CompilerOutputPath}\\{assemblyName}.dll";
 
+            if (!File.Exists(path)) return null;
             var assembly = AssemblyDefinition.ReadAssembly(path);
             var type = assembly.MainModule.Types.FirstOrDefault(x => x.FullName == fullName);
             return type;
@@ -606,13 +607,13 @@ namespace Bespoke.Sph.Domain
 
         public static object TruncateLeft(this string value, int length)
         {
-            if(length <= 0)
+            if (length <= 0)
                 throw new ArgumentException("Length must be greater than 0", nameof(length));
             if (null == value)
                 return DBNull.Value;
 
             if (!string.IsNullOrWhiteSpace(value) && value.Length > length)
-                return value.Truncate(length, "",TruncateFrom.Left);
+                return value.Truncate(length, "", TruncateFrom.Left);
 
             return value;
         }
@@ -639,22 +640,22 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public static int? ParseNullableInt32(this string val) 
+        public static int? ParseNullableInt32(this string val)
         {
             if (val == null) return default(int);
             return int.TryParse(val, out var value) ? value : default(int?);
         }
-        public static decimal? ParseNullableDecimal(this string val) 
+        public static decimal? ParseNullableDecimal(this string val)
         {
             if (val == null) return default(decimal);
             return decimal.TryParse(val, out var value) ? value : default(decimal?);
         }
-        public static bool? ParseNullableBoolean(this string val) 
+        public static bool? ParseNullableBoolean(this string val)
         {
             if (val == null) return default(bool);
             return bool.TryParse(val, out var value) ? value : default(bool?);
         }
-        public static DateTime? ParseNullableDateTime(this string val) 
+        public static DateTime? ParseNullableDateTime(this string val)
         {
             if (val == null) return default(DateTime);
             return DateTime.TryParse(val, out var value) ? value : default(DateTime?);
