@@ -4,11 +4,30 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Microsoft.Azure.Documents.Client;
 
 namespace Bespoke.Sph.CosmosDbRepository
 {
     public class Repository<T> : IRepository<T> where T : Entity
     {
+        private readonly string m_databaseId;
+        private readonly string m_collectionId;
+        private readonly DocumentClient m_client;
+        public int OfferThroughput { get; set; } = 400;
+
+        public Repository() : this("https://localhost:8081", "tokens", "access_token", "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==")
+        {
+
+        }
+        public Repository(string uri, string databaseId, string collectionId, string key)
+        {
+            m_databaseId = databaseId;
+            m_collectionId = collectionId;
+
+            m_client = new DocumentClient(new Uri(uri), key);
+
+        }
+
         public Task<bool> ExistAsync(IQueryable<T> query)
         {
             throw new NotImplementedException();
@@ -104,9 +123,30 @@ namespace Bespoke.Sph.CosmosDbRepository
             throw new NotImplementedException();
         }
 
-        public Task<LoadOperation<T>> LoadAsync(IQueryable<T> query, int page, int size, bool includeTotalRows)
+        public Task<LoadOperation<T>> LoadAsync(IQueryable<T> query2, int page, int size, bool includeTotalRows)
         {
-            throw new NotImplementedException();
+            var uri = UriFactory.CreateDocumentCollectionUri(m_databaseId, m_collectionId);
+            var query = m_client.CreateDocumentQuery<T>(uri, new FeedOptions { MaxItemCount = 20 })
+                .Skip((page - 1) * size)
+                .Take(size)
+                .Where(query2.Co)
+                .AsDocumentQuery();
+
+            var results = new List<AccessToken>();
+            while (query.HasMoreResults)
+            {
+                results.AddRange(await query.ExecuteNextAsync<T>());
+            }
+
+            var lo = new LoadOperation<AccessToken>
+            {
+                CurrentPage = page,
+                PageSize = size,
+                TotalRows = results.Count
+            };
+            lo.ItemCollection.AddRange(results);
+
+            return lo;
         }
 
         public T LoadOne(IQueryable<T> query)

@@ -263,21 +263,20 @@ namespace Bespoke.Sph.SqlRepository
 
         protected override Expression VisitSelect(SelectExpression select)
         {
-            /*    */
+            /*  */
             m_sb.Append("SELECT ");
             /**/
             if (select.Columns.Count == 1) // just for single
             {
                 for (int i = 0, n = select.Columns.Count; i < n; i++)
                 {
-                    ColumnDeclaration column = select.Columns[i];
+                    var column = select.Columns[i];
                     if (column.Name.StartsWith("PropertyName")) continue;
                     if (i > 0)
                     {
                         m_sb.Append(", ");
                     }
-                    var c = this.Visit(column.Expression) as ColumnExpression;
-                    if (c == null || c.Name != select.Columns[i].Name)
+                    if (!(this.Visit(column.Expression) is ColumnExpression c) || c.Name != select.Columns[i].Name)
                     {
                         // m_sb.Append(" AS ");
                         m_sb.Append(column.Name);

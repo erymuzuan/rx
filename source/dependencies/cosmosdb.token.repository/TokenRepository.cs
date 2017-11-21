@@ -29,10 +29,7 @@ namespace Bespoke.Sph.CosmosDbRepository
         {
             CreateDatabaseIfNotExistsAsync().Wait();
             CreateCollectionIfNotExistsAsync().Wait();
-
         }
-
-
 
         public TokenRepository(string uri, string databaseId, string collectionId, string key)
         {
