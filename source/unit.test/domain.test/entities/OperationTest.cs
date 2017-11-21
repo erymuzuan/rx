@@ -24,21 +24,19 @@ namespace domain.test.entities
     public class OperationTest
     {
         private readonly ITestOutputHelper m_output;
-        private readonly MockRepository<EntityDefinition> m_efMock;
-        private readonly MockPersistence m_persistence;
         private readonly Mock<ICacheManager> m_cache;
 
         public OperationTest(ITestOutputHelper output)
         {
             m_output = output;
-            m_persistence = new MockPersistence(output);
-            m_efMock = new MockRepository<EntityDefinition>();
+            var persistence = new MockPersistence(output);
+            var efMock = new MockRepository<EntityDefinition>();
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
-            ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(m_efMock);
+            ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(efMock);
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
             ObjectBuilder.AddCacheList<IEntityChangePublisher>(new MockChangePublisher(output));
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
-            ObjectBuilder.AddCacheList<IPersistence>(m_persistence);
+            ObjectBuilder.AddCacheList<IPersistence>(persistence);
 
             m_cache = new Mock<ICacheManager>();
             m_cache.Setup(x => x.Get<QueryEndpoint>(It.IsAny<string>()))
@@ -142,6 +140,7 @@ namespace domain.test.entities
         [InlineData("Register4", "nurse,medical-assitant")]
         public async Task PostRegister(string name, string roles)
         {
+            Assert.NotEmpty(roles);
             var endpoint = new OperationEndpoint
             {
                 Name = name,
@@ -174,6 +173,8 @@ namespace domain.test.entities
                 Assert.NotNull(bs);
                 bs.Configuration = new HttpConfiguration();
 
+                Assert.NotNull(action);
+
                 var awaiter = (Task<IHttpActionResult>)action.Invoke(controller, new object[] { ed, endpoint, patient });
                 var response = (AcceptedResult)await awaiter;
                 var json = JObject.Parse(JsonConvert.SerializeObject(response.Result));
@@ -187,7 +188,11 @@ namespace domain.test.entities
                 Assert.Equal(location, response.LocationUri.ToString());
 
                 // 202
-                Assert.Contains("Accepted", response.GetType().FullName);
+                Assert.NotNull(response);
+                Assert.NotNull(response.GetType());
+                var responseTypeName = response.GetType().FullName;
+                Assert.NotNull(responseTypeName);
+                Assert.Contains("Accepted", responseTypeName);
             }
             catch (ReflectionTypeLoadException e)
             {
@@ -344,10 +349,10 @@ namespace domain.test.entities
         [Trait("Verb", "DELETE")]
         public async Task HttpDeleteWithRule()
         {
-            const string NAME = "PatientDeleteWithRule";
-            var delete = new OperationEndpoint { Name = "Remove", Id = "patient-remove", Entity = NAME, Resource = "patients", Route = "", IsHttpDelete = true, WebId = "remove" };
+            const string name = "PatientDeleteWithRule";
+            var delete = new OperationEndpoint { Name = "Remove", Id = "patient-remove", Entity = name, Resource = "patients", Route = "", IsHttpDelete = true, WebId = "remove" };
 
-            var ed = this.CreatePatientDefinition(NAME);
+            var ed = this.CreatePatientDefinition(name);
             var rule = new BusinessRule { Name = "Cannot delete admitted patient", WebId = "rule01" };
             rule.RuleCollection.Add(new Rule { Left = new DocumentField { Path = "Status" }, Operator = Operator.Neq, Right = new ConstantField { Value = "Admitter", Type = typeof(string) } });
             ed.BusinessRuleCollection.Add(rule);

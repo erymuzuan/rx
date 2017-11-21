@@ -22,7 +22,7 @@ namespace domain.test.entities
             {
                 Min = 42.5f
             };
-            Assert.StrictEqual("data-rule-min=\"42.5\"", fv.GetHtmlAttributes().Trim());
+            Assert.Equal("data-rule-min=\"42.5\"", fv.GetHtmlAttributes().Trim());
         }
     }
 }

@@ -64,7 +64,7 @@ namespace domain.test.workflows
             var result = wd.ValidateBuild();
             m_helper.WriteLine(result.ToString());
             Assert.False(result.Result);
-            Assert.Equal(1, result.Errors.Count);
+            Assert.Single(result.Errors);
             Assert.Contains("Duplicate webid", result.Errors[0].ToString());
 
         }

@@ -122,7 +122,7 @@ namespace domain.test.reports
             var rows = await rdl.ExecuteResultAsync();
 
             Assert.Equal(count, rows.Count);
-            Assert.True(rows[0].ReportColumnCollection.Any(c => c.Name == path));
+            Assert.Contains(rows[0].ReportColumnCollection, c => c.Name == path);
             var street = rows[0][path];
             Assert.Equal(tenantStreet, street.Value as string);
 

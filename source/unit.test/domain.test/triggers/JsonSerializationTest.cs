@@ -25,7 +25,7 @@ namespace domain.test.triggers
             var json = this.GetTriggerWithRuleJson();
             Console.WriteLine(json);
             var trigger = JsonConvert.DeserializeObject<Trigger>(json);
-            Assert.Equal(1, trigger.RuleCollection.Count);
+            Assert.Single(trigger.RuleCollection);
         }
 
         public string GetTriggerWithRuleJson()

@@ -132,7 +132,7 @@ namespace Bespoke.Sph.Web.Controllers
             var t = Strings.GetTypeDefinition(type);
             if (null == t)
             {
-                string message = $"Cannot find {type} in your {ConfigurationManager.WebPath}/bin or {ConfigurationManager.CompilerOutputPath}, Please build it if you have not done so";
+                var message = $"Cannot find {type} in your {ConfigurationManager.WebPath}/bin or {ConfigurationManager.CompilerOutputPath}, Please build it if you have not done so";
 
                 ObjectBuilder.GetObject<ILogger>()
                     .Log(new LogEntry(new Exception(message)));

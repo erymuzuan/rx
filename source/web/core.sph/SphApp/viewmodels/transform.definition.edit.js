@@ -124,10 +124,9 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
 
                     })
                     .then(sourceSchema)
-                    .fail(function (a, b, text) {
-                        console.error(a);
-                        // console.error(b);
-                        logger.error(text);
+                    .fail(function (response, b, text) {
+                        console.error("Response",response);
+                        logger.error(text + ": " + response.responseText);
                     });
 
             },
