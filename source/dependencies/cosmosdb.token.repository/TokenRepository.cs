@@ -30,19 +30,6 @@ namespace Bespoke.Sph.CosmosDbRepository
             CreateDatabaseIfNotExistsAsync().Wait();
             CreateCollectionIfNotExistsAsync().Wait();
 
-            // TODO : initialize indices
-            var collection = new DocumentCollection
-            {
-                Id = m_collectionId,
-                IndexingPolicy = new IndexingPolicy(new RangeIndex(DataType.String) { Precision = -1 })
-                {
-                    IndexingMode = IndexingMode.Consistent
-                }
-            };
-
-
-            m_client.CreateDocumentCollectionAsync(UriFactory.CreateDatabaseUri(m_databaseId), collection)
-                .Wait();
         }
 
 
@@ -92,9 +79,9 @@ namespace Bespoke.Sph.CosmosDbRepository
         {
             var uri = UriFactory.CreateDocumentCollectionUri(m_databaseId, m_collectionId);
             var query = m_client.CreateDocumentQuery<AccessToken>(uri, new FeedOptions { MaxItemCount = 20 })
-                    // .Skip((page - 1) * size)
-                    //.Take(size)
-                    //.Where(x => x.ExpiryDate >= expiry)
+                    .Skip((page - 1) * size)
+                    .Take(size)
+                    .Where(x => x.ExpiryDate >= expiry)
                     .AsDocumentQuery();
 
             var results = new List<AccessToken>();
@@ -144,16 +131,9 @@ namespace Bespoke.Sph.CosmosDbRepository
             {
                 await m_client.ReadDatabaseAsync(UriFactory.CreateDatabaseUri(m_databaseId));
             }
-            catch (DocumentClientException e)
+            catch (DocumentClientException e) when (e.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                if (e.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    await m_client.CreateDatabaseAsync(new Database { Id = m_databaseId });
-                }
-                else
-                {
-                    throw;
-                }
+                await m_client.CreateDatabaseAsync(new Database { Id = m_databaseId });
             }
         }
 
@@ -163,20 +143,28 @@ namespace Bespoke.Sph.CosmosDbRepository
             {
                 await m_client.ReadDocumentCollectionAsync(UriFactory.CreateDocumentCollectionUri(m_databaseId, m_collectionId));
             }
-            catch (DocumentClientException e)
+            catch (DocumentClientException e) when (e.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                if (e.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    await m_client.CreateDocumentCollectionAsync(
-                        UriFactory.CreateDatabaseUri(m_databaseId),
-                        new DocumentCollection { Id = m_collectionId },
-                        new RequestOptions { OfferThroughput = OfferThroughput });
-                }
-                else
-                {
-                    throw;
-                }
+                await m_client.CreateDocumentCollectionAsync(
+                    UriFactory.CreateDatabaseUri(m_databaseId),
+                    new DocumentCollection { Id = m_collectionId },
+                    new RequestOptions { OfferThroughput = OfferThroughput });
+
             }
+
+            //
+            var token = new AccessToken(new UserProfile
+            {
+                UserName = "admin",
+                ChangedBy = "admin",
+                ChangedDate = DateTime.Now,
+                CreatedBy = "admin",
+                CreatedDate = DateTime.Now,
+                Email = "admin@bespoke.com.my",
+                HasChangedDefaultPassword = true,
+                FullName = "Bespoke Admin"
+            }, new[] { "administrators", "developers" }, DateTime.Today.AddYears(1));
+            await this.SaveAsync(token);
         }
     }
 }
