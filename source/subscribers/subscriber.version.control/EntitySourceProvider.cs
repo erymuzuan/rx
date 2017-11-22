@@ -16,7 +16,7 @@ namespace subscriber.version.control
                 Directory.CreateDirectory(folder);
 
             var file = Path.Combine(folder, item.Id + ".json");
-            File.WriteAllText(file, item.ToJsonString(Formatting.Indented));
+            File.WriteAllText(file, item.ToJsonString(Formatting.Indented, VersionInfo.Version));
             return Task.FromResult(0);
         }
 

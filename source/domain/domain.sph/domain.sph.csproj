@@ -248,6 +248,9 @@
     <Compile Include="..\..\assembly.versions\domain-domain.sph.cs">
       <Link>domain-domain.sph.cs</Link>
     </Compile>
+    <Compile Include="..\..\assembly.versions\SolutionVersion.cs">
+      <Link>SolutionVersion.cs</Link>
+    </Compile>
     <Compile Include="..\..\extensions\LoggerExtensions.cs">
       <Link>LoggerExtensions.cs</Link>
     </Compile>
@@ -315,6 +318,7 @@
     <Compile Include="Core\GenericCustomEntityDependenciesResolver.cs" />
     <Compile Include="Core\ICustomEntityDependenciesResolver.cs" />
     <Compile Include="Core\TypeExtensions.cs" />
+    <Compile Include="Core\VersionInfo.cs" />
     <Compile Include="diagnostics\FormDeleteOperationDiagnostics.cs" />
     <Compile Include="diagnostics\FormOperationDiagnostics.cs" />
     <Compile Include="diagnostics\LocationEndpointDiagnostics.cs" />

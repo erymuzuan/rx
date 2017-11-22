@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Mono.Cecil;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 
 namespace Bespoke.Sph.Domain
@@ -323,7 +324,7 @@ namespace Bespoke.Sph.Domain
         /// 
         /// </summary>
         /// <returns></returns>
-        public static string ToJsonString<T>(this T value, Formatting format = Formatting.None)
+        public static string ToJsonString<T>(this T value, Formatting format = Formatting.None, VersionInfo includeVersionMetadata = VersionInfo.None)
         {
             var setting = new JsonSerializerSettings
             {
@@ -332,14 +333,31 @@ namespace Bespoke.Sph.Domain
             };
             setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
             setting.Formatting = format;
-            return JsonConvert.SerializeObject(value, setting);
+
+            var text = JsonConvert.SerializeObject(value, setting);
+            if (includeVersionMetadata.HasFlag(VersionInfo.None))
+                return text;
+
+            var json = JObject.Parse(text);
+
+            if (includeVersionMetadata.HasFlag(VersionInfo.Version))
+                json.First.AddAfterSelf(new JProperty("$tool-version", $"{SolutionVersion.PRODUCT_VERSION}"));
+            if (includeVersionMetadata.HasFlag(VersionInfo.CommitId))
+                json.First.AddAfterSelf(new JProperty("$tool-commit-id", $"{SolutionVersion.COMMIT_ID}"));
+            if (includeVersionMetadata.HasFlag(VersionInfo.Revision))
+                json.First.AddAfterSelf(new JProperty("$tool-revision", $"{SolutionVersion.REVISION}"));
+
+            return json.ToString(format);
         }
         public static string ToJsonString<T>(this T value, bool pretty)
         {
+
             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
             setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
             setting.Formatting = pretty ? Formatting.Indented : Formatting.None;
             return JsonConvert.SerializeObject(value, setting);
         }
+
+
     }
 }

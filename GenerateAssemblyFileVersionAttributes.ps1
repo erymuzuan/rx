@@ -39,7 +39,26 @@ foreach($folder in $Destinations){
             $content | Out-File -FilePath .\source\assembly.versions\$cs
 
         }
-
-
 }
 
+
+## the root
+$project = $PWD
+$commitId = git log -n 1 --pretty=%h $project
+$rev = git rev-list --all --count $project
+$logDate = git log -n 1 --pretty=%aI $project
+$date = [System.DateTime]::Parse($logDate)
+$days = [System.Convert]::ToInt32( ($date - $y2012).TotalDays)
+Write-Host   " $days $commitId SolutionVersion"
+
+
+
+$content2 = "namespace Bespoke.Sph.Domain`r`n" + `
+"{`r`n" + `
+"`r`n public static class SolutionVersion {" + `
+"`r`n    public const string PRODUCT_VERSION = `"$Version.$days.$rev-$commitId`";" + `
+"`r`n    public const int REVISION = $rev;" + `
+"`r`n    public const string COMMIT_ID = `"$commitId`";" + `
+"`r`n }" + `
+"`r`n}" + `
+$content2 | Out-File -FilePath .\source\assembly.versions\SolutionVersion.cs

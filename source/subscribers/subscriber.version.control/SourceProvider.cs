@@ -1,6 +1,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Newtonsoft.Json;
 
 namespace subscriber.version.control
 {
@@ -18,7 +19,8 @@ namespace subscriber.version.control
                 Directory.CreateDirectory(folder);
 
             var file = Path.Combine(folder, item.Id + ".json");
-            File.WriteAllText(file, item.ToJsonString(true));
+
+            File.WriteAllText(file, item.ToJsonString(Formatting.Indented, VersionInfo.Version));
 
         }
         protected void RemoveJsonSource(T item)
@@ -52,7 +54,7 @@ namespace subscriber.version.control
                 Directory.CreateDirectory(privatePath);
             File.WriteAllBytes($"{privatePath}\\{doc.FileName}", doc.Content);
 
-            File.WriteAllText($"{folder}\\{id}.json", doc.ToJsonString(true));
+            File.WriteAllText($"{folder}\\{id}.json", doc.ToJsonString(Formatting.Indented,VersionInfo.All));
         }
 
         protected async Task RemoveDocumentAsync(string id)
