@@ -317,6 +317,7 @@
     <Compile Include="Core\DictionaryExtensions.cs" />
     <Compile Include="Core\GenericCustomEntityDependenciesResolver.cs" />
     <Compile Include="Core\ICustomEntityDependenciesResolver.cs" />
+    <Compile Include="Core\IVersionInfo.cs" />
     <Compile Include="Core\TypeExtensions.cs" />
     <Compile Include="Core\VersionInfo.cs" />
     <Compile Include="diagnostics\FormDeleteOperationDiagnostics.cs" />

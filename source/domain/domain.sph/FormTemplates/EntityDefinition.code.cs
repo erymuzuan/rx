@@ -28,8 +28,9 @@ namespace Bespoke.Sph.Domain
 
         public IEnumerable<Class> GenerateCode()
         {
-
-            var @class = new Class { Name = this.Name, FileName = $"{Name}.cs", Namespace = CodeNamespace, BaseClass = nameof(Entity) };
+            var cvs = ObjectBuilder.GetObject<ICvsProvider>();
+            var src = $@"{ConfigurationManager.SphSourceDirectory}\{nameof(EntityDefinition)}\{Id}.json";
+            var @class = new Class { Name = this.Name, FileName = $"{Name}.cs", Namespace = CodeNamespace, BaseClass = $"{nameof(Entity)}, {nameof(IVersionInfo)}" };
             @class.ImportCollection.AddRange(m_importDirectives);
             var list = new ObjectCollection<Class> { @class };
 
@@ -77,6 +78,7 @@ namespace Bespoke.Sph.Domain
                              let prop = m.GeneratedCode("   ")
                              select new Property { Code = prop };
             @class.PropertyCollection.ClearAndAddRange(properties);
+            @class.PropertyCollection.Add(new Property { Code = $@"string IVersionInfo.Version => ""{cvs.GetCommitIdAsync(src).Result}"";" });
 
             // classes for members
             foreach (var member in this.MemberCollection)
@@ -123,6 +125,6 @@ namespace Bespoke.Sph.Domain
 
 
 
-      
+
     }
 }
