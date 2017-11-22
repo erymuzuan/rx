@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-2.1.3.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
 /// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -125,7 +125,7 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                     })
                     .then(sourceSchema)
                     .fail(function (response, b, text) {
-                        console.error("Response",response);
+                        console.error("Response", response);
                         logger.error(text + ": " + response.responseText);
                     });
 
@@ -141,8 +141,8 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                     connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 }
                 });
 
-                var anchorOptions = ["LeftMiddle", "LeftTop", "LeftBottom"];
                 if (fnc.ArgumentCollection().length) {
+                    const anchorOptions = ["LeftMiddle", "LeftTop", "LeftBottom"];
                     jsPlumbInstance.makeTarget(element, {
                         dropOptions: { hoverClass: "dragHover" },
                         anchors: anchorOptions,
@@ -718,11 +718,11 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
                 const file = e.FileName || e,
                     line = e.Line || 1;
                 const params = [
-                        `height=${screen.height}`,
-                        `width=${screen.width}`,
-                        "toolbar=0",
-                        "location=0",
-                        "fullscreen=yes"
+                    `height=${screen.height}`,
+                    `width=${screen.width}`,
+                    "toolbar=0",
+                    "location=0",
+                    "fullscreen=yes"
                 ].join(","),
                     editor = window.open("/sph/editor/file?id=" + file.replace(/\\/g, "/") + "&line=" + line, "_blank", params);
                 editor.moveTo(0, 0);
@@ -1116,87 +1116,87 @@ define(["services/datacontext", "services/logger", objectbuilders.system, "ko/_k
             toolbar: {
                 saveCommand: save,
                 groupCommands: [
-                {
-                    caption: "Test",
-                    commands: [
+                    {
+                        caption: "Test",
+                        commands: [
 
-{
-    command: testTransform,
-    caption: "Test Mapping",
-    icon: "fa fa-play",
-    tooltip: "Test the generated mapping",
-    tooltipPlacement: "bottom"
-},
-{
-    command: editTestInput,
-    caption: "Edit test input",
-    icon: "fa fa-plus",
-    tooltip: "Edit json representation of the test input",
-    tooltipPlacement: "bottom"
-}
-                    ]
-                }
+                            {
+                                command: testTransform,
+                                caption: "Test Mapping",
+                                icon: "fa fa-play",
+                                tooltip: "Test the generated mapping",
+                                tooltipPlacement: "bottom"
+                            },
+                            {
+                                command: editTestInput,
+                                caption: "Edit test input",
+                                icon: "fa fa-plus",
+                                tooltip: "Edit json representation of the test input",
+                                tooltipPlacement: "bottom"
+                            }
+                        ]
+                    }
                 ],
                 commands: ko.observableArray([
-                {
-                    command: editProp,
-                    caption: "Edit Properties",
-                    icon: "fa fa-table"
-                },
-                {
-                    command: validateAsync,
-                    caption: "Validate",
-                    icon: "fa fa-check"
-                },
-                {
-                    command: publishAsync,
-                    enable: ko.computed(function () {
-                        if (!td().Name())
-                            return false;
-                        if (td().Name() === "New Mapping Definition")
-                            return false;
-                        if (td().Name() === "0")
-                            return false;
-                        return true;
-                    }),
-                    caption: "Build",
-                    tooltip: "Generate and compile your TrasnformDefinition",
-                    tooltipPlacement: "bottom",
-                    icon: "fa fa-sign-out"
-                },
-                {
-                    command: generatePartialAsync,
-                    caption: "Edit Partial",
-                    icon: "fa fa-code",
-                    tooltip: "Generate C# partial code for before and after transform custom code",
-                    tooltipPlacement: "bottom",
-                    enable: ko.computed(function () {
-                        if (ko.unwrap(td().Id) === "0") {
-                            return false;
-                        }
-                        if (!ko.unwrap(td().Id)) {
-                            return false;
-                        }
-                        return true;
-                    })
-                },
-                {
-                    command: addPage,
-                    caption: "Add Page",
-                    icon: "fa fa-file-o"
-                }
+                    {
+                        command: editProp,
+                        caption: "Edit Properties",
+                        icon: "fa fa-table"
+                    },
+                    {
+                        command: validateAsync,
+                        caption: "Validate",
+                        icon: "fa fa-check"
+                    },
+                    {
+                        command: publishAsync,
+                        enable: ko.computed(function () {
+                            if (!td().Name())
+                                return false;
+                            if (td().Name() === "New Mapping Definition")
+                                return false;
+                            if (td().Name() === "0")
+                                return false;
+                            return true;
+                        }),
+                        caption: "Build",
+                        tooltip: "Generate and compile your TrasnformDefinition",
+                        tooltipPlacement: "bottom",
+                        icon: "fa fa-sign-out"
+                    },
+                    {
+                        command: generatePartialAsync,
+                        caption: "Edit Partial",
+                        icon: "fa fa-code",
+                        tooltip: "Generate C# partial code for before and after transform custom code",
+                        tooltipPlacement: "bottom",
+                        enable: ko.computed(function () {
+                            if (ko.unwrap(td().Id) === "0") {
+                                return false;
+                            }
+                            if (!ko.unwrap(td().Id)) {
+                                return false;
+                            }
+                            return true;
+                        })
+                    },
+                    {
+                        command: addPage,
+                        caption: "Add Page",
+                        icon: "fa fa-file-o"
+                    }
                 ]),
                 htmlCommands: ko.observableArray([
-                {
-                    html: "<input type=\"search\" id=\"search-box-source-tree\" style=\"width:200px; height:28px;padding:6px 12px\" placeholder=\"search source\">" +
-                    "<button title=\"Clear the source search box\" id=\"clear-search-box-source-tree-button\" class=\"btn btn-default\"><i class=\"fa fa-times\"></i></button>",
-                    icon: "fa fa-users"
-                },
-                {
-                    html: "<input type=\"search\" id=\"search-box-destination-tree\" style=\"width:200px; height:28px;padding:6px 12px\" placeholder=\"search destination\">" +
-                    "<button title=\"Clear the destination search box\" id=\"clear-search-box-destination-tree-button\" class=\"btn btn-default\"><i class=\"fa fa-times\"></i></button>",
-                    icon: "fa fa-users"
-                }])
+                    {
+                        html: "<input type=\"search\" id=\"search-box-source-tree\" style=\"width:200px; height:28px;padding:6px 12px\" placeholder=\"search source\">" +
+                        "<button title=\"Clear the source search box\" id=\"clear-search-box-source-tree-button\" class=\"btn btn-default\"><i class=\"fa fa-times\"></i></button>",
+                        icon: "fa fa-users"
+                    },
+                    {
+                        html: "<input type=\"search\" id=\"search-box-destination-tree\" style=\"width:200px; height:28px;padding:6px 12px\" placeholder=\"search destination\">" +
+                        "<button title=\"Clear the destination search box\" id=\"clear-search-box-destination-tree-button\" class=\"btn btn-default\"><i class=\"fa fa-times\"></i></button>",
+                        icon: "fa fa-users"
+                    }])
             }
         };
 
