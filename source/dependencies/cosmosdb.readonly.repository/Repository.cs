@@ -4,7 +4,7 @@ using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.CosmosDbRepository
 {
-    public class Respository : IReadOnlyRepository
+    public class Repository : IReadOnlyRepository
     {
         public Task TruncateAsync(string entity)
         {

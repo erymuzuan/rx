@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Bespoke.Sph.Domain;
 using Newtonsoft.Json.Linq;
 
-namespace Bespoke.Sph.ElasticsearchRepository.Extensions
+namespace Bespoke.Sph.CosmosDbRepository.Extensions
 {
     public static class AggregateExtension
     {

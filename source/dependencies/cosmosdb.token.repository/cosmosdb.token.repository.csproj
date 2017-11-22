@@ -64,7 +64,7 @@
       <Name>domain.sph</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\web\webapi.common\webapi.common.csproj">
-      <Project>{2a396bf5-09bd-4ae9-b6de-cf93aee99d66}</Project>
+      <Project>{2A396BF5-09BD-4AE9-B6DE-CF93AEE99D66}</Project>
       <Name>webapi.common</Name>
     </ProjectReference>
   </ItemGroup>

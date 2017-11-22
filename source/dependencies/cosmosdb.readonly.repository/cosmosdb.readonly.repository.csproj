@@ -62,8 +62,8 @@
     <Compile Include="Extensions\MemberExtension.cs" />
     <Compile Include="Extensions\QueryDslExtension.cs" />
     <Compile Include="Extensions\SortExtension.cs" />
-    <Compile Include="Respository.cs" />
-    <Compile Include="Respository.T.cs" />
+    <Compile Include="Repository.cs" />
+    <Compile Include="Repository.T.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

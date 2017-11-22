@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Bespoke.Sph.Domain;
 
-namespace Bespoke.Sph.ElasticsearchRepository.Extensions
+namespace Bespoke.Sph.CosmosDbRepository.Extensions
 {
     public static class FilterExtension
     {
@@ -56,7 +56,7 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
 
         public static string CompileToElasticsearchBoolQuery<T>(this IEnumerable<Filter> filters) where T : Entity, new()
         {
-            return new T().CompileToElasticsearchBoolQuery(filters);
+            return new T().CompileToCosmosDbBoolQuery(filters);
         }
 
         public static string CompileToElasticsearchFullTextQuery(this Entity entity, IEnumerable<Filter> filters)
@@ -66,7 +66,7 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
                 throw new ArgumentException(@"You cannot have more than 1 FullText operator specifed in a query", nameof(filters));
 
             var queries = filterList.Where(x => !x.IsMustFilter(entity).HasValue)
-                .Select(x => x.CompileToElasticsearchTermLevelQuery(entity, filterList))
+                .Select(x => x.CompileToCosmosDbTermLevelQuery(entity, filterList))
                 .Distinct()
                 .Where(x => !string.IsNullOrWhiteSpace(x))
                 .ToString(",\r\n");
@@ -74,19 +74,19 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
             return queries;
 
         }
-        public static string CompileToElasticsearchBoolQuery(this Entity entity, IEnumerable<Filter> filters)
+        public static string CompileToCosmosDbBoolQuery(this Entity entity, IEnumerable<Filter> filters)
         {
             var filterList = (filters ?? Array.Empty<Filter>()).ToArray();
 
             var musts = filterList.Where(x => x.IsMustFilter(entity) ?? false)
-                .Select(x => x.CompileToElasticsearchTermLevelQuery(entity, filterList))
+                .Select(x => x.CompileToCosmosDbTermLevelQuery(entity, filterList))
                 .Distinct()
                 .Where(x => !string.IsNullOrWhiteSpace(x))
                 .ToString(",\r\n");
 
 
             var mustNots = filterList.Where(x => x.IsMustNotFilter(entity) ?? false)
-                .Select(x => x.CompileToElasticsearchTermLevelQuery(entity, filterList))
+                .Select(x => x.CompileToCosmosDbTermLevelQuery(entity, filterList))
                 .Distinct()
                 .Where(x => !string.IsNullOrWhiteSpace(x))
                 .ToString(",\r\n");
@@ -104,12 +104,12 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
 
         }
 
-        public static string CompileToElasticsearchTermLevelQuery<T>(this Filter target, Filter[] filters = null) where T : Entity, new()
+        public static string CompileToCosmosDbTermLevelQuery<T>(this Filter target, Filter[] filters = null) where T : Entity, new()
         {
-            return target.CompileToElasticsearchTermLevelQuery(new T());
+            return target.CompileToCosmosDbTermLevelQuery(new T());
         }
 
-        private static string CompileToElasticsearchTermLevelQuery(this Filter target, Entity entity, Filter[] filters = null)
+        private static string CompileToCosmosDbTermLevelQuery(this Filter target, Entity entity, Filter[] filters = null)
         {
             if (null == filters)
                 filters = new[] { target };

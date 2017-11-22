@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using Bespoke.Sph.Domain;
 
-namespace Bespoke.Sph.ElasticsearchRepository.Extensions
+namespace Bespoke.Sph.CosmosDbRepository.Extensions
 {
     public static class EntityDefinitionExtension
     {

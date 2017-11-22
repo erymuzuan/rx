@@ -7,7 +7,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Extensions;
 using Newtonsoft.Json.Linq;
 
-namespace Bespoke.Sph.ElasticsearchRepository.Extensions
+namespace Bespoke.Sph.CosmosDbRepository.Extensions
 {
     public static class HttpResponseMessageExtension
     {

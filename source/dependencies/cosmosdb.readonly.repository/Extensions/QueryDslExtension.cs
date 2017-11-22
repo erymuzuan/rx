@@ -2,7 +2,7 @@
 using System.Text;
 using Bespoke.Sph.Domain;
 
-namespace Bespoke.Sph.ElasticsearchRepository.Extensions
+namespace Bespoke.Sph.CosmosDbRepository.Extensions
 {
     public static class QueryDslExtension
     {
@@ -17,10 +17,10 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
             {
                 sql.AppendLine("WHERE");
                 if (query.Aggregates.Any())
-                    sql.AppendLine(entity.CompileToElasticsearchBoolQuery(query.Filters.ToArray()));
+                    sql.AppendLine(entity.CompileToCosmosDbBoolQuery(query.Filters.ToArray()));
 
                 if (!query.Aggregates.Any())
-                    sql.AppendLine(entity.CompileToElasticsearchBoolQuery(query.Filters.ToArray()));
+                    sql.AppendLine(entity.CompileToCosmosDbBoolQuery(query.Filters.ToArray()));
 
                 var fullText = entity.CompileToElasticsearchFullTextQuery(query.Filters.ToArray());
                 if (!string.IsNullOrWhiteSpace(fullText))
