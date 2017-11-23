@@ -1,4 +1,38 @@
-﻿$RxApplicationName="DevV1"
+﻿Param(
+    [switch]$CallFromStartSnbPowershell = $false,
+    [string]$Environment="dev.local"
+  )
+
+  if($CallFromStartSnbPowershell.IsPresent -eq $false){
+    Write-Host "This script should not be called directly, use StartDevV1Powershell.ps1" -ForegroundColor Yellow
+    return;
+  }
+
+  
+Write-Host "Importing rx.ps.module" 
+Import-Module .\bin\utils\rx.ps.module.dll
+
+Get-RxEntityDefinition -Name "Customer" -RxApplicationName "DevV1"
+
+New-Alias -Name "rx-builder" -Value "Invoke-RxBuilder"
+New-Alias -Name "rx-deploy" -Value "Invoke-RxDeploy"
+New-Alias -Name "rx-diff" -Value "Invoke-RxDiff"
+New-Alias -Name "rx-ds" -Value "Invoke-RxDeploymentStatus"
+
+Write-Host "Importing posh-git" 
+Import-Module posh-git
+
+$GitPromptSettings.EnableWindowTitle = "DevV1.$Environment~~"
+$GitPromptSettings.BeforeText=" [$Environment "
+$GitPromptSettings.BeforeForegroundColor="Cyan"
+
+Write-Host "Setting RxApplicationName to DevV1"
+Set-Variable -Name 'RxApplicationName' -Value 'DevV1'
+
+
+Write-Host "Setting DevV1 website and IIS environment variables" 
+
+$RxApplicationName="DevV1"
 $RxHome = "$PWD\bin"
 $machine = ($env:COMPUTERNAME).Replace("-","_")
 [System.Environment]::SetEnvironmentVariable("RX_DEVV1_RabbitMqPassword","guest", "Process")
