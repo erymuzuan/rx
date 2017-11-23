@@ -73,14 +73,16 @@ param(
 
 $latest = @{}
 $count = 0;
-
-ls -Path .\source, .\bin -Recurse -Include *.dll,*.exe -Exclude System.*, Microsoft.* | % {
+$Assets = ls -Path .\source, .\bin -Recurse -Include *.dll,*.exe -Exclude System.*, Microsoft.*
+$Total = $Assets.Count
+$Assets | % {
     $pn = Get-ProductName($_)
+    $assetName = $_.Name
     if($pn -eq $ProductName){    
         $rev =Get-FileRevision($_)
         if($rev -ne $null){
-        
-            Write-Host ($count = $count + 1)            
+            $count = $count + 1
+            Write-Progress -Activity "Checking the dll" -Status "In progress ($count/$Total) : $assetName" -PercentComplete ($count*100/$Total)           
             if($latest.ContainsKey($_.Name)){
                 $last = $latest[$_.Name];
                 if($rev -gt $last){
@@ -97,7 +99,7 @@ ls -Path .\source, .\bin -Recurse -Include *.dll,*.exe -Exclude System.*, Micros
 
 Write-Output $latest
 
-ls -Path .\source,.\bin -Recurse -Include *.dll,*.exe -Exclude System.*, Microsoft.* | % {
+$Assets | % {
     $vi = $_.VersionInfo
     if($vi -eq $null){
         continue;
