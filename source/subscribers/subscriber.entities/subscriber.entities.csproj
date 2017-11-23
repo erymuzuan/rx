@@ -52,11 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
-      <Link>AssemblyVersionInfo.cs</Link>
-    </Compile>
+
     <Compile Include="..\..\assembly.versions\subscribers-subscriber.entities.cs">
-      <Link>subscribers-subscriber.entities.cs</Link>
+      <Link>Properties\subscribers-subscriber.entities.cs</Link>
     </Compile>
     <Compile Include="EntityFormSubscriber.cs" />
     <Compile Include="EntityViewSubscriber.cs" />

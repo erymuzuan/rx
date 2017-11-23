@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\dependencies-odata.queryparser.cs">
-      <Link>dependencies-odata.queryparser.cs</Link>
+      <Link>Properties\dependencies-odata.queryparser.cs</Link>
     </Compile>
     <Compile Include="OdataQueryParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -62,7 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\adapters-restapi.adapter.cs">
-      <Link>adapters-restapi.adapter.cs</Link>
+      <Link>Properties\adapters-restapi.adapter.cs</Link>
     </Compile>
     <Compile Include="HttpHeaderMember.cs" />
     <Compile Include="QueryStringMember.cs" />

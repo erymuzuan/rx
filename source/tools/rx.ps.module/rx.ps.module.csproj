@@ -54,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\tools-rx.ps.module.cs">
-      <Link>tools-rx.ps.module.cs</Link>
+      <Link>Properties\tools-rx.ps.module.cs</Link>
     </Compile>
     <Compile Include="AssetIdCompleter.cs" />
     <Compile Include="AssetNameCompleter.cs" />

@@ -78,7 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\tools-mapping.compiler.cs">
-      <Link>tools-mapping.compiler.cs</Link>
+      <Link>Properties\tools-mapping.compiler.cs</Link>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

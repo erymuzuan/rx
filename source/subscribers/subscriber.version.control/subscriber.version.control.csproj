@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\subscribers-subscriber.version.control.cs">
-      <Link>subscribers-subscriber.version.control.cs</Link>
+      <Link>Properties\subscribers-subscriber.version.control.cs</Link>
     </Compile>
     <Compile Include="AdapterSourceProvider.cs" />
     <Compile Include="DocumentTemplateSourceProvider.cs" />

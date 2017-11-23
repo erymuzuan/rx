@@ -79,11 +79,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
-      <Link>AssemblyVersionInfo.cs</Link>
-    </Compile>
+
     <Compile Include="..\..\assembly.versions\subscribers-workers.windowsservice.runner.cs">
-      <Link>subscribers-workers.windowsservice.runner.cs</Link>
+      <Link>Properties\subscribers-workers.windowsservice.runner.cs</Link>
     </Compile>
     <Compile Include="..\..\extensions\LoggerExtensions.cs">
       <Link>LoggerExtensions.cs</Link>

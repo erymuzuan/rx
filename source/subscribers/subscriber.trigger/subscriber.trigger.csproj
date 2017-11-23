@@ -47,11 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
-      <Link>AssemblyVersionInfo.cs</Link>
-    </Compile>
+
     <Compile Include="..\..\assembly.versions\subscribers-subscriber.trigger.cs">
-      <Link>subscribers-subscriber.trigger.cs</Link>
+      <Link>Properties\subscribers-subscriber.trigger.cs</Link>
     </Compile>
     <Compile Include="TriggerSubscriber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

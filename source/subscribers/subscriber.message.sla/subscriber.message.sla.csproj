@@ -53,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\subscribers-subscriber.message.sla.cs">
-      <Link>subscribers-subscriber.message.sla.cs</Link>
+      <Link>Properties\subscribers-subscriber.message.sla.cs</Link>
     </Compile>
     <Compile Include="..\..\extensions\BinaryExtensions.cs">
       <Link>BinaryExtensions.cs</Link>

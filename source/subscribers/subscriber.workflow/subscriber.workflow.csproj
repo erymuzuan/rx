@@ -63,11 +63,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
-      <Link>AssemblyVersionInfo.cs</Link>
-    </Compile>
+
     <Compile Include="..\..\assembly.versions\subscribers-subscriber.workflow.cs">
-      <Link>subscribers-subscriber.workflow.cs</Link>
+      <Link>Properties\subscribers-subscriber.workflow.cs</Link>
     </Compile>
     <Compile Include="ChildWorkflowMonitorSubscriber.cs" />
     <Compile Include="DebuggerModel.cs" />

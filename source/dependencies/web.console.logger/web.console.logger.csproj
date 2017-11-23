@@ -58,7 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\dependencies-web.console.logger.cs">
-      <Link>dependencies-web.console.logger.cs</Link>
+      <Link>Properties\dependencies-web.console.logger.cs</Link>
     </Compile>
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

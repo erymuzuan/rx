@@ -64,7 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\dependencies-memory.broker.cs">
-      <Link>dependencies-memory.broker.cs</Link>
+      <Link>Properties\dependencies-memory.broker.cs</Link>
     </Compile>
     <Compile Include="..\..\extensions\LoggerExtensions.cs">
       <Link>LoggerExtensions.cs</Link>

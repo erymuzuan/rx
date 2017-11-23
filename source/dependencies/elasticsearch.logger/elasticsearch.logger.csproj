@@ -58,7 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\dependencies-elasticsearch.logger.cs">
-      <Link>dependencies-elasticsearch.logger.cs</Link>
+      <Link>Properties\dependencies-elasticsearch.logger.cs</Link>
     </Compile>
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

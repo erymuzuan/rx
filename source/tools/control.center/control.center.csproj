@@ -136,11 +136,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
-      <Link>AssemblyVersionInfo.cs</Link>
-    </Compile>
+
     <Compile Include="..\..\assembly.versions\tools-control.center.cs">
-      <Link>tools-control.center.cs</Link>
+      <Link>Properties\tools-control.center.cs</Link>
     </Compile>
     <Compile Include="ConfigurationManager.cs" />
     <Compile Include="ViewModel\MainViewModel.elasticsearch.cs" />

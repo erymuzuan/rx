@@ -48,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\domain-trigger.action.entity.cs">
-      <Link>domain-trigger.action.entity.cs</Link>
+      <Link>Properties\domain-trigger.action.entity.cs</Link>
     </Compile>
     <Compile Include="EntityAction.cs" />
     <Compile Include="EntityAction.p.cs">

@@ -48,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\tools-member.convert.cs">
-      <Link>tools-member.convert.cs</Link>
+      <Link>Properties\tools-member.convert.cs</Link>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

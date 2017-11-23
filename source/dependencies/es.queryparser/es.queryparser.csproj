@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\dependencies-es.queryparser.cs">
-      <Link>dependencies-es.queryparser.cs</Link>
+      <Link>Properties\dependencies-es.queryparser.cs</Link>
     </Compile>
     <Compile Include="AggregatesVisitor.cs" />
     <Compile Include="BoolJProperty.cs" />

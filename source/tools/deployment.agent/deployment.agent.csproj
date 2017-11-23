@@ -67,7 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\tools-deployment.agent.cs">
-      <Link>tools-deployment.agent.cs</Link>
+      <Link>Properties\tools-deployment.agent.cs</Link>
     </Compile>
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandParameter.cs" />

@@ -68,7 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\subscribers-subscriber.infrastructure.cs">
-      <Link>subscribers-subscriber.infrastructure.cs</Link>
+      <Link>Properties\subscribers-subscriber.infrastructure.cs</Link>
     </Compile>
     <Compile Include="..\..\extensions\BinaryExtensions.cs">
       <Link>BinaryExtensions.cs</Link>

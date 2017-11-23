@@ -77,11 +77,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
-      <Link>AssemblyVersionInfo.cs</Link>
-    </Compile>
+
     <Compile Include="..\..\assembly.versions\subscribers-workers.console.runner.cs">
-      <Link>subscribers-workers.console.runner.cs</Link>
+      <Link>Properties\subscribers-workers.console.runner.cs</Link>
     </Compile>
     <Compile Include="..\..\extensions\LoggerExtensions.cs">
       <Link>LoggerExtensions.cs</Link>

@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\dependencies-git.cvsprovider.cs">
-      <Link>dependencies-git.cvsprovider.cs</Link>
+      <Link>Properties\dependencies-git.cvsprovider.cs</Link>
     </Compile>
     <Compile Include="GitCvsProvider.cs" />
     <Compile Include="GitLogExtensions.cs" />

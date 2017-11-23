@@ -64,7 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\dependencies-raygun.logger.cs">
-      <Link>dependencies-raygun.logger.cs</Link>
+      <Link>Properties\dependencies-raygun.logger.cs</Link>
     </Compile>
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

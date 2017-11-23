@@ -89,7 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\adapters-flatfile.adapter.cs">
-      <Link>adapters-flatfile.adapter.cs</Link>
+      <Link>Properties\adapters-flatfile.adapter.cs</Link>
     </Compile>
     <Compile Include="FileSystemReceiveLocationDefinition.cs" />
     <Compile Include="FlatFileAdapter.cs" />

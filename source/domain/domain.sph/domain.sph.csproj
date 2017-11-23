@@ -246,7 +246,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\domain-domain.sph.cs">
-      <Link>domain-domain.sph.cs</Link>
+      <Link>Properties\domain-domain.sph.cs</Link>
     </Compile>
     <Compile Include="..\..\assembly.versions\SolutionVersion.cs">
       <Link>SolutionVersion.cs</Link>

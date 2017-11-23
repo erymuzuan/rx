@@ -65,7 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\adapters-sqlserver.adapter.cs">
-      <Link>adapters-sqlserver.adapter.cs</Link>
+      <Link>Properties\adapters-sqlserver.adapter.cs</Link>
     </Compile>
     <Compile Include="ColumnGeneratorMetadata.cs" />
     <Compile Include="ColumnMember.cs" />

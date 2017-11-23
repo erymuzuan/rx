@@ -50,11 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
-      <Link>AssemblyVersionInfo.cs</Link>
-    </Compile>
     <Compile Include="..\..\assembly.versions\dependencies-windows.taskschedulers.cs">
-      <Link>dependencies-windows.taskschedulers.cs</Link>
+      <Link>Properties\dependencies-windows.taskschedulers.cs</Link>
     </Compile>
     <Compile Include="TaskScheduler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

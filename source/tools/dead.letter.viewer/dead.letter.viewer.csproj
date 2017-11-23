@@ -118,7 +118,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="..\..\assembly.versions\tools-dead.letter.viewer.cs">
-      <Link>tools-dead.letter.viewer.cs</Link>
+      <Link>Properties\tools-dead.letter.viewer.cs</Link>
     </Compile>
     <Compile Include="ConfigurationManager.cs" />
     <Compile Include="ConnectionDialog.xaml.cs">

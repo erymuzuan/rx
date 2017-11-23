@@ -63,11 +63,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
-      <Link>AssemblyVersionInfo.cs</Link>
-    </Compile>
+
     <Compile Include="..\..\assembly.versions\dependencies-rabbitmq.changepublisher.cs">
-      <Link>dependencies-rabbitmq.changepublisher.cs</Link>
+      <Link>Properties\dependencies-rabbitmq.changepublisher.cs</Link>
     </Compile>
     <Compile Include="..\..\extensions\LoggerExtensions.cs">
       <Link>LoggerExtensions.cs</Link>

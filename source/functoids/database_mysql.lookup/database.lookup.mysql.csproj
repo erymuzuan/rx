@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\functoids-database_mysql.lookup.cs">
-      <Link>functoids-database_mysql.lookup.cs</Link>
+      <Link>Properties\functoids-database_mysql.lookup.cs</Link>
     </Compile>
     <Compile Include="DictionaryValueExtractor.cs" />
     <Compile Include="MySQLLookup.cs" />

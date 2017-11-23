@@ -58,11 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
-      <Link>AssemblyVersionInfo.cs</Link>
-    </Compile>
+
     <Compile Include="..\..\assembly.versions\subscribers-subscriber.persistence.cs">
-      <Link>subscribers-subscriber.persistence.cs</Link>
+      <Link>Properties\subscribers-subscriber.persistence.cs</Link>
     </Compile>
     <Compile Include="..\..\extensions\BinaryExtensions.cs">
       <Link>BinaryExtensions.cs</Link>

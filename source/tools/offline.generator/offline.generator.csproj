@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\tools-offline.generator.cs">
-      <Link>tools-offline.generator.cs</Link>
+      <Link>Properties\tools-offline.generator.cs</Link>
     </Compile>
     <Compile Include="PageBuilder.cs" />
     <Compile Include="Program.cs" />

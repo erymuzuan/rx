@@ -52,11 +52,8 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
-      <Link>AssemblyVersionInfo.cs</Link>
-    </Compile>
     <Compile Include="..\..\assembly.versions\dependencies-report.sqldatasource.cs">
-      <Link>dependencies-report.sqldatasource.cs</Link>
+      <Link>Properties\dependencies-report.sqldatasource.cs</Link>
     </Compile>
     <Compile Include="SqlCompiler.cs" />
     <Compile Include="SqlDataSource.cs" />

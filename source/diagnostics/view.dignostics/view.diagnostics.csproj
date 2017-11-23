@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\diagnostics-view.dignostics.cs">
-      <Link>diagnostics-view.dignostics.cs</Link>
+      <Link>Properties\diagnostics-view.dignostics.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewPartialDiagnostics.cs" />

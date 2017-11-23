@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\tools-receive.locations.host.cs">
-      <Link>tools-receive.locations.host.cs</Link>
+      <Link>Properties\tools-receive.locations.host.cs</Link>
     </Compile>
     <Compile Include="ConverterService.cs" />
     <Compile Include="Program.cs" />

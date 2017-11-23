@@ -85,7 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\adapters-http.adapter.cs">
-      <Link>adapters-http.adapter.cs</Link>
+      <Link>Properties\adapters-http.adapter.cs</Link>
     </Compile>
     <Compile Include="AuthenticationMode.cs" />
     <Compile Include="DefaultNameSuggestionHarProcessor.cs">

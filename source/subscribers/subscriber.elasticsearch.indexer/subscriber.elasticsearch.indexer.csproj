@@ -60,11 +60,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
-      <Link>AssemblyVersionInfo.cs</Link>
-    </Compile>
+
     <Compile Include="..\..\assembly.versions\subscribers-subscriber.elasticsearch.indexer.cs">
-      <Link>subscribers-subscriber.elasticsearch.indexer.cs</Link>
+      <Link>Properties\subscribers-subscriber.elasticsearch.indexer.cs</Link>
     </Compile>
     <Compile Include="CustomEntityIndexerSubscriber.cs" />
     <Compile Include="DataImportSubscriber.cs" />

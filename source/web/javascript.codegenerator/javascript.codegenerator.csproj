@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\web-javascript.codegenerator.cs">
-      <Link>web-javascript.codegenerator.cs</Link>
+      <Link>Properties\web-javascript.codegenerator.cs</Link>
     </Compile>
     <Compile Include="EntityDefinitionExtension.cs" />
     <Compile Include="JavascriptLanguageProvider.cs" />

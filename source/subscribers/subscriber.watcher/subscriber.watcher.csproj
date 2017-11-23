@@ -52,11 +52,9 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
-      <Link>AssemblyVersionInfo.cs</Link>
-    </Compile>
+
     <Compile Include="..\..\assembly.versions\subscribers-subscriber.watcher.cs">
-      <Link>subscribers-subscriber.watcher.cs</Link>
+      <Link>Properties\subscribers-subscriber.watcher.cs</Link>
     </Compile>
     <Compile Include="..\..\extensions\HttpClientExtensions.cs">
       <Link>HttpClientExtensions.cs</Link>

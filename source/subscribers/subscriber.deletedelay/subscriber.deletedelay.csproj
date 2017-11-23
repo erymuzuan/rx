@@ -46,11 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
-      <Link>AssemblyVersionInfo.cs</Link>
-    </Compile>
+
     <Compile Include="..\..\assembly.versions\subscribers-subscriber.deletedelay.cs">
-      <Link>subscribers-subscriber.deletedelay.cs</Link>
+      <Link>Properties\subscribers-subscriber.deletedelay.cs</Link>
     </Compile>
     <Compile Include="DeleteDelaySubscriber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

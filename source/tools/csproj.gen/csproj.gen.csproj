@@ -56,7 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\assembly.versions\tools-csproj.gen.cs">
-      <Link>tools-csproj.gen.cs</Link>
+      <Link>Properties\tools-csproj.gen.cs</Link>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Project.cs" />
