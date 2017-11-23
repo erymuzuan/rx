@@ -23,7 +23,7 @@ Write-Host "Importing posh-git"
 Import-Module posh-git
 
 $GitPromptSettings.EnableWindowTitle = "DevV1.$Environment~~"
-$GitPromptSettings.BeforeText=" [$Environment "
+$GitPromptSettings.BeforeText=" [DevV1 "
 $GitPromptSettings.BeforeForegroundColor="Cyan"
 
 Write-Host "Setting RxApplicationName to DevV1"
