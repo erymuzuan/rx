@@ -42,7 +42,7 @@ namespace Bespoke.Sph.Powershells
 
         private string[] GetSources(string type)
         {
-            var source = $@"{this.SessionState.Path.CurrentFileSystemLocation}\sources\{type}\";
+            var source = $@"{ConfigurationManager.SphSourceDirectory}\{type}\";
             var files = new[] { $"Cannot find any {type} in {Path.GetFullPath(source)}" };
             if (Directory.Exists(source))
             {
@@ -62,10 +62,18 @@ namespace Bespoke.Sph.Powershells
 
         protected override void ProcessRecord()
         {
-            var toolsSphBuilderExe = $@"{this.SessionState.Path.CurrentFileSystemLocation}\tools\sph.builder.exe";
+            var toolsSphBuilderExe = $@"{ConfigurationManager.ToolsPath}\sph.builder.exe";
+            WriteVerbose("Invoke " + toolsSphBuilderExe);
+            var debug = "";
+            if (this.MyInvocation.BoundParameters.ContainsKey("Debug"))
+            {
+                if (this.MyInvocation.BoundParameters["Debug"] is SwitchParameter ds)
+                    debug = ds.IsPresent ? " /debug " : "";
+            }
+
             void ExecuteSphBuilder(string src)
             {
-                var arg = $@"{ConfigurationManager.SphSourceDirectory}\{this.AssetType}\{src}.json /switch:{TraceSwitch}";
+                var arg = $@"{ConfigurationManager.SphSourceDirectory}\{this.AssetType}\{src}.json /switch:{TraceSwitch}{debug}";
                 var info = new ProcessStartInfo
                 {
                     FileName = toolsSphBuilderExe,
@@ -73,6 +81,7 @@ namespace Bespoke.Sph.Powershells
                     UseShellExecute = UseShellExecute.IsPresent
 
                 };
+                WriteVerbose(arg);
 
                 var builder = Process.Start(info);
                 builder?.WaitForExit();
@@ -202,11 +211,11 @@ namespace Bespoke.Sph.Powershells
         {
             var list = from o in Directory.GetFiles($@"{ConfigurationManager.SphSourceDirectory}\{assetType}\",
                     "*.json")
-                let text = File.ReadAllText(o)
-                let json = JObject.Parse(text)
-                let nameField = json.SelectToken("$.Name")
-                where null != nameField
-                select nameField.Value<string>();
+                       let text = File.ReadAllText(o)
+                       let json = JObject.Parse(text)
+                       let nameField = json.SelectToken("$.Name")
+                       where null != nameField
+                       select nameField.Value<string>();
 
             return list.ToArray();
         }
