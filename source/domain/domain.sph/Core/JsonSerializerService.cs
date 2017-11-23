@@ -346,6 +346,9 @@ namespace Bespoke.Sph.Domain
                 json.First.AddAfterSelf(new JProperty("$tool-commit-id", $"{SolutionVersion.COMMIT_ID}"));
             if (includeVersionMetadata.HasFlag(VersionInfo.Revision))
                 json.First.AddAfterSelf(new JProperty("$tool-revision", $"{SolutionVersion.REVISION}"));
+            if (value is IVersionInfo vi)
+                json.First.AddAfterSelf(new JProperty("$schema-version", $"{vi.Version}"));
+
 
             return json.ToString(format);
         }

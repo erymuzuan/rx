@@ -26,12 +26,17 @@ namespace Bespoke.Sph.Domain
 
 
 
-        public IEnumerable<Class> GenerateCode()
+        public async Task<IEnumerable<Class>> GenerateCodeAsync()
         {
             var cvs = ObjectBuilder.GetObject<ICvsProvider>();
             var src = $@"{ConfigurationManager.SphSourceDirectory}\{nameof(EntityDefinition)}\{Id}.json";
+            var commitId = await cvs.GetCommitIdAsync(src);
+
             var @class = new Class { Name = this.Name, FileName = $"{Name}.cs", Namespace = CodeNamespace, BaseClass = $"{nameof(Entity)}, {nameof(IVersionInfo)}" };
             @class.ImportCollection.AddRange(m_importDirectives);
+            @class.PropertyCollection.Add(new Property { Code = $@"string IVersionInfo.Version => ""{commitId}"";" });
+
+
             var list = new ObjectCollection<Class> { @class };
 
             if (this.Transient)
@@ -77,8 +82,7 @@ namespace Bespoke.Sph.Domain
             var properties = from m in this.MemberCollection
                              let prop = m.GeneratedCode("   ")
                              select new Property { Code = prop };
-            @class.PropertyCollection.ClearAndAddRange(properties);
-            @class.PropertyCollection.Add(new Property { Code = $@"string IVersionInfo.Version => ""{cvs.GetCommitIdAsync(src).Result}"";" });
+            @class.PropertyCollection.AddRange(properties);
 
             // classes for members
             foreach (var member in this.MemberCollection)

@@ -13,14 +13,14 @@ namespace subscriber.entities
 
         public override string[] RoutingKeys => new[] { typeof(EntityDefinition).Name + ".changed.Publish" };
 
-        protected override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
+        protected override async Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
             var options = new CompilerOptions();
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\core.sph.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll"));
 
-            var codes = item.GenerateCode();
+            var codes = await item.GenerateCodeAsync();
             var sources = item.SaveSources(codes);
             var result = item.Compile(options, sources);
 
@@ -29,13 +29,7 @@ namespace subscriber.entities
                 this.WriteError(new Exception(result.ToJsonString(Formatting.Indented)));
             
 
-            return Task.FromResult(0);
         }
-
-
-
-
-
 
     }
 }
