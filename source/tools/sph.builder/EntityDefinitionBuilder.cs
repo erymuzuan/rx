@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Extensions;
@@ -14,7 +13,7 @@ namespace Bespoke.Sph.SourceBuilders
 
         protected override async Task<WorkflowCompilerResult> CompileAssetAsync(EntityDefinition item)
         {
-            var cr = CompileEntityDefinition(item);
+            var cr = await CompileEntityDefinitionAsync(item);
             var cr1 = (await CompileDependenciesAsync(item)).ToList();
             var result = new WorkflowCompilerResult { Result = cr.Result && cr1.All(x => x.Result) };
             result.Errors.AddRange(cr.Errors);
@@ -106,7 +105,7 @@ namespace Bespoke.Sph.SourceBuilders
 
         }
 
-        private WorkflowCompilerResult CompileEntityDefinition(EntityDefinition ed)
+        private async Task<WorkflowCompilerResult> CompileEntityDefinitionAsync(EntityDefinition ed)
         {
             var options = new CompilerOptions
             {
@@ -118,7 +117,7 @@ namespace Bespoke.Sph.SourceBuilders
             options.AddReference(Path.GetFullPath($@"{webDir}\bin\core.sph.dll"));
             options.AddReference(Path.GetFullPath($@"{webDir}\bin\Newtonsoft.Json.dll"));
 
-            var codes = ed.GenerateCode();
+            var codes = await ed.GenerateCodeAsync();
             var sources = ed.SaveSources(codes);
             return ed.Compile(options, sources);
 

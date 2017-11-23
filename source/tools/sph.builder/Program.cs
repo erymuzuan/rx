@@ -27,13 +27,12 @@ namespace Bespoke.Sph.SourceBuilders
 
         public static async Task Main(string[] args)
         {
-            Console.WriteAscii("Reactive Developer 1.8", Color.Aqua);
+            Console.WriteAscii("Reactive Developer 2.1", Color.Aqua);
             '-'.WriteFrame();
             " ".WriteMessage(Color.Bisque);
             "Reactive Developer".WriteMessage(Color.Cyan);
             " ".WriteMessage(Color.Cyan);
             "Welcome to Rx Developer platform command line build tools".WriteMessage(Color.Yellow);
-            "This tool will truncate all your system data(sph) and rebuild it from your source folder".WriteMessage(Color.Red);
 
             '-'.WriteFrame();
             Console.ResetColor();
