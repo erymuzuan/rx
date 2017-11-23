@@ -1,14 +1,19 @@
 {
   "$type": "Bespoke.DevV1.States.Domain.State, DevV1.State",
+  "$schema-version": "527c17cce",
+  "$tool-version": "2.1.2153.6180-94ad72f76",
   "Name": "Johor",
   "Abbreviation": "JHR",
   "Country": "Malaysia",
   "FlagStoreId": null,
   "Area": null,
-  "CreatedBy": "DESKTOP-3ELVHLM",
+  "Size": null,
+  "Population": 0,
+  "Gdp": null,
+  "CreatedBy": "admin",
   "Id": "Johor",
-  "CreatedDate": "2016-03-24T17:45:05.5361334+08:00",
-  "ChangedBy": "DESKTOP-3ELVHLM",
-  "ChangedDate": "2016-03-24T17:45:05.5191338+08:00",
-  "WebId": "f99821c5-3814-4314-a0cc-ca1edfda2c90"
+  "CreatedDate": "2017-11-23T08:20:00.3411353+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2017-11-23T08:21:01.473583+08:00",
+  "WebId": "8c6c3a02-0f49-449e-bea3-98e04e2a28cf"
 }
