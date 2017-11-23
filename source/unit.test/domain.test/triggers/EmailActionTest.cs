@@ -18,7 +18,7 @@ namespace domain.test.triggers
         [Fact]
         public async Task Email()
         {
-            var customer = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync();
             customer.FirstName = "Mercedes";
             ObjectBuilder.AddCacheList<ITemplateEngine>(new MockTemplateEngine());
             CustomAction email = new EmailAction
@@ -38,7 +38,7 @@ namespace domain.test.triggers
         [Fact]
         public async Task EmailWithModel()
         {
-            var customer = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync();
             customer.FirstName = "Ferarri";
             customer.Contact.Email = "ruzzaima@bespoke.com.my";
             ObjectBuilder.AddCacheList<ITemplateEngine>(new MockTemplateEngine());

@@ -5,6 +5,7 @@ using System.Reflection;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
 using Xunit;
+using System.Threading.Tasks;
 
 namespace domain.test.entities
 {
@@ -12,7 +13,7 @@ namespace domain.test.entities
     public class EntityDefinitionCodeTest
     {
         [Fact]
-        public void GenerateRootWithDefaultValues()
+        public async  Task GenerateRootWithDefaultValues()
         {
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
 
@@ -69,7 +70,7 @@ namespace domain.test.entities
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\core.sph.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\Newtonsoft.Json.dll"));
 
-            var codes = ent.GenerateCode();
+            var codes = await ent.GenerateCodeAsync();
             var sources = ent.SaveSources(codes);
             var result = ent.Compile(options, sources);
             result.Errors.ForEach(Console.WriteLine);
@@ -92,7 +93,7 @@ namespace domain.test.entities
 
 
         [Fact]
-        public void GenerateCodeBasic()
+        public async Task GenerateCodeBasic()
         {
             var ent = new EntityDefinition { Name = "BusinessOppurtunity", Plural = "BusinessOppurtunities", RecordName = "Name" };
             ent.MemberCollection.Add(new SimpleMember
@@ -124,7 +125,7 @@ namespace domain.test.entities
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\core.sph.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\Newtonsoft.Json.dll"));
 
-            var codes = ent.GenerateCode();
+            var codes = await ent.GenerateCodeAsync();
             var sources = ent.SaveSources(codes);
 
             var result = ent.Compile(options, sources);

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Amido.NAuto;
 using Amido.NAuto.Randomizers;
 using Bespoke.Sph.Domain;
@@ -32,7 +33,7 @@ namespace domain.test
             return Activator.CreateInstance(type);
         }
 
-        public static Type CompileEntityDefinition(EntityDefinition ed)
+        public static async Task<Type> CompileEntityDefinitionAsync(EntityDefinition ed)
         {
             var options = new CompilerOptions
             {
@@ -46,7 +47,7 @@ namespace domain.test
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\Newtonsoft.Json.dll"));
 
 
-            var codes = ed.GenerateCode();
+            var codes = await ed.GenerateCodeAsync();
             var sources = ed.SaveSources(codes);
             var result = ed.Compile(options, sources);
             result.Errors.ForEach(Console.WriteLine);

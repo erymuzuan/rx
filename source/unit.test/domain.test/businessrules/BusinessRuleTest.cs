@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
 using Xunit;
@@ -24,7 +25,7 @@ namespace domain.test.businessrules
         public void SimpleRule()
         {
             var ed = this.CreatePatientDefinition();
-            dynamic patient = this.CreateInstance(ed);
+            dynamic patient = this.CreateInstanceAsync(ed);
             patient.FullName = "Erymuzuan";
 
             var br = new BusinessRule { ErrorMessage = "Nama tidak mengandungi huruf A" };
@@ -53,7 +54,7 @@ namespace domain.test.businessrules
         public void SimpleRuleWithFilter()
         {
             var ed = this.CreatePatientDefinition();
-            dynamic patient = this.CreateInstance(ed);
+            dynamic patient = this.CreateInstanceAsync(ed);
             patient.FullName = "Erymuzuan";
             patient.Gender = "Male";
 
@@ -91,7 +92,7 @@ namespace domain.test.businessrules
         public void SimpleRuleWithFilterNotEvaluated()
         {
             var ed = this.CreatePatientDefinition();
-            dynamic patient = this.CreateInstance(ed);
+            dynamic patient = this.CreateInstanceAsync(ed);
             patient.FullName = "Siti";
             patient.Gender = "Female";
 
@@ -128,7 +129,7 @@ namespace domain.test.businessrules
         public void SimpleRuleWithoutFilter()
         {
             var ed = this.CreatePatientDefinition();
-            dynamic patient = this.CreateInstance(ed);
+            dynamic patient = this.CreateInstanceAsync(ed);
             patient.FullName = "Siti";
             patient.Gender = "Female";
 
@@ -156,7 +157,7 @@ namespace domain.test.businessrules
         {
 
             var ed = this.CreatePatientDefinition();
-            dynamic patient = this.CreateInstance(ed);
+            dynamic patient = this.CreateInstanceAsync(ed);
 
             var br = new BusinessRule { ErrorMessage = "Nama tidak mengandungi huruf A" };
             var nameMustContainsA = new Rule
@@ -177,7 +178,7 @@ namespace domain.test.businessrules
             };
             br2.RuleCollection.Add(nameMustContainsB);
 
-            
+
             patient.FullName = "Kelantan";
             ed.BusinessRuleCollection.Add(br);
             ed.BusinessRuleCollection.Add(br2);
@@ -196,7 +197,7 @@ namespace domain.test.businessrules
         {
 
             var ed = this.CreatePatientDefinition();
-            dynamic patient = this.CreateInstance(ed);
+            dynamic patient = this.CreateInstanceAsync(ed);
 
             var br = new BusinessRule { ErrorMessage = "Nama tidak mengandungi huruf A" };
             var nameMustContainsA = new Rule
@@ -216,7 +217,7 @@ namespace domain.test.businessrules
                 Right = new ConstantField { Type = typeof(string), Value = "B" }
             };
             br2.RuleCollection.Add(nameMustContainsB);
-            
+
             patient.FullName = "PERLIS";
             ed.BusinessRuleCollection.Add(br);
             ed.BusinessRuleCollection.Add(br2);
@@ -231,7 +232,7 @@ namespace domain.test.businessrules
         }
 
 
-        private dynamic CreateInstance(EntityDefinition ed, bool verbose = false)
+        private async Task<dynamic> CreateInstanceAsync(EntityDefinition ed, bool verbose = false)
         {
             var options = new CompilerOptions
             {
@@ -243,7 +244,7 @@ namespace domain.test.businessrules
             options.AddReference(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\Newtonsoft.Json.dll"));
 
 
-            var codes = ed.GenerateCode();
+            var codes = await ed.GenerateCodeAsync();
             var sources = ed.SaveSources(codes);
             var result = ed.Compile(options, sources);
 

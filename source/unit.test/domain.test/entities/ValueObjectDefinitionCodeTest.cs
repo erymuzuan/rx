@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
 using Moq;
-using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace domain.test.entities
@@ -52,7 +52,7 @@ namespace domain.test.entities
         }
 
         [Fact]
-        public void GenerateCodeBasic()
+        public async Task GenerateCodeBasic()
         {
             var ent = new EntityDefinition { Name = "Customer", Plural = "Customers", RecordName = "Name2" };
             ent.MemberCollection.Add(new SimpleMember
@@ -93,7 +93,7 @@ namespace domain.test.entities
             options.ReferencedAssembliesLocation.Add($@"{ConfigurationManager.Home}\..\source\web\web.sph\bin\core.sph.dll");
             options.ReferencedAssembliesLocation.Add($@"{ConfigurationManager.Home}\..\source\web\web.sph\bin\Newtonsoft.Json.dll");
 
-            var codes = ent.GenerateCode();
+            var codes =await ent.GenerateCodeAsync();
             var sources = ent.SaveSources(codes);
 
             var result = ent.Compile(options, sources);

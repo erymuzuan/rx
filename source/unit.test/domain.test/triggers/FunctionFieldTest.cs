@@ -44,7 +44,7 @@ namespace domain.test.triggers
         [InlineData("CreatedDate", typeof(DateTime), "return item.CreatedDate;")]
         public void DocumentFieldEqFunction(string member, Type type, string script)
         {
-            dynamic customer = this.GetCustomerInstance();
+            dynamic customer = this.GetCustomerInstanceAsync();
             customer.CreatedDate = DateTime.Today;
             customer.ChangedDate = DateTime.Today.AddDays(-10);
             customer.Id = "abc";

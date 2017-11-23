@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
 using Xunit;
@@ -40,9 +41,9 @@ namespace domain.test.triggers
 
         }
         [Fact]
-        public void GetValueStringWith2MethodArgs()
+        public async Task GetValueStringWith2MethodArgs()
         {
-            var customer = this.GetCustomerInstance();
+            var customer =await this.GetCustomerInstanceAsync();
             var context = new RuleContext(customer);
 
             var af = new AssemblyField
@@ -60,9 +61,9 @@ namespace domain.test.triggers
         }
 
         [Fact]
-        public void GetValueStringWithEntityMethodArg()
+        public async Task GetValueStringWithEntityMethodArg()
         {
-            var customer = this.GetCustomerInstance();
+            var customer =await this.GetCustomerInstanceAsync();
             customer.FirstName = "Erymuzuan";
             var context = new RuleContext(customer);
 
@@ -83,9 +84,9 @@ namespace domain.test.triggers
 
 
         [Fact]
-        public void GetAsyncValueString()
+        public async Task GetAsyncValueString()
         {
-            var customer = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync();
             customer.FirstName = "Erymuzuan";
             var context = new RuleContext(customer);
 
@@ -107,9 +108,9 @@ namespace domain.test.triggers
 
         }
         [Fact]
-        public void TaskStringAsyncValueString()
+        public async Task TaskStringAsyncValueString()
         {
-            var customer = this.GetCustomerInstance();
+            var customer =await this.GetCustomerInstanceAsync();
             customer.FirstName = "Erymuzuan";
             var context = new RuleContext(customer);
 
@@ -133,9 +134,9 @@ namespace domain.test.triggers
         }
 
         [Fact]
-        public void GetNullableDateTime()
+        public async Task GetNullableDateTime()
         {
-            var customer = this.GetCustomerInstance();
+            var customer =await this.GetCustomerInstanceAsync();
             customer.FirstName = "Erymuzuan";
             var context = new RuleContext(customer);
 
@@ -156,9 +157,9 @@ namespace domain.test.triggers
         }
 
         [Fact]
-        public void GetAsyncValueOverloaded()
+        public async Task GetAsyncValueOverloaded()
         {
-            var customer = this.GetCustomerInstance();
+            var customer = await this.GetCustomerInstanceAsync();
             customer.FirstName = "Erymuzuan";
             var context = new RuleContext(customer);
 

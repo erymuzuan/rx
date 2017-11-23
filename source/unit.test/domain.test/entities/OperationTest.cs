@@ -43,7 +43,7 @@ namespace domain.test.entities
                 .Returns(new QueryEndpoint());
             ObjectBuilder.AddCacheList(m_cache.Object);
         }
-        private dynamic CreateInstance(EntityDefinition ed, bool verbose = false)
+        private async Task<dynamic> CreateInstanceAsync(EntityDefinition ed, bool verbose = false)
         {
             var options = new CompilerOptions
             {
@@ -59,7 +59,7 @@ namespace domain.test.entities
             File.Copy(core, destinationCore, true);
 
 
-            var codes = ed.GenerateCode();
+            var codes =await ed.GenerateCodeAsync();
             var sources = ed.SaveSources(codes);
             var result = ed.Compile(options, sources);
 
@@ -128,7 +128,7 @@ namespace domain.test.entities
         public void GeneratePatientTest()
         {
             var ed = this.CreatePatientDefinition();
-            var patient = this.CreateInstance(ed, true);
+            var patient = this.CreateInstanceAsync(ed, true);
             Assert.NotNull(patient);
         }
 
@@ -153,7 +153,7 @@ namespace domain.test.entities
             endpoint.AddRules("VerifyRegisteredDate");
 
             var ed = this.CreatePatientDefinition(endpoint.Entity);
-            var patient = this.CreateInstance(ed, true);
+            var patient = this.CreateInstanceAsync(ed, true);
             Assert.NotNull(patient);
 
             m_cache.Setup(x => x.Get<EntityDefinition>(ed.Id))
@@ -210,7 +210,7 @@ namespace domain.test.entities
         public async Task HttpPatchReleaseOperation()
         {
             var ed = this.CreatePatientDefinition("PatientForRelease");
-            var patient = this.CreateInstance(ed, true);
+            var patient = this.CreateInstanceAsync(ed, true);
             Assert.NotNull(patient);
 
 
@@ -241,7 +241,7 @@ namespace domain.test.entities
             admit.PatchPathCollection.Add(new PatchSetter { Path = "Status", DefaultValue = "\"Admitted\"" });
 
 
-            var patient = this.CreateInstance(ed, true);
+            var patient = this.CreateInstanceAsync(ed, true);
             Assert.NotNull(patient);
 
             var cr = await admit.CompileAsync(ed);
@@ -295,7 +295,7 @@ namespace domain.test.entities
                 }
             });
 
-            var patient = this.CreateInstance(ed, true);
+            var patient = this.CreateInstanceAsync(ed, true);
             Assert.NotNull(patient);
 
             var cr = await admit.CompileAsync(ed);
@@ -316,7 +316,7 @@ namespace domain.test.entities
         public async Task HttpDelete()
         {
             var ed = this.CreatePatientDefinition("PatientDelete");
-            var patient = this.CreateInstance(ed);
+            var patient = this.CreateInstanceAsync(ed);
             Assert.NotNull(patient);
 
             var delete = new OperationEndpoint { Name = "Remove", Entity = ed.Name, Route = "", IsHttpDelete = true, WebId = "remove" };
@@ -349,16 +349,16 @@ namespace domain.test.entities
         [Trait("Verb", "DELETE")]
         public async Task HttpDeleteWithRule()
         {
-            const string name = "PatientDeleteWithRule";
-            var delete = new OperationEndpoint { Name = "Remove", Id = "patient-remove", Entity = name, Resource = "patients", Route = "", IsHttpDelete = true, WebId = "remove" };
+            const string NAME = "PatientDeleteWithRule";
+            var delete = new OperationEndpoint { Name = "Remove", Id = "patient-remove", Entity = NAME, Resource = "patients", Route = "", IsHttpDelete = true, WebId = "remove" };
 
-            var ed = this.CreatePatientDefinition(name);
+            var ed = this.CreatePatientDefinition(NAME);
             var rule = new BusinessRule { Name = "Cannot delete admitted patient", WebId = "rule01" };
             rule.RuleCollection.Add(new Rule { Left = new DocumentField { Path = "Status" }, Operator = Operator.Neq, Right = new ConstantField { Value = "Admitter", Type = typeof(string) } });
             ed.BusinessRuleCollection.Add(rule);
             delete.Rules.Add(rule.Name);
 
-            var patient = this.CreateInstance(ed, true);
+            var patient = this.CreateInstanceAsync(ed, true);
             Assert.NotNull(patient);
 
             var cr = await delete.CompileAsync(ed);
@@ -420,7 +420,7 @@ namespace domain.test.entities
             File.WriteAllText(jsonPath, ed.ToJsonString(true));
             File.WriteAllText(oePath, mortuary.ToJsonString(true));
 
-            var patient = this.CreateInstance(ed, true);
+            var patient =await this.CreateInstanceAsync(ed, true);
             Assert.NotNull(patient);
             patient.Id = "0142ae18-a205-4979-9218-39f92b41589e";
             patient.DeathDateTime = DateTime.Today.AddDays(1);
@@ -483,7 +483,7 @@ namespace domain.test.entities
             File.WriteAllText(jsonPath, ed.ToJsonString(true));
             File.WriteAllText(oePath, release.ToJsonString(true));
 
-            var patient = this.CreateInstance(ed, true);
+            var patient =await this.CreateInstanceAsync(ed, true);
             Assert.NotNull(patient);
             patient.Id = Guid.NewGuid().ToString();
             patient.DeathDateTime = DateTime.Today.AddDays(1);
@@ -552,7 +552,7 @@ namespace domain.test.entities
             File.WriteAllText(oePath, release.ToJsonString(true));
 
 
-            var patient = this.CreateInstance(ed, true);
+            var patient =await this.CreateInstanceAsync(ed, true);
             Assert.NotNull(patient);
             patient.DeathDateTime = DateTime.Today.AddDays(1);
             patient.Id = Guid.NewGuid().ToString();

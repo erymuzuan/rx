@@ -39,7 +39,7 @@ namespace domain.test.triggers
         public async Task Compile()
         {
             var ed = CreateAccountDefinition();
-            var account = this.CreateInstance(ed);
+            var account = this.CreateInstanceAsync(ed);
             Assert.NotNull(account);
 
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
@@ -68,7 +68,7 @@ namespace domain.test.triggers
 
 
 
-        private dynamic CreateInstance(EntityDefinition ed, bool verbose = false)
+        private async Task<dynamic> CreateInstanceAsync(EntityDefinition ed, bool verbose = false)
         {
             var options = new CompilerOptions
             {
@@ -79,7 +79,7 @@ namespace domain.test.triggers
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\core.sph.dll"));
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\Newtonsoft.Json.dll"));
 
-            var codes = ed.GenerateCode();
+            var codes = await ed.GenerateCodeAsync();
             var sources = ed.SaveSources(codes);
             var result = ed.Compile(options, sources);
             result.Errors.ForEach(x => this.Console.WriteLine(x.ToString()));

@@ -3,14 +3,23 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Xunit;
+using Xunit.Abstractions;
+using domain.test.Extensions;
 
 namespace domain.test.change.tracker
 {
-    
+
     public class CustomEntityChangeTest
     {
+        public ITestOutputHelper Console { get; }
+
+        public CustomEntityChangeTest(ITestOutputHelper console)
+        {
+            Console = console;
+        }
         private EntityDefinition GetCustomerEntityDefinition()
         {
             var customerDefinition = File.ReadAllText(Path.Combine(ConfigurationManager.SphSourceDirectory, "EntityDefinition/Customer.json"));
@@ -18,17 +27,17 @@ namespace domain.test.change.tracker
 
         }
 
-        private dynamic GetCustomerInstance()
+        private async Task<dynamic> GetCustomerInstanceAsync()
         {
             var ed = this.GetCustomerEntityDefinition();
-            var type = CustomerEntityHelper.CompileEntityDefinition(ed);
+            var type = await CustomerEntityHelper.CompileEntityDefinitionAsync(ed);
             return CustomerEntityHelper.CreateCustomerInstance(type);
         }
 
         [Fact]
-        public void ChangeFirstName()
+        public async Task ChangeFirstName()
         {
-            var c = this.GetCustomerInstance();
+            var c = await this.GetCustomerInstanceAsync();
             c.FirstName = "1";
 
             var c1 = JsonSerializerService.JsonClone(c);
@@ -45,9 +54,9 @@ namespace domain.test.change.tracker
         }
 
         [Fact]
-        public void ChangeAddressState()
+        public async Task ChangeAddressState()
         {
-            var c2 = this.GetCustomerInstance();
+            var c2 = await this.GetCustomerInstanceAsync();
             c2.FirstName = "1";
             c2.Address.State = "Selangor";
 
@@ -59,7 +68,7 @@ namespace domain.test.change.tracker
             var changes = generator.GetChanges(c2, c1) as ObjectCollection<Change>;
             Assert.NotNull(changes);
 
-            changes.ForEach(Console.WriteLine);
+            changes.ForEach(x => Console.WriteLine(x));
             Assert.Equal(2, changes.Count);
             Assert.Contains(changes, c => c.PropertyName == "Address.State");
         }
@@ -70,14 +79,14 @@ namespace domain.test.change.tracker
             var c2 = new Designation();
             c2.RoleCollection.Add("admin");
             var c1 = c2.JsonClone();
-            
+
             c1.RoleCollection.Add("dev");
 
             var generator = new ChangeGenerator();
             var changes = generator.GetChanges(c2, c1) as ObjectCollection<Change>;
             Assert.NotNull(changes);
 
-            changes.ForEach(Console.WriteLine);
+            changes.ForEach(x => Console.WriteLine(x));
             Assert.Equal(2, changes.Count);
         }
 
@@ -87,28 +96,28 @@ namespace domain.test.change.tracker
             var c2 = new Designation();
             c2.RoleCollection.Add("admin");
             var c1 = c2.JsonClone();
-            
+
             c1.RoleCollection[0] = "dev";
 
             var generator = new ChangeGenerator();
             var changes = generator.GetChanges(c2, c1) as ObjectCollection<Change>;
             Assert.NotNull(changes);
 
-            changes.ForEach(Console.WriteLine);
+            changes.ForEach(x => Console.WriteLine(x));
             Assert.Single(changes);
         }
 
         [Fact]
-        public void CollectionChildItemAdded()
+        public async Task CollectionChildItemAdded()
         {
-            var c2 = this.GetCustomerInstance();
+            var c2 = await this.GetCustomerInstanceAsync();
             c2.FirstName = "erymuzuan";
             c2.Contact.Name = "wan fatimah";
 
             var c1 = JsonSerializerService.JsonClone(c2);
 
             var assembly = Assembly.Load($"{ConfigurationManager.ApplicationName}.Customer");
-            var type = assembly.GetType($"Bespoke.DevV1.Customers.Domain.Attachment");
+            var type = assembly.GetType("Bespoke.DevV1.Customers.Domain.Attachment");
             dynamic attachment = Activator.CreateInstance(type);
             attachment.Title = "My essay";
 
@@ -119,12 +128,12 @@ namespace domain.test.change.tracker
             var changes = generator.GetChanges(c2, c1) as ObjectCollection<Change>;
             Assert.NotNull(changes);
 
-            changes.ForEach(Console.WriteLine);
+            changes.ForEach(x => Console.WriteLine(x));
             Assert.Single(changes);
         }
 
         [Fact]
-        public void CollectionItemChanged()
+        public async Task CollectionItemChanged()
         {
             var assembly = Assembly.Load($"{ConfigurationManager.ApplicationName}.Customer");
             var type = assembly.GetType($"Bespoke.DevV1.Customers.Domain.Attachment");
@@ -133,7 +142,7 @@ namespace domain.test.change.tracker
             attachment.Title = "My essay";
             attachment.WebId = "ABC";
 
-            var c2 = this.GetCustomerInstance();
+            var c2 = await this.GetCustomerInstanceAsync();
             c2.FirstName = "erymuzuan";
             c2.Contact.Name = "wan fatimah";
             c2.Contact.AttachmentCollection.Add(attachment);
@@ -145,7 +154,7 @@ namespace domain.test.change.tracker
             var changes = generator.GetChanges(c2, c1) as ObjectCollection<Change>;
             Assert.NotNull(changes);
 
-            changes.ForEach(Console.WriteLine);
+            changes.ForEach(x => Console.WriteLine(x));
             Assert.Single(changes);
         }
 
@@ -165,7 +174,7 @@ namespace domain.test.change.tracker
             var generator = new ChangeGenerator();
             var changes = generator.GetChanges(c2, c1).ToList();
             Assert.Single(changes);
-            changes.ForEach(Console.WriteLine);
+            changes.ForEach(x => Console.WriteLine(x));
         }
 
         [Fact]
@@ -189,7 +198,7 @@ namespace domain.test.change.tracker
             var generator = new ChangeGenerator();
             var changes = generator.GetChanges(c2, c1).ToList();
             Assert.Equal(3, changes.Count());
-            changes.ForEach(System.Console.WriteLine);
+            changes.ForEach(x => Console.WriteLine(x));
             Assert.Contains(changes, c => c.PropertyName == "Owner.Name");
         }
 
@@ -214,7 +223,7 @@ namespace domain.test.change.tracker
             var generator = new ChangeGenerator();
             var changes = generator.GetChanges(c2, c1).ToList();
             Assert.Equal(3, changes.Count());
-            changes.ForEach(System.Console.WriteLine);
+            changes.ForEach(x => Console.WriteLine(x));
             Assert.Contains(changes, c => c.PropertyName == "Owner.Name");
         }
 

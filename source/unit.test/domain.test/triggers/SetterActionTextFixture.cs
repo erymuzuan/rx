@@ -32,7 +32,7 @@ namespace domain.test.triggers
             ObjectBuilder.AddCacheList<IPersistence>(persistence);
             ObjectBuilder.AddCacheList<IEntityChangePublisher>(publisher);
 
-            var customer = this.GetCustomerInstance();
+            var customer =await this.GetCustomerInstanceAsync();
             customer.FirstName = "Wan Fatimah";
             customer.Gender = "Female";
             customer.CreatedBy = "erymuzuan";
