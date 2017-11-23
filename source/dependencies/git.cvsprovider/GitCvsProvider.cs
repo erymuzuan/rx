@@ -9,6 +9,7 @@ namespace Bespoke.Sph.CvsProviders
     public class GitCvsProvider : ICvsProvider
     {
         private readonly string m_gitPath;
+        public int WaitForExit { get; set; } = ConfigurationManager.GetEnvironmentVariableInt32("GitWaitForExit", 5000);
 
         public GitCvsProvider()
         {
@@ -21,18 +22,24 @@ namespace Bespoke.Sph.CvsProviders
         }
 
         public Task<string> GetCommitIdAsync(string file)
-        {//git rev-parse --short HEAD 
+        {
+            //git rev-parse --short HEAD 
             var path = string.IsNullOrWhiteSpace(m_gitPath) ? "git.exe" : m_gitPath;
-            var git = new ProcessStartInfo(path, "log -n 1 --pretty=format:%h " + file)
+            var git = new ProcessStartInfo(path, "log -n 1 --pretty=format:%h " + file.GetFullFileName())
             {
                 UseShellExecute = false,
                 RedirectStandardOutput = true
             };
             var p = Process.Start(git);
             var output = p?.StandardOutput.ReadToEnd();
-            p?.WaitForExit();
-            if (string.IsNullOrWhiteSpace(output)) return null;
-            var commit = output.Split(new[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
+            p?.WaitForExit(WaitForExit);
+
+            if (string.IsNullOrWhiteSpace(output)) return Task.FromResult(string.Empty);
+            var commit = output
+                .Split(new[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries)
+                .Where(x => null != x)
+                .Select(x => x.Trim())
+                .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
 
             return Task.FromResult(commit);
         }
@@ -41,7 +48,7 @@ namespace Bespoke.Sph.CvsProviders
         {
             //git log -1
             var path = string.IsNullOrWhiteSpace(m_gitPath) ? "git.exe" : m_gitPath;
-            var git = new ProcessStartInfo(path, "log -n 1 --pretty=format:%s " + file)
+            var git = new ProcessStartInfo(path, "log -n 1 --pretty=format:%s " + file.GetFullFileName())
             {
                 UseShellExecute = false,
                 RedirectStandardOutput = true
@@ -51,7 +58,7 @@ namespace Bespoke.Sph.CvsProviders
             var p = Process.Start(git);
             var output = p?.StandardOutput.ReadToEnd();
             p?.WaitForExit();
-            if (string.IsNullOrWhiteSpace(output)) return null;
+            if (string.IsNullOrWhiteSpace(output)) return Task.FromResult(string.Empty);
             var comment = output.Split(new[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
             return Task.FromResult(comment);
         }
@@ -64,7 +71,7 @@ namespace Bespoke.Sph.CvsProviders
                 PageSize = size,
                 TotalRows = GetTotalCommitCount(file)
             };
-            var git = new ProcessStartInfo("git.exe", $"log --skip {(page - 1) * size} -n {size}  --pretty=format:%h^-^%an^-^%aI^-^%s " + file)
+            var git = new ProcessStartInfo("git.exe", $"log --skip {(page - 1) * size} -n {size}  --pretty=format:%h^-^%an^-^%aI^-^%s " + file.GetFullFileName())
             {
                 UseShellExecute = false,
                 RedirectStandardOutput = true
@@ -87,7 +94,7 @@ namespace Bespoke.Sph.CvsProviders
 
         private static int? GetTotalCommitCount(string file)
         {
-            var git = new ProcessStartInfo("git.exe", "rev-list --all --count " + file)
+            var git = new ProcessStartInfo("git.exe", "rev-list --all --count " + file.GetFullFileName())
             {
                 UseShellExecute = false,
                 RedirectStandardOutput = true
@@ -101,33 +108,6 @@ namespace Bespoke.Sph.CvsProviders
             if (int.TryParse(output, out var total))
                 return total;
             return default;
-
-        }
-    }
-
-    public static class GitLogExtensions
-    {
-        public static CommitLog Parse(this string ln, string delimiter = "^-^")
-        {
-            var logs = ln.Split(new[] { delimiter }, StringSplitOptions.None);
-            try
-            {
-                var log = new CommitLog
-                {
-                    Comment = logs[3],
-                    DateTime = DateTime.Parse(logs[2]),
-                    Commiter = logs[1],
-                    CommitId = logs[0]
-                };
-
-                return log;
-
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-
 
         }
     }

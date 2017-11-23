@@ -45,6 +45,7 @@
       <Link>dependencies-git.cvsprovider.cs</Link>
     </Compile>
     <Compile Include="GitCvsProvider.cs" />
+    <Compile Include="GitLogExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
