@@ -1,27 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Bespoke.Sph.Domain;
+using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.ElasticsearchRepository.Extensions
 {
     public static class QueryDslExtension
     {
-
-        public static string CompileToElasticsearchQueryDsl(this Entity entity, QueryDsl query)
+        public static string CompileToElasticsearchQuery(this QueryDsl query)
         {
+            throw new NotImplementedException("Searching all the types within indices is not supported yet\r\n" + query);
+        }
 
+        public static string CompileToElasticsearchQuery<T>(this QueryDsl query, JObject mapping) where T : DomainObject, new()
+        {
             var elements = new Dictionary<string, object>();
+            var entity = new T();
 
             var hasFilters = query.Filters.Any();
             if (hasFilters)
             {
                 if (query.Aggregates.Any())
-                    elements.Add("query", entity.CompileToElasticsearchBoolQuery(query.Filters.ToArray()));
+                    elements.Add("query", entity.CompileToElasticsearchBoolQuery(query.Filters.ToArray(), mapping));
 
                 if (!query.Aggregates.Any())
-                    elements.Add("filter", entity.CompileToElasticsearchBoolQuery(query.Filters.ToArray()));
+                    elements.Add("filter", entity.CompileToElasticsearchBoolQuery(query.Filters.ToArray(),mapping));
 
-                var fullText = entity.CompileToElasticsearchFullTextQuery(query.Filters.ToArray());
+                var fullText = entity.CompileToElasticsearchFullTextQuery(query.Filters.ToArray(),mapping);
                 if (!string.IsNullOrWhiteSpace(fullText))
                     elements.AddOrReplace("query", fullText);
             }

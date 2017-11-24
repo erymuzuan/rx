@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Bespoke.Sph.Domain;
+using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.ElasticsearchRepository.Extensions
 {
     public static class FilterExtension
     {
-        public static bool? IsMustNotFilter(this Filter filter, Entity item = null)
+        public static bool? IsMustNotFilter(this Filter filter, DomainObject item = null)
         {
             return !IsMustFilter(filter, item);
         }
 
-        public static bool? IsMustFilter(this Filter filter, Entity item = null)
+        public static bool? IsMustFilter(this Filter filter, DomainObject item = null)
         {
             var rc = new RuleContext(item);
             switch (filter.Operator)
@@ -53,40 +54,41 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
         }
 
 
-
-        public static string CompileToElasticsearchBoolQuery<T>(this IEnumerable<Filter> filters) where T : Entity, new()
+        public static string CompileToElasticsearchBoolQuery<T>(this IEnumerable<Filter> filters, JObject mapping)
+            where T : DomainObject, new()
         {
-            return new T().CompileToElasticsearchBoolQuery(filters);
+            return new T().CompileToElasticsearchBoolQuery(filters,mapping);
         }
 
-        public static string CompileToElasticsearchFullTextQuery(this Entity entity, IEnumerable<Filter> filters)
+        public static string CompileToElasticsearchFullTextQuery(this DomainObject entity, IEnumerable<Filter> filters, JObject mapping)
         {
             var filterList = (filters ?? Array.Empty<Filter>()).ToArray();
-            if(filterList.Count(x => x.Operator == Operator.FullText) > 1)
-                throw new ArgumentException("You cannot have more than 1 FullText operator specifed in a query", nameof(filters));
+            if (filterList.Count(x => x.Operator == Operator.FullText) > 1)
+                throw new ArgumentException("You cannot have more than 1 FullText operator specifed in a query",
+                    nameof(filters));
 
             var queries = filterList.Where(x => !x.IsMustFilter(entity).HasValue)
-                .Select(x => x.CompileToElasticsearchTermLevelQuery(entity, filterList))
+                .Select(x => x.CompileToElasticsearchTermLevelQuery(entity, mapping, filterList))
                 .Distinct()
                 .Where(x => !string.IsNullOrWhiteSpace(x))
                 .ToString(",\r\n");
 
             return queries;
-
         }
-        public static string CompileToElasticsearchBoolQuery(this Entity entity, IEnumerable<Filter> filters)
+
+        public static string CompileToElasticsearchBoolQuery(this DomainObject entity, IEnumerable<Filter> filters, JObject mapping)
         {
             var filterList = (filters ?? Array.Empty<Filter>()).ToArray();
 
             var musts = filterList.Where(x => x.IsMustFilter(entity) ?? false)
-                .Select(x => x.CompileToElasticsearchTermLevelQuery(entity, filterList))
+                .Select(x => x.CompileToElasticsearchTermLevelQuery(entity, mapping, filterList))
                 .Distinct()
                 .Where(x => !string.IsNullOrWhiteSpace(x))
                 .ToString(",\r\n");
 
 
             var mustNots = filterList.Where(x => x.IsMustNotFilter(entity) ?? false)
-                .Select(x => x.CompileToElasticsearchTermLevelQuery(entity, filterList))
+                .Select(x => x.CompileToElasticsearchTermLevelQuery(entity, mapping, filterList))
                 .Distinct()
                 .Where(x => !string.IsNullOrWhiteSpace(x))
                 .ToString(",\r\n");
@@ -101,18 +103,19 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
                   ]
                }}
            }}";
-
         }
 
-        public static string CompileToElasticsearchTermLevelQuery<T>(this Filter target, Filter[] filters = null) where T : Entity, new()
+        public static string CompileToElasticsearchTermLevelQuery<T>(this Filter target, JObject mapping, Filter[] filters = null)
+            where T : Entity, new()
         {
-            return target.CompileToElasticsearchTermLevelQuery(new T());
+            return target.CompileToElasticsearchTermLevelQuery(new T(),mapping);
         }
 
-        private static string CompileToElasticsearchTermLevelQuery(this Filter target, Entity entity, Filter[] filters = null)
+        private static string CompileToElasticsearchTermLevelQuery(this Filter target, DomainObject entity, JObject mapping,
+            Filter[] filters = null)
         {
             if (null == filters)
-                filters = new[] { target };
+                filters = new[] {target};
 
             var context = new RuleContext(entity);
             var query = new StringBuilder();
@@ -172,7 +175,6 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
                                 ranges.Add("lt", ov);
                                 break;
                         }
-
                     }
                     query.AppendLine(ranges.ToString(",\r\n", x => $@"""{x.Key}"":{x.Value}"));
                     query.AppendLine("}");
@@ -190,9 +192,22 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
                 case Operator.FullText:
                     var field = target.Term == "*" ? "_all" : target.Term;
                     query.AppendLine($@"
-                            ""query_string"" : {{ ""default_field"" : ""{field}"",""query"" : ""{target.Field.GetValue(context)}""}}
+                            ""query_string"" : {{ ""default_field"" : ""{field}"",""query"" : ""{
+                            target.Field.GetValue(context)
+                        }""}}
                             ");
 
+                    break;
+                case Operator.NotStartsWith:
+                case Operator.StartsWith:
+                    var (_, analyzed) = mapping.GetMapping(target.Term);
+                    if(analyzed != "not_analyzed")
+                        throw new NotSupportedException($"{target.Term} is {analyzed} and not supported for prefix term query in Elasticsearch");
+                    query.AppendLine($@"""prefix"": {{""{target.Term}"": ""{target.Field.GetValue(context)}"" }}");
+                    break;
+                case Operator.NotEndsWith:
+                case Operator.EndsWith:
+                    throw new NotSupportedException("Elasticsearch doesn't support EndsWith term query in filter, let me know if you find  a way to do it");
                     break;
 
                 default: throw new Exception(target.Operator + " is not supported for filter DSL yet");

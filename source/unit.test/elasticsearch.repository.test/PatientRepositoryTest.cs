@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.ElasticsearchRepository;
 using Bespoke.Sph.ElasticsearchRepository.Extensions;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xunit;
 using Xunit.Abstractions;
@@ -15,14 +16,21 @@ namespace Bespoke.Sph.Tests.Elasticsearch
     [Collection(ElasticsearchServerCollection.ELASTICSEARCH_COLLECTION)]
     public class PatientRepositoryTest
     {
-        public ElasticsearchServerFixture Fixture { get; }
+        private ElasticsearchServerFixture Fixture { get; }
         private ITestOutputHelper Console { get; }
+        private readonly JObject m_mapping;
 
         public PatientRepositoryTest(ElasticsearchServerFixture fixture, ITestOutputHelper console)
         {
             Fixture = fixture;
             Console = console;
             ObjectBuilder.AddCacheList<ILogger>(new XunitConsoleLogger(console));
+            // read JSON directly from a file
+            using (var file = File.OpenText($@"{ConfigurationManager.Home}\..\source\unit.test\sample-data-patients\Patient.mapping"))
+            using (var reader = new JsonTextReader(file))
+            {
+                m_mapping = (JObject) JToken.ReadFrom(reader);
+            }
         }
 
         [Fact]
@@ -32,14 +40,14 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             {
                 new Filter("Gender", Operator.Eq, "Male")
             });
-            var query = ((Patient)null).CompileToElasticsearchQueryDsl(dsl);
+            var query = dsl.CompileToElasticsearchQuery<Patient>(m_mapping);
             var json = JObject.Parse(query);
             Console.WriteLine(query);
             Assert.Single(json.SelectToken("$.filter.bool.must"));
             Assert.Empty(json.SelectToken("$.filter.bool.must_not"));
             Assert.Equal("Male", json.SelectToken("$.filter.bool.must[0].term.Gender").Value<string>());
-
         }
+
         [Fact]
         public void TwoEqTerms()
         {
@@ -49,13 +57,13 @@ namespace Bespoke.Sph.Tests.Elasticsearch
                 new Filter("Gender", Operator.Eq, "Female"),
                 new Filter("Race", Operator.Eq, "Chinese")
             });
-            var query = ((Patient)null).CompileToElasticsearchQueryDsl(dsl);
+            var query = dsl.CompileToElasticsearchQuery<Patient>(m_mapping);
             var json = Console.WriteJson(query);
             Assert.Equal(2, json.SelectToken("$.filter.bool.must").Count());
             Assert.Single(json.SelectToken("$.filter.bool.must_not"));
             Assert.Equal("Female", json.SelectToken("$.filter.bool.must[0].term.Gender").Value<string>());
-
         }
+
         [Fact]
         public async Task FullTextAllField()
         {
@@ -65,8 +73,8 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             });
             var lo = await Fixture.Repository.SearchAsync(dsl);
             Assert.Equal(30, lo.TotalRows);
-
         }
+
         [Fact]
         public async Task FullTextFullName()
         {
@@ -76,8 +84,8 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             });
             var lo = await Fixture.Repository.SearchAsync(dsl);
             Assert.Equal(2, lo.TotalRows);
-
         }
+
         [Fact]
         public async Task FullTextFullNameAndHomeAddress()
         {
@@ -88,8 +96,32 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             });
             var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await Fixture.Repository.SearchAsync(dsl));
             Assert.Contains("more than 1 FullText", ex.Message);
-
         }
+
+        [Fact]
+        public async Task StartsWithFullName()
+        {
+            var dsl = new QueryDsl(new[]
+            {
+                new Filter("FullName", Operator.StartsWith, "Mo")
+            });
+            var ex = await Assert.ThrowsAsync<NotSupportedException>(async () =>
+                await Fixture.Repository.SearchAsync(dsl));
+            Assert.Contains("FullName is analyzed", ex.Message);
+        }
+
+        [Fact]
+        public async Task StartsHomeAddress()
+        {
+            var dsl = new QueryDsl(new[]
+            {
+                new Filter("HomeAddress.State", Operator.StartsWith, "P")
+            });
+            var lo = await Fixture.Repository.SearchAsync(dsl);
+            Assert.Equal(18, lo.TotalRows);
+        }
+
+
         [Fact]
         public void Range()
         {
@@ -100,12 +132,11 @@ namespace Bespoke.Sph.Tests.Elasticsearch
                 new Filter("Gender", Operator.Eq, "Female"),
                 new Filter("Race", Operator.Eq, "Chinese")
             });
-            var query = ((Patient)null).CompileToElasticsearchQueryDsl(dsl);
+            var query = dsl.CompileToElasticsearchQuery<Patient>(m_mapping);
             var json = Console.WriteJson(query);
             Assert.Equal(3, json.SelectToken("$.filter.bool.must").Count());
             Assert.Empty(json.SelectToken("$.filter.bool.must_not"));
             Assert.Equal("Female", json.SelectToken("$.filter.bool.must[1].term.Gender").Value<string>());
-
         }
 
         [Fact]
@@ -115,12 +146,10 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             {
                 new Filter("Age", Operator.Eq, 45)
             });
-            var query = ((Patient)null).CompileToElasticsearchQueryDsl(dsl);
+            var query = dsl.CompileToElasticsearchQuery<Patient>(m_mapping);
             var json = Console.WriteJson(query);
             Assert.Equal(45, json.SelectToken("$.filter.bool.must[0].term.Age").Value<int>());
-
         }
-
 
 
         [Theory]
@@ -146,6 +175,7 @@ namespace Bespoke.Sph.Tests.Elasticsearch
 
             Assert.True(must);
         }
+
         [Theory]
         [InlineData("Age", Operator.Neq, 45)]
         [InlineData("FullName", Operator.Neq, "Tan")]
@@ -181,12 +211,12 @@ namespace Bespoke.Sph.Tests.Elasticsearch
         {
             var dsl = new QueryDsl(new[]
             {
-                new Filter("Dob", Operator.Gt, new DateTime(1950,1,1))
+                new Filter("Dob", Operator.Gt, new DateTime(1950, 1, 1))
             });
-            var query = ((Patient)null).CompileToElasticsearchQueryDsl(dsl);
+            var query = dsl.CompileToElasticsearchQuery<Patient>(m_mapping);
             var json = Console.WriteJson(query);
-            Assert.Equal(json.SelectToken("$.filter.bool.must[0].range.Dob.gt").Value<DateTime>(), new DateTime(1950, 1, 1));
-
+            Assert.Equal(json.SelectToken("$.filter.bool.must[0].range.Dob.gt").Value<DateTime>(),
+                new DateTime(1950, 1, 1));
         }
 
         [Fact]
@@ -194,15 +224,14 @@ namespace Bespoke.Sph.Tests.Elasticsearch
         {
             var female = await Fixture.Repository.SearchAsync(new QueryDsl(new[]
             {
-                new Filter("Gender",Operator.Eq, "Female")
+                new Filter("Gender", Operator.Eq, "Female")
             }));
             Assert.Equal(33, female.TotalRows);
             var male = await Fixture.Repository.SearchAsync(new QueryDsl(new[]
             {
-                new Filter("Gender",Operator.Neq, "Female")
+                new Filter("Gender", Operator.Neq, "Female")
             }));
             Assert.Equal(67, male.TotalRows);
-
         }
 
 
@@ -212,8 +241,8 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             var repos = new ReadOnlyRepository<Patient>(Fixture.Url, Fixture.Index);
             var query = new QueryDsl(new[]
             {
-                new Filter("Gender",Operator.Eq, "Female")
-            }, new[] { new Sort { Direction = SortDirection.Desc, Path = "Mrn" } });
+                new Filter("Gender", Operator.Eq, "Female")
+            }, new[] {new Sort {Direction = SortDirection.Desc, Path = "Mrn"}});
             query.Fields.AddRange("FullName", "Age", "Dob", "Wife.Name");
             var lo = await repos.SearchAsync(query);
 
@@ -230,14 +259,15 @@ namespace Bespoke.Sph.Tests.Elasticsearch
 
             Assert.Equal(33, lo.TotalRows);
         }
+
         [Fact]
         public async Task MaxAggregate()
         {
             var repos = Fixture.Repository;
             var query = new QueryDsl(new[]
             {
-                new Filter("Gender",Operator.Eq, "Female")
-            }, new[] { new Sort { Direction = SortDirection.Desc, Path = "Mrn" } });
+                new Filter("Gender", Operator.Eq, "Female")
+            }, new[] {new Sort {Direction = SortDirection.Desc, Path = "Mrn"}});
             query.Fields.AddRange("FullName", "Age", "Dob", "Wife.Name");
             query.Aggregates.Add(new MaxAggregate("LastModifiedDate", "ChangedDate"));
             var lo = await repos.SearchAsync(query);
@@ -245,26 +275,5 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             var max = lo.GetAggregateValue<DateTime>("LastModifiedDate");
             Assert.Equal("2001-05-26T00:00:00", max.ToString("s"));
         }
-
-
-
-    }
-
-    [DebuggerDisplay("{Mrn}({FullName})")]
-    public class Patient : Entity
-    {
-        public string Mrn { get; set; }
-        public string FullName { get; set; }
-        public DateTime? Dob { get; set; }
-        public string Gender { get; set; }
-        public int Age { get; set; }
-        public NextOfKin NextOfKin { get; set; }
-    }
-
-    [DebuggerDisplay("{FullName}")]
-    public class NextOfKin
-    {
-        public string FullName { get; set; }
-        public string Relationship { get; set; }
     }
 }

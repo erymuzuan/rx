@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.ElasticsearchRepository.Extensions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.ElasticsearchRepository
@@ -11,11 +12,13 @@ namespace Bespoke.Sph.ElasticsearchRepository
     public class RequestMeteringRepository : RepositoryWithNamingStrategy, IMeteringRepository, IDisposable
     {
         private readonly HttpClient m_client;
+        private readonly JObject m_mapping;
 
         public RequestMeteringRepository(string host, string baseIndexName)
         {
             this.BaseIndexName = baseIndexName;
             m_client = new HttpClient { BaseAddress = new Uri(host) };
+            m_mapping = JObject.Parse(Properties.Resources.RequestLogMapping);
         }
 
         public RequestMeteringRepository() : this(EsConfigurationManager.Host, ConfigurationManager.ApplicationName.ToLower() + "_logs")
@@ -39,7 +42,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
             var alias = GetIndexAlias(query.Filters.ToArray());
             var url = $"{alias}/request_log/_search";
             
-            var dsl = default(Entity).CompileToElasticsearchQueryDsl(query);
+            var dsl = query.CompileToElasticsearchQuery<HttpRequestLog>(m_mapping);
             var response = await m_client.PostAsync(url, new StringContent(dsl));
             var lo = await response.ReadContentAsLoadOperationAsync<HttpRequestLog>(query);
             return lo;

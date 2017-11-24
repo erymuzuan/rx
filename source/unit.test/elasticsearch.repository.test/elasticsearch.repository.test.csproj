@@ -63,6 +63,8 @@
       <Link>HttpClientExtensions.cs</Link>
     </Compile>
     <Compile Include="ElasticsearchServerFixture.cs" />
+    <Compile Include="NextOfKin.cs" />
+    <Compile Include="Patient.cs" />
     <Compile Include="PatientRepositoryTest.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

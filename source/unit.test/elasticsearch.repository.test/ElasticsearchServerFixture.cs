@@ -21,7 +21,8 @@ namespace Bespoke.Sph.Tests.Elasticsearch
         public ElasticsearchServerFixture()
         {
             Client = new HttpClient { BaseAddress = new Uri(URL) };
-            this.Repository = new ReadOnlyRepository<Patient>(URL, INDEX);
+            var mapping = JObject.Parse(System.Text.Encoding.UTF8.GetString(Properties.Resources.Patient));
+            this.Repository = new ReadOnlyRepository<Patient>(URL, INDEX, mapping);
             // TODO : RUN source\unit.test\sample-data-patients\create-index.linq
             this.InitializeIndexAsync()
                 .ContinueWith(_ =>
