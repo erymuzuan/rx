@@ -1,3 +1,4 @@
+[CmdLetBinding()]
 Param(
     [string]$Environment = "dev.local"
   )
@@ -14,4 +15,4 @@ Param(
   $env:RX_DEVV1_HOME="$PWD\bin"
   $env:RX_DEVV1_WebPath="$PWD\web\web.sph"
 
-  C:\Windows\system32\WindowsPowerShell\v1.0\powershell.exe -NoExit -Command "Set-Variable -Name 'RxApplicationName' -Value 'DevV1'; .\$envScript -CallFromStartSnbPowershell"
+  C:\Windows\system32\WindowsPowerShell\v1.0\powershell.exe -NoExit -Command "Set-Variable -Name 'RxApplicationName' -Value 'DevV1'; .\$envScript -LoadRxPsModule"
