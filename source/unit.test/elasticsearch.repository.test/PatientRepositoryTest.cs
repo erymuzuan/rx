@@ -170,7 +170,7 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             {
                 value = DateTime.Parse(text.Replace("DateTime", "").Replace("'", ""));
             }
-            var filter = new Filter(term, op, value);
+            var filter = new Filter(term, op, value).ToElasticsearchFilter();
             var must = filter.IsMustFilter();
 
             Assert.True(must);
@@ -186,7 +186,7 @@ namespace Bespoke.Sph.Tests.Elasticsearch
         [InlineData("Mrn", Operator.IsNotNull, true)] //missing
         public void FiltersMustNots(string term, Operator op, object value = null)
         {
-            var filter = new Filter(term, op, value);
+            var filter = new Filter(term, op, value).ToElasticsearchFilter();
             var mustNot = filter.IsMustNotFilter();
 
             Assert.True(mustNot);
@@ -196,8 +196,8 @@ namespace Bespoke.Sph.Tests.Elasticsearch
         [Fact]
         public void FiltersMustNotNeq()
         {
-            var age = new Filter("Age", Operator.Eq, 45);
-            var gender = new Filter("Gender", Operator.Neq, "Female");
+            var age = new Filter("Age", Operator.Eq, 45).ToElasticsearchFilter();
+            var gender = new Filter("Gender", Operator.Neq, "Female").ToElasticsearchFilter();
             var ageMust = age.IsMustFilter();
             var genderMustNot = gender.IsMustNotFilter();
 

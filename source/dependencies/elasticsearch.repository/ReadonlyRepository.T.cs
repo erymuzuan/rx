@@ -129,7 +129,8 @@ namespace Bespoke.Sph.ElasticsearchRepository
 
         public async Task<int> GetCountAsync(Filter[] filters)
         {
-            var query = filters.CompileToElasticsearchBoolQuery<T>(null);
+            var arraFilters = filters.ToElasticsearchFilter();
+            var query = arraFilters.CompileToBoolQuery(new T());
             var request = new StringContent(query);
             var url = $"{m_url}/_count";
 

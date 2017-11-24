@@ -21,13 +21,14 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
             var hasFilters = query.Filters.Any();
             if (hasFilters)
             {
+                var arrayEsFilters = query.Filters.ToElasticsearchFilter(mapping);
                 if (query.Aggregates.Any())
-                    elements.Add("query", entity.CompileToElasticsearchBoolQuery(query.Filters.ToArray(), mapping));
+                    elements.Add("query", arrayEsFilters.CompileToBoolQuery(entity));
 
                 if (!query.Aggregates.Any())
-                    elements.Add("filter", entity.CompileToElasticsearchBoolQuery(query.Filters.ToArray(),mapping));
+                    elements.Add("filter", arrayEsFilters.CompileToBoolQuery(entity));
 
-                var fullText = entity.CompileToElasticsearchFullTextQuery(query.Filters.ToArray(),mapping);
+                var fullText = arrayEsFilters.CompileToFullTextQuery(entity);
                 if (!string.IsNullOrWhiteSpace(fullText))
                     elements.AddOrReplace("query", fullText);
             }
