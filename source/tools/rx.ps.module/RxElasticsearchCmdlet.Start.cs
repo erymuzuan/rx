@@ -7,6 +7,9 @@ using System.Net.Http;
 using System.Threading;
 using Bespoke.Sph.RxPs.Domain;
 using Bespoke.Sph.RxPs.Extensions;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable UnusedMember.Global
 
 namespace Bespoke.Sph.RxPs
 {
