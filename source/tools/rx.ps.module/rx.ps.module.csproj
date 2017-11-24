@@ -107,6 +107,7 @@
     <Compile Include="RxTransformDefinitionCmdLet.cs" />
     <Compile Include="RxUserProfileCmdlet.cs" />
     <Compile Include="RxWebServerCmdlet.cs" />
+    <Compile Include="RxWebServerCmdlet.Start.cs" />
     <Compile Include="RxWorkerCmdlet.cs" />
     <Compile Include="RxWorkerCmdlet.Get.cs">
       <DependentUpon>RxWorkerCmdlet.cs</DependentUpon>

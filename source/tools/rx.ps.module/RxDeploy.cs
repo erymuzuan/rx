@@ -84,8 +84,8 @@ namespace Bespoke.Sph.Powershells
             }
 
 
-            var deployExe = $@"{this.SessionState.Path.CurrentFileSystemLocation}\tools\deployment.agent.exe";
-            WriteVerbose($"Executing deployment.agent.exe {args}");
+            var deployExe = $@"{ConfigurationManager.ToolsPath}\deployment.agent.exe";
+            WriteVerbose($"Executing..  {deployExe} {args}");
 
             var info = new ProcessStartInfo
             {

@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -63,6 +64,7 @@
       <Link>HttpClientExtensions.cs</Link>
     </Compile>
     <Compile Include="ElasticsearchServerFixture.cs" />
+    <Compile Include="IndexAliasTest.cs" />
     <Compile Include="NextOfKin.cs" />
     <Compile Include="Patient.cs" />
     <Compile Include="PatientRepositoryTest.cs" />
