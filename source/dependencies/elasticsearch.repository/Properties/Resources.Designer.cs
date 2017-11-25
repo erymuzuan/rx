@@ -75,6 +75,15 @@ namespace Bespoke.Sph.ElasticsearchRepository.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {&quot;log&quot;:{&quot;properties&quot;:{&quot;callerFilePath&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;callerLineNumber&quot;:{&quot;type&quot;:&quot;long&quot;},&quot;callerMemberName&quot;:{&quot;type&quot;:&quot;string&quot;,&quot;index&quot;:&quot;not_analyzed&quot;},&quot;computer&quot;:{&quot;type&quot;:&quot;string&quot;,&quot;index&quot;:&quot;not_analyzed&quot;},&quot;details&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;exception&quot;:{&quot;properties&quot;:{&quot;CLR_SafeSerializationManager_RealType&quot;:{&quot;type&quot;:&quot;string&quot;,&quot;index&quot;:&quot;not_analyzed&quot;},&quot;ClassName&quot;:{&quot;type&quot;:&quot;string&quot;,&quot;index&quot;:&quot;not_analyzed&quot;},&quot;Data&quot;:{&quot;type&quot;:&quot;object&quot;},&quot;ExceptionMethod&quot;:{&quot;type&quot;:&quot;string&quot;,&quot;index&quot;:&quot;not_analyzed&quot;},&quot;Exceptions&quot;:{&quot;properties&quot;:{&quot;ClassN [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string LogMapping {
+            get {
+                return ResourceManager.GetString("LogMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &quot;event&quot;:{
         ///        &quot;properties&quot;:{
         ///            &quot;MessageId&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;index&quot;:&quot;not_analyzed&quot;},
@@ -88,6 +97,15 @@ namespace Bespoke.Sph.ElasticsearchRepository.Properties {
         internal static string MessageTrackingMapping {
             get {
                 return ResourceManager.GetString("MessageTrackingMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {&quot;request_log&quot;:{&quot;properties&quot;:{&quot;action&quot;:{&quot;type&quot;:&quot;string&quot;,&quot;index&quot;:&quot;not_analyzed&quot;},&quot;controller&quot;:{&quot;type&quot;:&quot;string&quot;,&quot;index&quot;:&quot;not_analyzed&quot;},&quot;elapsed&quot;:{&quot;type&quot;:&quot;long&quot;},&quot;request&quot;:{&quot;properties&quot;:{&quot;accepts&quot;:{&quot;type&quot;:&quot;string&quot;,&quot;index&quot;:&quot;not_analyzed&quot;},&quot;cacheControl&quot;:{&quot;type&quot;:&quot;string&quot;,&quot;fields&quot;:{&quot;raw&quot;:{&quot;type&quot;:&quot;string&quot;,&quot;index&quot;:&quot;not_analyzed&quot;}}},&quot;host&quot;:{&quot;type&quot;:&quot;string&quot;,&quot;fields&quot;:{&quot;raw&quot;:{&quot;type&quot;:&quot;string&quot;,&quot;index&quot;:&quot;not_analyzed&quot;}}},&quot;isSecure&quot;:{&quot;type&quot;:&quot;boolean&quot;},&quot;localIpAddress&quot;:{&quot;type&quot;:&quot;string&quot;,&quot;index&quot;:&quot;not_analyzed&quot;},&quot;method&quot;:{&quot;typ [rest of stri....
+        /// </summary>
+        internal static string RequestLogMapping {
+            get {
+                return ResourceManager.GetString("RequestLogMapping", resourceCulture);
             }
         }
     }

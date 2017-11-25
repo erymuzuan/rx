@@ -1,25 +1,45 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.ElasticsearchRepository.Extensions;
 
 namespace Bespoke.Sph.ElasticsearchRepository
 {
-    public abstract class RepositoryWithNamingStrategy
+    public abstract class RepositoryWithNamingStrategy : IDisposable
     {
+
+        protected HttpClient Client { get; }
+
+        protected RepositoryWithNamingStrategy(string host, string baseIndexName)
+        {
+            this.BaseIndexName = baseIndexName;
+            Client = new HttpClient { BaseAddress = new Uri(host) };
+        }
+
         public string BaseIndexName { get; set; }
         public IndexNamingStrategy IndexNamingStrategy { get; set; } = IndexNamingStrategy.Daily;
 
-        public void Initialize()
+        private DateTime m_aliasIsCreated = DateTime.MinValue;
+
+        protected async Task CreateAliasesQueryAsync(DateTime dateTime)
         {
-            // TODO : create index alias base on IndexNamingStrategy
-            /*
-             {
-    "actions" : [
-        { "add" : { "index" : "test1", "alias" : "alias1" } }
+            // create aliases ?? how much impact, hopefuly not much , it's just once a day
+            if (m_aliasIsCreated.Date == DateTime.Today) return;
+
+            var index = this.GetIndexName();
+            var aliases = this.GenerateAliasesName(dateTime);
+            var action = $@"         {{
+    ""actions"" : [
+        {{ ""add"" : {{ ""index"" : ""{index}"", ""alias"" : ""{aliases[0]}"" }} }},
+        {{ ""add"" : {{ ""index"" : ""{index}"", ""alias"" : ""{aliases[1]}"" }} }},
+        {{ ""add"" : {{ ""index"" : ""{index}"", ""alias"" : ""{aliases[2]}"" }} }}
     ]
-}
-             */
+}}";
+            var response = await this.Client.PostAsync("_aliases", new StringContent(action));
+            response.EnsureSuccessStatusCode();
+            m_aliasIsCreated = DateTime.Today;
         }
 
 
@@ -44,20 +64,28 @@ namespace Bespoke.Sph.ElasticsearchRepository
             }
         }
 
-        protected string GetIndexAlias(Filter[] filters)
+        protected string GetIndexAlias(Filter[] filters, string defaultDateTimeField = nameof(Entity.CreatedDate))
         {
-            // TODO : figure out the index alias, based on filters
-            var start = filters.SingleOrDefault(x => x.Term.Equals("Time", StringComparison.InvariantCultureIgnoreCase) && (x.Operator == Operator.Ge || x.Operator == Operator.Gt));
-            var to = filters.SingleOrDefault(x => x.Term.Equals("Time", StringComparison.InvariantCultureIgnoreCase) && (x.Operator == Operator.Le || x.Operator == Operator.Lt));
-            if (null == start || null == to) return BaseIndexName;
+            var from = filters.FirstOrDefault(x =>
+                x.Term == defaultDateTimeField && (x.Operator == Operator.Ge || x.Operator == Operator.Gt));
+            var to = filters.FirstOrDefault(x =>
+                x.Term == defaultDateTimeField && (x.Operator == Operator.Le || x.Operator == Operator.Lt));
 
-            if (start.Field.GetValue(default) is DateTime startDate &&
+            return GetIndexAlias(from, to);
+
+        }
+
+        protected string GetIndexAlias(Filter @from, Filter to)
+        {
+            if (null == @from || null == to) return BaseIndexName;
+
+            if (@from.Field.GetValue(default) is DateTime startDate &&
                 to.Field.GetValue(default) is DateTime endDate)
             {
                 if (startDate.IsTheSameDay(endDate) && IndexNamingStrategy <= IndexNamingStrategy.Daily)
                     return $"{BaseIndexName}_{startDate:yyyyMMdd}";
                 if (startDate.IsTheSameWeek(endDate) && IndexNamingStrategy <= IndexNamingStrategy.YearAndWeek)
-                    return $"{BaseIndexName}_{startDate:yyyy}W{startDate.GetIso8601WeekOfYear()}";
+                    return $"{BaseIndexName}_{startDate:yyyy}W{startDate.GetIso8601WeekOfYear():00}";
                 if (startDate.IsTheSameMonth(endDate) && IndexNamingStrategy <= IndexNamingStrategy.YearAndMonth)
                     return $"{BaseIndexName}_{startDate:yyyyMM}";
                 if (startDate.Year == endDate.Year)
@@ -65,45 +93,23 @@ namespace Bespoke.Sph.ElasticsearchRepository
                 return BaseIndexName;
             }
 
-
             return BaseIndexName;
 
         }
 
-    }
-
-    public static class DateTimeExtension
-    {
-        public static bool IsTheSameDay(this DateTime one, DateTime two)
+        protected string[] GenerateAliasesName(DateTime dateTime)
         {
-            return one.Year == two.Year && one.Month == two.Month && one.Day == two.Day;
-        }
-        public static bool IsTheSameWeek(this DateTime one, DateTime two)
-        {
-            return one.Year == two.Year && one.GetIso8601WeekOfYear() == two.GetIso8601WeekOfYear();
-        }
-        public static bool IsTheSameMonth(this DateTime one, DateTime two)
-        {
-            return one.Year == two.Year && one.Month == two.Month;
-        }
-        public static bool IsTheSameYear(this DateTime one, DateTime two)
-        {
-            return one.Year == two.Year;
-        }
-
-        public static int GetIso8601WeekOfYear(this DateTime time)
-        {
-            // Seriously cheat.  If its Monday, Tuesday or Wednesday, then it'll 
-            // be the same week# as whatever Thursday, Friday or Saturday are,
-            // and we always get those right
-            var day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
-            if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
+            return new[]
             {
-                time = time.AddDays(3);
-            }
+                $"{BaseIndexName}_{dateTime:yyyy}",
+                $"{BaseIndexName}_{dateTime:yyyyMM}",
+                $"{BaseIndexName}_{dateTime:yyyy}W{dateTime.GetIso8601WeekOfYear():00}"
+            };
+        }
 
-            // Return the week of our adjusted day
-            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+        public void Dispose()
+        {
+            Client?.Dispose();
         }
     }
 }

@@ -51,7 +51,7 @@ namespace Bespoke.Sph.Mangements.Commands
                 if (typeof(T) == typeof(bool))
                     return (T)(object)ParseArgExist(this.Switches);
 
-                return default(T);
+                return default;
 
             }
             T Parse(string text)
@@ -61,7 +61,7 @@ namespace Bespoke.Sph.Mangements.Commands
 
                 if (typeof(T) == typeof(int?))
                 {
-                    if (int.TryParse(text, out int nullableIntValue))
+                    if (int.TryParse(text, out var nullableIntValue))
                         return (T)(object)nullableIntValue;
                 }
                 if (typeof(T) == typeof(int))
@@ -69,12 +69,12 @@ namespace Bespoke.Sph.Mangements.Commands
 
                 if (typeof(T) == typeof(double?))
                 {
-                    if (double.TryParse(text, out double nullableDoubleValue))
+                    if (double.TryParse(text, out var nullableDoubleValue))
                         return (T)(object)nullableDoubleValue;
                 }
                 if (typeof(T) == typeof(double))
                     return (T)(double.Parse(text) as object);
-                return default(T);
+                return default;
             }
 
             if (null != this.PromptOptions)
@@ -93,7 +93,7 @@ namespace Bespoke.Sph.Mangements.Commands
                 }
                 Console.WriteLine();
                 Console.Write(" Key in your options and press [Enter] : ", Color.CadetBlue);
-                if (int.TryParse(System.Console.ReadLine(), out int choice))
+                if (int.TryParse(System.Console.ReadLine(), out var choice))
                 {
                     if (choice >= options.Length)
                     {
@@ -105,20 +105,15 @@ namespace Bespoke.Sph.Mangements.Commands
                 Console.WriteLine();
 
             }
-            if (this.Position > 0)
-            {
-                var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                    .Where(x => !x.StartsWith("/"))
-                    .Where(x => !x.StartsWith("-"))
-                    .ToArray();
-                if (this.Position >= args.Length)
-                    return default(T);
+            if (this.Position <= 0) return ReadSwithces();
+            var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                .Where(x => !x.StartsWith("/"))
+                .Where(x => !x.StartsWith("-"))
+                .ToArray();
+            if (this.Position >= args.Length)
+                return default;
 
-                return Parse(args[Position]);
-
-            }
-
-            return ReadSwithces();
+            return Parse(args[Position]);
         }
 
         private static string ParseArg(params string[] keys)
@@ -143,7 +138,7 @@ namespace Bespoke.Sph.Mangements.Commands
                 var text = val?.Replace("/" + name + ":", string.Empty);
                 if (int.TryParse(text, out int number))
                     yield return number;
-                yield return default(int?);
+                yield return default;
             }
 
             return keys.Select(GetValue).Where(x => null != x).SelectMany(x => x).FirstOrDefault(x => x.HasValue);

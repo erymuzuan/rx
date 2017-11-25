@@ -15,14 +15,10 @@ namespace Bespoke.Sph.ElasticSearchLogger
     public class Logger : RepositoryWithNamingStrategy, ILogger
     {
         public Severity TraceSwitch { get; set; } = Severity.Info;
-        private readonly HttpClient m_client;
 
-        public Logger(string host, string baseIndexName, IndexNamingStrategy namingStrategy)
+        public Logger(string host, string baseIndexName, IndexNamingStrategy namingStrategy) : base(host, baseIndexName)
         {
             this.IndexNamingStrategy = namingStrategy;
-            this.BaseIndexName = baseIndexName;
-            if (null == m_client)
-                m_client = new HttpClient { BaseAddress = new Uri(host) };
         }
         public Logger(string host, string baseIndexName) : this(EsConfigurationManager.LogHost, baseIndexName, IndexNamingStrategy.Daily)
         {
@@ -42,14 +38,16 @@ namespace Bespoke.Sph.ElasticSearchLogger
             var index = GetIndexName();
             var url = $"{index}/log/{entry.Id}";
 
-            var response = await m_client.PutAsync(url, content);
+            var response = await this.Client.PutAsync(url, content);
             Debug.WriteLine("{0}=>{1}", url, response.StatusCode);
 
         }
         public void Log(LogEntry entry)
         {
             this.LogAsync(entry).ContinueWith(_ => { }).ConfigureAwait(false);
+            this.CreateAliasesQueryAsync(DateTime.Today).ContinueWith(_ => { }).ConfigureAwait(false);
         }
+
         private static StringContent GetJsonContent(LogEntry entry)
         {
             var setting = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };

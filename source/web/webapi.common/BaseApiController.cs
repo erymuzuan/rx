@@ -107,10 +107,10 @@ namespace Bespoke.Sph.WebApi
                         .Select(x => x.Value)
                         .SingleOrDefault();
                 if (string.IsNullOrWhiteSpace(callback))
-                    return Invalid(HttpStatusCode.BadRequest, "no callback funtion is defined in $callback");
+                    return Invalid(HttpStatusCode.BadRequest, "No callback funtion is defined in $callback");
             }
             var json = data.ToJson();
-            if (typeof(T) == typeof(string))
+            if (data is string text)
             {
                 try
                 {

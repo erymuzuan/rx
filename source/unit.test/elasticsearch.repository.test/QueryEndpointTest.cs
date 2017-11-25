@@ -13,10 +13,12 @@ namespace Bespoke.Sph.Tests.Elasticsearch
     public class QueryEndpointTest
     {
         private ITestOutputHelper Console { get; }
+        private readonly JObject m_patientMapping;
 
         public QueryEndpointTest(ITestOutputHelper console)
         {
             Console = console;
+            m_patientMapping = JObject.Parse(System.Text.Encoding.UTF8.GetString(Properties.Resources.Patient));
         }
 
         [Fact]
@@ -50,7 +52,7 @@ namespace Bespoke.Sph.Tests.Elasticsearch
 
             var dsl = query.QueryDsl;
 
-            var json = new Patient().CompileToElasticsearchQueryDsl(dsl);
+            var json = dsl.CompileToElasticsearchQuery<Patient>(m_patientMapping);
             var jo = JObject.Parse(json);
             var fields = jo.SelectToken("$._source").Values<string>().ToArray();
             Assert.Contains("Dob", fields);
@@ -73,7 +75,7 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             var fields = new[] { "Dob", "FullName", "Gender", "Race" };
             query.MemberCollection.AddRange(fields);
 
-            var json = default(Patient).CompileToElasticsearchQueryDsl(query.QueryDsl);
+            var json = query.QueryDsl.CompileToElasticsearchQuery<Patient>(m_patientMapping);
             var jo = JObject.Parse(json);
             var esFields = jo.SelectToken("$._source").Values<string>().ToArrayString();
 

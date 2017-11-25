@@ -1,30 +1,30 @@
-﻿Param(
-    [switch]$CallFromStartSnbPowershell = $false,
+﻿[CmdLetBinding()]
+Param(
+    [switch]$LoadRxPsModule = $false,
     [string]$Environment="dev.local"
   )
 
-  if($CallFromStartSnbPowershell.IsPresent -eq $false){
-    Write-Host "This script should not be called directly, use StartDevV1Powershell.ps1" -ForegroundColor Yellow
-    return;
-  }
-
-  
-Write-Host "Importing rx.ps.module" 
-Import-Module .\bin\utils\rx.ps.module.dll
-
-Get-RxEntityDefinition -Name "Customer" -RxApplicationName "DevV1"
-
-New-Alias -Name "rx-builder" -Value "Invoke-RxBuilder"
-New-Alias -Name "rx-deploy" -Value "Invoke-RxDeploy"
-New-Alias -Name "rx-diff" -Value "Invoke-RxDiff"
-New-Alias -Name "rx-ds" -Value "Invoke-RxDeploymentStatus"
 
 Write-Host "Importing posh-git" 
 Import-Module posh-git
 
-$GitPromptSettings.EnableWindowTitle = "DevV1.$Environment~~"
-$GitPromptSettings.BeforeText=" [$Environment "
-$GitPromptSettings.BeforeForegroundColor="Cyan"
+ if($LoadRxPsModule.IsPresent){
+    Write-Host "Importing rx.ps.module" 
+    Import-Module .\bin\utils\rx.ps.module.dll
+
+    $test = Get-RxEntityDefinition -Name "Customer" -RxApplicationName "DevV1"
+    Write-Verbose $test
+
+    New-Alias -Name "rx-builder" -Value "Invoke-RxBuilder"
+    New-Alias -Name "rx-deploy" -Value "Invoke-RxDeploy"
+    New-Alias -Name "rx-diff" -Value "Invoke-RxDiff"
+    New-Alias -Name "rx-ds" -Value "Invoke-RxDeploymentStatus"
+
+    $GitPromptSettings.EnableWindowTitle = "DevV1.$Environment~~"
+    $GitPromptSettings.BeforeText=" [RxPs "
+    $GitPromptSettings.BeforeForegroundColor="Cyan"
+ 
+ }
 
 Write-Host "Setting RxApplicationName to DevV1"
 Set-Variable -Name 'RxApplicationName' -Value 'DevV1'

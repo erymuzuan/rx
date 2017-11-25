@@ -12,9 +12,12 @@ namespace Bespoke.Sph.ElasticsearchRepository
     public class WorkflowService : IWorkflowService
     {
         private readonly HttpClient m_client;
+        private readonly JObject m_mapping;
         public WorkflowService(string host)
         {
             m_client = new HttpClient { BaseAddress = new Uri(host) };
+            // TODO : mapping for workflow
+            m_mapping = JObject.Parse(Properties.Resources.LogMapping);
         }
         public WorkflowService() : this(EsConfigurationManager.Host)
         {
@@ -201,7 +204,7 @@ namespace Bespoke.Sph.ElasticsearchRepository
             int size = 20) where T : Workflow, new()
         {
             var wf = new T();
-            var terms = predicates.Select(x => x.CompileToElasticsearchTermLevelQuery<T>());
+            var terms = predicates.Select(x =>x.ToElasticsearchFilter(m_mapping)).Select(x => x.CompileToTermLevelQuery<T>());
             // TODO : Make the id field in mapping  as not-analyzed
             var ids = hits.Select(x => x.Remove(0, x.LastIndexOf("-", StringComparison.Ordinal) + 1))
                 .Select(x => $@"""{x}""")
@@ -277,7 +280,8 @@ namespace Bespoke.Sph.ElasticsearchRepository
 
         public async Task<IEnumerable<T>> SearchAsync<T>(IEnumerable<Filter> predicates) where T : Workflow, new()
         {
-            var terms = predicates.Select(x => x.CompileToElasticsearchTermLevelQuery<T>());
+            // TODO : the mapping is unique to each workflow
+            var terms = predicates.Select(x => x.ToElasticsearchFilter(m_mapping)).Select(x => x.CompileToTermLevelQuery<T>());
             var query = $@"{{
                        ""query"": {{
                           ""bool"": {{

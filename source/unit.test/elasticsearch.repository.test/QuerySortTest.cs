@@ -10,10 +10,12 @@ namespace Bespoke.Sph.Tests.Elasticsearch
     public class QuerySortTest
     {
         private ITestOutputHelper Console { get; }
+        private readonly JObject m_patientMapping;
 
         public QuerySortTest(ITestOutputHelper console)
         {
             Console = console;
+            m_patientMapping = JObject.Parse(System.Text.Encoding.UTF8.GetString(Properties.Resources.Patient));
         }
 
         [Fact]
@@ -51,7 +53,8 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             view.AddFilter("Floors", Operator.Neq, new ConstantField { Type = typeof(int), Value = 0 });
             view.AddFilter("CreatedBy", Operator.Eq, new JavascriptExpressionField { Expression = "config.userName" });
 
-            var filter = view.CompileToElasticsearchBoolQuery(view.FilterCollection);
+            var esFilters = new ElasticsearchFilter(view.FilterCollection);
+            var filter = esFilters.CompileToBoolQuery(view);
             Console.WriteLine(filter);
             Assert.Contains("\"CreatedBy\":config.userName", filter);
         }
@@ -74,7 +77,7 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             view.AddFilter("Floors", Operator.Neq, new ConstantField { Type = typeof(int), Value = 0 });
             view.AddFilter("Created", Operator.Eq, new ConstantField { Type = typeof(DateTime), Value = DateTime.Today });
 
-            var filter = view.CompileToElasticsearchBoolQuery(view.FilterCollection);
+            var filter = view.FilterCollection.ToElasticsearchFilter().CompileToBoolQuery(view);
             Console.WriteLine(filter);
             Assert.Contains("\"Floors\":0", filter);
         }
@@ -96,7 +99,7 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             view.AddFilter("Age", Operator.Le, new ConstantField { Type = typeof(int), Value = 50 });
             view.AddFilter("Name", Operator.Eq, new ConstantField { Type = typeof(string), Value = "KLCC" });
 
-            var filter = view.CompileToElasticsearchBoolQuery(view.FilterCollection);
+            var filter = view.FilterCollection.ToElasticsearchFilter().CompileToBoolQuery(view);
             Assert.Contains("\"Name\":\"KLCC\"", filter);
         }
 
@@ -118,7 +121,7 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             view.AddFilter("Age", Operator.Le, new ConstantField { Type = typeof(int), Value = 50 });
             view.AddFilter("Name", Operator.Eq, new ConstantField { Type = typeof(string), Value = "KLCC" });
 
-            var filter = view.CompileToElasticsearchBoolQuery(view.FilterCollection);
+            var filter = view.FilterCollection.ToElasticsearchFilter().CompileToBoolQuery(view);
             Assert.Contains(@"""lte"":""2000-01-01", filter);
         }
 
@@ -144,7 +147,7 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             var view = new QueryEndpoint { Name = "Patient with name", Route = "patient-with-name" };
             view.AddFilter("FullName", @operator, new ConstantField { Type = typeof(bool), Value = comparer });
 
-            var filter = view.CompileToElasticsearchBoolQuery(view.FilterCollection);
+            var filter = view.FilterCollection.ToElasticsearchFilter(m_patientMapping).CompileToBoolQuery(view);
             Assert.Contains("missing", filter);
 
             var json = JObject.Parse(filter);
