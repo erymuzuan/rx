@@ -58,9 +58,9 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
                 // TODO : only use JSON_VALUE for those fields without colums
                 fields = projectsions.ToString(",", x => $@"JSON_VALUE([Json], '$.{x}') as '{x}'");
             }
-
-            if (query.Aggregates.Any())
-                elements.Add("GROUP BY", query.Aggregates.ToString(", ", x => x.GenerateQuery()));
+            
+            var (rsql, rwt) = query.GenerateQuery<T>();
+            if (rwt) return rsql;
 
 
             return $@"SELECT {fields} FROM [{ConfigurationManager.ApplicationName}].[{typeof(T).Name}]

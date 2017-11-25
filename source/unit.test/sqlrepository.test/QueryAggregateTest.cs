@@ -29,8 +29,7 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             var repos = Fixture.Repository;
             var query = new QueryDsl();
             query.Aggregates.Add(new GroupByAggregate("States", "HomeAddress.State"));
-            var lo = await repos.SearchAsync(query);
-            Console.WriteLine(lo);
+            var lo = await repos.SearchAsync(query).WriteObject(Console);
 
             var state = lo.GetAggregateValue<Dictionary<string, int>>("States");
             Assert.NotEmpty(state);
@@ -55,14 +54,14 @@ namespace Bespoke.Sph.Tests.Elasticsearch
         public async Task DateRangeGroupByAggregateWithFilter()
         {
             var y1900 = new DateTime(1900, 01, 01);
-            var y1930 = new DateTime(1930, 01, 01);
+            var y1970 = new DateTime(1970, 01, 01);
             const string name = "date_of_births";
 
 
             var repos = Fixture.Repository;
             var query = new QueryDsl();
             query.Filters.Add(new Filter("Dob", Operator.Ge, y1900));
-            query.Filters.Add(new Filter("Dob", Operator.Le, y1930));
+            query.Filters.Add(new Filter("Dob", Operator.Le, y1970));
 
             query.Aggregates.Add(new DateHistogramAggregate(name, "Dob", "year"));
             var lo = await repos.SearchAsync(query);
@@ -72,8 +71,12 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             Assert.NotNull(results);
             foreach (var year in results.Keys)
             {
-                Assert.InRange(year, y1900, y1930);
+                Assert.InRange(year, y1900, y1970);
+                Console.WriteLine($"Aggregates for born in {year.Year}");
+                Assert.Equal(1, year.Month);
+                Assert.Equal(1, year.Day);
             }
+            Assert.Equal(30, results.Count);
 
             Console.WriteLine(lo);
         }

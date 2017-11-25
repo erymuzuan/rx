@@ -49,12 +49,12 @@ namespace Bespoke.Sph.SqlRepository
 
         public Task<TResult> GetMaxAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("GetMaxAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)");
         }
 
         public Task<TResult> GetMaxAsync<TResult>(QueryDsl queryDsl)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("GetMaxAsync<TResult>(QueryDsl queryDsl)");
         }
 
         public Task<LoadData<T>> LoadOneAsync(string id)
@@ -72,17 +72,39 @@ namespace Bespoke.Sph.SqlRepository
             var logger = ObjectBuilder.GetObject<ILogger>();
 
             logger.WriteDebug($"SearchAsync for {typeof(T).Name}");
-            var sql = queryDsl.CompileToSql<T>();
+
+
+            var querySansAggregates = queryDsl.Clone();
+            querySansAggregates.Aggregates.Clear();
+
+            var sql = querySansAggregates.CompileToSql<T>();
             logger.WriteDebug($"QueryDsl: {queryDsl}\r\nSQL: \r\n{sql}");
 
             var lo = new LoadOperation<T>(queryDsl);
             using (var conn = new SqlConnection(this.ConnectionString))
             {
                 await conn.OpenAsync();
-                using (var count = new SqlCommand(queryDsl.CompileToSqlCount<T>(), conn))
+                var countSqlText = queryDsl.CompileToSqlCount<T>();
+                logger.WriteDebug($"Count SQL : {countSqlText}\r\n=========");
+                using (var count = new SqlCommand(countSqlText, conn))
                 {
                     lo.TotalRows = (int)await count.ExecuteScalarAsync();
                 }
+
+                if (queryDsl.Aggregates.Any())
+                {
+                    var aggregateSqlText = queryDsl.CompileToSql<T>();
+                    logger.WriteDebug($"Aggregate SQL : \r\n{aggregateSqlText}\r\n=================");
+                    using (var aggregateCommand = new SqlCommand(aggregateSqlText, conn))
+                    {
+
+                        foreach (var agg in queryDsl.Aggregates)
+                        {
+                            await agg.ReadAsync<T>(aggregateCommand);
+                        }
+                    }
+                }
+
                 using (var cmd = new SqlCommand(sql, conn))
                 {
                     using (var reader = await cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection))
@@ -96,7 +118,7 @@ namespace Bespoke.Sph.SqlRepository
                                 {
                                     row.Add(field, reader.GetValue(field, this.EntityDefinition));
                                 }
-                                row.Add("Id", reader.GetValue("Id",this.EntityDefinition ));
+                                row.Add("Id", reader.GetValue("Id", this.EntityDefinition));
                                 lo.Readers.Add(row);
                             }
 

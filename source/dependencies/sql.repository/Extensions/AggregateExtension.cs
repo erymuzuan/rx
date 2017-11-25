@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Newtonsoft.Json.Linq;
 
@@ -7,12 +10,70 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
 {
     public static class AggregateExtension
     {
-        public static string GenerateQuery(this Aggregate agg)
+
+        public static (string sql, bool rewrite) GenerateQuery<T>(this QueryDsl query) where T : DomainObject, new()
+        {
+            var entity = new T();
+            if (query.Aggregates.Count == 0)
+                return (string.Empty, false);
+            //
+            var rw = query.Aggregates.OfType<GroupByAggregate>().Any() || query.Aggregates.OfType<DateHistogramAggregate>().Any();
+            var projection = "TODO";
+            if (!rw && query.Aggregates.Count == 1)
+            {
+                projection = GenerateQuery(query.Aggregates.Single());
+            }
+
+
+
+            var elements = new Dictionary<string, object>();
+            var hasFilters = query.Filters.Any();
+            if (hasFilters)
+            {
+                var arrayEsFilters = query.Filters.ToSqlPredicate();
+                elements.Add("WHERE", arrayEsFilters.CompileToBoolQuery(entity));
+            }
+            if (rw)
+            {
+                var gb = query.Aggregates.OfType<GroupByAggregate>().Single();
+                projection = $"JSON_VALUE([Json], '$.{gb.Path}') as '{gb.Name}', COUNT(Id) as 'Count'";
+                elements.Add("GROUP BY", $"JSON_VALUE([Json], '$.{gb.Path}')");
+            }
+
+
+            var sql = $@"SELECT {projection} FROM [{ConfigurationManager.ApplicationName}].[{typeof(T).Name}]
+    {elements.ToString("\r\n", x => $@"{x.Key} {x.Value}")}";
+            return (sql, true);
+        }
+
+        public static Task ReadAsync<T>(this Aggregate agg, SqlCommand cmd) where T : Entity, new()
+        {
+            switch (agg)
+            {
+                case MaxAggregate max:
+                    return ReadAsync<T>(max, cmd);
+                case MinAggregate min:
+                    return ReadAsync<T>(min, cmd);
+                case AverageAggregate avg:
+                    return ReadAsync<T>(avg, cmd);
+                case CountDistinctAggregate count:
+                    return ReadAsync<T>(count, cmd);
+                case DateHistogramAggregate dhg:
+                    return ReadAsync<T>(dhg, cmd);
+                case GroupByAggregate grp:
+                    return ReadAsync<T>(grp, cmd);
+            }
+            return null;
+        }
+
+        private static string GenerateQuery(this Aggregate agg)
         {
             switch (agg)
             {
                 case MaxAggregate max:
                     return GenerateSqlAggs(max);
+                case MinAggregate min:
+                    return GenerateSqlAggs(min);
                 case DateHistogramAggregate dhg:
                     return GenerateSqlAggs(dhg);
                 case GroupByAggregate grp:
@@ -21,9 +82,111 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
             return null;
         }
 
+        private static async Task ReadAsync<T>(MinAggregate min, SqlCommand cmd) where T : Entity, new()
+        {
+            var result = await cmd.ExecuteScalarAsync();
+            min.SetValue(result);
+        }
+
+        private static async Task ReadAsync<T>(MaxAggregate max, SqlCommand cmd) where T : Entity, new()
+        {
+            var result = await cmd.ExecuteScalarAsync();
+            max.SetValue(result);
+        }
+        private static async Task ReadAsync<T>(CountDistinctAggregate count, SqlCommand cmd) where T : Entity, new()
+        {
+            var result = await cmd.ExecuteScalarAsync();
+            count.SetValue(result);
+        }
+        private static async Task ReadAsync<T>(AverageAggregate avg, SqlCommand cmd) where T : Entity, new()
+        {
+            var result = await cmd.ExecuteScalarAsync();
+            avg.SetValue(result);
+        }
+
+        private static async Task ReadAsync<T>(GroupByAggregate gb, SqlCommand cmd) where T : Entity, new()
+        {
+            using (var reader = await cmd.ExecuteReaderAsync())
+            {
+                var result = new Dictionary<string, int>();
+                while (await reader.ReadAsync())
+                {
+                    result.Add(reader.GetString(0), reader.GetInt32(1));
+                }
+                gb.SetValue(result);
+            }
+        }
+
+        private static async Task ReadAsync<T>(DateHistogramAggregate dateHistogram, SqlCommand cmd) where T : Entity, new()
+        {
+            using (var reader = await cmd.ExecuteReaderAsync())
+            {
+                var temp = new Dictionary<DateTime, int>();
+                var result = new Dictionary<DateTime, int>();
+                while (await reader.ReadAsync())
+                {
+                    temp.Add(DateTime.Parse(reader.GetString(0)), reader.GetInt32(1));
+                }
+                // TODO : group by SQL date function like, YEAR,MONTH etc.. so less resultset, let the SQL server handles the aggregations
+                if (dateHistogram.Interval == "year")
+                {
+                    foreach (var date in temp.Keys)
+                    {
+                        var year = new DateTime(date.Year, 1, 1);
+                        if (result.ContainsKey(year))
+                            result[year] += temp[date];
+                        else
+                            result.Add(year, temp[date]);
+                    }
+                }
+
+                if (dateHistogram.Interval == "month")
+                {
+                    foreach (var date in temp.Keys)
+                    {
+                        var month = new DateTime(date.Year, date.Month, 1);
+                        if (result.ContainsKey(month))
+                            result[month] += temp[date];
+                        else
+                            result.Add(month, temp[date]);
+                    }
+                }
+
+                if (dateHistogram.Interval == "day")
+                {
+                    foreach (var date in temp.Keys)
+                    {
+                        var day = new DateTime(date.Year, date.Month, date.Day);
+                        if (result.ContainsKey(day))
+                            result[day] += temp[date];
+                        else
+                            result.Add(day, temp[date]);
+                    }
+                }
+                if (dateHistogram.Interval == "hour")
+                {
+                    foreach (var date in temp.Keys)
+                    {
+                        var hour = new DateTime(date.Year, date.Month, date.Day, date.Hour, 0, 0);
+                        if (result.ContainsKey(hour))
+                            result[hour] += temp[date];
+                        else
+                            result.Add(hour, temp[date]);
+                    }
+                }
+
+                dateHistogram.SetValue(result);
+            }
+        }
+
+        private static string GenerateSqlAggs(MinAggregate min)
+        {
+            return $@"MIN([{min.Path}]) as '{min.Name}'";
+        }
+
         private static string GenerateSqlAggs(MaxAggregate max)
         {
-            return $@"""{max.Name}"" : {{ ""max"" : {{ ""field"":  ""{max.Path}""}}}}";
+            return $@"MAX([{max.Path}]) as '{max.Name}'";
         }
         private static string GenerateSqlAggs(GroupByAggregate grp)
         {
