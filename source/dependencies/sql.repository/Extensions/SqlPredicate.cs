@@ -122,18 +122,15 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
 
                     break;
                 case Operator.NotStartsWith:
+                    return $@"[{target.Term}] NOT LIKE '{target.Field.GetValue(context)}%'";
                 case Operator.StartsWith:
-                    query.AppendLine($@"[{target.Term}] LIKE '{target.Field.GetValue(context)}%'");
-                    break;
+                    return $@"[{target.Term}] LIKE '{target.Field.GetValue(context)}%'";
                 case Operator.NotEndsWith:
+                    return $@"[{target.Term}] NOT LIKE '%{target.Field.GetValue(context)}'";
                 case Operator.EndsWith:
-                    query.AppendLine($@"[{target.Term}] LIKE '%{target.Field.GetValue(context)}'");
-                    break;
+                    return $@"[{target.Term}] LIKE '%{target.Field.GetValue(context)}'";
                 default: throw new Exception(target.Operator + " is not supported for filter DSL yet");
             }
-
-
-            query.AppendLine("                 }");
 
             return query.ToString();
         }

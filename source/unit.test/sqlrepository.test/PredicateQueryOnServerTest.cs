@@ -43,8 +43,9 @@ namespace Bespoke.Sph.Tests.SqlServer
             {
                 new Filter("Wife.Name",Operator.IsNotNull, false)
             }));
-            Assert.Equal(99, Count(x => x.Wife.Name == null));
-            Assert.Equal(Count(x => x.Wife.Name == null), singles.TotalRows);
+            var expected = Count(x => x.Wife.Name == null);
+            Assert.Equal(99, expected);
+            Assert.Equal(expected, singles.TotalRows);
         }
         [Fact]
         public async Task IsNull()
@@ -64,5 +65,57 @@ namespace Bespoke.Sph.Tests.SqlServer
             }));
             Assert.Equal(Count(x => x.Wife.Name != null), married.TotalRows);
         }
+
+        [Fact]
+        public async Task StartWith()
+        {
+            var married = await Fixture.Repository.SearchAsync(new QueryDsl(new[]
+            {
+                new Filter("Wife.Name",Operator.StartsWith, "K")
+            }));
+            var expected = Count(x => x.Wife.Name.ToEmptyString().StartsWith("K"));
+            Assert.Equal(1, expected);
+            Assert.Equal(expected, married.TotalRows);
+        }
+
+        [Fact]
+        public async Task NotStartWith()
+        {
+            var notTans = await Fixture.Repository.SearchAsync(new QueryDsl(new[]
+            {
+                new Filter("FullName",Operator.NotStartsWith, "Tan")
+            }));
+
+            var expected = Count(x => !x.FullName.StartsWith("Tan", StringComparison.InvariantCultureIgnoreCase));
+            Assert.Equal(98, expected);
+            Assert.Equal(expected, notTans.TotalRows);
+        }
+
+        [Fact]
+        public async Task EndsWith()
+        {
+            var notTans = await Fixture.Repository.SearchAsync(new QueryDsl(new[]
+            {
+                new Filter("FullName",Operator.EndsWith, "AN")
+            }));
+
+            var expected = Count(x => x.FullName.EndsWith("an", StringComparison.InvariantCultureIgnoreCase));
+            Assert.Equal(8, expected);
+            Assert.Equal(expected, notTans.TotalRows);
+        }
+        [Fact]
+        public async Task NotEndsWith()
+        {
+            var lo = await Fixture.Repository.SearchAsync(new QueryDsl(new[]
+            {
+                new Filter("FullName",Operator.NotEndsWith, "AN")
+            }));
+
+            var expected = Count(x => !x.FullName.EndsWith("an", StringComparison.InvariantCultureIgnoreCase));
+            Assert.Equal(92, expected);
+            Assert.Equal(expected, lo.TotalRows);
+        }
+
+
     }
 }
