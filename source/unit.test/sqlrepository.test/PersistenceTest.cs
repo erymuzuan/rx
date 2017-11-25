@@ -2,7 +2,7 @@
 using Bespoke.Sph.SqlRepository;
 using Xunit;
 
-namespace sqlrepository.test
+namespace Bespoke.Sph.Tests.SqlServer
 {
     public class PersistenceTest
     {

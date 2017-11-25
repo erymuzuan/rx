@@ -1,10 +1,11 @@
 ﻿using Bespoke.Sph.Domain;
 using Bespoke.Sph.ElasticsearchRepository.Extensions;
+using Bespoke.Sph.Tests.SqlServer.Extensions;
 using sqlrepository.test.Models;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Bespoke.Sph.Tests.Elasticsearch
+namespace Bespoke.Sph.Tests.SqlServer
 {
     public class SortTest
     {

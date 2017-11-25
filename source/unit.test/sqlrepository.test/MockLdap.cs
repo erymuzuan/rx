@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 
-namespace Bespoke.Sph.Tests.Elasticsearch
+namespace Bespoke.Sph.Tests.SqlServer
 {
     internal class MockLdap : IDirectoryService
     {

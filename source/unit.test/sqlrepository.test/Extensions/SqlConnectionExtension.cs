@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace sqlrepository.test.Extensions
+namespace Bespoke.Sph.Tests.SqlServer.Extensions
 {
     public static class SqlConnectionExtension
     {

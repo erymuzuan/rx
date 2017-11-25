@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Xunit.Abstractions;
+using Bespoke.Sph.Tests.SqlServer.Extensions;
 
-namespace Bespoke.Sph.Tests.Elasticsearch
+namespace Bespoke.Sph.Tests.SqlServer
 {
     class XunitConsoleLogger : ILogger
     {

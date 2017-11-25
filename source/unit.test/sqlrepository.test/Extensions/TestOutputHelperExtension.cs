@@ -3,7 +3,7 @@ using Bespoke.Sph.Domain;
 using Newtonsoft.Json.Linq;
 using Xunit.Abstractions;
 
-namespace Bespoke.Sph.Tests.Elasticsearch
+namespace Bespoke.Sph.Tests.SqlServer.Extensions
 {
     public static class TestOutputHelperExtension
     {

@@ -7,7 +7,7 @@ using Bespoke.Sph.SqlRepository;
 using sqlrepository.test.Models;
 using Xunit;
 
-namespace Bespoke.Sph.Tests.Elasticsearch
+namespace Bespoke.Sph.Tests.SqlServer
 {
     public class SqlServerFixture : IDisposable
     {

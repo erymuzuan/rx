@@ -3,7 +3,7 @@ using System.Reflection;
 using Bespoke.Sph.Domain;
 using Xunit;
 
-namespace sqlrepository.test
+namespace Bespoke.Sph.Tests.SqlServer
 {
     public class RuntimeCreationTest
     {

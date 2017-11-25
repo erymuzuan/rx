@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Tests.SqlServer.Extensions;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Bespoke.Sph.Tests.Elasticsearch
+namespace Bespoke.Sph.Tests.SqlServer
 {
     [Trait("Category", "Sql Server")]
     [Collection(SqlServerCollection.SQLSERVER_COLLECTION)]
