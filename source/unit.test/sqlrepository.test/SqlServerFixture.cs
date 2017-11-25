@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.SqlClient;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SqlRepository;
@@ -14,6 +17,7 @@ namespace Bespoke.Sph.Tests.SqlServer
         public const string CONNECTION_STRING = @"Data Source=.\DEV2016;Initial Catalog=rx_test_database;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         public IReadOnlyRepository<Patient> Repository { get; }
+        public IReadOnlyList<Patient> Patients;
         public SqlServerFixture()
         {
             var ed = new EntityDefinition { Name = "Patient", Plural = "Patients", Id = "patient" };
@@ -39,6 +43,12 @@ namespace Bespoke.Sph.Tests.SqlServer
                     if (_.Exception != null)
                         throw _.Exception;
                 }).Wait();
+
+            var patients =
+                from file in Directory.GetFiles(
+                    $@"{ConfigurationManager.Home}\..\source\unit.test\sample-data-patients\", "*.json")
+                select file.DeserializeFromJsonFile<Patient>();
+            this.Patients = new List<Patient>(patients);
 
         }
 

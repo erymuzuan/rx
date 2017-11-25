@@ -56,6 +56,8 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
                     return ReadAsync<T>(min, cmd);
                 case AverageAggregate avg:
                     return ReadAsync<T>(avg, cmd);
+                case SumAggregate sum:
+                    return ReadAsync<T>(sum, cmd);
                 case CountDistinctAggregate count:
                     return ReadAsync<T>(count, cmd);
                 case DateHistogramAggregate dhg:
@@ -74,6 +76,12 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
                     return GenerateSqlAggs(max);
                 case MinAggregate min:
                     return GenerateSqlAggs(min);
+                case AverageAggregate avg:
+                    return GenerateSqlAggs(avg);
+                case SumAggregate sum:
+                    return GenerateSqlAggs(sum);
+                case CountDistinctAggregate count:
+                    return GenerateSqlAggs(count);
                 case DateHistogramAggregate dhg:
                     return GenerateSqlAggs(dhg);
                 case GroupByAggregate grp:
@@ -97,6 +105,11 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
         {
             var result = await cmd.ExecuteScalarAsync();
             count.SetValue(result);
+        }
+        private static async Task ReadAsync<T>(SumAggregate sum, SqlCommand cmd) where T : Entity, new()
+        {
+            var result = await cmd.ExecuteScalarAsync();
+            sum.SetValue(result);
         }
         private static async Task ReadAsync<T>(AverageAggregate avg, SqlCommand cmd) where T : Entity, new()
         {
@@ -179,6 +192,18 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
             }
         }
 
+        private static string GenerateSqlAggs(AverageAggregate avg)
+        {
+            return $@"AVG([{avg.Path}]) as '{avg.Name}'";
+        }
+        private static string GenerateSqlAggs(CountDistinctAggregate count)
+        {
+            return $@"COUNT(DISTINCT [{count.Path}]) as '{count.Name}'";
+        }
+        private static string GenerateSqlAggs(SumAggregate sum)
+        {
+            return $@"SUM([{sum.Path}]) as '{sum.Name}'";
+        }
         private static string GenerateSqlAggs(MinAggregate min)
         {
             return $@"MIN([{min.Path}]) as '{min.Name}'";

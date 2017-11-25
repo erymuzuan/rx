@@ -52,7 +52,7 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
                 .Where(x => !string.IsNullOrWhiteSpace(x))
                 .ToString("\r\nAND\r\n");
 
-            
+
 
             return predicates;
         }
@@ -101,14 +101,17 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
                     }
                     return $@"[{target.Term}] {target.Operator.ToSqlOperator()} {valJson}";
                 case Operator.IsNotNull:
-                case Operator.IsNull:
-                    if (target.Field.GetValue(context) is bool)
+                    if (target.Field.GetValue(context) is bool bv2)
                     {
-                        query.AppendLine($@"
-                            ""missing"" : {{ ""field"" : ""{target.Term}""}}
-                            ");
+                        return bv2 ? $"[{target.Term}] IS NOT NULL" : $"[{target.Term}] IS NULL";
                     }
-                    break;
+                    throw new InvalidOperationException("IsNull must be true or false");
+                case Operator.IsNull:
+                    if (target.Field.GetValue(context) is bool bv)
+                    {
+                        return bv ? $"[{target.Term}] IS NULL" : $"[{target.Term}] IS NOT NULL";
+                    }
+                    throw new InvalidOperationException("IsNull must be true or false");
                 case Operator.FullText:
                     var field = target.Term == "*" ? "_all" : target.Term;
                     query.AppendLine($@"

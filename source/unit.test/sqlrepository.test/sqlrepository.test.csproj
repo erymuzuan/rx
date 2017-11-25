@@ -61,12 +61,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\SqlConnectionExtension.cs" />
+    <Compile Include="FilterTest.cs" />
     <Compile Include="Models\NextOfKin.cs" />
     <Compile Include="Models\Patient.cs" />
+    <Compile Include="PredicateQueryOnServerTest.cs" />
     <Compile Include="QueryAggregateTest.cs" />
     <Compile Include="SqlServerFixture.cs" />
     <Compile Include="MockLdap.cs" />
-    <Compile Include="PatientRepositoryTest.cs" />
+    <Compile Include="PatientReadOnlyRepositoryTest.cs" />
     <Compile Include="PersistenceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SortTest.cs" />
