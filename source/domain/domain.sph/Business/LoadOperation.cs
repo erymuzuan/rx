@@ -17,6 +17,8 @@ namespace Bespoke.Sph.Domain
         public LoadOperation(QueryDsl query)
         {
             QueryDsl = query;
+            this.CurrentPage = query.Skip / query.Size + 1;
+            this.PageSize = query.Size;
         }
         public bool HasError { get; set; }
         public Exception Exception { get; set; }
@@ -101,7 +103,7 @@ namespace Bespoke.Sph.Domain
                     {
                         sb.AppendLine($"\t{key} : {rs[key]}");
                     }
-                    
+
                 }
                 if (this.Aggregates[agg] is Dictionary<DateTime, int> ds)
                 {
@@ -109,7 +111,7 @@ namespace Bespoke.Sph.Domain
                     {
                         sb.AppendLine($"\t{key} : {ds[key]}");
                     }
-                    
+
                 }
             }
             return sb.ToString();

@@ -63,7 +63,7 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
-
+        [Obsolete("Move to elasticsearch implementation")]
         public string GenerateEsSortDsl()
         {
             var f = from s in this.SortCollection
