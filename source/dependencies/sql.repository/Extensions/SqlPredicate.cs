@@ -113,14 +113,7 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
                     }
                     throw new InvalidOperationException("IsNull must be true or false");
                 case Operator.FullText:
-                    var field = target.Term == "*" ? "_all" : target.Term;
-                    query.AppendLine($@"
-                            ""query_string"" : {{ ""default_field"" : ""{field}"",""query"" : ""{
-                            target.Field.GetValue(context)
-                        }""}}
-                            ");
-
-                    break;
+                    throw new NotImplementedException("Requires Sql Server FullText catalogue, enabled.. coming soon... or never");
                 case Operator.NotStartsWith:
                     return $@"[{target.Term}] NOT LIKE '{target.Field.GetValue(context)}%'";
                 case Operator.StartsWith:
@@ -132,7 +125,6 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
                 default: throw new Exception(target.Operator + " is not supported for filter DSL yet");
             }
 
-            return query.ToString();
         }
     }
 }
