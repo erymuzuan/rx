@@ -18,8 +18,6 @@ async Task Main()
 
 	using (var conn = new SqlConnection(CONNECTION_STRING))
 	{
-
-
 		await conn.OpenAsync();
 		using (var truncate = new SqlCommand("TRUNCATE TABLE [DevV1].[Patient]", conn))
 		{
@@ -32,14 +30,7 @@ async Task Main()
 			var text = File.ReadAllText(file);
 			var json = JObject.Parse(text);
 			using (var insert = new SqlCommand($@"INSERT INTO [DevV1].[Patient]
-           ([Id]
-           ,[Mrn]
-           ,[FullName]
-           ,[Gender]
-           ,[Religion]
-           ,[Race]
-           ,[Status]
-           ,[MaritalStatus]
+           ([Id]           
            ,[Json]
            ,[CreatedDate]
            ,[CreatedBy]
@@ -47,13 +38,6 @@ async Task Main()
            ,[ChangedBy])
      VALUES
            ('{id}'
-           ,'{json["Mrn"]}'
-           ,@FullName
-           ,'{json["Gender"]}'
-           ,'{json["Religion"]}'
-           ,'{json["Race"]}'
-           ,'{json["Status"]}'
-           ,'{json["MaritalStatus"]}'
            ,@Json
            ,'{json["CreatedDate"]:s}'
            ,'{json["CreatedBy"]}'
@@ -79,4 +63,3 @@ async Task Main()
 	}
 
 }
-

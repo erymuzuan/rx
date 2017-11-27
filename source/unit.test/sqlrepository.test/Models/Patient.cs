@@ -15,5 +15,7 @@ namespace sqlrepository.test.Models
         public int Age { get; set; }
         public NextOfKin NextOfKin { get; set; }
         public Spouse Wife { get; set; }
+        public string Race { get; set; }
+        public bool IsMalaysian => Race != "Others";
     }
 }

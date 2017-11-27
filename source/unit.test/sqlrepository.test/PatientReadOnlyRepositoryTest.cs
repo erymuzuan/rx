@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using sqlrepository.test.Models;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -16,9 +18,104 @@ namespace Bespoke.Sph.Tests.SqlServer
 
         public PatientReadOnlyRepositoryTest(SqlServerFixture fixture, ITestOutputHelper console)
         {
+            ObjectBuilder.AddCacheList<ILogger>(new XunitConsoleLogger(console));
             Fixture = fixture;
             Console = console;
-            ObjectBuilder.AddCacheList<ILogger>(new XunitConsoleLogger(console));
+        }
+
+        [Fact]
+        public async Task GeForeignersCount()
+        {
+            Expression<Func<Patient, bool>> expression = x => !x.IsMalaysian;
+            var db = await this.Fixture.Repository.GetCountAsync(expression);
+            var max = this.Fixture.Patients.Count(expression.Compile());
+            Assert.Equal(db, max);
+        }
+        [Fact]
+        public async Task GeMalaysianCount()
+        {
+            Expression<Func<Patient, bool>> expression = x => x.IsMalaysian;
+            var db = await this.Fixture.Repository.GetCountAsync(expression);
+            var max = this.Fixture.Patients.Count(expression.Compile());
+            Assert.Equal(db, max);
+        }
+        [Fact]
+        public async Task GeMalaysianGirlsCount()
+        {
+            Expression<Func<Patient, bool>> expression = x => x.IsMalaysian && x.Gender == "Female";
+            var db = await this.Fixture.Repository.GetCountAsync(expression);
+            var max = this.Fixture.Patients.Count(expression.Compile());
+            Assert.Equal(db, max);
+        }
+        [Fact]
+        public async Task GeForeignGirlsCount()
+        {
+            Expression<Func<Patient, bool>> expression = x => !x.IsMalaysian && x.Gender == "Female";
+            var db = await this.Fixture.Repository.GetCountAsync(expression);
+            var max = this.Fixture.Patients.Count(expression.Compile());
+            Assert.Equal(db, max);
+        }
+
+        [Fact]
+        public async Task GetMaxChineseFemaleAge()
+        {
+            Expression<Func<Patient, bool>> expression = x => x.Gender == "Female" && x.Race == "Chinese";
+            var db = await this.Fixture.Repository.GetMaxAsync<int>(expression, x => x.Age);
+            var max = this.Fixture.Patients.Where(expression.Compile()).Max(x => x.Age);
+            Assert.Equal(db, max);
+        }
+
+        [Fact]
+        public async Task GetCountChineseFemaleBornBefore1960()
+        {
+            Expression<Func<Patient, bool>> expression = x =>/* x.Gender == "Female" && x.Race == "Chinese" &&*/ x.Dob < new DateTime(1960, 1, 1);
+            var db = await this.Fixture.Repository.GetMaxAsync<int>(expression, x => x.Age);
+            var max = this.Fixture.Patients.Where(expression.Compile()).Max(x => x.Age);
+            Assert.Equal(db, max);
+        }
+
+        [Fact]
+        public async Task GetMaxChineseOrFemaleAge()
+        {
+            Expression<Func<Patient, bool>> expression = x => x.Gender == "Female" || x.Race == "Chinese";
+            var db = await this.Fixture.Repository.GetMaxAsync<int>(expression, x => x.Age);
+            var max = this.Fixture.Patients.Where(expression.Compile()).Max(x => x.Age);
+            Assert.Equal(db, max);
+        }
+
+        [Fact]
+        public async Task GetMaxFemaleAge()
+        {
+            Expression<Func<Patient, bool>> expression = x => x.Gender == "Female";
+            var db = await this.Fixture.Repository.GetMaxAsync<int>(expression, x => x.Age);
+            var max = this.Fixture.Patients.Where(expression.Compile()).Max(x => x.Age);
+            Assert.Equal(db, max);
+        }
+
+        [Fact]
+        public async Task GetCountFemale()
+        {
+            Expression<Func<Patient, bool>> expression = x => x.Gender == "Female";
+            var db = await this.Fixture.Repository.GetCountAsync(expression);
+            var max = this.Fixture.Patients.Count(expression.Compile());
+            Assert.Equal(db, max);
+        }
+
+        [Fact]
+        public void Address()
+        {
+            var schema = this.Fixture.PatientSchema;
+            var address = schema.AddMember<ComplexMember>("OfficeAddress");
+            Assert.IsType<ComplexMember>(address);
+        }
+
+        [Fact]
+        public void Age()
+        {
+            var age = this.Fixture.PatientSchema.MemberCollection.OfType<SimpleMember>()
+                .SingleOrDefault(x => x.Name == "Age");
+            Assert.NotNull(age);
+            Assert.Equal(typeof(int), age.Type);
         }
 
         [Fact]
@@ -26,15 +123,14 @@ namespace Bespoke.Sph.Tests.SqlServer
         {
             var female = await Fixture.Repository.SearchAsync(new QueryDsl(new[]
             {
-                new Filter("Gender",Operator.Eq, "Female")
+                new Filter("Gender", Operator.Eq, "Female")
             }));
             Assert.Equal(33, female.TotalRows);
             var male = await Fixture.Repository.SearchAsync(new QueryDsl(new[]
             {
-                new Filter("Gender",Operator.Neq, "Female")
+                new Filter("Gender", Operator.Neq, "Female")
             }));
             Assert.Equal(67, male.TotalRows);
-
         }
 
 
@@ -43,29 +139,28 @@ namespace Bespoke.Sph.Tests.SqlServer
         {
             var query = new QueryDsl(new[]
             {
-                new Filter("Gender",Operator.Eq, "Female")
+                new Filter("Gender", Operator.Eq, "Female")
             });
             var female = await Fixture.Repository.SearchAsync(query);
             Assert.Equal(33, female.TotalRows);
             var male = await Fixture.Repository.SearchAsync(new QueryDsl(new[]
             {
-                new Filter("Gender",Operator.Neq, "Female")
+                new Filter("Gender", Operator.Neq, "Female")
             }));
             Assert.Equal(67, male.TotalRows);
             Assert.Equal(query.Size, male.ItemCollection.Count);
-
         }
+
         [Fact]
         public async Task ExecuteSimpleFilterWithPageQueryAsync()
         {
             var query = new QueryDsl(new[]
             {
-                new Filter("Gender",Operator.Eq, "Female")
+                new Filter("Gender", Operator.Eq, "Female")
             }, skip: 30);
             var female = await Fixture.Repository.SearchAsync(query);
             Assert.Equal(33, female.TotalRows);
             Assert.Equal(3, female.ItemCollection.Count);
-
         }
 
 
@@ -74,7 +169,7 @@ namespace Bespoke.Sph.Tests.SqlServer
         {
             var query = new QueryDsl(new[]
             {
-                new Filter("Gender",Operator.Eq, "Female")
+                new Filter("Gender", Operator.Eq, "Female")
             }, new[] { new Sort { Direction = SortDirection.Desc, Path = "Mrn" } });
             query.Fields.AddRange("FullName", "Age", "Dob", "Wife.Name");
             var lo = await this.Fixture.Repository.SearchAsync(query);
@@ -92,13 +187,14 @@ namespace Bespoke.Sph.Tests.SqlServer
 
             Assert.Equal(33, lo.TotalRows);
         }
+
         [Fact]
         public async Task MaxAggregate()
         {
             var repos = Fixture.Repository;
             var query = new QueryDsl(new[]
             {
-                new Filter("Gender",Operator.Eq, "Female")
+                new Filter("Gender", Operator.Eq, "Female")
             }, new[] { new Sort { Direction = SortDirection.Desc, Path = "Mrn" } });
             query.Fields.AddRange("FullName", "Age", "Dob", "Wife.Name");
             query.Aggregates.Add(new MaxAggregate("LastModifiedDate", "ChangedDate"));
@@ -115,7 +211,7 @@ namespace Bespoke.Sph.Tests.SqlServer
             var repos = Fixture.Repository;
             var query = new QueryDsl(new[]
             {
-                new Filter("Gender",Operator.Eq, "Female")
+                new Filter("Gender", Operator.Eq, "Female")
             }, new[] { new Sort { Direction = SortDirection.Desc, Path = "Mrn" } });
             query.Fields.AddRange("FullName", "Age", "Dob", "Wife.Name");
             query.Aggregates.Add(new MinAggregate("LastModifiedDate", "ChangedDate"));
@@ -131,7 +227,7 @@ namespace Bespoke.Sph.Tests.SqlServer
             var repos = Fixture.Repository;
             var query = new QueryDsl(new[]
             {
-                new Filter("Gender",Operator.Eq, "Female")
+                new Filter("Gender", Operator.Eq, "Female")
             }, new[] { new Sort { Direction = SortDirection.Desc, Path = "Mrn" } });
             query.Fields.AddRange("FullName", "Age", "Dob", "Wife.Name");
             query.Aggregates.Add(new AverageAggregate("AverageAge", "Age"));
@@ -140,13 +236,14 @@ namespace Bespoke.Sph.Tests.SqlServer
             var max = lo.GetAggregateValue<int>("AverageAge");
             Assert.Equal(67, max);
         }
+
         [Fact]
         public async Task SumAggregate()
         {
             var repos = Fixture.Repository;
             var query = new QueryDsl(new[]
             {
-                new Filter("Gender",Operator.Eq, "Female")
+                new Filter("Gender", Operator.Eq, "Female")
             }, new[] { new Sort { Direction = SortDirection.Desc, Path = "Mrn" } });
             query.Fields.AddRange("FullName", "Age", "Dob", "Wife.Name");
             query.Aggregates.Add(new SumAggregate("TotalAge", "Age"));
@@ -161,7 +258,7 @@ namespace Bespoke.Sph.Tests.SqlServer
         {
             var repos = Fixture.Repository;
             var query = new QueryDsl(sorts: new[] { new Sort { Direction = SortDirection.Desc, Path = "Mrn" } });
-            
+
             query.Aggregates.Add(new CountDistinctAggregate("States", "HomeAddress.State"));
             var lo = await repos.SearchAsync(query);
 
@@ -175,7 +272,7 @@ namespace Bespoke.Sph.Tests.SqlServer
             var repos = Fixture.Repository;
             var query = new QueryDsl(new[]
             {
-                new Filter("Gender",Operator.Eq, "Female")
+                new Filter("Gender", Operator.Eq, "Female")
             }, new[] { new Sort { Direction = SortDirection.Desc, Path = "Mrn" } });
 
 
@@ -187,8 +284,5 @@ namespace Bespoke.Sph.Tests.SqlServer
             var max = lo.GetAggregateValue<int>("States");
             Assert.Equal(8, max);
         }
-
-
-
     }
 }

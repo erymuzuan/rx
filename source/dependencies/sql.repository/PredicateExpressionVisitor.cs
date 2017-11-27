@@ -1,8 +1,6 @@
 ﻿using System.Linq.Expressions;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Extensions;
 
@@ -11,7 +9,7 @@ namespace Bespoke.Sph.SqlRepository
     public class PredicateExpressionVisitor<T> : DynamicExpressionVisitor where T : Entity, new()
     {
         public ILogger Logger { get; }
-        private StringBuilder m_sql = new StringBuilder();
+        private readonly Dictionary<Expression, string> m_sql = new Dictionary<Expression, string>();
 
         public PredicateExpressionVisitor(ILogger logger)
         {
@@ -21,9 +19,28 @@ namespace Bespoke.Sph.SqlRepository
         {
             Visit(predicate.Body);
             Logger.WriteDebug(predicate.ToString());
-            if (m_sql.Length > 0)
-                return " WHERE " + m_sql;
-            return m_sql.ToString();
+            if (m_sql.Count > 0)
+                return " WHERE " + m_sql.Values.ToString(" ");
+            return string.Empty;
+        }
+
+        private int m_count;
+        public override Expression Visit(Expression node)
+        {
+            Logger.WriteDebug($"{++m_count,3} : {node.NodeType}({node.GetType().Name})");
+            return base.Visit(node);
+        }
+
+        protected override Expression VisitUnary(UnaryExpression node)
+        {
+            m_sql.AddOrReplace(node, "");
+            var bv = base.VisitUnary(node);
+            if (node.NodeType == ExpressionType.Not)
+            {
+                if (m_sql.ContainsKey(node.Operand))
+                    m_sql[node.Operand] = m_sql[node.Operand].Replace(" = 1", " = 0");
+            }
+            return bv;
         }
 
         protected override Expression VisitBinary(BinaryExpression node)
@@ -34,17 +51,50 @@ namespace Bespoke.Sph.SqlRepository
             return base.VisitBinary(node);
         }
 
+        protected override Expression VisitMember(MemberExpression node)
+        {
+            if (node.Type == typeof(bool))
+            {
+                m_sql.AddIfNotExist(node, $"[{node.Member.Name}] = 1");
+                return node;
+            }
+            m_sql.AddIfNotExist(node, $"[{node.Member.Name}]");
+            return node;
+        }
+        protected override Expression VisitConstant(ConstantExpression node)
+        {
+            switch (node.Value)
+            {
+                case string sv:
+                    m_sql.AddIfNotExist(node, $"'{sv}'");
+                    break;
+                case DateTime date:
+                    m_sql.AddIfNotExist(node, $"'{date:O}'");
+                    break;
+                case bool bv:
+                    m_sql.AddIfNotExist(node, bv ? "1" : "0");
+                    break;
+                default:
+                    m_sql.AddIfNotExist(node, $"{node.Value}");
+                    break;
+            }
+            return node;
+
+        }
+
         private void WriteSqlOperator(Expression node)
         {
             switch (node.NodeType)
             {
                 case ExpressionType.Add:
+                    m_sql.AddIfNotExist(node, " + ");
                     break;
                 case ExpressionType.AddChecked:
                     break;
                 case ExpressionType.And:
                     break;
                 case ExpressionType.AndAlso:
+                    m_sql.AddIfNotExist(node, " AND ");
                     break;
                 case ExpressionType.ArrayLength:
                     break;
@@ -63,15 +113,18 @@ namespace Bespoke.Sph.SqlRepository
                 case ExpressionType.ConvertChecked:
                     break;
                 case ExpressionType.Divide:
+                    m_sql.AddIfNotExist(node, " / ");
                     break;
                 case ExpressionType.Equal:
-                    m_sql.Append(" = ");
+                    m_sql.AddIfNotExist(node, " = ");
                     break;
                 case ExpressionType.ExclusiveOr:
                     break;
                 case ExpressionType.GreaterThan:
+                    m_sql.AddIfNotExist(node, " > ");
                     break;
                 case ExpressionType.GreaterThanOrEqual:
+                    m_sql.AddIfNotExist(node, " >= ");
                     break;
                 case ExpressionType.Invoke:
                     break;
@@ -80,8 +133,10 @@ namespace Bespoke.Sph.SqlRepository
                 case ExpressionType.LeftShift:
                     break;
                 case ExpressionType.LessThan:
+                    m_sql.AddIfNotExist(node, " < ");
                     break;
                 case ExpressionType.LessThanOrEqual:
+                    m_sql.AddIfNotExist(node, " <= ");
                     break;
                 case ExpressionType.ListInit:
                     break;
@@ -90,6 +145,7 @@ namespace Bespoke.Sph.SqlRepository
                 case ExpressionType.MemberInit:
                     break;
                 case ExpressionType.Modulo:
+                    m_sql.AddIfNotExist(node, " % ");
                     break;
                 case ExpressionType.Multiply:
                     break;
@@ -108,12 +164,15 @@ namespace Bespoke.Sph.SqlRepository
                 case ExpressionType.NewArrayBounds:
                     break;
                 case ExpressionType.Not:
+                    m_sql.AddIfNotExist(node, " NOT ");
                     break;
                 case ExpressionType.NotEqual:
+                    m_sql.AddIfNotExist(node, " <> ");
                     break;
                 case ExpressionType.Or:
                     break;
                 case ExpressionType.OrElse:
+                    m_sql.AddIfNotExist(node, " OR ");
                     break;
                 case ExpressionType.Parameter:
                     break;
@@ -206,44 +265,14 @@ namespace Bespoke.Sph.SqlRepository
                 case ExpressionType.OnesComplement:
                     break;
                 case ExpressionType.IsTrue:
+                    m_sql.AddIfNotExist(node, " = 1");
                     break;
                 case ExpressionType.IsFalse:
+                    m_sql.AddIfNotExist(node, " = 0");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-        }
-
-        private readonly List<MemberExpression> m_visitedMemberExpressions = new List<MemberExpression>();
-        protected override Expression VisitMember(MemberExpression node)
-        {
-            if (m_visitedMemberExpressions.Contains(node))
-                return node;
-            m_sql.Append($"[{node.Member.Name}]");
-            m_visitedMemberExpressions.Add(node);
-            return node;
-        }
-        private readonly List<ConstantExpression> m_visitedConstants = new List<ConstantExpression>();
-        protected override Expression VisitConstant(ConstantExpression node)
-        {
-            if (m_visitedConstants.Contains(node))
-                return node;
-            Logger.WriteDebug("Visit CONSTANT " + node.NodeType);
-            switch (node.Value)
-            {
-                case string sv:
-                    m_sql.Append($"'{sv}'");
-                    break;
-                case DateTime date:
-                    m_sql.Append($"'{date}'");
-                    break;
-                default:
-                    m_sql.Append($"{node.Value}");
-                    break;
-            }
-            m_visitedConstants.Add(node);
-            return node;
-
         }
     }
 }

@@ -14,22 +14,30 @@ namespace Bespoke.Sph.Tests.SqlServer
 {
     public class SqlServerFixture : IDisposable
     {
-        public const string CONNECTION_STRING = @"Data Source=.\DEV2016;Initial Catalog=rx_test_database;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        public const string CONNECTION_STRING =
+                @"Data Source=.\DEV2016;Initial Catalog=rx_test_database;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+            ;
 
         public IReadOnlyRepository<Patient> Repository { get; }
-        public IReadOnlyList<Patient> Patients;
+        public readonly IReadOnlyList<Patient> Patients;
+        public readonly EntityDefinition PatientSchema;
+
         public SqlServerFixture()
         {
-            var ed = new EntityDefinition { Name = "Patient", Plural = "Patients", Id = "patient" };
-            ed.MemberCollection.Add(new SimpleMember { Name = "FullName", Type = typeof(string) });
-            ed.MemberCollection.Add(new SimpleMember { Name = "Age", Type = typeof(int) });
-            ed.MemberCollection.Add(new SimpleMember { Name = "Dob", Type = typeof(DateTime) });
+            var ed = new EntityDefinition {Name = "Patient", Plural = "Patients", Id = "patient"};
+           var fullName = ed.AddMember<string>("FullName");
+            
+            ed.AddMember<DateTime>("Dob");
+            ed.AddMember<string>("MaritalStatus");
+            ed += ("Age", typeof(int));
+            ed += ("Mrn", typeof(string));
+            ed -= "Mrn";
 
-            var spouse = new ComplexMember { Name = "Wife", TypeName = "Spouse" };
+            var spouse = new ComplexMember {Name = "Wife", TypeName = "Spouse"};
             spouse.Add(new Dictionary<string, Type>
             {
-                {"Name" , typeof(string)},
-                {"Age" , typeof(int)}
+                {"Name", typeof(string)},
+                {"Age", typeof(int)}
             });
             ed.MemberCollection.Add(spouse);
 
@@ -50,14 +58,16 @@ namespace Bespoke.Sph.Tests.SqlServer
                 select file.DeserializeFromJsonFile<Patient>();
             this.Patients = new List<Patient>(patients);
 
+            this.PatientSchema = ed;
         }
 
         public async Task InitializeIndexAsync()
         {
             var count = await this.Connection.GetScalarValueAsync<int>("SELECT COUNT(*) FROM DevV1.Patient");
 
-            if (count != 100) throw new InvalidOperationException("TODO : RUN source\\unit.test\\sample-data-patients\\create-database.linq");
-
+            if (count != 100)
+                throw new InvalidOperationException(
+                    "TODO : RUN source\\unit.test\\sample-data-patients\\create-database.linq");
         }
 
         public void Dispose()

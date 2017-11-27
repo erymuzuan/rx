@@ -51,9 +51,23 @@ namespace Bespoke.Sph.SqlRepository
             throw new NotImplementedException();
         }
 
-        public Task<int> GetCountAsync(Expression<Func<T, bool>> predicate)
+        public async Task<int> GetCountAsync(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
+            var @where = new PredicateExpressionVisitor<T>(Logger).Visit(predicate);
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                var sql = $"SELECT COUNT([Id]) FROM [{m_table}] {@where}";
+                Logger.WriteDebug(sql);
+                using (var cmd = new SqlCommand(sql,
+                    conn))
+                {
+                    await conn.OpenAsync();
+                    var scalar = await cmd.ExecuteScalarAsync();
+                    if (scalar == DBNull.Value) return default;
+
+                    return (int)scalar;
+                }
+            }
         }
 
         public Task<IEnumerable<TResult>> GetListAsync<TResult>(Expression<Func<T, bool>> predicate,
