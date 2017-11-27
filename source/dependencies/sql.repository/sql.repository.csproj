@@ -98,6 +98,7 @@
     <Compile Include="Extensions\SortExtension.cs" />
     <Compile Include="ISqlServerMetadata.cs" />
     <Compile Include="MessageTracker.cs" />
+    <Compile Include="PredicateExpressionVisitor.cs" />
     <Compile Include="ReadOnlyRepository.T.cs" />
     <Compile Include="SqlBinaryStore.cs" />
     <Compile Include="FileStreamBinaryStore.cs" />

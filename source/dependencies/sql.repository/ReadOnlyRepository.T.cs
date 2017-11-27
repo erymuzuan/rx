@@ -4,6 +4,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.ElasticsearchRepository.Extensions;
@@ -15,13 +17,21 @@ namespace Bespoke.Sph.SqlRepository
     {
         public string ConnectionString { get; }
         public EntityDefinition EntityDefinition { get; }
+        private readonly string m_table = $"{ConfigurationManager.ApplicationName}].[{typeof(T).Name}";
+        private readonly ILogger m_logger;
+        private ILogger Logger => m_logger ?? ObjectBuilder.GetObject<ILogger>();
+
         public ReadOnlyRepository() : this(ConfigurationManager.SqlConnectionString, false)
         {
-
         }
-        public ReadOnlyRepository(string connectionString, bool readFromEnvironmentVariable = true, EntityDefinition entityDefinition = null)
+
+        public ReadOnlyRepository(string connectionString, bool readFromEnvironmentVariable = true,
+            EntityDefinition entityDefinition = null,
+            ILogger logger = null)
         {
-            ConnectionString = readFromEnvironmentVariable ? ConfigurationManager.GetEnvironmentVariable(connectionString) : connectionString;
+            ConnectionString = readFromEnvironmentVariable
+                ? ConfigurationManager.GetEnvironmentVariable(connectionString)
+                : connectionString;
             if (null == entityDefinition)
             {
                 var context = new SphDataContext();
@@ -31,7 +41,11 @@ namespace Bespoke.Sph.SqlRepository
             {
                 EntityDefinition = entityDefinition;
             }
+            
+            m_logger = logger;
+
         }
+
         public Task<int> GetCountAsync(Filter[] filters)
         {
             throw new NotImplementedException();
@@ -42,62 +56,110 @@ namespace Bespoke.Sph.SqlRepository
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<TResult>> GetListAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)
+        public Task<IEnumerable<TResult>> GetListAsync<TResult>(Expression<Func<T, bool>> predicate,
+            Expression<Func<T, TResult>> selector)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("");
         }
 
-        public Task<TResult> GetMaxAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)
+        public async Task<TResult> GetMaxAsync<TResult>(Expression<Func<T, bool>> predicate,
+            Expression<Func<T, TResult>> selector)
         {
-            throw new NotImplementedException("GetMaxAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)");
+            var @where = new PredicateExpressionVisitor<T>(Logger).Visit(predicate);
+            dynamic sel = selector.Body;
+            string field = sel.Member.Name;
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                var sql = $"SELECT MAX([{field}]) FROM [{m_table}] {@where}";
+                Logger.WriteDebug(sql);
+                using (var cmd = new SqlCommand(sql,
+                    conn))
+                {
+                    await conn.OpenAsync();
+                    var scalar = await cmd.ExecuteScalarAsync();
+                    if (scalar == DBNull.Value) return default;
+                
+                    return (TResult)scalar;
+                }
+            }
         }
 
         public Task<TResult> GetMaxAsync<TResult>(QueryDsl queryDsl)
         {
             throw new NotImplementedException("GetMaxAsync<TResult>(QueryDsl queryDsl)");
         }
-
-        public Task<LoadData<T>> LoadOneAsync(string id)
+        static string GetMd5Hash(string input)
         {
-            throw new NotImplementedException();
+            using (var md5Hash = MD5.Create())
+            {
+                var data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+                return data.ToString("", x => x.ToString("x2"));
+
+            }
         }
 
-        public Task<LoadData<T>> LoadOneAsync(string field, string value)
+        public async Task<LoadData<T>> LoadOneAsync(string id)
         {
-            throw new NotImplementedException();
+            using (var conn = new SqlConnection(ConnectionString))
+            using (var cmd = new SqlCommand($"SELECT [Json] FROM [{m_table}] WHERE [Id] = @Id",
+                conn))
+            {
+                cmd.Parameters.AddWithValue("@Id", id);
+                await conn.OpenAsync();
+                var json = await cmd.ExecuteScalarAsync();
+                if (json == DBNull.Value) return default;
+                if (string.IsNullOrWhiteSpace($"{json}")) return default;
+                var src = json.ToString().DeserializeFromJson<T>();
+                var lo = new LoadData<T>(src, GetMd5Hash($"{src.ChangedDate:O}"));
+                return lo;
+            }
+        }
+
+        public async Task<LoadData<T>> LoadOneAsync(string field, string value)
+        {
+            using (var conn = new SqlConnection(ConnectionString))
+            using (var cmd = new SqlCommand($"SELECT [Json] FROM [{m_table}] WHERE [{field}] = @FieldValue",
+                conn))
+            {
+                cmd.Parameters.AddWithValue("@FieldValue", value);
+                await conn.OpenAsync();
+                var json = await cmd.ExecuteScalarAsync();
+                if (json == DBNull.Value) return default;
+                if (string.IsNullOrWhiteSpace($"{json}")) return default;
+                var src = json.ToString().DeserializeFromJson<T>();
+                var lo = new LoadData<T>(src, GetMd5Hash($"{src.ChangedDate:O}"));
+                return lo;
+            }
         }
 
         public async Task<LoadOperation<T>> SearchAsync(QueryDsl queryDsl)
         {
-            var logger = ObjectBuilder.GetObject<ILogger>();
-
-            logger.WriteDebug($"SearchAsync for {typeof(T).Name}");
+            Logger.WriteDebug($"SearchAsync for {typeof(T).Name}");
 
 
             var querySansAggregates = queryDsl.Clone();
             querySansAggregates.Aggregates.Clear();
 
             var sql = querySansAggregates.CompileToSql<T>();
-            logger.WriteDebug($"QueryDsl: {queryDsl}\r\nSQL: \r\n{sql}");
+            Logger.WriteDebug($"QueryDsl: {queryDsl}\r\nSQL: \r\n{sql}");
 
             var lo = new LoadOperation<T>(queryDsl);
             using (var conn = new SqlConnection(this.ConnectionString))
             {
                 await conn.OpenAsync();
                 var countSqlText = queryDsl.CompileToSqlCount<T>();
-                logger.WriteDebug($"Count SQL : {countSqlText}\r\n=========");
+                Logger.WriteDebug($"Count SQL : {countSqlText}\r\n=========");
                 using (var count = new SqlCommand(countSqlText, conn))
                 {
-                    lo.TotalRows = (int)await count.ExecuteScalarAsync();
+                    lo.TotalRows = (int) await count.ExecuteScalarAsync();
                 }
 
                 if (queryDsl.Aggregates.Any())
                 {
                     var aggregateSqlText = queryDsl.CompileToSql<T>();
-                    logger.WriteDebug($"Aggregate SQL : \r\n{aggregateSqlText}\r\n=================");
+                    Logger.WriteDebug($"Aggregate SQL : \r\n{aggregateSqlText}\r\n=================");
                     using (var aggregateCommand = new SqlCommand(aggregateSqlText, conn))
                     {
-
                         foreach (var agg in queryDsl.Aggregates)
                         {
                             await agg.ReadAsync<T>(aggregateCommand);
@@ -121,7 +183,6 @@ namespace Bespoke.Sph.SqlRepository
                                 row.Add("Id", reader.GetValue("Id", this.EntityDefinition));
                                 lo.Readers.Add(row);
                             }
-
                         }
                         else
                         {
@@ -130,7 +191,6 @@ namespace Bespoke.Sph.SqlRepository
                                 var item = reader["Json"].ReadNullableString().DeserializeFromJson<T>();
                                 item.Id = reader["Id"].ReadNullableString();
                                 lo.ItemCollection.Add(item);
-
                             }
                         }
                     }
