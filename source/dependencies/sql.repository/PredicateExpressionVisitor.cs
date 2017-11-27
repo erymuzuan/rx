@@ -33,7 +33,17 @@ namespace Bespoke.Sph.SqlRepository
 
         protected override Expression VisitUnary(UnaryExpression node)
         {
-            m_sql.AddOrReplace(node, "");
+            m_sql.AddIfNotExist(node, "");
+            if (node.NodeType == ExpressionType.Convert)
+            {
+                var constv = Expression.Lambda<Func<DateTime?>>(node).Compile()();
+                m_sql.AddOrReplace(node, $"'{constv:o}'");
+
+                // TODO : remove all the calls
+                return base.VisitUnary(node);
+            }
+
+            // rewrite bool expression NOT e.g x => !x.IsSomething
             var bv = base.VisitUnary(node);
             if (node.NodeType == ExpressionType.Not)
             {
