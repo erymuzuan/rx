@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Extensions;
 
@@ -15,6 +16,7 @@ namespace Bespoke.Sph.SqlRepository
         {
             Logger = logger;
         }
+
         public string Visit(Expression<Func<T, bool>> predicate)
         {
             Visit(predicate.Body);
@@ -25,6 +27,7 @@ namespace Bespoke.Sph.SqlRepository
         }
 
         private int m_count;
+
         public override Expression Visit(Expression node)
         {
             Logger.WriteDebug($"{++m_count,3} : {node.NodeType}({node.GetType().Name})");
@@ -34,23 +37,34 @@ namespace Bespoke.Sph.SqlRepository
         protected override Expression VisitUnary(UnaryExpression node)
         {
             m_sql.AddIfNotExist(node, "");
+            var previous = new HashSet<Expression>(m_sql.Keys) {node};
             if (node.NodeType == ExpressionType.Convert)
             {
+                //get the expression for the return statement, and remove whatever it puts in there
+                var bv = base.VisitUnary(node);
+                var addedNodes = m_sql.Keys.Except(previous).ToArray();
+                foreach (var n in addedNodes)
+                {
+                    Logger.WriteDebug($"***: {n.NodeType}({n.GetType().Name})");
+                    m_sql[n] = "";
+                }
+                
+                
                 var constv = Expression.Lambda<Func<DateTime?>>(node).Compile()();
                 m_sql.AddOrReplace(node, $"'{constv:o}'");
 
-                // TODO : remove all the calls
-                return base.VisitUnary(node);
+                // TODO : remove all the subsequent calls
+                return bv;
             }
 
             // rewrite bool expression NOT e.g x => !x.IsSomething
-            var bv = base.VisitUnary(node);
+            var bv2 = base.VisitUnary(node);
             if (node.NodeType == ExpressionType.Not)
             {
                 if (m_sql.ContainsKey(node.Operand))
                     m_sql[node.Operand] = m_sql[node.Operand].Replace(" = 1", " = 0");
             }
-            return bv;
+            return bv2;
         }
 
         protected override Expression VisitBinary(BinaryExpression node)
@@ -71,6 +85,7 @@ namespace Bespoke.Sph.SqlRepository
             m_sql.AddIfNotExist(node, $"[{node.Member.Name}]");
             return node;
         }
+
         protected override Expression VisitConstant(ConstantExpression node)
         {
             switch (node.Value)
@@ -89,7 +104,6 @@ namespace Bespoke.Sph.SqlRepository
                     break;
             }
             return node;
-
         }
 
         private void WriteSqlOperator(Expression node)

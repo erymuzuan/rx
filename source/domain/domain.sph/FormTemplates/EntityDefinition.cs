@@ -9,7 +9,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
 using System.Net.Mail;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
@@ -289,7 +288,7 @@ namespace Bespoke.Sph.Domain
 
         public Member AddMember<T>(string name)
         {
-            if (typeof(Member).IsAssignableFrom(typeof(T)))
+            if (typeof(T).IsSubclassOf(typeof(Member)))
             {
                 var ctor = typeof(T).GetConstructor(Array.Empty<Type>());
                 if (null == ctor) throw new ArgumentException("No default ctor");
