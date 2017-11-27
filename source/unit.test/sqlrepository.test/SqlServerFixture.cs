@@ -25,14 +25,12 @@ namespace Bespoke.Sph.Tests.SqlServer
         public SqlServerFixture()
         {
             var ed = new EntityDefinition {Name = "Patient", Plural = "Patients", Id = "patient"};
-
-            ed.AddMember<string>("FullName1");
+            
             ed += ("FullName", typeof(string));
             ed += ("MaritalStatus", typeof(string));
             ed += ("Dob", typeof(DateTime));
             ed += ("Age", typeof(int));
             ed += ("Mrn", typeof(string));
-            ed -= "Mrn";
 
             var spouse = new ComplexMember {Name = "Wife", TypeName = "Spouse"};
             spouse.Add(new Dictionary<string, Type>

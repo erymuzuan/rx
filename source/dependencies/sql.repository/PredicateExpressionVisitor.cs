@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Extensions;
 
@@ -37,7 +39,7 @@ namespace Bespoke.Sph.SqlRepository
         protected override Expression VisitUnary(UnaryExpression node)
         {
             m_sql.AddIfNotExist(node, "");
-            var previous = new HashSet<Expression>(m_sql.Keys) {node};
+            var previous = new HashSet<Expression>(m_sql.Keys) { node };
             if (node.NodeType == ExpressionType.Convert)
             {
                 //get the expression for the return statement, and remove whatever it puts in there
@@ -48,8 +50,7 @@ namespace Bespoke.Sph.SqlRepository
                     Logger.WriteDebug($"***: {n.NodeType}({n.GetType().Name})");
                     m_sql[n] = "";
                 }
-                
-                
+
                 var constv = Expression.Lambda<Func<DateTime?>>(node).Compile()();
                 m_sql.AddOrReplace(node, $"'{constv:o}'");
 
@@ -77,13 +78,33 @@ namespace Bespoke.Sph.SqlRepository
 
         protected override Expression VisitMember(MemberExpression node)
         {
+            var column = new StringBuilder("[");
             if (node.Type == typeof(bool))
             {
                 m_sql.AddIfNotExist(node, $"[{node.Member.Name}] = 1");
                 return node;
             }
-            m_sql.AddIfNotExist(node, $"[{node.Member.Name}]");
+            var members = new List<MemberInfo>();
+
+            void LookForMemberExpressions(MemberExpression child)
+            {
+                members.Add(child.Member);
+                if(child.Expression is MemberExpression grandChild)
+                    LookForMemberExpressions(grandChild);
+            }
+
+            LookForMemberExpressions(node);
+            members.Reverse();
+
+            m_sql.AddIfNotExist(node, "[" + members.ToString(".", m => m.Name) + "]");
             return node;
+        }
+
+        protected override Expression VisitParameter(ParameterExpression node)
+        {
+            Logger.WriteDebug("Parameter : " + node.ToString());
+            //m_sql.AddIfNotExist(node, node.Name);
+            return base.VisitParameter(node);
         }
 
         protected override Expression VisitConstant(ConstantExpression node)
@@ -100,7 +121,18 @@ namespace Bespoke.Sph.SqlRepository
                     m_sql.AddIfNotExist(node, bv ? "1" : "0");
                     break;
                 default:
-                    m_sql.AddIfNotExist(node, $"{node.Value}");
+                    // TODO : remove the =, or <> when Field == null/ Field != null
+                    if (node.Value == null && !m_sql.ContainsKey(node))
+                    {
+                        var last = m_sql.Last();
+                        var not = last.Value.Trim() == "<>";
+                        m_sql.AddOrReplace(last.Key, "");
+                        m_sql.AddIfNotExist(node, not ? "IS NOT NULL" : "IS NULL");
+                    }
+                    else
+                    {
+                        m_sql.AddIfNotExist(node, $"{node.Value}");
+                    }
                     break;
             }
             return node;

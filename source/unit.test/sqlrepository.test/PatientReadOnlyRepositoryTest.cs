@@ -14,33 +14,23 @@ namespace Bespoke.Sph.Tests.SqlServer
     public class PatientReadOnlyRepositoryTest
     {
         public SqlServerFixture Fixture { get; }
-        private ITestOutputHelper Console { get; }
-
         public PatientReadOnlyRepositoryTest(SqlServerFixture fixture, ITestOutputHelper console)
         {
             ObjectBuilder.AddCacheList<ILogger>(new XunitConsoleLogger(console));
             Fixture = fixture;
-            Console = console;
         }
 
         [Fact]
-        public async Task GeForeignersCount()
+        public async Task PredicateWithUnaryNot()
         {
             Expression<Func<Patient, bool>> expression = x => !x.IsMalaysian;
             var db = await this.Fixture.Repository.GetCountAsync(expression);
             var max = this.Fixture.Patients.Count(expression.Compile());
             Assert.Equal(db, max);
         }
+
         [Fact]
-        public async Task GeMalaysianCount()
-        {
-            Expression<Func<Patient, bool>> expression = x => x.IsMalaysian;
-            var db = await this.Fixture.Repository.GetCountAsync(expression);
-            var max = this.Fixture.Patients.Count(expression.Compile());
-            Assert.Equal(db, max);
-        }
-        [Fact]
-        public async Task GeMalaysianGirlsCount()
+        public async Task PredicateWithUnary()
         {
             Expression<Func<Patient, bool>> expression = x => x.IsMalaysian && x.Gender == "Female";
             var db = await this.Fixture.Repository.GetCountAsync(expression);
@@ -48,7 +38,7 @@ namespace Bespoke.Sph.Tests.SqlServer
             Assert.Equal(db, max);
         }
         [Fact]
-        public async Task GeForeignGirlsCount()
+        public async Task PredicateWithUnaryNotAnd()
         {
             Expression<Func<Patient, bool>> expression = x => !x.IsMalaysian && x.Gender == "Female";
             var db = await this.Fixture.Repository.GetCountAsync(expression);
@@ -56,50 +46,113 @@ namespace Bespoke.Sph.Tests.SqlServer
             Assert.Equal(db, max);
         }
 
+
         [Fact]
-        public async Task GetMaxChineseFemaleAge()
+        public async Task PredicateWithConvertExpression()
         {
-            Expression<Func<Patient, bool>> expression = x => x.Gender == "Female" && x.Race == "Chinese";
-            var db = await this.Fixture.Repository.GetMaxAsync<int>(expression, x => x.Age);
+            Expression<Func<Patient, bool>> expression = x => x.Dob < new DateTime(1960, 1, 1);
+            var db = await this.Fixture.Repository.GetMaxAsync(expression, x => x.Age);
             var max = this.Fixture.Patients.Where(expression.Compile()).Max(x => x.Age);
             Assert.Equal(db, max);
         }
 
         [Fact]
-        public async Task GetCountChineseFemaleBornBefore1960()
-        {
-            Expression<Func<Patient, bool>> expression = x =>/* x.Gender == "Female" && x.Race == "Chinese" &&*/ x.Dob < new DateTime(1960, 1, 1);
-            var db = await this.Fixture.Repository.GetMaxAsync<int>(expression, x => x.Age);
-            var max = this.Fixture.Patients.Where(expression.Compile()).Max(x => x.Age);
-            Assert.Equal(db, max);
-        }
-
-        [Fact]
-        public async Task GetMaxChineseOrFemaleAge()
+        public async Task PredicateOrWithConstantString()
         {
             Expression<Func<Patient, bool>> expression = x => x.Gender == "Female" || x.Race == "Chinese";
-            var db = await this.Fixture.Repository.GetMaxAsync<int>(expression, x => x.Age);
+            var db = await this.Fixture.Repository.GetMaxAsync(expression, x => x.Age);
             var max = this.Fixture.Patients.Where(expression.Compile()).Max(x => x.Age);
             Assert.Equal(db, max);
         }
 
         [Fact]
-        public async Task GetMaxFemaleAge()
+        public async Task PredicateWithExpressionPropery()
         {
-            Expression<Func<Patient, bool>> expression = x => x.Gender == "Female";
-            var db = await this.Fixture.Repository.GetMaxAsync<int>(expression, x => x.Age);
+            Expression<Func<Patient, bool>> expression = x => x.Dob.HasValue;
+            var db = await this.Fixture.Repository.GetMaxAsync(expression, x => x.Age);
+            var max = this.Fixture.Patients.Where(expression.Compile()).Max(x => x.Age);
+            Assert.Equal(db, max);
+        }
+        [Fact]
+        public async Task PredicateWithExpressionPropery2()
+        {
+            Expression<Func<Patient, bool>> expression = x => x.Dob.Value.Year == 1960;
+            var db = await this.Fixture.Repository.GetMaxAsync(expression, x => x.Age);
             var max = this.Fixture.Patients.Where(expression.Compile()).Max(x => x.Age);
             Assert.Equal(db, max);
         }
 
         [Fact]
-        public async Task GetCountFemale()
+        public async Task PredicateOrWithInt32Constant()
         {
-            Expression<Func<Patient, bool>> expression = x => x.Gender == "Female";
+            Expression<Func<Patient, bool>> expression = x => x.Age >= 60 || x.Age < 10;
+            var db = await this.Fixture.Repository.GetMaxAsync(expression, x => x.Age);
+            var max = this.Fixture.Patients.Where(expression.Compile()).Max(x => x.Age);
+            Assert.Equal(db, max);
+        }
+
+
+        [Fact]
+        public async Task PredicateWithChildMemberAccess()
+        {
+            Expression<Func<Patient, bool>> expression = x => x.Wife.Name == null;
+            var db = await this.Fixture.Repository.GetCountAsync(expression);
+            var max = this.Fixture.Patients.Count(expression.Compile());
+            Assert.Equal(db, max);
+
+
+        }
+
+        [Fact]
+        public async Task PredicateWithGrandChildMemberAccess()
+        {
+            Expression<Func<Patient, bool>> expression = x => x.Wife.WorkPlaceAddress.State == "Kelantan";
+            var db = await this.Fixture.Repository.GetCountAsync(expression);
+            var max = this.Fixture.Patients.Count(expression.Compile());
+            Assert.Equal(db, max);
+
+
+        }
+
+        [Fact]
+        public async Task PredicateEqNull()
+        {
+            Expression<Func<Patient, bool>> expression2 = x => x.FullName == null;
+
+            var db = await this.Fixture.Repository.GetCountAsync(expression2);
+            var max = this.Fixture.Patients.Count(expression2.Compile());
+            Assert.Equal(db, max);
+
+        }
+
+
+        [Fact]
+        public async Task PredicateEqNotNull()
+        {
+            Expression<Func<Patient, bool>> expression = x => x.Wife.Name != null;
             var db = await this.Fixture.Repository.GetCountAsync(expression);
             var max = this.Fixture.Patients.Count(expression.Compile());
             Assert.Equal(db, max);
         }
+
+        [Fact]
+        public async Task PredicateStringIsNullOrWhitespace()
+        {
+            Expression<Func<Patient, bool>> expression = x => string.IsNullOrWhiteSpace(x.Wife.Name);
+            var db = await this.Fixture.Repository.GetCountAsync(expression);
+            var max = this.Fixture.Patients.Count(expression.Compile());
+            Assert.Equal(db, max);
+        }
+
+        [Fact]
+        public async Task PredicateEqStringConstant()
+        {
+            Expression<Func<Patient, bool>> expression = x => x.Gender == "Female";
+            var db = await this.Fixture.Repository.GetMaxAsync(expression, x => x.Age);
+            var max = this.Fixture.Patients.Where(expression.Compile()).Max(x => x.Age);
+            Assert.Equal(db, max);
+        }
+
 
         [Fact]
         public void Address()
