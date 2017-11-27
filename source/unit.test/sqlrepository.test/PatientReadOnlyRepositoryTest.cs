@@ -74,12 +74,20 @@ namespace Bespoke.Sph.Tests.SqlServer
             Assert.Equal(db, max);
         }
         [Fact]
+        public async Task PredicateWithUnaryExpressionPropery()
+        {
+            Expression<Func<Patient, bool>> expression = x => !x.Dob.HasValue;
+            var db = await this.Fixture.Repository.GetCountAsync(expression);
+            var expected = this.Fixture.Patients.Count(expression.Compile());
+            Assert.Equal(expected,db);
+        }
+        [Fact]
         public async Task PredicateWithExpressionPropery2()
         {
             Expression<Func<Patient, bool>> expression = x => x.Dob.Value.Year == 1960;
-            var db = await this.Fixture.Repository.GetMaxAsync(expression, x => x.Age);
-            var max = this.Fixture.Patients.Where(expression.Compile()).Max(x => x.Age);
-            Assert.Equal(db, max);
+            var expected = this.Fixture.Patients.Count(expression.Compile());
+            var db = await this.Fixture.Repository.GetCountAsync(expression);
+            Assert.Equal(expected, db);
         }
 
         [Fact]
@@ -135,6 +143,8 @@ namespace Bespoke.Sph.Tests.SqlServer
             Assert.Equal(db, max);
         }
 
+
+        //TODO : IsNullOr
         [Fact]
         public async Task PredicateStringIsNullOrWhitespace()
         {
