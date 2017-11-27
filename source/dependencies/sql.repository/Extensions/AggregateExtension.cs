@@ -46,7 +46,7 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
             return (sql, true);
         }
 
-        public static Task ReadAsync<T>(this Aggregate agg, SqlCommand cmd) where T : Entity, new()
+        public static Task ReadAsync<T>(this Aggregate agg, SqlCommand cmd) where T : DomainObject, new()
         {
             switch (agg)
             {
@@ -90,34 +90,34 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
             return null;
         }
 
-        private static async Task ReadAsync<T>(MinAggregate min, SqlCommand cmd) where T : Entity, new()
+        private static async Task ReadAsync<T>(MinAggregate min, SqlCommand cmd) where T : DomainObject, new()
         {
             var result = await cmd.ExecuteScalarAsync();
             min.SetValue(result);
         }
 
-        private static async Task ReadAsync<T>(MaxAggregate max, SqlCommand cmd) where T : Entity, new()
+        private static async Task ReadAsync<T>(MaxAggregate max, SqlCommand cmd) where T : DomainObject, new()
         {
             var result = await cmd.ExecuteScalarAsync();
             max.SetValue(result);
         }
-        private static async Task ReadAsync<T>(CountDistinctAggregate count, SqlCommand cmd) where T : Entity, new()
+        private static async Task ReadAsync<T>(CountDistinctAggregate count, SqlCommand cmd) where T : DomainObject, new()
         {
             var result = await cmd.ExecuteScalarAsync();
             count.SetValue(result);
         }
-        private static async Task ReadAsync<T>(SumAggregate sum, SqlCommand cmd) where T : Entity, new()
+        private static async Task ReadAsync<T>(SumAggregate sum, SqlCommand cmd) where T : DomainObject, new()
         {
             var result = await cmd.ExecuteScalarAsync();
             sum.SetValue(result);
         }
-        private static async Task ReadAsync<T>(AverageAggregate avg, SqlCommand cmd) where T : Entity, new()
+        private static async Task ReadAsync<T>(AverageAggregate avg, SqlCommand cmd) where T : DomainObject, new()
         {
             var result = await cmd.ExecuteScalarAsync();
             avg.SetValue(result);
         }
 
-        private static async Task ReadAsync<T>(GroupByAggregate gb, SqlCommand cmd) where T : Entity, new()
+        private static async Task ReadAsync<T>(GroupByAggregate gb, SqlCommand cmd) where T : DomainObject, new()
         {
             using (var reader = await cmd.ExecuteReaderAsync())
             {
@@ -130,7 +130,7 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
             }
         }
 
-        private static async Task ReadAsync<T>(DateHistogramAggregate dateHistogram, SqlCommand cmd) where T : Entity, new()
+        private static async Task ReadAsync<T>(DateHistogramAggregate dateHistogram, SqlCommand cmd) where T : DomainObject, new()
         {
             using (var reader = await cmd.ExecuteReaderAsync())
             {
