@@ -8,6 +8,7 @@ namespace Bespoke.Sph.Domain
     public partial class SimpleMember : Member
     {
 
+        
         public override string GetDefaultValueCode(int count, string itemIdentifier = "this")
         {
             if (null == this.DefaultValue) return null;

@@ -13,7 +13,6 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
             var rvalue = reader[path];
             if (rvalue is DBNull)
                 return null;
-
             if (member is SimpleMember sm && rvalue is string value)
             {
                 if (sm.Type == typeof(string))
