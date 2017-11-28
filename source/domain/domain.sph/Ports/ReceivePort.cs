@@ -17,13 +17,13 @@ namespace Bespoke.Sph.Domain
     [PersistenceOption(HasDerivedTypes = true, IsSource = true)]
     public partial class ReceivePort : Entity
     {
-        public async Task<WorkflowCompilerResult> CompileAsync()
+        public async Task<RxCompilerResult> CompileAsync()
         {
             var options = new CompilerOptions { IsDebug = true };
             return await this.CompileAsync(options);
         }
 
-        private async Task<WorkflowCompilerResult> CompileAsync(CompilerOptions options)
+        private async Task<RxCompilerResult> CompileAsync(CompilerOptions options)
         {
             var classes = (await this.GenerateCodeAsync()).ToArray();
             var sources = classes.Select(x => x.Save($"ReceivePort.{TypeName}")).ToArray();
@@ -59,7 +59,7 @@ namespace Bespoke.Sph.Domain
                 }
 
                 var result = provider.CompileAssemblyFromFile(parameters, sources);
-                var cr = new WorkflowCompilerResult
+                var cr = new RxCompilerResult
                 {
                     Result = result.Errors.Count == 0,
                     Output = Path.GetFullPath(parameters.OutputAssembly)

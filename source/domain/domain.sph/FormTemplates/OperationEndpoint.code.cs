@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class OperationEndpoint : ICompilationUnit
+    public partial class OperationEndpointS
     {
         private readonly string[] m_importDirectives =
        {
@@ -30,7 +30,7 @@ namespace Bespoke.Sph.Domain
             "Bespoke.Sph.WebApi"
         };
 
-        public async Task<WorkflowCompilerResult> CompileAsync(EntityDefinition entityDefinition)
+        public async Task<RxCompilerResult> CompileAsync(EntityDefinition entityDefinition)
         {
             m_entityDefinition = entityDefinition;
 
@@ -69,7 +69,7 @@ namespace Bespoke.Sph.Domain
                 this.ReferencedAssemblyCollection.ForEach(x => parameters.ReferencedAssemblies.Add(x.Location));
 
                 var result = provider.CompileAssemblyFromFile(parameters, source, assemblyInfo.FileName);
-                var cr = new WorkflowCompilerResult
+                var cr = new RxCompilerResult
                 {
                     Result = true,
                     Output = Path.GetFullPath(parameters.OutputAssembly)

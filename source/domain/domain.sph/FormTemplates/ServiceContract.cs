@@ -59,7 +59,7 @@ namespace Bespoke.Sph.Domain
             "Bespoke.Sph.WebApi"
         };
 
-        public async Task<WorkflowCompilerResult> CompileAsync(EntityDefinition entityDefinition)
+        public async Task<RxCompilerResult> CompileAsync(EntityDefinition entityDefinition)
         {
             m_entityDefinition = entityDefinition;
 
@@ -94,7 +94,7 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(ConfigurationManager.CompilerOutputPath + $@"\{ConfigurationManager.ApplicationName}.{m_entityDefinition.Name}.dll");
 
                 var result = provider.CompileAssemblyFromFile(parameters, source, assemblyInfo.FileName);
-                var cr = new WorkflowCompilerResult
+                var cr = new RxCompilerResult
                 {
                     Result = true,
                     Output = Path.GetFullPath(parameters.OutputAssembly)

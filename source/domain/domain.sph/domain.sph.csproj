@@ -323,6 +323,7 @@
     <Compile Include="diagnostics\FormDeleteOperationDiagnostics.cs" />
     <Compile Include="diagnostics\FormOperationDiagnostics.cs" />
     <Compile Include="diagnostics\LocationEndpointDiagnostics.cs" />
+    <Compile Include="Extensions\ProjectDefinitionWithMembersExtension.cs" />
     <Compile Include="FileLogger.cs" />
     <Compile Include="FormTemplates\BinaryAndFilter.cs" />
     <Compile Include="FormTemplates\BinaryExpressionFilter.cs" />
@@ -727,7 +728,7 @@
     <Compile Include="Triggers\Variable.cs" />
     <Compile Include="Triggers\VariableValue.cs" />
     <Compile Include="Triggers\Workflow.cs" />
-    <Compile Include="Triggers\WorkflowCompilerResult.cs" />
+    <Compile Include="Triggers\RxCompilerResult.cs" />
     <Compile Include="Triggers\WorkflowDefinition.code.cs">
       <DependentUpon>WorkflowDefinition.cs</DependentUpon>
     </Compile>

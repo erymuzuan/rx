@@ -5,7 +5,7 @@ namespace Bespoke.Sph.SourceBuilders
 {
     public class QueryEndpointBuilder : Builder<QueryEndpoint>
     {
-        protected override Task<WorkflowCompilerResult> CompileAssetAsync(QueryEndpoint item)
+        protected override Task<RxCompilerResult> CompileAssetAsync(QueryEndpoint item)
         {
             var context = new SphDataContext();
             var ed = context.LoadOneFromSources<EntityDefinition>(x => x.Id == item.Entity.ToIdFormat());

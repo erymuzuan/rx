@@ -2,7 +2,7 @@
 
 namespace Bespoke.Sph.Domain
 {
-    public class WorkflowCompilerResult
+    public class RxCompilerResult
     {
         public bool Result { get; set; }
         public ObjectCollection<BuildError> Errors { get; } = new ObjectCollection<BuildError>();

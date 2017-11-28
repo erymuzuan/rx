@@ -97,7 +97,7 @@ namespace domain.test.workflows
             return wd;
         }
 
-        protected async Task<WorkflowCompilerResult> CompileAsync(WorkflowDefinition wd, bool verbose = false, bool
+        protected async Task<RxCompilerResult> CompileAsync(WorkflowDefinition wd, bool verbose = false, bool
             assertError = true)
         {
             this.BinaryStore.Setup(x => x.GetContent("wd-storeid"))

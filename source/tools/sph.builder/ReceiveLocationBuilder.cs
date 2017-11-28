@@ -5,7 +5,7 @@ namespace Bespoke.Sph.SourceBuilders
 {
     public class ReceiveLocationBuilder : Builder<ReceiveLocation>
     {
-        protected override Task<WorkflowCompilerResult> CompileAssetAsync(ReceiveLocation item)
+        protected override Task<RxCompilerResult> CompileAssetAsync(ReceiveLocation item)
         {
             var context = new SphDataContext();
             var port = context.LoadOneFromSources<ReceivePort>(x => x.Id == item.ReceivePort.ToIdFormat());

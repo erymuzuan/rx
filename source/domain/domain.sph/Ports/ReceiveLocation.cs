@@ -77,14 +77,14 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
-        public virtual async Task<WorkflowCompilerResult> CompileAsync(ReceivePort port)
+        public virtual async Task<RxCompilerResult> CompileAsync(ReceivePort port)
         {
             var options = new CompilerOptions { IsDebug = true };
             return await this.CompileAsync(port, options);
         }
 
 
-        private async Task<WorkflowCompilerResult> CompileAsync(ReceivePort port, CompilerOptions options)
+        private async Task<RxCompilerResult> CompileAsync(ReceivePort port, CompilerOptions options)
         {
             var classes = (await this.GenerateClassesAsync(port)).ToArray();
             var sources = classes.Select(x => x.Save($"ReceiveLocation.{TypeName}")).ToArray();
@@ -120,7 +120,7 @@ namespace Bespoke.Sph.Domain
                 }
 
                 var result = provider.CompileAssemblyFromFile(parameters, sources);
-                var cr = new WorkflowCompilerResult
+                var cr = new RxCompilerResult
                 {
                     Result = result.Errors.Count == 0,
                     Output = Path.GetFullPath(parameters.OutputAssembly)

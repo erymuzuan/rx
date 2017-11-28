@@ -112,7 +112,7 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
-        public Task<WorkflowCompilerResult> CompileAsync()
+        public Task<RxCompilerResult> CompileAsync()
         {
 
             var options = new CompilerOptions();
@@ -125,7 +125,7 @@ namespace Bespoke.Sph.Domain
             return Task.FromResult(cr);
         }
 
-        public WorkflowCompilerResult Compile(CompilerOptions options)
+        public RxCompilerResult Compile(CompilerOptions options)
         {
             var codes = this.GenerateCode();
             Debug.WriteLineIf(options.IsVerbose, codes);
@@ -200,7 +200,7 @@ namespace Bespoke.Sph.Domain
                         parameters.ReferencedAssemblies.Add(ass);
                 }
                 var result = provider.CompileAssemblyFromFile(parameters, sourceFiles.ToArray());
-                var cr = new WorkflowCompilerResult
+                var cr = new RxCompilerResult
                 {
                     Result = true,
                     Output = Path.GetFullPath(parameters.OutputAssembly)
