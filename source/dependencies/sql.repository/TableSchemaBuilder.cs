@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.ElasticsearchRepository.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -63,8 +63,9 @@ namespace Bespoke.Sph.SqlRepository
             else
                 createTable = await this.CreateTableSqlAsync(ed, applicationName);
 
+            var version = await GetSqlServerProductVersionAsync();
+            var createIndex = ed.CreateIndexSql(version);
 
-            var createIndex = this.CreateIndexSql(ed, applicationName);
             var oldTable = $"{ed.Name}_{DateTime.Now:yyyyMMdd_HHmmss}";
             using (var conn = new SqlConnection(connectionString))
             {
@@ -81,7 +82,7 @@ namespace Bespoke.Sph.SqlRepository
 
                     // rename table for migration
                     using (var renameTableCommand =
-                        new SqlCommand("sp_rename", conn) {CommandType = CommandType.StoredProcedure})
+                        new SqlCommand("sp_rename", conn) { CommandType = CommandType.StoredProcedure })
                     {
                         renameTableCommand.Parameters.AddWithValue("@objname", $"[{applicationName}].[{ed.Name}]");
                         renameTableCommand.Parameters.AddWithValue("@newname", oldTable);
@@ -118,7 +119,7 @@ namespace Bespoke.Sph.SqlRepository
             {
                 await conn.OpenAsync();
 
-                var builder = new Builder {EntityDefinition = ed, Name = ed.Name};
+                var builder = new Builder { EntityDefinition = ed, Name = ed.Name };
                 builder.Initialize();
 
                 var total = await conn.GetScalarValueAsync<int>(
@@ -133,12 +134,12 @@ namespace Bespoke.Sph.SqlRepository
                     {
                         using (var reader = await cmd.ExecuteReaderAsync())
                         {
-                            while (reader.Read())
+                            while (await reader.ReadAsync())
                             {
                                 var id = reader.GetString(0);
                                 var json = reader.GetString(1);
                                 this.WriteMessage($"Sql migration from {oldTable} to {ed.Name}");
-                                var setting = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All};
+                                var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
                                 dynamic ent = JsonConvert.DeserializeObject(json, setting);
                                 ent.Id = id;
                                 //
@@ -154,54 +155,16 @@ namespace Bespoke.Sph.SqlRepository
         }
 
 
-        private static string GetSqlType(string typeName)
-        {
-            switch (typeName)
-            {
-                case "System.String, mscorlib": return "VARCHAR(255)";
-                case "System.Int32, mscorlib": return "INT";
-                case "System.DateTime, mscorlib": return "SMALLDATETIME";
-                case "System.Decimal, mscorlib": return "MONEY";
-                case "System.Double, mscorlib": return "FLOAT";
-                case "System.Boolean, mscorlib": return "BIT";
-            }
-            return "VARCHAR(255)";
-        }
-
-        public IEnumerable<Member> GetFilterableMembers(string parent, IList<Member> members)
-        {
-            var filterables = new ObjectCollection<Member>();
-            var simples = members.OfType<SimpleMember>().Where(m => m.IsFilterable)
-                .Where(m => m.Type != typeof(object))
-                .Where(m => m.Type != typeof(Array))
-                .ToList();
-            var list = members.OfType<ComplexMember>()
-                .Select(m => this.GetFilterableMembers(parent + m.Name + ".", m.MemberCollection)).ToList()
-                .SelectMany(m =>
-                {
-                    var enumerable = m as Member[] ?? m.ToArray();
-                    return enumerable;
-                })
-                .ToList();
-            filterables.AddRange(simples);
-            filterables.AddRange(list);
-
-            filterables.Where(m => string.IsNullOrWhiteSpace(m.FullName) || !m.FullName.EndsWith(m.Name))
-                .ToList().ForEach(m => m.FullName = parent + m.Name);
-
-            return filterables;
-        }
-
         private bool HasSchemaChanged(EntityDefinition ed)
         {
-            var members = this.GetFilterableMembers("", ed.MemberCollection).ToList();
+            var members = ed.GetFilterableMembers().ToList();
             var metadataProvider = ObjectBuilder.GetObject<ISqlServerMetadata>();
             var table = metadataProvider.GetTable(ed.Name);
 
             // compare the members againts column
             foreach (var mb in members.OfType<SimpleMember>())
             {
-                var colType = GetSqlType(mb.TypeName).Replace("(255)", string.Empty);
+                var colType = mb.GetSqlType().Replace("(255)", string.Empty);
                 var mb1 = mb;
                 var col = table.Columns.SingleOrDefault(c =>
                     c.Name.Equals(mb1.FullName, StringComparison.InvariantCultureIgnoreCase) &&
@@ -226,7 +189,7 @@ namespace Bespoke.Sph.SqlRepository
                 var col1 = col;
                 var member = members.OfType<SimpleMember>().SingleOrDefault(m =>
                     m.Name.Equals(col1.Name, StringComparison.InvariantCultureIgnoreCase)
-                    && string.Equals(GetSqlType(m.TypeName).Replace("(255)", string.Empty), col1.SqlType,
+                    && string.Equals(m.GetSqlType().Replace("(255)", string.Empty), col1.SqlType,
                         StringComparison.InvariantCultureIgnoreCase)
                     && col.IsNullable == m.IsNullable);
                 if (null == member)
@@ -239,40 +202,21 @@ namespace Bespoke.Sph.SqlRepository
             return false;
         }
 
-        private string[] CreateIndexSql(EntityDefinition item, string applicationName)
-        {
-            var members = this.GetFilterableMembers("", item.MemberCollection);
-            var sql = from m in members.OfType<SimpleMember>()
-                let column = m.FullName ?? m.Name
-                select
-                    $@"
-CREATE NONCLUSTERED INDEX [{column}_index]
-ON [{applicationName}].[{item.Name}] ([{column}]) ";
 
-            return sql.ToArray();
-        }
 
         private async Task<string> CreateTableSqlAsync(EntityDefinition item, string applicationName)
         {
-            int? version;
-            using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
-            using (var cmd = new SqlCommand("SELECT SERVERPROPERTY('ProductVersion')", conn))
-            {
-                await conn.OpenAsync();
-                var pv = await cmd.ExecuteScalarAsync();
-                version = Strings.RegexInt32Value($"{pv}", @"(?<version>[0-9]{1,2})..*", "version");
-            }
+            var version = await GetSqlServerProductVersionAsync();
             var sql = new StringBuilder();
             sql.Append($"CREATE TABLE [{applicationName}].[{item.Name}]");
             sql.AppendLine("(");
             sql.AppendLine("  [Id] VARCHAR(50) PRIMARY KEY NOT NULL");
-            var members = this.GetFilterableMembers("", item.MemberCollection);
+            var members = item.GetFilterableMembers();
             foreach (var member in members.OfType<SimpleMember>())
             {
                 // TODO : #4510 If SQL server version 13 and above is used,  Filtered member should be computed column
                 Console.WriteLine($@"SQL Server version {version} ");
-                sql.AppendLine(
-                    $",[{member.FullName}] {GetSqlType(member.TypeName)} {(member.IsNullable ? "" : "NOT")} NULL");
+                sql.AppendLine("," + member.GenerateColumnExpression(version));
             }
             sql.AppendLine(",[Json] VARCHAR(MAX)");
             sql.AppendLine(",[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()");
@@ -287,6 +231,19 @@ ON [{applicationName}].[{item.Name}] ([{column}]) ";
             System.IO.File.WriteAllText(file, sql.ToString());
 
             return sql.ToString();
+        }
+
+        private static async Task<int?> GetSqlServerProductVersionAsync()
+        {
+            int? version;
+            using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
+            using (var cmd = new SqlCommand("SELECT SERVERPROPERTY('ProductVersion')", conn))
+            {
+                await conn.OpenAsync();
+                var pv = await cmd.ExecuteScalarAsync();
+                version = Strings.RegexInt32Value($"{pv}", @"(?<version>[0-9]{1,2})..*", "version");
+            }
+            return version;
         }
     }
 }
