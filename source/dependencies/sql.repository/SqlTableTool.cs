@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Extensions;
 
 namespace Bespoke.Sph.SqlRepository
 {
@@ -34,17 +35,34 @@ namespace Bespoke.Sph.SqlRepository
             m_writeError?.Invoke(exception);
         }
 
-        protected  async Task<int?> GetSqlServerProductVersionAsync()
+        protected async Task<int?> GetSqlServerProductVersionAsync()
         {
-            int? version;
-            using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
-            using (var cmd = new SqlCommand("SELECT SERVERPROPERTY('ProductVersion')", conn))
+            try
             {
-                await conn.OpenAsync();
-                var pv = await cmd.ExecuteScalarAsync();
-                version = Strings.RegexInt32Value($"{pv}", @"(?<version>[0-9]{1,2})..*", "version");
+                ObjectBuilder.GetObject<ILogger>()
+                    .WriteInfo("Getting SQL Server Product Version .....");
+
+                int? version;
+                var cs = ConfigurationManager.SqlConnectionString;
+                if (!cs.Contains(";Connection Timeout"))
+                    cs += ";Connection Timeout=5";
+
+                using (var conn = new SqlConnection(cs))
+                using (var cmd = new SqlCommand("SELECT SERVERPROPERTY('ProductVersion')", conn))
+                {
+                    await conn.OpenAsync();
+                    var pv = await cmd.ExecuteScalarAsync();
+                    version = Strings.RegexInt32Value($"{pv}", @"(?<version>[0-9]{1,2})..*", "version");
+                }
+                return version;
+
             }
-            return version;
+            catch (SqlException)
+            {
+                ObjectBuilder.GetObject<ILogger>()
+                    .WriteWarning("Fail to connect to target SQL Server to get version info, revert to SqlServerProductVersion environment else use 13");
+                return ConfigurationManager.GetEnvironmentVariableInt32("SqlServerProductVersion", 13);
+            }
         }
 
     }

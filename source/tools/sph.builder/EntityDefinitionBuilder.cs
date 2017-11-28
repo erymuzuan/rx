@@ -22,7 +22,7 @@ namespace Bespoke.Sph.SourceBuilders
                 {
                     File.WriteAllText($@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\{src.Key}", src.Value);
                 }
-                WriteDebug($"Savings sourcef files {sources.Keys.ToString(", ")}");
+                WriteDebug($"Savings source files {sources.Keys.ToString(", ")}");
                 var cr = await builder.BuildAsync(item, sources.Keys.ToArray());
                 results.Add(cr);
                 WriteMessage($"{builder.GetType().Name} has {(cr.Result ? "successfully building" : "failed to build")} {item.Name}");
@@ -117,23 +117,6 @@ namespace Bespoke.Sph.SourceBuilders
 
         }
 
-        private async Task<RxCompilerResult> CompileEntityDefinitionAsync(EntityDefinition ed)
-        {
-            var options = new CompilerOptions
-            {
-                IsVerbose = false,
-                IsDebug = true
-            };
-            var webDir = ConfigurationManager.WebPath;
-            options.AddReference(Path.GetFullPath($@"{webDir}\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath($@"{webDir}\bin\core.sph.dll"));
-            options.AddReference(Path.GetFullPath($@"{webDir}\bin\Newtonsoft.Json.dll"));
-
-            var codes = await ed.GenerateCodeAsync();
-            var sources = ed.SaveSources(codes);
-            return ed.Compile(options, sources);
-
-        }
 
     }
 }
