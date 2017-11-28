@@ -11,11 +11,11 @@ namespace Bespoke.Sph.SourceBuilders
     public class EntityDefinitionBuilder : Builder<EntityDefinition>
     {
 
-        protected override async Task<WorkflowCompilerResult> CompileAssetAsync(EntityDefinition item)
+        protected override async Task<RxCompilerResult> CompileAssetAsync(EntityDefinition item)
         {
             var cr = await CompileEntityDefinitionAsync(item);
             var cr1 = (await CompileDependenciesAsync(item)).ToList();
-            var result = new WorkflowCompilerResult { Result = cr.Result && cr1.All(x => x.Result) };
+            var result = new RxCompilerResult { Result = cr.Result && cr1.All(x => x.Result) };
             result.Errors.AddRange(cr.Errors);
             result.Errors.AddRange(cr1.SelectMany(x => x.Errors));
             result.Output = cr.Output + "\r\n" + cr1.ToString("\r\n", x => x.Output);
@@ -42,9 +42,9 @@ namespace Bespoke.Sph.SourceBuilders
 
         }
 
-        private static async Task<IEnumerable<WorkflowCompilerResult>> CompileDependenciesAsync(EntityDefinition ed)
+        private static async Task<IEnumerable<RxCompilerResult>> CompileDependenciesAsync(EntityDefinition ed)
         {
-            var results = new List<WorkflowCompilerResult>();
+            var results = new List<RxCompilerResult>();
             await ed.ServiceContract.CompileAsync(ed);
             var context = new SphDataContext();
 
@@ -77,9 +77,9 @@ namespace Bespoke.Sph.SourceBuilders
         }
 
 
-        private static async Task<IEnumerable<WorkflowCompilerResult>> CompileReceivePortAsync(ReceivePort port)
+        private static async Task<IEnumerable<RxCompilerResult>> CompileReceivePortAsync(ReceivePort port)
         {
-            var results = new List<WorkflowCompilerResult>();
+            var results = new List<RxCompilerResult>();
             var logger = ObjectBuilder.GetObject<ILogger>();
             var context = new SphDataContext();
             var builder = new ReceivePortBuilder();
@@ -105,7 +105,7 @@ namespace Bespoke.Sph.SourceBuilders
 
         }
 
-        private async Task<WorkflowCompilerResult> CompileEntityDefinitionAsync(EntityDefinition ed)
+        private async Task<RxCompilerResult> CompileEntityDefinitionAsync(EntityDefinition ed)
         {
             var options = new CompilerOptions
             {

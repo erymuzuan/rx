@@ -5,7 +5,7 @@ namespace Bespoke.Sph.SourceBuilders
 {
     public class TriggerBuilder : Builder<Trigger>
     {
-        protected override Task<WorkflowCompilerResult> CompileAssetAsync(Trigger item)
+        protected override Task<RxCompilerResult> CompileAssetAsync(Trigger item)
         { var options = new CompilerOptions
             {
                 IsDebug = true,

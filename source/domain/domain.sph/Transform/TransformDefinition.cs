@@ -29,7 +29,7 @@ namespace Bespoke.Sph.Domain
             return sb.ToString();
         }
 
-        public Task<WorkflowCompilerResult> CompileAsync(CompilerOptions options, params string[] files)
+        public Task<RxCompilerResult> CompileAsync(CompilerOptions options, params string[] files)
         {
             this.FunctoidCollection.ForEach(x => x.TransformDefinition = this);
             this.MapCollection.ForEach(x => x.TransformDefinition = this);
@@ -96,7 +96,7 @@ namespace Bespoke.Sph.Domain
                 if (File.Exists(partial))sources.Add(partial);
 
                 var result = provider.CompileAssemblyFromFile(parameters, sources.ToArray());
-                var cr = new WorkflowCompilerResult
+                var cr = new RxCompilerResult
                 {
                     Result = true,
                     Output = Path.GetFullPath(parameters.OutputAssembly)

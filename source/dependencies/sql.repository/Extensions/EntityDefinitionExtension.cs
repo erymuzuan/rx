@@ -1,37 +1,44 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.ElasticsearchRepository.Extensions
 {
     public static class EntityDefinitionExtension
     {
-        public static string GetSqlTableSchema(this EntityDefinition ed)
+
+        public static IEnumerable<Member> GetFilterableMembers(this EntityDefinition ed, string parent = "", IList<Member> members = null)
         {
-            var map = new StringBuilder();
-            map.AppendLine("{");
-            map.AppendLine($"    \"{ed.Name.ToLowerInvariant()}\":{{");
-            map.AppendLine("        \"properties\":{");
-            // add entity default properties
-#if ES5
-            map.AppendLine(@"            ""CreatedBy"": {""type"": ""keyword"", ""index"":""not_analyzed""},");
-            map.AppendLine(@"            ""ChangedBy"": {""type"": ""keyword"", ""index"":""not_analyzed""},");
-            map.AppendLine(@"            ""WebId"": {""type"": ""keyword"", ""index"":""not_analyzed""},");
-           
-#elif ES1_7
-            map.AppendLine(@"            ""CreatedBy"": {""type"": ""string"", ""index"":""not_analyzed""},");
-            map.AppendLine(@"            ""ChangedBy"": {""type"": ""string"", ""index"":""not_analyzed""},");
-            map.AppendLine(@"            ""WebId"": {""type"": ""string"", ""index"":""not_analyzed""},");
-#endif
-            map.AppendLine(@"            ""CreatedDate"": {""type"": ""date""},");
-            map.AppendLine(@"            ""ChangedDate"": {""type"": ""date""},");
+            members = members ?? ed.MemberCollection;
+            var filterables = new ObjectCollection<Member>();
+            var simples = members.OfType<SimpleMember>().Where(m => m.IsFilterable)
+                .Where(m => m.Type != typeof(object))
+                .Where(m => m.Type != typeof(Array))
+                .ToList();
+            var list = members.OfType<ComplexMember>()
+                .Select(m => ed.GetFilterableMembers($"{parent}{m.Name}.", m.MemberCollection)).ToList()
+                .SelectMany(m =>
+                {
+                    var enumerable = m as Member[] ?? m.ToArray();
+                    return enumerable;
+                })
+                .ToList();
+            filterables.AddRange(simples);
+            filterables.AddRange(list);
 
-            var memberMappings = ed.MemberCollection.ToString(",\r\n", d => d.GetSqlDataType());
-            map.AppendLine(memberMappings);
+            filterables.Where(m => string.IsNullOrWhiteSpace(m.FullName) || !m.FullName.EndsWith(m.Name))
+                .ToList().ForEach(m => m.FullName = parent + m.Name);
 
-            map.AppendLine("        }");
-            map.AppendLine("    }");
-            map.AppendLine("}");
-            return map.ToString();
+            return filterables;
+        }
+
+        public static string[] CreateIndexSql(this EntityDefinition item, int? version = 13)
+        {
+            var sql = from m in item.GetFilterableMembers()
+                select m.CreateIndex(item, version);
+
+            return sql.ToArray();
         }
     }
 }

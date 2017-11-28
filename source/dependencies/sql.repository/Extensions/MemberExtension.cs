@@ -1,115 +1,62 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using Bespoke.Sph.Domain;
+﻿using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.ElasticsearchRepository.Extensions
 {
     public static class MemberExtension
     {
-        public static string GetSqlDataType(this Member member)
+
+        public static string GenerateColumnExpression(this SimpleMember member, int? sqlVersion = 13)
         {
-            switch (member)
+            if (sqlVersion < 13)
             {
-                case SimpleMember sm:
-                    return GetSqlDataType(sm);
-                case ComplexMember cm:
-                    return GetSqlDataType(cm);
-                case ValueObjectMember vm:
-                    return GetSqlDataType(vm);
+                return $"[{member.FullName}] {member.GetSqlType()} {(member.IsNullable ? "" : "NOT")} NULL";
             }
-            return null;
-        }
+            /*
+             
+ALTER TABLE [DevV1].[Patient]
+ADD [NextOfKin.FullName] AS CAST(JSON_VALUE([Json], '$.NextOfKin.FullName') AS NVARCHAR(50))
+GO
 
-        public static string GetSqlDataType(this ComplexMember member)
-        {
-            var map = new StringBuilder();
-            map.AppendLine($@"    ""{member.Name}"":{{");
+ALTER TABLE [DevV1].[Patient]
+ADD [IsMalaysian] AS CASE WHEN (CAST(JSON_VALUE([Json], '$.Race') AS NVARCHAR(50))) = 'Others' THEN 0 ELSE 1 END */
 
-            map.AppendLine(@"        ""type"":  ""object"",");
-            map.AppendLine(@"        ""properties"":{");
-
-            var memberMappings = member.MemberCollection.ToString(",\r\n", x => x.GetSqlDataType());
-            map.AppendLine(memberMappings);
-
-            map.AppendLine("        }");
-            map.AppendLine("    }");
-            return map.ToString();
+            return $"[{member.FullName}] AS CAST(JSON_VALUE([Json], '$.{member.FullName}') AS {member.GetSqlType()})";
         }
 
 
-
-        private static string GetEsType(this SimpleMember sm)
+        //TODO : allow attach properties to configured
+        public static string GetSqlType(this SimpleMember member)
         {
-
-            if (typeof(string) == sm.Type) return "string";
-            /* ES 5
-            if (typeof(string) == sm.Type && sm.IsAnalyzed) return "text";
-            if (typeof(string) == sm.Type && !sm.IsAnalyzed) return "keyword";
-            */
-            if (typeof(int) == sm.Type) return "integer";
-            if (typeof(decimal) == sm.Type) return "float";
-            if (typeof(bool) == sm.Type) return "boolean";
-            if (typeof(DateTime) == sm.Type) return "date";
-            if (typeof(object) == sm.Type) return "object";
-            if (typeof(Array) == sm.Type) return "object";
-            return "";
-        }
-
-        private static string GetEsMappingType(this SimpleMember sm)
-        {
-            var type = sm.GetEsType();
-            var map = new StringBuilder();
-
-            var indexed = (sm.IsNotIndexed ? "no" : "analyzed");
-
-            map.Append("{");
-            if (sm.Type == typeof(string))
+            switch (member.TypeName)
             {
-                if (!sm.IsNotIndexed)
-                    indexed = (sm.IsAnalyzed ? "analyzed" : "not_analyzed");
+                case "System.String, mscorlib": return "VARCHAR(255)";
+                case "System.Int32, mscorlib": return "INT";
+                case "System.DateTime, mscorlib": return "SMALLDATETIME";
+                case "System.Decimal, mscorlib": return "MONEY";
+                case "System.Double, mscorlib": return "FLOAT";
+                case "System.Boolean, mscorlib": return "BIT";
             }
-
-            if (sm.Type == typeof(bool))
-                indexed = "not_analyzed";
-
-            var boost = sm.Boost;
-            if (indexed == "not_analyzed")
-                boost = 1;
-
-            var includeAll = (!sm.IsExcludeInAll).ToString().ToLowerInvariant();
-            map.Append($@"""type"":""{type}""");
-            map.Append($@",""index"":""{indexed}""");
-            map.Append($@",""boost"":{Math.Max(1, boost)}");
-            map.Append($@",""include_in_all"":{includeAll}");
-
-            if ((new[] { typeof(int), typeof(decimal), typeof(DateTime) }).Contains(sm.Type))
-            {
-                map.Append(",\"ignore_malformed\":false");
-            }
-            map.Append("}");
-            return map.ToString();
+            return "VARCHAR(255)";
         }
 
-        public static string GetSqlDataType(this SimpleMember sm)
+        public static string CreateIndex(this Member m, EntityDefinition ed, int? sqlVersion = 13)
         {
-            return $@"             ""{sm.Name}"":{GetEsMappingType(sm)}";
+            var column = m.FullName ?? m.Name;
+
+            // TODO : index may attached additional columns
+            if (sqlVersion < 13)
+                return $@"
+CREATE NONCLUSTERED INDEX [idx_{ed.Name}{column}_index]
+ON [{ConfigurationManager.ApplicationName}].[{ed.Name}] ([{column}]) ";
+
+            return $@"CREATE INDEX idx_{ed.Name}_Json_{column.Replace(".", "")}
+ON [{ConfigurationManager.ApplicationName}].[{ed.Name}]({column})  ";
+
         }
-        
-        public static string GetSqlDataType(this ValueObjectMember mb)
-        {
-            var map = new StringBuilder();
-            map.AppendLine($@"    ""{mb.Name}"":{{");
 
-            map.AppendLine(@"        ""type"":  ""object"",");
-            map.AppendLine(@"        ""properties"":{");
 
-            var memberMappings = mb.MemberCollection.ToString(",\r\n", m => m.GetSqlDataType());
-            map.AppendLine(memberMappings);
 
-            map.AppendLine("        }");
-            map.AppendLine("    }");
-            return map.ToString();
-        }
+
+
     }
 }

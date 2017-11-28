@@ -50,7 +50,7 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public async Task<WorkflowCompilerResult> CompileAsync()
+        public async Task<RxCompilerResult> CompileAsync()
         {
             var options = new CompilerOptions
             {
@@ -61,7 +61,7 @@ namespace Bespoke.Sph.Domain
                 Directory.CreateDirectory(options.SourceCodeDirectory);
             return await this.CompileAsync(options);
         }
-        public async Task<WorkflowCompilerResult> CompileAsync(CompilerOptions options)
+        public async Task<RxCompilerResult> CompileAsync(CompilerOptions options)
         {
             var code = await this.GenerateCodeAsync();
 
@@ -110,7 +110,7 @@ namespace Bespoke.Sph.Domain
 
                 var result = !string.IsNullOrWhiteSpace(sourceFile) ? provider.CompileAssemblyFromFile(parameters, sourceFile)
                     : provider.CompileAssemblyFromSource(parameters, code);
-                var cr = new WorkflowCompilerResult
+                var cr = new RxCompilerResult
                 {
                     Result = true,
                     Output = Path.GetFullPath(parameters.OutputAssembly)

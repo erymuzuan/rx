@@ -13,7 +13,7 @@ namespace Bespoke.Sph.SourceBuilders
     public abstract class Builder<T> where T : Entity
     {
         private readonly ILogger m_logger;
-        protected abstract Task<WorkflowCompilerResult> CompileAssetAsync(T item);
+        protected abstract Task<RxCompilerResult> CompileAssetAsync(T item);
 
         protected Builder()
         {
@@ -30,7 +30,7 @@ namespace Bespoke.Sph.SourceBuilders
             }
         }
 
-        public async Task<WorkflowCompilerResult> RestoreAsync(T item)
+        public async Task<RxCompilerResult> RestoreAsync(T item)
         {
             var logger = ObjectBuilder.GetObject<ILogger>();
             logger.WriteInfo($"Compiling {typeof(T).Name} : {item.Id} ......");

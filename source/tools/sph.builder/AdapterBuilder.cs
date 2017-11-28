@@ -12,7 +12,7 @@ namespace Bespoke.Sph.SourceBuilders
 {
     internal class AdapterBuilder : Builder<Adapter>
     {
-        protected override Task<WorkflowCompilerResult> CompileAssetAsync(Adapter item)
+        protected override Task<RxCompilerResult> CompileAssetAsync(Adapter item)
         {
             var folder = $"{ConfigurationManager.GeneratedSourceDirectory}\\{item.Name}";
             if (!Directory.Exists(folder))

@@ -63,6 +63,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\ComplexMemberExtension.cs" />
+    <Compile Include="Extensions\EntityDefinitionExtension.cs" />
     <Compile Include="Extensions\SqlConnectionExtension.cs" />
     <Compile Include="FilterTest.cs" />
     <Compile Include="Models\NextOfKin.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="SortTest.cs" />
     <Compile Include="RuntimeCreationTest.cs" />
     <Compile Include="Extensions\TestOutputHelperExtension.cs" />
+    <Compile Include="TableBuilderTest.cs" />
     <Compile Include="XunitConsoleLogger.cs" />
   </ItemGroup>
   <ItemGroup>

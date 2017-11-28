@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
+
+
     public interface IRepository<T> where T : Entity 
     {
         Task<LoadOperation<T>> LoadAsync(IQueryable<T> query, int page, int size, bool includeTotalRows);

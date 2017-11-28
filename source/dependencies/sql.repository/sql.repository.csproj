@@ -88,6 +88,7 @@
     <Compile Include="Column.cs" />
     <Compile Include="Extensions\AggregateExtension.cs" />
     <Compile Include="Extensions\DateTimeExtension.cs" />
+    <Compile Include="Extensions\MemberInfoExtension.cs" />
     <Compile Include="Extensions\OperatorExtension.cs" />
     <Compile Include="Extensions\SqlDataReaderExtension.cs" />
     <Compile Include="Extensions\SqlPredicate.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Extensions\QueryDslExtension.cs" />
     <Compile Include="Extensions\SortExtension.cs" />
     <Compile Include="ISqlServerMetadata.cs" />
+    <Compile Include="LoggerRepository.cs" />
     <Compile Include="MessageTracker.cs" />
     <Compile Include="PredicateExpressionVisitor.cs" />
     <Compile Include="ReadOnlyRepository.T.cs" />

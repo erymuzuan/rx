@@ -1,6 +1,5 @@
 ﻿using System;
 using System.CodeDom.Compiler;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
@@ -9,7 +8,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
 using System.Net.Mail;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
@@ -23,7 +21,7 @@ namespace Bespoke.Sph.Domain
 {
     [DebuggerDisplay("Name = {Name}")]
     [PersistenceOption(HasDerivedTypes = true, IsSource = true)]
-    public partial class EntityDefinition : Entity
+    public partial class EntityDefinition : Entity, IProjectDefinitionWithMembers
     {
         // reserved names
         private readonly string[] m_reservedNames =
@@ -76,23 +74,6 @@ namespace Bespoke.Sph.Domain
         public override string ToString()
         {
             return this.Name;
-        }
-
-        public string[] GetMembersPath()
-        {
-            var list = new List<string>();
-            list.AddRange(this.MemberCollection.Select(a => a.Name));
-            foreach (var member in this.MemberCollection)
-            {
-                list.AddRange(member.GetMembersPath(""));
-            }
-            list.Add("Id");
-            list.Add("WebId");
-            list.Add("CreatedBy");
-            list.Add("ChangedBy");
-            list.Add("CreatedDate");
-            list.Add("ChangedDate");
-            return list.ToArray();
         }
 
         public BuildValidationResult CanSave()
@@ -161,7 +142,7 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
-        public WorkflowCompilerResult Compile(CompilerOptions options, params string[] files)
+        public RxCompilerResult Compile(CompilerOptions options, params string[] files)
         {
             if (files.Length == 0)
                 throw new ArgumentException(Resources.Adapter_Compile_No_source_files_supplied_for_compilation,
@@ -199,7 +180,7 @@ namespace Bespoke.Sph.Domain
                     parameters.ReferencedAssemblies.Add(ass);
                 }
                 var result = provider.CompileAssemblyFromFile(parameters, files);
-                var cr = new WorkflowCompilerResult
+                var cr = new RxCompilerResult
                 {
                     Result = true,
                     Output = Path.GetFullPath(parameters.OutputAssembly)
@@ -289,7 +270,7 @@ namespace Bespoke.Sph.Domain
 
         public Member AddMember<T>(string name)
         {
-            if (typeof(Member).IsAssignableFrom(typeof(T)))
+            if (typeof(T).IsSubclassOf(typeof(Member)))
             {
                 var ctor = typeof(T).GetConstructor(Array.Empty<Type>());
                 if (null == ctor) throw new ArgumentException("No default ctor");
@@ -305,6 +286,6 @@ namespace Bespoke.Sph.Domain
             this.MemberCollection.Add(sm);
             return sm;
         }
-        
+
     }
 }

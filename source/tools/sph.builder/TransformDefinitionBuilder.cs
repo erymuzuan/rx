@@ -7,7 +7,7 @@ namespace Bespoke.Sph.SourceBuilders
 {
     internal class TransformDefinitionBuilder : Builder<TransformDefinition>
     {
-        protected override Task<WorkflowCompilerResult> CompileAssetAsync(TransformDefinition map)
+        protected override Task<RxCompilerResult> CompileAssetAsync(TransformDefinition map)
         { var options = new CompilerOptions
             {
                 SourceCodeDirectory = ConfigurationManager.GeneratedSourceDirectory

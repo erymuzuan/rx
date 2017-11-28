@@ -395,7 +395,7 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public Task<WorkflowCompilerResult> CompileAsync(EntityDefinition ed)
+        public Task<RxCompilerResult> CompileAsync(EntityDefinition ed)
         {
             var options = new CompilerOptions();
             var sources = this.GenerateCode(ed);
@@ -403,7 +403,7 @@ namespace Bespoke.Sph.Domain
 
             return Task.FromResult(result);
         }
-        public WorkflowCompilerResult Compile(CompilerOptions options, params Class[] classes)
+        public RxCompilerResult Compile(CompilerOptions options, params Class[] classes)
         {
             if (classes.Length == 0)
                 throw new ArgumentException("No files", nameof(classes));
@@ -459,7 +459,7 @@ namespace Bespoke.Sph.Domain
                     .Concat(new[] { assemblyInfo.FileName })
                     .ToArray();
                 var result = provider.CompileAssemblyFromFile(parameters, files);
-                var cr = new WorkflowCompilerResult
+                var cr = new RxCompilerResult
                 {
                     Result = true,
                     Output = Path.GetFullPath(parameters.OutputAssembly)

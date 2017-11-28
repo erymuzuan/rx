@@ -147,7 +147,7 @@ namespace Bespoke.Sph.MigrationScripts
         }
 
 
-        public WorkflowCompilerResult Compile(string code, Type entityType)
+        public RxCompilerResult Compile(string code, Type entityType)
         {
 
             using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
@@ -168,7 +168,7 @@ namespace Bespoke.Sph.MigrationScripts
                 parameters.ReferencedAssemblies.Add(entityType.Assembly.Location);
 
                 if (File.Exists(parameters.OutputAssembly))
-                    return new WorkflowCompilerResult
+                    return new RxCompilerResult
                     {
                         Result = true,
                         Output = parameters.OutputAssembly
@@ -176,7 +176,7 @@ namespace Bespoke.Sph.MigrationScripts
                     };
 
                 var result = provider.CompileAssemblyFromSource(parameters, code);
-                var cr = new WorkflowCompilerResult
+                var cr = new RxCompilerResult
                 {
                     Result = true,
                     Output = Path.GetFullPath(parameters.OutputAssembly)

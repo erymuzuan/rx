@@ -44,7 +44,7 @@ namespace Bespoke.Sph.Domain.Api
 
 
 
-        public WorkflowCompilerResult Compile(CompilerOptions options, params string[] files)
+        public RxCompilerResult Compile(CompilerOptions options, params string[] files)
         {
             if (files.Length == 0)
                 throw new ArgumentException(Resources.Adapter_Compile_No_source_files_supplied_for_compilation, nameof(files));
@@ -85,7 +85,7 @@ namespace Bespoke.Sph.Domain.Api
                     parameters.ReferencedAssemblies.Add(ass);
                 }
                 var result = provider.CompileAssemblyFromFile(parameters, files);
-                var cr = new WorkflowCompilerResult
+                var cr = new RxCompilerResult
                 {
                     Result = true,
                     Output = Path.GetFullPath(parameters.OutputAssembly)
@@ -104,7 +104,7 @@ namespace Bespoke.Sph.Domain.Api
         }
 
 
-        public async Task<WorkflowCompilerResult> CompileAsync(CompilerOptions options = null)
+        public async Task<RxCompilerResult> CompileAsync(CompilerOptions options = null)
         {
             if (null == options) options = new CompilerOptions();
             options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll"));

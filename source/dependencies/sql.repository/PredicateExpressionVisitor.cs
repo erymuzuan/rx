@@ -1,8 +1,11 @@
 ﻿using System.Linq.Expressions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Extensions;
+using Bespoke.Sph.SqlRepository.Extensions;
 
 namespace Bespoke.Sph.SqlRepository
 {
@@ -15,6 +18,7 @@ namespace Bespoke.Sph.SqlRepository
         {
             Logger = logger;
         }
+
         public string Visit(Expression<Func<T, bool>> predicate)
         {
             Visit(predicate.Body);
@@ -25,32 +29,73 @@ namespace Bespoke.Sph.SqlRepository
         }
 
         private int m_count;
+
         public override Expression Visit(Expression node)
         {
-            Logger.WriteDebug($"{++m_count,3} : {node.NodeType}({node.GetType().Name})");
+            Logger.WriteDebug($"{++m_count,3} : {node?.NodeType}({node?.GetType().Name})");
             return base.Visit(node);
+        }
+
+        protected override Expression VisitMethodCall(MethodCallExpression node)
+        {
+            var baseValue = base.VisitMethodCall(node);
+            var lastNode = m_sql.Keys.Last();
+            if (
+                node.Method.Name == nameof(string.IsNullOrWhiteSpace) ||
+                node.Method.Name == nameof(string.IsNullOrEmpty)
+            )
+            {
+                var members = new List<MemberInfo>();
+                void LookForMemberExpressions(MemberExpression child)
+                {
+                    //Logger.WriteVerbose($"Verbose : {child.Member.Name} declared in {child.Member.DeclaringType}");
+                    members.Add(child.Member);
+                    if (child.Expression is MemberExpression grandChild)
+                        LookForMemberExpressions(grandChild);
+                }
+                LookForMemberExpressions(node.Arguments[0] as MemberExpression);
+                members.Reverse();
+                m_sql.Add(node, $"[{ members.ToString(".", m => m.Name)}] IS NULL OR [{ members.ToString(".", m => m.Name)}] = ''");
+                m_sql[lastNode] = "";
+
+            }
+            else
+            {
+                m_sql.Add(node, $"TODO_FIGURE_OUT_SQL_FUNC_FOR_{node.Method.Name}([{node.Arguments.ToString(",", x => $@"'{x}'")}] )");
+            }
+            return baseValue;
         }
 
         protected override Expression VisitUnary(UnaryExpression node)
         {
             m_sql.AddIfNotExist(node, "");
+            var previous = new HashSet<Expression>(m_sql.Keys) { node };
             if (node.NodeType == ExpressionType.Convert)
             {
+                //get the expression for the return statement, and remove whatever it puts in there
+                var bv = base.VisitUnary(node);
+                var addedNodes = m_sql.Keys.Except(previous).ToArray();
+                foreach (var n in addedNodes)
+                {
+                    Logger.WriteDebug($"***: {n.NodeType}({n.GetType().Name})");
+                    m_sql[n] = "";
+                }
+
                 var constv = Expression.Lambda<Func<DateTime?>>(node).Compile()();
                 m_sql.AddOrReplace(node, $"'{constv:o}'");
 
-                // TODO : remove all the calls
-                return base.VisitUnary(node);
+                // TODO : remove all the subsequent calls
+                return bv;
             }
 
             // rewrite bool expression NOT e.g x => !x.IsSomething
-            var bv = base.VisitUnary(node);
+            var bv2 = base.VisitUnary(node);
             if (node.NodeType == ExpressionType.Not)
             {
                 if (m_sql.ContainsKey(node.Operand))
                     m_sql[node.Operand] = m_sql[node.Operand].Replace(" = 1", " = 0");
             }
-            return bv;
+            return bv2;
         }
 
         protected override Expression VisitBinary(BinaryExpression node)
@@ -63,14 +108,53 @@ namespace Bespoke.Sph.SqlRepository
 
         protected override Expression VisitMember(MemberExpression node)
         {
-            if (node.Type == typeof(bool))
+            if (node.Type == typeof(bool))//&& node.Member.Name == "HasValue")
             {
-                m_sql.AddIfNotExist(node, $"[{node.Member.Name}] = 1");
+                // TODO : got to LoolForMembers ..if the Expression is Something.One.Two.Etc.HasValue
+                // TODO : ! should be IS NULL
+                if (node.Member.Name == "HasValue" && node.Expression is MemberExpression me)
+                    m_sql.AddIfNotExist(node, $"[{me.Member.Name}] IS NOT NULL");
+                else
+                    m_sql.AddIfNotExist(node, $"[{node.Member.Name}] = 1");
                 return node;
             }
-            m_sql.AddIfNotExist(node, $"[{node.Member.Name}]");
+            var members = new List<MemberInfo>();
+            void LookForMemberExpressions(MemberExpression child)
+            {
+                //Logger.WriteVerbose($"Verbose : {child.Member.Name} declared in {child.Member.DeclaringType}");
+                members.Add(child.Member);
+                if (child.Expression is MemberExpression grandChild)
+                    LookForMemberExpressions(grandChild);
+            }
+            LookForMemberExpressions(node);
+            members.Reverse();
+
+            // TODO : if members except the last one(once reversed should belong to different name space)
+            var exceptFields = members.Where(x => x.IsFieldPath())
+                .ToList();
+            if (exceptFields.Count > 0)
+            {
+                //if (node.Type == typeof(bool) && node.Member.Name == "HasValue")
+                //{
+                //    // TODO , calling Nullable<T>.HasValue = convert it to IS NULL/IS NOT NULL
+                //    m_sql.AddIfNotExist(node, $"[{node.Member.Name}] = 1");
+                //    return base.VisitMember(node);
+                //}
+                m_sql.AddIfNotExist(node, "TODO_FUNCTION_CALL([" + members.ToString(".", m => m.Name) + "])");
+                return node;
+            }
+
+            m_sql.AddIfNotExist(node, "[" + members.ToString(".", m => m.Name) + "]");
             return node;
         }
+
+        protected override Expression VisitParameter(ParameterExpression node)
+        {
+            Logger.WriteDebug("Parameter : " + node);
+            //m_sql.AddIfNotExist(node, node.Name);
+            return base.VisitParameter(node);
+        }
+
         protected override Expression VisitConstant(ConstantExpression node)
         {
             switch (node.Value)
@@ -85,11 +169,21 @@ namespace Bespoke.Sph.SqlRepository
                     m_sql.AddIfNotExist(node, bv ? "1" : "0");
                     break;
                 default:
-                    m_sql.AddIfNotExist(node, $"{node.Value}");
+                    // TODO : remove the =, or <> when Field == null/ Field != null
+                    if (node.Value == null && !m_sql.ContainsKey(node))
+                    {
+                        var last = m_sql.Last();
+                        var not = last.Value.Trim() == "<>";
+                        m_sql.AddOrReplace(last.Key, "");
+                        m_sql.AddIfNotExist(node, not ? "IS NOT NULL" : "IS NULL");
+                    }
+                    else
+                    {
+                        m_sql.AddIfNotExist(node, $"{node.Value}");
+                    }
                     break;
             }
             return node;
-
         }
 
         private void WriteSqlOperator(Expression node)
