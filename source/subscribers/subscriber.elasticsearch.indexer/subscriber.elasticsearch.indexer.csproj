@@ -60,7 +60,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-
     <Compile Include="..\..\assembly.versions\subscribers-subscriber.elasticsearch.indexer.cs">
       <Link>Properties\subscribers-subscriber.elasticsearch.indexer.cs</Link>
     </Compile>
@@ -73,10 +72,6 @@
     <Compile Include="WorkflowSubscriber.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\dependencies\elasticsearch.repository\elasticsearch.repository.csproj">
-      <Project>{9C8CB6CA-65A3-4ED5-98FD-74E241C74451}</Project>
-      <Name>elasticsearch.repository</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>

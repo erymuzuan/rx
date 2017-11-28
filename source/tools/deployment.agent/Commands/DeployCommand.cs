@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Console = Colorful.Console;
 
 namespace Bespoke.Sph.Mangements.Commands
 {
@@ -28,20 +27,19 @@ namespace Bespoke.Sph.Mangements.Commands
             var ed = this.GetEntityDefinition();
             if (null == ed)
             {
-                Console.WriteLine("Cannot find EntityDefinition");
+                WriteWarnig("Cannot find EntityDefinition");
                 return;
             }
             CopyFiles(ed);
 
             var migrationPlan = this.GetCommandValue<string>("plan");
-            var nes = this.GetCommandValue<bool>("nes");
             var truncate = this.GetCommandValue<bool>("truncate");
 
             await DeploymentMetadata.InitializeAsync();
             var deployment = new DeploymentMetadata(ed);
 
             var batchSize = this.GetCommandValue<int?>("batch-size") ?? 1000;
-            await deployment.BuildAsync(truncate, nes, batchSize, migrationPlan);
+            await deployment.BuildAsync(truncate, batchSize, migrationPlan);
 
         }
 

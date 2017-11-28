@@ -1,9 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Drawing;
 using System.IO;
 using System.Reflection;
-using Console = Colorful.Console;
 
 namespace Bespoke.Sph.Mangements.Commands
 {
@@ -17,8 +15,8 @@ namespace Bespoke.Sph.Mangements.Commands
 
         public override void Execute()
         {
-            Console.WriteAscii("Deployment Agent", Color.BlueViolet);
-            Console.WriteLine(GetHelpText());
+            WriteInfo("Deployment Agent");
+            WriteInfo(GetHelpText());
         }
 
 

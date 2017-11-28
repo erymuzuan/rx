@@ -3,7 +3,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.ElasticsearchRepository;
 using Humanizer;
 using Newtonsoft.Json;
 

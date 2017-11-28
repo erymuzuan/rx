@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Management;
 using Bespoke.Sph.Mangements.Models;
 using Dapper;
 using GalaSoft.MvvmLight;
@@ -26,13 +27,18 @@ namespace Bespoke.Sph.Mangements.ViewModels
         [Import]
         public MigrationScriptViewModel MigrationScriptViewModel { get; set; }
 
+        private IReadOnlyRepositoryManagement ReadOnlyRepositoryManagement { get; }
 
         public MainViewModel()
         {
             this.LoadCommand = new RelayCommand(Load, () => true);
-            this.DeploySelectedCommand = new RelayCommand<IList<EntityDeployment>>(DeploySelectedItems, list => SelectedCollection.Count > 0 && IsElasticsearchAccesible && IsSqlServerAccessible);
+            this.DeploySelectedCommand = new RelayCommand<IList<EntityDeployment>>(DeploySelectedItems, list => SelectedCollection.Count > 0 && IsReadOnlyAccesible && IsRepositoryAccessible);
             this.CompileCommand = new RelayCommand<EntityDeployment>(Compile, ed => ed.CanCompile);
             this.DiffCommand = new RelayCommand<EntityDeployment>(Diff, ed => ed.CanDiff);
+
+            this.ReadOnlyRepositoryManagement = ObjectBuilder.GetObject<IReadOnlyRepositoryManagement>();
+            this.ReadOnlyRepositoryManagement.RegisterConnectionChanged(status => 500);
+
         }
 
         private void Diff(EntityDeployment deployment)
@@ -166,11 +172,11 @@ CREATE TABLE [Sph].[DeploymentMetadata](
                     {
                         await conn.OpenAsync();
                         var rows = await cmd.ExecuteScalarAsync();
-                        this.IsSqlServerAccessible = (int)rows >= 0;
+                        this.IsRepositoryAccessible = (int)rows >= 0;
                     }
                     catch (SqlException)
                     {
-                        this.IsSqlServerAccessible = false;
+                        this.IsRepositoryAccessible = false;
                     }
                 }
 
@@ -184,12 +190,12 @@ CREATE TABLE [Sph].[DeploymentMetadata](
                     try
                     {
                         var cat = await client.GetStringAsync("_cat/indices");
-                        this.IsElasticsearchAccesible = cat.Contains(ConfigurationManager.ApplicationName.ToLowerInvariant());
+                        this.IsReadOnlyAccesible = cat.Contains(ConfigurationManager.ApplicationName.ToLowerInvariant());
                     }
                     catch
                     {
                         //ignore
-                        this.IsElasticsearchAccesible = false;
+                        this.IsReadOnlyAccesible = false;
                     }
                 }
                 await Task.Delay(5000);

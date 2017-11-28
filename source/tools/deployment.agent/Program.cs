@@ -2,13 +2,11 @@
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Console = Colorful.Console;
 
 namespace Bespoke.Sph.Mangements
 {
@@ -27,10 +25,10 @@ namespace Bespoke.Sph.Mangements
         {
             if (!this.Compose())
             {
-                Console.WriteLine("Error compose", Color.OrangeRed);
+                Console.WriteLine(@"Error compose");
                 return;
             }
-            Console.WriteLine($"We got {this.Commands.Length} commands");
+            Console.WriteLine($@"We got {this.Commands.Length} commands");
 
 
             var help = this.Commands.Single(x => x.GetType() == typeof(Commands.HelpCommand));
@@ -48,13 +46,13 @@ namespace Bespoke.Sph.Mangements
             }
             foreach (var cmd in commands.OrderBy(x => !x.ShouldContinue()))
             {
-                Console.WriteLine($"Running {cmd.GetType().Name} ....", Color.YellowGreen);
+                Console.WriteLine($@"Running {cmd.GetType().Name} ....");
                 if (cmd.UseAsync)
                     await cmd.ExecuteAsync();
                 else
                     cmd.Execute();
 
-                Console.WriteLine($"Done with {cmd.GetType().Name} ....", Color.Green);
+                Console.WriteLine($@"Done with {cmd.GetType().Name} ....");
             }
 
         }

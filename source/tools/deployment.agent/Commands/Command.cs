@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Console = Colorful.Console;
+using Bespoke.Sph.Extensions;
 
 namespace Bespoke.Sph.Mangements.Commands
 {
     public abstract class Command
     {
         public EntityDefinition Ed { get; }
+        public ILogger Console = ObjectBuilder.GetObject<ILogger>();
 
         protected Command()
         {
@@ -38,20 +38,20 @@ namespace Bespoke.Sph.Mangements.Commands
 
         protected virtual void WriteVerbose(string message)
         {
-            Console.WriteLine(message, Color.WhiteSmoke);
+            Console.WriteVerbose(message);
         }
 
         protected virtual void WriteInfo(string message)
         {
-            Console.WriteLine(message, Color.Cyan);
+            Console.WriteInfo(message);
         }
         protected virtual void WriteWarnig(string message)
         {
-            Console.WriteLine(message, Color.DarkGoldenrod);
+            Console.WriteWarning(message);
         }
         protected virtual void WriteError(string message)
         {
-            Console.WriteLine(message, Color.OrangeRed);
+            Console.WriteError(message);
         }
 
         protected T GetCommandValue<T>(int position)

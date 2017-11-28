@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -9,7 +10,7 @@ using Bespoke.Sph.ElasticsearchRepository.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Bespoke.Sph.SqlRepository
+namespace Bespoke.Sph.SqlRepository.Deployments
 {
     [Export(typeof(IProjectDeployer))]
     public class SqlTableDeployer : SqlTableTool, IProjectDeployer
@@ -22,72 +23,118 @@ namespace Bespoke.Sph.SqlRepository
             Action<Exception> writeError = null) : base(writeMessage, writeWarning, writeError)
         {
         }
-        public Task<RxCompilerResult> DeployAsync(IProjectDefinition project)
+
+        // applica
+        public async Task<bool> CheckForAsync(IProjectDefinition project)
+        {
+            await Task.Delay(100);
+            if (!(project is EntityDefinition ed)) return false;
+            if (ed.TreatDataAsSource) return false; // for sources use SqlTableWithSourceDeployer
+            if (ed.Transient) return false; 
+            return ed.GetPersistenceOption().IsSqlDatabase;
+        }
+
+        public async Task<RxCompilerResult> DeployAsync(IProjectDefinition project, Action<JObject, dynamic> migration, int sqlBatchSize = 50)
+        {
+            if (!(project is EntityDefinition ed)) return null;
+
+            var cr = new RxCompilerResult();
+            var connectionString = ConfigurationManager.SqlConnectionString;
+
+            using (var conn = new SqlConnection(connectionString))
+            {
+                await conn.OpenAsync();
+                var oldTable = await RenameExistingTable(conn, ed);
+                await CreateTableAsync(conn, ed);
+                await CreateIndicesAsync(conn, ed);
+                if (string.IsNullOrWhiteSpace(oldTable))
+                    return cr;
+
+                await MigrateDataAsync(ed, sqlBatchSize, oldTable, migration, true);
+            }
+
+            return cr;
+        }
+
+        public Task<RxCompilerResult> TestDeployAsync(IProjectDefinition project, Action<JObject, dynamic> migration, int batchSize = 50)
         {
             throw new NotImplementedException();
         }
 
 
-
-        public async Task BuildAsync(EntityDefinition ed, Action<JObject, dynamic> migration, int sqlBatchSize = 50)
+        public async Task TestMigrationAsync(string migrationPlan, string outputFolder)
         {
-            if (ed.Transient) return;
-            if (ed.StoreInDatabase.HasValue && ed.StoreInDatabase.Value == false) return;
+            await Task.Delay(500);
+            /*
+            var builder = new SqlTableDeployer(WriteMessage, WriteWarning, WriteError);
+            var plan = MigrationPlan.ParseFile(migrationPlan);
 
-            var connectionString = ConfigurationManager.SqlConnectionString;
-            var applicationName = ConfigurationManager.ApplicationName;
-            var tableExistSql =
-                $"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{applicationName}'  AND  TABLE_NAME = '{ed.Name}'";
+            void Migration(JObject json, dynamic item)
+            {
+                foreach (var change in plan.ChangeCollection)
+                {
+                    change.Migrate(item, json);
+                }
 
-            var source = $@"{ConfigurationManager.SphSourceDirectory}\{nameof(EntityDefinition)}\{ed.Name}.sql";
-            if (!System.IO.File.Exists(source))
-                throw new InvalidOperationException("Please build for sql source");
-            var createTable = System.IO.File.ReadAllText(source);
+                File.WriteAllText($"{outputFolder}\\{item.Id}.json", JsonSerializerService.ToJson(item));
+            }
 
+            await builder.MigrateDataAsync(m_entityDefinition, 20, m_entityDefinition.Name, Migration);
+            */
+        }
+
+        private async Task CreateIndicesAsync(SqlConnection conn, EntityDefinition ed)
+        {
             var version = await GetSqlServerProductVersionAsync();
             var createIndex = ed.CreateIndexSql(version);
-
-            var oldTable = $"{ed.Name}_{DateTime.Now:yyyyMMdd_HHmmss}";
-            using (var conn = new SqlConnection(connectionString))
+            foreach (var s in createIndex)
             {
-                await conn.OpenAsync();
-                var existingTableCount = conn.GetDatabaseScalarValue<int>(tableExistSql);
-
-                if (existingTableCount > 0)
+                using (var createIndexCommand = new SqlCommand(s, conn))
                 {
-                    // TODO : even if the SQL table has not changed, the data schema might have changed
-                    // Verify that the table has changed
-                    var changed = HasSchemaChanged(ed);
-                    if (!changed) return;
-
-
-                    // rename table for migration
-                    using (var renameTableCommand =
-                        new SqlCommand("sp_rename", conn) { CommandType = CommandType.StoredProcedure })
-                    {
-                        renameTableCommand.Parameters.AddWithValue("@objname", $"[{applicationName}].[{ed.Name}]");
-                        renameTableCommand.Parameters.AddWithValue("@newname", oldTable);
-                        //renameTableCommand.Parameters.AddWithValue("@objtype", "OBJECT");
-
-                        await renameTableCommand.ExecuteNonQueryAsync();
-                    }
+                    await createIndexCommand.ExecuteNonQueryAsync();
                 }
-
-                using (var createTableCommand = new SqlCommand(createTable, conn))
-                {
-                    await createTableCommand.ExecuteNonQueryAsync();
-                }
-                foreach (var s in createIndex)
-                {
-                    using (var createIndexCommand = new SqlCommand(s, conn))
-                    {
-                        await createIndexCommand.ExecuteNonQueryAsync();
-                    }
-                }
-                if (existingTableCount == 0) return;
-
-                await MigrateDataAsync(ed, sqlBatchSize, oldTable, migration, true);
             }
+        }
+
+        private static async Task CreateTableAsync(SqlConnection conn, EntityDefinition ed)
+        {
+            var source = $@"{ConfigurationManager.SphSourceDirectory}\{nameof(EntityDefinition)}\{ed.Name}.sql";
+            if (!File.Exists(source))
+                throw new InvalidOperationException("Please build for sql source");
+            var createTable = File.ReadAllText(source);
+            using (var createTableCommand = new SqlCommand(createTable, conn))
+            {
+                await createTableCommand.ExecuteNonQueryAsync();
+            }
+        }
+
+        private async Task<string> RenameExistingTable(SqlConnection conn, EntityDefinition ed)
+        {
+            var oldTable = $"{ed.Name}_{DateTime.Now:yyyyMMdd_HHmmss}";
+            var tableExistSql =
+                $"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{ConfigurationManager.ApplicationName}'  AND  TABLE_NAME = '{ed.Name}'";
+            var existingTableCount = conn.GetDatabaseScalarValue<int>(tableExistSql);
+
+            if (existingTableCount <= 0) return null;
+
+            // TODO : even if the SQL table has not changed, the data schema might have changed
+            // Verify that the table has changed
+            var changed = HasSchemaChanged(ed);
+            if (!changed) return oldTable;
+
+
+            // rename table for migration
+            using (var renameTableCommand =
+                new SqlCommand("sp_rename", conn) { CommandType = CommandType.StoredProcedure })
+            {
+                renameTableCommand.Parameters.AddWithValue("@objname", $"[{ConfigurationManager.ApplicationName}].[{ed.Name}]");
+                renameTableCommand.Parameters.AddWithValue("@newname", oldTable);
+                //renameTableCommand.Parameters.AddWithValue("@objtype", "OBJECT");
+
+                await renameTableCommand.ExecuteNonQueryAsync();
+            }
+
+            return oldTable;
         }
 
         public async Task MigrateDataAsync(EntityDefinition ed, int sqlBatchSize, string oldTable,

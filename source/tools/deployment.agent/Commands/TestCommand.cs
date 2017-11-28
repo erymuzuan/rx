@@ -50,7 +50,7 @@ namespace Bespoke.Sph.Mangements.Commands
             await DeploymentMetadata.InitializeAsync();
             var deployment = new DeploymentMetadata(ed);
 
-            await deployment.TestMigrationAsync(migrationPlan, output);
+            //TODO : await deployment.TestMigrationAsync(migrationPlan, output);
             Process.Start("explorer.exe", output);
 
         }
