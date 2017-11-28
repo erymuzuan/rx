@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Bespoke.Sph.Domain.Extensions;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain

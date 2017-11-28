@@ -57,6 +57,7 @@
       <HintPath>..\..\..\lib\SQLSpatialTools.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -122,8 +123,10 @@
     <Compile Include="SqlRepository.cs" />
     <Compile Include="SqlServer2012Metadata.cs" />
     <Compile Include="SqlSpatial.cs" />
+    <Compile Include="SqlTableBuilder.cs" />
+    <Compile Include="SqlTableDeployer.cs" />
+    <Compile Include="SqlTableTool.cs" />
     <Compile Include="Table.cs" />
-    <Compile Include="TableSchemaBuilder.cs" />
     <Compile Include="TokenRepository.cs" />
     <Compile Include="TsqlQueryFormatter.cs" />
   </ItemGroup>

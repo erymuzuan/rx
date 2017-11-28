@@ -10,17 +10,29 @@ namespace Bespoke.Sph.SourceBuilders
 {
     public class EntityDefinitionBuilder : Builder<EntityDefinition>
     {
-
         protected override async Task<RxCompilerResult> CompileAssetAsync(EntityDefinition item)
         {
-            var cr = await CompileEntityDefinitionAsync(item);
-            var cr1 = (await CompileDependenciesAsync(item)).ToList();
-            var result = new RxCompilerResult { Result = cr.Result && cr1.All(x => x.Result) };
-            result.Errors.AddRange(cr.Errors);
-            result.Errors.AddRange(cr1.SelectMany(x => x.Errors));
-            result.Output = cr.Output + "\r\n" + cr1.ToString("\r\n", x => x.Output);
+            var results = new List<RxCompilerResult>();
+            WriteDebug($"Found {this.DeveloperService.ProjectBuilders.Length} IProjectBuilders");
+            foreach (var builder in this.DeveloperService.ProjectBuilders)
+            {
+                WriteDebug($"Building with {builder.GetType().Name}...");
+                var sources = await builder.GenerateCodeAsync(item);
+                foreach (var src in sources)
+                {
+                    File.WriteAllText($@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\{src.Key}", src.Value);
+                }
+                WriteDebug($"Savings sourcef files {sources.Keys.ToString(", ")}");
+                var cr = await builder.BuildAsync(item, sources.Keys.ToArray());
+                results.Add(cr);
+                WriteMessage($"{builder.GetType().Name} has {(cr.Result ? "successfully building" : "failed to build")} {item.Name}");
+                WriteMessage(cr.ToString());
+            }
 
-            return result;
+            var final = new RxCompilerResult { Result = results.All(x => x.Result) };
+            final.Errors.AddRange(results.SelectMany(x => x.Errors));
+
+            return final;
         }
 
         public override async Task RestoreAllAsync()

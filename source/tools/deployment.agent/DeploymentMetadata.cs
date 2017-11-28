@@ -167,9 +167,9 @@ namespace Bespoke.Sph.Mangements
                 }
             }
 
-            var tableBuilder = new TableSchemaBuilder(WriteMessage);
+            var tableBuilder = new SqlTableDeployer(WriteMessage);
             if (hasChanges)
-                await tableBuilder.BuildAsync(ed, sqlBatchSize: sqlBatchSize, migration: Migration, deploy: true);
+                await tableBuilder.BuildAsync(ed, sqlBatchSize: sqlBatchSize, migration: Migration);
 
 
             if (ed.TreatDataAsSource)
@@ -287,7 +287,7 @@ CREATE TABLE [Sph].[DeploymentMetadata](
 
         public async Task TestMigrationAsync(string migrationPlan, string outputFolder)
         {
-            var builder = new TableSchemaBuilder(WriteMessage, WriteWarning, WriteError);
+            var builder = new SqlTableDeployer(WriteMessage, WriteWarning, WriteError);
             var plan = MigrationPlan.ParseFile(migrationPlan);
 
 

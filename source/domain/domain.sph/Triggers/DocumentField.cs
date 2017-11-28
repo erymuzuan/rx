@@ -73,8 +73,7 @@ namespace Bespoke.Sph.Domain
             if (this.Type == typeof(float?))
                 return token.Value<float?>();
 
-            var jv = token.Value<object>() as JValue;
-            if (null != jv)
+            if (token.Value<object>() is JValue jv)
                 return jv.Value;
 
             return token.Value<object>();

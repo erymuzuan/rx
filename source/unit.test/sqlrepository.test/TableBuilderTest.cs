@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.ElasticsearchRepository.Extensions;
 using Bespoke.Sph.SqlRepository;
 using Bespoke.Sph.Tests.SqlServer.Extensions;
 using Xunit;
@@ -51,8 +52,8 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             ent.MemberCollection.Add(address);
 
 
-            var sql = new TableSchemaBuilder();
-            var columns = sql.GetFilterableMembers("", ent.MemberCollection).ToList();
+            var sql = new SqlTableBuilder();
+            var columns = ent.GetFilterableMembers().ToList();
 
             Assert.All(columns, Assert.NotNull);
             Assert.Contains(columns, c => c.FullName == "Address.State");
@@ -77,8 +78,9 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             ent.MemberCollection.Add(address);
 
 
-            var builder = new TableSchemaBuilder();
-            await builder.BuildAsync(ent, null);
+            var builder = new SqlTableBuilder(m => Console.WriteLine("Info :" + m), m => Console.WriteLine("Warning :" + m),
+                e => Console.WriteError(e));
+            await builder.BuildAsync(ent);
 
             Assert.True(File.Exists(file));
             var sql = File.ReadAllText(file);

@@ -13,5 +13,7 @@ namespace Bespoke.Sph.Domain
         Lazy<Adapter, IDesignerMetadata>[] Adapters { get; set; }
         Lazy<ReceiveLocation, IDesignerMetadata>[] ReceiveLocationOptions { get; set; }
         ControllerAction[] ActionCodeGenerators { get; set; }
+        IProjectBuilder[] ProjectBuilders { get; set; }
+        IProjectDeployer[] ProjectDeployers { get; set; }
     }
 }

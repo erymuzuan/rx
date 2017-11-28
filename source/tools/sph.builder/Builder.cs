@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -14,6 +15,9 @@ namespace Bespoke.Sph.SourceBuilders
     {
         private readonly ILogger m_logger;
         protected abstract Task<RxCompilerResult> CompileAssetAsync(T item);
+
+        [Import(typeof(IDeveloperService))]
+        public IDeveloperService DeveloperService { get; set; }
 
         protected Builder()
         {
@@ -63,6 +67,7 @@ namespace Bespoke.Sph.SourceBuilders
 
         public void Initialize()
         {
+            ObjectBuilder.ComposeMefCatalog(this);
         }
 
         public void Clean()

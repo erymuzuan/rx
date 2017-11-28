@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class OperationEndpointS
+    public partial class OperationEndpoint
     {
         private readonly string[] m_importDirectives =
        {

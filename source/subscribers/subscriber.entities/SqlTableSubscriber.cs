@@ -11,8 +11,8 @@ namespace subscriber.entities
         public override string[] RoutingKeys => new[] { typeof(EntityDefinition).Name + ".changed.Publish" };
         protected override async Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
-            var tableSchema = new TableSchemaBuilder(m => this.WriteMessage(m), m => this.WriteWarning(m), m => this.WriteError(m));
-            await tableSchema.BuildAsync(item,null );
+            var tableSchema = new SqlTableBuilder(m => this.WriteMessage(m), m => this.WriteWarning(m), m => this.WriteError(m));
+            await tableSchema.BuildAsync(item);
         }
 
         public Task ProcessMessageAsync(EntityDefinition ed)

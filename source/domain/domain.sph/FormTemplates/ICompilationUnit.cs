@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Codes;
-using Microsoft.CodeAnalysis;
 
 namespace Bespoke.Sph.Domain
 {
@@ -22,8 +21,8 @@ namespace Bespoke.Sph.Domain
     {
         /*MetadataReference[] GetMetadataReferences();
         Task<IProjectDefinition> GetDefinitionAsync();*/
-        Task<IEnumerable<Class>> GenerateCodeAsync();
-        Task<RxCompilerResult> BuildAsync(IProjectDefinition project);
+        Task<Dictionary<string, string>> GenerateCodeAsync(IProjectDefinition project);
+        Task<RxCompilerResult> BuildAsync(IProjectDefinition project, string[] sources);
         bool IsAvailableInDesignMode { get; }
         bool IsAvailableInBuildMode { get; }
         bool IsAvailableInDeployMode { get; }

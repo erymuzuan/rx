@@ -22,6 +22,12 @@ namespace Bespoke.Sph.WebApi
         [ImportMany(typeof(IBuildDiagnostics))]
         public IBuildDiagnostics[] BuildDiagnostics { get; set; }
 
+        [ImportMany(typeof(IProjectBuilder))]
+        public IProjectBuilder[] ProjectBuilders{ get; set; }
+
+        [ImportMany(typeof(IProjectDeployer))]
+        public IProjectDeployer[] ProjectDeployers{ get; set; }
+
 
         [ImportMany("ActivityDesigner", typeof(Activity), AllowRecomposition = true)]
         public Lazy<Activity, IDesignerMetadata>[] ActivityOptions { get; set; }

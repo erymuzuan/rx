@@ -27,13 +27,8 @@ namespace Bespoke.Sph.SourceBuilders
 
         public static async Task Main(string[] args)
         {
-            Console.WriteAscii("Reactive Developer 2.1", Color.Aqua);
-            '-'.WriteFrame();
-            " ".WriteMessage(Color.Bisque);
             "Reactive Developer".WriteMessage(Color.Cyan);
-            " ".WriteMessage(Color.Cyan);
             "Welcome to Rx Developer platform command line build tools".WriteMessage(Color.Yellow);
-
             '-'.WriteFrame();
             Console.ResetColor();
 
@@ -54,6 +49,7 @@ namespace Bespoke.Sph.SourceBuilders
             {
                 var ts = (Severity)Enum.Parse(typeof(Severity), tsw, true);
                 logger.Loggers.OfType<ConsoleLogger>().Single().TraceSwitch = ts;
+                logger.TraceSwitch = ts;
                 if (TryParseArg("out", out var outputFile))
                 {
                     logger.Loggers.Add(new FileLogger(outputFile, FileLogger.Interval.Hour) { TraceSwitch = ts });

@@ -1,8 +1,8 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.ElasticsearchRepository.Extensions;
@@ -11,42 +11,25 @@ using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.SqlRepository
 {
-    public class TableSchemaBuilder
+    [Export(typeof(IProjectDeployer))]
+    public class SqlTableDeployer : SqlTableTool, IProjectDeployer
     {
-        private readonly Action<string> m_writeMessage;
-        private readonly Action<string> m_writeWarning;
-        private readonly Action<Exception> m_writeError;
-
-        public TableSchemaBuilder()
+        public SqlTableDeployer() : base(null)
         {
         }
 
-        public TableSchemaBuilder(Action<string> writeMessage, Action<string> writeWarning = null,
-            Action<Exception> writeError = null)
+        public SqlTableDeployer(Action<string> writeMessage, Action<string> writeWarning = null,
+            Action<Exception> writeError = null) : base(writeMessage, writeWarning, writeError)
         {
-            m_writeMessage = writeMessage;
-            m_writeWarning = writeWarning;
-            m_writeError = writeError;
         }
-
-        private void WriteMessage(string message, params object[] args)
+        public Task<RxCompilerResult> DeployAsync(IProjectDefinition project)
         {
-            m_writeMessage?.Invoke(string.Format(message, args));
-        }
-
-        private void WriteWarning(string message, params object[] args)
-        {
-            m_writeWarning?.Invoke(string.Format(message, args));
-        }
-
-        private void WriteError(Exception exception)
-        {
-            m_writeError?.Invoke(exception);
+            throw new NotImplementedException();
         }
 
 
-        public async Task BuildAsync(EntityDefinition ed, Action<JObject, dynamic> migration, int sqlBatchSize = 50,
-            bool deploy = false)
+
+        public async Task BuildAsync(EntityDefinition ed, Action<JObject, dynamic> migration, int sqlBatchSize = 50)
         {
             if (ed.Transient) return;
             if (ed.StoreInDatabase.HasValue && ed.StoreInDatabase.Value == false) return;
@@ -56,12 +39,10 @@ namespace Bespoke.Sph.SqlRepository
             var tableExistSql =
                 $"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{applicationName}'  AND  TABLE_NAME = '{ed.Name}'";
 
-            string createTable;
-            var tableSql = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(EntityDefinition)}\\{ed.Name}.sql";
-            if (deploy && System.IO.File.Exists(tableSql))
-                createTable = System.IO.File.ReadAllText(tableSql);
-            else
-                createTable = await this.CreateTableSqlAsync(ed, applicationName);
+            var source = $@"{ConfigurationManager.SphSourceDirectory}\{nameof(EntityDefinition)}\{ed.Name}.sql";
+            if (!System.IO.File.Exists(source))
+                throw new InvalidOperationException("Please build for sql source");
+            var createTable = System.IO.File.ReadAllText(source);
 
             var version = await GetSqlServerProductVersionAsync();
             var createIndex = ed.CreateIndexSql(version);
@@ -202,48 +183,5 @@ namespace Bespoke.Sph.SqlRepository
             return false;
         }
 
-
-
-        private async Task<string> CreateTableSqlAsync(EntityDefinition item, string applicationName)
-        {
-            var version = await GetSqlServerProductVersionAsync();
-            var sql = new StringBuilder();
-            sql.Append($"CREATE TABLE [{applicationName}].[{item.Name}]");
-            sql.AppendLine("(");
-            sql.AppendLine("  [Id] VARCHAR(50) PRIMARY KEY NOT NULL");
-            var members = item.GetFilterableMembers();
-            foreach (var member in members.OfType<SimpleMember>())
-            {
-                // TODO : #4510 If SQL server version 13 and above is used,  Filtered member should be computed column
-                Console.WriteLine($@"SQL Server version {version} ");
-                sql.AppendLine("," + member.GenerateColumnExpression(version));
-            }
-            sql.AppendLine(",[Json] VARCHAR(MAX)");
-            sql.AppendLine(",[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()");
-            sql.AppendLine(",[CreatedBy] VARCHAR(255) NULL");
-            sql.AppendLine(",[ChangedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()");
-            sql.AppendLine(",[ChangedBy] VARCHAR(255) NULL");
-            sql.AppendLine(")");
-
-
-            // save to disk for source
-            var file = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(EntityDefinition)}\\{item.Name}.sql";
-            System.IO.File.WriteAllText(file, sql.ToString());
-
-            return sql.ToString();
-        }
-
-        private static async Task<int?> GetSqlServerProductVersionAsync()
-        {
-            int? version;
-            using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
-            using (var cmd = new SqlCommand("SELECT SERVERPROPERTY('ProductVersion')", conn))
-            {
-                await conn.OpenAsync();
-                var pv = await cmd.ExecuteScalarAsync();
-                version = Strings.RegexInt32Value($"{pv}", @"(?<version>[0-9]{1,2})..*", "version");
-            }
-            return version;
-        }
     }
 }

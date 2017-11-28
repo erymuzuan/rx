@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
+using Bespoke.Sph.Domain.Extensions;
 
 namespace Bespoke.Sph.Domain.diagnostics
 {

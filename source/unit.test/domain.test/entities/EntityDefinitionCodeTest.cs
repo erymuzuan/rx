@@ -6,6 +6,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
 using Xunit;
 using System.Threading.Tasks;
+using Bespoke.Sph.Domain.Extensions;
 
 namespace domain.test.entities
 {

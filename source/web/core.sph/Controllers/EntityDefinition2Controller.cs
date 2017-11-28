@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.ModelBinding;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Extensions;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
 using Humanizer;
