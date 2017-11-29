@@ -210,7 +210,9 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
         private async Task<LogEntry> GetLogEntryAsync(string message)
         {
             var jo = JObject.Parse(message);
-            var id = jo.SelectToken("$.Id").Value<string>();
+            var idToken = jo.SelectToken("$.Id") ?? jo.SelectToken("$.attached[0].Id");
+
+            var id = idToken?.Value<string>();
             if (string.IsNullOrWhiteSpace(id)) return null;
             id = id.Replace("-", "");
             var request = $@"{{
@@ -232,9 +234,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
             var response = await m_elasticsearchHttpClient.PostAsync($"/{ConfigurationManager.ApplicationName.ToLowerInvariant()}_logs/log/_search", rc);
 
 
-
-            var content = response.Content as StreamContent;
-            if (null == content) throw new Exception("Cannot execute query on es " + request);
+            if (!(response.Content is StreamContent content)) throw new Exception("Cannot execute query on es " + request);
             var hit = await content.ReadAsStringAsync();
             var jo2 = JObject.Parse(hit);
             var total = jo2.SelectToken("$.hits.total").Value<int>();
