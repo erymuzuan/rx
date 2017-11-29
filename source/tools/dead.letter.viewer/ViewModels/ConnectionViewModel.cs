@@ -13,6 +13,7 @@ using GalaSoft.MvvmLight.Command;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
 {
@@ -34,7 +35,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
         //TODO : we should set the one connected, for any operation, selected is used for UI only
         public RabbitMqConnection ConnectedConnection
         {
-            get { return m_connectedConnection; }
+            get => m_connectedConnection;
             set
             {
                 m_connectedConnection = value;
@@ -44,7 +45,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
 
         public RabbitMqConnection SelectedConnection
         {
-            get { return m_selectedConnection; }
+            get => m_selectedConnection;
             set
             {
                 m_selectedConnection = value;
@@ -125,7 +126,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
 
         public Exchange Exchange
         {
-            get { return m_exchange; }
+            get => m_exchange;
             set
             {
                 m_exchange = value;
@@ -135,7 +136,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
 
         public bool IsConnected
         {
-            get { return m_isConnected; }
+            get => m_isConnected;
             set
             {
                 m_isConnected = value;
@@ -146,7 +147,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
 
         public bool IsBusy
         {
-            get { return m_isBusy; }
+            get => m_isBusy;
             set
             {
                 m_isBusy = value;
@@ -173,7 +174,11 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
         private async void Connect(RabbitMqConnection connection)
         {
             this.IsBusy = true;
-            var factory = new ConnectionFactory
+
+            try
+            {
+
+                var factory = new ConnectionFactory
                 {
                     VirtualHost = connection.VirtualHost,
                     HostName = connection.HostName,
@@ -181,9 +186,15 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
                     Password = connection.Password,
                     Port = connection.Port,
                 };
-            m_conn = factory.CreateConnection();
-            Channel = m_conn.CreateModel();
-            this.IsConnected = true;
+                m_conn = factory.CreateConnection();
+                Channel = m_conn.CreateModel();
+                this.IsConnected = true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, e.GetType().Name, MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
 
             var cache = new CredentialCache();
@@ -197,21 +208,20 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
                 this.QueueCollection.Clear();
                 this.ExchangeCollection.Clear();
                 var queueResponse = await client.GetStringAsync($"http://{conn.HostName}:{conn.ApiPort}/api/queues");
-                var queueJson = ( JsonConvert.DeserializeObject(queueResponse)) as Newtonsoft.Json.Linq.JArray;
-                if (null != queueJson)
+                if (JsonConvert.DeserializeObject(queueResponse) is JArray queueJson)
                 {
                     foreach (dynamic q in queueJson)
                     {
                         try
                         {
                             var queue = new Queue
-                                {
-                                    Name = q.name.Value,
-                                    IsAutoDelete = q.auto_delete.Value,
-                                    IsDurable = q.durable.Value,
-                                    VirtualHost = q.vhost.Value,
-                                    MessagesCount = q.messages.Value
-                                };
+                            {
+                                Name = q.name.Value,
+                                IsAutoDelete = q.auto_delete.Value,
+                                IsDurable = q.durable.Value,
+                                VirtualHost = q.vhost.Value,
+                                MessagesCount = q.messages.Value
+                            };
                             if (queue.VirtualHost != conn.VirtualHost) continue;
                             this.QueueCollection.Add(queue);
 
@@ -225,17 +235,16 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
 
                 }
                 var excahngeResponse = await client.GetStringAsync($"http://{conn.HostName}:{conn.ApiPort}/api/exchanges");
-                var exchangeJson = (JsonConvert.DeserializeObject(excahngeResponse)) as Newtonsoft.Json.Linq.JArray;
-                if (null != exchangeJson)
+                if ((JsonConvert.DeserializeObject(excahngeResponse)) is JArray exchangeJson)
                 {
                     foreach (var q in exchangeJson)
                     {
                         var xch = new Exchange
-                            {
-                                Name = q.Value<string>("name"),
-                                VirtualHost = q.Value<string>("vhost"),
-                                Type = q.Value<string>("type")
-                            };
+                        {
+                            Name = q.Value<string>("name"),
+                            VirtualHost = q.Value<string>("vhost"),
+                            Type = q.Value<string>("type")
+                        };
                         if (xch.VirtualHost != conn.VirtualHost) continue;
                         this.ExchangeCollection.Add(xch);
                     }
@@ -267,7 +276,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
             using (var client = new HttpClient(handler))
             {
                 var queueResponse = await client.GetStringAsync($"http://{conn.HostName}:{conn.ApiPort}/api/queues/{HttpUtility.UrlEncode(conn.VirtualHost)}/{this.SelectedQueue.Name}");
-                dynamic q = ( JsonConvert.DeserializeObject(queueResponse));
+                dynamic q = (JsonConvert.DeserializeObject(queueResponse));
                 this.SelectedQueue.MessagesCount = q.messages.Value;
             }
             await Task.Delay(2500);
@@ -287,7 +296,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
 
         private void SaveConnection()
         {
-            var json =  JsonConvert.SerializeObject(this.ConnectionCollection);
+            var json = JsonConvert.SerializeObject(this.ConnectionCollection);
             Properties.Settings.Default.Connections = json;
             Properties.Settings.Default.Save();
         }
@@ -306,7 +315,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
         private Queue m_selectedQueue;
         public Queue SelectedQueue
         {
-            get { return m_selectedQueue; }
+            get => m_selectedQueue;
             set
             {
                 m_selectedQueue = value;

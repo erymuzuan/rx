@@ -198,8 +198,15 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter.ViewModels
                 this.Connection.ExchangeCollection.FirstOrDefault(e => string.IsNullOrWhiteSpace(e.Name) && e.Type == "direct");
             this.Result = result;
             var message = await this.Decompress(result);
-            this.LogEntry = await GetLogEntryAsync(message);
             this.Message = FormatJson(message);
+            try
+            {
+                this.LogEntry = await GetLogEntryAsync(message);
+            }
+            catch (Exception)
+            {
+                // ignore
+            }
             this.Post(() => this.IsBusy = false);
 
         }
