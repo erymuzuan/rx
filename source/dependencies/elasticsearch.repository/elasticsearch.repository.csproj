@@ -136,7 +136,6 @@ copy $(TargetDir)$(TargetName).pdb $(SolutionDir)source\web\web.sph\bin
 copy $(TargetDir)$(TargetName).dll $(SolutionDir)bin\subscribers
 copy $(TargetDir)$(TargetName).pdb $(SolutionDir)bin\subscribers
 
-in
 
 copy $(TargetDir)$(TargetName).dll $(SolutionDir)bin\tools
 copy $(TargetDir)$(TargetName).pdb $(SolutionDir)bin\tools</PostBuildEvent>

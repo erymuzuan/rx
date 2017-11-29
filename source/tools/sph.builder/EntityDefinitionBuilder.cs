@@ -20,7 +20,10 @@ namespace Bespoke.Sph.SourceBuilders
                 var sources = await builder.GenerateCodeAsync(item);
                 foreach (var src in sources)
                 {
-                    File.WriteAllText($@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\{src.Key}", src.Value);
+                    var path = $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\{src.Key}";
+                    if (Path.IsPathRooted(src.Key))
+                        path = src.Key;
+                    File.WriteAllText(path, src.Value);
                 }
                 WriteDebug($"Savings source files {sources.Keys.ToString(", ")}");
                 var cr = await builder.BuildAsync(item, sources.Keys.ToArray());

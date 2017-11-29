@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Codes;
 using Newtonsoft.Json;
 
@@ -17,10 +16,7 @@ namespace Bespoke.Sph.Domain
             typeof(Entity).Namespace,
             typeof(Int32).Namespace ,
             typeof(Task<>).Namespace,
-            typeof(Enumerable).Namespace ,
-            typeof(XmlAttributeAttribute).Namespace,
-            "System.Web.Mvc",
-            "Bespoke.Sph.Web.Helpers"
+            typeof(Enumerable).Namespace 
         };
 
 

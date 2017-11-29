@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,8 +41,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\dependencies-csharp.project.builders.cs">
+      <Link>Properties\dependencies-csharp.project.builders.cs</Link>
+    </Compile>
+    <Compile Include="..\..\extensions\LoggerExtensions.cs">
+      <Link>Extensions\LoggerExtensions.cs</Link>
+    </Compile>
     <Compile Include="ProjectBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
+      <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
+      <Name>domain.sph</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetDir)$(TargetName).dll $(SolutionDir)source\web\web.sph\bin
+copy $(TargetDir)$(TargetName).pdb $(SolutionDir)source\web\web.sph\bin
+
+copy $(TargetDir)$(TargetName).dll $(SolutionDir)bin\tools
+copy $(TargetDir)$(TargetName).pdb $(SolutionDir)bin\tools</PostBuildEvent>
+  </PropertyGroup>
 </Project>
