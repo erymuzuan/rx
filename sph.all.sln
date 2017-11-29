@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dependencies", "dependencies", "{799A5437-62C7-4385-95CC-ADEB4177B3FA}"
 EndProject
@@ -241,6 +241,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "odata.queryparser.test", "source\unit.test\odata.queryparser.test\odata.queryparser.test.csproj", "{AE8A790B-84B4-4223-A383-CF38E07AC504}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "web.test", "source\unit.test\web.test\web.test.csproj", "{020B92C2-BEA9-479A-A083-69F3ED53523E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csharp.project.builders", "source\dependencies\csharp.project.builders\csharp.project.builders.csproj", "{3FF9BD3B-0BEF-4B05-91A9-613C6EAE6965}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -572,6 +574,10 @@ Global
 		{020B92C2-BEA9-479A-A083-69F3ED53523E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{020B92C2-BEA9-479A-A083-69F3ED53523E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{020B92C2-BEA9-479A-A083-69F3ED53523E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FF9BD3B-0BEF-4B05-91A9-613C6EAE6965}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FF9BD3B-0BEF-4B05-91A9-613C6EAE6965}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FF9BD3B-0BEF-4B05-91A9-613C6EAE6965}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FF9BD3B-0BEF-4B05-91A9-613C6EAE6965}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -660,6 +666,7 @@ Global
 		{AE8A790B-84B4-4223-A383-CF38E07AC773} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{AE8A790B-84B4-4223-A383-CF38E07AC504} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{020B92C2-BEA9-479A-A083-69F3ED53523E} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
+		{3FF9BD3B-0BEF-4B05-91A9-613C6EAE6965} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7CCD16A-B3B1-4858-AA55-F327F46824D9}
