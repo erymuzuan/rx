@@ -25,49 +25,51 @@ namespace Bespoke.Sph.Domain
     public partial class EntityDefinition : Entity
     {
         // reserved names
-        private readonly string[] m_reservedNames = {"JavascriptTest",
-                "Management",
-                "Image",
-                "Home",
-                "BaseSph",
-                "Map",
-                "Admin",
-                "ActivityScreen",
-                "BaseApp",
-                "Config",
-                "Nav",
-                "RoleSettings",
-                "ScreenEditor",
-                "TriggerSetup",
-                "Users",
-                "WorkflowDraft",
-                typeof(EntityDefinition).Name,
-                typeof(AuditTrail).Name,
-                typeof(BusinessRule).Name,
-                typeof(BinaryStore).Name,
-                typeof(SpatialEntity).Name,
-                typeof(Entity).Name,
-                typeof(Designation).Name,
-                typeof(DocumentTemplate).Name,
-                typeof(EmailAction).Name,
-                typeof(EntityChart).Name,
-                typeof(EntityDefinition).Name,
-                typeof(EntityForm).Name,
-                typeof(EntityView).Name,
-                typeof(Message).Name,
-                typeof(Organization).Name,
-                typeof(ReportDefinition).Name,
-                typeof(ReportDelivery).Name,
-                typeof(SpatialStore).Name,
-                typeof(Tracker).Name,
-                typeof(Trigger).Name,
-                typeof(UserProfile).Name,
-                typeof(Watcher).Name,
-                typeof(Workflow).Name,
-                typeof(WorkflowDefinition).Name,
-                typeof(EntityForm).Name,
-                typeof(Message).Name};
-
+        private readonly string[] m_reservedNames =
+        {
+            "JavascriptTest",
+            "Management",
+            "Image",
+            "Home",
+            "BaseSph",
+            "Map",
+            "Admin",
+            "ActivityScreen",
+            "BaseApp",
+            "Config",
+            "Nav",
+            "RoleSettings",
+            "ScreenEditor",
+            "TriggerSetup",
+            "Users",
+            "WorkflowDraft",
+            typeof(EntityDefinition).Name,
+            typeof(AuditTrail).Name,
+            typeof(BusinessRule).Name,
+            typeof(BinaryStore).Name,
+            typeof(SpatialEntity).Name,
+            typeof(Entity).Name,
+            typeof(Designation).Name,
+            typeof(DocumentTemplate).Name,
+            typeof(EmailAction).Name,
+            typeof(EntityChart).Name,
+            typeof(EntityDefinition).Name,
+            typeof(EntityForm).Name,
+            typeof(EntityView).Name,
+            typeof(Message).Name,
+            typeof(Organization).Name,
+            typeof(ReportDefinition).Name,
+            typeof(ReportDelivery).Name,
+            typeof(SpatialStore).Name,
+            typeof(Tracker).Name,
+            typeof(Trigger).Name,
+            typeof(UserProfile).Name,
+            typeof(Watcher).Name,
+            typeof(Workflow).Name,
+            typeof(WorkflowDefinition).Name,
+            typeof(EntityForm).Name,
+            typeof(Message).Name
+        };
 
 
         public override string ToString()
@@ -97,7 +99,10 @@ namespace Bespoke.Sph.Domain
             var result = new BuildValidationResult();
             var validName = new Regex(@"^[A-Za-z][A-Za-z0-9]*$");
             if (!validName.Match(this.Name).Success)
-                result.Errors.Add(new BuildError(this.WebId) { Message = "Name must start with letter.You cannot use symbol or number as first character" });
+                result.Errors.Add(new BuildError(this.WebId)
+                {
+                    Message = "Name must start with letter.You cannot use symbol or number as first character"
+                });
             if (string.IsNullOrWhiteSpace(this.Name))
                 result.Errors.Add(new BuildError(this.WebId, "Name is missing"));
             if (m_reservedNames.Select(a => a.Trim().ToLowerInvariant()).Contains(this.Name.Trim().ToLowerInvariant()))
@@ -118,7 +123,8 @@ namespace Bespoke.Sph.Domain
             if (null == this.BuildDiagnostics)
                 ObjectBuilder.ComposeMefCatalog(this);
             if (null == this.BuildDiagnostics)
-                throw new InvalidOperationException($"Fail to initialize MEF for {nameof(EntityDefinition)}.{nameof(BuildDiagnostics)}");
+                throw new InvalidOperationException(
+                    $"Fail to initialize MEF for {nameof(EntityDefinition)}.{nameof(BuildDiagnostics)}");
 
             var result = this.CanSave();
             var policy = Policy.Handle<Exception>()
@@ -126,8 +132,7 @@ namespace Bespoke.Sph.Domain
                     (ex, ts) =>
                     {
                         ObjectBuilder.GetObject<ILogger>()
-                        .Log(new LogEntry(ex));
-
+                            .Log(new LogEntry(ex));
                     });
 
             var errorTasks = this.BuildDiagnostics
@@ -158,18 +163,19 @@ namespace Bespoke.Sph.Domain
         public WorkflowCompilerResult Compile(CompilerOptions options, params string[] files)
         {
             if (files.Length == 0)
-                throw new ArgumentException(Resources.Adapter_Compile_No_source_files_supplied_for_compilation, nameof(files));
-            
-            
+                throw new ArgumentException(Resources.Adapter_Compile_No_source_files_supplied_for_compilation,
+                    nameof(files));
+
+
             using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
             {
                 var outputPath = ConfigurationManager.CompilerOutputPath;
                 var parameters = new CompilerParameters
                 {
-                    OutputAssembly = Path.Combine(outputPath, $"{ConfigurationManager.ApplicationName}.{this.Name}.dll"),
+                    OutputAssembly =
+                        Path.Combine(outputPath, $"{ConfigurationManager.ApplicationName}.{this.Name}.dll"),
                     GenerateExecutable = false,
                     IncludeDebugInformation = true
-
                 };
 
                 parameters.AddReference(typeof(Entity),
@@ -199,39 +205,62 @@ namespace Bespoke.Sph.Domain
                 };
                 cr.Result = result.Errors.Count == 0;
                 var errors = from CompilerError x in result.Errors
-                             select new BuildError(this.WebId, x.ErrorText)
-                             {
-                                 Line = x.Line,
-                                 FileName = x.FileName
-                             };
+                    select new BuildError(this.WebId, x.ErrorText)
+                    {
+                        Line = x.Line,
+                        FileName = x.FileName
+                    };
                 cr.Errors.AddRange(errors);
                 return cr;
             }
         }
 
+        public static EntityDefinition operator +(EntityDefinition x, (string Name, Type Type) mb)
+        {
+            var simpleMember = new SimpleMember {Name = mb.Name, Type = mb.Type, WebId = Strings.GenerateId()};
+            x.MemberCollection.Add(simpleMember);
+            return x;
+        }
+
+        public static EntityDefinition operator -(EntityDefinition x, string name)
+        {
+            var member = x.MemberCollection.SingleOrDefault(v => v.Name == name);
+            if (null != member)
+                x.MemberCollection.Remove(member);
+            return x;
+        }
+
+        public static EntityDefinition operator +(EntityDefinition x, SimpleMember mb)
+        {
+            x.MemberCollection.Add(mb);
+            return x;
+        }
+
 
         public Member GetMember(string path)
         {
-            if (path == nameof(Id)) return new SimpleMember { Name = nameof(Id), Type = typeof(string) };
-            if (path == nameof(CreatedDate)) return new SimpleMember { Name = nameof(CreatedDate), Type = typeof(DateTime) };
-            if (path == nameof(ChangedDate)) return new SimpleMember { Name = nameof(ChangedDate), Type = typeof(DateTime) };
-            if (path == nameof(CreatedBy)) return new SimpleMember { Name = nameof(CreatedBy), Type = typeof(string) };
-            if (path == nameof(ChangedBy)) return new SimpleMember { Name = nameof(ChangedBy), Type = typeof(string) };
+            if (path == nameof(Id)) return new SimpleMember {Name = nameof(Id), Type = typeof(string)};
+            if (path == nameof(CreatedDate))
+                return new SimpleMember {Name = nameof(CreatedDate), Type = typeof(DateTime)};
+            if (path == nameof(ChangedDate))
+                return new SimpleMember {Name = nameof(ChangedDate), Type = typeof(DateTime)};
+            if (path == nameof(CreatedBy)) return new SimpleMember {Name = nameof(CreatedBy), Type = typeof(string)};
+            if (path == nameof(ChangedBy)) return new SimpleMember {Name = nameof(ChangedBy), Type = typeof(string)};
 
             if (!path.Contains("."))
             {
-
                 var member = this.MemberCollection.SingleOrDefault(a => a.Name == path);
                 if (null != member) return member;
                 throw new InvalidOperationException($"Cannot find a member in \"{Name}\" with path :\"{path}\"");
             }
 
-            var paths = path.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            var paths = path.Split(new[] {"."}, StringSplitOptions.RemoveEmptyEntries).ToList();
             var child = this.GetMember(paths.First());
             paths.RemoveAt(0);
             var nextPath = string.Join(".", paths);
             return this.GetMember(nextPath, child);
         }
+
         private Member GetMember(string path, Member member2)
         {
             if (!path.Contains("."))
@@ -240,15 +269,17 @@ namespace Bespoke.Sph.Domain
                 {
                     var members = vm.MemberCollection;
                     var rm1 = members.SingleOrDefault(a => a.Name == path);
-                    if (null == rm1) throw new ArgumentException($"Cannot find any {path} in {Name}.{member2.Name}", nameof(path));
+                    if (null == rm1)
+                        throw new ArgumentException($"Cannot find any {path} in {Name}.{member2.Name}", nameof(path));
                     return rm1;
                 }
                 var rm = member2.MemberCollection.SingleOrDefault(a => a.Name == path);
-                if (null == rm) throw new ArgumentException($"Cannot find any {path} in {Name}.{member2.Name}", nameof(path));
+                if (null == rm)
+                    throw new ArgumentException($"Cannot find any {path} in {Name}.{member2.Name}", nameof(path));
                 return rm;
             }
 
-            var paths = path.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            var paths = path.Split(new[] {"."}, StringSplitOptions.RemoveEmptyEntries).ToList();
             var child = this.GetMember(paths.First(), member2);
             paths.RemoveAt(0);
             var nextPath = string.Join(".", paths);
@@ -257,9 +288,22 @@ namespace Bespoke.Sph.Domain
 
         public Member AddMember<T>(string name)
         {
+            if (typeof(T).IsSubclassOf(typeof(Member)))
+            {
+                var ctor = typeof(T).GetConstructor(Array.Empty<Type>());
+                if (null == ctor) throw new ArgumentException("No default ctor");
+                if (ctor.Invoke(new object[] { }) is Member mbr)
+                {
+                    mbr.Name = name;
+                    mbr.WebId = Strings.GenerateId();
+                    this.MemberCollection.Add(mbr);
+                    return mbr;
+                }
+            }
             var sm = new SimpleMember {Name = "Created", Type = typeof(T)};
             this.MemberCollection.Add(sm);
             return sm;
         }
+        
     }
 }

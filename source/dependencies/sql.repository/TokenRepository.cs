@@ -24,7 +24,6 @@ namespace Bespoke.Sph.SqlRepository
            ,@Payload
            ,@ExpiryDate)", conn))
             {
-
                 cmd.Parameters.AddWithValue("@Subject", token.Subject);
                 cmd.Parameters.AddWithValue("@Email", token.Email.ToDbNull());
                 cmd.Parameters.AddWithValue("@UserName", token.Username);
@@ -33,7 +32,6 @@ namespace Bespoke.Sph.SqlRepository
                 await conn.OpenAsync();
                 var json = await cmd.ExecuteNonQueryAsync();
                 System.Diagnostics.Debug.Assert(json == 1, "1 row must be added");
-
             }
         }
 
@@ -42,15 +40,44 @@ namespace Bespoke.Sph.SqlRepository
             throw new NotImplementedException();
         }
 
-        public Task<LoadOperation<AccessToken>> LoadAsync(DateTime expiry, int page = 1, int size = 20)
+        public async Task<LoadOperation<AccessToken>> LoadAsync(DateTime expiry, int page = 1, int size = 20)
         {
-            throw new NotImplementedException();
+            var lo = new LoadOperation<AccessToken>
+            {
+                CurrentPage = page,
+                PageSize = size
+            };
+            using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
+            using (var cmd = new SqlCommand($@"SELECT [Payload] FROM [Sph].[AccessToken] WHERE [ExpiryDate] >= @ExpiryDate
+ORDER BY [Subject]
+OFFSET {(page -1)*size} ROWS FETCH NEXT { size} ROWS ONLY", conn))
+            {
+                await conn.OpenAsync();
+                using (var count =
+                    new SqlCommand("SELECT COUNT(*) FROM  [Sph].[AccessToken] WHERE [ExpiryDate] >= @ExpiryDate", conn))
+                {
+                    count.Parameters.AddWithValue("@ExpiryDate", expiry);
+                    lo.TotalRows = (int) await count.ExecuteScalarAsync();
+                }
+                cmd.Parameters.AddWithValue("@ExpiryDate", expiry);
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        var token = reader.GetString(0).DeserializeFromJson<AccessToken>();
+                        lo.ItemCollection.Add(token);
+                    }
+                }
+            }
+
+            return lo;
         }
 
         public async Task<AccessToken> LoadOneAsync(string subject)
         {
             using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
-            using (var cmd = new SqlCommand("SELECT [Payload] FROM [Sph].[AccessToken] WHERE [Subject] = @Subject", conn))
+            using (var cmd = new SqlCommand("SELECT [Payload] FROM [Sph].[AccessToken] WHERE [Subject] = @Subject",
+                conn))
             {
                 cmd.Parameters.AddWithValue("@Subject", subject);
                 await conn.OpenAsync();
@@ -58,8 +85,7 @@ namespace Bespoke.Sph.SqlRepository
                 if (json == DBNull.Value) return default;
                 if (string.IsNullOrWhiteSpace($"{json}")) return default;
 
-                return ((string)json).DeserializeFromJson<AccessToken>();
-
+                return ((string) json).DeserializeFromJson<AccessToken>();
             }
         }
 
