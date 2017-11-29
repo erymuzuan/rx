@@ -122,7 +122,7 @@ namespace textformatter.test
             var lines = File.ReadLines(@".\docs\IpsExport.xml");
             var items = port.Process(lines).ToArray();
 
-            Assert.Equal(1, items.Length);
+            Assert.Single(items);
 
             var first = items[0];
             Assert.Equal("AUSYDBMYKULAAEM70095002000070", first.FromIPS.RecptclId);
@@ -147,7 +147,7 @@ namespace textformatter.test
             var lines = File.ReadLines(@".\docs\IpsExport.xml");
             var items = port.Process(lines).ToArray();
 
-            Assert.Equal(1, items.Length);
+            Assert.Single(items);
 
             var last = items.Last();
             Assert.Equal("AUSYDBMYKULAAEM70095002000070", last.FromIPS.RecptclId);

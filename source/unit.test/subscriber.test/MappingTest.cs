@@ -225,7 +225,7 @@ namespace subscriber.test
             var map = ent.GetElasticsearchMapping();
             var json = JObject.Parse(map);
             var ageType = json.SelectToken("$.customer.properties.Wife.properties.Age.type");
-            Assert.Equal(ageType.Value<string>(), "integer");
+            Assert.Equal("integer", ageType.Value<string>());
 
 
         }

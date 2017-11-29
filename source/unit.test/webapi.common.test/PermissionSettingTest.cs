@@ -17,7 +17,7 @@ namespace webapi.common.test
             };
 
             eps.AddParentClaims(new ClaimSetting("email", "erymuzuan", "d"));
-            Assert.Equal(1, eps.Claims.Length);
+            Assert.Single(eps.Claims);
             Assert.Equal("a", eps.Claims[0].Permission);
         }
         [Fact]
