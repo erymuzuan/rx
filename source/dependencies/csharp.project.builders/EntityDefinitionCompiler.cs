@@ -12,8 +12,8 @@ namespace Bespoke.Sph.Csharp.CompilersServices
     {
         [ImportMany(typeof(IBuildDiagnostics))]
         public IBuildDiagnostics[] BuildDiagnostics { get; set; }
-
         private ILogger Logger => ObjectBuilder.GetObject<ILogger>();
+
         public async Task<Dictionary<string, string>> GenerateCodeAsync(IProjectDefinition project)
         {
             var sources = new Dictionary<string, string>();

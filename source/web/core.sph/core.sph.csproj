@@ -378,9 +378,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-
     <Compile Include="..\..\assembly.versions\web-core.sph.cs">
       <Link>Properties\web-core.sph.cs</Link>
+    </Compile>
+    <Compile Include="..\..\extensions\LoggerExtensions.cs">
+      <Link>Extensions\LoggerExtensions.cs</Link>
     </Compile>
     <Compile Include="Api\AggregateController.cs" />
     <Compile Include="Api\ApiDocumentationController.cs" />

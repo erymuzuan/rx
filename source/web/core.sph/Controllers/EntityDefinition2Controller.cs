@@ -11,6 +11,7 @@ using System.Web.ModelBinding;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Extensions;
+using Bespoke.Sph.Extensions;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
 using Humanizer;
@@ -21,7 +22,6 @@ namespace Bespoke.Sph.Web.Controllers
     [RoutePrefix("entity-definition")]
     public class EntityDefinition2Controller : BaseController
     {
-
         [HttpGet]
         [Route("variable-path/{id}")]
         [RxSourceOutputCache(SourceType = typeof(EntityDefinition))]
@@ -330,32 +330,34 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var context = new SphDataContext();
             var ed = this.GetRequestJson<EntityDefinition>();
-            ed.BuildDiagnostics = ObjectBuilder.GetObject<IDeveloperService>().BuildDiagnostics;
+            var compilers = ObjectBuilder.GetObject<IDeveloperService>().ProjectBuilders;
 
-            var buildValidation = await ed.ValidateBuildAsync();
-
-
-            if (!buildValidation.Result)
-                return Json(buildValidation);
-
-            var options = new CompilerOptions
+            var results = new List<RxCompilerResult>();
+            Logger.WriteDebug($"Found {compilers.Length} IProjectBuilders");
+            foreach (var builder in compilers)
             {
-                SourceCodeDirectory = ConfigurationManager.GeneratedSourceDirectory
-            };
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll"));
+                Logger.WriteDebug($"Building with {builder.GetType().Name}...");
+                var sources = await builder.GenerateCodeAsync(ed);
+                foreach (var src in sources)
+                {
+                    var path = $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\{src.Key}";
+                    if (Path.IsPathRooted(src.Key))
+                        path = src.Key;
+                    System.IO.File.WriteAllText(path, src.Value);
+                }
+                Logger.WriteDebug($"Savings source files {sources.Keys.ToString(", ")}");
+                var cr = await builder.BuildAsync(ed, sources.Keys.ToArray());
+                results.Add(cr);
+                Logger.WriteInfo($"{builder.GetType().Name} has {(cr.Result ? "successfully building" : "failed to build")} {ed.Name}");
+                Logger.WriteInfo(cr.ToString());
+            }
 
-            var codes = await ed.GenerateCodeAsync();
-            var sources = ed.SaveSources(codes);
-            var result = ed.Compile(options, sources);
-
-            result.Errors.ForEach(Console.WriteLine);
-            if (!result.Result)
-                return Json(result);
-
-
-
+            var final = new RxCompilerResult { Result = results.All(x => x.Result) };
+            final.Errors.AddRange(results.SelectMany(x => x.Errors));
+            
+            if (!final.Result)
+                return Json(final);
+            
             ed.IsPublished = true;
             using (var session = context.OpenSession())
             {
@@ -375,11 +377,12 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var context = new SphDataContext();
             var ed = this.GetRequestJson<EntityDefinition>();
+           /* TODO : find the service contract diagnostics
             ed.BuildDiagnostics = ObjectBuilder.GetObject<IDeveloperService>().BuildDiagnostics;
 
             var buildValidation = await ed.ValidateBuildAsync();
             if (!buildValidation.Result)
-                return Json(buildValidation);
+                return Json(buildValidation);*/
             var result = await ed.ServiceContract.CompileAsync(ed);
 
             result.Errors.ForEach(Console.WriteLine);
