@@ -1,21 +1,7 @@
 ﻿using System;
-using System.CodeDom.Compiler;
-using System.ComponentModel;
-using System.ComponentModel.Composition;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Net.Http;
-using System.Net.Mail;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using Bespoke.Sph.Domain.Properties;
-using Newtonsoft.Json;
-using Polly;
 
 namespace Bespoke.Sph.Domain
 {
@@ -95,107 +81,6 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
-        [ImportMany(typeof(IBuildDiagnostics))]
-        [JsonIgnore]
-        [XmlIgnore]
-        public IBuildDiagnostics[] BuildDiagnostics { get; set; }
-
-        public async Task<BuildValidationResult> ValidateBuildAsync()
-        {
-            if (null == this.BuildDiagnostics)
-                ObjectBuilder.ComposeMefCatalog(this);
-            if (null == this.BuildDiagnostics)
-                throw new InvalidOperationException(
-                    $"Fail to initialize MEF for {nameof(EntityDefinition)}.{nameof(BuildDiagnostics)}");
-
-            var result = this.CanSave();
-            var policy = Policy.Handle<Exception>()
-                .WaitAndRetry(3, c => TimeSpan.FromMilliseconds(500),
-                    (ex, ts) =>
-                    {
-                        ObjectBuilder.GetObject<ILogger>()
-                            .Log(new LogEntry(ex));
-                    });
-
-            var errorTasks = this.BuildDiagnostics
-                .Select(d => policy.ExecuteAndCapture(() => d.ValidateErrorsAsync(this)))
-                .Where(x => null != x)
-                .Where(x => x.FinalException == null)
-                .Select(x => x.Result)
-                .ToArray();
-            var errors = (await Task.WhenAll(errorTasks)).Where(x => null != x).SelectMany(x => x);
-
-            var warningTasks = this.BuildDiagnostics
-                .Select(d => policy.ExecuteAndCapture(() => d.ValidateWarningsAsync(this)))
-                .Where(x => null != x)
-                .Where(x => x.FinalException == null)
-                .Select(x => x.Result)
-                .ToArray();
-            var warnings = (await Task.WhenAll(warningTasks)).SelectMany(x => x);
-
-            result.Errors.AddRange(errors);
-            result.Warnings.AddRange(warnings);
-
-
-            result.Result = result.Errors.Count == 0;
-
-            return result;
-        }
-
-        public RxCompilerResult Compile(CompilerOptions options, params string[] files)
-        {
-            if (files.Length == 0)
-                throw new ArgumentException(Resources.Adapter_Compile_No_source_files_supplied_for_compilation,
-                    nameof(files));
-
-
-            using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
-            {
-                var outputPath = ConfigurationManager.CompilerOutputPath;
-                var parameters = new CompilerParameters
-                {
-                    OutputAssembly =
-                        Path.Combine(outputPath, $"{ConfigurationManager.ApplicationName}.{this.Name}.dll"),
-                    GenerateExecutable = false,
-                    IncludeDebugInformation = true
-                };
-
-                parameters.AddReference(typeof(Entity),
-                    typeof(int),
-                    typeof(INotifyPropertyChanged),
-                    typeof(Expression<>),
-                    typeof(XmlAttributeAttribute),
-                    typeof(SmtpClient),
-                    typeof(HttpClient),
-                    typeof(XElement),
-                    typeof(HttpResponseBase),
-                    typeof(ConfigurationManager));
-
-                foreach (var es in options.EmbeddedResourceCollection)
-                {
-                    parameters.EmbeddedResources.Add(es);
-                }
-                foreach (var ass in options.ReferencedAssembliesLocation)
-                {
-                    parameters.ReferencedAssemblies.Add(ass);
-                }
-                var result = provider.CompileAssemblyFromFile(parameters, files);
-                var cr = new RxCompilerResult
-                {
-                    Result = true,
-                    Output = Path.GetFullPath(parameters.OutputAssembly)
-                };
-                cr.Result = result.Errors.Count == 0;
-                var errors = from CompilerError x in result.Errors
-                    select new BuildError(this.WebId, x.ErrorText)
-                    {
-                        Line = x.Line,
-                        FileName = x.FileName
-                    };
-                cr.Errors.AddRange(errors);
-                return cr;
-            }
-        }
 
         public static EntityDefinition operator +(EntityDefinition x, (string Name, Type Type) mb)
         {

@@ -1,14 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
+using Bespoke.Sph.Csharp.CompilersServices.Extensions;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Extensions;
 
 namespace Bespoke.Sph.Csharp.CompilersServices
 {
     [Export(typeof(IProjectBuilder))]
-    public class ProjectBuilder : IProjectBuilder
+    public class EntityDefinitionCompiler : IProjectBuilder
     {
+        [ImportMany(typeof(IBuildDiagnostics))]
+        public IBuildDiagnostics[] BuildDiagnostics { get; set; }
+
         private ILogger Logger => ObjectBuilder.GetObject<ILogger>();
         public async Task<Dictionary<string, string>> GenerateCodeAsync(IProjectDefinition project)
         {
@@ -29,9 +33,8 @@ namespace Bespoke.Sph.Csharp.CompilersServices
         {
             var result = new RxCompilerResult { Result = true };
             if (!(project is EntityDefinition ed)) return result;
-            ed.BuildDiagnostics = ObjectBuilder.GetObject<IDeveloperService>().BuildDiagnostics;
 
-            var buildValidation = await ed.ValidateBuildAsync();
+            var buildValidation = await ed.ValidateBuildAsync(this.BuildDiagnostics);
             if (!buildValidation.Result)
             {
                 result.Errors.AddRange(buildValidation.Errors);
