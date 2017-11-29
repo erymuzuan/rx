@@ -1,46 +1,106 @@
 {
-    "$type": "Bespoke.Sph.Domain.OperationEndpoint, domain.sph",
-    "CodeNamespace": "Bespoke.DevV1.IntegrationApis",
-    "Icon": "fa fa-cloud-upload",
-    "Url": "operation.endpoint.designer/{id}",
-    "EntityPermissionCollection": {
-        "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityPermission, domain.sph]], domain.sph",
-        "$values": []
-    },
-    "Rules": {
-        "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-        "$values": [
-            "Dob"
-        ]
-    },
-    "Permissions": {
-        "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
-        "$values": [
-            "Everybody"
-        ]
-    },
-    "SetterActionChildCollection": {
-        "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
-        "$values": []
-    },
-    "PatchPathCollection": {
-        "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PatchSetter, domain.sph]], domain.sph",
-        "$values": []
-    },
-    "Name": "Register",
-    "Route": "",
-    "IsHttpPut": false,
-    "IsHttpPatch": false,
-    "IsHttpPost": true,
-    "IsHttpDelete": false,
-    "Note": "register new patient",
-    "Entity": "Patient",
-    "Resource": "patients",
-    "IsPublished": true,
-    "CreatedBy": "admin",
-    "Id": "patient-register",
-    "CreatedDate": "2016-02-01T07:01:55.3452451+08:00",
-    "ChangedBy": "admin",
-    "ChangedDate": "2016-02-02T07:27:11.2552278+08:00",
-    "WebId": "41a1ee80-283e-4586-a271-70997ac6479f"
+  "$type": "Bespoke.Sph.Domain.OperationEndpoint, domain.sph",
+  "$tool-version": "2.1.2154.6193-227c5bf8e",
+  "EntityPermissionCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityPermission, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Rules": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+    "$values": [
+      "Dob"
+    ]
+  },
+  "SetterActionChildCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.SetterActionChild, domain.sph",
+        "Path": "Mrn",
+        "Field": {
+          "$type": "Bespoke.Sph.Domain.AssemblyField, domain.sph",
+          "Location": "assembly.test",
+          "TypeName": "assembly.test.AssemblyClassToTest",
+          "Method": "Greet",
+          "IsAsync": false,
+          "AsyncTimeout": 0,
+          "LoadInCurrentAppDomain": false,
+          "MethodArgCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+            "$values": [
+              {
+                "$type": "Bespoke.Sph.Domain.MethodArg, domain.sph",
+                "Name": "greet",
+                "TypeName": "System.String",
+                "ValueProvider": {
+                  "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                  "TypeName": "System.String, mscorlib",
+                  "Value": "Hello",
+                  "Name": "Hello",
+                  "Note": "",
+                  "WebId": "5f6a25d0-73ca-4dbb-9cf9-61ee190a4f04"
+                },
+                "AttributeCollection": {
+                  "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                  "$values": []
+                },
+                "Default": null,
+                "WebId": null
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.MethodArg, domain.sph",
+                "Name": "name",
+                "TypeName": "System.String",
+                "ValueProvider": {
+                  "$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
+                  "XPath": "",
+                  "NamespacePrefix": "",
+                  "TypeName": "",
+                  "Path": "FullName",
+                  "Name": "FullName",
+                  "Note": "",
+                  "WebId": "02501a72-18bd-4a6e-cac8-5660f287128b"
+                },
+                "AttributeCollection": {
+                  "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                  "$values": []
+                },
+                "Default": null,
+                "WebId": null
+              }
+            ]
+          },
+          "Name": "SayHello",
+          "Note": "",
+          "WebId": "fa20d550-64c9-4cb0-d5c1-7c4e064ed2c7"
+        },
+        "WebId": "0bc67b2b-3bc9-44f5-af36-ed19d8667063"
+      }
+    ]
+  },
+  "PatchPathCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PatchSetter, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "ReferencedAssemblyCollection": {
+    "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.ReferencedAssembly, domain.sph]], domain.sph",
+    "$values": []
+  },
+  "Name": "Register",
+  "Route": "",
+  "IsHttpPut": false,
+  "IsHttpPatch": false,
+  "IsHttpPost": true,
+  "IsHttpDelete": false,
+  "Note": "register new patient",
+  "Entity": "Patient",
+  "Resource": "patients",
+  "IsPublished": true,
+  "IsConflictDetectionEnabled": false,
+  "CreatedBy": "admin",
+  "Id": "patient-register",
+  "CreatedDate": "2016-02-01T07:01:55.3452451+08:00",
+  "ChangedBy": "admin",
+  "ChangedDate": "2017-11-29T11:59:52.4492969+08:00",
+  "WebId": "41a1ee80-283e-4586-a271-70997ac6479f"
 }
