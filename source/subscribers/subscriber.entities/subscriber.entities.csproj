@@ -62,7 +62,6 @@
     <Compile Include="PartialViewSubscriber.cs" />
     <Compile Include="SqlPersistenceHelper.cs" />
     <Compile Include="EntityDefinitionDeletedSubscriber.cs" />
-    <Compile Include="SqlTableSubscriber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorkflowFormSubscriber.cs" />
   </ItemGroup>

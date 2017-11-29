@@ -105,6 +105,7 @@
     <Compile Include="MessageTracker.cs" />
     <Compile Include="PredicateExpressionVisitor.cs" />
     <Compile Include="ReadOnlyRepository.T.cs" />
+    <Compile Include="ReadOnlyRepositoryRepositorySyncManager.cs" />
     <Compile Include="SqlBinaryStore.cs" />
     <Compile Include="FileStreamBinaryStore.cs" />
     <Compile Include="SqlPersistence.bulk.cs" />

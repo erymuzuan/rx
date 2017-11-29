@@ -63,11 +63,12 @@
     <Compile Include="..\..\assembly.versions\subscribers-subscriber.elasticsearch.indexer.cs">
       <Link>Properties\subscribers-subscriber.elasticsearch.indexer.cs</Link>
     </Compile>
+    <Compile Include="..\..\extensions\BinaryExtensions.cs">
+      <Link>Extensions\BinaryExtensions.cs</Link>
+    </Compile>
     <Compile Include="CustomEntityIndexerSubscriber.cs" />
     <Compile Include="DataImportSubscriber.cs" />
-    <Compile Include="EntityIndexerMappingSubscriber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SystemAssetIndexerSubscriber.cs" />
     <Compile Include="TrackerIndexer.cs" />
     <Compile Include="WorkflowSubscriber.cs" />
   </ItemGroup>

@@ -80,7 +80,7 @@ namespace Bespoke.Sph.Tests.Elasticsearch
 
             var builder = new SqlTableBuilder(m => Console.WriteLine("Info :" + m), m => Console.WriteLine("Warning :" + m),
                 e => Console.WriteError(e));
-            await builder.BuildAsync(ent);
+            await builder.BuildAsync(ent, null);
 
             Assert.True(File.Exists(file));
             var sql = File.ReadAllText(file);

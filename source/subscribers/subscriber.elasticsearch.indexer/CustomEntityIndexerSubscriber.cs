@@ -1,10 +1,8 @@
-﻿using System.Diagnostics;
-using System.Net.Http;
+﻿using System;
 using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Bespoke.Sph.Domain;
 using Humanizer;
-using Newtonsoft.Json;
 
 namespace Bespoke.Sph.ElasticSearch
 {
@@ -12,48 +10,33 @@ namespace Bespoke.Sph.ElasticSearch
     {
         public override string QueueName => this.GetType().FullName;
         public override string[] RoutingKeys => new[] {"#.added.#", "#.changed.#", "#.deleted.#"};
-
-        private readonly HttpClient m_client = new HttpClient();
+        
 
         protected override async Task ProcessMessage(Entity item, MessageHeaders headers)
         {
-            var setting = new JsonSerializerSettings();
-            var json = JsonConvert.SerializeObject(item, setting);
 
-
-            var content = new StringContent(json);
-            if (item.IsSystemType()) return; // just custom entity
-
-            var option = item.GetPersistenceOption();
-            if (!option.IsElasticsearch) return;
-
-            var type1 = item.GetType();
-            var type = type1.Name.ToLowerInvariant();
-            var index = EsConfigurationManager.Index;
-            var url = $"{EsConfigurationManager.Host}/{index}/{type}/{item.Id}";
-
-
-            HttpResponseMessage response = null;
+            var syncManager = ObjectBuilder.GetObject<IReadOnlyRepositorySyncManager>();
             try
             {
                 if (headers.Crud == CrudOperation.Added)
                 {
-                    response = await m_client.PutAsync(url, content);
+                    await syncManager.AddAsync(item);
                 }
                 if (headers.Crud == CrudOperation.Changed)
                 {
-                    response = await m_client.PostAsync(url, content);
+                    await syncManager.UpdateAsync(item);
                 }
                 if (headers.Crud == CrudOperation.Deleted)
                 {
-                    response = await m_client.DeleteAsync(url);
+                    await syncManager.DeleteAsync(item);
                 }
+
             }
-            catch (HttpRequestException e)
+            catch (Exception e)
             {
                 // republish the message to a delayed queue
-                var delay = EsConfigurationManager.IndexingDelay;
-                var maxTry = EsConfigurationManager.IndexingMaxTry;
+                var delay = ConfigurationManager.GetEnvironmentVariableInt32("ReadOnlyRepositorySyncRetryDelay", 500);
+                var maxTry = ConfigurationManager.GetEnvironmentVariableInt32("ReadOnlyRepositorySyncMaxTry", 5);
                 if ((headers.TryCount ?? 0) < maxTry)
                 {
                     await RequeueMessageAsync(item, headers, e, delay);
@@ -65,15 +48,11 @@ namespace Bespoke.Sph.ElasticSearch
                     throw;
                 }
             }
-
-
-            if (null != response)
-            {
-                Debug.Write(".");
-            }
+            
+        
         }
 
-        private async Task RequeueMessageAsync(Entity item, MessageHeaders headers, HttpRequestException e, long delay)
+        private async Task RequeueMessageAsync(Entity item, MessageHeaders headers, Exception e, long delay)
         {
             var count = (headers.TryCount ?? 0) + 1;
             this.WriteMessage($"{count.Ordinalize()} retry on HttpRequestException : {e.Message}");
@@ -84,12 +63,6 @@ namespace Bespoke.Sph.ElasticSearch
 
             var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
             await publisher.PublishChanges(headers.Operation, new[] {item}, new AuditTrail[] { }, ph);
-        }
-
-        protected override void OnStop()
-        {
-            m_client.Dispose();
-            base.OnStop();
         }
     }
 }

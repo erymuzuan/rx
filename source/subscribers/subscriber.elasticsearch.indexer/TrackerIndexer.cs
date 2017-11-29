@@ -1,29 +1,19 @@
-using System;
-using System.Diagnostics;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.ElasticsearchRepository;
 using Bespoke.Sph.SubscribersInfrastructure;
-using Newtonsoft.Json;
 
 namespace Bespoke.Sph.ElasticSearch
 {
-    public class TrackerIndexer : IDisposable
+    public class TrackerIndexer
     {
-        private readonly HttpClient m_client;
-
-        public TrackerIndexer(HttpClient client)
-        {
-            m_client = client;
-        }
         public async Task ProcessMessage(Tracker item, MessageHeaders headers)
         {
+            var ws = ObjectBuilder.GetObject<IWorkflowService>();
             var tasks = from ea in item.ExecutedActivityCollection
                         let id = $"{item.WorkflowDefinitionId}_{item.WorkflowId}_{ea.ActivityWebId}"
                         let wfid = item.WorkflowId
-                        select AddExecutedActivityToIndexAsync(id, ea, headers, wfid);
+                        select ws.AddExecutedActivityAsync(id, ea, headers.Crud.ToString(), wfid);
             await Task.WhenAll(tasks);
             await AddPendingTaskAsync(item);
         }
@@ -48,69 +38,17 @@ namespace Bespoke.Sph.ElasticSearch
                                 Correlations = tracker.WaitingAsyncList[w].ToArray()
                             }).ToList();
 
-     
-            //delete previous pending tasks
-            var url1 = $"{EsConfigurationManager.Index}/pendingtask/{"_query?q=WorkflowId:" + tracker.WorkflowId}";
-            var response1 = await m_client.DeleteAsync(url1);
 
-            Debug.WriteLine(response1);
+            var ws = ObjectBuilder.GetObject<IWorkflowService>();
+            await ws.DeletePendingTasksAsync(tracker.WorkflowId);
+
+
             var tasks = from t in pendings
                         let id = $"{tracker.WorkflowDefinitionId}_{tracker.WorkflowId}_{t.ActivityWebId}"
-                        select this.AddPendingTaskToIndexAsync(id, t);
+                        select ws.AddPendingTaskAsync(id, t);
             await Task.WhenAll(tasks);
 
         }
 
-        private async Task AddPendingTaskToIndexAsync(string id, PendingTask ea)
-        {
-            var setting = new JsonSerializerSettings();
-            var json = JsonConvert.SerializeObject(ea, setting);
-            var content = new StringContent(json);
-
-            var url = $"{EsConfigurationManager.Host}/{EsConfigurationManager.Index}/pendingtask/{id}";
-            var response = await m_client.PutAsync(url, content);
-
-            if (null != response)
-            {
-                Debug.Write(".");
-            }
-        }
-        private async Task AddExecutedActivityToIndexAsync(string id, ExecutedActivity ea, MessageHeaders headers, string wfid)
-        {
-            ea.InstanceId = wfid;
-            var setting = new JsonSerializerSettings();
-
-            var json = JsonConvert.SerializeObject(ea, setting);
-            var content = new StringContent(json);
-
-            var url = $"{EsConfigurationManager.Index}/activity/{id}";
-
-
-            HttpResponseMessage response = null;
-            switch (headers.Crud)
-            {
-                case CrudOperation.Added:
-                    response = await m_client.PutAsync(url, content);
-                    break;
-                case CrudOperation.Changed:
-                    response = await m_client.PostAsync(url, content);
-                    break;
-                case CrudOperation.Deleted:
-                    response = await m_client.DeleteAsync(url);
-                    break;
-
-            }
-
-            if (null != response)
-            {
-                Debug.Write(".");
-            }
-
-        }
-
-        public void Dispose()
-        {
-            m_client?.Dispose();
-        }
     }
 }

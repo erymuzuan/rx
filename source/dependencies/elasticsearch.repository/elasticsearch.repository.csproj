@@ -90,6 +90,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ReadonlyRepository.T.cs" />
+    <Compile Include="ReadOnlyRepositorySyncManager.cs" />
     <Compile Include="RepositoryWithNamingStrategy.cs" />
     <Compile Include="RequestMeteringRepository.cs" />
     <Compile Include="WorkflowService.cs" />

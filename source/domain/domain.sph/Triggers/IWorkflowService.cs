@@ -15,5 +15,8 @@ namespace Bespoke.Sph.Domain
             int size = 20) where T : Workflow, new();
         Task<T> GetOneAsync<T>(string id) where T : Workflow, new();
         Task<IEnumerable<T>> SearchAsync<T>(IEnumerable<Filter> predicates) where T : Workflow, new();
+        Task DeletePendingTasksAsync(string workflowId);
+        Task AddPendingTaskAsync(string id, PendingTask task);
+        Task AddExecutedActivityAsync(string id, ExecutedActivity ea, string crud, string workflowId);
     }
 }

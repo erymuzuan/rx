@@ -14,4 +14,6 @@ namespace Bespoke.Sph.Domain.Management
         void RegisterConnectionChanged(Func<bool, int> connectionStateChanged);
 
     }
+
+
 }

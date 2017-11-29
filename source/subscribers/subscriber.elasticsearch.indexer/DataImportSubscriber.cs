@@ -1,18 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.IO.Compression;
 using System.Linq;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.ElasticsearchRepository;
+using Bespoke.Sph.Extensions;
 using Bespoke.Sph.SubscribersInfrastructure;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Polly;
 using RabbitMQ.Client;
 
 namespace Bespoke.Sph.ElasticSearch
@@ -22,8 +17,7 @@ namespace Bespoke.Sph.ElasticSearch
         public override string QueueName => "es.data-import";
         public override string[] RoutingKeys => new[] { "persistence" };
         private TaskCompletionSource<bool> m_stoppingTcs;
-
-        private readonly HttpClient m_client = new HttpClient { BaseAddress = new Uri(EsConfigurationManager.Host) };
+        
         public override void Run(IConnection connection)
         {
             var sw = new Stopwatch();
@@ -108,32 +102,25 @@ namespace Bespoke.Sph.ElasticSearch
 
         private async void Received(object sender, ReceivedMessageArgs e)
         {
+            var syncManager = ObjectBuilder.GetObject<IReadOnlyRepositorySyncManager>();
             var headers = new MessageHeaders(e);
             if (!headers.GetValue<bool>("data-import"))
             {
                 m_channel.BasicAck(e.DeliveryTag, false);
                 return;
             }
-            var retry = headers.GetNullableValue<int>("es.retry") ?? 5;
-            var wait = headers.GetNullableValue<int>("es.wait") ?? 1000;
 
             try
             {
                 Interlocked.Increment(ref m_processing);
                 var body = e.Body;
-                var json = await this.DecompressAsync(body);
+                var json = await body.DecompressAsync();
                 var jo = JObject.Parse(json);
                 var entities = jo.SelectToken("$.attached").Select(t => t.ToString().DeserializeFromJson<Entity>())
-                    .Select(x => new { x.Id, Type = x.GetType().Name.ToLowerInvariant(), JsonPayload = JsonConvert.SerializeObject(x) })
-                    .ToList();
-                // TODO : bulk insert into ES
-                var tasks = from item in entities
-                            let url = $"{EsConfigurationManager.Index}/{item.Type}/{item.Id}"
-                            let content = new StringContent(item.JsonPayload)
-                            select Policy.Handle<Exception>()
-                                .WaitAndRetryAsync(retry, t => TimeSpan.FromMilliseconds(wait * t))
-                                .ExecuteAsync(() => m_client.PutAsync(url, content));
-                await Task.WhenAll(tasks);
+                    .ToArray();
+
+                await syncManager.BulkInsertAsync(entities);
+
 
                 m_channel.BasicAck(e.DeliveryTag, false);
             }
@@ -149,30 +136,7 @@ namespace Bespoke.Sph.ElasticSearch
             }
         }
 
-
-
-        private async Task<string> DecompressAsync(byte[] content)
-        {
-            using (var orginalStream = new MemoryStream(content))
-            using (var destinationStream = new MemoryStream())
-            using (var gzip = new GZipStream(orginalStream, CompressionMode.Decompress))
-            {
-                try
-                {
-                    await gzip.CopyToAsync(destinationStream);
-                }
-                catch (InvalidDataException)
-                {
-                    orginalStream.CopyTo(destinationStream);
-                }
-                destinationStream.Position = 0;
-                using (var sr = new StreamReader(destinationStream))
-                {
-                    var text = await sr.ReadToEndAsync();
-                    return text;
-                }
-            }
-        }
+        
 
 
 
