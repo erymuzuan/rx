@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain.Management
 {
-    public interface IReadOnlyRepositoryManagement
+    public interface IRepositoryManagement
     {
         Task<bool> GetAccesibleStatusAsync();
         void RegisterConnectionChanged(Func<bool, int> connectionStateChanged);

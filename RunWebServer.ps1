@@ -1,1 +1,2 @@
-﻿Start-Process -FilePath '.\bin\IIS Express\iisexpress.exe' -ArgumentList @("/config:.\bin\config\applicationhost.config",  "/site:web.DevV1",  "/trace:error")
+﻿Write-Host "netsh http add urlacl url=https://+:8081/ user=$env:USERNAME"
+Start-Process -FilePath '.\bin\IIS Express\iisexpress.exe' -ArgumentList @("/config:.\bin\config\applicationhost.config",  "/site:web.DevV1",  "/trace:error")
