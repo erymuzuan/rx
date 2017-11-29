@@ -39,7 +39,7 @@ namespace Bespoke.Sph.WebApi
             {
                 var ok = await this.Repository.LoadOneAsync(accessToken.WebId);
                 if (null == ok)
-                    return default(ClaimsPrincipal);
+                    return default;
             }
 
             var validTo = FromUnixTime(accessToken.Expiry);
