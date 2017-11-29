@@ -6,6 +6,7 @@ using System.Text;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.WebApi;
+using Microsoft.Ajax.Utilities;
 using Mono.Cecil;
 using Mono.Cecil.Rocks;
 
@@ -28,6 +29,12 @@ namespace Bespoke.Sph.Web.Controllers
             "ff",
             "core.sph",
             "Microsoft",
+            "database.lookup",
+            "Esent",
+            "es.queryparser",
+            "git.cvsprovider",
+            "javascript.codegenerator",
+            "odata.queryparser",
             "Spring","WebGrease","WebActivator","WebMatrix",
             "workflows","Antlr3.Runtime","core.sph", "web.sph", "mscorlib",
             "DiffPlex","Common.Logging","EntityFramework","App_global", "Mono.Math",
@@ -82,7 +89,7 @@ namespace Bespoke.Sph.Web.Controllers
                                                          && !x.Name.EndsWith("Controller");
 
 
-        private class AssemblyDefinitionComparer :IEqualityComparer<AssemblyDefinition>
+        private class AssemblyDefinitionComparer : IEqualityComparer<AssemblyDefinition>
         {
             public bool Equals(AssemblyDefinition x, AssemblyDefinition y)
             {
@@ -180,6 +187,7 @@ namespace Bespoke.Sph.Web.Controllers
                 .WhereIf(x => !x.Name.EndsWith("Adapter"), !includeAdapter)
                 .WhereIf(x => x.IsPublic, !includeInternal)
                 .WhereIf(x => !x.HasGenericParameters, !includeGeneric)
+                .ToArray()
                 .Where(m_typePredicate)
                 .OrderBy(x => x.FullName);
 
@@ -198,7 +206,8 @@ namespace Bespoke.Sph.Web.Controllers
                 .Concat(Directory.GetFiles($"{ConfigurationManager.Home}\\packages", "*.dll", SearchOption.AllDirectories))
                 .Where(x => !Ignores.Any(f => (Path.GetFileName(x) ?? f).StartsWith(f)));
 
-            var assemblies = files.Select(AssemblyDefinition.ReadAssembly);
+            var assemblies = files.Select(AssemblyDefinition.ReadAssembly)
+                .DistinctBy(x => x.Name.Name);
             return assemblies;
         }
 

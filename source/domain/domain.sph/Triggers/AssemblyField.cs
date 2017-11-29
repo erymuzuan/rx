@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,8 +14,7 @@ namespace Bespoke.Sph.Domain
             {
                 return ExecuteInNewAppDomain(context);
             }
-            var dll = Assembly.LoadFrom(ConfigurationManager.WebPath + @"\bin\" + this.Location + ".dll");
-            var type = dll.GetType(this.TypeName);
+            var type = Strings.GetType(this.TypeName + ", " + this.Location);
             if (null == type)
                 throw new InvalidOperationException("Cannot load type " + this.TypeName);
             var obj = Activator.CreateInstance(type);
@@ -51,23 +49,17 @@ namespace Bespoke.Sph.Domain
 
             if (this.IsAsync)
             {
-                var taskObject = method.Invoke(obj, temp.ToArray()) as Task<object>;
-                if (null != taskObject) return taskObject.Result;
+                if (method.Invoke(obj, temp.ToArray()) is Task<object> taskObject) return taskObject.Result;
 
-                var taskString = method.Invoke(obj, temp.ToArray()) as Task<string>;
-                if (null != taskString) return taskString.Result;
+                if (method.Invoke(obj, temp.ToArray()) is Task<string> taskString) return taskString.Result;
 
-                var taskInt32 = method.Invoke(obj, temp.ToArray()) as Task<int>;
-                if (null != taskInt32) return taskInt32.Result;
+                if (method.Invoke(obj, temp.ToArray()) is Task<int> taskInt32) return taskInt32.Result;
 
-                var taskBoolean = method.Invoke(obj, temp.ToArray()) as Task<bool>;
-                if (null != taskBoolean) return taskBoolean.Result;
+                if (method.Invoke(obj, temp.ToArray()) is Task<bool> taskBoolean) return taskBoolean.Result;
 
-                var taskDateTime = method.Invoke(obj, temp.ToArray()) as Task<DateTime>;
-                if (null != taskDateTime) return taskDateTime.Result;
+                if (method.Invoke(obj, temp.ToArray()) is Task<DateTime> taskDateTime) return taskDateTime.Result;
 
-                var taskDecimal = method.Invoke(obj, temp.ToArray()) as Task<decimal>;
-                if (null != taskDecimal) return taskDecimal.Result;
+                if (method.Invoke(obj, temp.ToArray()) is Task<decimal> taskDecimal) return taskDecimal.Result;
 
                 dynamic taskDynamic = method.Invoke(obj, temp.ToArray());
                 if (null != taskDynamic) return taskDynamic.Result;
@@ -75,7 +67,7 @@ namespace Bespoke.Sph.Domain
                 throw new InvalidOperationException("Only Task<object> is supported for now");
 
             }
-            
+
             return method.Invoke(obj, temp.ToArray());
         }
 
@@ -86,9 +78,9 @@ namespace Bespoke.Sph.Domain
 
         public override string GenerateAsyncCode()
         {
-            if(!this.IsAsync)
+            if (!this.IsAsync)
                 throw new InvalidOperationException("Cannot generate async code for non asynchoronous method, method should return Task or Task<T>");
-          
+
             var code = new StringBuilder();
             code.Append($"var @ = new ");
             return code.ToString();

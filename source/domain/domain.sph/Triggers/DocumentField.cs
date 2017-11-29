@@ -7,7 +7,6 @@ namespace Bespoke.Sph.Domain
     public partial class DocumentField : Field
     {
 
-        [System.Xml.Serialization.XmlIgnore]
         [JsonIgnore]
         public Type Type
         {
@@ -18,6 +17,7 @@ namespace Bespoke.Sph.Domain
         public override object GetValue(RuleContext context)
         {
             var item = context.Item;
+            if (this.Path == "." || this.Path == "$." || this.Path == "$") return item;
             if (string.IsNullOrWhiteSpace(this.Path))
                 throw new InvalidOperationException("The Path property for " + this.Name + " cannot be null or empty");
 
@@ -81,6 +81,7 @@ namespace Bespoke.Sph.Domain
 
         public override string GenerateCode()
         {
+            if (this.Path == "." || this.Path == "$." || this.Path == "$") return "item";
             return $"item.{this.Path}";
         }
     }

@@ -7,7 +7,7 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter
     {
         public static string ApplicationNameToUpper = ApplicationName.ToUpper();
         public static string CompanyName => AppSettings["sph:CompanyName"] ?? (GetEnvironmentVariable("CompanyName") ?? "Bespoke");
-        public static string ApplicationName => AppSettings["sph:ApplicationName"] ?? "MyApp";
+        public static string ApplicationName => AppSettings["sph:ApplicationName"] ?? "DevV1";
 
         public static string TokenSecret => GetEnvironmentVariable("TokenSecret") ?? $"{ApplicationName}{Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Home))}";
         public static string ApplicationFullName => GetEnvironmentVariable("ApplicationFullName") ?? "Reactive Developer platform showcase";

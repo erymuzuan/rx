@@ -560,6 +560,7 @@ namespace Bespoke.Sph.Domain
             if (bool.TryParse($"{literal}", out _)) return typeof(bool);
             return typeof(string);
         }
+
         public static Type GetType(string typeName)
         {
             var t = Type.GetType(typeName);
@@ -568,7 +569,7 @@ namespace Bespoke.Sph.Domain
             var splits = typeName.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
             var typeName1 = splits.FirstOrDefault().ToEmptyString().Trim();
             var assemblyName = splits.LastOrDefault().ToEmptyString().Trim();
-            string path = $"{ConfigurationManager.CompilerOutputPath}\\{assemblyName}.dll";
+            var path = $"{ConfigurationManager.CompilerOutputPath}\\{assemblyName}.dll";
             if (!File.Exists(path))
             {
                 var system = AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(x => x.FullName.StartsWith($"{assemblyName},"));

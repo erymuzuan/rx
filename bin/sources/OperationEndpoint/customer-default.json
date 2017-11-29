@@ -1,5 +1,6 @@
 {
   "$type": "Bespoke.Sph.Domain.OperationEndpoint, domain.sph",
+  "$tool-version": "2.1.2154.6193-227c5bf8e",
   "EntityPermissionCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.EntityPermission, domain.sph]], domain.sph",
     "$values": []
@@ -10,7 +11,70 @@
   },
   "SetterActionChildCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.SetterActionChild, domain.sph]], domain.sph",
-    "$values": []
+    "$values": [
+      {
+        "$type": "Bespoke.Sph.Domain.SetterActionChild, domain.sph",
+        "Path": "Department",
+        "Field": {
+          "$type": "Bespoke.Sph.Domain.AssemblyField, domain.sph",
+          "Location": "assembly.test",
+          "TypeName": "assembly.test.AssemblyClassToTest",
+          "Method": "SayCustomerName",
+          "IsAsync": false,
+          "AsyncTimeout": 0,
+          "LoadInCurrentAppDomain": false,
+          "MethodArgCollection": {
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.MethodArg, domain.sph]], domain.sph",
+            "$values": [
+              {
+                "$type": "Bespoke.Sph.Domain.MethodArg, domain.sph",
+                "Name": "customer",
+                "TypeName": "Bespoke.DevV1.Customers.Domain.Customer",
+                "ValueProvider": {
+                  "$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
+                  "XPath": "",
+                  "NamespacePrefix": "",
+                  "TypeName": "",
+                  "Path": ".",
+                  "Name": "Item",
+                  "Note": "",
+                  "WebId": "7f86135c-6ff9-4b99-de26-af30665e7d15"
+                },
+                "AttributeCollection": {
+                  "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                  "$values": []
+                },
+                "Default": null,
+                "WebId": null
+              },
+              {
+                "$type": "Bespoke.Sph.Domain.MethodArg, domain.sph",
+                "Name": "greet",
+                "TypeName": "System.String",
+                "ValueProvider": {
+                  "$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
+                  "TypeName": "System.String, mscorlib",
+                  "Value": "Hello",
+                  "Name": "Hello",
+                  "Note": "",
+                  "WebId": "e2cd7cab-f4cf-44e7-9436-bfddc7d3921a"
+                },
+                "AttributeCollection": {
+                  "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+                  "$values": []
+                },
+                "Default": null,
+                "WebId": null
+              }
+            ]
+          },
+          "Name": "Hello",
+          "Note": "",
+          "WebId": "580f7bef-8f7a-4b25-b90b-68b418ce1823"
+        },
+        "WebId": "75011150-9709-463e-96d5-5eefbbf33374"
+      }
+    ]
   },
   "PatchPathCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.PatchSetter, domain.sph]], domain.sph",
@@ -35,6 +99,6 @@
   "Id": "customer-default",
   "CreatedDate": "2016-09-25T08:35:40.0786555+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-25T08:36:25.2491177+08:00",
+  "ChangedDate": "2017-11-29T12:34:37.7173024+08:00",
   "WebId": "61ff5c6f-1812-422e-80b9-fc24ffbf995a"
 }
