@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
+using domain.test.Extensions;
 using domain.test.reports;
 using Xunit;
 using Xunit.Abstractions;
@@ -68,21 +69,10 @@ namespace domain.test.triggers
 
 
 
-        private async Task<dynamic> CreateInstanceAsync(EntityDefinition ed, bool verbose = false)
+        private async Task<dynamic> CreateInstanceAsync(EntityDefinition ed)
         {
-            var options = new CompilerOptions
-            {
-                IsVerbose = verbose,
-                IsDebug = true
-            };
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\Newtonsoft.Json.dll"));
 
-            var codes = await ed.GenerateCodeAsync();
-            var sources = ed.SaveSources(codes);
-            var result = ed.Compile(options, sources);
-            result.Errors.ForEach(x => this.Console.WriteLine(x.ToString()));
+            var result = await ed.CompileWithCsharpAsync();
 
             // try to instantiate the EntityDefinition
             var assembly = Assembly.LoadFrom(result.Output);

@@ -84,7 +84,7 @@ namespace Bespoke.Sph.Domain
 
         public static EntityDefinition operator +(EntityDefinition x, (string Name, Type Type) mb)
         {
-            var simpleMember = new SimpleMember {Name = mb.Name, Type = mb.Type, WebId = Strings.GenerateId()};
+            var simpleMember = new SimpleMember { Name = mb.Name, Type = mb.Type, WebId = Strings.GenerateId() };
             x.MemberCollection.Add(simpleMember);
             return x;
         }
@@ -106,13 +106,13 @@ namespace Bespoke.Sph.Domain
 
         public Member GetMember(string path)
         {
-            if (path == nameof(Id)) return new SimpleMember {Name = nameof(Id), Type = typeof(string)};
+            if (path == nameof(Id)) return new SimpleMember { Name = nameof(Id), Type = typeof(string) };
             if (path == nameof(CreatedDate))
-                return new SimpleMember {Name = nameof(CreatedDate), Type = typeof(DateTime)};
+                return new SimpleMember { Name = nameof(CreatedDate), Type = typeof(DateTime) };
             if (path == nameof(ChangedDate))
-                return new SimpleMember {Name = nameof(ChangedDate), Type = typeof(DateTime)};
-            if (path == nameof(CreatedBy)) return new SimpleMember {Name = nameof(CreatedBy), Type = typeof(string)};
-            if (path == nameof(ChangedBy)) return new SimpleMember {Name = nameof(ChangedBy), Type = typeof(string)};
+                return new SimpleMember { Name = nameof(ChangedDate), Type = typeof(DateTime) };
+            if (path == nameof(CreatedBy)) return new SimpleMember { Name = nameof(CreatedBy), Type = typeof(string) };
+            if (path == nameof(ChangedBy)) return new SimpleMember { Name = nameof(ChangedBy), Type = typeof(string) };
 
             if (!path.Contains("."))
             {
@@ -121,7 +121,7 @@ namespace Bespoke.Sph.Domain
                 throw new InvalidOperationException($"Cannot find a member in \"{Name}\" with path :\"{path}\"");
             }
 
-            var paths = path.Split(new[] {"."}, StringSplitOptions.RemoveEmptyEntries).ToList();
+            var paths = path.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries).ToList();
             var child = this.GetMember(paths.First());
             paths.RemoveAt(0);
             var nextPath = string.Join(".", paths);
@@ -146,14 +146,62 @@ namespace Bespoke.Sph.Domain
                 return rm;
             }
 
-            var paths = path.Split(new[] {"."}, StringSplitOptions.RemoveEmptyEntries).ToList();
+            var paths = path.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries).ToList();
             var child = this.GetMember(paths.First(), member2);
             paths.RemoveAt(0);
             var nextPath = string.Join(".", paths);
             return this.GetMember(nextPath, child);
         }
 
-        public Member AddMember<T>(string name)
+        public SimpleMember AddSimpleMember(string name, bool filterable = false, bool nullable = false, bool allowMultiple = false, Field defaultValue = null)
+        {
+            var sm = new SimpleMember
+            {
+                Name = "Created",
+                Type = typeof(string),
+                IsFilterable = filterable,
+                IsNullable = nullable,
+                DefaultValue = defaultValue,
+                AllowMultiple = allowMultiple
+
+            };
+            this.MemberCollection.Add(sm);
+            return sm;
+        }
+
+
+        public SimpleMember AddSimpleMember<T>(string name, bool filterable = false, Field defaultValue = null)
+        {
+            var type = typeof(T);
+            var allowMultiple = type.IsArray;
+            var nullable = false;
+
+            if (allowMultiple)
+            {
+                type = type.GetElementType() ?? type;
+            }
+            if (type.IsGenericType)
+            {
+                nullable = type.GetGenericTypeDefinition() == typeof(System.Nullable<>);
+            }
+
+
+
+            var sm = new SimpleMember
+            {
+                Name = "Created",
+                Type = type,
+                IsFilterable = filterable,
+                IsNullable = nullable,
+                DefaultValue = defaultValue,
+                AllowMultiple = allowMultiple
+
+            };
+            this.MemberCollection.Add(sm);
+            return sm;
+        }
+
+        public T AddMember<T>(string name, bool allowMultiple = false, Field defaultValue = null) where T : Member
         {
             if (typeof(T).IsSubclassOf(typeof(Member)))
             {
@@ -164,12 +212,10 @@ namespace Bespoke.Sph.Domain
                     mbr.Name = name;
                     mbr.WebId = Strings.GenerateId();
                     this.MemberCollection.Add(mbr);
-                    return mbr;
+                    return (T)mbr;
                 }
             }
-            var sm = new SimpleMember {Name = "Created", Type = typeof(T)};
-            this.MemberCollection.Add(sm);
-            return sm;
+            throw new ArgumentException($"Cannot create the type of {typeof(T).Name}");
         }
 
     }

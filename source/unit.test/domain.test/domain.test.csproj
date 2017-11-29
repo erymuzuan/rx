@@ -253,6 +253,7 @@
     <Compile Include="entities\ServiceContractTest.cs" />
     <Compile Include="entities\ValueObjectDefinitionCodeTest.cs" />
     <Compile Include="entities\QuerySortTest.cs" />
+    <Compile Include="Extensions\EntityDefinitionExtension.cs" />
     <Compile Include="Extensions\ITestOutputHelperExtension.cs" />
     <Compile Include="FileLoggerTestFixture.cs" />
     <Compile Include="JsonSchemas\ObjectSchema.cs" />
@@ -320,6 +321,10 @@
     <None Include="workflows\tracker.json" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\dependencies\csharp.project.builders\csharp.project.builders.csproj">
+      <Project>{3ff9bd3b-0bef-4b05-91a9-613c6eae6965}</Project>
+      <Name>csharp.project.builders</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\dependencies\razor.template\razor.template.csproj">
       <Project>{2072379B-B40A-4D0E-A2E7-8FA8BF40C0AB}</Project>
       <Name>razor.template</Name>

@@ -14,10 +14,10 @@ namespace Bespoke.Sph.SourceBuilders
         {
             var results = new List<RxCompilerResult>();
             WriteDebug($"Found {this.DeveloperService.ProjectBuilders.Length} IProjectBuilders");
-            foreach (var builder in this.DeveloperService.ProjectBuilders)
+            foreach (var compiler in this.DeveloperService.ProjectBuilders)
             {
-                WriteDebug($"Building with {builder.GetType().Name}...");
-                var sources = await builder.GenerateCodeAsync(item);
+                WriteDebug($"Building with {compiler.GetType().Name}...");
+                var sources = await compiler.GenerateCodeAsync(item);
                 foreach (var src in sources)
                 {
                     var path = $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\{src.Key}";
@@ -26,9 +26,9 @@ namespace Bespoke.Sph.SourceBuilders
                     File.WriteAllText(path, src.Value);
                 }
                 WriteDebug($"Savings source files {sources.Keys.ToString(", ")}");
-                var cr = await builder.BuildAsync(item, sources.Keys.ToArray());
+                var cr = await compiler.BuildAsync(item, sources.Keys.ToArray());
                 results.Add(cr);
-                WriteMessage($"{builder.GetType().Name} has {(cr.Result ? "successfully building" : "failed to build")} {item.Name}");
+                WriteMessage($"{compiler.GetType().Name} has {(cr.Result ? "successfully building" : "failed to build")} {item.Name}");
                 WriteMessage(cr.ToString());
             }
 

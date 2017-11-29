@@ -9,6 +9,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
 using Bespoke.Sph.WebApi;
+using domain.test.Extensions;
 using domain.test.reports;
 using domain.test.triggers;
 using Moq;
@@ -45,24 +46,12 @@ namespace domain.test.entities
         }
         private async Task<dynamic> CreateInstanceAsync(EntityDefinition ed, bool verbose = false)
         {
-            var options = new CompilerOptions
-            {
-                IsVerbose = verbose,
-                IsDebug = true
-            };
             var core = Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\core.sph.dll");
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(core);
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\Newtonsoft.Json.dll"));
 
             var destinationCore = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "core.sph.dll");
             File.Copy(core, destinationCore, true);
-
-
-            var codes =await ed.GenerateCodeAsync();
-            var sources = ed.SaveSources(codes);
-            var result = ed.Compile(options, sources);
-
+            
+            var result = await ed.CompileWithCsharpAsync();
             result.Errors.ForEach(Console.WriteLine);
 
             // try to instantiate the EntityDefinition

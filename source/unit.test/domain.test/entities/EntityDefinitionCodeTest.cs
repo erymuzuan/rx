@@ -6,7 +6,9 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
 using Xunit;
 using System.Threading.Tasks;
+using Bespoke.Sph.Csharp.CompilersServices.Extensions;
 using Bespoke.Sph.Domain.Extensions;
+using domain.test.Extensions;
 
 namespace domain.test.entities
 {
@@ -57,24 +59,17 @@ namespace domain.test.entities
             address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, Type = typeof(string) });
             address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, Type = typeof(string) });
             ent.MemberCollection.Add(address);
-            var options = new CompilerOptions
-            {
-                IsVerbose = false,
-                IsDebug = true
-            };
+          
+
 
             var contacts = new ComplexMember { Name = "Contacts", AllowMultiple = true, TypeName = "Contact" };
             contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
             ent.MemberCollection.Add(contacts);
 
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\Newtonsoft.Json.dll"));
 
-            var codes = await ent.GenerateCodeAsync();
-            var sources = ent.SaveSources(codes);
-            var result = ent.Compile(options, sources);
-            result.Errors.ForEach(Console.WriteLine);
+      
+            var result = await ent.CompileWithCsharpAsync();
+
 
             Assert.True(result.Result, result.ToString());
 

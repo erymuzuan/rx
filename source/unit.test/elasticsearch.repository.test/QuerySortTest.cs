@@ -63,10 +63,10 @@ namespace Bespoke.Sph.Tests.Elasticsearch
         public void UsingNotFilters()
         {
             var ed = new EntityDefinition { Name = "Building", Plural = "Buildings", RecordName = "Name" };
-            ed.AddMember<string>("Name");
-            ed.AddMember<int>("Floors");
-            ed.AddMember<int>("Age");
-            ed.AddMember<DateTime>("Created");
+            ed.AddSimpleMember("Name");
+            ed.AddSimpleMember<int?>("Floors");
+            ed.AddSimpleMember<int?>("Age");
+            ed.AddSimpleMember<DateTime>("Created");
 
 
             var view = new QueryEndpoint { Name = "All buildings", Route = "all-buildings" };

@@ -1,17 +1,17 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.SqlReportDataSource;
 using Bespoke.Sph.Domain;
+using domain.test.Extensions;
 using Xunit;
 
 namespace domain.test.reports
 {
-    
+
     public class RdlTestFixture
     {
         private SqlDataSource m_sql;
@@ -71,7 +71,7 @@ namespace domain.test.reports
         {
             var vd = File.ReadAllText(Path.Combine(ConfigurationManager.SphSourceDirectory, "EntityDefinition/Customer.json"));
             var ed = vd.DeserializeFromJson<EntityDefinition>();
-            var type = CompileCustomerDefinition(ed);
+            var type = await CompileCustomerDefinitionAsync(ed);
 
             m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", ed.Clone());
 
@@ -94,7 +94,7 @@ namespace domain.test.reports
             row.ReportColumnCollection.AddRange(colums);
             m_sql.FillColumnValue(json, row);
 
-            
+
             Console.WriteLine("FullName: " + row["FullName"].Value);
             Assert.Equal("erymuzuan", row["FullName"].Value);
             Assert.Equal("Kelantan", row["Address.State"].Value);
@@ -173,20 +173,10 @@ namespace domain.test.reports
         }
 
 
-        private Type CompileCustomerDefinition(EntityDefinition ed)
+        private async Task<Type> CompileCustomerDefinitionAsync(EntityDefinition ed)
         {
-            var options = new CompilerOptions
-            {
-                IsVerbose = false,
-                IsDebug = true
-            };
 
-
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll"));
-
-            var result = ed.Compile(options);
+            var result = await ed.CompileWithCsharpAsync();
             result.Errors.ForEach(Console.WriteLine);
 
             var assembly = Assembly.LoadFrom(result.Output);

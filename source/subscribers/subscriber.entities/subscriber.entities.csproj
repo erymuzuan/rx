@@ -57,7 +57,6 @@
     </Compile>
     <Compile Include="EntityFormSubscriber.cs" />
     <Compile Include="EntityViewSubscriber.cs" />
-    <Compile Include="EntityCodeSubscriber.cs" />
     <Compile Include="FormDialogSubscriber.cs" />
     <Compile Include="PartialViewSubscriber.cs" />
     <Compile Include="SqlPersistenceHelper.cs" />

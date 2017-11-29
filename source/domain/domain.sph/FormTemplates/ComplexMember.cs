@@ -15,7 +15,33 @@ namespace Bespoke.Sph.Domain
             return $"[ComplexMember]{this.Name}; AllowMultiple = {AllowMultiple}, Members = {MemberCollection.Count}";
         }
 
+        public Member AddMember<T>(string name, bool filterable = false, bool nullable = false, bool allowMultiple = false, Field defaultValue = null)
+        {
+            if (typeof(T).IsSubclassOf(typeof(Member)))
+            {
+                var ctor = typeof(T).GetConstructor(Array.Empty<Type>());
+                if (null == ctor) throw new ArgumentException("No default ctor");
+                if (ctor.Invoke(new object[] { }) is Member mbr)
+                {
+                    mbr.Name = name;
+                    mbr.WebId = Strings.GenerateId();
+                    this.MemberCollection.Add(mbr);
+                    return mbr;
+                }
+            }
+            var sm = new SimpleMember
+            {
+                Name = "Created",
+                Type = typeof(T),
+                IsFilterable = filterable,
+                IsNullable = nullable,
+                DefaultValue = defaultValue,
+                AllowMultiple = allowMultiple
 
+            };
+            this.MemberCollection.Add(sm);
+            return sm;
+        }
 
 
         public override string GetDefaultValueCode(int count, string itemIdentifier = "this")

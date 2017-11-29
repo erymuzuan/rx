@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -232,23 +233,20 @@ namespace domain.test.businessrules
         }
 
 
-        private async Task<dynamic> CreateInstanceAsync(EntityDefinition ed, bool verbose = false)
+        private async Task<dynamic> CreateInstanceAsync(EntityDefinition ed)
         {
-            var options = new CompilerOptions
-            {
-                IsVerbose = verbose,
-                IsDebug = true
-            };
-            options.AddReference(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\System.Web.Mvc.dll"));
-            options.AddReference(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\core.sph.dll"));
-            options.AddReference(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\Newtonsoft.Json.dll"));
-
-
-            var codes = await ed.GenerateCodeAsync();
-            var sources = ed.SaveSources(codes);
-            var result = ed.Compile(options, sources);
-
-            result.Errors.ForEach(Console.WriteLine);
+            var compiler = new Bespoke.Sph.Csharp.CompilersServices.EntityDefinitionCompiler();
+            var classes = await compiler.GenerateCodeAsync(ed);
+            var sources = (from cs in classes.Keys
+                           let name = Path.GetFileName(cs)
+                           let tem = Path.GetTempPath() + "\\" + name
+                           select new
+                           {
+                               FileName = tem,
+                               Code = classes[cs]
+                           }).ToList();
+            sources.ForEach(x => File.WriteAllText(x.FileName, x.Code));
+            var result = await compiler.BuildAsync(ed, sources.Select(x => x.FileName).ToArray());
 
             // try to instantiate the EntityDefinition
             var assembly = Assembly.LoadFrom(result.Output);
@@ -264,31 +262,16 @@ namespace domain.test.businessrules
         public EntityDefinition CreatePatientDefinition()
         {
             var ent = new EntityDefinition { Name = "Patient", Plural = "Patients", RecordName = "FullName", Id = "patient" };
-            ent.MemberCollection.Add(new SimpleMember
-            {
-                Name = "FullName",
-                TypeName = "System.String, mscorlib",
-                IsFilterable = true
-            });
-            ent.MemberCollection.Add(new SimpleMember
-            {
-                Name = "Title",
-                TypeName = "System.String, mscorlib",
-                IsFilterable = true
-            });
-            ent.MemberCollection.Add(new SimpleMember
-            {
-                Name = "Gender",
-                TypeName = "System.String, mscorlib",
-                IsFilterable = true
-            });
-            var address = new SimpleMember { Name = "Address", TypeName = "System.Object, mscorlib" };
-            address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
-            address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
-            ent.MemberCollection.Add(address);
+            ent.AddSimpleMember("FullName", true);
+            ent.AddSimpleMember("Title", true);
+            ent.AddSimpleMember("Gender", true);
+
+            var address = ent.AddMember<ComplexMember>("Address");
+            address.AddMember<string>("Street1");
+            address.AddMember<string>("State", filterable:true);
 
 
-            var contacts = new SimpleMember { Name = "ContactCollection", Type = typeof(Array) };
+            var contacts = ent.AddMember<ComplexMember>("ContactCollection", true);
             contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
             ent.MemberCollection.Add(contacts);
 

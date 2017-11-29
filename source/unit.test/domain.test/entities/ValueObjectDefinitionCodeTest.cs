@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
+using domain.test.Extensions;
 using Moq;
 using Xunit;
 
@@ -79,25 +81,12 @@ namespace domain.test.entities
             ent.MemberCollection.Add(new ValueObjectMember { ValueObjectName = "Child", Name = "Children", AllowMultiple = true});
 
 
-            var options = new CompilerOptions
-            {
-                IsVerbose = true,
-                IsDebug = true
-            };
 
             var contacts = new SimpleMember { Name = "ContactCollection", Type = typeof(Array) };
             contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
             ent.MemberCollection.Add(contacts);
-
-            options.ReferencedAssembliesLocation.Add($@"{ConfigurationManager.Home}\..\source\web\web.sph\bin\System.Web.Mvc.dll");
-            options.ReferencedAssembliesLocation.Add($@"{ConfigurationManager.Home}\..\source\web\web.sph\bin\core.sph.dll");
-            options.ReferencedAssembliesLocation.Add($@"{ConfigurationManager.Home}\..\source\web\web.sph\bin\Newtonsoft.Json.dll");
-
-            var codes =await ent.GenerateCodeAsync();
-            var sources = ent.SaveSources(codes);
-
-            var result = ent.Compile(options, sources);
-            result.Errors.ForEach(Console.WriteLine);
+            
+            var result = await ent.CompileWithCsharpAsync();
 
             Assert.True(result.Result, result.ToString());
 
