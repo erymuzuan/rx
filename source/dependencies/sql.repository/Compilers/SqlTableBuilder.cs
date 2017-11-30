@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.ElasticsearchRepository.Extensions;
+using Bespoke.Sph.Domain.Compilers;
+using Bespoke.Sph.SqlRepository.Extensions;
 
-namespace Bespoke.Sph.SqlRepository
+namespace Bespoke.Sph.SqlRepository.Compilers
 {
     [Export(typeof(IProjectBuilder))]
     public class SqlTableBuilder : SqlTableTool, IProjectBuilder
@@ -21,6 +22,51 @@ namespace Bespoke.Sph.SqlRepository
         {
         }
 
+        //TODO : persist to disk in source
+        private readonly Dictionary<Member, List<AttachProperty>> m_memberProperties = new Dictionary<Member, List<AttachProperty>>();
+        public Task SaveAttachPropertiesAsycn(Member member, params AttachProperty[] properties)
+        {
+            m_memberProperties.AddOrReplace(member, properties.ToList());
+            return Task.FromResult(0);
+        }
+
+        public Task SaveAttachPropertiesAsycn(IProjectDefinition project, params AttachProperty[] properties)
+        {
+            return Task.FromResult(0);
+        }
+
+        public Task<IEnumerable<AttachProperty>> GetAttachPropertiesAsycn(IProjectDefinition project)
+        {
+            var properties = new List<AttachProperty>
+            {
+                new AttachProperty
+                {
+                    Name = "InMemory",
+                    Type = typeof(bool),
+                    Help = "Create the table in memory OLT"
+                }
+            };
+            return Task.FromResult(properties.AsEnumerable());
+        }
+
+        public Task<IEnumerable<AttachProperty>> GetAttachPropertiesAsycn(Member member)
+        {
+            var properties = new List<AttachProperty>();
+            properties.AddRange(member.GenerateAttachedProperties());
+            foreach (var prop in properties)
+            {
+                if (!m_memberProperties.ContainsKey(member)) continue;
+                var persistedProperties = m_memberProperties[member];
+                var pp = persistedProperties.SingleOrDefault(x => x.Name == prop.Name);
+
+
+                if (null == pp) continue;
+
+                prop.ValueAsString = pp.ValueAsString;
+                prop.Value = pp.Value;
+            }
+            return Task.FromResult(properties.AsEnumerable());
+        }
 
         public async Task<Dictionary<string, string>> GenerateCodeAsync(IProjectDefinition project)
         {
@@ -38,7 +84,8 @@ namespace Bespoke.Sph.SqlRepository
             var members = item.GetFilterableMembers().ToArray();
             foreach (var member in members.OfType<SimpleMember>())
             {
-                sql.AppendLine("," + member.GenerateColumnExpression(version));
+                var properties =await this.GetAttachPropertiesAsycn(member);
+                sql.AppendLine("," + member.GenerateColumnExpression(properties.ToArray(),version));
             }
             sql.AppendLine(",[Json] VARCHAR(MAX)");
             sql.AppendLine(",[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()");
@@ -50,8 +97,9 @@ namespace Bespoke.Sph.SqlRepository
             sources.Add($"{project.Name}.sql", sql.ToString());
 
             var indices = from m in members
-                let index = m.CreateIndex(item, version)
-                select (FileName:$"{item.Name}.Index.{m.Name}.sql",  Source:index);
+                          let properties = this.GetAttachPropertiesAsycn(m).Result
+                          let index = m.CreateIndex(item, properties.ToArray(), version)
+                          select (FileName: $"{item.Name}.Index.{m.Name}.sql", Source: index);
             foreach (var id in indices)
             {
                 sources.Add(id.FileName, id.Source);
@@ -64,7 +112,7 @@ namespace Bespoke.Sph.SqlRepository
         {
             var cr = new RxCompilerResult
             {
-                Result =  true,
+                Result = true,
                 Output = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\{project.Name}.sql"
             };
             return Task.FromResult(cr);

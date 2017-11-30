@@ -1,32 +1,15 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.ElasticsearchRepository.Extensions;
 using Bespoke.Sph.SqlRepository;
+using Bespoke.Sph.SqlRepository.Compilers;
+using Bespoke.Sph.SqlRepository.Extensions;
 using Bespoke.Sph.Tests.SqlServer.Extensions;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Bespoke.Sph.Tests.Elasticsearch
+namespace Bespoke.Sph.Tests.SqlServer
 {
-    public class MockSqlServerMetadata : ISqlServerMetadata
-    {
-        public Table GetTable(string name)
-        {
-            return new Table
-            {
-                Name = name,
-                Columns = new[]
-            {
-                new Column{Name = "Id",IsNullable = false,CanRead = true, CanWrite = true,SqlType = "VARCHAR(255)"},
-                new Column{Name = "Name",IsNullable = false,CanRead = true, CanWrite = true,SqlType = "VARCHAR(255)"},
-                new Column{Name = "JSONN",IsNullable = false,CanRead = true, CanWrite = true,SqlType = "VARCHAR(MAX)"},
-            }
-            };
-        }
-    }
-
     public class TableBuilderTest
     {
         public ITestOutputHelper Console { get; }
@@ -35,7 +18,10 @@ namespace Bespoke.Sph.Tests.Elasticsearch
         {
             Console = console;
             ObjectBuilder.AddCacheList<ISqlServerMetadata>(new MockSqlServerMetadata());
+            ObjectBuilder.AddCacheList<ILogger>(new XunitConsoleLogger(console));
         }
+
+
         [Fact]
         public void GenerateColumn()
         {
@@ -51,8 +37,7 @@ namespace Bespoke.Sph.Tests.Elasticsearch
             address.AddMember("State", typeof(string), true);
             ent.MemberCollection.Add(address);
 
-
-            var sql = new SqlTableBuilder();
+            
             var columns = ent.GetFilterableMembers().ToList();
 
             Assert.All(columns, Assert.NotNull);
@@ -62,33 +47,64 @@ namespace Bespoke.Sph.Tests.Elasticsearch
         [Fact]
         public async Task GenerateCreateTableSql()
         {
-            var file = $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\CustomerAccount.sql";
-            if (File.Exists(file))
-                File.Delete(file);
-            var ent = new EntityDefinition { Name = "CustomerAccount", Plural = "CustomerAccounts", Id = "customer-account", RecordName = "Name" };
-            ent.AddMember("Name", typeof(string), true);
-            ent.AddMember("No", typeof(string), true);
-            ent.AddMember("RegistratioNo", typeof(string), true);
-            ent.AddMember("CreditLimit", typeof(decimal), true);
+            var ed = new EntityDefinition { Name = "CustomerAccount", Plural = "CustomerAccounts", Id = "customer-account", RecordName = "Name" };
+            ed.AddMember("Name", typeof(string), true);
+            ed.AddMember("No", typeof(string), true);
+            ed.AddMember("RegistratioNo", typeof(string), true);
+            ed.AddMember("CreditLimit", typeof(decimal), true);
 
             var address = new ComplexMember { Name = "Address", TypeName = "System.Object, mscorlib" };
             address.AddMember("Street1", typeof(string), false);
             address.AddMember("Postcode", typeof(string), true);
             address.AddMember("State", typeof(string), true);
-            ent.MemberCollection.Add(address);
+            ed.MemberCollection.Add(address);
 
 
             var builder = new SqlTableBuilder(m => Console.WriteLine("Info :" + m), m => Console.WriteLine("Warning :" + m),
                 e => Console.WriteError(e));
-            await builder.BuildAsync(ent, null);
+            
 
-            Assert.True(File.Exists(file));
-            var sql = File.ReadAllText(file);
-
+            var sources = await builder.GenerateCodeAsync(ed);
+            Console.WriteLine(sources.Keys.ToString(","));
+            var sql = sources["CustomerAccount.sql"];
             Assert.Contains("[Address.State]", sql);
+            
+            Assert.True(sources.ContainsKey("CustomerAccount.Index.Name.sql"));
 
-            File.Delete(file);
+        }
 
+        [Fact]
+        public async Task AttachPropertyColumnLength()
+        {
+            var ed = new EntityDefinition { Name = "CustomerAccount", Plural = "CustomerAccounts", Id = "customer-account", RecordName = "Name" };
+            var name = ed.AddMember("Name", typeof(string), true);
+            var properties = new[] { new AttachProperty("Length", 500)};
+
+            var builder = new SqlTableBuilder(m => Console.WriteLine("Info :" + m), m => Console.WriteLine("Warning :" + m),
+                e => Console.WriteError(e));
+            await builder.SaveAttachPropertiesAsycn(name, properties);
+
+
+            var sources = await builder.GenerateCodeAsync(ed);
+            Console.WriteLine(sources.Keys.ToString(","));
+            var sql = sources["CustomerAccount.sql"];
+            Assert.Contains("[Name] AS CAST(JSON_VALUE([Json], '$.Name') AS VARCHAR(500))", sql);
+        }
+
+        [Fact]
+        public void AttachPropertyOtherFieldsIndexMember()
+        {
+            var ed = new EntityDefinition { Name = "CustomerAccount", Plural = "CustomerAccounts", Id = "customer-account", RecordName = "Name" };
+            var name = ed.AddMember("Name", typeof(string), true);
+
+            var properties = new[]
+            {
+                new AttachProperty("Indexed", true),
+                new AttachProperty("IndexedFields", "No,CreditLimit")
+            };
+
+            var sql = name.CreateIndex(ed, properties);
+            Assert.Contains("[No],",sql);
         }
     }
 }

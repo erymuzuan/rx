@@ -1,11 +1,42 @@
-﻿using Bespoke.Sph.Domain;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Bespoke.Sph.Domain;
 
-namespace Bespoke.Sph.ElasticsearchRepository.Extensions
+namespace Bespoke.Sph.SqlRepository.Extensions
 {
     public static class MemberExtension
     {
+        public static AttachProperty[] GenerateAttachedProperties(this Member member)
+        {
+            switch (member)
+            {
+                case SimpleMember sm:
+                    return GenerateAttachedProperties(sm);
+            }
 
-        public static string GenerateColumnExpression(this SimpleMember member, int? sqlVersion = 13)
+            return Array.Empty<AttachProperty>();
+        }
+
+        private static AttachProperty[] GenerateAttachedProperties(this SimpleMember sm)
+        {
+            var properties = new List<AttachProperty>();
+            if (sm.IsFilterable)
+            {
+                properties.Add(new AttachProperty { Name = "SqlIndex", Type = typeof(bool), Help = "Create SQL Index" });
+                properties.Add(new AttachProperty { Name = "IndexedFields", Type = typeof(string), Help = "Attach other fields to the index" });
+
+            }
+            if (sm.Type == typeof(string))
+            {
+                properties.Add(new AttachProperty { Name = "Length", Type = typeof(int), Help = "NVARCHAR/VARCHAR Length" });
+                properties.Add(new AttachProperty { Name = "AllowUnicode", Type = typeof(bool), Help = "NVARCHAR/VARCHAR Length" });
+            }
+
+            return properties.ToArray();
+        }
+
+        public static string GenerateColumnExpression(this SimpleMember member, AttachProperty[] properties, int? sqlVersion = 13)
         {
             if (sqlVersion < 13)
             {
@@ -20,16 +51,18 @@ GO
 ALTER TABLE [DevV1].[Patient]
 ADD [IsMalaysian] AS CASE WHEN (CAST(JSON_VALUE([Json], '$.Race') AS NVARCHAR(50))) = 'Others' THEN 0 ELSE 1 END */
 
-            return $"[{member.FullName}] AS CAST(JSON_VALUE([Json], '$.{member.FullName}') AS {member.GetSqlType()})";
+            var length = properties.GetPropertyValue<int?>("Length", default);
+            return $"[{member.FullName}] AS CAST(JSON_VALUE([Json], '$.{member.FullName}') AS {member.GetSqlType(length)})";
         }
 
 
         //TODO : allow attach properties to configured
-        public static string GetSqlType(this SimpleMember member)
+        public static string GetSqlType(this SimpleMember member, int? length = null)
         {
+
             switch (member.TypeName)
             {
-                case "System.String, mscorlib": return "VARCHAR(255)";
+                case "System.String, mscorlib": return $"VARCHAR({(length ?? 255)})";
                 case "System.Int32, mscorlib": return "INT";
                 case "System.DateTime, mscorlib": return "SMALLDATETIME";
                 case "System.Decimal, mscorlib": return "MONEY";
@@ -39,9 +72,25 @@ ADD [IsMalaysian] AS CASE WHEN (CAST(JSON_VALUE([Json], '$.Race') AS NVARCHAR(50
             return "VARCHAR(255)";
         }
 
-        public static string CreateIndex(this Member m, EntityDefinition ed, int? sqlVersion = 13)
+        public static string CreateIndex(this Member m, EntityDefinition ed, AttachProperty[] properties = null, int? sqlVersion = 13)
         {
             var column = m.FullName ?? m.Name;
+            var otherFields = "";
+
+            if (null != properties)
+            {
+                var indexed = properties.GetPropertyValue("Indexed", true);
+                if (!indexed)
+                {
+                    return "-- Indexed is set to false for " + column;
+                }
+                var of = properties.GetPropertyValue("IndexedFields", "");
+                if (!string.IsNullOrWhiteSpace(of))
+                {
+                    var fields = of.Split(new[] { ",", ";" }, StringSplitOptions.RemoveEmptyEntries);
+                    otherFields = ", " + fields.ToString(", ", x => $"[{x}]");
+                }
+            }
 
             // TODO : index may attached additional columns
             if (sqlVersion < 13)
@@ -50,8 +99,18 @@ CREATE NONCLUSTERED INDEX [idx_{ed.Name}{column}_index]
 ON [{ConfigurationManager.ApplicationName}].[{ed.Name}] ([{column}]) ";
 
             return $@"CREATE INDEX idx_{ed.Name}_Json_{column.Replace(".", "")}
-ON [{ConfigurationManager.ApplicationName}].[{ed.Name}]({column})  ";
+ON [{ConfigurationManager.ApplicationName}].[{ed.Name}]([{column}]{otherFields})  ";
 
+        }
+
+        private static T GetPropertyValue<T>(this AttachProperty[] properties, string name, T defaultValue)
+        {
+            if (null != properties)
+            {
+                var prop = properties.SingleOrDefault(x => x.Name == name);
+                return null == prop ? default : prop.GetValue<T>(defaultValue);
+            }
+            return default;
         }
 
 

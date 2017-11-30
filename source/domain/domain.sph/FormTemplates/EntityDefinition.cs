@@ -2,7 +2,9 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Bespoke.Sph.Domain.Compilers;
 
+// ReSharper disable once CheckNamespace
 namespace Bespoke.Sph.Domain
 {
     [DebuggerDisplay("Name = {Name}")]

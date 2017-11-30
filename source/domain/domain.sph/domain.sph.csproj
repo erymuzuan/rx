@@ -307,12 +307,17 @@
     </Compile>
     <Compile Include="Api\TableRelation.cs" />
     <Compile Include="Api\UpdateActionCode.cs" />
+    <Compile Include="AttachProperty.cs" />
     <Compile Include="Business\Address.cs" />
     <Compile Include="Business\Designation.cs" />
     <Compile Include="Business\EmailTemplate.cs" />
     <Compile Include="Business\Photo.cs" />
     <Compile Include="CodeGeneratorFactory.cs" />
     <Compile Include="Codes\AssemblyInfoClass.cs" />
+    <Compile Include="Compilers\IProjectBuilder.cs" />
+    <Compile Include="Compilers\IProjectDefinition.cs" />
+    <Compile Include="Compilers\IProjectDefinitionWithMembers.cs" />
+    <Compile Include="Compilers\IProjectDeployer.cs" />
     <Compile Include="ConsoleLogger.cs" />
     <Compile Include="Core\DictionaryExtensions.cs" />
     <Compile Include="Core\GenericCustomEntityDependenciesResolver.cs" />
@@ -414,7 +419,6 @@
     <Compile Include="FormTemplates\EntityLookupElement.cs" />
     <Compile Include="FormTemplates\EntityResourceEndpoint.cs" />
     <Compile Include="FormTemplates\FullSearchEndpoint.cs" />
-    <Compile Include="FormTemplates\ICompilationUnit.cs" />
     <Compile Include="FormTemplates\OdataEndpoint.cs" />
     <Compile Include="FormTemplates\OperationEndpoint.code.cs" />
     <Compile Include="FormTemplates\OperationEndpoint.cs" />

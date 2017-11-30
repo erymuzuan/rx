@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
 using Bespoke.Sph.Extensions;
 // ReSharper disable ExplicitCallerInfoArgument
 

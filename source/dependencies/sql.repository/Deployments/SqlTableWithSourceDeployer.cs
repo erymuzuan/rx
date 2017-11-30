@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
 using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.SqlRepository.Deployments

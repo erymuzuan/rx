@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.Composition;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Domain.Compilers;
 
 namespace Bespoke.Sph.WebApi
 {

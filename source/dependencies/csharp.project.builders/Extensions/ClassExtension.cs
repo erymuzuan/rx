@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Codes;
+using Bespoke.Sph.Domain.Compilers;
 
 namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
 {

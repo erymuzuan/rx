@@ -67,6 +67,7 @@
     <Compile Include="Extensions\EntityDefinitionExtension.cs" />
     <Compile Include="Extensions\SqlConnectionExtension.cs" />
     <Compile Include="FilterTest.cs" />
+    <Compile Include="MockSqlServerMetadata.cs" />
     <Compile Include="Models\NextOfKin.cs" />
     <Compile Include="Models\Patient.cs" />
     <Compile Include="PredicateQueryOnServerTest.cs" />

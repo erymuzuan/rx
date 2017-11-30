@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Bespoke.Sph.Domain;
 
-namespace Bespoke.Sph.ElasticsearchRepository.Extensions
+namespace Bespoke.Sph.SqlRepository.Extensions
 {
     public static class EntityDefinitionExtension
     {
@@ -36,7 +36,7 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
         public static string[] CreateIndexSql(this EntityDefinition item, int? version = 13)
         {
             var sql = from m in item.GetFilterableMembers()
-                select m.CreateIndex(item, version);
+                select m.CreateIndex(item,null, version);
 
             return sql.ToArray();
         }

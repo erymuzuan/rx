@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Csharp.CompilersServices.Extensions;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
 using Bespoke.Sph.Extensions;
 
 namespace Bespoke.Sph.Csharp.CompilersServices
@@ -13,6 +16,17 @@ namespace Bespoke.Sph.Csharp.CompilersServices
         [ImportMany(typeof(IBuildDiagnostics))]
         public IBuildDiagnostics[] BuildDiagnostics { get; set; }
         private ILogger Logger => ObjectBuilder.GetObject<ILogger>();
+
+
+        public Task<IEnumerable<AttachProperty>> GetAttachPropertiesAsycn(IProjectDefinition project)
+        {
+            return Task.FromResult(Array.Empty<AttachProperty>().AsEnumerable());
+        }
+
+        public Task<IEnumerable<AttachProperty>> GetAttachPropertiesAsycn(Member member)
+        {
+            return Task.FromResult(Array.Empty<AttachProperty>().AsEnumerable());
+        }
 
         public async Task<Dictionary<string, string>> GenerateCodeAsync(IProjectDefinition project)
         {

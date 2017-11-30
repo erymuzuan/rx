@@ -8,8 +8,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.ElasticsearchRepository.Extensions;
 using Bespoke.Sph.Extensions;
+using Bespoke.Sph.SqlRepository.Extensions;
 
 namespace Bespoke.Sph.SqlRepository
 {

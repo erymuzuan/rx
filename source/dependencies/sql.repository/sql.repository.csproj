@@ -87,6 +87,7 @@
     <Compile Include="Builder.cs" />
     <Compile Include="CancelledMessageRepository.cs" />
     <Compile Include="Column.cs" />
+    <Compile Include="Compilers\SqlTableBuilder.cs" />
     <Compile Include="Deployments\SourceTableBuilder.cs" />
     <Compile Include="Deployments\SqlTableWithSourceDeployer.cs" />
     <Compile Include="Extensions\AggregateExtension.cs" />
@@ -130,7 +131,6 @@
     <Compile Include="SqlRepository.cs" />
     <Compile Include="SqlServer2012Metadata.cs" />
     <Compile Include="SqlSpatial.cs" />
-    <Compile Include="SqlTableBuilder.cs" />
     <Compile Include="Deployments\SqlTableDeployer.cs" />
     <Compile Include="SqlTableTool.cs" />
     <Compile Include="Table.cs" />

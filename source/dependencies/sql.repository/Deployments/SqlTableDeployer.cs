@@ -6,7 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.ElasticsearchRepository.Extensions;
+using Bespoke.Sph.Domain.Compilers;
+using Bespoke.Sph.SqlRepository.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
