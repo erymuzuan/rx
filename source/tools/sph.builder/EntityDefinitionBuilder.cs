@@ -40,23 +40,7 @@ namespace Bespoke.Sph.SourceBuilders
             await ed.ServiceContract.CompileAsync(ed);
             var context = new SphDataContext();
 
-            // NOTE : it may be tempting to use Task.WhenAll, but we should compile them sequentially
-            var operationEndpoints = context.LoadFromSources<OperationEndpoint>().Where(x => x.Entity == ed.Name);
-            foreach (var oe in operationEndpoints)
-            {
-                var builder = new OperationEndpointBuilder();
-                var cr = await builder.RestoreAsync(oe);
-                results.Add(cr);
-            }
-
-            var queryEndpoints = context.LoadFromSources<QueryEndpoint>().Where(x => x.Entity == ed.Name);
-            foreach (var qe in queryEndpoints)
-            {
-                var builder = new QueryEndpointBuilder();
-                var cr = await builder.RestoreAsync(qe);
-                results.Add(cr);
-            }
-
+            // TODO : Csharp compiler for ReceivePort
             var ports = context.LoadFromSources<ReceivePort>().Where(x => x.Entity == ed.Name);
             foreach (var p in ports)
             {
