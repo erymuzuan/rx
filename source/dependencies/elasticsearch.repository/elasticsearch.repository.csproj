@@ -82,6 +82,7 @@
     <Compile Include="Extensions\QueryDslExtension.cs" />
     <Compile Include="Extensions\SortExtension.cs" />
     <Compile Include="IndexNamingStrategy.cs" />
+    <Compile Include="Management\ReadOnlyRepositoryManagement.cs" />
     <Compile Include="MappingBuilder.cs" />
     <Compile Include="MessageTracker.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

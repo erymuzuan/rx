@@ -14,25 +14,25 @@ namespace Bespoke.Sph.Mangements.ViewModels
         public string RxHomePath => ConfigurationManager.Home;
         public string RxSourcePath => ConfigurationManager.SphSourceDirectory;
         public string RxOutputPath => ConfigurationManager.CompilerOutputPath;
-        private bool m_isRepositoryAccessible;
-        private bool m_isReadOnlyAccesible;
+        private bool m_isRepositoryRunning;
+        private bool m_isReadOnlyRepositoryRunning;
 
-        public bool IsReadOnlyAccesible
+        public bool IsReadOnlyRepositoryRunning
         {
-            get => m_isReadOnlyAccesible;
+            get => m_isReadOnlyRepositoryRunning;
             set
             {
-                m_isReadOnlyAccesible = value;
-                RaisePropertyChanged("IsElasticsearchAccesible");
+                m_isReadOnlyRepositoryRunning = value;
+                RaisePropertyChanged(nameof(IsReadOnlyRepositoryRunning));
             }
         }
 
-        public bool IsRepositoryAccessible
+        public bool IsRepositoryRunning
         {
-            get => m_isRepositoryAccessible;
+            get => m_isRepositoryRunning;
             set
             {
-                m_isRepositoryAccessible = value;
+                m_isRepositoryRunning = value;
                 RaisePropertyChanged("IsSqlServerAccessible");
             }
         }

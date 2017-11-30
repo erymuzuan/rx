@@ -102,6 +102,10 @@
     <Compile Include="Extensions\SortExtension.cs" />
     <Compile Include="ISqlServerMetadata.cs" />
     <Compile Include="LoggerRepository.cs" />
+    <Compile Include="Management\DeploymentMetadataRepository.cs" />
+    <Compile Include="Management\ReadOnlyRepositoryManagement.cs" />
+    <Compile Include="Management\RepositoryManagement.cs" />
+    <Compile Include="Management\SqlServerManagement.cs" />
     <Compile Include="MessageTracker.cs" />
     <Compile Include="PredicateExpressionVisitor.cs" />
     <Compile Include="ReadOnlyRepository.T.cs" />

@@ -9,7 +9,25 @@ namespace Bespoke.Sph.Mangements.Commands
     public abstract class Command
     {
         public EntityDefinition Ed { get; }
-        public ILogger Console = ObjectBuilder.GetObject<ILogger>();
+
+        public ILogger Console
+        {
+            get
+            {
+                try
+                {
+                    return
+                        ObjectBuilder.GetObject<ILogger>();
+                }
+                catch (Exception e)
+                {
+                    System.Console.WriteLine(new LogEntry(e));
+                    return new ConsoleLogger { TraceSwitch = Severity.Debug };
+                }
+
+            }
+        }
+
 
         protected Command()
         {

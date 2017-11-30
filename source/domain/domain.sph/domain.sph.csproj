@@ -337,6 +337,7 @@
     <Compile Include="IReadonlyRepository.T.cs" />
     <Compile Include="Management\ConfigData.cs" />
     <Compile Include="Management\HttpRequestLog.cs" />
+    <Compile Include="Management\IDeploymentMetadataRepository.cs" />
     <Compile Include="Management\IReadOnlyRepositoryManagement.cs" />
     <Compile Include="Management\IRepositoryManagement.cs" />
     <Compile Include="Management\SubscriberConfig.cs" />
