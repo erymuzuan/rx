@@ -160,6 +160,7 @@
     <Compile Include="..\..\extensions\LoggerExtensions.cs">
       <Link>Extensions\LoggerExtensions.cs</Link>
     </Compile>
+    <Compile Include="Extensions\ClassExtension.cs" />
     <Compile Include="Extensions\EntityDefinitionExtension.cs" />
     <Compile Include="EntityDefinitionCompiler.cs" />
     <Compile Include="Extensions\OperationEndpointExtension.cs" />

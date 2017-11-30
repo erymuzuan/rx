@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Csharp.CompilersServices.Extensions;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Codes;
 
 namespace Bespoke.Sph.Csharp.CompilersServices
 {
@@ -20,26 +20,22 @@ namespace Bespoke.Sph.Csharp.CompilersServices
             return await endpoint.GenerateSourceAsync(ed);
 
         }
-
-        private string WriteSource(string cs, string code)
-        {
-            //TODO : write sources code to files
-            return "";
-        }
+        
         public async Task<RxCompilerResult> BuildAsync(IProjectDefinition project, string[] sources)
         {
             if (project is EntityDefinition schema)
             {
-                //TODO: build all the endpoints
                 var results = new List<RxCompilerResult>();
                 var endpoints = new SphDataContext().LoadFromSources<OperationEndpoint>(x => x.Entity == schema.Name);
                 foreach (var ep in endpoints)
                 {
                     var src = await ep.GenerateSourceAsync(schema);
-                    var files = src.Keys.Select(cs => WriteSource(cs, src[cs])).ToArray();
-                    results.Add(await ep.CompileAsync(schema, files[0], files[1]));
+                    var files = src.Keys.Select(x => new Class(src[x]){FileName = x})
+                        .Select(x => x.WriteSource(ep))
+                        .ToArray();
+                    var endpointCompilationResult = await ep.CompileAsync(schema, files[0], files[1]);
+                    results.Add(endpointCompilationResult);
                 }
-
 
                 var rx = new RxCompilerResult { Result = results.TrueForAll(x => x.Result) };
                 rx.Errors.AddRange(results.SelectMany(x => x.Errors));

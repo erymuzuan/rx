@@ -12,30 +12,7 @@ namespace Bespoke.Sph.SourceBuilders
     {
         protected override async Task<RxCompilerResult> CompileAssetAsync(EntityDefinition item)
         {
-            var results = new List<RxCompilerResult>();
-            WriteDebug($"Found {this.DeveloperService.ProjectBuilders.Length} IProjectBuilders");
-            foreach (var compiler in this.DeveloperService.ProjectBuilders)
-            {
-                WriteDebug($"Building with {compiler.GetType().Name}...");
-                var sources = await compiler.GenerateCodeAsync(item);
-                foreach (var src in sources)
-                {
-                    var path = $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\{src.Key}";
-                    if (Path.IsPathRooted(src.Key))
-                        path = src.Key;
-                    File.WriteAllText(path, src.Value);
-                }
-                WriteDebug($"Savings source files {sources.Keys.ToString(", ")}");
-                var cr = await compiler.BuildAsync(item, sources.Keys.ToArray());
-                results.Add(cr);
-                WriteMessage($"{compiler.GetType().Name} has {(cr.Result ? "successfully building" : "failed to build")} {item.Name}");
-                WriteMessage(cr.ToString());
-            }
-
-            var final = new RxCompilerResult { Result = results.All(x => x.Result) };
-            final.Errors.AddRange(results.SelectMany(x => x.Errors));
-
-            return final;
+            return await CompileAsync(item);
         }
 
         public override async Task RestoreAllAsync()

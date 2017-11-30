@@ -16,6 +16,35 @@ namespace Bespoke.Sph.SourceBuilders
         private readonly ILogger m_logger;
         protected abstract Task<RxCompilerResult> CompileAssetAsync(T item);
 
+        protected virtual async Task<RxCompilerResult> CompileAsync(IProjectDefinition project)
+        {
+            var results = new List<RxCompilerResult>();
+            WriteDebug($"Found {this.DeveloperService.ProjectBuilders.Length} IProjectBuilders");
+            foreach (var compiler in this.DeveloperService.ProjectBuilders)
+            {
+                WriteDebug($"Building with {compiler.GetType().Name}...");
+                var sources = await compiler.GenerateCodeAsync(project);
+                foreach (var src in sources)
+                {
+                    var path = $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\{src.Key}";
+                    if (Path.IsPathRooted(src.Key))
+                        path = src.Key;
+                    File.WriteAllText(path, src.Value);
+                }
+                WriteDebug($"Savings source files {sources.Keys.ToString(", ")}");
+                var cr = await compiler.BuildAsync(project, sources.Keys.ToArray());
+                results.Add(cr);
+                WriteMessage($"{compiler.GetType().Name} has {(cr.Result ? "successfully building" : "failed to build")} {project.Name}");
+                WriteMessage(cr.ToString());
+            }
+
+            var final = new RxCompilerResult { Result = results.All(x => x.Result) };
+            final.Errors.AddRange(results.SelectMany(x => x.Errors));
+
+            return final;
+        }
+
+
         [Import(typeof(IDeveloperService))]
         public IDeveloperService DeveloperService { get; set; }
 
@@ -73,7 +102,7 @@ namespace Bespoke.Sph.SourceBuilders
         public void Clean()
         {
             var name = typeof(T).Name;
-            var ed = new EntityDefinition {Name = name, Id = name.ToIdFormat()};
+            var ed = new EntityDefinition { Name = name, Id = name.ToIdFormat() };
             ObjectBuilder.GetObject<IReadOnlyRepository>()
                 .CleanAsync(ed.Name)
                 .Wait(500);

@@ -19,9 +19,14 @@ namespace Bespoke.Sph.Csharp.CompilersServices
             var sources = new Dictionary<string, string>();
             if (!(project is EntityDefinition ed)) return sources;
             var classes = await ed.GenerateCodeAsync();
+
+            var folder = $@"{ConfigurationManager.GeneratedSourceDirectory}\{ed.Name}";
+            if (!System.IO.Directory.Exists(folder))
+                System.IO.Directory.CreateDirectory(folder);
+
             foreach (var @class in classes)
             {
-                var file = $@"{ConfigurationManager.GeneratedSourceDirectory}\{ed.Name}\{@class.FileName}";
+                var file = $@"{folder}\{@class.FileName}";
                 Logger.WriteDebug($"Generate class {@class.Name}-> {file}");
                 sources.Add(file, @class.GetCode());
             }

@@ -20,7 +20,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
     public static class EntityDefinitionExtension
     {
 
-        private static readonly string[] m_importDirectives =
+        private static readonly string[] ImportDirectives =
         {
             typeof(Entity).Namespace,
             typeof(Int32).Namespace ,
@@ -31,8 +31,6 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
 
         public static async Task<BuildValidationResult> ValidateBuildAsync(this EntityDefinition ed, IBuildDiagnostics[] buildDiagnosticses)
         {
-      
-
             var result = ed.CanSave();
             var policy = Policy.Handle<Exception>()
                 .WaitAndRetry(3, c => TimeSpan.FromMilliseconds(500),
@@ -130,7 +128,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
             var commitId = await cvs.GetCommitIdAsync(src);
 
             var @class = new Class { Name = ed.Name, FileName = $"{ed.Name}.cs", Namespace = ed.CodeNamespace, BaseClass = $"{nameof(Entity)}, {nameof(IVersionInfo)}" };
-            @class.ImportCollection.AddRange(m_importDirectives);
+            @class.ImportCollection.AddRange(ImportDirectives);
             @class.PropertyCollection.Add(new Property { Code = $@"string IVersionInfo.Version => ""{commitId}"";" });
 
 
@@ -184,7 +182,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
             // classes for members
             foreach (var member in ed.MemberCollection)
             {
-                var mc = member.GeneratedCustomClass(ed.CodeNamespace, m_importDirectives);
+                var mc = member.GeneratedCustomClass(ed.CodeNamespace, ImportDirectives);
                 list.AddRange(mc);
             }
             return list;

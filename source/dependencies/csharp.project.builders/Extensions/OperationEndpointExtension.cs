@@ -18,7 +18,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
    public static class OperationEndpointExtension
     {
 
-        private static readonly string[] m_importDirectives =
+        private static readonly string[] ImportDirectives =
        {
             typeof(Entity).Namespace,
             typeof(Int32).Namespace ,
@@ -42,11 +42,12 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
             sources.Add(controller.FileName, controller.GetCode());
             sources.Add(assemblyInfo.FileName, assemblyInfo.ToString());
             return sources;
-
-
         }
-        public static async Task<RxCompilerResult> CompileAsync(this OperationEndpoint endpoint, EntityDefinition entityDefinition,
-            string controllerSource, string assemblyInfoSource)
+
+        public static Task<RxCompilerResult> CompileAsync(this OperationEndpoint endpoint, 
+            EntityDefinition entityDefinition,
+            string controllerSource, 
+            string assemblyInfoSource)
         {
 
             using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
@@ -91,9 +92,10 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
                                  FileName = x.FileName
                              };
                 cr.Errors.AddRange(errors);
-                return cr;
+                return Task.FromResult(cr);
             }
         }
+
         private static Class GenerateController(this OperationEndpoint endpoint,EntityDefinition ed)
         {
             var controller = new Class
@@ -104,16 +106,15 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
                 BaseClass = "BaseApiController",
                 Namespace = endpoint.CodeNamespace
             };
-            controller.ImportCollection.ClearAndAddRange(m_importDirectives);
+            controller.ImportCollection.ClearAndAddRange(ImportDirectives);
             controller.ImportCollection.Add("System.Net");
             controller.ImportCollection.Add("System.Net.Http");
             controller.ImportCollection.Add("Newtonsoft.Json.Linq");
             controller.ImportCollection.Add(ed.CodeNamespace);
             controller.AttributeCollection.Add($"[RoutePrefix(\"api/{endpoint.Resource}\")]");
-
-
+            
             controller.PropertyCollection.Add(new Property { Name = "CacheManager", Type = typeof(ICacheManager) });
-            controller.CtorCollection.Add($"public {endpoint.TypeName}() {{ endpoint.CacheManager = ObjectBuilder.GetObject<ICacheManager>(); }}");
+            controller.CtorCollection.Add($"public {endpoint.TypeName}() {{ this.CacheManager = ObjectBuilder.GetObject<ICacheManager>(); }}");
             controller.AddProperty($@"private readonly static string EntityDefinitionSource = $""{{ConfigurationManager.SphSourceDirectory}}\\{nameof(EntityDefinition)}\\{ed.Id}.json"";");
             controller.AddProperty($@"private readonly static string EndpointSource = $""{{ConfigurationManager.SphSourceDirectory}}\\{nameof(OperationEndpoint)}\\{endpoint.Id}.json"";");
 
