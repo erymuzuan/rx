@@ -1,16 +1,17 @@
 ﻿using System;
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Bespoke.Sph.Domain.Codes;
+using Bespoke.Sph.Domain.Compilers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Bespoke.Sph.Domain
 {
-
     public static class CompilerHelper
     {
         public static void AddReference(this CompilerParameters parameters, params Type[] types)
@@ -27,7 +28,22 @@ namespace Bespoke.Sph.Domain
 
         public static MetadataReference CreateMetadataReference<T>(this object type)
         {
-            return MetadataReference.CreateFromFile((typeof(T)).Assembly.Location);
+            return MetadataReference.CreateFromFile(typeof(T).Assembly.Location);
+        }
+        public static void AddMetadataReference<T>(this IList<MetadataReference> list)
+        {
+            var mt = MetadataReference.CreateFromFile(typeof(T).Assembly.Location);
+            list.Add(mt);
+        }
+        public static void AddMetadataReference(this IList<MetadataReference> list, Type type)
+        {
+            var mt = MetadataReference.CreateFromFile(type.Assembly.Location);
+            list.Add(mt);
+        }
+
+        public static MetadataReference CreateMetadataReference<T>(this IProjectDefinition project)
+        {
+            return MetadataReference.CreateFromFile(typeof(T).Assembly.Location);
         }
 
         public static CSharpCompilation AddReference<T>(this CSharpCompilation type)

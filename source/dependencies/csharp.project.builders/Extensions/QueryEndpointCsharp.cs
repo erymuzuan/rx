@@ -377,10 +377,10 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
             return code.ToString();
         }
 
-        public async Task<(string FileName, string Code)> GetAssemblyInfoCodeAsync()
+        public async Task<Class> GetAssemblyInfoCodeAsync()
         {
            var info = await  AssemblyInfoClass.GenerateAssemblyInfoAsync(this.Endpoint, true, this.Endpoint.Name);
-            return (info.FileName, info.ToString());
+            return info.ToClass();
 
 
         }

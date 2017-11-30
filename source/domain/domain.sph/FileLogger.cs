@@ -149,7 +149,7 @@ namespace Bespoke.Sph.Domain
             lines.AddRange(messages.Skip(1).Select(x => $"{pad} {x}"));
             if (TraceSwitch == Severity.Debug)
             {
-                lines.Add($@"{pad}\t[{entry.CallerMemberName}]{Path.GetFileName(entry.CallerFilePath)}:{entry.CallerLineNumber}");
+                lines.Add($@"{pad}  [{entry.CallerMemberName}]{Path.GetFileName(entry.CallerFilePath)}:{entry.CallerLineNumber}");
             }
 
             if (m_bufferSize > 0 && entry.Severity < Severity.Error)

@@ -30,17 +30,17 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
             "Bespoke.Sph.WebApi"
         };
 
-        public static async Task<Dictionary<string, string>> GenerateSourceAsync(this OperationEndpoint endpoint,
+        public static async Task<IEnumerable<Class>> GenerateSourceAsync(this OperationEndpoint endpoint,
             EntityDefinition entityDefinition)
         {
-            var sources = new Dictionary<string, string>();
+            var sources = new List<Class>();
 
             var controller = endpoint.GenerateController(entityDefinition);
             var folder = $"{nameof(OperationEndpoint)}.{endpoint.Entity}.{endpoint.Name}";
             var assemblyInfo = await AssemblyInfoClass.GenerateAssemblyInfoAsync(endpoint, true, folder);
 
-            sources.Add(controller.FileName, controller.GetCode());
-            sources.Add(assemblyInfo.FileName, assemblyInfo.ToString());
+            sources.Add(controller);
+            sources.Add(assemblyInfo.ToClass());
             return sources;
         }
 

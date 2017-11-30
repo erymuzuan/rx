@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Csharp.CompilersServices.Extensions;
@@ -13,6 +14,9 @@ namespace Bespoke.Sph.Csharp.CompilersServices
     [Export(typeof(IProjectBuilder))]
     public class OperationEndpointCompiler : IProjectBuilder
     {
+        public string Name => "OperationEndpoint";
+        public string Description => @"Compile EntityDefintion and all its OperationEndpoint or just one OperationEndpoint";
+
         public Task<IEnumerable<AttachProperty>> GetAttachPropertiesAsycn(IProjectDefinition project)
         {
             return Task.FromResult(Array.Empty<AttachProperty>().AsEnumerable());
@@ -22,43 +26,37 @@ namespace Bespoke.Sph.Csharp.CompilersServices
         {
             return Task.FromResult(Array.Empty<AttachProperty>().AsEnumerable());
         }
-        public async Task<Dictionary<string, string>> GenerateCodeAsync(IProjectDefinition project)
+        public async Task<IEnumerable<Class>> GenerateCodeAsync(IProjectDefinition project)
         {
-            var sources = new Dictionary<string, string>();
-            if (!(project is OperationEndpoint endpoint)) return sources;
+            if (!(project is OperationEndpoint endpoint)) return Array.Empty<Class>();
             var ed = new SphDataContext().LoadOneFromSources<EntityDefinition>(x => x.Name == endpoint.Entity);
 
             return await endpoint.GenerateSourceAsync(ed);
 
         }
-        
-        public async Task<RxCompilerResult> BuildAsync(IProjectDefinition project, string[] sources)
+
+        public async Task<RxCompilerResult> BuildAsync(IProjectDefinition project, Func<IProjectDefinition, CompilerOptions2> getOption)
         {
-            if (project is EntityDefinition schema)
+            switch (project)
             {
-                var results = new List<RxCompilerResult>();
-                var endpoints = new SphDataContext().LoadFromSources<OperationEndpoint>(x => x.Entity == schema.Name);
-                foreach (var ep in endpoints)
-                {
-                    var src = await ep.GenerateSourceAsync(schema);
-                    var files = src.Keys.Select(x => new Class(src[x]){FileName = x})
-                        .Select(x => x.WriteSource(ep))
-                        .ToArray();
-                    var endpointCompilationResult = await ep.CompileAsync(schema, files[0], files[1]);
-                    results.Add(endpointCompilationResult);
-                }
+                //case EntityDefinition schema:
+                //    var results = new List<RxCompilerResult>();
+                //    var endpoints = new SphDataContext().LoadFromSources<OperationEndpoint>(x => x.Entity == schema.Name);
+                //    foreach (var ep in endpoints)
+                //    {
+                //        var eo = getOption(ep);
+                //        var endpointCompilationResult = await ep.CompileAsyncWithRoslynAsync(eo);
+                //        results.Add(endpointCompilationResult);
+                //    }
 
-                var rx = new RxCompilerResult { Result = results.TrueForAll(x => x.Result) };
-                rx.Errors.AddRange(results.SelectMany(x => x.Errors));
-                return rx;
+                //    var rx = new RxCompilerResult { Result = results.TrueForAll(x => x.Result) };
+                //    rx.Errors.AddRange(results.SelectMany(x => x.Errors));
+                //    return rx;
+                case OperationEndpoint endpoint:
+                    return await endpoint.CompileAsyncWithRoslynAsync(getOption(endpoint));
             }
 
-            if (project is OperationEndpoint endpoint)
-            {
-                var ed = new SphDataContext().LoadOneFromSources<EntityDefinition>(x => x.Name == endpoint.Entity);
-                return await endpoint.CompileAsync(ed, sources[0], sources[1]);
-            }
-            return new RxCompilerResult();
+            return RxCompilerResult.Empty;
         }
 
         public bool IsAvailableInDesignMode => false;

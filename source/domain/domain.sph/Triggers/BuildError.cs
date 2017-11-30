@@ -3,6 +3,8 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+using Microsoft.CodeAnalysis;
 
 namespace Bespoke.Sph.Domain
 {
@@ -12,6 +14,10 @@ namespace Bespoke.Sph.Domain
         {
 
         }
+
+
+
+
         public BuildError(string webid)
         {
             this.ItemWebId = webid;

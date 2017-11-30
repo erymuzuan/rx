@@ -8,41 +8,72 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Compilers;
 using Bespoke.Sph.Extensions;
+using Bespoke.Sph.SourceBuilders.Extensions;
+
 // ReSharper disable ExplicitCallerInfoArgument
 
 namespace Bespoke.Sph.SourceBuilders
 {
     public abstract class Builder<T> where T : Entity
     {
+        public string[] Compilers { get; }
+
+        protected Builder(string[] compilers)
+        {
+            Compilers = compilers ?? Array.Empty<string>();
+        }
         private readonly ILogger m_logger;
         protected abstract Task<RxCompilerResult> CompileAssetAsync(T item);
 
         protected virtual async Task<RxCompilerResult> CompileAsync(IProjectDefinition project)
         {
+
             var results = new List<RxCompilerResult>();
             WriteDebug($"Found {this.DeveloperService.ProjectBuilders.Length} IProjectBuilders");
-            foreach (var compiler in this.DeveloperService.ProjectBuilders)
+            var compilers = this.DeveloperService.ProjectBuilders
+                .Where(x => x.IsAvailableInBuildMode)
+                .ToArray();//.AsQueryable().WhereIf(x => this.Compilers.Contains(x.Name), Compilers.Length > 0).ToArray();
+            WriteDebug($"Found {compilers.Length} compilers matching the name");
+            foreach (var compiler in compilers)
             {
-                WriteDebug($"Building with {compiler.GetType().Name}...");
-                var sources = await compiler.GenerateCodeAsync(project);
-                foreach (var src in sources)
+                WriteMessage($"Building with {compiler.Name}...");
+                var dll = $"{ConfigurationManager.CompilerOutputPath}\\{project.AssemblyName}.dll";
+                var temp = new FileInfo(Path.GetTempFileName());
+                RxCompilerResult cr;
+                using (var stream = new FileStream(temp.FullName, FileMode.Create))
                 {
-                    var path = $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\{src.Key}";
-                    if (Path.IsPathRooted(src.Key))
-                        path = src.Key;
-                    File.WriteAllText(path, src.Value);
+                    //TODO : read Debug and Verbose from the command line option
+                    var options2 = new CompilerOptions2(stream) { IsDebug = true, IsVerbose = true };
+                    cr = await compiler.BuildAsync(project, x => options2);
+                    results.Add(cr);
+                    WriteMessage($"{compiler.GetType().Name} has {(cr.Result ? "successfully building" : "failed to build")} {project.Name}");
+                    WriteMessage(cr.ToString());
                 }
-                WriteDebug($"Savings source files {sources.Keys.ToString(", ")}");
-                var cr = await compiler.BuildAsync(project, sources.Keys.ToArray());
-                results.Add(cr);
-                WriteMessage($"{compiler.GetType().Name} has {(cr.Result ? "successfully building" : "failed to build")} {project.Name}");
-                WriteMessage(cr.ToString());
+                if (!cr.IsEmpty && temp.Exists && temp.Length > 0)
+                    temp.CopyTo(dll);
             }
 
             var final = new RxCompilerResult { Result = results.All(x => x.Result) };
             final.Errors.AddRange(results.SelectMany(x => x.Errors));
 
             return final;
+        }
+
+        protected virtual async Task<IEnumerable<string>> GenerateSourceCodeAsync(IProjectDefinition project)
+        {
+            var files = new List<string>();
+            WriteDebug($"Found {this.DeveloperService.ProjectBuilders.Length} IProjectBuilders");
+            var compilers = this.DeveloperService.ProjectBuilders;//.AsQueryable().WhereIf(x => this.Compilers.Contains(x.Name), Compilers.Length > 0).ToArray();
+            WriteDebug($"Found {compilers.Length} compilers matching the name");
+            foreach (var compiler in compilers)
+            {
+                WriteMessage($"Writing source code with {compiler.Name}...");
+                var sources = await compiler.GenerateCodeAsync(project);
+                files.AddRange(sources.Select(x => x.WriteSource(project)));
+
+            }
+            return files;
+
         }
 
 

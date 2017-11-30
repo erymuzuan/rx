@@ -210,6 +210,8 @@
     <Compile Include="Builder.cs" />
     <Compile Include="DesignationBuilder.cs" />
     <Compile Include="EntityDefinitionBuilder.cs" />
+    <Compile Include="Extensions\ClassExtension.cs" />
+    <Compile Include="Extensions\IEnumerableExtension.cs" />
     <Compile Include="OperationEndpointBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

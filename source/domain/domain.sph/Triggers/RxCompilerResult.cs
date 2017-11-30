@@ -1,9 +1,14 @@
 ﻿using System.Text;
+using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
     public class RxCompilerResult
     {
+        public static Task<RxCompilerResult> TaskEmpty = Task.FromResult(new RxCompilerResult { Result = true, IsEmpty = true });
+        public static RxCompilerResult Empty = new RxCompilerResult { Result = true, IsEmpty = true };
+        public bool IsEmpty { get; private set; }
+
         public bool Result { get; set; }
         public ObjectCollection<BuildError> Errors { get; } = new ObjectCollection<BuildError>();
 

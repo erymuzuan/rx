@@ -4,6 +4,11 @@ namespace Bespoke.Sph.Domain
 {
     public partial class EntityDefinition
     {
+
+        [JsonIgnore]
+        public string ClassName => this.Name.ToPascalCase();
+        [JsonIgnore]
+        public string AssemblyName => $"{ConfigurationManager.ApplicationName}.{Name}";
         [JsonIgnore]
         public string CodeNamespace => $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.{this.Plural}.Domain";
         [JsonIgnore]

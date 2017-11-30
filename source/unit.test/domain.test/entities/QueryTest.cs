@@ -256,51 +256,6 @@ namespace domain.test.entities
             return null;
         }
 
-        [Fact]
-        public void CompileQueryWithChildren()
-        {
-            var appointment = GetFromEmbeddedResource<EntityDefinition>("Appointment");
-            var query = new QueryEndpoint
-            {
-                Name = "Appointment for patient",
-                Route = "~/api/patients/{mrn}/appointments",
-                Id = "appointments-for-patient",
-                Entity = "Appointment",
-                Resource = "appointments",
-                CacheFilter = 300
-            };
-
-            var mrnParameter = new RouteParameterField { Name = "mrn", Type = typeof(string) , WebId = "mrn"};
-            var start = new RouteParameterField { Name = "start", Type = typeof(DateTime), IsOptional = true, DefaultValue = "2016-01-01", WebId = "start"};
-            var end = new RouteParameterField { Name = "end", Type = typeof(DateTime), IsOptional = true, DefaultValue = "2017-01-01" , WebId = "end"};
-            query.FilterCollection.Add(new Filter
-            {
-                Field = mrnParameter,
-                Operator = Operator.Eq,
-                Term = "Mrn"
-            });
-            query.FilterCollection.Add(new Filter
-            {
-                Field = start,
-                Operator = Operator.Ge,
-                Term = "DateTime"
-            });
-            query.FilterCollection.Add(new Filter
-            {
-                Field = end,
-                Operator = Operator.Lt,
-                Term = "DateTime"
-            });
-
-            query.MemberCollection.AddRange("Id", "ReferenceNo", "DateTime", "Doctor", "Location", "Ward");
-
-            var options = new CompilerOptions();
-            var sources = query.GenerateCode(appointment);
-            var result = query.Compile(options, sources);
-
-            Assert.True(result.Result, result.ToString());
-
-        }
     }
 
     public class MockCvsProvider : ICvsProvider

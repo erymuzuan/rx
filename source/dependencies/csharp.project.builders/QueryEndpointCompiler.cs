@@ -13,6 +13,8 @@ namespace Bespoke.Sph.Csharp.CompilersServices
     [Export(typeof(IProjectBuilder))]
     public class QueryEndpointCompiler : IProjectBuilder
     {
+        public string Name => "QueryEndpoint";
+        public string Description => @"Compile QueryEndpoint or if in case of EntityDefinition, all its QueryEndpoints";
         public Task<IEnumerable<AttachProperty>> GetAttachPropertiesAsycn(IProjectDefinition project)
         {
             return Task.FromResult(Array.Empty<AttachProperty>().AsEnumerable());
@@ -22,51 +24,44 @@ namespace Bespoke.Sph.Csharp.CompilersServices
         {
             return Task.FromResult(Array.Empty<AttachProperty>().AsEnumerable());
         }
-        public async Task<Dictionary<string, string>> GenerateCodeAsync(IProjectDefinition project)
+        public async Task<IEnumerable<Class>> GenerateCodeAsync(IProjectDefinition project)
         {
-            var sources = new Dictionary<string, string>();
+            var sources = new List<Class>();
             if (!(project is QueryEndpoint endpoint)) return sources;
             var ed = new SphDataContext().LoadOneFromSources<EntityDefinition>(x => x.Name == endpoint.Entity);
 
-            var wrapper= new QueryEndpointCsharp(endpoint,ed);
+            var wrapper = new QueryEndpointCsharp(endpoint, ed);
 
             var controller = wrapper.GenerateCode();
             var info = await wrapper.GetAssemblyInfoCodeAsync();
 
-            return new Dictionary<string, string>
-            {
-                {controller.FileName, controller.GetCode() },
-                {info.FileName, info.Code }
-            };
+            sources.AddRange(controller, info);
+
+            return sources;
 
         }
 
-        public async Task<RxCompilerResult> BuildAsync(IProjectDefinition project, string[] sources)
+        public async Task<RxCompilerResult> BuildAsync(IProjectDefinition project, Func<IProjectDefinition, CompilerOptions2> getOption)
         {
-            if (project is EntityDefinition schema)
-            {
-                var results = new List<RxCompilerResult>();
-                var endpoints = new SphDataContext().LoadFromSources<QueryEndpoint>(x => x.Entity == schema.Name);
-                foreach (var wrapper in endpoints.Select(x => new QueryEndpointCsharp(x, schema)))
-                {
-                    var srcs = await this.GenerateCodeAsync(wrapper.Endpoint);
-                    var files = srcs.Keys.Select(x => new Class(srcs[x]) { FileName = x })
-                        .Select(x => x.WriteSource(wrapper.Endpoint))
-                        .ToArray();
-                    var endpointCompilationResult = await wrapper.CompileAsync(files);
-                    results.Add(endpointCompilationResult);
-                }
+            //if (project is EntityDefinition schema)
+            //{
+            //    var results = new List<RxCompilerResult>();
+            //    var endpoints = new SphDataContext().LoadFromSources<QueryEndpoint>(x => x.Entity == schema.Name);
+            //    foreach (var qe in endpoints)
+            //    {
+            //        var options2 = getOption(qe);
+            //        var endpointCompilationResult = await qe.CompileAsyncWithRoslynAsync(options2);
+            //        results.Add(endpointCompilationResult);
+            //    }
 
-                var rx = new RxCompilerResult { Result = results.TrueForAll(x => x.Result) };
-                rx.Errors.AddRange(results.SelectMany(x => x.Errors));
-                return rx;
-            }
+            //    var rx = new RxCompilerResult { Result = results.TrueForAll(x => x.Result) };
+            //    rx.Errors.AddRange(results.SelectMany(x => x.Errors));
+            //    return rx;
+            //}
 
             if (project is QueryEndpoint endpoint)
             {
-                var ed = new SphDataContext().LoadOneFromSources<EntityDefinition>(x => x.Name == endpoint.Entity);
-                var wrapper = new QueryEndpointCsharp(endpoint,ed);
-                return await wrapper.CompileAsync(sources);
+                return await endpoint.CompileAsyncWithRoslynAsync(getOption(endpoint));
             }
             return new RxCompilerResult();
         }

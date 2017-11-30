@@ -1,30 +1,24 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
+    [Obsolete("Moving to Roslyn compilers")]
     public class CompilerOptions
     {
-        private readonly ObjectCollection<string> m_referencedAssembliesCollection = new ObjectCollection<string>();
         public bool IsDebug { get; set; }
         public bool IsVerbose { get; set; }
         public string SourceCodeDirectory { get; set; }
 
         [XmlIgnore]
         [JsonIgnore]
-        public ObjectCollection<string> ReferencedAssembliesLocation
-        {
-            get { return m_referencedAssembliesCollection; }
-        }
+        public ObjectCollection<string> ReferencedAssembliesLocation { get; } = new ObjectCollection<string>();
 
-        private readonly ObjectCollection<string> m_embededResourceCollection = new ObjectCollection<string>();
+        public ObjectCollection<string> EmbeddedResourceCollection { get; } = new ObjectCollection<string>();
 
-        public ObjectCollection<string> EmbeddedResourceCollection
-        {
-            get { return m_embededResourceCollection; }
-        }
         /// <summary>
         /// A helper to add referenced assembly location
         /// </summary>
@@ -56,5 +50,31 @@ namespace Bespoke.Sph.Domain
         {
             this.ReferencedAssembliesLocation.Add(assembly.Location);
         }
+    }
+
+    public class CompilerOptions2
+    {
+        public bool IsDebug { get; set; }
+        public bool IsVerbose { get; set; }
+        public bool Emit { get; }
+        public Stream Stream { get; }
+        public string[] Sources { get; }
+
+        public CompilerOptions2()
+        {
+        }
+
+        public CompilerOptions2(Stream stream)
+        {
+            this.Stream = stream;
+            this.Emit = true;
+        }
+        public CompilerOptions2(Stream stream, string[] sources)
+        {
+            this.Stream = stream;
+            Sources = sources;
+            this.Emit = true;
+        }
+
     }
 }

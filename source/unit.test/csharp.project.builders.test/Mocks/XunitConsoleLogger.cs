@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Xunit.Abstractions;
-using Bespoke.Sph.Tests.SqlServer.Extensions;
 
-namespace Bespoke.Sph.Tests.SqlServer
+namespace Bespoke.Sph.Tests.Mocks
 {
     internal class XunitConsoleLogger : ILogger
     {
@@ -21,7 +20,7 @@ namespace Bespoke.Sph.Tests.SqlServer
 
         public void Log(LogEntry entry)
         {
-            Console.WriteLine(entry);
+            Console.WriteLine(entry.ToString());
         }
     }
 }

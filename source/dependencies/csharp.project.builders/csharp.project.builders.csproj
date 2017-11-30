@@ -163,9 +163,15 @@
     <Compile Include="..\..\extensions\LoggerExtensions.cs">
       <Link>Extensions\LoggerExtensions.cs</Link>
     </Compile>
+    <Compile Include="CsharpProjectDefinition.cs" />
+    <Compile Include="DebuggerHelper.cs" />
+    <Compile Include="Extensions\AssemblyInfroClassExtension.cs" />
     <Compile Include="Extensions\ClassExtension.cs" />
+    <Compile Include="Extensions\DiagnosticExtension.cs" />
     <Compile Include="Extensions\EntityDefinitionExtension.cs" />
     <Compile Include="EntityDefinitionCompiler.cs" />
+    <Compile Include="Extensions\IListExtension.cs" />
+    <Compile Include="Extensions\MetadataExtension.cs" />
     <Compile Include="Extensions\OperationEndpointExtension.cs" />
     <Compile Include="Extensions\QueryEndpointCsharp.cs" />
     <Compile Include="QueryEndpointCompiler.cs" />

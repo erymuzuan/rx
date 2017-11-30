@@ -12,7 +12,7 @@ namespace Bespoke.Sph.SourceBuilders
     {
         protected override async Task<RxCompilerResult> CompileAssetAsync(EntityDefinition item)
         {
-            return await CompileAsync(item);
+                return await CompileAsync(item);
         }
 
         public override async Task RestoreAllAsync()

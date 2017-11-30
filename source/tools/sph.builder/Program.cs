@@ -55,6 +55,8 @@ namespace Bespoke.Sph.SourceBuilders
             }
             ObjectBuilder.AddCacheList<ILogger>(logger);
 
+            var compilers = ParseArg("compiler", "builder", "target", "c"); // comma seperated, IProjectBuilder Name
+            // TODO : when compilers switch is available just use those specified
             if (args.Length > 0)
             {
                 await BuildWithArgsAsync(args).ConfigureAwait(false);

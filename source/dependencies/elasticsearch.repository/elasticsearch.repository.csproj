@@ -68,6 +68,7 @@
     </Compile>
     <Compile Include="CancelledMessageRepository.cs" />
     <Compile Include="CircuitBreaker.cs" />
+    <Compile Include="Compilers\ElasticsearchMappingCompiler.cs" />
     <Compile Include="ElasticsearchTokenRespository.cs" />
     <Compile Include="EsConfigurationManager.cs" />
     <Compile Include="EventLogRepository.cs" />

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Codes;
 using Bespoke.Sph.Domain.Compilers;
 using Bespoke.Sph.SqlRepository.Extensions;
 
@@ -13,6 +14,8 @@ namespace Bespoke.Sph.SqlRepository.Compilers
     [Export(typeof(IProjectBuilder))]
     public class SqlTableBuilder : SqlTableTool, IProjectBuilder
     {
+        public string Name => "SqlServer2016";
+        public string Description => @"Compile EntityDefintion to Sql Server 2016 schema";
         public SqlTableBuilder() : base(null)
         {
         }
@@ -68,10 +71,10 @@ namespace Bespoke.Sph.SqlRepository.Compilers
             return Task.FromResult(properties.AsEnumerable());
         }
 
-        public async Task<Dictionary<string, string>> GenerateCodeAsync(IProjectDefinition project)
+        public async Task<IEnumerable<Class>> GenerateCodeAsync(IProjectDefinition project)
         {
-            var sources = new Dictionary<string, string>();
-            if (!(project is EntityDefinition item)) return sources;
+            var sources = new List<Class>();
+            if (!(project is EntityDefinition item)) return Array.Empty<Class>();
 
 
             var applicationName = ConfigurationManager.ApplicationName;
@@ -84,8 +87,8 @@ namespace Bespoke.Sph.SqlRepository.Compilers
             var members = item.GetFilterableMembers().ToArray();
             foreach (var member in members.OfType<SimpleMember>())
             {
-                var properties =await this.GetAttachPropertiesAsycn(member);
-                sql.AppendLine("," + member.GenerateColumnExpression(properties.ToArray(),version));
+                var properties = await this.GetAttachPropertiesAsycn(member);
+                sql.AppendLine("," + member.GenerateColumnExpression(properties.ToArray(), version));
             }
             sql.AppendLine(",[Json] VARCHAR(MAX)");
             sql.AppendLine(",[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()");
@@ -94,28 +97,20 @@ namespace Bespoke.Sph.SqlRepository.Compilers
             sql.AppendLine(",[ChangedBy] VARCHAR(255) NULL");
             sql.AppendLine(")");
 
-            sources.Add($"{project.Name}.sql", sql.ToString());
+            sources.Add(new Class(sql.ToString()) { FileName = $"{project.Name}.sql" });
 
             var indices = from m in members
                           let properties = this.GetAttachPropertiesAsycn(m).Result
                           let index = m.CreateIndex(item, properties.ToArray(), version)
-                          select (FileName: $"{item.Name}.Index.{m.Name}.sql", Source: index);
-            foreach (var id in indices)
-            {
-                sources.Add(id.FileName, id.Source);
-            }
+                          select new Class(index){FileName = $"{item.Name}.Index.{m.Name}.sql"};
+           sources.AddRange(indices);
 
             return sources;
         }
 
-        public Task<RxCompilerResult> BuildAsync(IProjectDefinition project, string[] sources)
+        public Task<RxCompilerResult> BuildAsync(IProjectDefinition project, Func<IProjectDefinition, CompilerOptions2> getOptions)
         {
-            var cr = new RxCompilerResult
-            {
-                Result = true,
-                Output = $"{ConfigurationManager.SphSourceDirectory}\\EntityDefinition\\{project.Name}.sql"
-            };
-            return Task.FromResult(cr);
+            return RxCompilerResult.TaskEmpty;
         }
 
         public bool IsAvailableInDesignMode => true;
