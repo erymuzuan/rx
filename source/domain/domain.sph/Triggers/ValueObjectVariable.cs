@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Codes;
+using Bespoke.Sph.Domain.Compilers;
 
 namespace Bespoke.Sph.Domain
 {
@@ -38,12 +39,11 @@ namespace Bespoke.Sph.Domain
             return list.ToArray();
         }
 
-        public override Task<IEnumerable<Class>> GenerateCustomTypesAsync(WorkflowDefinition wd)
+        public override async Task<IEnumerable<Class>> GenerateCustomTypesAsync(WorkflowDefinition wd)
         {
             if (null == m_vod)
             {
-                var context = new SphDataContext();
-                m_vod = context.LoadOneFromSources<ValueObjectDefinition>(x => x.Name == this.TypeName);
+                m_vod = await ObjectBuilder.GetObject<ISourceRepository>().LoadOneAsync<ValueObjectDefinition>(x => x.Name == this.TypeName);
             }
 
             var @class = new Class { Name = TypeName, BaseClass = nameof(DomainObject), FileName = $"{TypeName}.cs", Namespace = wd.CodeNamespace };
@@ -83,7 +83,7 @@ namespace Bespoke.Sph.Domain
             @classes.AddRange(childClasses);
 
 
-            return Task.FromResult(classes.AsEnumerable());
+            return classes;
         }
 
         public override string GeneratedCode(WorkflowDefinition workflowDefinition)

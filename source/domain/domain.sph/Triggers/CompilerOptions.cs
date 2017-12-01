@@ -54,24 +54,39 @@ namespace Bespoke.Sph.Domain
 
     public class CompilerOptions2
     {
+        public string PePath { get; }
+        public string PdbPath { get; }
         public bool IsDebug { get; set; }
         public bool IsVerbose { get; set; }
         public bool Emit { get; }
-        public Stream Stream { get; }
+        public Stream PeStream { get; }
+        public Stream PdbStream { get; }
         public string[] Sources { get; }
 
         public CompilerOptions2()
         {
         }
 
-        public CompilerOptions2(Stream stream)
+        public CompilerOptions2(Stream peStream)
         {
-            this.Stream = stream;
+            this.PeStream = peStream;
             this.Emit = true;
         }
-        public CompilerOptions2(Stream stream, string[] sources)
+        public CompilerOptions2(Stream peStream, Stream pdbStream)
         {
-            this.Stream = stream;
+            this.PeStream = peStream;
+            PdbStream = pdbStream;
+            this.Emit = true;
+        }
+        public CompilerOptions2(string pePath, string pdbPath)
+        {
+            PePath = pePath;
+            PdbPath = pdbPath;
+            this.Emit = true;
+        }
+        public CompilerOptions2(Stream peStream, string[] sources)
+        {
+            this.PeStream = peStream;
             Sources = sources;
             this.Emit = true;
         }

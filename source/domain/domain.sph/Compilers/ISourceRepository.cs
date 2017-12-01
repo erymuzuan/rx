@@ -11,5 +11,12 @@ namespace Bespoke.Sph.Domain.Compilers
         Task<IEnumerable<T>> LoadAsync<T>() where T : Entity;
         Task<IEnumerable<T>> LoadAsync<T>(Expression<Func<T, bool>> predicate) where T : Entity;
         Task<T> LoadOneAsync<T>(Expression<Func<T, bool>> predicate) where T : Entity;
+        // may be write to stream something like SourceStream, file  or Memory as underlying stream
+        // TODO : Task SaveAsync<T>();
+        // TODO : Task SaveAsync(string path, string content); 
+        
+        
+        // TODO : Task<string> ReadAsStringAsync(string path);
+        // TODO : ReadAllBytesAsync(string path);
     }
 }

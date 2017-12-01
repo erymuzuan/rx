@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Csharp.CompilersServices.Extensions;
 using Bespoke.Sph.Domain;
@@ -10,6 +11,8 @@ using Bespoke.Sph.Domain.Compilers;
 using Bespoke.Sph.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Emit;
+using Microsoft.CodeAnalysis.Text;
 
 namespace Bespoke.Sph.Csharp.CompilersServices
 {
@@ -59,7 +62,6 @@ namespace Bespoke.Sph.Csharp.CompilersServices
                 case EntityDefinition ed:
                     return await ed.GenerateCodeAsync();
                 case OperationEndpoint oe:
-                    // TODO : get the ed from projects dependsOn
                     var ed1 = await sourceRepository.LoadOneAsync<EntityDefinition>(x => x.Name == oe.Entity);
                     return await oe.GenerateSourceAsync(ed1);
                 case QueryEndpoint qe:
@@ -91,21 +93,31 @@ namespace Bespoke.Sph.Csharp.CompilersServices
             throw new Exception();
         }
 
-        //public virtual Task<IProjectModel> GetModelAsync()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-
         public static async Task<RxCompilerResult> CompileAsyncWithRoslynAsync(this IProjectDefinition project, CompilerOptions2 options)
         {
             var logger = ObjectBuilder.GetObject<ILogger>();
+            var parseOptions = new CSharpParseOptions(LanguageVersion.CSharp7_1);
+            var classes = (await project.GenerateProjectCodesAsync()).ToList();
 
-            var projectDocuments = (await project.GenerateProjectCodesAsync()).ToList();
-            var trees = (from c in projectDocuments
+            List<SyntaxTree> trees;
+
+            if (null != options.PdbStream || null != options.PdbPath)
+            {
+                // just to get the PDB
+                trees = (from c in classes
+                         let file = c.WriteSource(project)
+                         let root = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(c.GetCode(), parseOptions, file, Encoding.UTF8)
+                         select CSharpSyntaxTree.Create(root.GetRoot(), path: file, encoding: Encoding.UTF8)).ToList();
+            }
+            else
+            {
+                trees = (from c in classes
                          let x = c.GetCode()
-                         let root = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x)
+                         let root = (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(x, parseOptions)
                          select CSharpSyntaxTree.Create(root.GetRoot(), path: c.FileName)).ToList();
+            }
+
+
 
             var co = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
             var compilation = CSharpCompilation.Create(project.AssemblyName)
@@ -128,10 +140,29 @@ namespace Bespoke.Sph.Csharp.CompilersServices
             if (!result.Result || !options.Emit)
                 return result;
 
-            if (null == options.Stream)
-                throw new ArgumentException(@"To emit please provide a stream in your options", nameof(options));
+            if (null == options.PeStream && null == options.PePath)
+                throw new ArgumentException(@"To emit please provide a PeStream or PePath in your options", nameof(options));
 
-            var emitResult = compilation.Emit(options.Stream);
+            //TODO : wrong Encoding , no pdb,
+            // if pdb is presents then we have to save the source files
+            EmitResult emitResult = null;
+            if (null != options.PeStream)
+            {
+                emitResult = null == options.PdbStream ?
+                  compilation.Emit(options.PeStream) :
+                  compilation.Emit(options.PeStream, options.PdbStream);
+            }
+
+            if (null != options.PePath)
+            {
+                emitResult = null == options.PdbPath ?
+                  compilation.Emit(options.PePath) :
+                  compilation.Emit(options.PePath, options.PdbPath);
+            }
+
+
+            //var emitResult = compilation.Emit(options.PeStream);
+
             result.Result = emitResult.Success;
             var errors2 = emitResult.Diagnostics.Select(v => v.ToBuildError());
             result.Errors.AddRange(errors2);
