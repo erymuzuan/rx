@@ -14,8 +14,8 @@
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, objectbuilders.app, "services/app", "services/new-item"],
     function (context, logger, router, system, app, servicesApp, nis) {
 
-        var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
-            originalEntity = "",
+        let originalEntity = "";
+        const entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             isBusy = ko.observable(false),
             errors = ko.observableArray(),
             triggers = ko.observableArray(),
@@ -31,21 +31,21 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             activate = function (id) {
 
                 context.getListAsync("ViewTemplate", "Id ne '0'", "Name")
-                .done(templateOptions);
+                    .done(templateOptions);
                 context.getListAsync("ValueObjectDefinition", "Id ne '0'", "Name")
-                .done(valueObjectOptions);
+                    .done(valueObjectOptions);
 
                 member(new bespoke.sph.domain.Member("-"));
 
-                var query = String.format("Id eq '{0}'", id);
+                const query = String.format("Id eq '{0}'", id);
                 return context.loadOneAsync("EntityDefinition", query)
                     .then(function (b) {
                         if (!b) {
                             originalEntity = null;
-                            return app.showMessage("Cannot find any EntityDefinition with id = " + id, "Not Found", ["OK"])
-                            .done(function () {
-                                return router.navigate("#dev.home");
-                            });
+                            return app.showMessage(`Cannot find any EntityDefinition with id = ${id}`, "Not Found", ["OK"])
+                                .done(function () {
+                                    return router.navigate("#dev.home");
+                                });
                         }
                         entity(b);
                         window.typeaheadEntity = b.Name();
@@ -56,12 +56,12 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             attached = function () {
 
                 originalEntity = ko.toJSON(entity);
-                var setDesignerHeight = function () {
+                const setDesignerHeight = function () {
                     if ($("#schema-tree-panel").length === 0) {
                         return;
                     }
 
-                    var dev = $("#developers-log-panel").height(),
+                    const dev = $("#developers-log-panel").height(),
                         top = $("#schema-tree-panel").offset().top,
                         height = dev + top;
                     $("#schema-tree-panel").css("max-height", $(window).height() - height);
@@ -69,6 +69,17 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 };
                 $("#developers-log-panel-collapse,#developers-log-panel-expand").on("click", setDesignerHeight);
                 setDesignerHeight();
+
+                member.subscribe(async function (mr) {
+                    const result = await context.get(
+                        `/developer-service/compilers-attached-properties-members/${entity().Id()}/${mr.Name()}`);
+                    const properties = Object.keys(result).map(v => {
+                        return { "compiler": v, properties : result[v] };
+                    });
+                    console.info("Member changed", properties);
+                    mr.attachProperties(properties);
+
+                });
             },
             publishDashboard = function () {
                 var data = ko.mapping.toJSON(entity);
@@ -113,7 +124,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 if (!originalEntity) {
                     return true;
                 }
-               
+
 
 
                 if (originalEntity !== ko.toJSON(entity)) {
@@ -237,11 +248,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return servicesApp.showDialog("new.trigger.dialog", function (dialog) {
                     dialog.entity(entity().Name());
                 })
-                      .done(function (dialog, result) {
-                          if (result === "OK") {
-                              router.navigate("#trigger.setup/" + ko.unwrap(dialog.id));
-                          }
-                      });
+                    .done(function (dialog, result) {
+                        if (result === "OK") {
+                            router.navigate("#trigger.setup/" + ko.unwrap(dialog.id));
+                        }
+                    });
             },
             addQueryEndpoint = function () {
                 return nis.addQueryEndpoint(ko.unwrap(entity().Name));
@@ -253,11 +264,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 var file = e.FileName || e,
                     line = e.Line || 1;
                 var params = [
-                        "height=" + screen.height,
-                        "width=" + screen.width,
-                        "toolbar=0",
-                        "location=0",
-                        "fullscreen=yes"
+                    "height=" + screen.height,
+                    "width=" + screen.width,
+                    "toolbar=0",
+                    "location=0",
+                    "fullscreen=yes"
                 ].join(","),
                     editor = window.open("/sph/editor/file?id=" + file.replace(/\\/g, "/") + "&line=" + line, "_blank", params);
                 editor.moveTo(0, 0);
@@ -280,7 +291,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             };
 
 
-        var vm = {
+        const vm = {
             triggers: triggers,
             templateOptions: templateOptions,
             valueObjectOptions: valueObjectOptions,
@@ -290,7 +301,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             queries: queries,
             operations: operations,
             partialViews: partialViews,
-            viewFile : viewFile,
+            viewFile: viewFile,
             forms: forms,
             views: views,
             errors: errors,
@@ -322,31 +333,31 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         return Task.fromResult(0);
                     }
                 },
-                    {
-                        command: publishAsync,
-                        caption: "Build",
-                        icon: "fa fa-sign-in",
-                        enable: ko.computed(function () {
-                            var ent = ko.unwrap(entity);
-                            if (!ent) return false;
-                            return ko.unwrap(ent.Id);
-                        })
-                    },
-                    {
-                        command: depublishAsync,
-                        caption: "Depublish",
-                        icon: "fa fa-sign-out",
-                        enable: ko.computed(function () {
-                            var ent = ko.unwrap(entity);
-                            if (!ent) return false;
-                            return ko.unwrap(ent.Id) && ko.unwrap(ent.IsPublished);
-                        })
-                    },
-                    {
-                        caption: "Truncate all data",
-                        icon: "fa fa-trash-o",
-                        command: truncateData
-                    }])
+                {
+                    command: publishAsync,
+                    caption: "Build",
+                    icon: "fa fa-sign-in",
+                    enable: ko.computed(function () {
+                        var ent = ko.unwrap(entity);
+                        if (!ent) return false;
+                        return ko.unwrap(ent.Id);
+                    })
+                },
+                {
+                    command: depublishAsync,
+                    caption: "Depublish",
+                    icon: "fa fa-sign-out",
+                    enable: ko.computed(function () {
+                        var ent = ko.unwrap(entity);
+                        if (!ent) return false;
+                        return ko.unwrap(ent.Id) && ko.unwrap(ent.IsPublished);
+                    })
+                },
+                {
+                    caption: "Truncate all data",
+                    icon: "fa fa-trash-o",
+                    command: truncateData
+                }])
             }
         };
 

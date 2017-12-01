@@ -1,0 +1,18 @@
+﻿<div class="container-fluid" data-bind="foreach :attachProperties">
+    <h3 data-bind="text:compiler"></h3>
+    
+    <!-- ko foreach : properties-->
+    <div class="form-group">
+        <label class="control-label" data-bind="text:Name">Name</label>
+
+        <input data-bind="value: Value, uniqueName:true, attr : {placeholder: Help}"
+               class="form-control">
+
+    </div>
+    
+    
+    <!-- /ko-->
+
+
+
+</div>

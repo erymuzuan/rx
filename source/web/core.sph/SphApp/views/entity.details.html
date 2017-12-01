@@ -65,39 +65,8 @@
                             Nullable
                         </label>
                     </div>
-                    <div class="form-group">
-                        <label class="checkbox" data-placement="left" data-bind="tooltip:'Creates database column, to allow API filter and Report filter, Views and search do not use this property'">
-                            <input data-bind="checked: IsFilterable, disable:ko.unwrap(AllowMultiple) || ko.unwrap(childOfValueMember)|| !ko.unwrap(allowFilter)" id="member-filtered" type="checkbox" name="IsFilterable" />
-                            Can be filtered
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label class="checkbox" data-placement="left" data-bind="tooltip:'If checked, this member will not be indexed in Elasticsearch, thus it will not be searchable'">
-                            <input data-bind="checked: IsNotIndexed, disable : childOfValueMember" id="member-not-indexed" type="checkbox" name="IsNotIndexed" />
-                            Do not indexed
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label class="checkbox" data-bind="tooltip:'To use full text index, terms will be broken and analyzed. Do not check for items you want to use in aggregates(i.e. term search)'">
-                            <input data-bind="checked: IsAnalyzed, disable: IsNotIndexed() || TypeName() !== 'System.String, mscorlib' || ko.unwrap(childOfValueMember)" id="member-analyzed" type="checkbox" name="IsAnalyzed" />
-                            Should analyzed(only for string)
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label class="checkbox" data-bind="tooltip:'Check if you do not wish this member to be included in the search terms'">
-                            <input data-bind="checked: IsExcludeInAll, disable: ko.unwrap(IsNotIndexed) || ko.unwrap(childOfValueMember)" id="member-exclude-all" type="checkbox" name="IsExcludeInAll" />
-                            Do not include in all
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label for="member-boost" class="control-label">Boost</label>
-
-                        <input type="number" data-bind="value: Boost, disable: ko.unwrap(IsNotIndexed) || ko.unwrap(childOfValueMember)"
-                               required value="1" min="1" max="10"
-                               placeholder="Boost"
-                               class="form-control" id="member-boost">
-
-                    </div>
+                   
+               
 
                     <div class="form-group">
                         <label for="member-default-value" class="control-label">Default Value</label>
@@ -141,7 +110,9 @@
 
                     </div>
 
-
+                    
+                    <!-- attached properties -->
+                    <!-- ko compose : { view : '_member.attached.properties'}--><!-- /ko-->
 
                 </form>
 

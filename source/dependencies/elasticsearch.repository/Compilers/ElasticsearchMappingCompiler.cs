@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Codes;
@@ -16,12 +17,12 @@ namespace Bespoke.Sph.ElasticsearchRepository.Compilers
 
         public Task<IEnumerable<AttachProperty>> GetAttachPropertiesAsycn(IProjectDefinition project)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(Array.Empty<AttachProperty>().AsEnumerable());
         }
 
         public Task<IEnumerable<AttachProperty>> GetAttachPropertiesAsycn(Member member)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(Array.Empty<AttachProperty>().AsEnumerable());
         }
 
         public Task<IEnumerable<Class>> GenerateCodeAsync(IProjectDefinition project)
