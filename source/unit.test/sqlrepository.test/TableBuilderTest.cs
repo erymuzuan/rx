@@ -37,7 +37,7 @@ namespace Bespoke.Sph.Tests.SqlServer
             address.AddMember("State", typeof(string), true);
             ent.MemberCollection.Add(address);
 
-            
+
             var columns = ent.GetFilterableMembers().ToList();
 
             Assert.All(columns, Assert.NotNull);
@@ -62,14 +62,14 @@ namespace Bespoke.Sph.Tests.SqlServer
 
             var builder = new SqlTableBuilder(m => Console.WriteLine("Info :" + m), m => Console.WriteLine("Warning :" + m),
                 e => Console.WriteError(e));
-            
 
-            var sources = await builder.GenerateCodeAsync(ed);
-            Console.WriteLine(sources.Keys.ToString(","));
-            var sql = sources["CustomerAccount.sql"];
+
+            var sources = (await builder.GenerateCodeAsync(ed)).ToList();
+            Console.WriteLine(sources.ToString(",", x => x.Name));
+            var sql = sources.Single(x => x.Name =="CustomerAccount.sql").GetCode();
             Assert.Contains("[Address.State]", sql);
-            
-            Assert.True(sources.ContainsKey("CustomerAccount.Index.Name.sql"));
+
+            Assert.Single(sources.Where(x => x.Name == "CustomerAccount.Index.Name.sql"));
 
         }
 
@@ -78,16 +78,16 @@ namespace Bespoke.Sph.Tests.SqlServer
         {
             var ed = new EntityDefinition { Name = "CustomerAccount", Plural = "CustomerAccounts", Id = "customer-account", RecordName = "Name" };
             var name = ed.AddMember("Name", typeof(string), true);
-            var properties = new[] { new AttachProperty("Length", 500)};
+            var properties = new[] { new AttachProperty("Length", 500) };
 
             var builder = new SqlTableBuilder(m => Console.WriteLine("Info :" + m), m => Console.WriteLine("Warning :" + m),
                 e => Console.WriteError(e));
             await builder.SaveAttachPropertiesAsycn(name, properties);
 
 
-            var sources = await builder.GenerateCodeAsync(ed);
-            Console.WriteLine(sources.Keys.ToString(","));
-            var sql = sources["CustomerAccount.sql"];
+            var sources = (await builder.GenerateCodeAsync(ed)).ToList();
+            Console.WriteLine(sources.ToString(",", x => x.Name));
+            var sql = sources.Single(x => x.Name =="CustomerAccount.sql").GetCode();
             Assert.Contains("[Name] AS CAST(JSON_VALUE([Json], '$.Name') AS VARCHAR(500))", sql);
         }
 
@@ -104,7 +104,7 @@ namespace Bespoke.Sph.Tests.SqlServer
             };
 
             var sql = name.CreateIndex(ed, properties);
-            Assert.Contains("[No],",sql);
+            Assert.Contains("[No],", sql);
         }
     }
 }

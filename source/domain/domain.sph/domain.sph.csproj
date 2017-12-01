@@ -330,6 +330,7 @@
     <Compile Include="diagnostics\FormDeleteOperationDiagnostics.cs" />
     <Compile Include="diagnostics\FormOperationDiagnostics.cs" />
     <Compile Include="diagnostics\LocationEndpointDiagnostics.cs" />
+    <Compile Include="Extensions\IProjectDefinitionExtension.cs" />
     <Compile Include="Extensions\ProjectDefinitionWithMembersExtension.cs" />
     <Compile Include="FileLogger.cs" />
     <Compile Include="FormTemplates\BinaryAndFilter.cs" />

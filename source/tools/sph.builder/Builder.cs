@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Compilers;
+using Bespoke.Sph.Domain.Extensions;
 using Bespoke.Sph.Extensions;
 using Bespoke.Sph.SourceBuilders.Extensions;
 
@@ -25,41 +26,9 @@ namespace Bespoke.Sph.SourceBuilders
         private readonly ILogger m_logger;
         protected abstract Task<RxCompilerResult> CompileAssetAsync(T item);
 
-        protected virtual async Task<RxCompilerResult> CompileAsync(IProjectDefinition project)
+        protected virtual Task<RxCompilerResult> CompileAsync(IProjectDefinition project)
         {
-
-            var results = new List<RxCompilerResult>();
-            WriteDebug($"Found {this.DeveloperService.ProjectBuilders.Length} IProjectBuilders");
-            var compilers = this.DeveloperService.ProjectBuilders
-                .Where(x => x.IsAvailableInBuildMode)
-                .ToArray();// TODO: .AsQueryable().WhereIf(x => this.Compilers.Contains(x.Name), Compilers.Length > 0).ToArray();
-            WriteDebug($"Found {compilers.Length} compilers matching the name");
-            foreach (var compiler in compilers)
-            {
-                WriteMessage($"Building with {compiler.Name}...");
-                var temp = new FileInfo(Path.GetTempFileName() + ".dll");
-                var temp2 = new FileInfo(Path.GetTempFileName() + ".pdb");
-
-                //TODO : read Debug and Verbose from the command line option
-                var options2 = new CompilerOptions2(temp.FullName, temp2.FullName) { IsDebug = true, IsVerbose = true };
-                var cr = await compiler.BuildAsync(project, x => options2);
-                results.Add(cr);
-
-                WriteMessage($"{compiler.GetType().Name} has {(cr.Result ? "successfully building" : "failed to build")} {project.Name}");
-                WriteMessage(cr.ToString());
-
-                var dll = $"{ConfigurationManager.CompilerOutputPath}\\{project.AssemblyName}.dll";
-                var pdb = $"{ConfigurationManager.CompilerOutputPath}\\{project.AssemblyName}.pdb";
-                if (!cr.IsEmpty && temp.Exists && temp.Length > 0)
-                    temp.CopyTo(dll, true);
-                if (!cr.IsEmpty && temp2.Exists && temp2.Length > 0)
-                    temp2.CopyTo(pdb, true);
-            }
-
-            var final = new RxCompilerResult { Result = results.All(x => x.Result) };
-            final.Errors.AddRange(results.SelectMany(x => x.Errors));
-
-            return final;
+            return project.CompileAsync();
         }
 
         protected virtual async Task<IEnumerable<string>> GenerateSourceCodeAsync(IProjectDefinition project)

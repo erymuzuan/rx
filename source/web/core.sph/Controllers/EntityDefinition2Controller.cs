@@ -330,31 +330,8 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var context = new SphDataContext();
             var ed = this.GetRequestJson<EntityDefinition>();
-            var compilers = ObjectBuilder.GetObject<IDeveloperService>().ProjectBuilders;
-
-            var results = new List<RxCompilerResult>();
-            Logger.WriteDebug($"Found {compilers.Length} IProjectBuilders");
-            foreach (var builder in compilers)
-            {
-                Logger.WriteDebug($"Building with {builder.GetType().Name}...");
-                var sources = await builder.GenerateCodeAsync(ed);
-                foreach (var src in sources)
-                {
-                    var path = $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\{src.Key}";
-                    if (Path.IsPathRooted(src.Key))
-                        path = src.Key;
-                    System.IO.File.WriteAllText(path, src.Value);
-                }
-                Logger.WriteDebug($"Savings source files {sources.Keys.ToString(", ")}");
-                var cr = await builder.BuildAsync(ed, sources.Keys.ToArray());
-                results.Add(cr);
-                Logger.WriteInfo($"{builder.GetType().Name} has {(cr.Result ? "successfully building" : "failed to build")} {ed.Name}");
-                Logger.WriteInfo(cr.ToString());
-            }
-
-            var final = new RxCompilerResult { Result = results.All(x => x.Result) };
-            final.Errors.AddRange(results.SelectMany(x => x.Errors));
-            
+         
+            var final =await ed.CompileAsync();
             if (!final.Result)
                 return Json(final);
             

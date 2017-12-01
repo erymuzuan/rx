@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Extensions;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.WebApi;
 
@@ -83,7 +84,7 @@ namespace Bespoke.Sph.Web.Controllers
             if (!buildValidation.Result)
                 return ResponseMessage(new HttpResponseMessage() {StatusCode = (HttpStatusCode)422,});
 
-            var result = await endpoint.CompileAsync(ed);
+            var result = await endpoint.CompileAsync();
             if (!result.Result)
                 return Invalid(result);
             
