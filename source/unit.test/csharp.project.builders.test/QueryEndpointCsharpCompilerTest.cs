@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Csharp.CompilersServices;
-using Bespoke.Sph.Csharp.CompilersServices.Extensions;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Tests.Extensions;
 using Bespoke.Sph.Tests.Mocks;
@@ -22,8 +21,19 @@ namespace Bespoke.Sph.Tests
 {
     public class QueryEndpointCsharpCompilerTest
     {
-        private readonly ITestOutputHelper m_output;
+        public ITestOutputHelper Console { get; }
         private readonly Mock<ICacheManager> m_cache;
+
+
+        public QueryEndpointCsharpCompilerTest(ITestOutputHelper console)
+        {
+            Console = console;
+
+            m_cache = new Mock<ICacheManager>(MockBehavior.Strict);
+            ObjectBuilder.AddCacheList<ICacheManager>(m_cache.Object);
+            ObjectBuilder.AddCacheList<ILogger>(new XunitConsoleLogger(console));
+        }
+
         private static T GetFromEmbeddedResource<T>(string resource) where T : Entity
         {
             var assembly = typeof(QueryEndpointCsharpCompilerTest).Assembly;
@@ -80,31 +90,13 @@ namespace Bespoke.Sph.Tests
             query.MemberCollection.AddRange("Id", "ReferenceNo", "DateTime", "Doctor", "Location", "Ward");
 
             var compiler = new QueryEndpointCompiler();
-            var sources = await compiler.GenerateCodeAsync(appointment);
-            var result = await compiler.BuildAsync(query, sources);
+            var result = await compiler.BuildAsync(query, x => new CompilerOptions2());
 
             Assert.True(result.Result, result.ToString());
 
         }
 
-        private async Task<dynamic> CreateInstanceAsync(EntityDefinition ed, bool verbose = false)
-        {
-            var core = Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\core.sph.dll");
-            var destinationCore = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "core.sph.dll");
-            File.Copy(core, destinationCore, true);
 
-            var result = await ed.CompileWithCsharpAsync();
-            result.Errors.ForEach(Console.WriteLine);
-
-            // try to instantiate the EntityDefinition
-            var assembly = Assembly.LoadFrom(result.Output);
-            var edTypeName = $"{ed.CodeNamespace}.{ed.Name}";
-
-            var edType = assembly.GetType(edTypeName);
-            Assert.NotNull(edType);
-
-            return Activator.CreateInstance(edType);
-        }
 
 
 
@@ -125,7 +117,7 @@ namespace Bespoke.Sph.Tests
         public void GeneratePatientTest()
         {
             var ed = this.CreatePatientDefinition();
-            var patient = this.CreateInstanceAsync(ed, true);
+            var patient = ed.CreateInstanceAsync(true);
             Assert.NotNull(patient);
         }
 
@@ -150,13 +142,14 @@ namespace Bespoke.Sph.Tests
             endpoint.AddRules("VerifyRegisteredDate");
 
             var ed = this.CreatePatientDefinition(endpoint.Entity);
-            var patient = this.CreateInstanceAsync(ed, true);
+            var patient = ed.CreateInstanceAsync(true);
             Assert.NotNull(patient);
 
             m_cache.Setup(x => x.Get<EntityDefinition>(ed.Id))
                 .Returns(ed);
 
-            var result = await endpoint.CompileAsync(ed);
+            var compiler = new OperationEndpointCompiler();
+            var result = await compiler.BuildAsync(endpoint, x => new CompilerOptions2());
             Assert.True(result.Result, result.ToString());
 
             try
@@ -193,10 +186,10 @@ namespace Bespoke.Sph.Tests
             }
             catch (ReflectionTypeLoadException e)
             {
-                m_output.WriteLine(e.ToString());
+                Console.WriteLine(e.ToString());
                 foreach (var inner in e.LoaderExceptions)
                 {
-                    m_output.WriteLine(inner.ToString());
+                    Console.WriteLine(inner.ToString());
                 }
 
                 throw;
@@ -208,7 +201,7 @@ namespace Bespoke.Sph.Tests
         public async Task HttpPatchReleaseOperation()
         {
             var ed = this.CreatePatientDefinition("PatientForRelease");
-            var patient = this.CreateInstanceAsync(ed, true);
+            var patient = ed.CreateInstanceAsync(true);
             Assert.NotNull(patient);
 
 
@@ -217,7 +210,8 @@ namespace Bespoke.Sph.Tests
             //release.PatchPathCollection.Add("ClinicalNote");
             release.Rules.Add("VerifyRegisteredDate");
 
-            var cr = await release.CompileAsync(ed);
+            var compiler = new OperationEndpointCompiler();
+            var cr = await compiler.BuildAsync(release, x => new CompilerOptions2());
             Assert.True(cr.Result, cr.ToString());
 
 
@@ -240,10 +234,11 @@ namespace Bespoke.Sph.Tests
             admit.PatchPathCollection.Add(new PatchSetter { Path = "Status", DefaultValue = "\"Admitted\"" });
 
 
-            var patient = this.CreateInstanceAsync(ed, true);
+            var patient = ed.CreateInstanceAsync(true);
             Assert.NotNull(patient);
 
-            var cr = await admit.CompileAsync(ed);
+            var compiler = new OperationEndpointCompiler();
+            var cr = await compiler.BuildAsync(admit, x => new CompilerOptions2());
             Assert.True(cr.Result, cr.ToString());
 
             var dll = Assembly.LoadFrom(cr.Output);
@@ -294,10 +289,11 @@ namespace Bespoke.Sph.Tests
                 }
             });
 
-            var patient = this.CreateInstanceAsync(ed, true);
+            var patient = ed.CreateInstanceAsync(true);
             Assert.NotNull(patient);
 
-            var cr = await admit.CompileAsync(ed);
+            var compiler = new OperationEndpointCompiler();
+            var cr = await compiler.BuildAsync(admit, x => new CompilerOptions2());
             Assert.True(cr.Result, cr.ToString());
 
             var dll = Assembly.LoadFrom(cr.Output);
@@ -315,13 +311,13 @@ namespace Bespoke.Sph.Tests
         public async Task HttpDelete()
         {
             var ed = this.CreatePatientDefinition("PatientDelete");
-            var patient = this.CreateInstanceAsync(ed);
+            var patient = ed.CreateInstanceAsync(true);
             Assert.NotNull(patient);
 
             var delete = new OperationEndpoint { Name = "Remove", Entity = ed.Name, Route = "", IsHttpDelete = true, WebId = "remove" };
 
-
-            var cr = await delete.CompileAsync(ed);
+            var compiler = new OperationEndpointCompiler();
+            var cr = await compiler.BuildAsync(delete, x => new CompilerOptions2());
             Assert.True(cr.Result, cr.ToString());
 
 
@@ -357,10 +353,14 @@ namespace Bespoke.Sph.Tests
             ed.BusinessRuleCollection.Add(rule);
             delete.Rules.Add(rule.Name);
 
-            var patient = this.CreateInstanceAsync(ed, true);
+            var patient = ed.CreateInstanceAsync(true);
             Assert.NotNull(patient);
 
-            var cr = await delete.CompileAsync(ed);
+
+
+            var compiler = new OperationEndpointCompiler();
+            var cr = await compiler.BuildAsync(delete, x => new CompilerOptions2());
+
             Assert.True(cr.Result, cr.ToString());
 
             var dll = Assembly.LoadFrom(cr.Output);
@@ -406,12 +406,16 @@ namespace Bespoke.Sph.Tests
             File.WriteAllText(jsonPath, ed.ToJsonString(true));
             File.WriteAllText(oePath, mortuary.ToJsonString(true));
 
-            var patient = await this.CreateInstanceAsync(ed, true);
+            var patient = await ed.CreateInstanceAsync(true);
             Assert.NotNull(patient);
             patient.Id = "0142ae18-a205-4979-9218-39f92b41589e";
             patient.DeathDateTime = DateTime.Today.AddDays(1);
 
-            var cr = await mortuary.CompileAsync(ed);
+
+
+            var compiler = new OperationEndpointCompiler();
+            var cr = await compiler.BuildAsync(mortuary, x => new CompilerOptions2());
+
             Assert.True(cr.Result, cr.ToString());
 
             Type patientType = patient.GetType();
@@ -469,13 +473,14 @@ namespace Bespoke.Sph.Tests
             File.WriteAllText(jsonPath, ed.ToJsonString(true));
             File.WriteAllText(oePath, release.ToJsonString(true));
 
-            var patient = await this.CreateInstanceAsync(ed, true);
+            var patient = await ed.CreateInstanceAsync(true);
             Assert.NotNull(patient);
             patient.Id = Guid.NewGuid().ToString();
             patient.DeathDateTime = DateTime.Today.AddDays(1);
 
 
-            var cr = await release.CompileAsync(ed);
+            var compiler = new OperationEndpointCompiler();
+            var cr = await compiler.BuildAsync(release, x => new CompilerOptions2());
 
             Type patientType = patient.GetType();
             var oedll = Assembly.LoadFrom(cr.Output);
@@ -538,7 +543,7 @@ namespace Bespoke.Sph.Tests
             File.WriteAllText(oePath, release.ToJsonString(true));
 
 
-            var patient = await this.CreateInstanceAsync(ed, true);
+            var patient = await ed.CreateInstanceAsync(true);
             Assert.NotNull(patient);
             patient.DeathDateTime = DateTime.Today.AddDays(1);
             patient.Id = Guid.NewGuid().ToString();
@@ -548,7 +553,8 @@ namespace Bespoke.Sph.Tests
             var repos = AddMockRespository(patientType);
             repos.AddToDictionary(patient.Id, patient);
 
-            var cr = await release.CompileAsync(ed);
+            var compiler = new OperationEndpointCompiler();
+            var cr = await compiler.BuildAsync(release, x => new CompilerOptions2());
             Assert.True(cr.Result, cr.ToString());
             var opDll = Assembly.LoadFrom(cr.Output);
 
@@ -569,7 +575,7 @@ namespace Bespoke.Sph.Tests
 
         [Fact]
         [Trait("Verb", "PATCH")]
-        public async Task ConflictDetection()
+        public async Task ConflictDetection2()
         {
             var mortuary = new OperationEndpoint
             {
@@ -591,12 +597,13 @@ namespace Bespoke.Sph.Tests
             File.WriteAllText(jsonPath, ed.ToJsonString(true));
             File.WriteAllText(oePath, mortuary.ToJsonString(true));
 
-            var patient = await this.CreateInstanceAsync(ed, true);
+            var patient = await ed.CreateInstanceAsync(true);
             Assert.NotNull(patient);
             patient.Id = "0142ae18-a205-4979-9218-39f92b41589e";
             patient.DeathDateTime = DateTime.Today.AddDays(1);
 
-            var cr = await mortuary.CompileAsync(ed);
+            var compiler = new OperationEndpointCompiler();
+            var cr = await compiler.BuildAsync(mortuary, x => new CompilerOptions2());
             Assert.True(cr.Result, cr.ToString());
 
             Type patientType = patient.GetType();
@@ -623,13 +630,13 @@ namespace Bespoke.Sph.Tests
             ent.AddSimpleMember<string>("FullName");
             ent.AddSimpleMember<string>("Status");
             ent.AddSimpleMember<string>("Title");
-            ent.AddSimpleMember<string>( "DeathDateTime");
+            ent.AddSimpleMember<string>("DeathDateTime");
             ent.AddSimpleMember<string>("Discharged");
             var address = new ComplexMember { Name = "Address", TypeName = "Address" };
             address.AddMember<string>("Street1");
             address.AddMember<string>("State");
             ent.MemberCollection.Add(address);
-            
+
 
             var contacts = new ComplexMember { Name = "ContactCollection", TypeName = "Contact" };
             contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });

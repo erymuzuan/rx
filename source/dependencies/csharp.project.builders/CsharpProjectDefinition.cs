@@ -57,6 +57,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices
                 case EntityDefinition ed:
                     return await ed.GenerateCodeAsync();
                 case OperationEndpoint oe:
+                    // TODO : get the ed from projects dependsOn
                     var ed1 = new SphDataContext().LoadOneFromSources<EntityDefinition>(x => x.Name == oe.Entity);
                     return await oe.GenerateSourceAsync(ed1);
                 case QueryEndpoint qe:

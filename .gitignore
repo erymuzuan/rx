@@ -199,3 +199,4 @@ bin/utils/
 bin/elasticsearch-*/
 env.devv1.*.ps1
 source/assembly.versions/
+bin/sources/QueryEndpoint/patients-born-in-60s.setting

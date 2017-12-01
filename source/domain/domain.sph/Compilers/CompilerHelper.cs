@@ -5,15 +5,16 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Bespoke.Sph.Domain.Codes;
-using Bespoke.Sph.Domain.Compilers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Bespoke.Sph.Domain
+namespace Bespoke.Sph.Domain.Compilers
 {
-    public static class CompilerHelper
+    [Obsolete("Should be moved out of domain.sph and to csharp.project.builder")]
+    internal static class CompilerHelper
     {
+        [Obsolete("Should be moved out of domain.sph and to csharp.project.builder")]
         public static void AddReference(this CompilerParameters parameters, params Type[] types)
         {
             foreach (var type in types)
@@ -21,49 +22,60 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(type.Assembly.Location);
             }
         }
+        [Obsolete("Should be moved out of domain.sph and to csharp.project.builder")]
         public static MetadataReference CreateMetadataReference(this Type type)
         {
             return MetadataReference.CreateFromFile(type.Assembly.Location);
         }
 
+        [Obsolete("Should be moved out of domain.sph and to csharp.project.builder")]
         public static MetadataReference CreateMetadataReference<T>(this object type)
         {
             return MetadataReference.CreateFromFile(typeof(T).Assembly.Location);
         }
+        [Obsolete("Should be moved out of domain.sph and to csharp.project.builder")]
         public static void AddMetadataReference<T>(this IList<MetadataReference> list)
         {
             var mt = MetadataReference.CreateFromFile(typeof(T).Assembly.Location);
             list.Add(mt);
         }
+        [Obsolete("Should be moved out of domain.sph and to csharp.project.builder")]
         public static void AddMetadataReference(this IList<MetadataReference> list, Type type)
         {
             var mt = MetadataReference.CreateFromFile(type.Assembly.Location);
             list.Add(mt);
         }
 
+        [Obsolete("Should be moved out of domain.sph and to csharp.project.builder")]
         public static MetadataReference CreateMetadataReference<T>(this IProjectDefinition project)
         {
             return MetadataReference.CreateFromFile(typeof(T).Assembly.Location);
         }
 
+        [Obsolete("Should be moved out of domain.sph and to csharp.project.builder")]
         public static CSharpCompilation AddReference<T>(this CSharpCompilation type)
         {
             return type.AddReferences(MetadataReference.CreateFromFile((typeof(T)).Assembly.Location));
         }
+        [Obsolete("Should be moved out of domain.sph and to csharp.project.builder")]
         public static Project AddMetadataReference<T>(this Project type)
         {
             return type.AddMetadataReference(MetadataReference.CreateFromFile((typeof(T)).Assembly.Location));
         }
 
+        [Obsolete("Should be moved out of domain.sph and to csharp.project.builder")]
         public static Project AddMetadataReference(this Project project, Type type)
         {
             return project.AddMetadataReference(MetadataReference.CreateFromFile(type.Assembly.Location));
         }
 
+        [Obsolete("Should be moved out of domain.sph and to csharp.project.builder")]
         public static Project AddMetadataReference(this Project project, string location)
         {
             return project.AddMetadataReference(MetadataReference.CreateFromFile(location));
         }
+
+        [Obsolete("Should be moved out of domain.sph and to csharp.project.builder")]
         public static ProjectInfo AddMetadataReference<T>(this ProjectInfo info)
         {
             var list = info.MetadataReferences.ToList();
@@ -72,6 +84,7 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        [Obsolete("Should be moved out of domain.sph and to csharp.project.builder")]
         public static ProjectInfo AddMetadataReference(this ProjectInfo info, Type type)
         {
             var list = info.MetadataReferences.ToList();
@@ -79,6 +92,7 @@ namespace Bespoke.Sph.Domain
             return info.WithMetadataReferences(list.ToArray());
         }
 
+        [Obsolete("Should be moved out of domain.sph and to csharp.project.builder")]
         public static ProjectInfo AddMetadataReference(this ProjectInfo info, params string[] locations)
         {
             var list = info.MetadataReferences.ToList();
@@ -104,6 +118,11 @@ namespace Bespoke.Sph.Domain
             return code.ToString().FormatCode();
         }
 
+
+    }
+
+    internal static class CodeExpressionExtension
+    {
         public static bool HasAsyncAwaitExpression(this CodeExpression expression)
         {
             if (expression.IsEmpty) return false;
@@ -122,5 +141,6 @@ public object Evaluate(object item)
 
             return nodes.SelectMany(x => x.DescendantNodes()).OfType<AwaitExpressionSyntax>().Any();
         }
+
     }
 }
