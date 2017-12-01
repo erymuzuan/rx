@@ -3,14 +3,14 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    public class AttachProperty : DomainObject
+    public class AttachedProperty : DomainObject
     {
-        public AttachProperty()
+        public AttachedProperty()
         {
             
         }
 
-        public AttachProperty(string name, object value)
+        public AttachedProperty(string name, object value)
         {
             this.Name = name;
             this.Type = value.GetType();
@@ -20,6 +20,7 @@ namespace Bespoke.Sph.Domain
         public string TypeName { get; set; }
         public bool Required { get; set; }
         public string Help { get; set; }
+        public string Description { get; set; }
 
         public string ValueAsString { get; set; }
         private object m_value;

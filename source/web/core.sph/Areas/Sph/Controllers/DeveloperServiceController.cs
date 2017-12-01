@@ -109,7 +109,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 if (null == ed)
                     return NotFound($"Cannot find any {type} with id : {id}");
 
-                var bags = new Dictionary<IProjectBuilder, List<AttachProperty>>();
+                var bags = new Dictionary<IProjectBuilder, List<AttachedProperty>>();
                 foreach (var builder in compilers)
                 {
                     var props = await builder.GetAttachPropertiesAsycn(ed);
@@ -141,7 +141,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             if (null == member)
                 return NotFound($"Cannot find any Member : {path} in {ed.Name}");
 
-            var bags = new Dictionary<IProjectBuilder, List<AttachProperty>>();
+            var bags = new Dictionary<IProjectBuilder, List<AttachedProperty>>();
             foreach (var builder in compilers)
             {
                 var props = await builder.GetAttachPropertiesAsycn(member);

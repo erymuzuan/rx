@@ -1629,7 +1629,7 @@ bespoke.sph.domain.MemberPartial = function (model) {
         addField: addField,
         removeField: removeField,
         editField: editField,
-        attachProperties : ko.observableArray()
+        attachedProperties : ko.observableArray()
     };
 };
 /// <reference path="../objectbuilders.js" />

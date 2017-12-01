@@ -15,14 +15,14 @@ namespace Bespoke.Sph.Csharp.CompilersServices
     {
         public string Name => "QueryEndpoint";
         public string Description => @"Compile QueryEndpoint or if in case of EntityDefinition, all its QueryEndpoints";
-        public Task<IEnumerable<AttachProperty>> GetAttachPropertiesAsycn(IProjectDefinition project)
+        public Task<IEnumerable<AttachedProperty>> GetAttachPropertiesAsycn(IProjectDefinition project)
         {
-            return Task.FromResult(Array.Empty<AttachProperty>().AsEnumerable());
+            return Task.FromResult(Array.Empty<AttachedProperty>().AsEnumerable());
         }
 
-        public Task<IEnumerable<AttachProperty>> GetAttachPropertiesAsycn(Member member)
+        public Task<IEnumerable<AttachedProperty>> GetAttachPropertiesAsycn(Member member)
         {
-            return Task.FromResult(Array.Empty<AttachProperty>().AsEnumerable());
+            return Task.FromResult(Array.Empty<AttachedProperty>().AsEnumerable());
         }
         public async Task<IEnumerable<Class>> GenerateCodeAsync(IProjectDefinition project)
         {

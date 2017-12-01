@@ -2401,7 +2401,7 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [DebuggerHidden]
-
+        [Obsolete("If you don't want it, the use SqlServerReadOnlyRepository<T>")]
         public bool? StoreInElasticsearch
         {
             set

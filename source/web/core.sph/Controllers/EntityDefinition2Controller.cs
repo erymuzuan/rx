@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -10,8 +9,9 @@ using System.Web;
 using System.Web.ModelBinding;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
 using Bespoke.Sph.Domain.Extensions;
-using Bespoke.Sph.Extensions;
+using Bespoke.Sph.Domain.Management;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.Helpers;
 using Humanizer;
@@ -27,10 +27,10 @@ namespace Bespoke.Sph.Web.Controllers
         [RxSourceOutputCache(SourceType = typeof(EntityDefinition))]
         public async Task<ActionResult> GetVariablePath(string id)
         {
-            var context = new SphDataContext();
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
 
-            var ed = await context.LoadOneAsync<EntityDefinition>(w => w.Id == id) ??
-                     context.LoadOneFromSources<EntityDefinition>(w => w.Name == id);
+            var ed = await repos.LoadOneAsync<EntityDefinition>(w => w.Id == id) ??
+                     (await repos.LoadOneAsync<EntityDefinition>(w => w.Name == id));
             if (null == ed) return new HttpNotFoundResult("Cannot find EntityDefinition with Id = " + id);
             var list = ed.GetMembersPath();
             return Json(list, JsonRequestBehavior.AllowGet);
@@ -75,6 +75,7 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("")]
         public async Task<ActionResult> Save()
         {
+            // TODO : get the AttachedProperties, for the ed and members
             var ed = this.GetRequestJson<EntityDefinition>();
             var context = new SphDataContext();
             var canSave = ed.CanSave();
@@ -153,8 +154,8 @@ namespace Bespoke.Sph.Web.Controllers
         [RxSourceOutputCache(SourceType = typeof(EntityDefinition))]
         public async Task<ActionResult> Schemas()
         {
-            var context = new SphDataContext();
-            var list = context.LoadFromSources<EntityDefinition>(x => x.IsPublished);
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
+            var list = await repos.LoadAsync<EntityDefinition>(x => x.IsPublished);
 
             var script = new StringBuilder();
             var provider = CodeGeneratorFactory.Instance.LanguageProviders.Single(x => x.Language == "javascript");
@@ -170,8 +171,8 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("export/{id}")]
         public async Task<ActionResult> Export(string id, [QueryString] bool includeData = false)
         {
-            var context = new SphDataContext();
-            var entity = context.LoadOneFromSources<EntityDefinition>(e => e.Id == id);
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
+            var entity = await repos.LoadOneAsync<EntityDefinition>(e => e.Id == id);
             var package = new EntityDefinitionPackage();
             var zip = await package.PackAsync(entity, includeData);
             var file = $"{Path.GetFileNameWithoutExtension(zip)}_{Environment.MachineName}_{DateTime.Now:s}{(includeData ? "_data" : "")}.zip";
@@ -253,8 +254,8 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("{name}/contents")]
         public async Task<ActionResult> TruncateData(string name)
         {
-            var context = new SphDataContext();
-            var ed = context.LoadOneFromSources<EntityDefinition>(x => x.Name == name);
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
+            var ed = await repos.LoadOneAsync<EntityDefinition>(x => x.Name == name);
 
             if (ed.StoreInElasticsearch ?? false)
             {
@@ -265,15 +266,9 @@ namespace Bespoke.Sph.Web.Controllers
             if (!ed.Transient)
             {
                 // truncate SQL Table
-                using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
-                using (var truncateCommand = new SqlCommand($"TRUNCATE TABLE [{ConfigurationManager.ApplicationName}].[{name}]", conn))
-                using (var dbccCommand = new SqlCommand($"DBCC SHRINKDATABASE ({ConfigurationManager.ApplicationName})", conn))
-                {
-                    await conn.OpenAsync();
-
-                    await truncateCommand.ExecuteNonQueryAsync();
-                    await dbccCommand.ExecuteNonQueryAsync();
-                }
+                var management = ObjectBuilder.GetObject<IRepositoryManagement>();
+                await management.TruncateDataAsync(ed);
+                
             }
             return Json(new { success = true, message = "Data has been truncated", status = "OK" });
 
@@ -306,9 +301,10 @@ namespace Bespoke.Sph.Web.Controllers
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == id);
             if (null == ed) return new HttpNotFoundResult("Cannot find entity definition to delete, id : " + id);
 
-            var forms = context.LoadFromSources<EntityForm>(f => f.EntityDefinitionId == id);
-            var views = context.LoadFromSources<EntityView>(f => f.EntityDefinitionId == id);
-            var triggers = context.LoadFromSources<Trigger>(f => f.Entity == id);
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
+            var forms = await repos.LoadAsync<EntityForm>(f => f.EntityDefinitionId == id);
+            var views = await repos.LoadAsync<EntityView>(f => f.EntityDefinitionId == id);
+            var triggers = await repos.LoadAsync<Trigger>(f => f.Entity == id);
 
             using (var session = context.OpenSession())
             {
@@ -316,7 +312,7 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Delete(forms.Cast<Entity>().ToArray());
                 session.Delete(views.Cast<Entity>().ToArray());
                 session.Delete(triggers.Cast<Entity>().ToArray());
-                // TODO : drop the tables and elastic search mappings
+                // TODO : drop the repository and readonly repository data store and schema
                 await session.SubmitChanges("delete");
             }
             return Json(new { success = true, status = "OK", message = "Your entity definition has been successfully deleted", id = ed.Id });

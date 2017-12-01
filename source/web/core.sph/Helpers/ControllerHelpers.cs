@@ -18,8 +18,7 @@ namespace Bespoke.Sph.Web.Helpers
 
         public static T GetRequestJson<T>(this Controller controller)
         {
-            if (null == controller.Request) return default(T);
-            if (null == controller.Request.InputStream) return default(T);
+            if (controller.Request?.InputStream == null) return default;
             if (controller.Request.InputStream.CanSeek)
                 controller.Request.InputStream.Position = 0;
             using (var reader = new StreamReader(controller.Request.InputStream))

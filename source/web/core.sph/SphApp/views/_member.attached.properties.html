@@ -1,14 +1,38 @@
-﻿<div class="container-fluid" data-bind="foreach :attachProperties">
+﻿<div class="container-fluid" data-bind="foreach :attachedProperties">
     <h3 data-bind="text:compiler"></h3>
     
     <!-- ko foreach : properties-->
+
+    
+    <!-- ko if : ko.unwrap(TypeName) === 'System.Boolean, mscorlib' -->
+    <div class="form-group">
+        <label class="checkbox">
+            <input data-bind="checked: Value, uniqueName:true" type="checkbox" />
+            <!-- ko text : Name-->
+            <!-- /ko -->
+
+        </label>
+    </div>
+
+    <!-- /ko -->
+    
+    <!-- ko if : ko.unwrap(TypeName) === 'System.Int32, mscorlib' -->
     <div class="form-group">
         <label class="control-label" data-bind="text:Name">Name</label>
 
-        <input data-bind="value: Value, uniqueName:true, attr : {placeholder: Help}"
+        <input type="number" data-bind="value: Value, uniqueName:true, attr : {placeholder: Help}"
                class="form-control">
-
     </div>
+    <!-- /ko -->
+    
+    <!-- ko if : ko.unwrap(TypeName) === 'System.String, mscorlib' -->
+    <div class="form-group">
+        <label class="control-label" data-bind="text:Name">Name</label>
+
+        <input type="text" data-bind="value: Value, uniqueName:true, attr : {placeholder: Help}"
+               class="form-control">
+    </div>
+    <!-- /ko -->
     
     
     <!-- /ko-->

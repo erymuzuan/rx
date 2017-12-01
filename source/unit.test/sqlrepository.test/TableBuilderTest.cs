@@ -78,7 +78,7 @@ namespace Bespoke.Sph.Tests.SqlServer
         {
             var ed = new EntityDefinition { Name = "CustomerAccount", Plural = "CustomerAccounts", Id = "customer-account", RecordName = "Name" };
             var name = ed.AddMember("Name", typeof(string), true);
-            var properties = new[] { new AttachProperty("Length", 500) };
+            var properties = new[] { new AttachedProperty("Length", 500) };
 
             var builder = new SqlTableBuilder(m => Console.WriteLine("Info :" + m), m => Console.WriteLine("Warning :" + m),
                 e => Console.WriteError(e));
@@ -99,8 +99,8 @@ namespace Bespoke.Sph.Tests.SqlServer
 
             var properties = new[]
             {
-                new AttachProperty("Indexed", true),
-                new AttachProperty("IndexedFields", "No,CreditLimit")
+                new AttachedProperty("Indexed", true),
+                new AttachedProperty("IndexedFields", "No,CreditLimit")
             };
 
             var sql = name.CreateIndex(ed, properties);

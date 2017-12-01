@@ -73,16 +73,16 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 member.subscribe(async function (mr) {
                     const result = await context.get(
                         `/developer-service/compilers-attached-properties-members/${entity().Id()}/${mr.Name()}`);
-                    const properties = Object.keys(result).map(v => {
-                        return { "compiler": v, properties : result[v] };
+                    const properties = Object.keys(result).filter(v => result[v].length).map(v => {
+                        return { "compiler": v, properties: result[v].map(x => ko.mapping.fromJS(x)) };
                     });
                     console.info("Member changed", properties);
-                    mr.attachProperties(properties);
+                    mr.attachedProperties(properties);
 
                 });
             },
             publishDashboard = function () {
-                var data = ko.mapping.toJSON(entity);
+                const data = ko.mapping.toJSON(entity);
                 return context.post(data, "/entity-definition/publish-dashboard");
             },
             save = function () {
@@ -90,7 +90,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     logger.error("Please correct all the validations errors");
                     return Task.fromResult(0);
                 }
-                var data = ko.mapping.toJSON(entity);
+                const data = ko.mapping.toJSON(entity);
                 isBusy(true);
 
                 return context.post(data, "/entity-definition")
@@ -150,7 +150,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             publishAsync = function () {
 
-                var data = ko.mapping.toJSON(entity);
+                const data = ko.mapping.toJSON(entity);
                 isBusy(true);
 
                 return context.post(data, "/entity-definition/publish")
@@ -172,7 +172,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             depublishAsync = function () {
 
-                var data = ko.mapping.toJSON(entity);
+                const data = ko.mapping.toJSON(entity);
                 isBusy(true);
 
                 return context.post(data, "/entity-definition/depublish")
@@ -269,17 +269,17 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     "toolbar=0",
                     "location=0",
                     "fullscreen=yes"
-                ].join(","),
-                    editor = window.open("/sph/editor/file?id=" + file.replace(/\\/g, "/") + "&line=" + line, "_blank", params);
+                ].join(",");
+                const editor = window.open(`/sph/editor/file?id=${file.replace(/\\/g, "/")}&line=${line}`, "_blank", params);
                 editor.moveTo(0, 0);
             },
             truncateData = function () {
                 var tcs = new $.Deferred();
 
-                app.showMessage("TRUNCATE all data, you'll lose all the data is SQL and Elasticsearch", "RX Developer", ["Yes", "No"])
+                app.showMessage("TRUNCATE all data, you'll lose all the data in your Repository and ReadOnly Repository", "RX Developer", ["Yes", "No"])
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
-                            context.sendDelete("/entity-definition/" + entity().Name() + "/contents")
+                            context.sendDelete(`/entity-definition/${entity().Name()}/contents`)
                                 .fail(tcs.reject)
                                 .done(tcs.resolve);
                         } else {

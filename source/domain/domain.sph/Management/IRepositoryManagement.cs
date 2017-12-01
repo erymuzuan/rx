@@ -8,5 +8,6 @@ namespace Bespoke.Sph.Domain.Management
         Task<bool> GetAccesibleStatusAsync();
         void RegisterConnectionChanged(Func<bool, int> connectionStateChanged);
         void OpenManagementConsole();
+        Task TruncateDataAsync(EntityDefinition ed);
     }
 }

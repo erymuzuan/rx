@@ -9,8 +9,8 @@ namespace Bespoke.Sph.Domain.Compilers
     {
         string Name { get; }
         string Description { get; }
-        Task<IEnumerable<AttachProperty>> GetAttachPropertiesAsycn(IProjectDefinition project);
-        Task<IEnumerable<AttachProperty>> GetAttachPropertiesAsycn(Member member);
+        Task<IEnumerable<AttachedProperty>> GetAttachPropertiesAsycn(IProjectDefinition project);
+        Task<IEnumerable<AttachedProperty>> GetAttachPropertiesAsycn(Member member);
         /*MetadataReference[] GetMetadataReferences();
         Task<IProjectDefinition> GetDefinitionAsync();*/
         Task<IEnumerable<Class>> GenerateCodeAsync(IProjectDefinition project);

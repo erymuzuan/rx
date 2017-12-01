@@ -18,14 +18,14 @@ namespace Bespoke.Sph.Csharp.CompilersServices
         [ImportMany(typeof(IBuildDiagnostics))]
         public IBuildDiagnostics[] BuildDiagnostics { get; set; }
 
-        public Task<IEnumerable<AttachProperty>> GetAttachPropertiesAsycn(IProjectDefinition project)
+        public Task<IEnumerable<AttachedProperty>> GetAttachPropertiesAsycn(IProjectDefinition project)
         {
-            return Task.FromResult(Array.Empty<AttachProperty>().AsEnumerable());
+            return Task.FromResult(Array.Empty<AttachedProperty>().AsEnumerable());
         }
 
-        public Task<IEnumerable<AttachProperty>> GetAttachPropertiesAsycn(Member member)
+        public Task<IEnumerable<AttachedProperty>> GetAttachPropertiesAsycn(Member member)
         {
-            return Task.FromResult(Array.Empty<AttachProperty>().AsEnumerable());
+            return Task.FromResult(Array.Empty<AttachedProperty>().AsEnumerable());
         }
 
         public async Task<IEnumerable<Class>> GenerateCodeAsync(IProjectDefinition project)

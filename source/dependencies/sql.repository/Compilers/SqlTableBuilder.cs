@@ -26,23 +26,23 @@ namespace Bespoke.Sph.SqlRepository.Compilers
         }
 
         //TODO : persist to disk in source
-        private readonly Dictionary<Member, List<AttachProperty>> m_memberProperties = new Dictionary<Member, List<AttachProperty>>();
-        public Task SaveAttachPropertiesAsycn(Member member, params AttachProperty[] properties)
+        private readonly Dictionary<Member, List<AttachedProperty>> m_memberProperties = new Dictionary<Member, List<AttachedProperty>>();
+        public Task SaveAttachPropertiesAsycn(Member member, params AttachedProperty[] properties)
         {
             m_memberProperties.AddOrReplace(member, properties.ToList());
             return Task.FromResult(0);
         }
 
-        public Task SaveAttachPropertiesAsycn(IProjectDefinition project, params AttachProperty[] properties)
+        public Task SaveAttachPropertiesAsycn(IProjectDefinition project, params AttachedProperty[] properties)
         {
             return Task.FromResult(0);
         }
 
-        public Task<IEnumerable<AttachProperty>> GetAttachPropertiesAsycn(IProjectDefinition project)
+        public Task<IEnumerable<AttachedProperty>> GetAttachPropertiesAsycn(IProjectDefinition project)
         {
-            var properties = new List<AttachProperty>
+            var properties = new List<AttachedProperty>
             {
-                new AttachProperty
+                new AttachedProperty
                 {
                     Name = "InMemory",
                     Type = typeof(bool),
@@ -52,9 +52,9 @@ namespace Bespoke.Sph.SqlRepository.Compilers
             return Task.FromResult(properties.AsEnumerable());
         }
 
-        public Task<IEnumerable<AttachProperty>> GetAttachPropertiesAsycn(Member member)
+        public Task<IEnumerable<AttachedProperty>> GetAttachPropertiesAsycn(Member member)
         {
-            var properties = new List<AttachProperty>();
+            var properties = new List<AttachedProperty>();
             properties.AddRange(member.GenerateAttachedProperties());
             foreach (var prop in properties)
             {

@@ -9,6 +9,6 @@ namespace Bespoke.Sph.Domain.Compilers
 
         //Task<IEnumerable<IProjectDefinition>> GetDependentProjectsAsync();
         //Task<IEnumerable<IProjectDefinition>> GetChildProjectsAsync();
-        //IList<AttachProperty> AttachedProperties { get; }
+        //IList<AttachedProperty> AttachedProperties { get; }
     }
 }

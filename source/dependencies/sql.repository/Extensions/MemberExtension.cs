@@ -7,7 +7,7 @@ namespace Bespoke.Sph.SqlRepository.Extensions
 {
     public static class MemberExtension
     {
-        public static AttachProperty[] GenerateAttachedProperties(this Member member)
+        public static AttachedProperty[] GenerateAttachedProperties(this Member member)
         {
             switch (member)
             {
@@ -15,28 +15,28 @@ namespace Bespoke.Sph.SqlRepository.Extensions
                     return GenerateAttachedProperties(sm);
             }
 
-            return Array.Empty<AttachProperty>();
+            return Array.Empty<AttachedProperty>();
         }
 
-        private static AttachProperty[] GenerateAttachedProperties(this SimpleMember sm)
+        private static AttachedProperty[] GenerateAttachedProperties(this SimpleMember sm)
         {
-            var properties = new List<AttachProperty>();
+            var properties = new List<AttachedProperty>();
             if (sm.IsFilterable)
             {
-                properties.Add(new AttachProperty { Name = "SqlIndex", Type = typeof(bool), Help = "Create SQL Index" });
-                properties.Add(new AttachProperty { Name = "IndexedFields", Type = typeof(string), Help = "Attach other fields to the index" });
+                properties.Add(new AttachedProperty { Name = "SqlIndex", Type = typeof(bool), Help = "Create SQL Index" });
+                properties.Add(new AttachedProperty { Name = "IndexedFields", Type = typeof(string), Help = "Attach other fields to the index" });
 
             }
             if (sm.Type == typeof(string))
             {
-                properties.Add(new AttachProperty { Name = "Length", Type = typeof(int), Help = "NVARCHAR/VARCHAR Length" });
-                properties.Add(new AttachProperty { Name = "AllowUnicode", Type = typeof(bool), Help = "NVARCHAR/VARCHAR Length" });
+                properties.Add(new AttachedProperty { Name = "Length", Type = typeof(int), Help = "NVARCHAR/VARCHAR Length" });
+                properties.Add(new AttachedProperty { Name = "AllowUnicode", Type = typeof(bool), Help = "NVARCHAR/VARCHAR Length" });
             }
 
             return properties.ToArray();
         }
 
-        public static string GenerateColumnExpression(this SimpleMember member, AttachProperty[] properties, int? sqlVersion = 13)
+        public static string GenerateColumnExpression(this SimpleMember member, AttachedProperty[] properties, int? sqlVersion = 13)
         {
             if (sqlVersion < 13)
             {
@@ -72,7 +72,7 @@ ADD [IsMalaysian] AS CASE WHEN (CAST(JSON_VALUE([Json], '$.Race') AS NVARCHAR(50
             return "VARCHAR(255)";
         }
 
-        public static string CreateIndex(this Member m, EntityDefinition ed, AttachProperty[] properties = null, int? sqlVersion = 13)
+        public static string CreateIndex(this Member m, EntityDefinition ed, AttachedProperty[] properties = null, int? sqlVersion = 13)
         {
             var column = m.FullName ?? m.Name;
             var otherFields = "";
@@ -103,7 +103,7 @@ ON [{ConfigurationManager.ApplicationName}].[{ed.Name}]([{column}]{otherFields})
 
         }
 
-        private static T GetPropertyValue<T>(this AttachProperty[] properties, string name, T defaultValue)
+        private static T GetPropertyValue<T>(this AttachedProperty[] properties, string name, T defaultValue)
         {
             if (null != properties)
             {

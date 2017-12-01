@@ -307,7 +307,7 @@
     </Compile>
     <Compile Include="Api\TableRelation.cs" />
     <Compile Include="Api\UpdateActionCode.cs" />
-    <Compile Include="AttachProperty.cs" />
+    <Compile Include="AttachedProperty.cs" />
     <Compile Include="Business\Address.cs" />
     <Compile Include="Business\Designation.cs" />
     <Compile Include="Business\EmailTemplate.cs" />
