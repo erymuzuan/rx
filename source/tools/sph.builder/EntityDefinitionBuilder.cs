@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
 using Bespoke.Sph.Extensions;
 
 namespace Bespoke.Sph.SourceBuilders
@@ -12,7 +13,7 @@ namespace Bespoke.Sph.SourceBuilders
     {
         protected override async Task<RxCompilerResult> CompileAssetAsync(EntityDefinition item)
         {
-                return await CompileAsync(item);
+            return await CompileAsync(item);
         }
 
         public override async Task RestoreAllAsync()
@@ -38,10 +39,10 @@ namespace Bespoke.Sph.SourceBuilders
         {
             var results = new List<RxCompilerResult>();
             await ed.ServiceContract.CompileAsync(ed);
-            var context = new SphDataContext();
+            var cvs = ObjectBuilder.GetObject<ISourceRepository>();
 
             // TODO : Csharp compiler for ReceivePort
-            var ports = context.LoadFromSources<ReceivePort>().Where(x => x.Entity == ed.Name);
+            var ports = await cvs.LoadAsync<ReceivePort>(x => x.Entity == ed.Name);
             foreach (var p in ports)
             {
                 var portResults = await CompileReceivePortAsync(p);
@@ -57,13 +58,13 @@ namespace Bespoke.Sph.SourceBuilders
         {
             var results = new List<RxCompilerResult>();
             var logger = ObjectBuilder.GetObject<ILogger>();
-            var context = new SphDataContext();
             var builder = new ReceivePortBuilder();
+            var cvs = ObjectBuilder.GetObject<ISourceRepository>();
 
             var portResult = await builder.RestoreAsync(port);
             results.Add(portResult);
 
-            var locations = context.LoadFromSources<ReceiveLocation>().Where(x => x.ReceivePort == port.Id);
+            var locations = await cvs.LoadAsync<ReceiveLocation>(x => x.ReceivePort == port.Id);
             foreach (var loc in locations)
             {
                 var vr = await loc.ValidateBuildAsync();

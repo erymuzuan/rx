@@ -113,13 +113,13 @@ namespace Bespoke.Sph.SourceBuilders
 
         public IEnumerable<T> GetItems()
         {
-            var context = new SphDataContext();
+            var cvs = ObjectBuilder.GetObject<ISourceRepository>();
             var folder = Path.Combine(ConfigurationManager.SphSourceDirectory, typeof(T).Name);
 
             if (!Directory.Exists(folder))
                 return new List<T>();
 
-            var list = context.LoadFromSources<T>().ToList();
+            var list = cvs.LoadAsync<T>().Result.ToList();
             list.ForEach(x => ObjectBuilder.ComposeMefCatalog(x));
             return list;
         }

@@ -318,6 +318,8 @@
     <Compile Include="Compilers\IProjectDefinition.cs" />
     <Compile Include="Compilers\IProjectDefinitionWithMembers.cs" />
     <Compile Include="Compilers\IProjectDeployer.cs" />
+    <Compile Include="Compilers\ISourceRepository.cs" />
+    <Compile Include="Compilers\LocalDiskSourceRepository.cs" />
     <Compile Include="ConsoleLogger.cs" />
     <Compile Include="Core\DictionaryExtensions.cs" />
     <Compile Include="Core\GenericCustomEntityDependenciesResolver.cs" />
