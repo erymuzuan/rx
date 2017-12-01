@@ -19,6 +19,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices
 
         public static MetadataReference[] GetMetadataReferences(this IProjectDefinition project)
         {
+            var cvs = ObjectBuilder.GetObject<ISourceRepository>();
             var references = new List<MetadataReference>
                 {
                     project.CreateMetadataReference<object>(),
@@ -30,7 +31,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices
             switch (project)
             {
                 case QueryEndpoint qe:
-                    var ed2 = new SphDataContext().LoadOneFromSources<EntityDefinition>(x => x.Name == qe.Entity);
+                    var ed2 = cvs.LoadOneAsync<EntityDefinition>(x => x.Name == qe.Entity).Result;
                     references.Add(MetadataReference.CreateFromFile($"{ConfigurationManager.WebPath}\\bin\\webapi.common.dll"));
                     references.Add(MetadataReference.CreateFromFile($"{ConfigurationManager.WebPath}\\bin\\System.Web.Http.dll"));
                     references.Add(MetadataReference.CreateFromFile($"{ConfigurationManager.CompilerOutputPath}\\{ed2.AssemblyName}.dll"));
@@ -38,7 +39,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices
                     break;
                 case OperationEndpoint oe:
                     //TODO : get the parents from IProjectDefinition interface
-                    var ed1 = new SphDataContext().LoadOneFromSources<EntityDefinition>(x => x.Name == oe.Entity);
+                    var ed1 = cvs.LoadOneAsync<EntityDefinition>(x => x.Name == oe.Entity).Result;
                     references.Add(MetadataReference.CreateFromFile($"{ConfigurationManager.WebPath}\\bin\\webapi.common.dll"));
                     references.Add(MetadataReference.CreateFromFile($"{ConfigurationManager.WebPath}\\bin\\System.Web.Http.dll"));
                     references.Add(MetadataReference.CreateFromFile($"{ConfigurationManager.CompilerOutputPath}\\{ed1.AssemblyName}.dll"));
@@ -52,18 +53,19 @@ namespace Bespoke.Sph.Csharp.CompilersServices
 
         private static async Task<IEnumerable<Class>> GenerateProjectCodesAsync(this IProjectDefinition project)
         {
+            var sourceRepository = ObjectBuilder.GetObject<ISourceRepository>();
             switch (project)
             {
                 case EntityDefinition ed:
                     return await ed.GenerateCodeAsync();
                 case OperationEndpoint oe:
                     // TODO : get the ed from projects dependsOn
-                    var ed1 = new SphDataContext().LoadOneFromSources<EntityDefinition>(x => x.Name == oe.Entity);
+                    var ed1 = await sourceRepository.LoadOneAsync<EntityDefinition>(x => x.Name == oe.Entity);
                     return await oe.GenerateSourceAsync(ed1);
                 case QueryEndpoint qe:
                     var sources = new List<Class>();
                     if (!(project is QueryEndpoint endpoint)) return sources;
-                    var ed2 = new SphDataContext().LoadOneFromSources<EntityDefinition>(x => x.Name == endpoint.Entity);
+                    var ed2 = await sourceRepository.LoadOneAsync<EntityDefinition>(x => x.Name == endpoint.Entity);
 
                     var wrapper = new QueryEndpointCsharp(qe, ed2);
 
@@ -138,3 +140,4 @@ namespace Bespoke.Sph.Csharp.CompilersServices
         }
     }
 }
+

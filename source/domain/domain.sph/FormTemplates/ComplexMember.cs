@@ -31,7 +31,7 @@ namespace Bespoke.Sph.Domain
             }
             var sm = new SimpleMember
             {
-                Name = "Created",
+                Name = name,
                 Type = typeof(T),
                 IsFilterable = filterable,
                 IsNullable = nullable,

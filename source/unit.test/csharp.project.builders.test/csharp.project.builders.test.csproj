@@ -73,6 +73,7 @@
     <Compile Include="Extensions\ApiControllerExtension.cs" />
     <Compile Include="Extensions\EntityDefinitionExtension.cs" />
     <Compile Include="Extensions\TestOutputHelperExtension.cs" />
+    <Compile Include="Mocks\MockSourceRepository.cs" />
     <Compile Include="Mocks\XunitConsoleLogger.cs" />
     <Compile Include="Mocks\MockReadOnlyRepository.cs" />
     <Compile Include="Mocks\MockRepository.cs" />

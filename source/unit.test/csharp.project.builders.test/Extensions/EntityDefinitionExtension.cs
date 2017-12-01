@@ -10,32 +10,54 @@ namespace Bespoke.Sph.Tests.Extensions
 
     public static class EntityDefinitionExtension
     {
-        private static async Task<RxCompilerResult> CompileWithCsharpAsync(this EntityDefinition ed)
+        public static async Task<dynamic> CreateInstanceAsync(this OperationEndpoint qe, bool verbose = false)
         {
-            var compiler = new Csharp.CompilersServices.EntityDefinitionCompiler();
-            var result = await compiler.BuildAsync(ed, x => new CompilerOptions2());
+            var compiler = new Csharp.CompilersServices.OperationEndpointCompiler();
+            using (var stream = new MemoryStream())
+            {
+                var options = new CompilerOptions2(stream);
+                var result = await compiler.BuildAsync(qe, x => options);
+                if (!result.Result) return null;
 
-            return result;
+                var assembly = Assembly.Load(stream.ToArray());
+                var edTypeName = $"{qe.CodeNamespace}.{qe.TypeName}";
+
+                var edType = assembly.GetType(edTypeName);
+                return Activator.CreateInstance(edType);
+            }
+        }
+        public static async Task<dynamic> CreateInstanceAsync(this QueryEndpoint qe, bool verbose = false)
+        {
+            var compiler = new Csharp.CompilersServices.QueryEndpointCompiler();
+            using (var stream = new MemoryStream())
+            {
+                var options = new CompilerOptions2(stream);
+                var result = await compiler.BuildAsync(qe, x => options);
+                if (!result.Result) return null;
+
+                var assembly = Assembly.Load(stream.ToArray());
+                var edTypeName = $"{qe.CodeNamespace}.{qe.Name}";
+
+                var edType = assembly.GetType(edTypeName);
+                return Activator.CreateInstance(edType);
+            }
         }
 
         public static async Task<dynamic> CreateInstanceAsync(this EntityDefinition ed, bool verbose = false)
         {
-            byte[] data;
+            var compiler = new Csharp.CompilersServices.EntityDefinitionCompiler { BuildDiagnostics = Array.Empty<IBuildDiagnostics>() };
             using (var stream = new MemoryStream())
             {
-                var result = await ed.CompileWithCsharpAsync();
+                var options = new CompilerOptions2(stream);
+                var result = await compiler.BuildAsync(ed, x => options);
                 if (!result.Result) return null;
 
-                data = new byte[stream.Length];
-                stream.Read(data, 0, data.Length);
+                var assembly = Assembly.Load(stream.ToArray());
+                var edTypeName = $"{ed.CodeNamespace}.{ed.Name}";
+
+                var edType = assembly.GetType(edTypeName);
+                return Activator.CreateInstance(edType);
             }
-            var assembly = Assembly.Load(data);
-            var edTypeName = $"{ed.CodeNamespace}.{ed.Name}";
-
-            var edType = assembly.GetType(edTypeName);
-            Assert.NotNull(edType);
-
-            return Activator.CreateInstance(edType);
         }
     }
 

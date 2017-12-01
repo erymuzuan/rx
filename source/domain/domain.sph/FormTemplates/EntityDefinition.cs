@@ -159,7 +159,7 @@ namespace Bespoke.Sph.Domain
         {
             var sm = new SimpleMember
             {
-                Name = "Created",
+                Name = name,
                 Type = typeof(string),
                 IsFilterable = filterable,
                 IsNullable = nullable,
@@ -191,7 +191,7 @@ namespace Bespoke.Sph.Domain
 
             var sm = new SimpleMember
             {
-                Name = "Created",
+                Name = name,
                 Type = type,
                 IsFilterable = filterable,
                 IsNullable = nullable,

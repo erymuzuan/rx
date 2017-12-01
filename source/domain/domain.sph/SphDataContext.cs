@@ -42,6 +42,7 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        [Obsolete("Use ISourceRepository")]
         public IEnumerable<T> LoadFromSources<T>() where T : Entity
         {
             string path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
@@ -52,6 +53,7 @@ namespace Bespoke.Sph.Domain
                 .Select(f => f.DeserializeFromJsonFile<T>());
         }
 
+        [Obsolete("Use ISourceRepository")]
         public IEnumerable<T> LoadFromSources<T>(Expression<Func<T, bool>> predicate) where T : Entity
         {
             string path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
@@ -62,6 +64,8 @@ namespace Bespoke.Sph.Domain
                 .Select(f => f.DeserializeFromJsonFile<T>())
                 .Where(predicate.Compile());
         }
+
+        [Obsolete("Use ISourceRepository")]
         public T LoadOneFromSources<T>(Expression<Func<T, bool>> predicate) where T : Entity
         {
             string path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";

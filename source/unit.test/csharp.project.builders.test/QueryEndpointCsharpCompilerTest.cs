@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Csharp.CompilersServices;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
 using Bespoke.Sph.Tests.Extensions;
 using Bespoke.Sph.Tests.Mocks;
 using Bespoke.Sph.WebApi;
@@ -23,6 +24,7 @@ namespace Bespoke.Sph.Tests
     {
         public ITestOutputHelper Console { get; }
         private readonly Mock<ICacheManager> m_cache;
+        private MockSourceRepository SourceRepository { get; } = new MockSourceRepository();
 
 
         public QueryEndpointCsharpCompilerTest(ITestOutputHelper console)
@@ -30,7 +32,23 @@ namespace Bespoke.Sph.Tests
             Console = console;
 
             m_cache = new Mock<ICacheManager>(MockBehavior.Strict);
-            ObjectBuilder.AddCacheList<ICacheManager>(m_cache.Object);
+            var git = new Mock<ICvsProvider>(MockBehavior.Strict);
+            var logs = new LoadOperation<CommitLog>
+            {
+                CurrentPage = 1,
+                PageSize = 1,
+                TotalRows = 15
+            };
+            logs.ItemCollection.Add(new CommitLog { DateTime = DateTime.Today, Comment = "Test", CommitId = "abc123" });
+            git.Setup(x => x.GetCommitLogsAsync(It.IsAny<string>(), 1, 1))
+                .Callback((string file, int skip, int top) => Console.WriteLine("GetCommitLog " + file))
+                .Returns(Task.FromResult(logs));
+            git.Setup(x => x.GetCommitIdAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult("abc123"));
+
+            ObjectBuilder.AddCacheList<ISourceRepository>(SourceRepository);
+            ObjectBuilder.AddCacheList(m_cache.Object);
+            ObjectBuilder.AddCacheList(git.Object);
             ObjectBuilder.AddCacheList<ILogger>(new XunitConsoleLogger(console));
         }
 
@@ -311,18 +329,17 @@ namespace Bespoke.Sph.Tests
         public async Task HttpDelete()
         {
             var ed = this.CreatePatientDefinition("PatientDelete");
-            var patient = ed.CreateInstanceAsync(true);
+            var patient = await ed.CreateInstanceAsync(true);
             Assert.NotNull(patient);
+            patient.FullName = "Azman";
+            Assert.Equal("Azman", patient.FullName);
 
-            var delete = new OperationEndpoint { Name = "Remove", Entity = ed.Name, Route = "", IsHttpDelete = true, WebId = "remove" };
+            SourceRepository.AddOrReplace(ed);
 
-            var compiler = new OperationEndpointCompiler();
-            var cr = await compiler.BuildAsync(delete, x => new CompilerOptions2());
-            Assert.True(cr.Result, cr.ToString());
+            var delete = new OperationEndpoint { Name = "Remove", Id = "delete-patient", Entity = ed.Name, Route = "", IsHttpDelete = true, WebId = "remove" };
 
-
-            var dll = Assembly.LoadFrom(cr.Output);
-            var controllerType = dll.GetType($"{delete.CodeNamespace}.{delete.TypeName}");
+            var cr = await delete.CreateInstanceAsync();
+            Type controllerType = cr.GetType();;
             Assert.NotNull(controllerType);
 
             var remove = controllerType.GetMethod($"Delete{delete.Name}");
@@ -632,13 +649,13 @@ namespace Bespoke.Sph.Tests
             ent.AddSimpleMember<string>("Title");
             ent.AddSimpleMember<string>("DeathDateTime");
             ent.AddSimpleMember<string>("Discharged");
-            var address = new ComplexMember { Name = "Address", TypeName = "Address" };
+            var address = new ComplexMember { Name = "HomeAddress", TypeName = "Address" };
             address.AddMember<string>("Street1");
             address.AddMember<string>("State");
             ent.MemberCollection.Add(address);
 
 
-            var contacts = new ComplexMember { Name = "ContactCollection", TypeName = "Contact" };
+            var contacts = new ComplexMember { Name = "Contacts", TypeName = "Contact", AllowMultiple = true };
             contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
             ent.MemberCollection.Add(contacts);
 
