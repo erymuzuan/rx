@@ -2,9 +2,9 @@
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 
-namespace Bespoke.Sph.Web.Helpers
+namespace Bespoke.Sph.Web.Extensions
 {
-    public static class ControllerHelpers
+    public static class ControllerExtension
     {
 
         public static string GetRequestBody(this Controller controller)

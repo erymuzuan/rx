@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.Extensions;
 using Bespoke.Sph.Web.Helpers;
 using Newtonsoft.Json;
 using Roles = System.Web.Security.Roles;
