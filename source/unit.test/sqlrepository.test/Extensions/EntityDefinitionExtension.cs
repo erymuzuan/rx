@@ -9,11 +9,14 @@ namespace Bespoke.Sph.Tests.SqlServer.Extensions
         {
             var sm = new SimpleMember
             {
-                Name = name, Type =  type, IsFilterable =  filterable
-                ,IsAnalyzed = analyzed,
+                Name = name,
+                Type = type,
+                IsFilterable = filterable,
+                IsAnalyzed = analyzed,
                 IsExcludeInAll = excludeInAll,
                 IsNullable = nullable,
-                AllowMultiple = allowMultiples
+                AllowMultiple = allowMultiples,
+                WebId = $"/{ed.Name}.{name}"
             };
             ed.MemberCollection.Add(sm);
             return sm;

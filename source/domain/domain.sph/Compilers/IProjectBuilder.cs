@@ -9,10 +9,8 @@ namespace Bespoke.Sph.Domain.Compilers
     {
         string Name { get; }
         string Description { get; }
-        Task<IEnumerable<AttachedProperty>> GetAttachPropertiesAsycn(IProjectDefinition project);
-        Task<IEnumerable<AttachedProperty>> GetAttachPropertiesAsycn(Member member);
-        /*MetadataReference[] GetMetadataReferences();
-        Task<IProjectDefinition> GetDefinitionAsync();*/
+        Task<IEnumerable<AttachedProperty>> GetDefaultAttachedPropertiesAsync(IProjectDefinition project);
+        Task<IEnumerable<AttachedProperty>> GetDefaultAttachedPropertiesAsync(Member member);
         Task<IEnumerable<Class>> GenerateCodeAsync(IProjectDefinition project);
         Task<RxCompilerResult> BuildAsync(IProjectDefinition project, Func<IProjectDefinition, CompilerOptions2> getOption);
         bool IsAvailableInDesignMode { get; }

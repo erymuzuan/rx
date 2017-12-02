@@ -25,20 +25,7 @@ namespace Bespoke.Sph.SqlRepository.Compilers
         {
         }
 
-        //TODO : persist to disk in source
-        private readonly Dictionary<Member, List<AttachedProperty>> m_memberProperties = new Dictionary<Member, List<AttachedProperty>>();
-        public Task SaveAttachPropertiesAsycn(Member member, params AttachedProperty[] properties)
-        {
-            m_memberProperties.AddOrReplace(member, properties.ToList());
-            return Task.FromResult(0);
-        }
-
-        public Task SaveAttachPropertiesAsycn(IProjectDefinition project, params AttachedProperty[] properties)
-        {
-            return Task.FromResult(0);
-        }
-
-        public Task<IEnumerable<AttachedProperty>> GetAttachPropertiesAsycn(IProjectDefinition project)
+        public Task<IEnumerable<AttachedProperty>> GetDefaultAttachedPropertiesAsync(IProjectDefinition project)
         {
             var properties = new List<AttachedProperty>
             {
@@ -52,33 +39,23 @@ namespace Bespoke.Sph.SqlRepository.Compilers
             return Task.FromResult(properties.AsEnumerable());
         }
 
-        public Task<IEnumerable<AttachedProperty>> GetAttachPropertiesAsycn(Member member)
+        public Task<IEnumerable<AttachedProperty>> GetDefaultAttachedPropertiesAsync(Member member)
         {
-            var properties = new List<AttachedProperty>();
-            properties.AddRange(member.GenerateAttachedProperties());
-            foreach (var prop in properties)
-            {
-                if (!m_memberProperties.ContainsKey(member)) continue;
-                var persistedProperties = m_memberProperties[member];
-                var pp = persistedProperties.SingleOrDefault(x => x.Name == prop.Name);
-
-
-                if (null == pp) continue;
-
-                prop.ValueAsString = pp.ValueAsString;
-                prop.Value = pp.Value;
-            }
+            var properties = member.GenerateAttachedProperties();
             return Task.FromResult(properties.AsEnumerable());
         }
+
+
 
         public async Task<IEnumerable<Class>> GenerateCodeAsync(IProjectDefinition project)
         {
             var sources = new List<Class>();
             if (!(project is EntityDefinition item)) return Array.Empty<Class>();
 
-
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
             var applicationName = ConfigurationManager.ApplicationName;
             var version = await GetSqlServerProductVersionAsync();
+            var attachedProperties = (await repos.GetAttachedPropertiesAsync(this, item)).ToArray();
 
             var sql = new StringBuilder();
             sql.Append($"CREATE TABLE [{applicationName}].[{item.Name}]");
@@ -87,7 +64,7 @@ namespace Bespoke.Sph.SqlRepository.Compilers
             var members = item.GetFilterableMembers().ToArray();
             foreach (var member in members.OfType<SimpleMember>())
             {
-                var properties = await this.GetAttachPropertiesAsycn(member);
+                var properties = attachedProperties.Where(x => x.AttachedTo == member.WebId);
                 sql.AppendLine("," + member.GenerateColumnExpression(properties.ToArray(), version));
             }
             sql.AppendLine(",[Json] VARCHAR(MAX)");
@@ -100,10 +77,10 @@ namespace Bespoke.Sph.SqlRepository.Compilers
             sources.Add(new Class(sql.ToString()) { FileName = $"{project.Name}.sql" });
 
             var indices = from m in members
-                          let properties = this.GetAttachPropertiesAsycn(m).Result
+                          let properties = attachedProperties.Where(x => x.AttachedTo == m.WebId).ToArray()
                           let index = m.CreateIndex(item, properties.ToArray(), version)
-                          select new Class(index){FileName = $"{item.Name}.Index.{m.Name}.sql"};
-           sources.AddRange(indices);
+                          select new Class(index) { FileName = $"{item.Name}.Index.{m.Name}.sql" };
+            sources.AddRange(indices);
 
             return sources;
         }

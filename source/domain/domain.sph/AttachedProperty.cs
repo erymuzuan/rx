@@ -1,8 +1,10 @@
 using System;
+using System.Diagnostics;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
+    [DebuggerDisplay("{ProviderName}/{AttachedTo}/{Name}/{ValueAsString}")]
     public class AttachedProperty : DomainObject
     {
         public AttachedProperty()
@@ -10,12 +12,17 @@ namespace Bespoke.Sph.Domain
             
         }
 
-        public AttachedProperty(string name, object value)
+        public AttachedProperty(string name, object value, DomainObject attachedTo, string providerName)
         {
             this.Name = name;
             this.Type = value.GetType();
             this.Value = value;
+            ProviderName = providerName;
+            AttachedTo = attachedTo.WebId;
         }
+
+        public string ProviderName { get; set; }
+        public string AttachedTo { get; set; }
         public string Name { get; set; }
         public string TypeName { get; set; }
         public bool Required { get; set; }
@@ -60,6 +67,23 @@ namespace Bespoke.Sph.Domain
         {
             get => Strings.GetType(this.TypeName);
             set => this.TypeName = value.GetShortAssemblyQualifiedName();
+        }
+
+        public AttachedProperty WithValue(AttachedProperty value)
+        {
+            return new AttachedProperty
+            {
+                Name = Name,
+                Type = Type,
+                Value = value.Value,
+                AttachedTo = value.AttachedTo,
+                Description = Description,
+                Help = Help,
+                ProviderName = ProviderName,
+                Required = Required,
+                ValueAsString = value.ValueAsString,
+                WebId = value.WebId
+            };
         }
     }
 }

@@ -14,7 +14,7 @@ using Bespoke.Sph.Domain.Extensions;
 using Bespoke.Sph.Domain.Management;
 using Bespoke.Sph.Web.Extensions;
 using Bespoke.Sph.Web.Filters;
-using Bespoke.Sph.Web.Helpers;
+using Bespoke.Sph.Web.ViewModels;
 using Humanizer;
 using WebGrease.Css.Extensions;
 
@@ -76,9 +76,10 @@ namespace Bespoke.Sph.Web.Controllers
         [Route("")]
         public async Task<ActionResult> Save()
         {
-            // TODO : get the AttachedProperties, for the ed and members
-            var ed = this.GetRequestJson<EntityDefinition>();
-            var context = new SphDataContext();
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
+
+            var viewModel = this.GetRequestJson<EntityDefinitionDesignerViewModel>();
+            var ed = viewModel.Item;
             var canSave = ed.CanSave();
             if (!canSave.Result)
             {
@@ -87,51 +88,12 @@ namespace Bespoke.Sph.Web.Controllers
 
             var brandNewItem = ed.IsNewItem;
             if (brandNewItem)
-            {
                 ed.Id = ed.Name.ToIdFormat();
-                this.Response.StatusCode = (int)HttpStatusCode.Created;
-            }
-            else
-            {
-                using (var session = context.OpenSession())
-                {
-                    session.Attach(ed);
-                    await session.SubmitChanges("Save");
-                }
 
-                this.Response.StatusCode = (int)HttpStatusCode.OK;
-                return Json(new { success = true, status = "OK", message = "Your entity has been successfully saved ", id = ed.Id });
+            await repos.SavedAsync(ed, viewModel.AttachedProperties);
 
-            }
-
-
-            var formId = ed.Name.ToIdFormat() + "-details";
-            var form = new EntityForm
-            {
-                Id = formId,
-                Name = ed.Name + " details",
-                Entity = ed.Name,
-                Route = formId,
-                EntityDefinitionId = ed.Id,
-                IsDefault = true
-            };
-            var viewId = ed.Name.ToIdFormat() + "-all";
-            var view = new EntityView
-            {
-                Id = viewId,
-                Entity = ed.Name,
-                Name = "All " + ed.Plural,
-                Route = viewId,
-                EntityDefinitionId = ed.Id,
-            };
-
-            using (var session = context.OpenSession())
-            {
-                session.Attach(ed, form, view);
-                await session.SubmitChanges("Save");
-            }
+            this.Response.StatusCode = brandNewItem ? (int)HttpStatusCode.Created : (int)HttpStatusCode.OK;
             return Json(new { success = true, status = "OK", message = "Your entity has been successfully saved ", id = ed.Id });
-
 
         }
 
@@ -269,7 +231,7 @@ namespace Bespoke.Sph.Web.Controllers
                 // truncate SQL Table
                 var management = ObjectBuilder.GetObject<IRepositoryManagement>();
                 await management.TruncateDataAsync(ed);
-                
+
             }
             return Json(new { success = true, message = "Data has been truncated", status = "OK" });
 
@@ -327,11 +289,11 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var context = new SphDataContext();
             var ed = this.GetRequestJson<EntityDefinition>();
-         
-            var final =await ed.CompileAsync();
+
+            var final = await ed.CompileAsync();
             if (!final.Result)
                 return Json(final);
-            
+
             ed.IsPublished = true;
             using (var session = context.OpenSession())
             {
@@ -351,12 +313,12 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var context = new SphDataContext();
             var ed = this.GetRequestJson<EntityDefinition>();
-           /* TODO : find the service contract diagnostics
-            ed.BuildDiagnostics = ObjectBuilder.GetObject<IDeveloperService>().BuildDiagnostics;
+            /* TODO : find the service contract diagnostics
+             ed.BuildDiagnostics = ObjectBuilder.GetObject<IDeveloperService>().BuildDiagnostics;
 
-            var buildValidation = await ed.ValidateBuildAsync();
-            if (!buildValidation.Result)
-                return Json(buildValidation);*/
+             var buildValidation = await ed.ValidateBuildAsync();
+             if (!buildValidation.Result)
+                 return Json(buildValidation);*/
             var result = await ed.ServiceContract.CompileAsync(ed);
 
             result.Errors.ForEach(Console.WriteLine);

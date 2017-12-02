@@ -2514,6 +2514,7 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsNotIndexed;
+        [Obsolete("This should be implemented as AttachedProperty by IProjectBuilder")]
         public bool IsNotIndexed
         {
             get
@@ -2529,6 +2530,7 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsAnalyzed;
+        [Obsolete("This should be implemented as AttachedProperty by IProjectBuilder")]
         public bool IsAnalyzed
         {
             get
@@ -2544,6 +2546,7 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsFilterable;
+        [Obsolete("This should be implemented as AttachedProperty by IProjectBuilder")]
         public bool IsFilterable
         {
             get
@@ -2559,6 +2562,7 @@ namespace Bespoke.Sph.Domain
 
 
         private bool m_IsExcludeInAll;
+        [Obsolete("This should be implemented as AttachedProperty by IProjectBuilder")]
         public bool IsExcludeInAll
         {
             get
@@ -2574,6 +2578,7 @@ namespace Bespoke.Sph.Domain
 
 
         private int m_Boost;
+        [Obsolete("This should be implemented as AttachedProperty by IProjectBuilder")]
         public int Boost
         {
             get

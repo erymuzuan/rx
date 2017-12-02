@@ -7,7 +7,7 @@ using Bespoke.Sph.Domain.Compilers;
 
 namespace Bespoke.Sph.Domain.Codes
 {
-    [DebuggerDisplay("{Name}, Properties:{PropertyCollection.Count}, Methods : {MethodCollection.Count}")]
+    [DebuggerDisplay("{Name}, Properties:{PropertyCollection.Count}, Methods : {MethodCollection.Count}, FileName :{FileName}")]
     public class Class
     {
         public Class()

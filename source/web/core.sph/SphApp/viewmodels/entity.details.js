@@ -72,7 +72,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
                 member.subscribe(async function (mr) {
                     const result = await context.get(
-                        `/developer-service/compilers-attached-properties-members/${entity().Id()}/${mr.Name()}`);
+                        `/developer-service/compilers-attached-properties-members/${entity().Id()}/${mr.WebId()}`);
                     const properties = Object.keys(result).filter(v => result[v].length).map(v => {
                         return { "compiler": v, properties: result[v].map(x => ko.mapping.fromJS(x)) };
                     });

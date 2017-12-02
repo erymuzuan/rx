@@ -91,8 +91,7 @@ ADD [IsMalaysian] AS CASE WHEN (CAST(JSON_VALUE([Json], '$.Race') AS NVARCHAR(50
                     otherFields = ", " + fields.ToString(", ", x => $"[{x}]");
                 }
             }
-
-            // TODO : index may attached additional columns
+            
             if (sqlVersion < 13)
                 return $@"
 CREATE NONCLUSTERED INDEX [idx_{ed.Name}{column}_index]
@@ -108,7 +107,7 @@ ON [{ConfigurationManager.ApplicationName}].[{ed.Name}]([{column}]{otherFields})
             if (null != properties)
             {
                 var prop = properties.SingleOrDefault(x => x.Name == name);
-                return null == prop ? default : prop.GetValue<T>(defaultValue);
+                return null == prop ? default : prop.GetValue(defaultValue);
             }
             return default;
         }

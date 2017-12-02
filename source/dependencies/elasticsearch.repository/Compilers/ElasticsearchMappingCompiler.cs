@@ -14,6 +14,15 @@ namespace Bespoke.Sph.ElasticsearchRepository.Compilers
     {
         public string Name => "Elasticsearch.1.7.5";
         public string Description => @"Compile EntityDefintion to Elasticsearch 1.7.5 mapping";
+        public Task<IEnumerable<AttachedProperty>> GetDefaultAttachedPropertiesAsync(IProjectDefinition project)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<AttachedProperty>> GetDefaultAttachedPropertiesAsync(Member member)
+        {
+            throw new NotImplementedException();
+        }
 
         public Task<IEnumerable<AttachedProperty>> GetAttachPropertiesAsycn(IProjectDefinition project)
         {

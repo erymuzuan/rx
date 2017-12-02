@@ -112,8 +112,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 var bags = new Dictionary<IProjectBuilder, List<AttachedProperty>>();
                 foreach (var builder in compilers)
                 {
-                    var props = await builder.GetAttachPropertiesAsycn(ed);
-                    bags.Add(builder, props.ToList());
+                    var props = await repos.GetAttachedPropertiesAsync(builder, ed);
+                    bags.Add(builder, props.Where(x => x.AttachedTo == ed.WebId).ToList());
                 }
 
                 var json = $@"
@@ -127,8 +127,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return NotFound($"Cannot find any {type} with id : {id}");
         }
         [HttpGet]
-        [Route("compilers-attached-properties-members/{id}/{path}")]
-        public async Task<IHttpActionResult> GetMemberCompilerAttachProperties(string id, string path)
+        [Route("compilers-attached-properties-members/{id}/{webId}")]
+        public async Task<IHttpActionResult> GetMemberCompilerAttachProperties(string id, string webId)
         {
             var repos = ObjectBuilder.GetObject<ISourceRepository>();
             var compilers = this.DeveloperService.ProjectBuilders;
@@ -137,15 +137,29 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             if (null == ed)
                 return NotFound($"Cannot find any Entity with id : {id}");
 
-            var member = ed.GetMember(path);
+            Member GetMember(IList<Member> members)
+            {
+                var mbr = members.SingleOrDefault(x => x.WebId == webId);
+                if (null != mbr)
+                    return mbr;
+
+                mbr = members.OfType<ComplexMember>()
+                    .Select(x => GetMember(x.MemberCollection)).Select(x => x)
+                    .SingleOrDefault(x => null != x);
+                return mbr;
+
+            }
+
+            var member = GetMember(ed.MemberCollection);
             if (null == member)
-                return NotFound($"Cannot find any Member : {path} in {ed.Name}");
+                return NotFound($"Cannot find any Member : {webId} in {ed.Name}");
+
 
             var bags = new Dictionary<IProjectBuilder, List<AttachedProperty>>();
             foreach (var builder in compilers)
             {
-                var props = await builder.GetAttachPropertiesAsycn(member);
-                bags.Add(builder, props.ToList());
+                var properties = await repos.GetAttachedPropertiesAsync(builder, ed);
+                bags.Add(builder, properties.Where(x => x.AttachedTo == webId).ToList());
             }
 
             var json = $@"

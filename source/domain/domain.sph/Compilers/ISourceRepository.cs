@@ -14,8 +14,12 @@ namespace Bespoke.Sph.Domain.Compilers
         // may be write to stream something like SourceStream, file  or Memory as underlying stream
         // TODO : Task SaveAsync<T>();
         // TODO : Task SaveAsync(string path, string content); 
-        
-        
+        Task SavedAsync<T>(T project, IEnumerable<AttachedProperty> properties) where T : Entity, IProjectDefinition;
+
+
+        Task<IEnumerable<AttachedProperty>> GetAttachedPropertiesAsync<T>(IProjectBuilder builder, T project)
+            where T : Entity, IProjectDefinition;
+
         // TODO : Task<string> ReadAsStringAsync(string path);
         // TODO : ReadAllBytesAsync(string path);
     }

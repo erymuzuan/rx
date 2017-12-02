@@ -1235,6 +1235,7 @@
     <Compile Include="Controllers\FormDesignerController.cs" />
     <Compile Include="Controllers\WorkflowDesignerController.cs" />
     <Compile Include="Controllers\WorkflowFormController.cs" />
+    <Compile Include="Extensions\ControllerExtension.cs" />
     <Compile Include="Filters\NoCacheAttribute.cs" />
     <Compile Include="Filters\RazorScriptStream.cs" />
     <Compile Include="Filters\RazorScriptFilter.cs" />
@@ -1303,6 +1304,7 @@
     <Compile Include="Solutions\WorkflowFormProviders.cs" />
     <Compile Include="ViewModels\CreateMapModel.cs" />
     <Compile Include="ViewModels\DialogRendererViewModel.cs" />
+    <Compile Include="ViewModels\EntityDefinitionDesignerViewModel.cs" />
     <Compile Include="ViewModels\FormRendererViewModel.cs" />
     <Compile Include="ViewModels\GetTokenModel.cs" />
     <Compile Include="ViewModels\HeaderViewModel.cs" />
@@ -1317,7 +1319,6 @@
     <Compile Include="Areas\Sph\Controllers\WatchController.cs" />
     <Compile Include="Dependencies\DummyChangeTracker.cs" />
     <Compile Include="Dependencies\DummySearchProvider.cs" />
-    <Compile Include="Helpers\ControllerHelpers.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Models\ApplicationConfigurationViewModel.cs" />
     <Compile Include="Models\RoleType.cs" />
