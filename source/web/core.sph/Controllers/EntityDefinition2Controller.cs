@@ -2,53 +2,51 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Http;
 using System.Web.ModelBinding;
-using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Compilers;
 using Bespoke.Sph.Domain.Extensions;
 using Bespoke.Sph.Domain.Management;
-using Bespoke.Sph.Web.Extensions;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.Web.ViewModels;
+using Bespoke.Sph.WebApi;
 using Humanizer;
-using WebGrease.Css.Extensions;
 
 namespace Bespoke.Sph.Web.Controllers
 {
     [RoutePrefix("entity-definition")]
-    public class EntityDefinition2Controller : BaseController
+    public class EntityDefinition2Controller : BaseApiController
     {
         [HttpGet]
         [Route("variable-path/{id}")]
         [RxSourceOutputCache(SourceType = typeof(EntityDefinition))]
-        public async Task<ActionResult> GetVariablePath(string id)
+        public async Task<IHttpActionResult> GetVariablePath(string id)
         {
             var repos = ObjectBuilder.GetObject<ISourceRepository>();
 
             var ed = await repos.LoadOneAsync<EntityDefinition>(w => w.Id == id) ??
                      (await repos.LoadOneAsync<EntityDefinition>(w => w.Name == id));
-            if (null == ed) return new HttpNotFoundResult("Cannot find EntityDefinition with Id = " + id);
+            if (null == ed) return NotFound("Cannot find EntityDefinition with Id = " + id);
             var list = ed.GetMembersPath();
-            return Json(list, JsonRequestBehavior.AllowGet);
+            return Json(list);
 
         }
 
         [HttpGet]
         [Route("{id}/members/{path}")]
         [RxSourceOutputCache(SourceType = typeof(EntityDefinition))]
-        public async Task<ActionResult> GetMembersPath(string id, string path)
+        public async Task<IHttpActionResult> GetMembersPath(string id, string path)
         {
             var context = new SphDataContext();
 
             var ed = await context.LoadOneAsync<EntityDefinition>(w => w.Id == id);
-            if (null == ed) return new HttpNotFoundResult("Cannot find EntityDefinition with Id = " + id);
+            if (null == ed) return NotFound("Cannot find EntityDefinition with Id = " + id);
             var list = ed.GetMember(path);
-            return Content(list.ToJsonString(true), "application/json");
+            return Json(list.ToJsonString(true));
 
         }
 
@@ -56,11 +54,9 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("publish-dashboard")]
-        public async Task<ActionResult> PublishDashboardAsync()
+        public async Task<IHttpActionResult> PublishDashboardAsync([JsonBody]EntityDefinition ed)
         {
             var context = new SphDataContext();
-            var ed = this.GetRequestJson<EntityDefinition>();
-
             using (var session = context.OpenSession())
             {
                 session.Attach(ed);
@@ -74,48 +70,65 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("")]
-        public async Task<ActionResult> Save()
+        public async Task<IHttpActionResult> Save([JsonPropertyParameter]EntityDefinition item, [JsonPropertyParameter]AttachedProperty[] attachedProperties)
+        {
+            (var _, object result) = await this.SaveAsync(item, attachedProperties);
+            return Json(result);
+
+        }
+
+        [HttpPost]
+        [Route("publish")]
+        public async Task<IHttpActionResult> Publish([JsonPropertyParameter]EntityDefinition item, [JsonPropertyParameter]AttachedProperty[] attachedProperties)
+        {
+            await this.SaveAsync(item, attachedProperties);
+            var result = await item.CompileAsync();
+            if (!result.Result)
+                return Json(result);
+
+
+            return Json(new { success = true, status = "OK", message = "Your entity has been successfully published" });
+
+        }
+
+        private async Task<(bool, object)> SaveAsync(EntityDefinition ed, AttachedProperty[] properties)
         {
             var repos = ObjectBuilder.GetObject<ISourceRepository>();
-
-            var viewModel = this.GetRequestJson<EntityDefinitionDesignerViewModel>();
-            var ed = viewModel.Item;
             var canSave = ed.CanSave();
             if (!canSave.Result)
             {
-                return Json(new { success = false, status = "ERROR", message = "Your entity cannot be save", errors = canSave.Errors.ToArray() });
+                return (false, new { success = false, status = "ERROR", message = "Your entity cannot be save", errors = canSave.Errors.ToArray() });
             }
 
             var brandNewItem = ed.IsNewItem;
             if (brandNewItem)
                 ed.Id = ed.Name.ToIdFormat();
 
-            await repos.SavedAsync(ed, viewModel.AttachedProperties);
+            await repos.SavedAsync(ed, properties);
 
-            this.Response.StatusCode = brandNewItem ? (int)HttpStatusCode.Created : (int)HttpStatusCode.OK;
-            return Json(new { success = true, status = "OK", message = "Your entity has been successfully saved ", id = ed.Id });
+            return (brandNewItem, new { success = true, status = "OK", message = "Your entity has been successfully saved ", id = ed.Id });
 
         }
 
         [HttpGet]
         [Route("plural/{id}")]
-        public ActionResult GetPlural(string id)
+        public IHttpActionResult GetPlural(string id)
         {
-            return Content(id.Pluralize());
+            return Ok(id.Pluralize());
         }
 
         [HttpGet]
         [Route("singular/{id}")]
-        public ActionResult GetSingular(string id)
+        public IHttpActionResult GetSingular(string id)
         {
-            return Content(id.Singularize(false));
+            return Ok(id.Singularize(false));
         }
 
 
         [HttpGet]
         [Route("schema")]
         [RxSourceOutputCache(SourceType = typeof(EntityDefinition))]
-        public async Task<ActionResult> Schemas()
+        public async Task<IHttpActionResult> Schemas()
         {
             var repos = ObjectBuilder.GetObject<ISourceRepository>();
             var list = await repos.LoadAsync<EntityDefinition>(x => x.IsPublished);
@@ -125,14 +138,14 @@ namespace Bespoke.Sph.Web.Controllers
             foreach (var ef in list)
             {
                 var sources = await provider.GenerateCodeAsync(ef);
-                sources.ForEach(src => script.AppendLine(src.Value));
+                sources.ToList().ForEach(src => script.AppendLine(src.Value));
             }
-            return JavaScript(script.ToString());
+            return Javascript(script.ToString());
         }
 
         [HttpGet]
         [Route("export/{id}")]
-        public async Task<ActionResult> Export(string id, [QueryString] bool includeData = false)
+        public async Task<IHttpActionResult> Export(string id, [QueryString] bool includeData = false)
         {
             var repos = ObjectBuilder.GetObject<ISourceRepository>();
             var entity = await repos.LoadOneAsync<EntityDefinition>(e => e.Id == id);
@@ -143,7 +156,7 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
         [Route("upload")]
-        public async Task<ActionResult> Upload(IEnumerable<HttpPostedFileBase> files)
+        public async Task<IHttpActionResult> Upload(IEnumerable<HttpPostedFileBase> files)
         {
             try
             {
@@ -160,9 +173,8 @@ namespace Bespoke.Sph.Web.Controllers
                     var packager = new EntityDefinitionPackage();
                     var ed = await packager.UnpackAsync(zip, folder);
 
-                    this.Response.ContentType = "application/javascript";
                     var result = new { success = true, zip, ed, folder };
-                    return Content(result.ToJsonString());
+                    return Json(result.ToJsonString());
 
                 }
             }
@@ -177,16 +189,15 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("import")]
-        public async Task<ActionResult> Import(string folder)
+        public async Task<IHttpActionResult> Import(string folder)
         {
             try
             {
                 var packager = new EntityDefinitionPackage();
                 var ed = await packager.ImportAsync(folder);
 
-                this.Response.ContentType = "application/javascript";
                 var result = new { success = true, ed };
-                return Content(result.ToJsonString());
+                return Javascript(result.ToJsonString());
             }
             catch (Exception e)
             {
@@ -196,16 +207,15 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("import-data")]
-        public async Task<ActionResult> ImportData(string folder)
+        public async Task<IHttpActionResult> ImportData(string folder)
         {
             try
             {
                 var packager = new EntityDefinitionPackage();
                 await packager.ImportDataAsync(folder);
 
-                this.Response.ContentType = "application/javascript";
                 var result = new { success = true };
-                return Content(result.ToJson());
+                return Json(result.ToJson());
             }
             catch (Exception e)
             {
@@ -215,7 +225,7 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpDelete]
         [Route("{name}/contents")]
-        public async Task<ActionResult> TruncateData(string name)
+        public async Task<IHttpActionResult> TruncateData(string name)
         {
             var repos = ObjectBuilder.GetObject<ISourceRepository>();
             var ed = await repos.LoadOneAsync<EntityDefinition>(x => x.Name == name);
@@ -240,10 +250,9 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("depublish")]
-        public async Task<ActionResult> Depublish()
+        public async Task<IHttpActionResult> Depublish([JsonBody]EntityDefinition ed)
         {
             var context = new SphDataContext();
-            var ed = this.GetRequestJson<EntityDefinition>();
 
             ed.IsPublished = false;
             using (var session = context.OpenSession())
@@ -258,11 +267,11 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<ActionResult> Delete(string id)
+        public async Task<IHttpActionResult> Delete(string id)
         {
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == id);
-            if (null == ed) return new HttpNotFoundResult("Cannot find entity definition to delete, id : " + id);
+            if (null == ed) return NotFound("Cannot find entity definition to delete, id : " + id);
 
             var repos = ObjectBuilder.GetObject<ISourceRepository>();
             var forms = await repos.LoadAsync<EntityForm>(f => f.EntityDefinitionId == id);
@@ -283,36 +292,14 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
 
-        [HttpPost]
-        [Route("publish")]
-        public async Task<ActionResult> Publish()
-        {
-            var context = new SphDataContext();
-            var ed = this.GetRequestJson<EntityDefinition>();
-
-            var final = await ed.CompileAsync();
-            if (!final.Result)
-                return Json(final);
-
-            ed.IsPublished = true;
-            using (var session = context.OpenSession())
-            {
-                session.Attach(ed);
-                await session.SubmitChanges("Publish");
-            }
-            return Json(new { success = true, status = "OK", message = "Your entity has been successfully published", id = ed.Id });
-
-
-        }
 
 
 
         [HttpPost]
         [Route("publish/service-contract")]
-        public async Task<ActionResult> PublishServiceContract()
+        public async Task<IHttpActionResult> PublishServiceContract([JsonBody]EntityDefinition ed)
         {
             var context = new SphDataContext();
-            var ed = this.GetRequestJson<EntityDefinition>();
             /* TODO : find the service contract diagnostics
              ed.BuildDiagnostics = ObjectBuilder.GetObject<IDeveloperService>().BuildDiagnostics;
 
