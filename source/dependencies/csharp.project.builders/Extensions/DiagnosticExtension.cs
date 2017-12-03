@@ -10,7 +10,11 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
     {
         public static BuildError ToBuildError(this Diagnostic diagnostic)
         {
-            var error = new BuildError {Message = diagnostic.GetMessage()};
+            var error = new BuildError
+            {
+                Message = diagnostic.GetMessage(),
+                IsWarning = diagnostic.Severity == DiagnosticSeverity.Warning
+            };
             if (diagnostic.Location.IsInSource)
             {
                 var span = diagnostic.Location.SourceSpan;

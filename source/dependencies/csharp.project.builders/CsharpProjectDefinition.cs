@@ -133,7 +133,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices
 
             var result = new RxCompilerResult { Result = true };
             result.Errors.AddRange(errors);
-            result.Result = result.Errors.Count == 0;
+            result.Result = result.Errors.All(x => x.IsWarning);
 
             result.Errors.ForEach(x => logger.WriteError(x.ToString()));
 

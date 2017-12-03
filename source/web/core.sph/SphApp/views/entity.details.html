@@ -21,6 +21,27 @@
     <div class="col-md-2"></div>
     <!-- /ko-->
 </div>
+<div id="warning-list" class="row" data-bind="visible:warnings().length">
+    <!-- ko foreach : warnings -->
+    <div class="col-md-8 col-md-offset-2 alert alert-dismissable alert-warning">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+        <!-- ko if : Code -->
+        <strong class="icon-read-more" data-bind="bootstrapPopover : Code"> ..more</strong>
+        <!-- /ko-->
+        <!-- ko if : FileName -->
+        <br/>
+        <a href="javascript:;" data-bind="click : $root.viewFile">
+            <span class="small" data-bind="text:FileName"></span>(<span class="small" data-bind="text:Line"></span>)
+        </a>
+        <!-- /ko-->
+
+
+    </div>
+    <div class="col-md-2"></div>
+    <!-- /ko-->
+</div>
 
 <div class="row">
     <div class="col-sm-9">

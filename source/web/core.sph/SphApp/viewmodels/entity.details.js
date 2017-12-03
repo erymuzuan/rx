@@ -19,6 +19,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             attachedProperties = ko.observableArray(),
             isBusy = ko.observable(false),
             errors = ko.observableArray(),
+            warnings = ko.observableArray(),
             triggers = ko.observableArray(),
             forms = ko.observableArray(),
             dialogs = ko.observableArray(),
@@ -82,7 +83,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     serverProperties.forEach(builder => {
 
                         const list2 = [];
-                        memberProperties.push({ "compiler": builder.compiler, properties: list2});
+                        memberProperties.push({ "compiler": builder.compiler, properties: list2 });
                         // loop every properties in builder, find prop which is currently in memory(attachedProperties) and push it to list2 to bind
                         builder.properties.forEach(prop => {
                             var ep = attachedProperties().find(x => ko.unwrap(x.AttachedTo) === ko.unwrap(mr.WebId) && ko.unwrap(x.Name) === ko.unwrap(prop.Name));
@@ -113,7 +114,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     logger.error("Please correct all the validations errors");
                     return Task.fromResult(0);
                 }
-                const data = ko.mapping.toJSON({item: entity, attachedProperties :attachedProperties});
+                const data = ko.mapping.toJSON({ item: entity, attachedProperties: attachedProperties });
                 isBusy(true);
 
                 return context.post(data, "/entity-definition")
@@ -173,7 +174,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             publishAsync = function () {
 
-                const data = ko.mapping.toJSON(entity);
+                const data = ko.mapping.toJSON({ item: entity, attachedProperties: attachedProperties });
                 isBusy(true);
 
                 return context.post(data, "/entity-definition/publish")
@@ -186,8 +187,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             entity().Id(result.id);
                             errors.removeAll();
                         } else {
-
-                            errors(result.Errors);
+                            warnings(result.Errors.filter(x => x.IsWarning));
+                            errors(result.Errors.filter(x => !x.IsWarning));
                             logger.error("There are errors in your schema, !!!");
                         }
                         entity().IsPublished(true);
@@ -321,7 +322,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             publishDashboard: publishDashboard,
             addTriggerAsync: addTriggerAsync,
             dialogs: dialogs,
-            attachedProperties : attachedProperties,
+            attachedProperties: attachedProperties,
             queries: queries,
             operations: operations,
             partialViews: partialViews,
@@ -329,6 +330,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             forms: forms,
             views: views,
             errors: errors,
+            warnings: warnings,
             isBusy: isBusy,
             activate: activate,
             canDeactivate: canDeactivate,

@@ -3,21 +3,16 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using Microsoft.CodeAnalysis;
 
 namespace Bespoke.Sph.Domain
 {
+    // TODO : rename this to BuildDiagnostics, since we could have different Severity level : Error,Warning, Info etc
     public class BuildError
     {
         public BuildError()
         {
 
         }
-
-
-
-
         public BuildError(string webid)
         {
             this.ItemWebId = webid;
@@ -29,6 +24,7 @@ namespace Bespoke.Sph.Domain
             this.Message = message;
         }
 
+        [Obsolete("Move to Roslyn")]
         public BuildError(CompilerError x)
         {
             this.Message = x.ErrorText;
@@ -82,6 +78,7 @@ namespace Bespoke.Sph.Domain
         public int Line { get; set; }
         public string ItemWebId { get; set; }
         public string FileName { get; set; }
+        [Obsolete("Use severity level, for Error,Warning, Info etc...")]
         public bool IsWarning { get; set; }
 
         public override string ToString()
@@ -96,6 +93,7 @@ namespace Bespoke.Sph.Domain
 
         public bool Equals(BuildError x, BuildError y)
         {
+            if (null == x || null == y) return false;
             return x.ItemWebId == y.ItemWebId &&
                 x.Message == y.Message &&
                 x.Line == y.Line &&
@@ -104,7 +102,6 @@ namespace Bespoke.Sph.Domain
 
         public int GetHashCode(BuildError obj)
         {
-            if (null == obj) return 0;
             try
             {
                 return obj.ItemWebId.GetHashCode() ^
