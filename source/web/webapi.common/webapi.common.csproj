@@ -148,6 +148,7 @@
     <Compile Include="EndpointPermissonSetting.cs" />
     <Compile Include="ETag.cs" />
     <Compile Include="FileResult.cs" />
+    <Compile Include="FromJsonPropertyAttribute.cs" />
     <Compile Include="HtmlResult.cs" />
     <Compile Include="IEndpointPermissionRepository.cs" />
     <Compile Include="InvalidResult.cs" />

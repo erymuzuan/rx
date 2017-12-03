@@ -12,7 +12,6 @@ using Bespoke.Sph.Domain.Compilers;
 using Bespoke.Sph.Domain.Extensions;
 using Bespoke.Sph.Domain.Management;
 using Bespoke.Sph.Web.Filters;
-using Bespoke.Sph.Web.ViewModels;
 using Bespoke.Sph.WebApi;
 using Humanizer;
 
@@ -70,16 +69,18 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("")]
-        public async Task<IHttpActionResult> Save([JsonPropertyParameter]EntityDefinition item, [JsonPropertyParameter]AttachedProperty[] attachedProperties)
+        public async Task<IHttpActionResult> Save([FromJsonProperty]EntityDefinition item,
+            [FromJsonProperty("$.attachedProperties")]AttachedProperty[] properties)
         {
-            (var _, object result) = await this.SaveAsync(item, attachedProperties);
+            (var _, object result) = await this.SaveAsync(item, properties);
             return Json(result);
 
         }
 
         [HttpPost]
         [Route("publish")]
-        public async Task<IHttpActionResult> Publish([JsonPropertyParameter]EntityDefinition item, [JsonPropertyParameter]AttachedProperty[] attachedProperties)
+        public async Task<IHttpActionResult> Publish([FromJsonProperty]EntityDefinition item,
+            [FromJsonProperty]AttachedProperty[] attachedProperties)
         {
             await this.SaveAsync(item, attachedProperties);
             var result = await item.CompileAsync();
