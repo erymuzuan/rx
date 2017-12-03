@@ -112,8 +112,9 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 var bags = new Dictionary<IProjectBuilder, List<AttachedProperty>>();
                 foreach (var builder in compilers)
                 {
-                    var props = await repos.GetAttachedPropertiesAsync(builder, ed);
-                    bags.Add(builder, props.Where(x => x.AttachedTo == ed.WebId).ToList());
+                    var props = (await repos.GetAttachedPropertiesAsync(builder, ed)).ToList();
+                    if (props.Count > 0)
+                        bags.Add(builder, props);
                 }
 
                 var json = $@"
@@ -158,8 +159,10 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var bags = new Dictionary<IProjectBuilder, List<AttachedProperty>>();
             foreach (var builder in compilers)
             {
-                var properties = await repos.GetAttachedPropertiesAsync(builder, ed);
-                bags.Add(builder, properties.Where(x => x.AttachedTo == webId).ToList());
+                var properties = await repos.GetAttachedPropertiesAsync(builder, ed, member);
+                var attached = properties.Where(x => x.AttachedTo == webId).ToList();
+                if (attached.Count > 0)
+                    bags.Add(builder, attached);
             }
 
             var json = $@"

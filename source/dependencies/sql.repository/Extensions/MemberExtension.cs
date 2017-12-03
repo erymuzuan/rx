@@ -21,16 +21,24 @@ namespace Bespoke.Sph.SqlRepository.Extensions
         private static AttachedProperty[] GenerateAttachedProperties(this SimpleMember sm)
         {
             var properties = new List<AttachedProperty>();
-            if (sm.IsFilterable)
-            {
-                properties.Add(new AttachedProperty { Name = "SqlIndex", Type = typeof(bool), Help = "Create SQL Index" });
-                properties.Add(new AttachedProperty { Name = "IndexedFields", Type = typeof(string), Help = "Attach other fields to the index" });
 
-            }
+            properties.Add<bool>(sm, "SqlIndex", "Create SQL Index");
+            properties.Add<string>(sm, "IndexedFields", "Attach other fields to the index");
+
             if (sm.Type == typeof(string))
             {
-                properties.Add(new AttachedProperty { Name = "Length", Type = typeof(int), Help = "NVARCHAR/VARCHAR Length" });
-                properties.Add(new AttachedProperty { Name = "AllowUnicode", Type = typeof(bool), Help = "NVARCHAR/VARCHAR Length" });
+                properties.Add<int>(sm, "Length", "NVARCHAR/VARCHAR Length");
+                properties.Add<bool>(sm, "AllowUnicode", "NVARCHAR/VARCHAR Length");
+            }
+
+            if (sm.Type == typeof(int))
+            {
+                /*  case "bigint": return typeof(long);
+                case "smallint": return typeof(short);
+                case "tinyint": return typeof(byte);
+                case "int": return typeof(int);
+                */
+                properties.Add<string>(sm, "DataType", "BIGINT, SMALLINT, TINYINT, INT");
             }
 
             return properties.ToArray();
@@ -43,13 +51,13 @@ namespace Bespoke.Sph.SqlRepository.Extensions
                 return $"[{member.FullName}] {member.GetSqlType()} {(member.IsNullable ? "" : "NOT")} NULL";
             }
             /*
-             
-ALTER TABLE [DevV1].[Patient]
-ADD [NextOfKin.FullName] AS CAST(JSON_VALUE([Json], '$.NextOfKin.FullName') AS NVARCHAR(50))
-GO
 
-ALTER TABLE [DevV1].[Patient]
-ADD [IsMalaysian] AS CASE WHEN (CAST(JSON_VALUE([Json], '$.Race') AS NVARCHAR(50))) = 'Others' THEN 0 ELSE 1 END */
+    ALTER TABLE [DevV1].[Patient]
+    ADD [NextOfKin.FullName] AS CAST(JSON_VALUE([Json], '$.NextOfKin.FullName') AS NVARCHAR(50))
+    GO
+
+    ALTER TABLE [DevV1].[Patient]
+    ADD [IsMalaysian] AS CASE WHEN (CAST(JSON_VALUE([Json], '$.Race') AS NVARCHAR(50))) = 'Others' THEN 0 ELSE 1 END */
 
             var length = properties.GetPropertyValue<int?>("Length", default);
             return $"[{member.FullName}] AS CAST(JSON_VALUE([Json], '$.{member.FullName}') AS {member.GetSqlType(length)})";
@@ -91,7 +99,7 @@ ADD [IsMalaysian] AS CASE WHEN (CAST(JSON_VALUE([Json], '$.Race') AS NVARCHAR(50
                     otherFields = ", " + fields.ToString(", ", x => $"[{x}]");
                 }
             }
-            
+
             if (sqlVersion < 13)
                 return $@"
 CREATE NONCLUSTERED INDEX [idx_{ed.Name}{column}_index]

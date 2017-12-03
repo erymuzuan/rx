@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Csharp.CompilersServices.Extensions;
 using Bespoke.Sph.Domain;
@@ -15,20 +14,22 @@ namespace Bespoke.Sph.Csharp.CompilersServices
     {
         public string Name => "QueryEndpoint";
         public string Description => @"Compile QueryEndpoint or if in case of EntityDefinition, all its QueryEndpoints";
-        public Task<IEnumerable<AttachedProperty>> GetAttachPropertiesAsycn(IProjectDefinition project)
+        public Task<IEnumerable<AttachedProperty>> GetDefaultAttachedPropertiesAsync(IProjectDefinition project)
         {
-            return Task.FromResult(Array.Empty<AttachedProperty>().AsEnumerable());
+            return AttachedProperty.EmtptyListTask;
         }
 
-        public Task<IEnumerable<AttachedProperty>> GetAttachPropertiesAsycn(Member member)
+        public Task<IEnumerable<AttachedProperty>> GetDefaultAttachedPropertiesAsync(Member member)
         {
-            return Task.FromResult(Array.Empty<AttachedProperty>().AsEnumerable());
+            return AttachedProperty.EmtptyListTask;
         }
+
         public async Task<IEnumerable<Class>> GenerateCodeAsync(IProjectDefinition project)
         {
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
             var sources = new List<Class>();
             if (!(project is QueryEndpoint endpoint)) return sources;
-            var ed = new SphDataContext().LoadOneFromSources<EntityDefinition>(x => x.Name == endpoint.Entity);
+            var ed = await repos.LoadOneAsync<EntityDefinition>(x => x.Name == endpoint.Entity);
 
             var wrapper = new QueryEndpointCsharp(endpoint, ed);
 

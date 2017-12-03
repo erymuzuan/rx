@@ -28,5 +28,20 @@ namespace Bespoke.Sph.Tests.Mocks
         {
             return Task.FromResult((T)m_cached);
         }
+
+        public Task SavedAsync<T>(T project, IEnumerable<AttachedProperty> properties) where T : Entity, IProjectDefinition
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<AttachedProperty>> GetAttachedPropertiesAsync<T>(IProjectBuilder builder, T project) where T : Entity, IProjectDefinition
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<AttachedProperty>> GetAttachedPropertiesAsync<T>(IProjectBuilder builder, T project, Member member) where T : Entity, IProjectDefinition
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Domain.Compilers
 {
@@ -70,45 +71,83 @@ namespace Bespoke.Sph.Domain.Compilers
             var json = project.ToJsonString(Formatting.Indented, VersionInfo.All);
             File.WriteAllText($"{path}{project.Name}.json", json);
 
-            // now the properties
-            var jsonProperties = properties.ToJsonString(Formatting.Indented, VersionInfo.Version);
-            File.WriteAllText($"{path}{project.Name}.AttachedProperties.json", jsonProperties);
+            // now the properties, override those in files if exists
+            var newItems = properties.ToArray();
+            var list = new HashSet<AttachedProperty>(newItems, new AttachedProperty.EqualityComparer());
+            var file = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\{project.Name}.AttachedProperties";
+            if (File.Exists(file))
+            {
+                var saved = DeserializeArrayFromJsonFile<AttachedProperty>(file).ToArray();
+                foreach (var prop in saved)
+                {
+                    list.Add(prop);
+                }
+            }
+
+            var jsonProperties = list.ToList().ToJsonString(Formatting.Indented, VersionInfo.Version);
+            File.WriteAllText($"{path}{project.Name}.AttachedProperties", jsonProperties);
 
 
             return Task.FromResult(0);
         }
 
-       
+
 
         public async Task<IEnumerable<AttachedProperty>> GetAttachedPropertiesAsync<T>(IProjectBuilder builder, T project) where T : Entity, IProjectDefinition
         {
-            var path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\{project.Name}.AttachedProperties.json";
-            if (!Directory.Exists(path))
-                return Array.Empty<AttachedProperty>();
-
-            var persistedProperties = DeserializeFromJsonFile<AttachedProperty[]>(path);
             var defaultProperties = await builder.GetDefaultAttachedPropertiesAsync(project);
 
+            var file = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\{project.Name}.AttachedProperties";
+            if (!File.Exists(file))
+                return defaultProperties;
+
+            var persistedProperties = DeserializeArrayFromJsonFile<AttachedProperty>(file);
+
             var properties = from d in defaultProperties
-                let value = persistedProperties.SingleOrDefault(x => x.Name == d.Name && x.ProviderName == builder.Name)
-                where null != value
-                select d.WithValue(value);
+                             let value = persistedProperties.SingleOrDefault(x => x.Name == d.Name && x.ProviderName == builder.Name)
+                             where null != value
+                             select d.WithValue(value);
 
             return properties;
 
         }
 
-        private static T DeserializeFromJsonFile<T>(string file)
+        public async Task<IEnumerable<AttachedProperty>> GetAttachedPropertiesAsync<T>(IProjectBuilder builder, T project, Member member) where T : Entity, IProjectDefinition
+        {
+            var defaultProperties = await builder.GetDefaultAttachedPropertiesAsync(member);
+
+            var file = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\{project.Name}.AttachedProperties";
+            if (!File.Exists(file))
+                return defaultProperties;
+
+            var persistedProperties = DeserializeArrayFromJsonFile<AttachedProperty>(file);
+
+            var properties = from d in defaultProperties
+                             let value = persistedProperties.SingleOrDefault(x => x.Name == d.Name && x.ProviderName == builder.Name && member.WebId == x.AttachedTo)
+                             let d2 = d
+                             select d2.WithValue(value, member);
+
+            return properties;
+
+        }
+
+        private static IEnumerable<T> DeserializeArrayFromJsonFile<T>(string file)
         {
             try
             {
+                var json = JObject.Parse(File.ReadAllText(file));
+
                 var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-                return JsonConvert.DeserializeObject<T>(File.ReadAllText(file), setting);
+                var properties = from token in json.SelectToken("$.$values")
+                                 where null != token
+                                 select JsonConvert.DeserializeObject<T>(token.ToString(), setting);
+
+                return properties;
             }
             catch (IOException ioe) when (ioe.Message.StartsWith("The process cannot access the file") && ioe.Message.EndsWith("because it is being used by another process"))
             {
                 Thread.Sleep(200);
-                return DeserializeFromJsonFile<T>(file);
+                return DeserializeArrayFromJsonFile<T>(file);
             }
             catch (JsonReaderException e)
             {

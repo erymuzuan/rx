@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Csharp.CompilersServices.Extensions;
 using Bespoke.Sph.Domain;
@@ -15,18 +14,20 @@ namespace Bespoke.Sph.Csharp.CompilersServices
     {
         public string Name => "EntityDefinition";
         public string Description => @"Compile EntityDefintion to .Net dll";
+        public Task<IEnumerable<AttachedProperty>> GetDefaultAttachedPropertiesAsync(IProjectDefinition project)
+        {
+            return AttachedProperty.EmtptyListTask;
+        }
+
+        public Task<IEnumerable<AttachedProperty>> GetDefaultAttachedPropertiesAsync(Member member)
+        {
+            return AttachedProperty.EmtptyListTask;
+        }
+
         [ImportMany(typeof(IBuildDiagnostics))]
         public IBuildDiagnostics[] BuildDiagnostics { get; set; }
 
-        public Task<IEnumerable<AttachedProperty>> GetAttachPropertiesAsycn(IProjectDefinition project)
-        {
-            return Task.FromResult(Array.Empty<AttachedProperty>().AsEnumerable());
-        }
-
-        public Task<IEnumerable<AttachedProperty>> GetAttachPropertiesAsycn(Member member)
-        {
-            return Task.FromResult(Array.Empty<AttachedProperty>().AsEnumerable());
-        }
+     
 
         public async Task<IEnumerable<Class>> GenerateCodeAsync(IProjectDefinition project)
         {

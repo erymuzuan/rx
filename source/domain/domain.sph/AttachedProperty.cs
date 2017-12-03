@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
@@ -7,10 +10,29 @@ namespace Bespoke.Sph.Domain
     [DebuggerDisplay("{ProviderName}/{AttachedTo}/{Name}/{ValueAsString}")]
     public class AttachedProperty : DomainObject
     {
+        public class EqualityComparer : IEqualityComparer<AttachedProperty>
+        {
+            public bool Equals(AttachedProperty x, AttachedProperty y)
+            {
+                if (null == x) return false;
+                if (null == y) return false;
+                return
+                    x.ProviderName == y.ProviderName
+                    && x.Name == y.Name
+                    && x.AttachedTo == y.AttachedTo;
+            }
+
+            public int GetHashCode(AttachedProperty obj)
+            {
+                return $"{obj.ProviderName}/{obj.Name}/{obj.AttachedTo}".GetHashCode();
+            }
+        }
         public AttachedProperty()
         {
-            
+
         }
+
+        public static Task<IEnumerable<AttachedProperty>> EmtptyListTask = Task.FromResult(Array.Empty<AttachedProperty>().AsEnumerable());
 
         public AttachedProperty(string name, object value, DomainObject attachedTo, string providerName)
         {
@@ -31,6 +53,7 @@ namespace Bespoke.Sph.Domain
 
         public string ValueAsString { get; set; }
         private object m_value;
+
         public object Value
         {
             get
@@ -69,14 +92,42 @@ namespace Bespoke.Sph.Domain
             set => this.TypeName = value.GetShortAssemblyQualifiedName();
         }
 
+        public object[] AllowedValue { get; set; }
+
         public AttachedProperty WithValue(AttachedProperty value)
         {
+            if (null == value)
+                return this.Clone();
+
             return new AttachedProperty
             {
                 Name = Name,
                 Type = Type,
                 Value = value.Value,
                 AttachedTo = value.AttachedTo,
+                Description = Description,
+                Help = Help,
+                ProviderName = ProviderName,
+                Required = Required,
+                ValueAsString = value.ValueAsString,
+                WebId = value.WebId
+            };
+        }
+        public AttachedProperty WithValue(AttachedProperty value, Member member)
+        {
+            if (null == value)
+            {
+                var clone = this.Clone();
+                clone.AttachedTo = member.WebId;
+                return clone;
+            }
+
+            return new AttachedProperty
+            {
+                Name = Name,
+                Type = Type,
+                Value = value.Value,
+                AttachedTo = member.WebId,
                 Description = Description,
                 Help = Help,
                 ProviderName = ProviderName,

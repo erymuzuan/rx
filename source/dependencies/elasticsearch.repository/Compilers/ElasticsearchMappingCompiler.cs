@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Codes;
@@ -16,23 +15,14 @@ namespace Bespoke.Sph.ElasticsearchRepository.Compilers
         public string Description => @"Compile EntityDefintion to Elasticsearch 1.7.5 mapping";
         public Task<IEnumerable<AttachedProperty>> GetDefaultAttachedPropertiesAsync(IProjectDefinition project)
         {
-            throw new NotImplementedException();
+            return AttachedProperty.EmtptyListTask;
         }
 
         public Task<IEnumerable<AttachedProperty>> GetDefaultAttachedPropertiesAsync(Member member)
         {
-            throw new NotImplementedException();
+            return AttachedProperty.EmtptyListTask;
         }
 
-        public Task<IEnumerable<AttachedProperty>> GetAttachPropertiesAsycn(IProjectDefinition project)
-        {
-            return Task.FromResult(Array.Empty<AttachedProperty>().AsEnumerable());
-        }
-
-        public Task<IEnumerable<AttachedProperty>> GetAttachPropertiesAsycn(Member member)
-        {
-            return Task.FromResult(Array.Empty<AttachedProperty>().AsEnumerable());
-        }
 
         public Task<IEnumerable<Class>> GenerateCodeAsync(IProjectDefinition project)
         {

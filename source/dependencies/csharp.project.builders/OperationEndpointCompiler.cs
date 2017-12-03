@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Csharp.CompilersServices.Extensions;
 using Bespoke.Sph.Domain;
@@ -16,20 +14,22 @@ namespace Bespoke.Sph.Csharp.CompilersServices
     {
         public string Name => "OperationEndpoint";
         public string Description => @"Compile EntityDefintion and all its OperationEndpoint or just one OperationEndpoint";
-
-        public Task<IEnumerable<AttachedProperty>> GetAttachPropertiesAsycn(IProjectDefinition project)
+        public Task<IEnumerable<AttachedProperty>> GetDefaultAttachedPropertiesAsync(IProjectDefinition project)
         {
-            return Task.FromResult(Array.Empty<AttachedProperty>().AsEnumerable());
+            return AttachedProperty.EmtptyListTask;
         }
 
-        public Task<IEnumerable<AttachedProperty>> GetAttachPropertiesAsycn(Member member)
+        public Task<IEnumerable<AttachedProperty>> GetDefaultAttachedPropertiesAsync(Member member)
         {
-            return Task.FromResult(Array.Empty<AttachedProperty>().AsEnumerable());
+            return AttachedProperty.EmtptyListTask;
         }
+
+
         public async Task<IEnumerable<Class>> GenerateCodeAsync(IProjectDefinition project)
         {
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
             if (!(project is OperationEndpoint endpoint)) return Array.Empty<Class>();
-            var ed = new SphDataContext().LoadOneFromSources<EntityDefinition>(x => x.Name == endpoint.Entity);
+            var ed = await repos.LoadOneAsync<EntityDefinition>(x => x.Name == endpoint.Entity);
 
             return await endpoint.GenerateSourceAsync(ed);
 

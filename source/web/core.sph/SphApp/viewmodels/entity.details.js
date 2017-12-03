@@ -16,6 +16,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
         let originalEntity = "";
         const entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
+            attachedProperties = ko.observableArray(),
             isBusy = ko.observable(false),
             errors = ko.observableArray(),
             triggers = ko.observableArray(),
@@ -73,12 +74,34 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 member.subscribe(async function (mr) {
                     const result = await context.get(
                         `/developer-service/compilers-attached-properties-members/${entity().Id()}/${mr.WebId()}`);
-                    const properties = Object.keys(result).filter(v => result[v].length).map(v => {
+                    const serverProperties = Object.keys(result).filter(v => result[v].length).map(v => {
                         return { "compiler": v, properties: result[v].map(x => ko.mapping.fromJS(x)) };
                     });
-                    console.info("Member changed", properties);
-                    mr.attachedProperties(properties);
 
+                    const memberProperties = [];
+                    serverProperties.forEach(builder => {
+
+                        const list2 = [];
+                        memberProperties.push({ "compiler": builder.compiler, properties: list2});
+                        // loop every properties in builder, find prop which is currently in memory(attachedProperties) and push it to list2 to bind
+                        builder.properties.forEach(prop => {
+                            var ep = attachedProperties().find(x => ko.unwrap(x.AttachedTo) === ko.unwrap(mr.WebId) && ko.unwrap(x.Name) === ko.unwrap(prop.Name));
+                            if (ep) {
+                                // found , then bind
+                                list2.push(ep);
+                            } else {
+                                // set the prop to the current member and save in memory
+                                prop.AttachedTo(ko.unwrap(mr.WebId));
+                                attachedProperties.push(prop);
+
+                                list2.push(prop);
+                            }
+                        });
+                    });
+
+                    //bind
+                    console.info("Member changed", memberProperties);
+                    mr.attachedProperties(memberProperties);
                 });
             },
             publishDashboard = function () {
@@ -90,7 +113,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     logger.error("Please correct all the validations errors");
                     return Task.fromResult(0);
                 }
-                const data = ko.mapping.toJSON(entity);
+                const data = ko.mapping.toJSON({item: entity, attachedProperties :attachedProperties});
                 isBusy(true);
 
                 return context.post(data, "/entity-definition")
@@ -101,11 +124,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             logger.info(result.message);
                             if (!entity().Id()) {
                                 //reload forms and views 
-                                context.loadAsync("EntityForm", "EntityDefinitionId eq '" + result.id + "'")
+                                context.loadAsync("EntityForm", `EntityDefinitionId eq '${result.id}'`)
                                     .done(function (lo) {
                                         forms(lo.itemCollection);
                                     });
-                                context.loadAsync("EntityView", "EntityDefinitionId eq '" + result.id + "'")
+                                context.loadAsync("EntityView", `EntityDefinitionId eq '${result.id}'`)
                                     .done(function (lo) {
                                         views(lo.itemCollection);
                                     });
@@ -198,7 +221,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
 
-                            context.send(data, "/entity-definition/" + entity().Id(), "DELETE")
+                            context.send(data, `/entity-definition/${entity().Id()}`, "DELETE")
                                 .then(function (result) {
                                     isBusy(false);
                                     if (result.success) {
@@ -250,7 +273,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 })
                     .done(function (dialog, result) {
                         if (result === "OK") {
-                            router.navigate("#trigger.setup/" + ko.unwrap(dialog.id));
+                            router.navigate(`#trigger.setup/${ko.unwrap(dialog.id)}`);
                         }
                     });
             },
@@ -264,8 +287,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 var file = e.FileName || e,
                     line = e.Line || 1;
                 var params = [
-                    "height=" + screen.height,
-                    "width=" + screen.width,
+                    `height=${screen.height}`,
+                    `width=${screen.width}`,
                     "toolbar=0",
                     "location=0",
                     "fullscreen=yes"
@@ -298,6 +321,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             publishDashboard: publishDashboard,
             addTriggerAsync: addTriggerAsync,
             dialogs: dialogs,
+            attachedProperties : attachedProperties,
             queries: queries,
             operations: operations,
             partialViews: partialViews,

@@ -51,6 +51,9 @@ namespace Bespoke.Sph.Tests.SqlServer.Mocks
 
         }
 
-
+        public Task<IEnumerable<AttachedProperty>> GetAttachedPropertiesAsync<T>(IProjectBuilder builder, T project, Member member) where T : Entity, IProjectDefinition
+        {
+            throw new NotImplementedException();
+        }
     }
 }

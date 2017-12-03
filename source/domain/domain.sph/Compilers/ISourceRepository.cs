@@ -19,6 +19,8 @@ namespace Bespoke.Sph.Domain.Compilers
 
         Task<IEnumerable<AttachedProperty>> GetAttachedPropertiesAsync<T>(IProjectBuilder builder, T project)
             where T : Entity, IProjectDefinition;
+        Task<IEnumerable<AttachedProperty>> GetAttachedPropertiesAsync<T>(IProjectBuilder builder, T project, Member member)
+            where T : Entity, IProjectDefinition;
 
         // TODO : Task<string> ReadAsStringAsync(string path);
         // TODO : ReadAllBytesAsync(string path);

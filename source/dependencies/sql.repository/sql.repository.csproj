@@ -91,6 +91,7 @@
     <Compile Include="Deployments\SourceTableBuilder.cs" />
     <Compile Include="Deployments\SqlTableWithSourceDeployer.cs" />
     <Compile Include="Extensions\AggregateExtension.cs" />
+    <Compile Include="Extensions\AttachedPropertyExtension.cs" />
     <Compile Include="Extensions\DateTimeExtension.cs" />
     <Compile Include="Extensions\MemberInfoExtension.cs" />
     <Compile Include="Extensions\OperatorExtension.cs" />
