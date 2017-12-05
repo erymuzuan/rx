@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
+using domain.test.mocks;
 using domain.test.reports;
 using domain.test.triggers;
 using Xunit;
@@ -18,11 +17,8 @@ namespace domain.test.entities
     [Collection("Endpoint")]
     public class QueryTest
     {
-        private readonly ITestOutputHelper m_console;
-
         public QueryTest(ITestOutputHelper console)
         {
-            m_console = console;
             var persistence = new MockPersistence(console);
             var efMock = new MockRepository<EntityDefinition>();
             efMock.AddToDictionary("", GetFromEmbeddedResource<EntityDefinition>("Patient"));
@@ -50,23 +46,9 @@ namespace domain.test.entities
                 }
             }));
 
-            m_console.WriteLine("Init..");
+            console.WriteLine("Init..");
         }
-
-        [Fact]
-        [Trait("Category", "Compile")]
-        public void GenerateController()
-        {
-            var query = new QueryEndpoint { Name = "All patients", Route = "all-patients", Id = "all-patients", Entity = "Patient", WebId = "all-patients" };
-            var patient = GetFromEmbeddedResource<EntityDefinition>(query.Entity);
-            var options = new CompilerOptions();
-            var sources = query.GenerateCode(patient);
-            var result = query.Compile(options, sources);
-
-            m_console.WriteLine(result.ToString());
-
-            Assert.True(result.Result, result.ToString());
-        }
+        
 
         public static IEnumerable<object[]> Filters
         {
@@ -96,148 +78,7 @@ namespace domain.test.entities
             }
         }
 
-        [Theory]
-        [MemberData(nameof(Filters))]
-        public void Compile(EntityDefinition ed, QueryEndpoint query, Filter[] filters)
-        {
-            query.FilterCollection.AddRange(filters);
-
-            var options = new CompilerOptions();
-            var sources = query.GenerateCode(ed);
-            var result = query.Compile(options, sources);
-
-            Assert.True(result.Result, result.ToString());
-
-            var output = $"{query.AssemblyName}".Replace(".dll", "");
-            File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.dll", $"{ConfigurationManager.WebPath}\\bin\\{output}.dll", true);
-            File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.pdb", $"{ConfigurationManager.WebPath}\\bin\\{output}.pdb", true);
-
-
-            File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\{nameof(QueryEndpoint)}\\{query.Id}.json", query.ToJsonString(true));
-        }
-
-        [Theory]
-        [InlineData("AnonymousQuery")]
-        [InlineData("Everybody")]
-        [InlineData("DesignationU32")]
-        [InlineData("RolesNurse")]
-        [InlineData("UserNameAli")]
-        public async Task CompileWithPerformer(string name)
-        {
-            var query = new QueryEndpoint
-            {
-                Name = name,
-                Route = "~/api/patients/" + name.ToIdFormat(),
-                Id = name.ToIdFormat(),
-                Entity = "Patient",
-                WebId = Guid.NewGuid().ToString()
-            };
-            var ed = GetFromEmbeddedResource<EntityDefinition>("Patient");
-            var result = await query.CompileAsync(ed);
-
-            Assert.True(result.Result, result.ToString());
-
-            var output = $"{query.AssemblyName}".Replace(".dll", "");
-            File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.dll", $"{ConfigurationManager.WebPath}\\bin\\{output}.dll", true);
-            File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.pdb", $"{ConfigurationManager.WebPath}\\bin\\{output}.pdb", true);
-
-
-            File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\{nameof(QueryEndpoint)}\\{query.Id}.json", query.ToJsonString(true));
-        }
-
-
-
-
-
-        [Fact]
-        public void CompileQueryWithFieldsAndFilter()
-        {
-            var patient = GetFromEmbeddedResource<EntityDefinition>("Patient");
-            var query = new QueryEndpoint
-            {
-                Name = "Patients Born in 60s",
-                Route = "~/api/patients/born-in-60s",
-                Id = "patients-born-in-60s",
-                Entity = patient.Name,
-                WebId = "all-born-in-60s"
-            };
-            var sixty = new ConstantField { Type = typeof(DateTime), Value = "1960-01-01" };
-            var sixtyNine = new ConstantField { Type = typeof(DateTime), Value = "1969-12-31" };
-            query.FilterCollection.Add(new Filter
-            {
-                Field = sixty,
-                Operator = Operator.Ge,
-                Term = "Dob"
-            });
-            query.FilterCollection.Add(new Filter
-            {
-                Field = sixtyNine,
-                Operator = Operator.Le,
-                Term = "Dob"
-            });
-
-            query.MemberCollection.AddRange("Dob", "FullName", "Gender", "Race", "DeathDate");
-
-            var options = new CompilerOptions();
-            var sources = query.GenerateCode(patient);
-            var result = query.Compile(options, sources);
-
-            Assert.True(result.Result, result.ToString());
-
-
-            var output = $"{query.AssemblyName}".Replace(".dll", "");
-            File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.dll", $"{ConfigurationManager.WebPath}\\bin\\{output}.dll", true);
-            File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.pdb", $"{ConfigurationManager.WebPath}\\bin\\{output}.pdb", true);
-
-            File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\{nameof(QueryEndpoint)}\\{query.Id}.json", query.ToJsonString(true));
-        }
-
-        [Fact]
-        public void CompileQueryWithFieldsAndFilterCacheFilter()
-        {
-            var patient = GetFromEmbeddedResource<EntityDefinition>("Patient");
-            var query = new QueryEndpoint
-            {
-                Name = "Patients with cached filter",
-                Route = "~/api/patients/cache-filter",
-                Id = "patients-cache-filter",
-                Entity = "Patient",
-                WebId = "patients-cache-filter",
-                Resource = "patients",
-                CacheFilter = 300
-            };
-            var sixty = new ConstantField { Type = typeof(DateTime), Value = "1960-01-01" };
-            var sixtyNine = new ConstantField { Type = typeof(DateTime), Value = "1969-12-31" };
-            query.FilterCollection.Add(new Filter
-            {
-                Field = sixty,
-                Operator = Operator.Ge,
-                Term = "Dob"
-            });
-            query.FilterCollection.Add(new Filter
-            {
-                Field = sixtyNine,
-                Operator = Operator.Le,
-                Term = "Dob"
-            });
-
-            query.MemberCollection.AddRange("Id", "Dob", "FullName", "Gender", "Race", "DeathDate", "NextOfKin.FullName",
-                "NextOfKin.Relationship", "HomeAddress.State", "Wife.Name", "Wife.WorkPlaceAddress.State");
-
-            var options = new CompilerOptions();
-            var sources = query.GenerateCode(patient);
-            var result = query.Compile(options, sources);
-
-            Assert.True(result.Result, result.ToString());
-
-
-            var output = $"{query.AssemblyName}".Replace(".dll", "");
-            File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.dll", $"{ConfigurationManager.WebPath}\\bin\\{output}.dll", true);
-            File.Copy($"{ConfigurationManager.CompilerOutputPath}\\{output}.pdb", $"{ConfigurationManager.WebPath}\\bin\\{output}.pdb", true);
-
-            File.WriteAllText($"{ConfigurationManager.SphSourceDirectory}\\{nameof(QueryEndpoint)}\\{query.Id}.json", query.ToJsonString(true));
-        }
-
+        
         private static T GetFromEmbeddedResource<T>(string entityDefinitionName) where T : Entity
         {
             var assembly = typeof(QueryTest).Assembly;
@@ -256,35 +97,5 @@ namespace domain.test.entities
             return null;
         }
 
-    }
-
-    public class MockCvsProvider : ICvsProvider
-    {
-        private readonly CommitLog[] m_logs;
-
-        public MockCvsProvider(CommitLog[] logs)
-        {
-            m_logs = logs;
-        }
-        public Task<string> GetCommitIdAsync(string file)
-        {
-            var log = m_logs.OrderByDescending(x => x.DateTime).FirstOrDefault(x => x.Files.Contains(file));
-            return Task.FromResult(log?.CommitId);
-        }
-
-        public Task<string> GetCommitCommentAsync(string file)
-        {
-            var log = m_logs.OrderByDescending(x => x.DateTime).FirstOrDefault(x => x.Files.Contains(file));
-            return Task.FromResult(log?.Comment);
-        }
-
-        public Task<LoadOperation<CommitLog>> GetCommitLogsAsync(string file, int page, int size)
-        {
-            var lo = new LoadOperation<CommitLog>();
-            lo.ItemCollection.AddRange(m_logs);
-            lo.TotalRows = m_logs.Length;
-
-            return Task.FromResult(lo);
-        }
     }
 }

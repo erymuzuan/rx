@@ -236,17 +236,10 @@ namespace domain.test.businessrules
         private async Task<dynamic> CreateInstanceAsync(EntityDefinition ed)
         {
             var compiler = new Bespoke.Sph.Csharp.CompilersServices.EntityDefinitionCompiler();
-            var classes = await compiler.GenerateCodeAsync(ed);
-            var sources = (from cs in classes.Keys
-                           let name = Path.GetFileName(cs)
-                           let tem = Path.GetTempPath() + "\\" + name
-                           select new
-                           {
-                               FileName = tem,
-                               Code = classes[cs]
-                           }).ToList();
-            sources.ForEach(x => File.WriteAllText(x.FileName, x.Code));
-            var result = await compiler.BuildAsync(ed, sources.Select(x => x.FileName).ToArray());
+            var tempFileName = Path.GetTempFileName();
+            var peStream = tempFileName + ".dll";
+            var pdbStream = tempFileName + ".pdb";
+            var result = await compiler.BuildAsync(ed, x => new CompilerOptions2(peStream, pdbStream));
 
             // try to instantiate the EntityDefinition
             var assembly = Assembly.LoadFrom(result.Output);
@@ -268,7 +261,7 @@ namespace domain.test.businessrules
 
             var address = ent.AddMember<ComplexMember>("Address");
             address.AddMember<string>("Street1");
-            address.AddMember<string>("State", filterable:true);
+            address.AddMember<string>("State", true);
 
 
             var contacts = ent.AddMember<ComplexMember>("ContactCollection", true);

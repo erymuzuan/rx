@@ -12,7 +12,6 @@ using Bespoke.Sph.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
-using Microsoft.CodeAnalysis.Text;
 
 namespace Bespoke.Sph.Csharp.CompilersServices
 {
@@ -158,6 +157,8 @@ namespace Bespoke.Sph.Csharp.CompilersServices
                 emitResult = null == options.PdbPath ?
                   compilation.Emit(options.PePath) :
                   compilation.Emit(options.PePath, options.PdbPath);
+
+                result.Output = options.PePath;
             }
 
 

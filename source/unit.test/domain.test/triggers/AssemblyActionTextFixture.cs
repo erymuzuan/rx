@@ -16,25 +16,21 @@ using Xunit.Abstractions;
 
 namespace domain.test.triggers
 {
-    
     public class AssemblyActionTextFixture
     {
-        public ITestOutputHelper Console { get; }
+        private ITestOutputHelper Console { get; }
 
         private readonly MockRepository<EntityDefinition> m_efMock;
-        private readonly MockPersistence m_persistence;
 
         public AssemblyActionTextFixture(ITestOutputHelper console)
         {
             Console = console;
-            m_persistence = new MockPersistence(console);
+            var persistence = new MockPersistence(console);
             m_efMock = new MockRepository<EntityDefinition>();
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
             ObjectBuilder.AddCacheList<IRepository<EntityDefinition>>(m_efMock);
-            ObjectBuilder.AddCacheList<IPersistence>(m_persistence);
-           
+            ObjectBuilder.AddCacheList<IPersistence>(persistence);
         }
-
 
 
         [Fact]
@@ -42,15 +38,16 @@ namespace domain.test.triggers
         {
             m_efMock.Clear();
             var jsonFile = $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\Patient.json";
-            m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]", 
+            m_efMock.AddToDictionary("System.Linq.IQueryable`1[Bespoke.Sph.Domain.EntityDefinition]",
                 File.ReadAllText(jsonFile).DeserializeFromJson<EntityDefinition>());
-            var json = File.ReadAllText($@"{ConfigurationManager.Home}\..\source\unit.test\domain.test\triggers\assembly.action.json");
+            var json = File.ReadAllText(
+                $@"{ConfigurationManager.Home}\..\source\unit.test\domain.test\triggers\assembly.action.json");
             var trigger = json.DeserializeFromJson<Trigger>();
             var code = await trigger.GenerateCodeAsync();
             Console.WriteLine(code);
             var options = new CompilerOptions();
             var result = await trigger.CompileAsync(options);
-            if(!result.Result)
+            if (!result.Result)
                 result.Errors.ForEach(x => Console.WriteLine(x.ToString()));
             Assert.True(result.Result, result.ToString());
         }
@@ -68,12 +65,23 @@ namespace domain.test.triggers
                 Method = "TestAsync",
                 TypeName = "Bespoke.Sph.Test.TestObject"
             };
-            action.MethodArgCollection.Add(new MethodArg { Name = "name", Type = typeof(string), ValueProvider = new ConstantField { Value = "Erymuzuan", Type = typeof(string) } });
-            action.MethodArgCollection.Add(new MethodArg { Name = "age", Type = typeof(int), ValueProvider = new DocumentField { Path = "Age", Type = typeof(int) } });
+            action.MethodArgCollection.Add(new MethodArg
+            {
+                Name = "name",
+                Type = typeof(string),
+                ValueProvider = new ConstantField {Value = "Erymuzuan", Type = typeof(string)}
+            });
+            action.MethodArgCollection.Add(new MethodArg
+            {
+                Name = "age",
+                Type = typeof(int),
+                ValueProvider = new DocumentField {Path = "Age", Type = typeof(int)}
+            });
             var code = action.GeneratorCode();
             Assert.DoesNotContain("return response", code);
             Assert.Contains("return 0", code);
         }
+
         [Fact]
         public void StaticMethod()
         {
@@ -87,8 +95,18 @@ namespace domain.test.triggers
                 Method = "Test",
                 TypeName = "Bespoke.Sph.TestObject"
             };
-            action.MethodArgCollection.Add(new MethodArg { Name = "name", Type = typeof(string), ValueProvider = new ConstantField { Value = "Erymuzuan", Type = typeof(string) } });
-            action.MethodArgCollection.Add(new MethodArg { Name = "age", Type = typeof(int), ValueProvider = new DocumentField { Path = "Age", Type = typeof(int) } });
+            action.MethodArgCollection.Add(new MethodArg
+            {
+                Name = "name",
+                Type = typeof(string),
+                ValueProvider = new ConstantField {Value = "Erymuzuan", Type = typeof(string)}
+            });
+            action.MethodArgCollection.Add(new MethodArg
+            {
+                Name = "age",
+                Type = typeof(int),
+                ValueProvider = new DocumentField {Path = "Age", Type = typeof(int)}
+            });
             var code = action.GeneratorCode();
             Assert.DoesNotContain("return response", code);
             Assert.Contains("await Bespoke.Sph.TestObject.Test(", code);
@@ -106,8 +124,18 @@ namespace domain.test.triggers
                 Method = "Test",
                 TypeName = "Bespoke.Sph.TestObject"
             };
-            action.MethodArgCollection.Add(new MethodArg { Name = "name", Type = typeof(string), ValueProvider = new ConstantField { Value = "Erymuzuan", Type = typeof(string) } });
-            action.MethodArgCollection.Add(new MethodArg { Name = "age", Type = typeof(int), ValueProvider = new DocumentField { Path = "Age", Type = typeof(int) } });
+            action.MethodArgCollection.Add(new MethodArg
+            {
+                Name = "name",
+                Type = typeof(string),
+                ValueProvider = new ConstantField {Value = "Erymuzuan", Type = typeof(string)}
+            });
+            action.MethodArgCollection.Add(new MethodArg
+            {
+                Name = "age",
+                Type = typeof(int),
+                ValueProvider = new DocumentField {Path = "Age", Type = typeof(int)}
+            });
             var code = action.GeneratorCode();
             Assert.DoesNotContain("return response", code);
             Assert.Contains("return Task.FromResult", code);
@@ -125,16 +153,17 @@ namespace domain.test.triggers
                 Method = "TestAsync",
                 TypeName = "Bespoke.Sph.Test.TestObject"
             };
-            action.MethodArgCollection.Add(new MethodArg { Name = "name", Type = typeof(string) });
+            action.MethodArgCollection.Add(new MethodArg {Name = "name", Type = typeof(string)});
             var code = action.GeneratorCode();
 
             Assert.Contains("return response", code);
         }
+
         [Fact(Skip = "The entity assembly no longer contains a Controller, creates an OperationEndpoint")]
         public void CallPatientControllerValidate()
         {
             var patientDll = $@"{ConfigurationManager.CompilerOutputPath}\DevV1.Patient.dll";
-            File.Copy(patientDll, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DevV1.Patient.dll"),true);
+            File.Copy(patientDll, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DevV1.Patient.dll"), true);
             var dll = Assembly.LoadFile(patientDll);
             var action = new AssemblyAction
             {
@@ -184,14 +213,15 @@ namespace Dev.SampleTriggers
                 Dob = new DateTime(1965,4,6)
             };
 "
-                + (action.GeneratorCode())
-                +
-                @"
+                       + (action.GeneratorCode())
+                       +
+                       @"
      }
   }
 }";
             var tree = CSharpSyntaxTree.ParseText(code);
-            var root = (CompilationUnitSyntax)tree.GetRoot().NormalizeWhitespace(indentation: "  ", elasticTrivia: true);
+            var root = (CompilationUnitSyntax) tree.GetRoot()
+                .NormalizeWhitespace(indentation: "  ", elasticTrivia: true);
             Assert.Contains("Validate", root.ToString());
 
 
@@ -203,40 +233,39 @@ namespace Dev.SampleTriggers
             var compiler = CSharpCompilation.Create("just.a.test.assembly")
                 .WithOptions(options)
                 .AddReferences(MetadataReference.CreateFromFile($"{ConfigurationManager.ApplicationName}.Patient.dll"),
-                this.CreateMetadataReference<object>(),
-                this.CreateMetadataReference<EnumerableQuery>(),
-                this.CreateMetadataReference<Task>(),
-                this.CreateMetadataReference<DateTime>(),
-                this.CreateMetadataReference<Uri>(),
-                this.CreateMetadataReference<Trigger>(),
-                typeof(Controller).CreateMetadataReference())
+                    MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
+                    MetadataReference.CreateFromFile(typeof(EnumerableQuery).Assembly.Location),
+                    MetadataReference.CreateFromFile(typeof(Task).Assembly.Location),
+                    MetadataReference.CreateFromFile(typeof(DateTime).Assembly.Location),
+                    MetadataReference.CreateFromFile(typeof(Uri).Assembly.Location),
+                    MetadataReference.CreateFromFile(typeof(Trigger).Assembly.Location),
+                    MetadataReference.CreateFromFile(typeof(Controller).Assembly.Location))
                 .AddSyntaxTrees(tree);
 
             var model = compiler.GetSemanticModel(tree);
             var diagnostics = compiler.GetDiagnostics();
             diagnostics.AsEnumerable().ToList()
-                    .ForEach(d =>
-                    {
-                        Console.WriteLine("------------------------");
-                        Console.WriteLine("{0} : {1}", d.Location, d.GetMessage());
-                        var end = code.IndexOf("\r\n", d.Location.SourceSpan.Start, StringComparison.Ordinal);
-                        var start = d.Location.SourceSpan.Start;
-                        var piece = code.Substring(start, end - start);
-                        Console.WriteLine(piece);
+                .ForEach(d =>
+                {
+                    Console.WriteLine("------------------------");
+                    Console.WriteLine("{0} : {1}", d.Location, d.GetMessage());
+                    var end = code.IndexOf("\r\n", d.Location.SourceSpan.Start, StringComparison.Ordinal);
+                    var start = d.Location.SourceSpan.Start;
+                    var piece = code.Substring(start, end - start);
+                    Console.WriteLine(piece);
 
-                        var symbol = model.GetEnclosingSymbol(start);
-                        while (null != symbol)
-                        {
-                            Console.WriteLine(symbol.ToString());
-                            symbol = symbol.ContainingSymbol;
-                        }
-                    });
+                    var symbol = model.GetEnclosingSymbol(start);
+                    while (null != symbol)
+                    {
+                        Console.WriteLine(symbol.ToString());
+                        symbol = symbol.ContainingSymbol;
+                    }
+                });
 
 
             // formatter
             var res = Formatter.Format(root, new TestWorkspace());
             Console.WriteLine(res.ToFullString());
-
         }
 
         [Fact]
@@ -254,11 +283,10 @@ public string Name{get;set;}}";
 
             var res = Formatter.Format(tree.GetRoot(), ws);
             Assert.Equal(
-@"public class A
+                @"public class A
 {
     public string Name { get; set; }
 }", res.ToFullString());
         }
     }
-
 }

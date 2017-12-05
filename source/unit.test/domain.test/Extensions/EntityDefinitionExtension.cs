@@ -1,28 +1,39 @@
 ﻿using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
+using Bespoke.Sph.Extensions;
 
 namespace domain.test.Extensions
 {
     public static class EntityDefinitionExtension
     {
-        public static async Task<RxCompilerResult> CompileWithCsharpAsync(this EntityDefinition ed)
+        public static async Task<RxCompilerResult> CompileWithCsharpAsync(this IProjectDefinition project)
         {
             var compiler = new Bespoke.Sph.Csharp.CompilersServices.EntityDefinitionCompiler();
-            var classes = await compiler.GenerateCodeAsync(ed);
-            var sources = (from cs in classes.Keys
-                let name = Path.GetFileName(cs)
-                let tem = Path.GetTempPath() + "\\" + name
-                select new
-                {
-                    FileName = tem,
-                    Code = classes[cs]
-                }).ToList();
-            sources.ForEach(x => File.WriteAllText(x.FileName, x.Code));
-            var result = await compiler.BuildAsync(ed, sources.Select(x => x.FileName).ToArray());
+            var logger = ObjectBuilder.GetObject<ILogger>();
 
-            return result;
+
+            var tempFileName = Path.GetTempFileName();
+            var temp = new FileInfo(tempFileName + ".dll");
+            var temp2 = new FileInfo(tempFileName + ".pdb");
+
+            var options = new CompilerOptions2(temp.FullName, temp2.FullName) { IsDebug = true, IsVerbose = true };
+            var cr = await compiler.BuildAsync(project, x => options);
+
+
+            logger.WriteInfo($"{compiler.GetType().Name} has {(cr.Result ? "successfully building" : "failed to build")} {project.Name}");
+            logger.WriteInfo(cr.ToString());
+
+            var dll = $"{ConfigurationManager.CompilerOutputPath}\\{project.AssemblyName}.dll";
+            var pdb = $"{ConfigurationManager.CompilerOutputPath}\\{project.AssemblyName}.pdb";
+            if (!cr.IsEmpty && temp.Exists && temp.Length > 0)
+                temp.CopyTo(dll, true);
+            if (!cr.IsEmpty && temp2.Exists && temp2.Length > 0)
+                temp2.CopyTo(pdb, true);
+
+
+            return cr;
         }
     }
 }
