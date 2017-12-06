@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Bespoke.Sph.Domain.Codes;
 
@@ -13,11 +14,13 @@ namespace Bespoke.Sph.Domain
         {
             return null;
         }
+        [Obsolete("Move to Csharp compiler")]
         public virtual string GenerateParameterCode()
         {
             return null;
         }
 
+        [Obsolete("Move to Csharp compiler")]
         public virtual string GenerateInitializeValueCode(Field initialValue, string itemIdentifier = "item")
         {
             if (this.AllowMultiple)
@@ -30,6 +33,7 @@ namespace Bespoke.Sph.Domain
         /// Return the TypeName for used in C# code
         /// </summary>
         /// <returns></returns>
+        [Obsolete("Move to Csharp compiler")]
         public virtual string GetMemberTypeName()
         {
             return null;
@@ -40,11 +44,13 @@ namespace Bespoke.Sph.Domain
             return new BuildError[] { };
         }
 
+        [Obsolete("Move to Csharp compiler")]
         public virtual string GeneratedCode(string padding = "      ")
         {
             return null;
         }
 
+        [Obsolete("Move to Csharp compiler")]
         public virtual IEnumerable<Class> GeneratedCustomClass(string codeNamespace, string[] usingNamespaces = null)
         {
             return new Class[] { };

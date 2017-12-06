@@ -6,7 +6,6 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
 using Xunit;
 using System.Threading.Tasks;
-using Bespoke.Sph.Csharp.CompilersServices.Extensions;
 using Bespoke.Sph.Domain.Extensions;
 using domain.test.Extensions;
 
@@ -83,45 +82,6 @@ namespace domain.test.entities
         }
 
 
-        [Fact]
-        public async Task GenerateCodeBasic()
-        {
-            var ent = new EntityDefinition { Name = "BusinessOppurtunity", Plural = "BusinessOppurtunities", RecordName = "Name" };
-            ent.MemberCollection.Add(new SimpleMember
-            {
-                Name = "Name",
-                TypeName = "System.String, mscorlib",
-            }); ent.MemberCollection.Add(new SimpleMember
-            {
-                Name = "Title",
-                TypeName = "System.String, mscorlib",
-            });
-            var address = new ComplexMember { Name = "Address", TypeName = "Address" };
-            address.MemberCollection.Add(new SimpleMember { Name = "Street1", TypeName = "System.String, mscorlib" });
-            address.MemberCollection.Add(new SimpleMember { Name = "State", TypeName = "System.String, mscorlib" });
-            ent.MemberCollection.Add(address);
-            var options = new CompilerOptions
-            {
-                IsVerbose = true,
-                IsDebug = true
-            };
-
-            var contacts = new ComplexMember { Name = "ContactCollection", AllowMultiple = true, TypeName = "Contact" };
-            contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
-            ent.MemberCollection.Add(contacts);
-
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\Newtonsoft.Json.dll"));
-
-            var codes = await ent.GenerateCodeAsync();
-            var sources = ent.SaveSources(codes);
-
-            var result = ent.Compile(options, sources);
-            Assert.True(result.Result, result.ToString());
-
-
-        }
 
 
         [Fact]

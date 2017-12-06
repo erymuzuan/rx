@@ -524,7 +524,7 @@ namespace Bespoke.Sph.Domain
                 throw new ArgumentNullException($@"Type cannot be null", nameof(type));
 
             if (type == typeof(void)) return "void";
-            if (type == typeof(DateTime)) return "DateTime";
+            if (type == typeof(DateTime)) return "System.DateTime";
             if (type == typeof(string)) return "string";
             if (type == typeof(int)) return "int";
             if (type == typeof(bool)) return "bool";
@@ -536,7 +536,7 @@ namespace Bespoke.Sph.Domain
             if (type == typeof(byte)) return "byte";
             if (type == typeof(byte[])) return "byte[]";
 
-            if (type == typeof(DateTime?)) return "DateTime?";
+            if (type == typeof(DateTime?)) return "System.DateTime?";
             if (type == typeof(int?)) return "int?";
             if (type == typeof(bool?)) return "bool?";
             if (type == typeof(decimal?)) return "decimal?";
