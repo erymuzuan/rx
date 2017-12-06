@@ -27,10 +27,7 @@
       "Description": "Attach other fields to the index",
       "ValueAsString": "Abbreviation",
       "Value": "Abbreviation",
-      "AllowedValue": {
-        "$type": "System.Object[], mscorlib",
-        "$values": []
-      },
+      "AllowedValue": null,
       "WebId": null
     },
     {
@@ -86,10 +83,7 @@
       "Description": "Attach other fields to the index",
       "ValueAsString": "Name",
       "Value": "Name",
-      "AllowedValue": {
-        "$type": "System.Object[], mscorlib",
-        "$values": []
-      },
+      "AllowedValue": null,
       "WebId": null
     },
     {
