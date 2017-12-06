@@ -58,8 +58,14 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                if (null != m_value && m_value.GetType() == Type)
+                if (null == m_value && null == ValueAsString)
+                {
+                    return null;
+                }
+
+                if (null != m_value && (m_value.GetType() == Type || this.Type.IsInstanceOfType(m_value)))
                     return m_value;
+
 
                 if (Type == typeof(int) && int.TryParse(ValueAsString, out var intValue))
                     return intValue;
@@ -69,8 +75,7 @@ namespace Bespoke.Sph.Domain
                     return dateTimeValue;
                 if (Type == typeof(bool) && bool.TryParse(ValueAsString, out var bv))
                     return bv;
-
-                return ValueAsString;
+                return Type == typeof(string) ? ValueAsString : null;
             }
             set
             {
@@ -81,7 +86,11 @@ namespace Bespoke.Sph.Domain
 
         public T GetValue<T>(T defaultValue)
         {
-            return (T)this.Value;
+            var value = this.Value;
+            if (null == value)
+                return default;
+
+            return (T)value;
         }
 
 
