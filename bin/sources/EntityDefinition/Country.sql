@@ -1,9 +1,8 @@
-CREATE TABLE [DevV1].[Country](
-  [Id] VARCHAR(50) PRIMARY KEY NOT NULL
-,[Name] VARCHAR(255) NOT NULL
-,[Abbreviation] VARCHAR(255) NOT NULL
-,[Area] MONEY  NULL
-,[Size] MONEY  NULL
+CREATE TABLE [DevV1].[Country](  [Id] VARCHAR(50) PRIMARY KEY NOT NULL
+,[Name] AS CAST(JSON_VALUE([Json], '$.Name') AS VARCHAR(255))
+,[Abbreviation] AS CAST(JSON_VALUE([Json], '$.Abbreviation') AS VARCHAR(5))
+,[Area] AS CAST(JSON_VALUE([Json], '$.Area') AS MONEY)
+,[Size] AS CAST(JSON_VALUE([Json], '$.Size') AS MONEY)
 ,[Json] VARCHAR(MAX)
 ,[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
 ,[CreatedBy] VARCHAR(255) NULL
