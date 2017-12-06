@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Bespoke.Sph.Domain
 {
     public class QueryDsl
