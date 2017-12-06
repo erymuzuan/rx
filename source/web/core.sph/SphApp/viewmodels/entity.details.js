@@ -73,8 +73,12 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 setDesignerHeight();
 
                 member.subscribe(async function (mr) {
+                    const memberWebId = mr.WebId();
+                    if (memberWebId === "-") {
+                        return;
+                    }
                     const result = await context.get(
-                        `/developer-service/compilers-attached-properties-members/${entity().Id()}/${mr.WebId()}`);
+                        `/developer-service/compilers-attached-properties-members/${entity().Id()}/${memberWebId}`);
                     const serverProperties = Object.keys(result).filter(v => result[v].length).map(v => {
                         return { "compiler": v, properties: result[v].map(x => ko.mapping.fromJS(x)) };
                     });
