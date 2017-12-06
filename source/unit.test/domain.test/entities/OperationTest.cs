@@ -66,37 +66,32 @@ namespace domain.test.entities
             ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "FullName",
-                TypeName = "System.String, mscorlib",
-                IsFilterable = true
+                TypeName = "System.String, mscorlib"
             });
             ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Status",
-                TypeName = "System.String, mscorlib",
-                IsFilterable = true
+                TypeName = "System.String, mscorlib"
             });
             ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Title",
-                TypeName = "System.String, mscorlib",
-                IsFilterable = true
+                TypeName = "System.String, mscorlib"
             });
             ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "DeathDateTime",
                 TypeName = "System.DateTime, mscorlib",
-                IsFilterable = true,
                 IsNullable = true
             });
             ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Discharged",
-                TypeName = "System.DateTime, mscorlib",
-                IsFilterable = true
+                TypeName = "System.DateTime, mscorlib"
             });
             var address = new ComplexMember { Name = "Address", TypeName = "Address" };
-            address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
-            address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "Street1", TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "State", TypeName = "System.String, mscorlib" });
             ent.MemberCollection.Add(address);
 
 

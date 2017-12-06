@@ -2,13 +2,14 @@
 using System.IO;
 using System.Linq;
 using Bespoke.Sph.Domain;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Bespoke.Sph.Tools.Upgrades
+namespace sqlbuilder.update
 {
-    internal class Program
+    public static class Program
     {
-        public static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var file = args.FirstOrDefault();
             if (string.IsNullOrWhiteSpace(file))
@@ -19,36 +20,18 @@ namespace Bespoke.Sph.Tools.Upgrades
             var originalJson = File.ReadAllText(file);
             var jo = JObject.Parse(originalJson);
             var members = jo.SelectToken("$.MemberCollection.$values");
-            foreach (var m in members)
-            {
-                var m1 = (JObject)m;
-                m1.UpdateMember();
-
-            }
+            var properties = members.Select(@t => ((JObject)t).UpdateMember()).SelectMany(x =>x).ToList();
             var ed = jo.ToString().DeserializeFromJson<EntityDefinition>();
-            ed.Plural = ed.Plural.Replace(" ", "");
-            if (ed.Plural == ed.Name)
-                ed.Plural += "s";
 
+            var settings = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All};
+            File.WriteAllText(file.Replace(".json", ".AttachedProperties"), JsonConvert.SerializeObject(properties, Formatting.Indented, settings));
+            
             var backup = $"{file}-{DateTime.Now:yyyyMMdd-HHmmss}.backup";
             File.Copy(file, backup, true);
             File.WriteAllText(file, jo.ToString());
-
-            if (ed.TreatDataAsSource)
-            {
-                try
-                {
-                    ed.UpdateSourceFilesNamespace();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
-            }
-
+            
             Console.WriteLine($@"Your EntityDefinition {ed.Name} was successfully converted and a backup file is created {Path.GetFileName(backup)}");
 
         }
-
     }
 }

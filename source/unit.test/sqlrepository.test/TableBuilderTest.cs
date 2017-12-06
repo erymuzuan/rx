@@ -32,6 +32,7 @@ namespace Bespoke.Sph.Tests.SqlServer
         [Fact]
         public void GenerateColumn()
         {
+            var compiler = new SqlTableBuilder();
             var ent = new EntityDefinition { Name = "CustomerAccount", Plural = "Customeraccounts", Id = "customer-account", RecordName = "Name" };
             ent.AddMember("Name", typeof(string), true);
             ent.AddMember("No", typeof(string), true);
@@ -45,7 +46,7 @@ namespace Bespoke.Sph.Tests.SqlServer
             ent.MemberCollection.Add(address);
 
 
-            var columns = ent.GetFilterableMembers().ToList();
+            var columns = ent.GetFilterableMembers(compiler).ToList();
 
             Assert.All(columns, Assert.NotNull);
             Assert.Contains(columns, c => c.FullName == "Address.State");

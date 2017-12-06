@@ -60,7 +60,7 @@ namespace domain.test.workflows
         public async Task WithValueObjectVariable()
         {
             var person = new ValueObjectDefinition { Name = "Person", Id = "person" };
-            person.AddMember<string>("FullName", boost: 5);
+            person.AddMember<string>("FullName");
             person.AddMember<string>("Titles", allowMultiple: true);
             person.AddMember<string>("Gender");
             person.AddMember<int>("Age");

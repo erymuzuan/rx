@@ -155,13 +155,12 @@ namespace Bespoke.Sph.Domain
             return this.GetMember(nextPath, child);
         }
 
-        public SimpleMember AddSimpleMember(string name, bool filterable = false, bool nullable = false, bool allowMultiple = false, Field defaultValue = null)
+        public SimpleMember AddSimpleMember(string name, bool nullable = false, bool allowMultiple = false, Field defaultValue = null)
         {
             var sm = new SimpleMember
             {
                 Name = name,
                 Type = typeof(string),
-                IsFilterable = filterable,
                 IsNullable = nullable,
                 DefaultValue = defaultValue,
                 AllowMultiple = allowMultiple
@@ -172,7 +171,7 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public SimpleMember AddSimpleMember<T>(string name, bool filterable = false, Field defaultValue = null)
+        public SimpleMember AddSimpleMember<T>(string name, Field defaultValue = null)
         {
             var type = typeof(T);
             var allowMultiple = type.IsArray;
@@ -193,7 +192,6 @@ namespace Bespoke.Sph.Domain
             {
                 Name = name,
                 Type = type,
-                IsFilterable = filterable,
                 IsNullable = nullable,
                 DefaultValue = defaultValue,
                 AllowMultiple = allowMultiple

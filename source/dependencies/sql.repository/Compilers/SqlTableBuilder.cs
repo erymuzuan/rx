@@ -61,7 +61,7 @@ namespace Bespoke.Sph.SqlRepository.Compilers
             sql.Append($"CREATE TABLE [{applicationName}].[{item.Name}]");
             sql.AppendLine("(");
             sql.AppendLine("  [Id] VARCHAR(50) PRIMARY KEY NOT NULL");
-            var members = item.GetFilterableMembers().ToArray();
+            var members = item.GetFilterableMembers(this).ToArray();
             foreach (var member in members.OfType<SimpleMember>())
             {
                 var properties = attachedProperties.Where(x => x.AttachedTo == member.WebId);

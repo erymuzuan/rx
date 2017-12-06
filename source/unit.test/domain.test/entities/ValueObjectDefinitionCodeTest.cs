@@ -34,10 +34,10 @@ namespace domain.test.entities
             ObjectBuilder.AddCacheList(vodRepo.Object);
 
             var address = new ValueObjectDefinition { Name = "Address", Id = "address", ChangedDate = DateTime.Now, ChangedBy = "Me", CreatedBy = "Me", CreatedDate = DateTime.Now };
-            address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
-            address.MemberCollection.Add(new SimpleMember { Name = "Street2", IsFilterable = false, TypeName = "System.String, mscorlib" });
-            address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
-            address.MemberCollection.Add(new SimpleMember { Name = "Postcode", IsFilterable = true, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "Street1",  TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "Street2", TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "State",  TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "Postcode", TypeName = "System.String, mscorlib" });
 
             var spouse = new ValueObjectDefinition { Name = "Spouse", Id = "spouse" };
             spouse.MemberCollection.Add(new SimpleMember { Name = "Name", Type = typeof(string) });
@@ -60,14 +60,12 @@ namespace domain.test.entities
             ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Name2",
-                TypeName = "System.String, mscorlib",
-                IsFilterable = true
+                TypeName = "System.String, mscorlib"
             });
             ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Titles",
                 TypeName = "System.String, mscorlib",
-                IsFilterable = false,
                 AllowMultiple = true
             });
 

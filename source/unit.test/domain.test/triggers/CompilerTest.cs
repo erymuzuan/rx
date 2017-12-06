@@ -97,17 +97,15 @@ namespace domain.test.triggers
             ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "AccountNo",
-                TypeName = "System.String, mscorlib",
-                IsFilterable = true
+                TypeName = "System.String, mscorlib"
             }); ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Name",
-                TypeName = "System.String, mscorlib",
-                IsFilterable = true
+                TypeName = "System.String, mscorlib"
             });
             var address = new SimpleMember { Name = "Address", TypeName = "System.Object, mscorlib" };
-            address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
-            address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "Street1", TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "State",  TypeName = "System.String, mscorlib" });
             ent.MemberCollection.Add(address);
 
 

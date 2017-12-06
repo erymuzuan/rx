@@ -43,7 +43,7 @@ namespace Bespoke.Sph.SqlReportDataSource
                 .OfType<SimpleMember>()
                 .Select(m => new ReportColumn
                 {
-                    IsFilterable = m.IsFilterable,
+                    IsFilterable = true,
                     Name = m.FullName,
                     TypeName = m.TypeName,
                     Type = m.Type,

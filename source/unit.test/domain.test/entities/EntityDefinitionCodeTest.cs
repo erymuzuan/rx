@@ -16,7 +16,7 @@ namespace domain.test.entities
     public class EntityDefinitionCodeTest
     {
         [Fact]
-        public async  Task GenerateRootWithDefaultValues()
+        public async Task GenerateRootWithDefaultValues()
         {
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
 
@@ -25,41 +25,36 @@ namespace domain.test.entities
             {
                 Name = "Name",
                 Type = typeof(string),
-                IsFilterable = true,
                 DefaultValue = new ConstantField { Value = "<Name>", Type = typeof(string) }
             });
             ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Title",
                 Type = typeof(string),
-                IsFilterable = true
             });
             ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "IsApproved",
                 Type = typeof(bool),
-                IsFilterable = true,
                 DefaultValue = new ConstantField { Type = typeof(bool), Name = "True", Value = "true" }
             });
             ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Rating",
                 Type = typeof(int),
-                IsFilterable = true,
                 DefaultValue = new ConstantField { Value = 1, Type = typeof(int) }
             });
             ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "RegisteredDate",
                 Type = typeof(DateTime),
-                IsFilterable = true,
                 DefaultValue = new FunctionField { Script = "new DateTime(2011,5,2)", ScriptEngine = new RoslynScriptEngine() }
             });
             var address = new ComplexMember { Name = "Address", TypeName = "Alamat" };
-            address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, Type = typeof(string) });
-            address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, Type = typeof(string) });
+            address.MemberCollection.Add(new SimpleMember { Name = "Street1", Type = typeof(string) });
+            address.MemberCollection.Add(new SimpleMember { Name = "State", Type = typeof(string) });
             ent.MemberCollection.Add(address);
-          
+
 
 
             var contacts = new ComplexMember { Name = "Contacts", AllowMultiple = true, TypeName = "Contact" };
@@ -67,7 +62,7 @@ namespace domain.test.entities
             ent.MemberCollection.Add(contacts);
 
 
-      
+
             var result = await ent.CompileWithCsharpAsync();
 
 
@@ -96,16 +91,14 @@ namespace domain.test.entities
             {
                 Name = "Name",
                 TypeName = "System.String, mscorlib",
-                IsFilterable = true
             }); ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Title",
                 TypeName = "System.String, mscorlib",
-                IsFilterable = true
             });
             var address = new ComplexMember { Name = "Address", TypeName = "Address" };
-            address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
-            address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "Street1", TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "State", TypeName = "System.String, mscorlib" });
             ent.MemberCollection.Add(address);
             var options = new CompilerOptions
             {
@@ -139,16 +132,14 @@ namespace domain.test.entities
             {
                 Name = "Name2",
                 TypeName = "System.String, mscorlib",
-                IsFilterable = true
             }); ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Title",
                 TypeName = "System.String, mscorlib",
-                IsFilterable = true
             });
             var address = new ComplexMember { Name = "Address" };
-            address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
-            address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "Street1", TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "State", TypeName = "System.String, mscorlib" });
             ent.MemberCollection.Add(address);
 
 

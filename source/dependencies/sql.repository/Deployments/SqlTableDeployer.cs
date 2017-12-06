@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Compilers;
+using Bespoke.Sph.SqlRepository.Compilers;
 using Bespoke.Sph.SqlRepository.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -16,6 +17,10 @@ namespace Bespoke.Sph.SqlRepository.Deployments
     [Export(typeof(IProjectDeployer))]
     public class SqlTableDeployer : SqlTableTool, IProjectDeployer
     {
+
+        [ImportMany(typeof(IProjectBuilder))]
+        public IProjectBuilder[] ProjectBuilders { get; set; }
+
         public SqlTableDeployer() : base(null)
         {
         }
@@ -86,8 +91,8 @@ namespace Bespoke.Sph.SqlRepository.Deployments
 
         private async Task CreateIndicesAsync(SqlConnection conn, EntityDefinition ed)
         {
-            var version = await GetSqlServerProductVersionAsync();
-            var createIndex = ed.CreateIndexSql(version);
+            var createIndex = Directory.GetFiles($@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\", $"{ed.Name}.Index.*.sql")
+                .Select(File.ReadAllText);
             foreach (var s in createIndex)
             {
                 using (var createIndexCommand = new SqlCommand(s, conn))
@@ -186,7 +191,8 @@ namespace Bespoke.Sph.SqlRepository.Deployments
 
         private bool HasSchemaChanged(EntityDefinition ed)
         {
-            var members = ed.GetFilterableMembers().ToList();
+            var compiler = this.ProjectBuilders.OfType<SqlTableBuilder>().Single();
+            var members = ed.GetFilterableMembers(compiler).ToList();
             var metadataProvider = ObjectBuilder.GetObject<ISqlServerMetadata>();
             var table = metadataProvider.GetTable(ed.Name);
 

@@ -61,23 +61,23 @@ namespace Bespoke.Sph.ElasticsearchRepository.Extensions
             var type = sm.GetEsType();
             var map = new StringBuilder();
 
-            var indexed = (sm.IsNotIndexed ? "no" : "analyzed");
+            var indexed = "no";//TODO : (sm.IsNotIndexed ? "no" : "analyzed");
 
             map.Append("{");
             if (sm.Type == typeof(string))
             {
-                if (!sm.IsNotIndexed)
-                    indexed = (sm.IsAnalyzed ? "analyzed" : "not_analyzed");
+              //TODO :  if (!sm.IsNotIndexed)
+              //      indexed = (sm.IsAnalyzed ? "analyzed" : "not_analyzed");
             }
 
-            if (sm.Type == typeof(bool))
-                indexed = "not_analyzed";
+           //TODO : if (sm.Type == typeof(bool))
+           //     indexed = "not_analyzed";
 
-            var boost = sm.Boost;
+            var boost = 5;//TODO sm.Boost;
             if (indexed == "not_analyzed")
                 boost = 1;
 
-            var includeAll = (!sm.IsExcludeInAll).ToString().ToLowerInvariant();
+            var includeAll = (/*TODO :!sm.IsExcludeInAll*/ true).ToString().ToLowerInvariant();
             map.Append($@"""type"":""{type}""");
             map.Append($@",""index"":""{indexed}""");
             map.Append($@",""boost"":{Math.Max(1, boost)}");

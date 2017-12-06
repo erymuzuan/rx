@@ -15,7 +15,7 @@ namespace Bespoke.Sph.Domain
             return $"[ComplexMember]{this.Name}; AllowMultiple = {AllowMultiple}, Members = {MemberCollection.Count}";
         }
 
-        public Member AddMember<T>(string name, bool filterable = false, bool nullable = false, bool allowMultiple = false, Field defaultValue = null)
+        public Member AddMember<T>(string name, bool nullable = false, bool allowMultiple = false, Field defaultValue = null)
         {
             if (typeof(T).IsSubclassOf(typeof(Member)))
             {
@@ -33,7 +33,6 @@ namespace Bespoke.Sph.Domain
             {
                 Name = name,
                 Type = typeof(T),
-                IsFilterable = filterable,
                 IsNullable = nullable,
                 DefaultValue = defaultValue,
                 AllowMultiple = allowMultiple
