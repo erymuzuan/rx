@@ -33,11 +33,6 @@ namespace Bespoke.Sph.SqlRepository.Extensions
 
             if (sm.Type == typeof(int))
             {
-                /*  case "bigint": return typeof(long);
-                case "smallint": return typeof(short);
-                case "tinyint": return typeof(byte);
-                case "int": return typeof(int);
-                */
                 properties.Add<string>(sm, "DataType", "BIGINT, SMALLINT, TINYINT, INT");
             }
 
@@ -50,21 +45,12 @@ namespace Bespoke.Sph.SqlRepository.Extensions
             {
                 return $"[{member.FullName}] {member.GetSqlType()} {(member.IsNullable ? "" : "NOT")} NULL";
             }
-            /*
-
-    ALTER TABLE [DevV1].[Patient]
-    ADD [NextOfKin.FullName] AS CAST(JSON_VALUE([Json], '$.NextOfKin.FullName') AS NVARCHAR(50))
-    GO
-
-    ALTER TABLE [DevV1].[Patient]
-    ADD [IsMalaysian] AS CASE WHEN (CAST(JSON_VALUE([Json], '$.Race') AS NVARCHAR(50))) = 'Others' THEN 0 ELSE 1 END */
 
             var length = properties.GetPropertyValue<int?>("Length", default);
             return $"[{member.FullName}] AS CAST(JSON_VALUE([Json], '$.{member.FullName}') AS {member.GetSqlType(length)})";
         }
 
 
-        //TODO : allow attach properties to configured
         public static string GetSqlType(this SimpleMember member, int? length = null)
         {
 
@@ -87,7 +73,7 @@ namespace Bespoke.Sph.SqlRepository.Extensions
 
             if (null != properties)
             {
-                var indexed = properties.GetPropertyValue("Indexed", true);
+                var indexed = properties.GetPropertyValue("SqlIndex", true);
                 if (!indexed)
                 {
                     return "-- Indexed is set to false for " + column;

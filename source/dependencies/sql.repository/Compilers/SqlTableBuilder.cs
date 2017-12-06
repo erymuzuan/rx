@@ -55,16 +55,14 @@ namespace Bespoke.Sph.SqlRepository.Compilers
             var repos = ObjectBuilder.GetObject<ISourceRepository>();
             var applicationName = ConfigurationManager.ApplicationName;
             var version = await GetSqlServerProductVersionAsync();
-            var attachedProperties = (await repos.GetAttachedPropertiesAsync(this, item)).ToArray();
 
             var sql = new StringBuilder();
-            sql.Append($"CREATE TABLE [{applicationName}].[{item.Name}]");
-            sql.AppendLine("(");
+            sql.Append($"CREATE TABLE [{applicationName}].[{item.Name}](");
             sql.AppendLine("  [Id] VARCHAR(50) PRIMARY KEY NOT NULL");
             var members = item.GetFilterableMembers(this).ToArray();
             foreach (var member in members.OfType<SimpleMember>())
             {
-                var properties = attachedProperties.Where(x => x.AttachedTo == member.WebId);
+                var properties = await repos.GetAttachedPropertiesAsync(this, item, member);
                 sql.AppendLine("," + member.GenerateColumnExpression(properties.ToArray(), version));
             }
             sql.AppendLine(",[Json] VARCHAR(MAX)");
@@ -74,12 +72,12 @@ namespace Bespoke.Sph.SqlRepository.Compilers
             sql.AppendLine(",[ChangedBy] VARCHAR(255) NULL");
             sql.AppendLine(")");
 
-            sources.Add(new Class(sql.ToString()) { FileName = $"{project.Name}.sql" });
+            sources.Add(new Class(sql.ToString()) { FileName = $"{project.Name}.sql", TrackedInSourceControl = true });
 
             var indices = from m in members
-                          let properties = attachedProperties.Where(x => x.AttachedTo == m.WebId).ToArray()
+                          let properties = repos.GetAttachedPropertiesAsync(this, item, m).Result.ToArray()
                           let index = m.CreateIndex(item, properties.ToArray(), version)
-                          select new Class(index) { FileName = $"{item.Name}.Index.{m.Name}.sql" };
+                          select new Class(index) { FileName = $"{item.Name}.Index.{m.Name}.sql", TrackedInSourceControl = true };
             sources.AddRange(indices);
 
             return sources;

@@ -11,6 +11,7 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Compilers;
 using Bespoke.Sph.Domain.Extensions;
 using Bespoke.Sph.Domain.Management;
+using Bespoke.Sph.Extensions;
 using Bespoke.Sph.Web.Filters;
 using Bespoke.Sph.WebApi;
 using Humanizer;
@@ -104,8 +105,10 @@ namespace Bespoke.Sph.Web.Controllers
             var brandNewItem = ed.IsNewItem;
             if (brandNewItem)
                 ed.Id = ed.Name.ToIdFormat();
-
             await repos.SavedAsync(ed, properties);
+
+            var result = await ed.CompileDesignModeAsync();
+            ObjectBuilder.GetObject<ILogger>().WriteInfo(result.ToString());
 
             return (brandNewItem, new { success = true, status = "OK", message = "Your entity has been successfully saved ", id = ed.Id });
 

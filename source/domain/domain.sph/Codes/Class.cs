@@ -23,6 +23,8 @@ namespace Bespoke.Sph.Domain.Codes
         public string Namespace { get; set; }
         public string BaseClass { get; set; }
         public bool IsStatic { get; set; }
+        public bool TrackedInSourceControl { get; set; }
+        public string Language { get; set; }
 
         private string m_fileName;
         private readonly string m_code;

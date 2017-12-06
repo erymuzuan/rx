@@ -15,10 +15,10 @@ namespace Bespoke.Sph.SqlRepository.Extensions
             members = members ?? ed.MemberCollection;
 
             var repos = ObjectBuilder.GetObject<ISourceRepository>();
-            var properties = repos.GetAttachedPropertiesAsync(compiler, ed).Result.ToList();
 
             bool IsFilterable(SimpleMember member)
             {
+                var properties = repos.GetAttachedPropertiesAsync(compiler, ed, member).Result.ToList();
                 var prop = properties.SingleOrDefault(x => x.Name == "SqlIndex" && x.AttachedTo == member.WebId);
                 if (null == prop) return false;
                 return prop.GetValue(false);
@@ -49,7 +49,7 @@ namespace Bespoke.Sph.SqlRepository.Extensions
         public static string[] CreateIndexSql(this EntityDefinition item, IProjectBuilder compiler, int? version = 13)
         {
             var sql = from m in item.GetFilterableMembers(compiler)
-                select m.CreateIndex(item,null, version);
+                      select m.CreateIndex(item, null, version);
 
             return sql.ToArray();
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Codes;
@@ -26,7 +27,7 @@ namespace Bespoke.Sph.ElasticsearchRepository.Compilers
 
         public Task<IEnumerable<Class>> GenerateCodeAsync(IProjectDefinition project)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(Array.Empty<Class>().AsEnumerable());
         }
 
         public Task<RxCompilerResult> BuildAsync(IProjectDefinition project, Func<IProjectDefinition, CompilerOptions2> getOptions)

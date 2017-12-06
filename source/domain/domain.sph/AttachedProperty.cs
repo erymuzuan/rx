@@ -58,7 +58,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                if (null != m_value)
+                if (null != m_value && m_value.GetType() == Type)
                     return m_value;
 
                 if (Type == typeof(int) && int.TryParse(ValueAsString, out var intValue))

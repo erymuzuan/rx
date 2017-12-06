@@ -3441,7 +3441,7 @@
     <EmbeddedResource Include="SphApp\views\_formatter.wizard.xml.html" />
     <EmbeddedResource Include="SphApp\views\_field.mapping.xml.attribute.html" />
     <EmbeddedResource Include="SphApp\views\_field.mapping.xml.element.html" />
-    <Content Include="SphApp\views\_member.attached.properties.html" />
+    <EmbeddedResource Include="SphApp\views\_member.attached.properties.html" />
     <Content Include="Views\ApiDocumentation\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
