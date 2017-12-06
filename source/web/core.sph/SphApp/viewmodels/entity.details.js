@@ -64,7 +64,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 });
 
                 //bind
-                console.info("Member changed", memberProperties);
+                console.info("Member changed", ko.mapping.toJS(memberProperties));
                 mr.attachedProperties(memberProperties);
             },
             activate = function (id) {
