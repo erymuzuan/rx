@@ -14,7 +14,8 @@
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, objectbuilders.app, "services/app", "services/new-item"],
     function (context, logger, router, system, app, servicesApp, nis) {
 
-        let originalEntity = "";
+        let originalEntity = "",
+            memberAttachedPropertiesSubscription = null;
         const entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             attachedProperties = ko.observableArray(),
             isBusy = ko.observable(false),
@@ -30,6 +31,42 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             valueObjectOptions = ko.observableArray(),
             views = ko.observableArray(),
             member = ko.observable(new bespoke.sph.domain.Member(system.guid())),
+            memberLoadAttachedProperties = async function (mr) {
+                const memberWebId = mr.WebId();
+                if (memberWebId === "-") {
+                    return;
+                }
+                const result = await context.get(
+                    `/developer-service/compilers-attached-properties-members/${entity().Id()}/${memberWebId}`);
+                const serverProperties = Object.keys(result).filter(v => result[v].length).map(v => {
+                    return { "compiler": v, properties: result[v].map(x => ko.mapping.fromJS(x)) };
+                });
+
+                const memberProperties = [];
+                serverProperties.forEach(builder => {
+
+                    const list2 = [];
+                    memberProperties.push({ "compiler": builder.compiler, properties: list2 });
+                    // loop every properties in builder, find prop which is currently in memory(attachedProperties) and push it to list2 to bind
+                    builder.properties.forEach(prop => {
+                        var ep = attachedProperties().find(x => ko.unwrap(x.AttachedTo) === ko.unwrap(mr.WebId) && ko.unwrap(x.Name) === ko.unwrap(prop.Name));
+                        if (ep) {
+                            // found , then bind
+                            list2.push(ep);
+                        } else {
+                            // set the prop to the current member and save in memory
+                            prop.AttachedTo(ko.unwrap(mr.WebId));
+                            attachedProperties.push(prop);
+
+                            list2.push(prop);
+                        }
+                    });
+                });
+
+                //bind
+                console.info("Member changed", memberProperties);
+                mr.attachedProperties(memberProperties);
+            },
             activate = function (id) {
 
                 context.getListAsync("ViewTemplate", "Id ne '0'", "Name")
@@ -72,42 +109,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 $("#developers-log-panel-collapse,#developers-log-panel-expand").on("click", setDesignerHeight);
                 setDesignerHeight();
 
-                member.subscribe(async function (mr) {
-                    const memberWebId = mr.WebId();
-                    if (memberWebId === "-") {
-                        return;
-                    }
-                    const result = await context.get(
-                        `/developer-service/compilers-attached-properties-members/${entity().Id()}/${memberWebId}`);
-                    const serverProperties = Object.keys(result).filter(v => result[v].length).map(v => {
-                        return { "compiler": v, properties: result[v].map(x => ko.mapping.fromJS(x)) };
-                    });
-
-                    const memberProperties = [];
-                    serverProperties.forEach(builder => {
-
-                        const list2 = [];
-                        memberProperties.push({ "compiler": builder.compiler, properties: list2 });
-                        // loop every properties in builder, find prop which is currently in memory(attachedProperties) and push it to list2 to bind
-                        builder.properties.forEach(prop => {
-                            var ep = attachedProperties().find(x => ko.unwrap(x.AttachedTo) === ko.unwrap(mr.WebId) && ko.unwrap(x.Name) === ko.unwrap(prop.Name));
-                            if (ep) {
-                                // found , then bind
-                                list2.push(ep);
-                            } else {
-                                // set the prop to the current member and save in memory
-                                prop.AttachedTo(ko.unwrap(mr.WebId));
-                                attachedProperties.push(prop);
-
-                                list2.push(prop);
-                            }
-                        });
-                    });
-
-                    //bind
-                    console.info("Member changed", memberProperties);
-                    mr.attachedProperties(memberProperties);
-                });
+                if (memberAttachedPropertiesSubscription) {
+                    return;
+                }
+                memberAttachedPropertiesSubscription = member.subscribe(memberLoadAttachedProperties);
             },
             publishDashboard = function () {
                 const data = ko.mapping.toJSON(entity);
