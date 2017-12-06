@@ -75,6 +75,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     .done(valueObjectOptions);
 
                 member(new bespoke.sph.domain.Member("-"));
+                warnings([]);
+                errors([]);
 
                 const query = String.format("Id eq '{0}'", id);
                 return context.loadOneAsync("EntityDefinition", query)
