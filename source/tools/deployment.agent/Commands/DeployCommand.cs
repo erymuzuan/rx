@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
 
 namespace Bespoke.Sph.Mangements.Commands
 {
@@ -43,7 +44,7 @@ namespace Bespoke.Sph.Mangements.Commands
 
         }
 
-        private void CopyFiles(EntityDefinition ed)
+        private void CopyFiles(IProjectDefinition ed)
         {
             var output = $"{ConfigurationManager.ApplicationName}.{ed.Name}";
             var web = $@"{ConfigurationManager.WebPath}\bin";

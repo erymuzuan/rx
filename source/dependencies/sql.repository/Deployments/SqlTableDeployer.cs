@@ -89,9 +89,9 @@ namespace Bespoke.Sph.SqlRepository.Deployments
             */
         }
 
-        private async Task CreateIndicesAsync(SqlConnection conn, EntityDefinition ed)
+        private async Task CreateIndicesAsync(SqlConnection conn, IProjectDefinition project)
         {
-            var createIndex = Directory.GetFiles($@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\", $"{ed.Name}.Index.*.sql")
+            var createIndex = Directory.GetFiles($@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\", $"{project.Name}.Index.*.sql")
                 .Select(File.ReadAllText);
             foreach (var s in createIndex)
             {
@@ -102,9 +102,9 @@ namespace Bespoke.Sph.SqlRepository.Deployments
             }
         }
 
-        private static async Task CreateTableAsync(SqlConnection conn, EntityDefinition ed)
+        private static async Task CreateTableAsync(SqlConnection conn, IProjectDefinition project)
         {
-            var source = $@"{ConfigurationManager.SphSourceDirectory}\{nameof(EntityDefinition)}\{ed.Name}.sql";
+            var source = $@"{ConfigurationManager.SphSourceDirectory}\{nameof(EntityDefinition)}\{project.Name}.sql";
             if (!File.Exists(source))
                 throw new InvalidOperationException("Please build for sql source");
             var createTable = File.ReadAllText(source);
