@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 
@@ -9,8 +9,7 @@ namespace Bespoke.Sph.Domain.diagnostics
     {
         public override Task<BuildError[]> ValidateErrorsAsync(OperationEndpoint endpoint, EntityDefinition entity)
         {
-            var errors = new List<BuildError>();
-            return Task.FromResult((errors.ToArray()));
+            return Task.FromResult(Array.Empty<BuildError>());
         }
     }
 }

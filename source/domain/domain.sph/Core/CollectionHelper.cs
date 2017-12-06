@@ -29,8 +29,7 @@ namespace Bespoke.Sph.Domain
         {
             while (!bags.IsEmpty)
             {
-                T someItem;
-                bags.TryTake(out someItem);
+                bags.TryTake(out T _);
             }
         }
         public static void Add(this IList<ValidationError> errors, ValidationError error)
@@ -176,7 +175,6 @@ namespace Bespoke.Sph.Domain
             // then compares each object
             foreach (var t in currentList.OfType<IChangeTrack<T>>())
             {
-                if (null == t) continue;
                 var t1 = t;
                 var newItem = changedList.OfType<IChangeTrack<T>>().SingleOrDefault(f => f.TrackingId == t1.TrackingId);
                 if (null != newItem)
@@ -203,7 +201,6 @@ namespace Bespoke.Sph.Domain
             // then compares each object for addition
             foreach (var t in changedList.OfType<IChangeTrack<T>>())
             {
-                if (null == t) continue;
                 var t1 = t;
                 var old = currentList.OfType<IChangeTrack<T>>().SingleOrDefault(f => f.TrackingId == t1.TrackingId);
 

@@ -109,7 +109,7 @@ namespace Bespoke.Sph.Domain
             return @"
 define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuilders.system],
     function (context, logger, dialog, system) {
-        var functoid = ko.observable(),
+        const functoid = ko.observable(),
             okClick = function (data, ev) {
                 dialog.close(this, 'OK');
 
@@ -143,14 +143,14 @@ define(['services/datacontext', 'services/logger', 'plugins/dialog', objectbuild
                     functoid().ArgumentCollection.remove(arg);
                 };
             };
-            var vm = {
+            const vm = {
                 functoid: functoid,
                 edit: edit,
                 okClick: okClick,
                 cancelClick: cancelClick,
                 addArg : addArg,
                 removeArg : removeArg
-                };
+            };
             return vm;
 });";
         }

@@ -20,7 +20,7 @@ namespace Bespoke.Sph.Domain
         {
             var element = m_xsd.Elements(x + "element")
                    .Where(e => null != e.Attribute("name"))
-                   .SingleOrDefault(e => e.Attribute("name").Value == elementOrComplexType);
+                   .SingleOrDefault(e => e.Attribute("name")?.Value == elementOrComplexType);
             var ct = m_xsd.Element(x + "complexType");
             if (null != element)
             {
@@ -38,7 +38,7 @@ namespace Bespoke.Sph.Domain
             if (null == ct) return properties;
 
             var attributes = from at in ct.Elements(x + "attribute")
-                             let n = at.Attribute("name").Value
+                             let n = at.Attribute("name")?.Value
                              select n;
             properties.AddRange(attributes);
 
@@ -48,15 +48,15 @@ namespace Bespoke.Sph.Domain
                 var allElements = from at in all.Elements(x + "element")
                                   where at.Attribute("name") != null
                                         && at.Attribute("type") != null
-                                  select at.Attribute("name").Value;
+                                  select at.Attribute("name")?.Value;
                 properties.AddRange(allElements);
 
                 var collectionElements = from at in all.Elements(x + "element")
                                          where at.Attribute("name") != null
                                                && at.Attribute("type") == null
                                          let refElement = at.Descendants(x + "element").First()
-                                         let type = refElement.Attribute("ref") == null ? refElement.Attribute("type").Value : refElement.Attribute("ref").Value
-                                         select at.Attribute("name").Value;
+                                         let type = refElement.Attribute("ref") == null ? refElement.Attribute("type")?.Value : refElement.Attribute("ref")?.Value
+                                         select at.Attribute("name")?.Value;
                 properties.AddRange(collectionElements);
 
                 // TODO, get ref elements children

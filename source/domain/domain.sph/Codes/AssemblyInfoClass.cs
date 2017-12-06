@@ -43,7 +43,7 @@ namespace Bespoke.Sph.Domain.Codes
 
             if (autoSave)
             {
-                var srcFolder = Path.GetDirectoryName(@class.FileName);
+                var srcFolder = Path.GetDirectoryName(@class.FileName) ?? $"{ConfigurationManager.GeneratedSourceDirectory}\\{@class.FileName}";
                 if (!Directory.Exists(srcFolder))
                     Directory.CreateDirectory(srcFolder);
                 File.WriteAllText(@class.FileName, @class.ToString());

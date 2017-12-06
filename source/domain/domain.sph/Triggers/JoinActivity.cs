@@ -79,7 +79,7 @@ namespace Bespoke.Sph.Domain
             var branches = wd.ActivityCollection.Where(a => a.NextActivityWebId == this.WebId);
             foreach (var act in branches)
             {
-                act.ExecutedCode = $"   await this.FireJoin{this.MethodName}(\"{act.WebId}\").ConfigureAwait(false);"; ;
+                act.ExecutedCode = $"   await this.FireJoin{this.MethodName}(\"{act.WebId}\").ConfigureAwait(false);";
             }
             // TODO : InitiateAsync once the first one is fired
         }

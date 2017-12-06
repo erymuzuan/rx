@@ -201,6 +201,7 @@ namespace Bespoke.Sph.Domain
             public Severity TraceSwitch { get; set; } = Severity.Info;
             public Task LogAsync(LogEntry entry)
             {
+                if (entry.Severity < this.TraceSwitch) return Task.FromResult(0);
                 try
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
