@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 
 namespace Bespoke.Sph.Web.Helpers
 {
@@ -24,3 +24,4 @@ namespace Bespoke.Sph.Web.Helpers
         }
     }
 }
+//

@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 
 [assembly: AssemblyTitle("sql.repository")]
 [assembly: AssemblyDescription("SQL Server implementation for IRepository")]
@@ -7,3 +7,4 @@
 #else
 [assembly: AssemblyConfiguration("Release")]
 #endif
+//

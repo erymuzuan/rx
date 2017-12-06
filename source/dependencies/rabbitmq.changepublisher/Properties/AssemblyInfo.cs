@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 [assembly: AssemblyTitle("rabbitmq.changepublisher")]
 [assembly: AssemblyDescription("Messaging Broker implementation with RabbitMq")]
 #if DEBUG
@@ -6,3 +6,4 @@
 #else
 [assembly: AssemblyConfiguration("Release")]
 #endif
+//

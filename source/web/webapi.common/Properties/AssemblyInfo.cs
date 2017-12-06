@@ -1,6 +1,7 @@
-﻿using System.Reflection;
+using System.Reflection;
 
 
 [assembly: AssemblyTitle("webapi.common")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
+//

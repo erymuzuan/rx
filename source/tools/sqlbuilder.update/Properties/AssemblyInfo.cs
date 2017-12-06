@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -8,3 +8,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("sqlbuilder.update")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
+//

@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 
 [assembly: AssemblyTitle("es.queryparser")]
 [assembly: AssemblyDescription("Provides Elasticsearch QueryParser interface")]
@@ -7,3 +7,4 @@
 #else
 [assembly: AssemblyConfiguration("Release")]
 #endif
+//
