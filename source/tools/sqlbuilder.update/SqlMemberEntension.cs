@@ -78,14 +78,16 @@ namespace sqlbuilder.update
                         Name = "Length",
                         Value = 255,
                         AttachedTo = webId,
-                        ProviderName = "SqlServer2016"
+                        ProviderName = "SqlServer2016",
+                        Type = typeof(int)
                     });
                     list.Add(new AttachedProperty
                     {
                         Name = "AllowUnicode",
                         Value = true,
                         AttachedTo = webId,
-                        ProviderName = "SqlServer2016"
+                        ProviderName = "SqlServer2016",
+                        Type = typeof(bool)
                     });
                 }
 
