@@ -13,7 +13,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
             var error = new BuildError
             {
                 Message = diagnostic.GetMessage(),
-                IsWarning = diagnostic.Severity == DiagnosticSeverity.Warning
+                IsWarning = (diagnostic.Severity != DiagnosticSeverity.Warning) == false
             };
             if (diagnostic.Location.IsInSource)
             {
@@ -24,7 +24,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
                 code.AppendLine(tree.Substring(span.Start, span.Length));
 
                 var lineNumber = tree.Take(span.Start).Count(c => c == '\n') + 1;
-                var line = tree.Split(new[] { '\n' }, StringSplitOptions.None)
+                var line = tree.Split(new[] {'\n'}, StringSplitOptions.None)
                     .ToArray()[lineNumber - 1];
                 code.AppendLinf("{0} :  {1}", lineNumber, line);
 
@@ -36,19 +36,17 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
 
                 error.Code = code.ToString();
                 error.Line = lineNumber;
+                error.Message = diagnostic.Severity + ":" + diagnostic.GetMessage();
 
                 // get the item id
-                error.ItemWebId = GetSourceError(lineNumber, tree.Split(new[] { '\n' }, StringSplitOptions.None));
+                error.ItemWebId = GetSourceError(lineNumber, tree.Split(new[] {'\n'}, StringSplitOptions.None));
             }
 
             return error;
-
-
         }
 
         private static string GetSourceError(int line, string[] sources)
         {
-
             var member = string.Empty;
             for (var i = 0; i < line; i++)
             {
@@ -56,7 +54,6 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
                     member = sources[i].Trim().Replace("//exec:", string.Empty);
             }
             return member;
-
         }
     }
 }
