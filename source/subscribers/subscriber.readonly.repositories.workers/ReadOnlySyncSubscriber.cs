@@ -4,9 +4,9 @@ using Bespoke.Sph.SubscribersInfrastructure;
 using Bespoke.Sph.Domain;
 using Humanizer;
 
-namespace Bespoke.Sph.ElasticSearch
+namespace Bespoke.Sph.ReadOnlyRepositoriesWorkers
 {
-    public class CustomEntityIndexerSubscriber : Subscriber<Entity>
+    public class ReadOnlySyncSubscriber : Subscriber<Entity>
     {
         public override string QueueName => this.GetType().FullName;
         public override string[] RoutingKeys => new[] {"#.added.#", "#.changed.#", "#.deleted.#"};

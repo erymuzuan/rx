@@ -7,8 +7,8 @@
     <ProjectGuid>{F63B8AF9-E4AE-45D4-BADF-47C217FEFABA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bespoke.Sph.ElasticSearch</RootNamespace>
-    <AssemblyName>subscriber.elasticsearch.indexer</AssemblyName>
+    <RootNamespace>Bespoke.Sph.ReadOnlyRepositoriesWorkers</RootNamespace>
+    <AssemblyName>subscriber.readonly.repositories.workers</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
@@ -66,7 +66,7 @@
     <Compile Include="..\..\extensions\BinaryExtensions.cs">
       <Link>Extensions\BinaryExtensions.cs</Link>
     </Compile>
-    <Compile Include="CustomEntityIndexerSubscriber.cs" />
+    <Compile Include="ReadOnlySyncSubscriber.cs" />
     <Compile Include="DataImportSubscriber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TrackerIndexer.cs" />

@@ -1,12 +1,12 @@
 ﻿using Bespoke.Sph.Domain;
 
-namespace Bespoke.Sph.ElasticSearch
+namespace Bespoke.Sph.ReadOnlyRepositoriesWorkers
 {
     public class WorkflowIndexer
     {
         protected string GetTypeName(Workflow item)
         {
-            return $"{"Workflow"}_{item.WorkflowDefinitionId}_{item.Version}";
+            return $"Workflow_{item.WorkflowDefinitionId}_{item.Version}";
         }
     }
 }

@@ -17,7 +17,7 @@ using Bespoke.Sph.Domain.Compilers;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class ServiceContract : DomainObject
+    public partial class ServiceContract : DomainObject, IProjectDefinition
     {
         public Task<ServiceContractSetting> LoadSettingAsync(string entity)
         {
@@ -113,7 +113,14 @@ namespace Bespoke.Sph.Domain
         }
         private EntityDefinition m_entityDefinition;
 
+        public string AssemblyName =>
+            "{ConfigurationManager.ApplicationName}.{nameof(ServiceContract)}.{m_entityDefinition.Name}";
         public string CodeNamespace { get; } = $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.IntegrationApis";
+        public string Name => $"{m_entityDefinition.Name}ServiceContract";
+        public string Id
+        {
+            get => m_entityDefinition.Id; set { }
+        }
 
         private Class GenerateController()
         {

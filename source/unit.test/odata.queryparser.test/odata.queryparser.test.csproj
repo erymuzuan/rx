@@ -69,8 +69,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\dependencies\odata.queryparser\odata.queryparser.csproj" />
-    <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj" />
+    <ProjectReference Include="..\..\dependencies\odata.queryparser\odata.queryparser.csproj">
+      <Project>{630A59F5-1DAD-4D90-A3D4-F7AE3A0B8FDA}</Project>
+      <Name>odata.queryparser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
+      <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
+      <Name>domain.sph</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\..\packages\xunit.analyzers.0.7.0\analyzers\dotnet\cs\xunit.analyzers.dll" />

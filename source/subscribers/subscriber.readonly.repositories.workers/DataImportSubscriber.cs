@@ -10,7 +10,7 @@ using Bespoke.Sph.SubscribersInfrastructure;
 using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
 
-namespace Bespoke.Sph.ElasticSearch
+namespace Bespoke.Sph.ReadOnlyRepositoriesWorkers
 {
     public class DataImportSubscriber : Subscriber
     {
