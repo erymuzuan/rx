@@ -60,8 +60,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\assembly.versions\subscribers-subscriber.elasticsearch.indexer.cs">
-      <Link>Properties\subscribers-subscriber.elasticsearch.indexer.cs</Link>
+    <Compile Include="..\..\assembly.versions\subscribers-subscriber.readonly.repositories.workers.cs">
+      <Link>Properties\subscribers-subscriber.readonly.repositories.workers.cs</Link>
     </Compile>
     <Compile Include="..\..\extensions\BinaryExtensions.cs">
       <Link>Extensions\BinaryExtensions.cs</Link>
