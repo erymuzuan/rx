@@ -96,6 +96,7 @@
     <Compile Include="Extensions\MemberInfoExtension.cs" />
     <Compile Include="Extensions\OperatorExtension.cs" />
     <Compile Include="Extensions\SqlDataReaderExtension.cs" />
+    <Compile Include="Extensions\SqlExceptionExtension.cs" />
     <Compile Include="Extensions\SqlPredicate.cs" />
     <Compile Include="Extensions\EntityDefinitionExtension.cs" />
     <Compile Include="Extensions\FilterExtension.cs" />

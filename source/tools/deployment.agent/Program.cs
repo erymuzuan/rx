@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Diagnostics;
@@ -16,11 +17,43 @@ namespace Bespoke.Sph.Mangements
         public Commands.Command[] Commands { set; get; }
         public static void Main(string[] args)
         {
+            var logger = new Logger();
+            logger.Loggers.Add(new ConsoleLogger { TraceSwitch = Severity.Info });
+            if (TryParseArg("switch", out var tsw))
+            {
+                var ts = (Severity)Enum.Parse(typeof(Severity), tsw, true);
+                logger.Loggers.OfType<ConsoleLogger>().Single().TraceSwitch = ts;
+                logger.TraceSwitch = ts;
+                if (TryParseArg("out", out var outputFile))
+                {
+                    logger.Loggers.Add(new FileLogger(outputFile, FileLogger.Interval.Hour) { TraceSwitch = ts });
+                }
+            }
+            ObjectBuilder.AddCacheList<ILogger>(logger);
+
+
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             var program = new Program();
             program.StartAsync().Wait();
         }
-        
+        private static bool TryParseArg(string key, out string value)
+        {
+            value = ParseArg(key);
+            return !string.IsNullOrWhiteSpace(value);
+
+        }
+        private static string ParseArg(params string[] keys)
+        {
+            IEnumerable<string> GetValue(string name)
+            {
+                var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var val = args.SingleOrDefault(a => a.StartsWith("/" + name + ":"));
+                yield return val?.Replace("/" + name + ":", string.Empty);
+            }
+
+            return keys.Select(GetValue).Where(x => null != x).SelectMany(x => x).FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
+        }
+
         private async Task StartAsync()
         {
             if (!this.Compose())

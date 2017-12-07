@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Data;
 using System.Data.SqlClient;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Compilers;
+using Bespoke.Sph.Extensions;
 using Bespoke.Sph.SqlRepository.Compilers;
 using Bespoke.Sph.SqlRepository.Extensions;
 using Newtonsoft.Json;
@@ -36,7 +38,7 @@ namespace Bespoke.Sph.SqlRepository.Deployments
             await Task.Delay(100);
             if (!(project is EntityDefinition ed)) return false;
             if (ed.TreatDataAsSource) return false; // for sources use SqlTableWithSourceDeployer
-            if (ed.Transient) return false; 
+            if (ed.Transient) return false;
             return ed.GetPersistenceOption().IsSqlDatabase;
         }
 
@@ -51,12 +53,22 @@ namespace Bespoke.Sph.SqlRepository.Deployments
             {
                 await conn.OpenAsync();
                 var oldTable = await RenameExistingTable(conn, ed);
+                Logger.WriteInfo($"Table has been renamed to {oldTable}");
+
                 await CreateTableAsync(conn, ed);
-                await CreateIndicesAsync(conn, ed);
+                Logger.WriteInfo($"Succesfully created table {ed.Name} ");
+
+                var indicesErrors = await CreateIndicesAsync(conn, ed);
+                cr.Errors.AddRange(indicesErrors);
+                Logger.WriteInfo(indicesErrors.Length == 0
+                    ? $"All indices has been succesfully created {ed.Name} "
+                    : $"{indicesErrors.Length} errors produced when creating indices ");
+
                 if (string.IsNullOrWhiteSpace(oldTable))
                     return cr;
 
                 await MigrateDataAsync(ed, sqlBatchSize, oldTable, migration, true);
+                Logger.WriteInfo($"Succesfully migrating from {oldTable} to {ed.Name} ");
             }
 
             return cr;
@@ -64,7 +76,7 @@ namespace Bespoke.Sph.SqlRepository.Deployments
 
         public Task<RxCompilerResult> TestDeployAsync(IProjectDefinition project, Action<JObject, dynamic> migration, int batchSize = 50)
         {
-            throw new NotImplementedException();
+            return RxCompilerResult.TaskEmpty;
         }
 
 
@@ -89,17 +101,30 @@ namespace Bespoke.Sph.SqlRepository.Deployments
             */
         }
 
-        private async Task CreateIndicesAsync(SqlConnection conn, IProjectDefinition project)
+        private async Task<BuildError[]> CreateIndicesAsync(SqlConnection conn, IProjectDefinition project)
         {
-            var createIndex = Directory.GetFiles($@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\", $"{project.Name}.Index.*.sql")
-                .Select(File.ReadAllText);
-            foreach (var s in createIndex)
+            var errors = new List<BuildError>();
+            var sources = Directory.GetFiles($@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\", $"{project.Name}.Index.*.sql");
+            foreach (var src in sources)
             {
-                using (var createIndexCommand = new SqlCommand(s, conn))
+                var sql = File.ReadAllText(src);
+                try
                 {
-                    await createIndexCommand.ExecuteNonQueryAsync();
+                    using (var createIndexCommand = new SqlCommand(sql, conn))
+                    {
+                        await createIndexCommand.ExecuteNonQueryAsync();
+                    }
+                    Logger.WriteVerbose($"Success : Creating index {Path.GetFileNameWithoutExtension(src)} ");
+
+                }
+                catch (SqlException e)
+                {
+                    errors.Add(e.ToBuildError());
                 }
             }
+
+            return errors.ToArray();
+
         }
 
         private static async Task CreateTableAsync(SqlConnection conn, IProjectDefinition project)

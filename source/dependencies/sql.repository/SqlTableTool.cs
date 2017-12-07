@@ -12,6 +12,7 @@ namespace Bespoke.Sph.SqlRepository
         private readonly Action<string> m_writeMessage;
         private readonly Action<string> m_writeWarning;
         private readonly Action<Exception> m_writeError;
+        protected ILogger Logger = ObjectBuilder.GetObject<ILogger>();
 
         public SqlTableTool(Action<string> writeMessage, Action<string> writeWarning = null,
             Action<Exception> writeError = null)

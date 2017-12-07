@@ -28,12 +28,12 @@ namespace Bespoke.Sph.SqlRepository.Deployments
 
         public Task<RxCompilerResult> DeployAsync(IProjectDefinition project, Action<JObject, dynamic> migration, int batchSize = 50)
         {
-            throw new NotImplementedException();
+            return RxCompilerResult.TaskEmpty;
         }
 
         public Task<RxCompilerResult> TestDeployAsync(IProjectDefinition project, Action<JObject, dynamic> migration, int batchSize = 50)
         {
-            throw new NotImplementedException();
+            return RxCompilerResult.TaskEmpty;
         }
     }
 }

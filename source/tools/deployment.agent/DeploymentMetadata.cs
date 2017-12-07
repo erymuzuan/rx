@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Extensions;
 using Bespoke.Sph.Mangements.Extensions;
 using Newtonsoft.Json.Linq;
 
@@ -149,11 +150,12 @@ namespace Bespoke.Sph.Mangements
             return list;
         }
 
-        public async Task BuildAsync(bool truncate, int sqlBatchSize, string migrationPlan)
+        public async Task StartDeployAsync(bool truncate, int sqlBatchSize, string migrationPlan)
         {
             if (string.IsNullOrWhiteSpace(migrationPlan)) throw new ArgumentNullException(nameof(migrationPlan));
             var ed = m_entityDefinition;
 
+            var logger = ObjectBuilder.GetObject<ILogger>();
             var lastDeployedDate = await this.GetLastDeployedDateTimeAsyc();
             var hasChanges = lastDeployedDate < m_entityDefinition.ChangedDate;
             var plan = MigrationPlan.ParseFile(migrationPlan);
@@ -167,8 +169,21 @@ namespace Bespoke.Sph.Mangements
                 }
             }
 
+            var list = new List<RxCompilerResult>();
             if (hasChanges)
-                this.DeveloperService.ProjectDeployers.ForEach(x => x.DeployAsync(ed, Migration));
+            {
+                foreach (var x in this.DeveloperService.ProjectDeployers)
+                {
+                    logger.WriteInfo($"Starting deployment with {x.GetType().Name}");
+                    var result = await x.DeployAsync(ed, Migration);
+                    list.Add(result);
+                    logger.WriteInfo($"Succesfully deployed with {x.GetType().Name}");
+
+                }
+            }
+            // TODO : dump the result
+            logger.WriteWarning(list.SelectMany(x => x.Errors).Where(x => x.IsWarning).ToString("\r\n"));
+            logger.WriteError(list.SelectMany(x => x.Errors).Where(x => !x.IsWarning).ToString("\r\n"));
 
 
             if (!hasChanges && ed.TreatDataAsSource)
@@ -179,10 +194,10 @@ namespace Bespoke.Sph.Mangements
             await InsertDeploymentMetadataAsync();
 
             if (!hasChanges)
-                Console.WriteLine(
+                logger.WriteInfo(
                     $@"""{m_entityDefinition.Name}"" was last deployed on {lastDeployedDate} and the source has not changed since");
 
-            Console.WriteLine($@"{ed.Name} was succesfully deployed ");
+            logger.WriteInfo($@"{ed.Name} was succesfully deployed ");
         }
 
         public async Task<DateTime?> GetLastDeployedDateTimeAsyc()
@@ -271,6 +286,6 @@ CREATE TABLE [Sph].[DeploymentMetadata](
             }
         }
 
-     
+
     }
 }
