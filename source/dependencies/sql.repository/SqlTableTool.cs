@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
 using Bespoke.Sph.Extensions;
+using Bespoke.Sph.SqlRepository.Extensions;
 
 namespace Bespoke.Sph.SqlRepository
 {
@@ -65,6 +69,55 @@ namespace Bespoke.Sph.SqlRepository
                 return ConfigurationManager.GetEnvironmentVariableInt32("SqlServerProductVersion", 13);
             }
         }
+
+
+        protected async Task<BuildError[]> CreateIndicesAsync(SqlConnection conn, IProjectDefinition project)
+        {
+            var errors = new List<BuildError>();
+            var sources = Directory.GetFiles($@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\", $"{project.Name}.Index.*.sql");
+            foreach (var src in sources)
+            {
+                var sql = File.ReadAllText(src);
+                try
+                {
+                    using (var createIndexCommand = new SqlCommand(sql, conn))
+                    {
+                        await createIndexCommand.ExecuteNonQueryAsync();
+                    }
+                    Logger.WriteVerbose($"Success : Creating index {Path.GetFileNameWithoutExtension(src)} ");
+
+                }
+                catch (SqlException e)
+                {
+                    errors.Add(e.ToBuildError());
+                }
+            }
+
+            return errors.ToArray();
+
+        }
+
+        protected  async Task DropTableAsync(SqlConnection conn, IProjectDefinition project)
+        {
+            var drop = $"DROP TABLE IF EXISTS [{ConfigurationManager.ApplicationName}].[{project.Name}]";
+            using (var createTableCommand = new SqlCommand(drop, conn))
+            {
+                await createTableCommand.ExecuteNonQueryAsync();
+            }
+        }
+
+        protected  async Task CreateTableAsync(SqlConnection conn, IProjectDefinition project)
+        {
+            var source = $@"{ConfigurationManager.SphSourceDirectory}\{nameof(EntityDefinition)}\{project.Name}.sql";
+            if (!File.Exists(source))
+                throw new InvalidOperationException("Please build for sql source");
+            var createTable = File.ReadAllText(source);
+            using (var createTableCommand = new SqlCommand(createTable, conn))
+            {
+                await createTableCommand.ExecuteNonQueryAsync();
+            }
+        }
+
 
     }
 }

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -20,6 +18,7 @@ namespace Bespoke.Sph.SqlRepository.Deployments
     public class SqlTableDeployer : SqlTableTool, IProjectDeployer
     {
 
+        public double Order => 1;
         [ImportMany(typeof(IProjectBuilder))]
         public IProjectBuilder[] ProjectBuilders { get; set; }
 
@@ -80,6 +79,7 @@ namespace Bespoke.Sph.SqlRepository.Deployments
         }
 
 
+
         public async Task TestMigrationAsync(string migrationPlan, string outputFolder)
         {
             await Task.Delay(500);
@@ -99,44 +99,6 @@ namespace Bespoke.Sph.SqlRepository.Deployments
 
             await builder.MigrateDataAsync(m_entityDefinition, 20, m_entityDefinition.Name, Migration);
             */
-        }
-
-        private async Task<BuildError[]> CreateIndicesAsync(SqlConnection conn, IProjectDefinition project)
-        {
-            var errors = new List<BuildError>();
-            var sources = Directory.GetFiles($@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\", $"{project.Name}.Index.*.sql");
-            foreach (var src in sources)
-            {
-                var sql = File.ReadAllText(src);
-                try
-                {
-                    using (var createIndexCommand = new SqlCommand(sql, conn))
-                    {
-                        await createIndexCommand.ExecuteNonQueryAsync();
-                    }
-                    Logger.WriteVerbose($"Success : Creating index {Path.GetFileNameWithoutExtension(src)} ");
-
-                }
-                catch (SqlException e)
-                {
-                    errors.Add(e.ToBuildError());
-                }
-            }
-
-            return errors.ToArray();
-
-        }
-
-        private static async Task CreateTableAsync(SqlConnection conn, IProjectDefinition project)
-        {
-            var source = $@"{ConfigurationManager.SphSourceDirectory}\{nameof(EntityDefinition)}\{project.Name}.sql";
-            if (!File.Exists(source))
-                throw new InvalidOperationException("Please build for sql source");
-            var createTable = File.ReadAllText(source);
-            using (var createTableCommand = new SqlCommand(createTable, conn))
-            {
-                await createTableCommand.ExecuteNonQueryAsync();
-            }
         }
 
         private async Task<string> RenameExistingTable(SqlConnection conn, EntityDefinition ed)

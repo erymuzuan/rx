@@ -12,9 +12,15 @@ namespace Bespoke.Sph.Deloyments
     [Export(typeof(IProjectDeployer))]
     public class LocalDevMachineDeployer : IProjectDeployer
     {
+        public double Order => 0;
         public Task<bool> CheckForAsync(IProjectDefinition project)
         {
-            throw new NotImplementedException();
+            if (!(project is EntityDefinition ed)) return Task.FromResult(false);
+            var pe = $"{ConfigurationManager.CompilerOutputPath}\\{ed.AssemblyName}.dll";
+            var pdb = $"{ConfigurationManager.CompilerOutputPath}\\{ed.AssemblyName}.pdb";
+            if (!File.Exists(pe)) return Task.FromResult(false);
+            if (!File.Exists(pdb)) return Task.FromResult(false);
+            return Task.FromResult(true);
         }
 
         public Task<RxCompilerResult> DeployAsync(IProjectDefinition project, Action<JObject, dynamic> migration, int batchSize = 50)

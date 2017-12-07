@@ -172,25 +172,24 @@ namespace Bespoke.Sph.Mangements
             var list = new List<RxCompilerResult>();
             if (hasChanges)
             {
-                foreach (var x in this.DeveloperService.ProjectDeployers)
+                foreach (var x in this.DeveloperService.ProjectDeployers.OrderBy(x => x.Order))
                 {
-                    logger.WriteInfo($"Starting deployment with {x.GetType().Name}");
+                    if (!await x.CheckForAsync(ed)) continue;
+
+                    logger.WriteInfo($"Starting deployment with {x.GetType().Name}....");
                     var result = await x.DeployAsync(ed, Migration);
                     list.Add(result);
                     logger.WriteInfo($"Succesfully deployed with {x.GetType().Name}");
 
                 }
+                Console.WriteLine();
+                Console.WriteLine();
             }
-            // TODO : dump the result
+
+            logger.WriteInfo($"===      {list.Count(x => !x.Errors.Any())} successfully deployed and {list.Count(x => x.Errors.Any())} failed     ====");
             logger.WriteWarning(list.SelectMany(x => x.Errors).Where(x => x.IsWarning).ToString("\r\n"));
             logger.WriteError(list.SelectMany(x => x.Errors).Where(x => !x.IsWarning).ToString("\r\n"));
-
-
-            if (!hasChanges && ed.TreatDataAsSource)
-            {
-                this.DeveloperService.ProjectDeployers.ForEach(x => x.DeployAsync(ed, Migration));
-            }
-
+            
             await InsertDeploymentMetadataAsync();
 
             if (!hasChanges)
