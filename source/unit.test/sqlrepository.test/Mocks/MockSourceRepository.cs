@@ -53,7 +53,14 @@ namespace Bespoke.Sph.Tests.SqlServer.Mocks
 
         public Task<IEnumerable<AttachedProperty>> GetAttachedPropertiesAsync<T>(IProjectBuilder builder, T project, Member member) where T : Entity, IProjectDefinition
         {
-            throw new NotImplementedException();
+            var p = this.Projects.OfType<IProjectDefinition>().SingleOrDefault(x => x.Name == project.Name);
+            if (null != p && Properties.ContainsKey(p))
+            {
+                var properties = Properties[p].Where(x => x.ProviderName == builder.Name)
+                    .Where(x => x.AttachedTo == member.WebId);
+                return Task.FromResult(properties);
+            }
+            return Task.FromResult(Array.Empty<AttachedProperty>().AsEnumerable());
         }
     }
 }

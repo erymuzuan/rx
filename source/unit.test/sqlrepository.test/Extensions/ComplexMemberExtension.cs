@@ -12,7 +12,8 @@ namespace Bespoke.Sph.Tests.SqlServer.Extensions
                 Name = name,
                 Type = type,
                 IsNullable = nullable,
-                AllowMultiple = allowMultiples
+                AllowMultiple = allowMultiples,
+                WebId = Guid.NewGuid().ToString()
             };
             mbr.MemberCollection.Add(sm);
             return sm;

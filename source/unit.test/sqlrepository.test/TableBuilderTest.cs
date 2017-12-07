@@ -30,20 +30,27 @@ namespace Bespoke.Sph.Tests.SqlServer
 
 
         [Fact]
-        public void GenerateColumn()
+        public async Task GenerateColumn()
         {
             var compiler = new SqlTableBuilder();
             var ent = new EntityDefinition { Name = "CustomerAccount", Plural = "Customeraccounts", Id = "customer-account", RecordName = "Name" };
-            ent.AddMember("Name", typeof(string), true);
-            ent.AddMember("No", typeof(string), true);
-            ent.AddMember("RegistratioNo", typeof(string), true);
-            ent.AddMember("CreditLimit", typeof(decimal), true);
+            ent.AddMember("Name", typeof(string));
+            ent.AddMember("No", typeof(string));
+            ent.AddMember("RegistratioNo", typeof(string));
+            ent.AddMember("CreditLimit", typeof(decimal));
 
             var address = new ComplexMember { Name = "Address", TypeName = "System.Object, mscorlib" };
-            address.AddMember("Street1", typeof(string), false);
-            address.AddMember("Postcode", typeof(string), true);
-            address.AddMember("State", typeof(string), true);
+            address.AddMember("Street1", typeof(string));
+            address.AddMember("Postcode", typeof(string));
+            var state = address.AddMember("State", typeof(string));
+            state.AddAttachedProperty("SqlIndex", true);
+
             ent.MemberCollection.Add(address);
+            await this.SourceRepository.SavedAsync(ent, new List<AttachedProperty>
+            {
+                state.AddAttachedProperty("SqlIndex", true),
+                state.AddAttachedProperty("Length", 50)
+            });
 
 
             var columns = ent.GetFilterableMembers(compiler).ToList();
@@ -56,18 +63,25 @@ namespace Bespoke.Sph.Tests.SqlServer
         public async Task GenerateCreateTableSql()
         {
             var ed = new EntityDefinition { Name = "CustomerAccount", Plural = "CustomerAccounts", Id = "customer-account", RecordName = "Name" };
-            ed.AddMember("Name", typeof(string), true);
-            ed.AddMember("No", typeof(string), true);
-            ed.AddMember("RegistratioNo", typeof(string), true);
-            ed.AddMember("CreditLimit", typeof(decimal), true);
+            var name = ed.AddMember("Name", typeof(string));
+
+            ed.AddMember("No", typeof(string));
+            ed.AddMember("RegistratioNo", typeof(string));
+            ed.AddMember("CreditLimit", typeof(decimal));
 
             var address = new ComplexMember { Name = "Address", TypeName = "System.Object, mscorlib" };
-            address.AddMember("Street1", typeof(string), false);
-            address.AddMember("Postcode", typeof(string), true);
-            address.AddMember("State", typeof(string), true);
+            address.AddMember("Street1", typeof(string));
+            address.AddMember("Postcode", typeof(string));
+            var state = address.AddMember("State", typeof(string));
+
             ed.MemberCollection.Add(address);
 
-
+            await this.SourceRepository.SavedAsync(ed, new List<AttachedProperty>
+            {
+                name.AddAttachedProperty("SqlIndex", true),
+                state.AddAttachedProperty("SqlIndex", true),
+                state.AddAttachedProperty("Length", 50)
+            });
             var builder = new SqlTableBuilder(m => Console.WriteLine("Info :" + m), m => Console.WriteLine("Warning :" + m),
                 e => Console.WriteError(e));
 
@@ -85,11 +99,12 @@ namespace Bespoke.Sph.Tests.SqlServer
         public async Task AttachPropertyColumnLength()
         {
             var ed = new EntityDefinition { Name = "CustomerAccount", WebId = "customer-account-id", Plural = "CustomerAccounts", Id = "customer-account", RecordName = "Name" };
-            var name = ed.AddMember("Name", typeof(string), true);
+            var name = ed.AddMember("Name", typeof(string));
 
             var properties = new List<AttachedProperty>();
             var length = name.AddAttachedProperty("Length", 500);
             properties.Add(length);
+            properties.Add(name.AddAttachedProperty("SqlIndex", true));
 
             var builder = new SqlTableBuilder(m => Console.WriteLine("Info :" + m), m => Console.WriteLine("Warning :" + m),
                 e => Console.WriteError(e));
@@ -110,7 +125,7 @@ namespace Bespoke.Sph.Tests.SqlServer
 
             var properties = new[]
             {
-                name.AddAttachedProperty("Indexed", true),
+                name.AddAttachedProperty("SqlIndex", true),
                 name.AddAttachedProperty("IndexedFields", "No,CreditLimit")
             };
 

@@ -6,7 +6,7 @@ namespace Bespoke.Sph.Tests.SqlServer.Extensions
     {
         public static AttachedProperty AddAttachedProperty<T>(this DomainObject attachedTo, string name, T value)
         {
-            return new AttachedProperty(name,value, attachedTo, "SqlServer2016");
+            return new AttachedProperty(name, value, attachedTo, "SqlServer2016");
         }
     }
 }
