@@ -58,23 +58,24 @@ namespace Bespoke.Sph.SqlRepository.Compilers
 
             var sql = new StringBuilder();
             // TODO : AttachedProperty allow InMemory table
-            sql.AppendLine($@"CREATE TABLE [{applicationName}].[{item.Name}]
-                              (
-                                  [Id] VARCHAR(50) PRIMARY KEY NOT NULL");
+            sql.AppendLine($@"
+CREATE TABLE [{applicationName}].[{item.Name}]
+(
+    [Id] VARCHAR(50) PRIMARY KEY NOT NULL");
             var members = item.GetFilterableMembers(this).ToArray();
             foreach (var member in members.OfType<SimpleMember>())
             {
                 var properties = await repos.GetAttachedPropertiesAsync(this, item, member);
-                sql.AppendLine(",    " + member.GenerateColumnExpression(properties.ToArray(), version));
+                sql.AppendLine("    ," + member.GenerateColumnExpression(properties.ToArray(), version));
             }
             
             // TODO : JSON should be VARCHAR(MAX) or NVARCHAR(MAX), if AttachedProperty AllowUnicode is true
-            sql.AppendLine(@"   ,[Json] VARCHAR(MAX)
-                                ,[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
-                                ,[CreatedBy] VARCHAR(255) NULL
-                                ,[ChangedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
-                                ,[ChangedBy] VARCHAR(255) NULL
-                            )");
+                sql.AppendLine(@"    ,[Json] VARCHAR(MAX)
+    ,[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
+    ,[CreatedBy] VARCHAR(255) NULL
+    ,[ChangedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
+    ,[ChangedBy] VARCHAR(255) NULL
+)");
 
             sources.Add(new Class(sql.ToString()) { FileName = $"{project.Name}.sql", TrackedInSourceControl = true });
 

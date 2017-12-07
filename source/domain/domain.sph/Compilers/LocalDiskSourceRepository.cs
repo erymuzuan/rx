@@ -68,7 +68,7 @@ namespace Bespoke.Sph.Domain.Compilers
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
 
-            var json = project.ToJsonString(Formatting.Indented, VersionInfo.All);
+            var json = project.ToJsonString(Formatting.Indented, VersionInfo.Version);
             File.WriteAllText($"{path}{project.Name}.json", json);
 
             // now the properties, override those in files if exists
