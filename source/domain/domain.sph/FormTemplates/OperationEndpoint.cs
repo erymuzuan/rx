@@ -53,5 +53,27 @@ namespace Bespoke.Sph.Domain
 
             return Task.FromResult(result);
         }
+
+
+        public string GetDeleteRoute()
+        {
+            var route = !string.IsNullOrWhiteSpace(this.Route) ? $"{this.Route.ToLowerInvariant()}/" : "";
+            if (route.Contains("{id")) return route;
+            return route + "{id}";
+        }
+
+
+        public string GetPutRoute()
+        {
+            var route = this.Route ?? "";
+            if (!route.StartsWith("~/"))
+            {
+                if (!route.Contains("{id"))
+                    route = $"{{id}}{(string.IsNullOrWhiteSpace(this.Route) ? "" : "/")}{route}";
+            }
+            return route;
+        }
+
+
     }
 }

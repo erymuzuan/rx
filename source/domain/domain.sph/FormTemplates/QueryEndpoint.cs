@@ -63,6 +63,33 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
+
+        public string GetRoute()
+        {
+
+            if (string.IsNullOrWhiteSpace(this.Resource))
+            {
+                var repos = ObjectBuilder.GetObject<ISourceRepository>();
+                var ed = repos.LoadOneAsync<EntityDefinition>(x => x.Name == this.Entity).Result;
+                this.Resource = ed.Plural.ToIdFormat();
+            }
+            var parameters = Strings.RegexValues(this.Route, "\\{(?<p>.*?)}", "p");
+            var route = this.Route;
+            foreach (var rp in parameters)
+            {
+                var field = this.FilterCollection.Select(x => x.Field).OfType<RouteParameterField>()
+                    .Single(x => x.Name == rp);
+                route = route.Replace($"{{{rp}}}", $"{{{rp}{field.GetRouteConstraint()}}}");
+            }
+            return this.Route.StartsWith("~") ? route : $"~/api/{this.Resource}/{route}";
+        }
+        public string GetLocation()
+        {
+            var route = this.GetRoute();
+            if (route.StartsWith("~/")) route = route.Replace("~/", "/");
+            return route;
+        }
+
         [Obsolete("Move to elasticsearch implementation")]
         public string GenerateEsSortDsl()
         {

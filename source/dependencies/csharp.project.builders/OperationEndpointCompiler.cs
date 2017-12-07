@@ -37,11 +37,12 @@ namespace Bespoke.Sph.Csharp.CompilersServices
 
         public async Task<RxCompilerResult> BuildAsync(IProjectDefinition project, Func<IProjectDefinition, CompilerOptions2> getOption)
         {
+            //var repos = ObjectBuilder.GetObject<ISourceRepository>();
             switch (project)
             {
                 //case EntityDefinition schema:
                 //    var results = new List<RxCompilerResult>();
-                //    var endpoints = new SphDataContext().LoadFromSources<OperationEndpoint>(x => x.Entity == schema.Name);
+                //    var endpoints =await repos.LoadAsync<OperationEndpoint>(x => x.Entity == schema.Name);
                 //    foreach (var ep in endpoints)
                 //    {
                 //        var eo = getOption(ep);

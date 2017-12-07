@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Csharp.CompilersServices.Extensions;
 using Bespoke.Sph.Domain;
@@ -44,10 +45,11 @@ namespace Bespoke.Sph.Csharp.CompilersServices
 
         public async Task<RxCompilerResult> BuildAsync(IProjectDefinition project, Func<IProjectDefinition, CompilerOptions2> getOption)
         {
+            //var repos = ObjectBuilder.GetObject<ISourceRepository>();
             //if (project is EntityDefinition schema)
             //{
             //    var results = new List<RxCompilerResult>();
-            //    var endpoints = new SphDataContext().LoadFromSources<QueryEndpoint>(x => x.Entity == schema.Name);
+            //    var endpoints = await repos.LoadAsync<QueryEndpoint>(x => x.Entity == schema.Name);
             //    foreach (var qe in endpoints)
             //    {
             //        var options2 = getOption(qe);

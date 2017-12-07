@@ -1,18 +1,11 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Net.Http;
-using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Codes;
+using Bespoke.Sph.Domain.Compilers;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
@@ -30,75 +23,9 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
         public QueryEndpointCsharp(QueryEndpoint endpoint)
         {
             Endpoint = endpoint;
-            EntityDefinition = new SphDataContext().LoadOneFromSources<EntityDefinition>(x => x.Name == endpoint.Entity);
+            EntityDefinition = ObjectBuilder.GetObject<ISourceRepository>().LoadOneAsync<EntityDefinition>(x => x.Name == endpoint.Entity).Result;
         }
 
-
-        public Task<RxCompilerResult> CompileAsync(params  string[] sources)
-        {
-            var options = new CompilerOptions();
-            var result = this.Compile(options, sources);
-
-            return Task.FromResult(result);
-        }
-
-
-        public RxCompilerResult Compile(CompilerOptions options, params string[] sources)
-        {
-
-            using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
-            {
-                var outputPath = ConfigurationManager.CompilerOutputPath;
-                var parameters = new CompilerParameters
-                {
-                    OutputAssembly = Path.Combine(outputPath, this.Endpoint.AssemblyName),
-                    GenerateExecutable = false,
-                    IncludeDebugInformation = true
-
-                };
-
-                parameters.AddReference(typeof(Entity),
-                    typeof(int),
-                    typeof(INotifyPropertyChanged),
-                    typeof(Expression<>),
-                    typeof(XmlAttributeAttribute),
-                    typeof(SmtpClient),
-                    typeof(HttpClient),
-                    typeof(XElement),
-                    //  typeof(HttpResponseBase),
-                    typeof(ConfigurationManager));
-
-                foreach (var es in options.EmbeddedResourceCollection)
-                {
-                    parameters.EmbeddedResources.Add(es);
-                }
-                foreach (var ass in options.ReferencedAssembliesLocation)
-                {
-                    parameters.ReferencedAssemblies.Add(ass);
-                }
-
-                parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\webapi.common.dll");
-                parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\System.Web.Http.dll");
-                parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll");
-                parameters.ReferencedAssemblies.Add(ConfigurationManager.CompilerOutputPath + $@"\{ConfigurationManager.ApplicationName}.{this.Endpoint.Entity}.dll");
-
-                var result = provider.CompileAssemblyFromFile(parameters, sources);
-                var cr = new RxCompilerResult
-                {
-                    Result = true,
-                    Output = Path.GetFullPath(parameters.OutputAssembly)
-                };
-                cr.Result = result.Errors.Count == 0;
-                var errors = from CompilerError x in result.Errors
-                    select new BuildError(this.Endpoint.WebId, x.ErrorText)
-                    {
-                        Line = x.Line,
-                        FileName = x.FileName
-                    };
-                cr.Errors.AddRange(errors);
-                return cr;
-            }
-        }
 
 
         private readonly string[] m_importDirectives =
@@ -118,7 +45,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
         private Method GenerateGetAction()
         {
             var code = new StringBuilder();
-            var route = this.GetRoute();
+            var route = this.Endpoint.GetRoute();
             var tokenRoute = route.Replace("~/", "");
             var constraints = Strings.RegexValues(route, "(?<constraint>:.*)}", "constraint");
             foreach (var cnt in constraints)
@@ -131,8 +58,8 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
 
             var routeParameterFields = this.Endpoint.FilterCollection.Select(x => x.Field).OfType<RouteParameterField>().ToArray();
             var parameterlist = from r in routeParameterFields.OrderBy(x => x.DefaultValue)
-                let uri = this.Endpoint.Route.Contains("{" + r.Name + "}") ? "" : $@"[FromUri(Name=""{r.Name}"")]"
-                select $@"
+                                let uri = this.Endpoint.Route.Contains("{" + r.Name + "}") ? "" : $@"[FromUri(Name=""{r.Name}"")]"
+                                select $@"
                                    {uri}{r.GenerateParameterCode()},";
             var parameters = $@"[SourceEntity(""{this.Endpoint.Id}"")]QueryEndpoint eq,
                                    [IfNoneMatch]ETag etag,
@@ -379,7 +306,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
 
         public async Task<Class> GetAssemblyInfoCodeAsync()
         {
-           var info = await  AssemblyInfoClass.GenerateAssemblyInfoAsync(this.Endpoint, true, this.Endpoint.Name);
+            var info = await AssemblyInfoClass.GenerateAssemblyInfoAsync(this.Endpoint, true, this.Endpoint.Name);
             return info.ToClass();
 
 
@@ -415,31 +342,11 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
             return controller;
         }
 
-        public string GetRoute()
-        {
-            if (string.IsNullOrWhiteSpace(this.Endpoint.Resource))
-                this.Endpoint.Resource = this.EntityDefinition.Plural.ToIdFormat();
-            var parameters = Strings.RegexValues(this.Endpoint.Route, "\\{(?<p>.*?)}", "p");
-            var route = this.Endpoint.Route;
-            foreach (var rp in parameters)
-            {
-                var field = this.Endpoint.FilterCollection.Select(x => x.Field).OfType<RouteParameterField>()
-                    .Single(x => x.Name == rp);
-                route = route.Replace($"{{{rp}}}", $"{{{rp}{field.GetRouteConstraint()}}}");
-            }
-            return this.Endpoint.Route.StartsWith("~") ? route : $"~/api/{this.Endpoint.Resource}/{route}";
-        }
-        public string GetLocation()
-        {
-            var route = this.GetRoute();
-            if (route.StartsWith("~/")) route = route.Replace("~/", "/");
-            return route;
-        }
 
 
         private Method GenerateCountAction()
         {
-            var route = $"{this.GetRoute()}/_metadata/_count".Replace("//", "/");
+            var route = $"{this.Endpoint.GetRoute()}/_metadata/_count".Replace("//", "/");
 
             var code = $@"  
         [HttpGet]

@@ -297,17 +297,6 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
             return code.ToString();
         }
 
-        public static string GetPutRoute(this OperationEndpoint endpoint)
-        {
-            var route = endpoint.Route ?? "";
-            if (!route.StartsWith("~/"))
-            {
-                if (!route.Contains("{id"))
-                    route = $"{{id}}{(string.IsNullOrWhiteSpace(endpoint.Route) ? "" : "/")}{route}";
-            }
-            return route;
-        }
-
         public static Method GeneratePutAction(this OperationEndpoint endpoint, EntityDefinition ed)
         {
             if (!endpoint.IsHttpPut) return null;
@@ -436,12 +425,6 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
             return delete;
         }
 
-        public static string GetDeleteRoute(this OperationEndpoint endpoint)
-        {
-            var route = !string.IsNullOrWhiteSpace(endpoint.Route) ? $"{endpoint.Route.ToLowerInvariant()}/" : "";
-            if (route.Contains("{id")) return route;
-            return route + "{id}";
-        }
 
         private static  string GetSetterCode(this OperationEndpoint endpoint, EntityDefinition ed)
         {
