@@ -14,6 +14,7 @@ using System.Web;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Codes;
 using Bespoke.Sph.Domain.Compilers;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
@@ -112,11 +113,13 @@ namespace Bespoke.Sph.Domain
             }
         }
         private EntityDefinition m_entityDefinition;
-
-        public string AssemblyName =>
-            "{ConfigurationManager.ApplicationName}.{nameof(ServiceContract)}.{m_entityDefinition.Name}";
+        [JsonIgnore]
+        public string AssemblyName => $"{ConfigurationManager.ApplicationName}.{nameof(ServiceContract)}.{m_entityDefinition.Name}";
+        [JsonIgnore]
         public string CodeNamespace { get; } = $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.IntegrationApis";
+        [JsonIgnore]
         public string Name => $"{m_entityDefinition.Name}ServiceContract";
+        [JsonIgnore]
         public string Id
         {
             get => m_entityDefinition.Id; set { }
