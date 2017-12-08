@@ -65,7 +65,7 @@ namespace Bespoke.Sph.Domain
                     Output = Path.GetFullPath(parameters.OutputAssembly)
                 };
                 var errors = from CompilerError x in result.Errors
-                             select new BuildError(this.WebId, x.ErrorText)
+                             select new BuildDiagnostic(this.WebId, x.ErrorText)
                              {
                                  Line = x.Line,
                                  FileName = x.FileName

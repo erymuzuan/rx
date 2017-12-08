@@ -71,9 +71,9 @@ namespace Bespoke.Sph.SqlRepository
         }
 
 
-        protected async Task<BuildError[]> CreateIndicesAsync(SqlConnection conn, IProjectDefinition project)
+        protected async Task<BuildDiagnostic[]> CreateIndicesAsync(SqlConnection conn, IProjectDefinition project)
         {
-            var errors = new List<BuildError>();
+            var errors = new List<BuildDiagnostic>();
             var sources = Directory.GetFiles($@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\", $"{project.Name}.Index.*.sql");
             foreach (var src in sources)
             {

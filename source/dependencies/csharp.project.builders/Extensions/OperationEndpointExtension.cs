@@ -86,7 +86,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
                 };
                 cr.Result = result.Errors.Count == 0;
                 var errors = from CompilerError x in result.Errors
-                             select new BuildError(endpoint.WebId, x.ErrorText)
+                             select new BuildDiagnostic(endpoint.WebId, x.ErrorText)
                              {
                                  Line = x.Line,
                                  FileName = x.FileName

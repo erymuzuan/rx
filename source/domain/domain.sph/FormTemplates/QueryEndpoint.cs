@@ -28,7 +28,7 @@ namespace Bespoke.Sph.Domain
             var result = new BuildValidationResult();
 
             if (null == ed)
-                result.Errors.Add(new BuildError(this.WebId, $"Cannot find EntityDefinition:{Entity}"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, $"Cannot find EntityDefinition:{Entity}"));
 
             var errorTasks = this.BuildDiagnostics.Select(d => d.ValidateErrorsAsync(this, ed));
             var errors = (await Task.WhenAll(errorTasks)).SelectMany(x => x.ToArray());
@@ -55,7 +55,7 @@ namespace Bespoke.Sph.Domain
                 var filter = this.FilterCollection.Select(x => x.Field).OfType<RouteParameterField>()
                     .SingleOrDefault(x => x.Name == pr);
                 if (null == filter)
-                    result.Warnings.Add(new BuildError(this.WebId, $@"You should define a filter with RouteParameterField for ""{pr}"" route parameter "));
+                    result.Warnings.Add(new BuildDiagnostic(this.WebId, $@"You should define a filter with RouteParameterField for ""{pr}"" route parameter "));
             }
 
             result.Result = result.Errors.Count == 0;

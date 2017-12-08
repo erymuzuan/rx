@@ -13,7 +13,7 @@ namespace Bespoke.Sph.Domain
             var result = base.ValidateBuild(wd);
             if (string.IsNullOrWhiteSpace(this.EntityIdPath))
             {
-                result.Errors.Add(new BuildError(this.WebId,  $"[DeleteEntityActivity] -\"{this.Name}\" EntityIdPath is missing"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId,  $"[DeleteEntityActivity] -\"{this.Name}\" EntityIdPath is missing"));
             }
             return result;
         }

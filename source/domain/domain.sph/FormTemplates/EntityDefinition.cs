@@ -69,14 +69,14 @@ namespace Bespoke.Sph.Domain
             var result = new BuildValidationResult();
             var validName = new Regex(@"^[A-Za-z][A-Za-z0-9]*$");
             if (!validName.Match(this.Name).Success)
-                result.Errors.Add(new BuildError(this.WebId)
+                result.Errors.Add(new BuildDiagnostic(this.WebId)
                 {
                     Message = "Name must start with letter.You cannot use symbol or number as first character"
                 });
             if (string.IsNullOrWhiteSpace(this.Name))
-                result.Errors.Add(new BuildError(this.WebId, "Name is missing"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, "Name is missing"));
             if (m_reservedNames.Select(a => a.Trim().ToLowerInvariant()).Contains(this.Name.Trim().ToLowerInvariant()))
-                result.Errors.Add(new BuildError(this.WebId, $"The name [{this.Name}] is reserved for the system"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, $"The name [{this.Name}] is reserved for the system"));
 
 
             result.Result = !result.Errors.Any();

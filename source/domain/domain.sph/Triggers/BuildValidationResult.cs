@@ -7,8 +7,8 @@ namespace Bespoke.Sph.Domain
     {
         public bool Result { get; set; }
         public string Uri { get; set; }
-        public ObjectCollection<BuildError> Errors { get; } = new ObjectCollection<BuildError>();
-        public ObjectCollection<BuildError> Warnings { get; } = new ObjectCollection<BuildError>();
+        public ObjectCollection<BuildDiagnostic> Errors { get; } = new ObjectCollection<BuildDiagnostic>();
+        public ObjectCollection<BuildDiagnostic> Warnings { get; } = new ObjectCollection<BuildDiagnostic>();
 
         // prop
         public override string ToString()

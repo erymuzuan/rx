@@ -13,16 +13,16 @@ namespace Bespoke.Sph.Domain
             var branches = wd.ActivityCollection.Where(a => a.NextActivityWebId == this.WebId).ToList();
             var result = base.ValidateBuild(wd);
             if (!branches.Any())
-                result.Errors.Add(new BuildError(this.WebId, $"[JoinActivity] -> {this.Name} does not have any predecessor"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, $"[JoinActivity] -> {this.Name} does not have any predecessor"));
             if (branches.Count < 2)
-                result.Errors.Add(new BuildError(this.WebId, $"[JoinActivity] -> {this.Name} must have at least 2 parallel branches"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, $"[JoinActivity] -> {this.Name} must have at least 2 parallel branches"));
 
             if (branches.OfType<EndActivity>().Any())
-                result.Errors.Add(new BuildError(this.WebId, $"[JoinActivity] -> {this.Name} , EndActivity is invalid branch"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, $"[JoinActivity] -> {this.Name} , EndActivity is invalid branch"));
             if (branches.OfType<DecisionActivity>().Any())
-                result.Errors.Add(new BuildError(this.WebId, $"[JoinActivity] -> {this.Name} , DecisionActivity is invalid branch"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, $"[JoinActivity] -> {this.Name} , DecisionActivity is invalid branch"));
             if (branches.OfType<ListenActivity>().Any())
-                result.Errors.Add(new BuildError(this.WebId, $"[JoinActivity] -> {this.Name} , ListenActivity is invalid branch"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, $"[JoinActivity] -> {this.Name} , ListenActivity is invalid branch"));
 
             return result;
         }

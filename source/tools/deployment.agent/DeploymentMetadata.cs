@@ -187,8 +187,9 @@ namespace Bespoke.Sph.Mangements
             }
 
             logger.WriteInfo($"===      {list.Count(x => !x.Errors.Any())} successfully deployed and {list.Count(x => x.Errors.Any())} failed     ====");
-            logger.WriteWarning(list.SelectMany(x => x.Errors).Where(x => x.IsWarning).ToString("\r\n"));
-            logger.WriteError(list.SelectMany(x => x.Errors).Where(x => !x.IsWarning).ToString("\r\n"));
+            logger.WriteInfo(list.SelectMany(x => x.Errors).Where(x => x.Severity <= Severity.Info).ToString("\r\n"));
+            logger.WriteWarning(list.SelectMany(x => x.Errors).Where(x => x.Severity == Severity.Warning).ToString("\r\n"));
+            logger.WriteError(list.SelectMany(x => x.Errors).Where(x => x.Severity >= Severity.Error).ToString("\r\n"));
             
             await InsertDeploymentMetadataAsync();
 

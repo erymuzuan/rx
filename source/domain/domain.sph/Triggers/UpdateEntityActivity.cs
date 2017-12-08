@@ -12,9 +12,9 @@ namespace Bespoke.Sph.Domain
         {
             var result = base.ValidateBuild(wd);
             if (string.IsNullOrWhiteSpace(this.EntityIdPath))
-                result.Errors.Add(new BuildError(this.WebId,$"[UpdateEntityActivity] -\"{this.Name}\" EntityIdPath is missing"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId,$"[UpdateEntityActivity] -\"{this.Name}\" EntityIdPath is missing"));
             if (string.IsNullOrWhiteSpace(this.Entity))
-                result.Errors.Add(new BuildError(this.WebId,$"[UpdateEntityActivity] -\"{this.Name}\" EntityType is missing"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId,$"[UpdateEntityActivity] -\"{this.Name}\" EntityType is missing"));
             
 
             return result;

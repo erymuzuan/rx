@@ -92,7 +92,7 @@ namespace Bespoke.Sph.Domain.Api
                 };
                 cr.Result = result.Errors.Count == 0;
                 var errors = from CompilerError x in result.Errors
-                             select new BuildError(x);
+                             select new BuildDiagnostic(x);
                 cr.Errors.AddRange(errors);
                 return cr;
             }

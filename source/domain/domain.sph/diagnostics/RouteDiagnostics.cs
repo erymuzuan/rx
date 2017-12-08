@@ -12,13 +12,13 @@ namespace Bespoke.Sph.Domain.diagnostics
         private string RoutePattern = @"^[a-z0-9-._]*$";
         private string NamePattern = @"^[A-Za-z][A-Za-z0-9 -]*$";
 
-        public override async Task<BuildError[]> ValidateErrorsAsync(EntityView view, EntityDefinition entity)
+        public override async Task<BuildDiagnostic[]> ValidateErrorsAsync(EntityView view, EntityDefinition entity)
         {
 
-            var errors = new List<BuildError>();
+            var errors = new List<BuildDiagnostic>();
 
             if (string.IsNullOrWhiteSpace(view.Route))
-                errors.Add(new BuildError(view.WebId, "Route is missing"));
+                errors.Add(new BuildDiagnostic(view.WebId, "Route is missing"));
             var context = new SphDataContext();
 
             var formRouteCountTask = context.GetCountAsync<EntityForm>(f => f.Route == view.Route);
@@ -28,32 +28,32 @@ namespace Bespoke.Sph.Domain.diagnostics
             await Task.WhenAll(formRouteCountTask, viewRouteCountTask, entityRouteCountTask).ConfigureAwait(false);
 
             if (await formRouteCountTask > 0)
-                errors.Add(new BuildError(view.WebId, "The route is already in used by a form"));
+                errors.Add(new BuildDiagnostic(view.WebId, "The route is already in used by a form"));
 
             if (await viewRouteCountTask > 0)
-                errors.Add(new BuildError(view.WebId, "The route is already in used by another view"));
+                errors.Add(new BuildDiagnostic(view.WebId, "The route is already in used by another view"));
 
             if (await entityRouteCountTask > 0)
-                errors.Add(new BuildError(view.WebId, "The route is already in used, cannot be the same as an entity name"));
+                errors.Add(new BuildDiagnostic(view.WebId, "The route is already in used, cannot be the same as an entity name"));
 
 
             if (!view.ViewColumnCollection.Any())
-                errors.Add(new BuildError(view.WebId, "Your view`s are missing columns"));
+                errors.Add(new BuildDiagnostic(view.WebId, "Your view`s are missing columns"));
 
             var validName = new Regex(NamePattern);
             if (!validName.Match(view.Name).Success)
-                errors.Add(new BuildError(view.WebId) { Message = "Name must be started with letter.You cannot use symbol or number as first character" });
+                errors.Add(new BuildDiagnostic(view.WebId) { Message = "Name must be started with letter.You cannot use symbol or number as first character" });
 
             var validRoute = new Regex(RoutePattern);
             if (!validRoute.Match(view.Route).Success)
-                errors.Add(new BuildError(view.WebId) { Message = "Route must be lower case.You cannot use symbol or number as first character, or other chars except _ - ." });
+                errors.Add(new BuildDiagnostic(view.WebId) { Message = "Route must be lower case.You cannot use symbol or number as first character, or other chars except _ - ." });
 
 
             
             return errors.ToArray();
         }
 
-        public override async Task<BuildError[]> ValidateErrorsAsync(EntityForm form, EntityDefinition entity)
+        public override async Task<BuildDiagnostic[]> ValidateErrorsAsync(EntityForm form, EntityDefinition entity)
         {
             var result = new BuildValidationResult();
             var context = new SphDataContext();
@@ -65,21 +65,21 @@ namespace Bespoke.Sph.Domain.diagnostics
             await Task.WhenAll(formRouteCountTask, viewRouteCountTask, entityRouteCountTask).ConfigureAwait(false);
 
             if (await formRouteCountTask > 0)
-                result.Errors.Add(new BuildError(form.WebId, "The route is already in used by another form"));
+                result.Errors.Add(new BuildDiagnostic(form.WebId, "The route is already in used by another form"));
 
             if (await viewRouteCountTask > 0)
-                result.Errors.Add(new BuildError(form.WebId, "The route is already in used by a view"));
+                result.Errors.Add(new BuildDiagnostic(form.WebId, "The route is already in used by a view"));
 
             if (await entityRouteCountTask > 0)
-                result.Errors.Add(new BuildError(form.WebId, "The route is already in used, cannot be the same as an entity name"));
+                result.Errors.Add(new BuildDiagnostic(form.WebId, "The route is already in used, cannot be the same as an entity name"));
 
             var validName = new Regex(NamePattern);
             if (!validName.Match(form.Name).Success)
-                result.Errors.Add(new BuildError(form.WebId) { Message = "Name must start with letter.You cannot use symbol or number as first character" });
+                result.Errors.Add(new BuildDiagnostic(form.WebId) { Message = "Name must start with letter.You cannot use symbol or number as first character" });
 
             var validRoute = new Regex(RoutePattern);
             if (!validRoute.Match(form.Route).Success)
-                result.Errors.Add(new BuildError(form.WebId) { Message = "Route must be lower case.You cannot use symbol or number as first character, or other chars except _ - ." });
+                result.Errors.Add(new BuildDiagnostic(form.WebId) { Message = "Route must be lower case.You cannot use symbol or number as first character, or other chars except _ - ." });
 
             return result.Errors.ToArray();
 

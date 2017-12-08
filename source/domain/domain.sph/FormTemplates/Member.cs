@@ -39,9 +39,9 @@ namespace Bespoke.Sph.Domain
             return null;
         }
 
-        public new virtual BuildError[] Validate()
+        public new virtual BuildDiagnostic[] Validate()
         {
-            return new BuildError[] { };
+            return new BuildDiagnostic[] { };
         }
 
         [Obsolete("Move to Csharp compiler")]

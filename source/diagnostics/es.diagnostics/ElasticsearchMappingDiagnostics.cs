@@ -36,9 +36,9 @@ namespace es.diagnostics
         }
 
 
-        public override async Task<BuildError[]> ValidateWarningsAsync(EntityDefinition ed)
+        public override async Task<BuildDiagnostic[]> ValidateWarningsAsync(EntityDefinition ed)
         {
-            var warnings = new List<BuildError>();
+            var warnings = new List<BuildDiagnostic>();
             string entity = ed.Name.ToLower();
             var mapCurrent = GetMapping(ed);
             var currentMap = JObject.Parse(mapCurrent);
@@ -64,20 +64,20 @@ namespace es.diagnostics
 
                     var includeInAll = element["include_in_all"].MapEquals<bool>(es["include_in_all"]);
                     if (!includeInAll)
-                        warnings.Add(new BuildError(ed.WebId, $"{member} has different include_in_all from mapping and Elasticsearch"));
+                        warnings.Add(new BuildDiagnostic(ed.WebId, $"{member} has different include_in_all from mapping and Elasticsearch"));
 
                     var boost = element["boost"].MapEquals<int>(es["boost"]);
                     if (!boost)
-                        warnings.Add(new BuildError(ed.WebId, $"'{member}' has different boost from mapping and Elasticsearch"));
+                        warnings.Add(new BuildDiagnostic(ed.WebId, $"'{member}' has different boost from mapping and Elasticsearch"));
                 }
 
             }
             return warnings.ToArray();
         }
 
-        public override async Task<BuildError[]> ValidateErrorsAsync(EntityDefinition ed)
+        public override async Task<BuildDiagnostic[]> ValidateErrorsAsync(EntityDefinition ed)
         {
-            var errors = new List<BuildError>();
+            var errors = new List<BuildDiagnostic>();
             var entity = ed.Name.ToLower();
             var text1 = GetMapping(ed);
             var currentMap = JObject.Parse(text1);
@@ -106,14 +106,14 @@ namespace es.diagnostics
                     // TODO : recursely checking the inner object - complex/collection
                     type = true;
                 }
-                if (!type) errors.Add(new BuildError(ed.WebId, $"{member} have type different from mapping and Elasticsearch"));
+                if (!type) errors.Add(new BuildDiagnostic(ed.WebId, $"{member} have type different from mapping and Elasticsearch"));
 
                 if (map["type"].Value<string>() != "boolean" && null != map["index"])
                 {
                     var anylyzed = (map["index"].Value<string>() == "analyzed" && es["index"] == null);
                     var index = map["index"].MapEquals<string>(es["index"]) || anylyzed;
                     if (!index)
-                        errors.Add(new BuildError(ed.WebId, $"{member} has different index from mapping and Elasticsearch"));
+                        errors.Add(new BuildDiagnostic(ed.WebId, $"{member} has different index from mapping and Elasticsearch"));
 
                 }
 

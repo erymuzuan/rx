@@ -36,7 +36,7 @@ namespace Bespoke.Sph.Domain
             if (this.Name.Contains(" "))
             {
                 result.Result = false;
-                result.Errors.Add(new BuildError(this.WebId) { Message = string.Format("[Variable] \"{0}\" cannot contains space ", this.Name) });
+                result.Errors.Add(new BuildDiagnostic(this.WebId) { Message = string.Format("[Variable] \"{0}\" cannot contains space ", this.Name) });
             }
 
             return result;

@@ -11,9 +11,9 @@ namespace Bespoke.Sph.Diagnostics
     public sealed class ViewPartialDiagnostics : BuilDiagnostic
     {
 
-        public override Task<BuildError[]> ValidateWarningsAsync(EntityView view, EntityDefinition ed)
+        public override Task<BuildDiagnostic[]> ValidateWarningsAsync(EntityView view, EntityDefinition ed)
         {
-            var warnings = new List<BuildError>();
+            var warnings = new List<BuildDiagnostic>();
             if (string.IsNullOrWhiteSpace(view.Partial)) return Task.FromResult(warnings.ToArray());
 
 
@@ -23,12 +23,12 @@ namespace Bespoke.Sph.Diagnostics
                 var js = File.ReadAllText(partial);
                 if (!js.Contains("define("))
                 {
-                    warnings.Add(new BuildError(view.WebId, $"Your view {view.Name} defined a partial but the content might not be valid "));
+                    warnings.Add(new BuildDiagnostic(view.WebId, $"Your view {view.Name} defined a partial but the content might not be valid "));
                 }
             }
             else
             {
-                warnings.Add(new BuildError(view.WebId, $"Your view {view.Name} defined a partial but the partial file cannot be found at {partial} "));
+                warnings.Add(new BuildDiagnostic(view.WebId, $"Your view {view.Name} defined a partial but the partial file cannot be found at {partial} "));
             }
 
             return Task.FromResult(warnings.ToArray());

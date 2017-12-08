@@ -86,8 +86,7 @@ namespace Bespoke.Sph.Web.Controllers
             await this.SaveAsync(item, attachedProperties);
             var result = await item.CompileAsync();
             if (!result.Result)
-                return Json(result);
-
+                return Json(result.ToString());
 
             return Json(new { success = true, status = "OK", message = "Your entity has been successfully published" });
 

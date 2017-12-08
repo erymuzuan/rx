@@ -8,12 +8,28 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
 {
     public static class DiagnosticExtension
     {
-        public static BuildError ToBuildError(this Diagnostic diagnostic)
+        public static Severity FromDiagnostic(this DiagnosticSeverity diagnosticSeverity)
         {
-            var error = new BuildError
+            switch (diagnosticSeverity)
+            {
+                case DiagnosticSeverity.Hidden:
+                    return Severity.Warning;
+                case DiagnosticSeverity.Info:
+                    return Severity.Info;
+                case DiagnosticSeverity.Warning:
+                    return Severity.Warning;
+                case DiagnosticSeverity.Error:
+                    return Severity.Error;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(diagnosticSeverity), diagnosticSeverity, null);
+            }
+        }
+        public static BuildDiagnostic ToBuildError(this Diagnostic diagnostic)
+        {
+            var error = new BuildDiagnostic
             {
                 Message = diagnostic.GetMessage(),
-                IsWarning = (diagnostic.Severity != DiagnosticSeverity.Warning) == false
+                Severity = diagnostic.Severity.FromDiagnostic()
             };
             if (diagnostic.Location.IsInSource)
             {

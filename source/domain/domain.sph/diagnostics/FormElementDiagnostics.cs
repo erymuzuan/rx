@@ -7,7 +7,7 @@ namespace Bespoke.Sph.Domain.diagnostics
     [Export(typeof(IBuildDiagnostics))]
     public class FormElementDiagnostics : BuilDiagnostic
     {
-        public override Task<BuildError[]> ValidateErrorsAsync(EntityForm form, EntityDefinition entity)
+        public override Task<BuildDiagnostic[]> ValidateErrorsAsync(EntityForm form, EntityDefinition entity)
         {
 
             var elements = from f in form.FormDesign.FormElementCollection

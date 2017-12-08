@@ -73,12 +73,12 @@ namespace Bespoke.Sph.Domain
 
 
 
-        public override BuildError[] Validate()
+        public override BuildDiagnostic[] Validate()
         {
-            var errors = new ObjectCollection<BuildError>();
+            var errors = new ObjectCollection<BuildDiagnostic>();
 
             if (string.IsNullOrWhiteSpace(this.ValueObjectName))
-                errors.Add(new BuildError(this.WebId) { Message = $"[Member] {Name} has no ValueObjectDefinition defined" });
+                errors.Add(new BuildDiagnostic(this.WebId) { Message = $"[Member] {Name} has no ValueObjectDefinition defined" });
 
             foreach (var m in this.MemberCollection)
             {

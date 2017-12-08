@@ -21,14 +21,14 @@ namespace Bespoke.Sph.Domain
             }
             catch (ArgumentException)
             {
-                result.Errors.Add(new BuildError(this.WebId, $"[SendActivity] : Cannot find custom entity assembly \"{this.AdapterAssembly}\" for {this.Name}"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, $"[SendActivity] : Cannot find custom entity assembly \"{this.AdapterAssembly}\" for {this.Name}"));
             }
             catch (FileNotFoundException)
             {
-                result.Errors.Add(new BuildError(this.WebId, $"[SendActivity] : Cannot find custom entity assembly \"{this.AdapterAssembly}\" for {this.Name}"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, $"[SendActivity] : Cannot find custom entity assembly \"{this.AdapterAssembly}\" for {this.Name}"));
             }
             if (string.IsNullOrEmpty(this.NextActivityWebId))
-                result.Errors.Add(new BuildError(this.WebId, $"[SendActivity] : You'll have to define the next activity for {this.Name}"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, $"[SendActivity] : You'll have to define the next activity for {this.Name}"));
 
             result.Result = result.Errors.Count == 0;
             return result;

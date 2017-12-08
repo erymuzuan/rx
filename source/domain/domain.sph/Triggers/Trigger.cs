@@ -263,7 +263,7 @@ namespace Bespoke.Sph.Domain
 
         public string CodeNamespace => $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.TriggerSubscribers";
 
-        private IEnumerable<BuildError> GetCompileErrors(CompilerResults result, string code)
+        private IEnumerable<BuildDiagnostic> GetCompileErrors(CompilerResults result, string code)
         {
             var temp = Path.GetTempFileName() + ".cs";
             File.WriteAllText(temp, code);
@@ -275,7 +275,7 @@ namespace Bespoke.Sph.Domain
             return list;
         }
 
-        private static BuildError GetSourceError(CompilerError er, IList<string> sources)
+        private static BuildDiagnostic GetSourceError(CompilerError er, IList<string> sources)
         {
             var member = string.Empty;
             for (var i = 0; i < er.Line; i++)
@@ -287,7 +287,7 @@ namespace Bespoke.Sph.Domain
 
             try
             {
-                return new BuildError(member, message)
+                return new BuildDiagnostic(member, message)
                 {
                     Code = sources[er.Line - 1],
                     Line = er.Line
@@ -295,7 +295,7 @@ namespace Bespoke.Sph.Domain
             }
             catch (Exception)
             {
-                return new BuildError(member, message)
+                return new BuildDiagnostic(member, message)
                 {
                     Code = "",
                     Line = er.Line

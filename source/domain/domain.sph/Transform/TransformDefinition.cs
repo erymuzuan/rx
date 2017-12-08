@@ -104,7 +104,7 @@ namespace Bespoke.Sph.Domain
                 cr.Result = result.Errors.Count == 0;
                 var errors = from CompilerError x in result.Errors
                              let code = File.Exists(x.FileName)? File.ReadAllText(x.FileName) : ""
-                             select new BuildError(x.ErrorText, x.Line, code)
+                             select new BuildDiagnostic(x.ErrorText, x.Line, code)
                              {
                                  Line = x.Line,
                                  FileName = x.FileName
@@ -139,21 +139,21 @@ namespace Bespoke.Sph.Domain
 
             var result = new BuildValidationResult();
             if (string.IsNullOrWhiteSpace(this.Name))
-                result.Errors.Add(new BuildError { Message = "Name cannot be null or empty", ItemWebId = this.WebId });
+                result.Errors.Add(new BuildDiagnostic { Message = "Name cannot be null or empty", ItemWebId = this.WebId });
             var validName = new Regex(@"^[A-Za-z][A-Za-z0-9_]*$");
             if (!validName.Match(this.Name).Success)
-                result.Errors.Add(new BuildError(this.WebId) { Message = "Name must start with letter.You cannot use symbol or number as first character" });
+                result.Errors.Add(new BuildDiagnostic(this.WebId) { Message = "Name must start with letter.You cannot use symbol or number as first character" });
 
             var tasks = from m in this.MapCollection
                         select m.ValidateAsync();
             var maps = (await Task.WhenAll(tasks)).SelectMany(x => x.ToArray())
-                .Select(x => new BuildError(x.ErrorLocation, x.Message));
+                .Select(x => new BuildDiagnostic(x.ErrorLocation, x.Message));
             result.Errors.AddRange(maps);
 
             var fntTasks = from m in this.FunctoidCollection
                            select m.ValidateAsync();
             var functoidsValidation = (await Task.WhenAll(fntTasks)).SelectMany(x => x.ToArray())
-                .Select(x => new BuildError(x.ErrorLocation, x.Message));
+                .Select(x => new BuildDiagnostic(x.ErrorLocation, x.Message));
 
             result.Errors.AddRange(functoidsValidation);
 

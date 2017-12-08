@@ -7,9 +7,9 @@ namespace Bespoke.Sph.Domain.diagnostics
     [Export(typeof(IBuildDiagnostics))]
     public class FormOperationDiagnostics : BuilDiagnostic
     {
-        public override Task<BuildError[]> ValidateErrorsAsync(EntityForm form, EntityDefinition entity)
+        public override Task<BuildDiagnostic[]> ValidateErrorsAsync(EntityForm form, EntityDefinition entity)
         {
-            var errors = new List<BuildError>();
+            var errors = new List<BuildDiagnostic>();
 
             if (!string.IsNullOrWhiteSpace(form.DeleteOperation))
                 return Task.FromResult(errors.ToArray());
@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Domain.diagnostics
             if (!string.IsNullOrWhiteSpace(form.Operation))
             {
                 if (string.IsNullOrWhiteSpace(form.OperationSuccessMesage) && string.IsNullOrWhiteSpace(form.OperationSuccessNavigateUrl))
-                    errors.Add(new BuildError(form.Id, "API operation do not specify success message or navigate Uri"));
+                    errors.Add(new BuildDiagnostic(form.Id, "API operation do not specify success message or navigate Uri"));
             }
             return Task.FromResult(errors.ToArray());
         }

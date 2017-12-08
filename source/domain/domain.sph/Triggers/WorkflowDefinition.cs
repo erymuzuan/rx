@@ -87,13 +87,13 @@ namespace Bespoke.Sph.Domain
 
             var validName = new Regex(@"^[A-Za-z][A-Za-z0-9 -]*$");
             if (!validName.Match(this.Name).Success)
-                result.Errors.Add(new BuildError(this.WebId) { Message = "Name must be started with letter.You cannot use symbol or number as first character" });
+                result.Errors.Add(new BuildDiagnostic(this.WebId) { Message = "Name must be started with letter.You cannot use symbol or number as first character" });
 
             if (this.ActivityCollection.Count(a => a.IsInitiator) != 1)
-                result.Errors.Add(new BuildError(this.WebId) { Message = "You must have exactly one initiator activity" });
+                result.Errors.Add(new BuildDiagnostic(this.WebId) { Message = "You must have exactly one initiator activity" });
 
             if (string.IsNullOrWhiteSpace(this.SchemaStoreId))
-                result.Errors.Add(new BuildError(this.WebId) { Message = "You must have exactly one schema defined" });
+                result.Errors.Add(new BuildDiagnostic(this.WebId) { Message = "You must have exactly one schema defined" });
 
             var variableViolations = from vr in this.VariableDefinitionCollection
                                      let v = vr.ValidateBuild(this)
@@ -212,7 +212,7 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        private IEnumerable<BuildError> GetCompileErrors(CompilerResults result)
+        private IEnumerable<BuildDiagnostic> GetCompileErrors(CompilerResults result)
         {
 
             var list = from CompilerError er in result.Errors.OfType<CompilerError>()
@@ -220,10 +220,10 @@ namespace Bespoke.Sph.Domain
             return list;
         }
 
-        private BuildError GetSourceError(CompilerError er, string fileName)
+        private BuildDiagnostic GetSourceError(CompilerError er, string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName) || !File.Exists(fileName))
-                return new BuildError(this.WebId, er.ErrorText);
+                return new BuildDiagnostic(this.WebId, er.ErrorText);
 
             var sources = File.ReadAllLines(fileName);
             var member = string.Empty;
@@ -234,7 +234,7 @@ namespace Bespoke.Sph.Domain
             }
             if (this.ActivityCollection.All(a => a.WebId != member))
             {
-                return new BuildError(null, er.ToString())
+                return new BuildDiagnostic(null, er.ToString())
                 {
                     Line = er.Line,
                     Code = er.Line > 1 ? sources[er.Line - 1] : string.Empty
@@ -247,7 +247,7 @@ namespace Bespoke.Sph.Domain
             var message = er.ErrorText;
             if (null != act)
                 message = $"[{act.GetType().Name}] -< {act.Name} : {er.ErrorText}";
-            return new BuildError(member, message)
+            return new BuildDiagnostic(member, message)
             {
                 Code = sources[er.Line - 1],
                 Line = er.Line

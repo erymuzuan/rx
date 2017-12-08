@@ -5,139 +5,139 @@ namespace Bespoke.Sph.Domain.diagnostics
 {
     public class BuilDiagnostic : IBuildDiagnostics
     {
-        public virtual Task<BuildError[]> ValidateErrorsAsync(WorkflowForm form, WorkflowDefinition wd)
+        public virtual Task<BuildDiagnostic[]> ValidateErrorsAsync(WorkflowForm form, WorkflowDefinition wd)
         {
-            return Task.FromResult(new BuildError[] {});
+            return Task.FromResult(new BuildDiagnostic[] {});
         }
-        public virtual Task<BuildError[]> ValidateErrorsAsync(OperationEndpoint endpoint, EntityDefinition entity)
+        public virtual Task<BuildDiagnostic[]> ValidateErrorsAsync(OperationEndpoint endpoint, EntityDefinition entity)
         {
-            return Task.FromResult(new BuildError[] {});
+            return Task.FromResult(new BuildDiagnostic[] {});
         }
-        public virtual Task<BuildError[]> ValidateErrorsAsync(QueryEndpoint endpoint, EntityDefinition entity)
+        public virtual Task<BuildDiagnostic[]> ValidateErrorsAsync(QueryEndpoint endpoint, EntityDefinition entity)
         {
-            return Task.FromResult(new BuildError[] {});
+            return Task.FromResult(new BuildDiagnostic[] {});
         }
-        public virtual Task<BuildError[]> ValidateErrorsAsync(PartialView view, EntityDefinition entity)
+        public virtual Task<BuildDiagnostic[]> ValidateErrorsAsync(PartialView view, EntityDefinition entity)
         {
-            return Task.FromResult(new BuildError[] {});
+            return Task.FromResult(new BuildDiagnostic[] {});
         }
-        public virtual Task<BuildError[]> ValidateErrorsAsync(FormDialog form, EntityDefinition entity)
+        public virtual Task<BuildDiagnostic[]> ValidateErrorsAsync(FormDialog form, EntityDefinition entity)
         {
-            return Task.FromResult(new BuildError[] {});
+            return Task.FromResult(new BuildDiagnostic[] {});
         }
-        public virtual Task<BuildError[]> ValidateErrorsAsync(EntityForm form, EntityDefinition entity)
+        public virtual Task<BuildDiagnostic[]> ValidateErrorsAsync(EntityForm form, EntityDefinition entity)
         {
-            return Task.FromResult(new BuildError[] {});
-        }
-
-        public virtual Task<BuildError[]> ValidateErrorsAsync(EntityView view, EntityDefinition entity)
-        {
-            return Task.FromResult(new BuildError[] { });
+            return Task.FromResult(new BuildDiagnostic[] {});
         }
 
-        public virtual Task<BuildError[]> ValidateErrorsAsync(EntityDefinition entity)
+        public virtual Task<BuildDiagnostic[]> ValidateErrorsAsync(EntityView view, EntityDefinition entity)
         {
-            return Task.FromResult(new BuildError[] { });
+            return Task.FromResult(new BuildDiagnostic[] { });
         }
 
-        public virtual Task<BuildError[]> ValidateErrorsAsync(WorkflowDefinition workflow)
+        public virtual Task<BuildDiagnostic[]> ValidateErrorsAsync(EntityDefinition entity)
         {
-            return Task.FromResult(new BuildError[] { });
+            return Task.FromResult(new BuildDiagnostic[] { });
         }
 
-        public virtual Task<BuildError[]> ValidateErrorsAsync(Trigger trigger)
+        public virtual Task<BuildDiagnostic[]> ValidateErrorsAsync(WorkflowDefinition workflow)
         {
-            return Task.FromResult(new BuildError[] { });
+            return Task.FromResult(new BuildDiagnostic[] { });
         }
 
-        public virtual Task<BuildError[]> ValidateErrorsAsync(TransformDefinition map)
+        public virtual Task<BuildDiagnostic[]> ValidateErrorsAsync(Trigger trigger)
         {
-            return Task.FromResult(new BuildError[] { });
+            return Task.FromResult(new BuildDiagnostic[] { });
         }
 
-        public virtual Task<BuildError[]> ValidateErrorsAsync(Adapter adapter)
+        public virtual Task<BuildDiagnostic[]> ValidateErrorsAsync(TransformDefinition map)
         {
-            return Task.FromResult(new BuildError[] { });
-        }
-        public virtual Task<BuildError[]> ValidateErrorsAsync(ReceiveLocation location)
-        {
-            return Task.FromResult(new BuildError[] { });
+            return Task.FromResult(new BuildDiagnostic[] { });
         }
 
-        public virtual Task<BuildError[]> ValidateErrorsAsync(ReceivePort port)
+        public virtual Task<BuildDiagnostic[]> ValidateErrorsAsync(Adapter adapter)
         {
-            return Task.FromResult(new BuildError[] { });
+            return Task.FromResult(new BuildDiagnostic[] { });
+        }
+        public virtual Task<BuildDiagnostic[]> ValidateErrorsAsync(ReceiveLocation location)
+        {
+            return Task.FromResult(new BuildDiagnostic[] { });
         }
 
-        public virtual Task<BuildError[]> ValidateErrorsAsync(ReportColumn port)
+        public virtual Task<BuildDiagnostic[]> ValidateErrorsAsync(ReceivePort port)
         {
-            return Task.FromResult(new BuildError[] { });
+            return Task.FromResult(new BuildDiagnostic[] { });
+        }
+
+        public virtual Task<BuildDiagnostic[]> ValidateErrorsAsync(ReportColumn port)
+        {
+            return Task.FromResult(new BuildDiagnostic[] { });
         }
 
 
 
-        public virtual Task<BuildError[]> ValidateWarningsAsync(WorkflowForm form, WorkflowDefinition wd)
+        public virtual Task<BuildDiagnostic[]> ValidateWarningsAsync(WorkflowForm form, WorkflowDefinition wd)
         {
-            return Task.FromResult(new BuildError[] { });
+            return Task.FromResult(new BuildDiagnostic[] { });
         }
-        public virtual Task<BuildError[]> ValidateWarningsAsync(OperationEndpoint endpoint, EntityDefinition entity)
+        public virtual Task<BuildDiagnostic[]> ValidateWarningsAsync(OperationEndpoint endpoint, EntityDefinition entity)
         {
-            return Task.FromResult(new BuildError[] { });
-        }
-
-        public virtual Task<BuildError[]> ValidateWarningsAsync(QueryEndpoint endpoint, EntityDefinition entity)
-        {
-            return Task.FromResult(new BuildError[] { });
-        }
-        public virtual Task<BuildError[]> ValidateWarningsAsync(PartialView view, EntityDefinition entity)
-        {
-            return Task.FromResult(new BuildError[] { });
-        }
-        public virtual Task<BuildError[]> ValidateWarningsAsync(FormDialog form, EntityDefinition entity)
-        {
-            return Task.FromResult(new BuildError[] { });
-        }
-        public virtual Task<BuildError[]> ValidateWarningsAsync(EntityForm form, EntityDefinition entity)
-        {
-            return Task.FromResult(new BuildError[] { });
+            return Task.FromResult(new BuildDiagnostic[] { });
         }
 
-        public virtual Task<BuildError[]> ValidateWarningsAsync(EntityView view, EntityDefinition entity)
+        public virtual Task<BuildDiagnostic[]> ValidateWarningsAsync(QueryEndpoint endpoint, EntityDefinition entity)
         {
-            return Task.FromResult(new BuildError[] { });
+            return Task.FromResult(new BuildDiagnostic[] { });
+        }
+        public virtual Task<BuildDiagnostic[]> ValidateWarningsAsync(PartialView view, EntityDefinition entity)
+        {
+            return Task.FromResult(new BuildDiagnostic[] { });
+        }
+        public virtual Task<BuildDiagnostic[]> ValidateWarningsAsync(FormDialog form, EntityDefinition entity)
+        {
+            return Task.FromResult(new BuildDiagnostic[] { });
+        }
+        public virtual Task<BuildDiagnostic[]> ValidateWarningsAsync(EntityForm form, EntityDefinition entity)
+        {
+            return Task.FromResult(new BuildDiagnostic[] { });
         }
 
-        public virtual Task<BuildError[]> ValidateWarningsAsync(EntityDefinition entity)
+        public virtual Task<BuildDiagnostic[]> ValidateWarningsAsync(EntityView view, EntityDefinition entity)
         {
-            return Task.FromResult(new BuildError[] { });
+            return Task.FromResult(new BuildDiagnostic[] { });
         }
 
-        public virtual Task<BuildError[]> ValidateWarningsAsync(WorkflowDefinition workflow)
+        public virtual Task<BuildDiagnostic[]> ValidateWarningsAsync(EntityDefinition entity)
         {
-            return Task.FromResult(new BuildError[] { });
+            return Task.FromResult(new BuildDiagnostic[] { });
         }
 
-        public virtual Task<BuildError[]> ValidateWarningsAsync(Trigger trigger)
+        public virtual Task<BuildDiagnostic[]> ValidateWarningsAsync(WorkflowDefinition workflow)
         {
-            return Task.FromResult(new BuildError[] { });
+            return Task.FromResult(new BuildDiagnostic[] { });
         }
 
-        public virtual Task<BuildError[]> ValidateWarningsAsync(TransformDefinition map)
+        public virtual Task<BuildDiagnostic[]> ValidateWarningsAsync(Trigger trigger)
         {
-            return Task.FromResult(new BuildError[] { });
+            return Task.FromResult(new BuildDiagnostic[] { });
         }
 
-        public virtual Task<BuildError[]> ValidateWarningsAsync(Adapter adapter)
+        public virtual Task<BuildDiagnostic[]> ValidateWarningsAsync(TransformDefinition map)
         {
-            return Task.FromResult(new BuildError[] { });
+            return Task.FromResult(new BuildDiagnostic[] { });
         }
-        public virtual Task<BuildError[]> ValidateWarningsAsync(ReceiveLocation location)
+
+        public virtual Task<BuildDiagnostic[]> ValidateWarningsAsync(Adapter adapter)
         {
-            return Task.FromResult(new BuildError[] { });
+            return Task.FromResult(new BuildDiagnostic[] { });
         }
-        public virtual Task<BuildError[]> ValidateWarningsAsync(ReceivePort port)
+        public virtual Task<BuildDiagnostic[]> ValidateWarningsAsync(ReceiveLocation location)
         {
-            return Task.FromResult(new BuildError[] { });
+            return Task.FromResult(new BuildDiagnostic[] { });
+        }
+        public virtual Task<BuildDiagnostic[]> ValidateWarningsAsync(ReceivePort port)
+        {
+            return Task.FromResult(new BuildDiagnostic[] { });
         }
     }
 }

@@ -5,9 +5,9 @@ namespace Bespoke.Sph.SqlRepository.Extensions
 {
     public static class SqlExceptionExtension
     {
-        public static BuildError ToBuildError(this SqlException exception)
+        public static BuildDiagnostic ToBuildError(this SqlException exception)
         {
-            return new BuildError(exception.Message, exception.LineNumber, exception.Procedure)
+            return new BuildDiagnostic(exception.Message, exception.LineNumber, exception.Procedure)
             {
                 FileName = exception.Source
             };

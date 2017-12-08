@@ -9,29 +9,29 @@ namespace Bespoke.Sph.Domain
 {
     public partial class ConstantField : Field
     {
-        public override async Task<IEnumerable<BuildError>> ValidateErrorsAsync(Filter filter)
+        public override async Task<IEnumerable<BuildDiagnostic>> ValidateErrorsAsync(Filter filter)
         {
             var errors = (await base.ValidateErrorsAsync(filter)).ToList();
             var value = $"{Value}";
             if (typeof(DateTime) == this.Type && !string.IsNullOrWhiteSpace(value))
             {
                 if (!DateTime.TryParse(value, out _))
-                    errors.Add(new BuildError(this.WebId, $@"""{value}"" is not a valid DateTime value for {Name} in {filter.Term} filter"));
+                    errors.Add(new BuildDiagnostic(this.WebId, $@"""{value}"" is not a valid DateTime value for {Name} in {filter.Term} filter"));
             }
             if (typeof(int) == this.Type && !string.IsNullOrWhiteSpace(value))
             {
                 if (!int.TryParse(value, out _))
-                    errors.Add(new BuildError(this.WebId, $@"""{value}"" is not a valid Int32 value for {Name} in {filter.Term} filter"));
+                    errors.Add(new BuildDiagnostic(this.WebId, $@"""{value}"" is not a valid Int32 value for {Name} in {filter.Term} filter"));
             }
             if (typeof(decimal) == this.Type && !string.IsNullOrWhiteSpace(value))
             {
                 if (!decimal.TryParse(value, out _))
-                    errors.Add(new BuildError(this.WebId, $@"""{value}"" is not a valid decimal value for {Name} in {filter.Term} filter"));
+                    errors.Add(new BuildDiagnostic(this.WebId, $@"""{value}"" is not a valid decimal value for {Name} in {filter.Term} filter"));
             }
             if (typeof(bool) == this.Type && !string.IsNullOrWhiteSpace(value))
             {
                 if (!bool.TryParse(value, out _))
-                    errors.Add(new BuildError(this.WebId, $@"""{value}"" is not a valid boolean value for {Name} in {filter.Term} filter, the only valid value is ""true"" or  ""false"""));
+                    errors.Add(new BuildDiagnostic(this.WebId, $@"""{value}"" is not a valid boolean value for {Name} in {filter.Term} filter, the only valid value is ""true"" or  ""false"""));
             }
             return errors;
         }

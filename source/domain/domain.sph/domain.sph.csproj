@@ -576,7 +576,7 @@
     <Compile Include="Triggers\AssemblyAction.cs" />
     <Compile Include="Triggers\AssemblyField.cs" />
     <Compile Include="Triggers\Breakpoint.cs" />
-    <Compile Include="Triggers\BuildError.cs" />
+    <Compile Include="Triggers\BuildDiagnostic.cs" />
     <Compile Include="Triggers\BuildValidationResult.cs" />
     <Compile Include="Triggers\CatchScope.cs" />
     <Compile Include="Triggers\ChildWorkflowActivity.cs" />

@@ -8,10 +8,10 @@ namespace Bespoke.Sph.Domain
 {
     public partial class RouteParameterField : Field
     {
-        public override async Task<IEnumerable<BuildError>> ValidateErrorsAsync(Filter filter)
+        public override async Task<IEnumerable<BuildDiagnostic>> ValidateErrorsAsync(Filter filter)
         {
             var errors = (await base.ValidateErrorsAsync(filter)).ToList();
-            void AddError(string message) => errors.Add(new BuildError(filter.WebId, message));
+            void AddError(string message) => errors.Add(new BuildDiagnostic(filter.WebId, message));
             if (typeof(DateTime) == this.Type && !string.IsNullOrWhiteSpace(this.DefaultValue))
             {
                 if (!DateTime.TryParse(this.DefaultValue, out DateTime _))

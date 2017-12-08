@@ -7,30 +7,30 @@ using System.Linq;
 namespace Bespoke.Sph.Domain
 {
     // TODO : rename this to BuildDiagnostics, since we could have different Severity level : Error,Warning, Info etc
-    public class BuildError
+    public class BuildDiagnostic
     {
-        public BuildError()
+        public BuildDiagnostic()
         {
 
         }
-        public BuildError(string webid)
+        public BuildDiagnostic(string webid)
         {
             this.ItemWebId = webid;
         }
 
-        public BuildError(string webid, string message)
+        public BuildDiagnostic(string webid, string message)
         {
             this.ItemWebId = webid;
             this.Message = message;
         }
 
         [Obsolete("Move to Roslyn")]
-        public BuildError(CompilerError x)
+        public BuildDiagnostic(CompilerError x)
         {
             this.Message = x.ErrorText;
             this.Line = x.Line;
             FileName = x.FileName;
-            IsWarning = x.IsWarning;
+            Severity = x.IsWarning ? Severity.Warning : Severity.Error;
             this.ErrorNumber = x.ErrorNumber;
             this.Column = x.Column;
 
@@ -43,7 +43,7 @@ namespace Bespoke.Sph.Domain
         public int Column { get; set; }
         public string ErrorNumber { get; set; }
 
-        public BuildError(string message, int line, string text)
+        public BuildDiagnostic(string message, int line, string text)
         {
             this.Message = message;
             if (!string.IsNullOrWhiteSpace(text))
@@ -78,8 +78,7 @@ namespace Bespoke.Sph.Domain
         public int Line { get; set; }
         public string ItemWebId { get; set; }
         public string FileName { get; set; }
-        [Obsolete("Use severity level, for Error,Warning, Info etc...")]
-        public bool IsWarning { get; set; }
+        public Severity Severity { get; set; }
 
         public override string ToString()
         {
@@ -87,11 +86,11 @@ namespace Bespoke.Sph.Domain
         }
     }
 
-    public class BuildErrorComparer : IEqualityComparer<BuildError>
+    public class BuildErrorComparer : IEqualityComparer<BuildDiagnostic>
     {
 
 
-        public bool Equals(BuildError x, BuildError y)
+        public bool Equals(BuildDiagnostic x, BuildDiagnostic y)
         {
             if (null == x || null == y) return false;
             return x.ItemWebId == y.ItemWebId &&
@@ -100,7 +99,7 @@ namespace Bespoke.Sph.Domain
                 x.FileName == y.FileName;
         }
 
-        public int GetHashCode(BuildError obj)
+        public int GetHashCode(BuildDiagnostic obj)
         {
             try
             {

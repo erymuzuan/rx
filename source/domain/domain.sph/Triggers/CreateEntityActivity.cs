@@ -21,7 +21,7 @@ namespace Bespoke.Sph.Domain
             }
             catch (FileNotFoundException)
             {
-                result.Errors.Add(new BuildError(this.WebId, $"[CreateEntityActivity] : Cannot find custom entity assembly \"{ConfigurationManager.ApplicationName}.{this.EntityType}\" for {this.Name}"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, $"[CreateEntityActivity] : Cannot find custom entity assembly \"{ConfigurationManager.ApplicationName}.{this.EntityType}\" for {this.Name}"));
 
             }
             result.Result = result.Errors.Count == 0;

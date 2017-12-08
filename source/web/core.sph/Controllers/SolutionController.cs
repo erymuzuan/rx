@@ -28,7 +28,7 @@ namespace Bespoke.Sph.Web.Controllers
             async Task DiagnosBuildError(EntityDefinition f)
             {
                 var diagnostics = ObjectBuilder.GetObject<IDeveloperService>().BuildDiagnostics;
-                var errors = new List<BuildError>();
+                var errors = new List<BuildDiagnostic>();
                 foreach (var dg in diagnostics)
                 {
                     var ves = await dg.ValidateErrorsAsync(f);

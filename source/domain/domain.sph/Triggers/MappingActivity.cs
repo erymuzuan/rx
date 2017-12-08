@@ -15,9 +15,9 @@ namespace Bespoke.Sph.Domain
         {
             var result = new BuildValidationResult { Result = true };
             if (string.IsNullOrWhiteSpace(OutputPath))
-                result.Errors.Add(new BuildError(this.WebId, "[MappingActivity] : Please set the output path for the mapping"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, "[MappingActivity] : Please set the output path for the mapping"));
             if (this.MappingSourceCollection.Count == 0)
-                result.Errors.Add(new BuildError(this.WebId, "[MappingActivity] : Please set at least one mapping source"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, "[MappingActivity] : Please set at least one mapping source"));
 
 
             result.Result = result.Errors.Count == 0;

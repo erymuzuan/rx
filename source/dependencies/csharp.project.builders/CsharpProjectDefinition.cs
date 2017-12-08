@@ -132,10 +132,10 @@ namespace Bespoke.Sph.Csharp.CompilersServices
 
             var result = new RxCompilerResult { Result = true };
             result.Errors.AddRange(errors);
-            result.Result = result.Errors.All(x => x.IsWarning);
+            result.Result = result.Errors.All(x => x.Severity < Severity.Error);
 
-            result.Errors.Where(x => !x.IsWarning).ToList().ForEach(x => logger.WriteError(x.ToString()));
-            result.Errors.Where(x => x.IsWarning).ToList().ForEach(x => logger.WriteWarning(x.ToString()));
+            result.Errors.Where(x => x.Severity == Severity.Error).ToList().ForEach(x => logger.WriteError(x.ToString()));
+            result.Errors.Where(x => x.Severity == Severity.Warning).ToList().ForEach(x => logger.WriteWarning(x.ToString()));
 
             if (!result.Result || !options.Emit)
                 return result;

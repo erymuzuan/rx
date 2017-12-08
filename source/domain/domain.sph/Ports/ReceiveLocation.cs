@@ -69,9 +69,9 @@ namespace Bespoke.Sph.Domain
             var result = new BuildValidationResult();
             var validName = new Regex(@"^[A-Za-z][A-Za-z0-9]*$");
             if (!validName.Match(this.Name).Success)
-                result.Errors.Add(new BuildError(this.WebId) { Message = "Name must start with letter.You cannot use symbol or number as first character" });
+                result.Errors.Add(new BuildDiagnostic(this.WebId) { Message = "Name must start with letter.You cannot use symbol or number as first character" });
             if (string.IsNullOrWhiteSpace(this.Name))
-                result.Errors.Add(new BuildError(this.WebId, "Name is missing"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, "Name is missing"));
 
             result.Result = !result.Errors.Any();
             return result;
@@ -126,7 +126,7 @@ namespace Bespoke.Sph.Domain
                     Output = Path.GetFullPath(parameters.OutputAssembly)
                 };
                 var errors = from CompilerError x in result.Errors
-                             select new BuildError(this.WebId, x.ErrorText)
+                             select new BuildDiagnostic(this.WebId, x.ErrorText)
                              {
                                  Line = x.Line,
                                  FileName = x.FileName

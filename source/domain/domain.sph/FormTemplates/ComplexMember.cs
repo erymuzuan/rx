@@ -162,18 +162,18 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        public override BuildError[] Validate()
+        public override BuildDiagnostic[] Validate()
         {
-            var errors = new List<BuildError>(base.Validate());
+            var errors = new List<BuildDiagnostic>(base.Validate());
 
             const string PATTERN = "^[A-Za-z][A-Za-z0-9_]*$";
             var validName = new Regex(PATTERN);
 
             var typeNameInvalid = $"[Member] \"{Name}\" TypeName is not valid identifier";
             if (string.IsNullOrWhiteSpace(TypeName))
-                errors.Add(new BuildError(WebId) { Message = $"[Member] \"{Name}\" TypeName cannot be empty" });
+                errors.Add(new BuildDiagnostic(WebId) { Message = $"[Member] \"{Name}\" TypeName cannot be empty" });
             if (!validName.Match(TypeName).Success)
-                errors.Add(new BuildError(WebId) { Message = typeNameInvalid });
+                errors.Add(new BuildDiagnostic(WebId) { Message = typeNameInvalid });
 
             return errors.ToArray();
         }

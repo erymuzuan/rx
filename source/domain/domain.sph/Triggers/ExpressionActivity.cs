@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Domain
             var result = base.ValidateBuild(wd);
             if (string.IsNullOrWhiteSpace(this.Expression))
             {
-                result.Errors.Add(new BuildError(this.WebId, $"[ExpressionActivity] -\"{this.Name}\" Expression no code"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, $"[ExpressionActivity] -\"{this.Name}\" Expression no code"));
             }
             // TODO : validate it's a valid C# expression
             return result;

@@ -34,13 +34,13 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public async Task<IEnumerable<BuildError>> ValidateErrorsAsync()
+        public async Task<IEnumerable<BuildDiagnostic>> ValidateErrorsAsync()
         {
-            var errors = new List<BuildError>();
+            var errors = new List<BuildDiagnostic>();
             if (string.IsNullOrWhiteSpace(this.Term))
-                errors.Add(new BuildError(this.WebId, "Term cannot be empty"));
+                errors.Add(new BuildDiagnostic(this.WebId, "Term cannot be empty"));
             if (null == this.Field)
-                errors.Add(new BuildError(this.WebId, $"Filed cannot be null for {Term} filter"));
+                errors.Add(new BuildDiagnostic(this.WebId, $"Filed cannot be null for {Term} filter"));
 
             if (null != this.Field)
             {
@@ -51,9 +51,9 @@ namespace Bespoke.Sph.Domain
             return errors;
         }
 
-        public Task<IEnumerable<BuildError>> ValidateWarningsAsync()
+        public Task<IEnumerable<BuildDiagnostic>> ValidateWarningsAsync()
         {
-            return Task.FromResult(Array.Empty<BuildError>().AsEnumerable());
+            return Task.FromResult(Array.Empty<BuildDiagnostic>().AsEnumerable());
         }
 
 

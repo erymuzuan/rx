@@ -61,9 +61,9 @@ namespace Bespoke.Sph.SqlRepository.Deployments
             return cr;
         }
 
-        private async Task<BuildError[]> InsertSourceAsync(SqlConnection conn, IProjectDefinition project)
+        private async Task<BuildDiagnostic[]> InsertSourceAsync(SqlConnection conn, IProjectDefinition project)
         {
-            var errors = new List<BuildError>();
+            var errors = new List<BuildDiagnostic>();
             //TODO :var repos = ObjectBuilder.GetObject<ISourceRepository>();
             //TODO : user ISourceRepo var sources = await repos.LoadAsync();
 
