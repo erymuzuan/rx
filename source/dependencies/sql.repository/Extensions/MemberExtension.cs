@@ -58,7 +58,7 @@ namespace Bespoke.Sph.SqlRepository.Extensions
             {
                 case "System.String, mscorlib": return $"VARCHAR({(length ?? 255)})";
                 case "System.Int32, mscorlib": return "INT";
-                case "System.DateTime, mscorlib": return "SMALLDATETIME";
+                case "System.DateTime, mscorlib": return "DATETIME2";
                 case "System.Decimal, mscorlib": return "MONEY";
                 case "System.Double, mscorlib": return "FLOAT";
                 case "System.Boolean, mscorlib": return "BIT";

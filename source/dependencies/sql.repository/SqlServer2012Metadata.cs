@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -31,7 +30,6 @@ namespace Bespoke.Sph.SqlRepository
         AND t.name <> N'sysname'
     ORDER 
         BY o.type";
-        private readonly ConcurrentDictionary<string, Table> m_cache = new ConcurrentDictionary<string, Table>();
 
         public SqlServer2012Metadata()
         {
@@ -47,10 +45,6 @@ namespace Bespoke.Sph.SqlRepository
 
         public Table GetTable(string name)
         {
-            Table tb;
-            if (m_cache.TryGetValue(name, out tb))
-                return tb;
-
             using (var conn = new SqlConnection(ConnectionString))
             using (var cmd = new SqlCommand(Sql, conn))
             {
@@ -73,7 +67,6 @@ namespace Bespoke.Sph.SqlRepository
                             CanWrite = !reader.GetBoolean(6)// computed
 
                         };
-                        column.CanWrite |= !column.IsIdentity;
                         column.CanRead = true;
                         column.IsPrimaryKey = column.Name == "Id";
 
@@ -87,13 +80,10 @@ namespace Bespoke.Sph.SqlRepository
 
 
                     table.Columns = columns.ToArray();
-                    m_cache.TryAdd(name, table);
-
-
+                    return table;
                 }
 
             }
-            return GetTable(name);
         }
 
 

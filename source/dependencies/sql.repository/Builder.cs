@@ -17,7 +17,6 @@ namespace Bespoke.Sph.SqlRepository
         public void Initialize()
         {
             var name = this.Name;
-
             var metadataProvider = new SqlServer2012Metadata();
             var meta = metadataProvider.GetTable(name);
             m_columns = meta.Columns
@@ -28,8 +27,14 @@ namespace Bespoke.Sph.SqlRepository
 
         }
 
+        private bool m_isInitWithNewTable = false;
         public async Task InsertAsync(Entity item)
         {
+            if (!m_isInitWithNewTable)
+            {
+                this.Initialize();
+                m_isInitWithNewTable = true;
+            }
             var name = this.Name;
 
             var sql = string.Format(@"INSERT INTO [{1}].[{0}](", name, ConfigurationManager.ApplicationName) +
@@ -39,7 +44,7 @@ namespace Bespoke.Sph.SqlRepository
                       + ")\r\n";
 
             var parms = (from c in m_columns
-                select new SqlParameter("@" + c.Name.Replace(".", "_"), GetParameterValue(c, item))
+                         select new SqlParameter("@" + c.Name.Replace(".", "_"), GetParameterValue(c, item))
             ).ToList();
             var paramsValue = string.Join("\r\n",
                 parms.Select(p => $"{p.ParameterName}\t=> {p.Value}"));
