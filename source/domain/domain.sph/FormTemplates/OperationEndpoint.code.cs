@@ -8,13 +8,11 @@ namespace Bespoke.Sph.Domain
         public string CodeNamespace => $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.IntegrationApis";
 
         [JsonIgnore]
-        public string AssemblyName => $"{ConfigurationManager.ApplicationName}.OperationEndpoint.{Entity}.{Name}.dll";
-        [JsonIgnore]
-        public string PdbName => $"{ConfigurationManager.ApplicationName}.OperationEndpoint.{Entity}.{Name}.pdb";
+        public string AssemblyName => $"{ConfigurationManager.ApplicationName}.OperationEndpoint.{Entity}.{Name}";
         [JsonIgnore]
         public string TypeName => $"{Entity}{Name}OperationEndpointController";
         [JsonIgnore]
-        public string TypeFullName => $"{CodeNamespace}.{TypeName}, {AssemblyName.Replace(".dll", "")}";
+        public string TypeFullName => $"{CodeNamespace}.{TypeName}, {AssemblyName}";
 
 
     }

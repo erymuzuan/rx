@@ -13,14 +13,12 @@ namespace Bespoke.Sph.Domain
         [JsonIgnore]
         public string CodeNamespace => $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.Api";
         [JsonIgnore]
-        public string AssemblyName => $"{ConfigurationManager.ApplicationName}.QueryEndpoint.{Entity}.{Id}.dll";
-        [JsonIgnore]
-        public string PdbName => $"{ConfigurationManager.ApplicationName}.QueryEndpoint.{Entity}.{Id}.pdb";
+        public string AssemblyName => $"{ConfigurationManager.ApplicationName}.QueryEndpoint.{Entity}.{Id}";
         [JsonIgnore]
         public string TypeName => $"{ControllerName}Controller";
         public string ControllerName => $"{Entity}{Name.ToPascalCase()}QueryEndpoint";
         [JsonIgnore]
-        public string TypeFullName => $"{CodeNamespace}.{TypeName}, {AssemblyName.Replace(".dll", "")}";
+        public string TypeFullName => $"{CodeNamespace}.{TypeName}, {AssemblyName}";
 
 
 

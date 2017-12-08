@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bespoke.Sph.Domain.Compilers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -113,15 +114,15 @@ namespace Bespoke.Sph.Domain
             // copy files
             foreach (var vm in Directory.GetFiles(folder, "SphApp_viewmodels_*.js"))
             {
-                File.Copy(vm, $"{ConfigurationManager.WebPath}\\SphApp\\viewmodels\\{(Path.GetFileName(vm) ?? "").Replace("SphApp_viewmodels_", "")}", true);
+                File.Copy(vm, $"{ConfigurationManager.WebPath}\\SphApp\\viewmodels\\{Path.GetFileName(vm).Replace("SphApp_viewmodels_", "")}", true);
             }
             foreach (var vm in Directory.GetFiles(folder, "SphApp_partial_*.js"))
             {
-                File.Copy(vm, $"{ConfigurationManager.WebPath}\\SphApp\\partial\\{(Path.GetFileName(vm) ?? "").Replace("SphApp_partial_", "")}", true);
+                File.Copy(vm, $"{ConfigurationManager.WebPath}\\SphApp\\partial\\{Path.GetFileName(vm).Replace("SphApp_partial_", "")}", true);
             }
             foreach (var html in Directory.GetFiles(folder, "SphApp_views*.html"))
             {
-                File.Copy(html, $"{ConfigurationManager.WebPath}\\SphApp\\views\\{(Path.GetFileName(html) ?? "").Replace("SphApp_views_", "")}", true);
+                File.Copy(html, $"{ConfigurationManager.WebPath}\\SphApp\\views\\{Path.GetFileName(html).Replace("SphApp_views_", "")}", true);
             }
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
@@ -172,17 +173,17 @@ namespace Bespoke.Sph.Domain
             if (Directory.Exists(path)) Directory.Delete(path, true);
             Directory.CreateDirectory(path);
             var zip = path + ".zip";
-            var context = new SphDataContext();
 
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
             // forms
-            var forms = context.LoadFromSources<EntityForm>(f => f.EntityDefinitionId == ed.Id);
-            var views = context.LoadFromSources<EntityView>(f => f.EntityDefinitionId == ed.Id);
-            var triggers = context.LoadFromSources<Trigger>(f => f.Entity == ed.Name);
-            var charts = context.LoadFromSources<EntityChart>(f => f.Entity == ed.Name);
-            var queries = context.LoadFromSources<QueryEndpoint>(f => f.Entity == ed.Name);
-            var operations = context.LoadFromSources<OperationEndpoint>(f => f.Entity == ed.Name);
-            var dialogs = context.LoadFromSources<FormDialog>(f => f.Entity == ed.Name);
-            var partials = context.LoadFromSources<PartialView>(f => f.Entity == ed.Name);
+            var forms = await  repos.LoadAsync<EntityForm>(f => f.EntityDefinitionId == ed.Id);
+            var views = await  repos.LoadAsync<EntityView>(f => f.EntityDefinitionId == ed.Id);
+            var triggers = await  repos.LoadAsync<Trigger>(f => f.Entity == ed.Name);
+            var charts = await  repos.LoadAsync<EntityChart>(f => f.Entity == ed.Name);
+            var queries = await  repos.LoadAsync<QueryEndpoint>(f => f.Entity == ed.Name);
+            var operations = await  repos.LoadAsync<OperationEndpoint>(f => f.Entity == ed.Name);
+            var dialogs = await  repos.LoadAsync<FormDialog>(f => f.Entity == ed.Name);
+            var partials = await  repos.LoadAsync<PartialView>(f => f.Entity == ed.Name);
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             File.WriteAllBytes(Path.Combine(path, "EntityDefinition_" + ed.Id + ".json"), Encoding.UTF8.GetBytes(ed.ToJsonString()));
@@ -255,8 +256,8 @@ namespace Bespoke.Sph.Domain
             foreach (var t in queries)
             {
                 File.WriteAllBytes(Path.Combine(path, $"QueryEndpoint{t.Id}.json"), Encoding.UTF8.GetBytes(t.ToJsonString(true)));
-                var dll = $"{ConfigurationManager.CompilerOutputPath}\\{t.AssemblyName}";
-                var pdb2 = $"{ConfigurationManager.CompilerOutputPath}\\{t.PdbName}";
+                var dll = $"{ConfigurationManager.CompilerOutputPath}\\{t.AssemblyName}.dll";
+                var pdb2 = $"{ConfigurationManager.CompilerOutputPath}\\{t.AssemblyName}.pdb";
                 if (File.Exists(dll))
                 {
                     File.Copy(dll, $"{path}\\{Path.GetFileName(dll)}");
@@ -270,8 +271,8 @@ namespace Bespoke.Sph.Domain
             foreach (var t in operations)
             {
                 File.WriteAllBytes(Path.Combine(path, $"OperationEndpoint{t.Id}.json"), Encoding.UTF8.GetBytes(t.ToJsonString(true)));
-                var dll = $"{ConfigurationManager.CompilerOutputPath}\\{t.AssemblyName}";
-                var pdb2 = $"{ConfigurationManager.CompilerOutputPath}\\{t.PdbName}";
+                var dll = $"{ConfigurationManager.CompilerOutputPath}\\{t.AssemblyName}.dll";
+                var pdb2 = $"{ConfigurationManager.CompilerOutputPath}\\{t.AssemblyName}.pdb";
                 if (File.Exists(dll))
                 {
                     File.Copy(dll, $"{path}\\{Path.GetFileName(dll)}");
