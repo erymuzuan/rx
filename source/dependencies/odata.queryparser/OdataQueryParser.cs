@@ -10,12 +10,12 @@ namespace odata.queryparser
     {
         public QueryDsl Parse(string text)
         {
-            var qs = text.Split(new[] {"&"}, StringSplitOptions.RemoveEmptyEntries);
+            var qs = text.Split(new[] { "&" }, StringSplitOptions.RemoveEmptyEntries);
 
             string GetQueryStringValue(string key)
             {
                 var pair = qs.SingleOrDefault(x => x.StartsWith(key))
-                    .ToEmptyString().Split(new[] {"="}, StringSplitOptions.RemoveEmptyEntries);
+                    .ToEmptyString().Split(new[] { "=" }, StringSplitOptions.RemoveEmptyEntries);
 
                 if (pair.Length <= 1)
                     return string.Empty;
@@ -26,8 +26,15 @@ namespace odata.queryparser
 
             var filters = ParseFilters(GetQueryStringValue("$filter"));
             var sorts = ParseSorts(GetQueryStringValue("$orderby"));
-
             var query = new QueryDsl(filters, sorts);
+
+            var skipText = GetQueryStringValue("$skip") ?? "0";
+            if (int.TryParse(skipText, out var skip))
+                query.Skip = skip;
+
+            var topText = GetQueryStringValue("$top") ?? "0";
+            if (int.TryParse(topText, out var top))
+                query.Size = top;
 
 
             return query;
@@ -42,13 +49,13 @@ namespace odata.queryparser
              https://blogs.msdn.microsoft.com/odatateam/2014/07/04/tutorial-sample-using-odatauriparser-for-odata-v4/
              https://github.com/OData/odata.net/tree/ODataV4-6.x for a Odata Uri parser
              */
-            var queries = query.Split(new[] {" and ", " or "}, StringSplitOptions.RemoveEmptyEntries);
+            var queries = query.Split(new[] { " and ", " or " }, StringSplitOptions.RemoveEmptyEntries);
             var filters = from q in queries
-                let words = q.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries)
-                let term = words[0]
-                let op = (Operator) Enum.Parse(typeof(Operator), words[1], true)
-                let value = ParseValue(words)
-                select new Filter(term, op, value);
+                          let words = q.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries)
+                          let term = words[0]
+                          let op = (Operator)Enum.Parse(typeof(Operator), words[1], true)
+                          let value = ParseValue(words)
+                          select new Filter(term, op, value);
 
             return filters.ToArray();
         }
@@ -63,7 +70,7 @@ namespace odata.queryparser
             var trim = text.Trim();
             if (trim.StartsWith("'") && trim.EndsWith("'"))
                 return trim.Substring(1, trim.Length - 2);
-            
+
             if (trim == "true") return true;
             if (trim == "false") return false;
 
@@ -89,18 +96,18 @@ namespace odata.queryparser
             }
             if (int.TryParse(trim, out var iv))
                 return iv;
-            
+
             return trim;
         }
 
         private Sort[] ParseSorts(string odata)
         {
-            var queries = odata.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries);
+            var queries = odata.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
             var sorts = from q in queries
-                let words = q.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries)
-                let path = words[0].Replace("/", ".")
-                let direction = (words.Length == 2 && words[1] == "desc") ? SortDirection.Desc : SortDirection.Asc
-                select new Sort {Path = path, Direction = direction};
+                        let words = q.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries)
+                        let path = words[0].Replace("/", ".")
+                        let direction = (words.Length == 2 && words[1] == "desc") ? SortDirection.Desc : SortDirection.Asc
+                        select new Sort { Path = path, Direction = direction };
 
             return sorts.ToArray();
         }
