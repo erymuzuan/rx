@@ -38,7 +38,7 @@ namespace Bespoke.Sph.SqlRepository.Deployments
             if (!(project is EntityDefinition ed)) return false;
             if (ed.TreatDataAsSource) return false; // for sources use SqlTableWithSourceDeployer
             if (ed.Transient) return false;
-            return ed.GetPersistenceOption().IsSqlDatabase;
+            return ed.StoreInDatabase ?? true;
         }
 
         public async Task<RxCompilerResult> DeployAsync(IProjectDefinition project, Action<JObject, dynamic> migration, int sqlBatchSize = 50)

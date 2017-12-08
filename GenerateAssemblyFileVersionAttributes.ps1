@@ -2,7 +2,7 @@
 Param(
        [string]$Version = '2.1',
        [string]$AssemblyVersion="1.0.2.1007",
-       [string[]] $Destinations = @(".\source")
+       [string[]] $Targets = @(".\source")
      )
 
 if((Test-Path(".\source\assembly.versions")) -eq $false)
@@ -12,7 +12,7 @@ if((Test-Path(".\source\assembly.versions")) -eq $false)
 
 $y2012 = [System.DateTime]::Parse("2012-01-01")
 
-foreach($folder in $Destinations){
+foreach($folder in $Targets){
     ls $folder -Filter *.csproj -Recurse | % { 
 
             $project = $_.DirectoryName
