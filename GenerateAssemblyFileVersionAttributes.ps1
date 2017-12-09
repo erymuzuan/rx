@@ -12,6 +12,17 @@ if((Test-Path(".\source\assembly.versions")) -eq $false)
 
 $y2012 = [System.DateTime]::Parse("2012-01-01")
 
+$total = 0;
+$done = 0;
+
+foreach($folder in $Targets){
+    ls $folder -Filter *.csproj -Recurse | % {            
+            $total = $total +1;
+        }
+}
+
+
+
 foreach($folder in $Targets){
     ls $folder -Filter *.csproj -Recurse | % { 
 
@@ -37,6 +48,10 @@ foreach($folder in $Targets){
         "`r`n[assembly: AssemblyInformationalVersion(`"$Version.$days.$rev-$commitId`")]" + `
         "`r`n[assembly: AssemblyFileVersion(`"$Version.$days.$rev`")]"
             $content | Out-File -FilePath .\source\assembly.versions\$cs
+
+            
+            Write-Progress -Activity "Version info " -Status "$project ($done/$total)" -PercentComplete ($done*100/$total)
+            $done = $done +1;
 
         }
 }
