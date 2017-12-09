@@ -14,7 +14,7 @@ namespace Bespoke.Sph.ReadOnlyRepositoriesWorkers
 {
     public class DataImportSubscriber : Subscriber
     {
-        public override string QueueName => "es.data-import";
+        public override string QueueName => "readonly.data-import";
         public override string[] RoutingKeys => new[] { "persistence" };
         private TaskCompletionSource<bool> m_stoppingTcs;
         

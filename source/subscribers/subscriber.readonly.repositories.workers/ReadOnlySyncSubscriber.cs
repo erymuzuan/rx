@@ -8,7 +8,7 @@ namespace Bespoke.Sph.ReadOnlyRepositoriesWorkers
 {
     public class ReadOnlySyncSubscriber : Subscriber<Entity>
     {
-        public override string QueueName => this.GetType().FullName;
+        public override string QueueName => "readonly.sync";
         public override string[] RoutingKeys => new[] {"#.added.#", "#.changed.#", "#.deleted.#"};
         
 
