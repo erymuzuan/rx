@@ -23,7 +23,7 @@ namespace Bespoke.Sph.Domain
         public static long SqlPersistenceDelay => GetEnvironmentVariableInt32("SqlPersistenceDelay", 15000);
         public static int SqlPersistenceMaxTry => GetEnvironmentVariableInt32("SqlPersistenceMaxTry", 3);
         public static bool EnableOfflineForm => GetEnvironmentVariableBoolean("EnableOfflineForm");
-        public static string BaseUrl => GetEnvironmentVariable("BaseUrl") ?? "http://localhost:4436";
+        public static string BaseUrl => GetEnvironmentVariable("BaseUrl") ?? "https://localhost:8081";
         public static string Home => GetEnvironmentVariable("HOME");
         public static string CompilerOutputPath => GetPath("CompilerOutputPath", "output");
         /// <summary>
