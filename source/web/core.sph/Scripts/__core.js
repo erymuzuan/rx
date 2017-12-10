@@ -583,11 +583,11 @@ ko.bindingHandlers.tree = {
 
                 if (ko.isObservable(mbr.IsNullable) && ko.unwrap(mbr.IsNullable)) {
                     $(`#${id} a.jstree-anchor>i.jstree-icon`)
-                        .after('<i class="fa fa-question" style="margin-right:5px;color:orange"></i>');
+                        .after('<i class="fa fa-question" title="Nullable" style="margin-right:5px;color:orange"></i>');
                 }
                 if (ko.unwrap(mbr.AllowMultiple)) {
                     $(`#${id} a.jstree-anchor>i.jstree-icon`)
-                        .after('<i class="fa fa-certificate" style="margin-right:5px;color:green"></i>');
+                        .after('<i class="fa fa-certificate" title="Allow multiple" style="margin-right:5px;color:green"></i>');
                 }
             },
             loadJsTree = function () {
@@ -890,7 +890,7 @@ ko.bindingHandlers.tree = {
                                 "icon": "fa fa-clipboard"
                             },
                             "System.String, mscorlib": {
-                                "icon": "glyphicon glyphicon-bold",
+                                "icon": "fa fa-text-width",
                                 "valid_children": []
                             },
                             "System.DateTime, mscorlib": {
