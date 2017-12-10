@@ -20,7 +20,7 @@
     <div class="form-group">
         <label class="control-label" data-bind="text:Name">Name</label>
 
-        <input type="number" data-bind="value: Value, uniqueName:true, attr : {placeholder: Help}"
+        <input type="number" data-bind="value: Value, uniqueName:true, attr : {placeholder: Help, required : Required}"
                class="form-control">
     </div>
     <!-- /ko -->
@@ -29,14 +29,17 @@
     <div class="form-group">
         <label class="control-label" data-bind="text:Name">Name</label>
 
-        <input type="text" data-bind="value: Value, uniqueName:true, attr : {placeholder: Help}"
+        <!-- ko if : Array.isArray(ko.unwrap(ValidOptions))-->
+        <select data-bind="value: Value, uniqueName:true, attr : {placeholder: Help, required : Required}, options : ValidOptions"
+                class="form-control"></select>
+        <!-- /ko -->
+        <!-- ko if :  !Array.isArray(ko.unwrap(ValidOptions)) -->
+        <input type="text" data-bind="value: Value, uniqueName:true, attr : {placeholder: Help, required : Required}"
                class="form-control">
+        <!-- /ko -->
     </div>
     <!-- /ko -->
     
     
     <!-- /ko-->
-
-
-
 </div>

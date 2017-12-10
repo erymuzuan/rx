@@ -50,6 +50,7 @@ namespace Bespoke.Sph.Domain
         public bool Required { get; set; }
         public string Help { get; set; }
         public string Description { get; set; }
+        public object[] ValidOptions { get; set; }
 
         public string ValueAsString { get; set; }
         private object m_value;

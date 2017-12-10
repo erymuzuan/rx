@@ -33,7 +33,8 @@ namespace Bespoke.Sph.SqlRepository.Extensions
 
             if (sm.Type == typeof(int))
             {
-                properties.Add<string>(sm, "DataType", "BIGINT, SMALLINT, TINYINT, INT");
+                var number = properties.Add<string>(sm, "DataType", "BIGINT, SMALLINT, TINYINT, INT");
+                number.ValidOptions = new object[] { "INT", "SMALLINT", "TINYINT", "BIGINT" };
             }
 
             return properties.ToArray();
