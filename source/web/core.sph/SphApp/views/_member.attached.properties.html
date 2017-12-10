@@ -6,7 +6,7 @@
     
     <!-- ko if : ko.unwrap(TypeName) === 'System.Boolean, mscorlib' -->
     <div class="form-group">
-        <label class="checkbox">
+        <label class="checkbox" data-bind="tooltip : Description">
             <input data-bind="checked: Value, uniqueName:true" type="checkbox" />
             <!-- ko text : Name-->
             <!-- /ko -->
@@ -20,7 +20,7 @@
     <div class="form-group">
         <label class="control-label" data-bind="text:Name">Name</label>
 
-        <input type="number" data-bind="value: Value, uniqueName:true, attr : {placeholder: Help, required : Required}"
+        <input type="number" data-bind="value: Value, uniqueName:true, tooltip : Description, attr : {placeholder: Help, required : Required}"
                class="form-control">
     </div>
     <!-- /ko -->
@@ -30,11 +30,11 @@
         <label class="control-label" data-bind="text:Name">Name</label>
 
         <!-- ko if : Array.isArray(ko.unwrap(ValidOptions))-->
-        <select data-bind="value: Value, uniqueName:true, attr : {placeholder: Help, required : Required}, options : ValidOptions"
+        <select data-bind="value: Value, uniqueName:true, tooltip : Description, attr : {placeholder: Help, required : Required}, options : ValidOptions"
                 class="form-control"></select>
         <!-- /ko -->
         <!-- ko if :  !Array.isArray(ko.unwrap(ValidOptions)) -->
-        <input type="text" data-bind="value: Value, uniqueName:true, attr : {placeholder: Help, required : Required}"
+        <input type="text" data-bind="value: Value, tooltip : Description, uniqueName:true, attr : {placeholder: Help, required : Required}"
                class="form-control">
         <!-- /ko -->
     </div>

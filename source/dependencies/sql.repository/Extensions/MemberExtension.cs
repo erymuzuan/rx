@@ -22,13 +22,13 @@ namespace Bespoke.Sph.SqlRepository.Extensions
         {
             var properties = new List<AttachedProperty>();
 
-            properties.Add<bool>(sm, "SqlIndex", "Create SQL Index");
-            properties.Add<string>(sm, "IndexedFields", "Attach other fields to the index");
+            properties.Add<bool>(sm, "SqlIndex", "Create SQL Index","Without this option you will not be able to filter the data using standard SQL WHERE predicates, use JSON_VALUE([Json], '$.Path') instead");
+            properties.Add<string>(sm, "IndexedFields", "Attach other fields to the index", "Use commad to seperate the fields, if the index is used and other fields needed to fetch together, attaching them will avoid JSON operation");
 
             if (sm.Type == typeof(string))
             {
                 properties.Add<int>(sm, "Length", "NVARCHAR/VARCHAR Length");
-                properties.Add<bool>(sm, "AllowUnicode", "NVARCHAR/VARCHAR Length");
+                properties.Add<bool>(sm, "AllowUnicode", "NVARCHAR/VARCHAR Length", "Choosing Unicode, will create a column and index of type NVARCHAR");
             }
 
             if (sm.Type == typeof(int))
