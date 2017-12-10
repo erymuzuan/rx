@@ -23,12 +23,18 @@ namespace Bespoke.Sph.SqlRepository
             m_connectionString = connectionString;
         }
 
+        public SqlRepository(string connectionString, bool useEnvironmentVariable)
+        {
+            m_connectionString = useEnvironmentVariable ? ConfigurationManager.GetEnvironmentVariable(connectionString) : connectionString;
+        }
+
         private string Schema
         {
             get
             {
                 var elementType = typeof(T);
-                var schema = elementType.Namespace.StartsWith(typeof(Entity).Namespace)
+                var sph = elementType.Namespace?.StartsWith(typeof(Entity).Namespace ?? "") ?? false;
+                var schema = sph
                     ? "Sph"
                     : ConfigurationManager.ApplicationName;
 
@@ -68,9 +74,9 @@ namespace Bespoke.Sph.SqlRepository
         {
             var elementType = typeof(T);
             var sql = query.ToString().Replace("[Json]", "[Id], [Json]");
-            if (!elementType.Namespace.StartsWith(typeof(Entity).Namespace))// custom entity
+            if (!elementType.Namespace?.StartsWith(typeof(Entity).Namespace ?? "") ?? true)// custom entity
             {
-                sql = sql.Replace("[Sph].", string.Format("[{0}].", ConfigurationManager.ApplicationName));
+                sql = sql.Replace("[Sph].", $"[{ConfigurationManager.ApplicationName}].");
             }
 
             using (var conn = new SqlConnection(m_connectionString))
@@ -118,7 +124,7 @@ namespace Bespoke.Sph.SqlRepository
         {
             var column = GetMemberName(selector);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the scalar column name");
-            var sql = SanitizeDatabaseSchema(query.ToString().Replace("[Json]", $"[{column}]")) ;
+            var sql = SanitizeDatabaseSchema(query.ToString().Replace("[Json]", $"[{column}]"));
             var connectionString = ConfigurationManager.SqlConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
@@ -178,7 +184,7 @@ namespace Bespoke.Sph.SqlRepository
             var translator = ObjectBuilder.GetObject<IPagingTranslator>();
             sql = new StringBuilder(translator.Tranlate(sql.ToString(), page, size));
 
-            var specificType = typeof(List<>).MakeGenericType(new[] { elementType });
+            var specificType = typeof(List<>).MakeGenericType(elementType);
             dynamic list = Activator.CreateInstance(specificType);
 
             try
@@ -208,13 +214,13 @@ namespace Bespoke.Sph.SqlRepository
                 Console.ResetColor();
             }
             var lo = new LoadOperation<T>
-                         {
-                             CurrentPage = page,
-                             Query = query,
-                             PageSize = size,
-                             NextSkipToken = (page) * size
+            {
+                CurrentPage = page,
+                Query = query,
+                PageSize = size,
+                NextSkipToken = (page) * size
 
-                         };
+            };
             lo.ItemCollection.AddRange(list);
 
             if (includeTotalRows)
