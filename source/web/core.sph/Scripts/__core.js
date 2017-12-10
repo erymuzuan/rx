@@ -700,6 +700,7 @@ ko.bindingHandlers.tree = {
                         mb.Name(node.text);
                     })
                     .on("open_node.jstree", function (ev, item) {
+                        setAllowMultipleAndNullableIcons(item.node.id);
                         item.node.children.forEach(setAllowMultipleAndNullableIcons);
                     })
                     .jstree({
