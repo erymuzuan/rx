@@ -149,10 +149,10 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
             var cacheKey = $"service-description-links-{this.Endpoint.Id}";
             var code = new StringBuilder();
             code.AppendLine($@"
-            var sericeDescriptionLinks = CacheManager.Get<System.Collections.Generic.List<object>>(""{cacheKey}"");
-            if( null == sericeDescriptionLinks)
+            var serviceDescriptionLinks = CacheManager.Get<System.Collections.Generic.List<object>>(""{cacheKey}"");
+            if( null == serviceDescriptionLinks)
             {{
-                sericeDescriptionLinks = new System.Collections.Generic.List<object>();
+                serviceDescriptionLinks = new System.Collections.Generic.List<object>();
                 var context = new SphDataContext();
                 var queries = context.LoadFromSources<QueryEndpoint>(x => x.Entity == ""{this.Endpoint.Entity}"" && x.Id != ""{this.Endpoint.Id}"");
                 var queryLinks = from r in queries
@@ -164,7 +164,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
                         desc = r.Note
 
                     }};
-                sericeDescriptionLinks.AddRange(queryLinks);
+                serviceDescriptionLinks.AddRange(queryLinks);
                 var operations = context.LoadFromSources<OperationEndpoint>(x => x.Entity == ""{this.Endpoint.Entity}"").ToArray();
                 var postLinks = from r in operations
                                 where r.IsHttpPost
@@ -176,7 +176,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
                                          desc = r.Note
 
                                      }};
-                sericeDescriptionLinks.AddRange(postLinks);
+                serviceDescriptionLinks.AddRange(postLinks);
                 var putLinks = from r in operations
                                 where r.IsHttpPut
                                      select new
@@ -187,7 +187,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
                                          desc = r.Note
 
                                      }};
-                sericeDescriptionLinks.AddRange(putLinks);
+                serviceDescriptionLinks.AddRange(putLinks);
                 var patchLinks = from r in operations
                                 where r.IsHttpPatch
                                      select new
@@ -198,7 +198,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
                                          desc = r.Note
 
                                      }};
-                sericeDescriptionLinks.AddRange(patchLinks);
+                serviceDescriptionLinks.AddRange(patchLinks);
                 var deleteLinks = from r in operations
                                 where r.IsHttpDelete
                                      select new
@@ -209,10 +209,10 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
                                          desc = r.Note
 
                                      }};
-                sericeDescriptionLinks.AddRange(deleteLinks);
-                CacheManager.Insert(""{cacheKey}"", sericeDescriptionLinks, $@""{{ConfigurationManager.SphSourceDirectory}}\OperationEndpoint"", $@""{{ConfigurationManager.SphSourceDirectory}}\QueryEndpoint"");
+                serviceDescriptionLinks.AddRange(deleteLinks);
+                CacheManager.Insert(""{cacheKey}"", serviceDescriptionLinks, $@""{{ConfigurationManager.SphSourceDirectory}}\OperationEndpoint"", $@""{{ConfigurationManager.SphSourceDirectory}}\QueryEndpoint"");
             }}
-            links.AddRange(sericeDescriptionLinks);
+            links.AddRange(serviceDescriptionLinks);
 ");
 
             return code.ToString();
@@ -275,7 +275,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
                 code.Append(@" 
                     var list = from f in lo.ItemCollection
                                let link = $""\""link\"" :{{ \""href\"" :\""{ConfigurationManager.BaseUrl}/api/" + this.Endpoint.Resource + @"/{f.Id}\""}}""
-                               select f.ToJsonString().Replace($""{f.WebId}\"""",$""{f.WebId}\"","" + link);
+                               select f.ToJson().Replace($""{f.WebId}\"""",$""{f.WebId}\"","" + link);
 ");
                 return code.ToString();
             }

@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
 using Bespoke.Sph.Extensions;
 using Bespoke.Sph.SqlRepository.Extensions;
 
@@ -34,8 +35,8 @@ namespace Bespoke.Sph.SqlRepository
                 : connectionString;
             if (null == entityDefinition)
             {
-                var context = new SphDataContext();
-                this.EntityDefinition = context.LoadOneFromSources<EntityDefinition>(x => x.Name == typeof(T).Name);
+                var context = ObjectBuilder.GetObject<ISourceRepository>();
+                this.EntityDefinition = context.LoadOneAsync<EntityDefinition>(x => x.Name == typeof(T).Name).Result;
             }
             else
             {
@@ -53,10 +54,10 @@ namespace Bespoke.Sph.SqlRepository
 
         public async Task<int> GetCountAsync(Expression<Func<T, bool>> predicate)
         {
-            var @where = new PredicateExpressionVisitor<T>(Logger).Visit(predicate);
+            var where = new PredicateExpressionVisitor<T>(Logger).Visit(predicate);
             using (var conn = new SqlConnection(ConnectionString))
             {
-                var sql = $"SELECT COUNT([Id]) FROM [{m_table}] {@where}";
+                var sql = $"SELECT COUNT([Id]) FROM [{m_table}] {where}";
                 Logger.WriteDebug(sql);
                 using (var cmd = new SqlCommand(sql,
                     conn))
@@ -79,12 +80,12 @@ namespace Bespoke.Sph.SqlRepository
         public async Task<TResult> GetMaxAsync<TResult>(Expression<Func<T, bool>> predicate,
             Expression<Func<T, TResult>> selector)
         {
-            var @where = new PredicateExpressionVisitor<T>(Logger).Visit(predicate);
+            var where = new PredicateExpressionVisitor<T>(Logger).Visit(predicate);
             dynamic sel = selector.Body;
             string field = sel.Member.Name;
             using (var conn = new SqlConnection(ConnectionString))
             {
-                var sql = $"SELECT MAX([{field}]) FROM [{m_table}] {@where}";
+                var sql = $"SELECT MAX([{field}]) FROM [{m_table}] {where}";
                 Logger.WriteDebug(sql);
                 using (var cmd = new SqlCommand(sql,
                     conn))
