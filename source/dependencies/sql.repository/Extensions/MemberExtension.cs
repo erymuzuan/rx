@@ -36,6 +36,11 @@ namespace Bespoke.Sph.SqlRepository.Extensions
                 var number = properties.Add<string>(sm, "DataType", "BIGINT, SMALLINT, TINYINT, INT");
                 number.ValidOptions = new object[] { "INT", "SMALLINT", "TINYINT", "BIGINT" };
             }
+            if (sm.Type == typeof(DateTime))
+            {
+                var number = properties.Add<string>(sm, "DataType", "SQL DateTime data type", "If your data type required specific range and needs");
+                number.ValidOptions = new object[] { "DATETIME2", "SMALLDATETIME", "TIME", "DATE", "DATETIME", "DATETIMEOFFSET" };
+            }
 
             return properties.ToArray();
         }
