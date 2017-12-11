@@ -6,9 +6,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.Extensions;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Exceptions;
 using EventLog = Bespoke.Sph.Domain.EventLog;
 
 // ReSharper disable ExplicitCallerInfoArgument
@@ -18,15 +17,9 @@ namespace Bespoke.Sph.SubscribersInfrastructure
     [Serializable]
     public abstract class Subscriber : MarshalByRefObject
     {
-        public string InstanceName { get; set; }
-        public string HostName { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public int Port { get; set; }
-        public string VirtualHost { get; set; }
         public abstract string QueueName { get; }
         public abstract string[] RoutingKeys { get; }
-        public ILogger NotificicationService { get; set; }
+        public ILogger NotificicationService { protected get; set; }
 
         private ushort m_prefetchCount = 1;
 
@@ -40,7 +33,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             set => m_prefetchCount = value;
         }
 
-        public abstract void Run(IConnection connection);
+        public abstract void Run(IMessageBroker broker);
 
         protected void WriteError(Exception exception,
             [CallerFilePath] string filePath = "", [CallerMemberName] string memberName = "",
@@ -97,7 +90,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             {
                 this.OnStop();
             }
-            catch (AlreadyClosedException)
+            catch (Exception)
             {
                 this.NotificicationService.WriteInfo(
                     this.GetType().Namespace + " throws AlreadyClosedException on Stop");

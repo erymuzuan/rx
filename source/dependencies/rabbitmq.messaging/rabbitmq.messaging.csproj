@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{36B073CA-F17F-4027-98E1-DBA76CEF0128}</ProjectGuid>
+    <ProjectGuid>6c4815ee-86cb-4cd0-a149-6203eba5eb1f</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bespoke.Sph.MessageTrackerSla</RootNamespace>
-    <AssemblyName>subscriber.message.sla</AssemblyName>
+    <RootNamespace>rabbitmq.messaging</RootNamespace>
+    <AssemblyName>rabbitmq.messaging</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,14 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Humanizer, Version=1.37.7.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Humanizer.1.37.7\lib\portable-win+net40+sl50+wp8+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Humanizer.dll</HintPath>
+    <Reference Include="RabbitMQ.Client, Version=3.6.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce">
+      <HintPath>..\..\..\packages\RabbitMQ.Client.3.6.0\lib\net45\RabbitMQ.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Polly, Version=4.2.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Polly.4.2.4\lib\net45\Polly.dll</HintPath>
+    <Reference Include="subscriber.infrastructure, Version=1.0.2.1007, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\web\web.sph\Bin\subscriber.infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,20 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\assembly.versions\subscribers-subscriber.message.sla.cs">
-      <Link>Properties\subscribers-subscriber.message.sla.cs</Link>
-    </Compile>
-    <Compile Include="..\..\extensions\BinaryExtensions.cs">
-      <Link>BinaryExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\extensions\LoggerExtensions.cs">
-      <Link>LoggerExtensions.cs</Link>
-    </Compile>
-    <Compile Include="MessageSlaTrackerSubscriber.cs" />
+    <Compile Include="MessageHeaders.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReceivedMessageArgs.cs" />
+    <Compile Include="TaskBasicConsumer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -70,13 +60,6 @@
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>
     </ProjectReference>
-    <ProjectReference Include="..\subscriber.infrastructure\subscriber.infrastructure.csproj">
-      <Project>{40892CEA-FD47-4C1F-B821-7939776E9B6B}</Project>
-      <Name>subscriber.infrastructure</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy $(TargetDir)*.* $(SolutionDir)bin\subscribers</PostBuildEvent>
-  </PropertyGroup>
 </Project>

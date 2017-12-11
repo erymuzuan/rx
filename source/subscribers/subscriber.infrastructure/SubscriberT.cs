@@ -5,9 +5,9 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.Extensions;
 using Humanizer;
-using RabbitMQ.Client;
 using EventLog = Bespoke.Sph.Domain.EventLog;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
@@ -19,7 +19,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         private EntityDefinition m_entityDefinition;
         protected abstract Task ProcessMessage(T item, MessageHeaders header);
 
-        public override void Run(IConnection connection)
+        public override void Run(IMessageBroker connection)
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -80,11 +80,9 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             m_channel.BasicNack(tag, multiple, requeue);
         }
 
-        private IModel m_channel;
-        private TaskBasicConsumer m_consumer;
         private int m_processing;
 
-        public void StartConsume(IConnection connection)
+        public void StartConsume(IMessageBroker connection)
         {
             const bool NO_ACK = false;
             const string EXCHANGE_NAME = "sph.topic";

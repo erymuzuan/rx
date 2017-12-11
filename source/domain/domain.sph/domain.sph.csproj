@@ -352,6 +352,7 @@
     <Compile Include="Management\WorkersConfig.cs" />
     <Compile Include="Management\WorkerServerConfig.cs" />
     <Compile Include="MessageTrackingEvent.cs" />
+    <Compile Include="Messaging\IMessageBroker.cs" />
     <Compile Include="Ports\DelimitedTextComplexMember.cs" />
     <Compile Include="Ports\DelimitedTextFieldMapping.cs" />
     <Compile Include="Ports\DelimitedTextFormatter.cs" />

@@ -8,19 +8,21 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.Extensions;
 using Newtonsoft.Json.Linq;
-using RabbitMQ.Client;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {
     public class Program
     {
         private readonly SubscriberConfig[] m_startOptions;
+        public IMessageBroker MessageBroker { get; }
 
         public Program(params SubscriberConfig[] startOptions)
         {
             m_startOptions = startOptions;
+            MessageBroker = ObjectBuilder.GetObject<IMessageBroker>();
         }
         private ILogger m_notificationService;
         private static ILogger m_notificationService2;
@@ -44,8 +46,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         }
 
 
-        private IConnection m_connection;
-        public void Start(SubscriberMetadata[] subscribersMetadata)
+        public async Task Start(SubscriberMetadata[] subscribersMetadata)
         {
             this.SubscriberCollection.Clear();
             this.NotificationService.WriteInfo($"config {this.HostName}:{this.UserName}:{this.Password}");
@@ -53,16 +54,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             AppDomain.CurrentDomain.UnhandledException += AppdomainUnhandledException;
 
-            var factory = new ConnectionFactory
-            {
-                UserName = this.UserName,
-                VirtualHost = this.VirtualHost,
-                Password = this.Password,
-                HostName = this.HostName,
-                Port = this.Port
-            };
-            m_connection = factory.CreateConnection();
-            m_connection.ConnectionShutdown += (o, e) =>
+            await this.MessageBroker.ConnectAsync();
+            this.MessageBroker.ConnectionShutdown += (o, e) =>
             {
                 this.Stop();
                 //TODO : Get next available node if clustered??
@@ -86,7 +79,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     try
                     {
                         mt.PrefetchCount = (ushort)(config.PrefetchCount ?? 1);
-                        var worker = StartSubscriber(mt, m_connection);
+                        var worker = StartSubscriber(mt);
                         if (null != worker)
                         {
                             this.SubscriberCollection.Add(worker);
@@ -107,7 +100,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             m_stopping = false;
 
             //
-            StartWorkersManager(subscribersMetadata).ContinueWith(_ => { });
+            await StartWorkersManager(subscribersMetadata);
         }
 
         private async Task StartWorkersManager(SubscriberMetadata[] mts)
@@ -142,7 +135,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 $"Published:{published}, Delivered : {delivered}, length : {length} , Processing {processing}");
             if (overloaded && mt.MaxInstances.HasValue && subscribers.Count < mt.MaxInstances.Value)
             {
-                var sub1 = StartSubscriber(mt, m_connection);
+                var sub1 = StartSubscriber(mt);
                 if (null != sub1)
                     subscribers.Add(sub1);
             }
@@ -176,14 +169,14 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             throw new Exception("Cannot load " + subs);
         }
 
-        private Subscriber StartSubscriber(SubscriberMetadata metadata, IConnection connection)
+        private Subscriber StartSubscriber(SubscriberMetadata metadata)
         {
             var dll = Path.GetFileNameWithoutExtension(metadata.Assembly);
             if (string.IsNullOrWhiteSpace(dll)) return null;
             if (!(Activator.CreateInstance(dll, metadata.FullName).Unwrap() is Subscriber subs)) return null;
             subs.NotificicationService = this.NotificationService;
             subs.PrefetchCount = metadata.PrefetchCount;
-            subs.Run(connection);
+            subs.Run(this.MessageBroker);
 
             return subs;
 
@@ -218,14 +211,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             m_stopping = true;
             this.SubscriberCollection.ForEach(s => s.Stop());
             this.SubscriberCollection.Clear();
-            if (null != m_connection)
-            {
-                if (m_connection.IsOpen)
-                    m_connection.Close();
-                m_connection.Dispose();
-                m_connection = null;
-            }
-
+            MessageBroker?.Dispose();
         }
     }
 }
