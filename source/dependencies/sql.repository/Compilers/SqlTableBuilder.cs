@@ -81,9 +81,13 @@ CREATE TABLE [{applicationName}].[{item.Name}]
 
             var indices = from m in members
                           let properties = repos.GetAttachedPropertiesAsync(this, item, m).Result.ToArray()
-                          let index = m.CreateIndex(item, properties.ToArray(), version)
-                          select new Class(index) { FileName = $"{item.Name}.Index.{m.Name}.sql", TrackedInSourceControl = true };
-            sources.AddRange(indices);
+                          select m.CreateIndex(item, properties.ToArray(), version);
+            var index = new Class(indices.ToString("\r\nGO\r\n"))
+            {
+                FileName = $"{item.Name}.Indices.sql",
+                TrackedInSourceControl = true
+            };
+            sources.Add(index);
 
             return sources;
         }

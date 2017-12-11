@@ -74,17 +74,18 @@ namespace Bespoke.Sph.SqlRepository
         protected async Task<BuildDiagnostic[]> CreateIndicesAsync(SqlConnection conn, IProjectDefinition project)
         {
             var errors = new List<BuildDiagnostic>();
-            var sources = Directory.GetFiles($@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\", $"{project.Name}.Index.*.sql");
-            foreach (var src in sources)
+            var file = $@"{ConfigurationManager.SphSourceDirectory}\EntityDefinition\{project.Name}.Indices.sql";
+            if (!File.Exists(file)) return errors.ToArray();
+            var sources = File.ReadAllText(file).Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var sql in sources)
             {
-                var sql = File.ReadAllText(src);
                 try
                 {
                     using (var createIndexCommand = new SqlCommand(sql, conn))
                     {
                         await createIndexCommand.ExecuteNonQueryAsync();
                     }
-                    Logger.WriteVerbose($"Success : Creating index {Path.GetFileNameWithoutExtension(src)} ");
+                    Logger.WriteVerbose($"Success : Creating index \r\n" + sql);
 
                 }
                 catch (SqlException e)
@@ -97,7 +98,7 @@ namespace Bespoke.Sph.SqlRepository
 
         }
 
-        protected  async Task DropTableAsync(SqlConnection conn, IProjectDefinition project)
+        protected async Task DropTableAsync(SqlConnection conn, IProjectDefinition project)
         {
             var drop = $"DROP TABLE IF EXISTS [{ConfigurationManager.ApplicationName}].[{project.Name}]";
             using (var createTableCommand = new SqlCommand(drop, conn))
@@ -106,7 +107,7 @@ namespace Bespoke.Sph.SqlRepository
             }
         }
 
-        protected  async Task CreateTableAsync(SqlConnection conn, IProjectDefinition project)
+        protected async Task CreateTableAsync(SqlConnection conn, IProjectDefinition project)
         {
             var source = $@"{ConfigurationManager.SphSourceDirectory}\{nameof(EntityDefinition)}\{project.Name}.sql";
             if (!File.Exists(source))
