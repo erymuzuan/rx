@@ -1,8 +1,6 @@
 {
   "$type": "Bespoke.Sph.Domain.EntityDefinition, domain.sph",
-  "$tool-revision": "6273",
-  "$tool-commit-id": "850d00a36",
-  "$tool-version": "2.1.2167.6273-850d00a36",
+  "$tool-version": "2.1.2170.6524-41d96f897",
   "MemberCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
     "$values": [
@@ -94,7 +92,7 @@
             {
               "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
               "TypeName": "System.String, mscorlib",
-              "IsNullable": false,
+              "IsNullable": true,
               "FullName": null,
               "PropertyAttribute": null,
               "MemberCollection": {
@@ -214,7 +212,7 @@
         "Name": "Address",
         "AllowMultiple": false,
         "DefaultValue": null,
-        "WebId": null
+        "WebId": "address"
       },
       {
         "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
@@ -388,6 +386,25 @@
                       "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
                       "$values": []
                     },
+                    "Name": "Attributes",
+                    "AllowMultiple": true,
+                    "DefaultValue": null,
+                    "WebId": "b183e049-9e11-42f2-b62c-d11b4537b6c7"
+                  },
+                  {
+                    "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
+                    "TypeName": "System.String, mscorlib",
+                    "IsNullable": false,
+                    "FullName": null,
+                    "PropertyAttribute": null,
+                    "MemberCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
+                      "$values": []
+                    },
+                    "FieldPermissionCollection": {
+                      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
+                      "$values": []
+                    },
                     "Name": "Extension",
                     "AllowMultiple": false,
                     "DefaultValue": null,
@@ -396,7 +413,7 @@
                   {
                     "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
                     "TypeName": "System.String, mscorlib",
-                    "IsNullable": false,
+                    "IsNullable": true,
                     "FullName": null,
                     "PropertyAttribute": null,
                     "MemberCollection": {
@@ -453,7 +470,7 @@
                   {
                     "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
                     "TypeName": "System.Int32, mscorlib",
-                    "IsNullable": false,
+                    "IsNullable": true,
                     "FullName": null,
                     "PropertyAttribute": null,
                     "MemberCollection": {
@@ -513,8 +530,8 @@
                 "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.FieldPermission, domain.sph]], domain.sph",
                 "$values": []
               },
-              "Name": "Title",
-              "AllowMultiple": false,
+              "Name": "Titles",
+              "AllowMultiple": true,
               "DefaultValue": null,
               "WebId": "248d0c8f-b1a1-419a-b5c1-0564b6346915"
             },
@@ -540,7 +557,7 @@
             {
               "$type": "Bespoke.Sph.Domain.SimpleMember, domain.sph",
               "TypeName": "System.Int32, mscorlib",
-              "IsNullable": false,
+              "IsNullable": true,
               "FullName": null,
               "PropertyAttribute": null,
               "MemberCollection": {
@@ -896,7 +913,6 @@
   },
   "ServiceContract": {
     "$type": "Bespoke.Sph.Domain.ServiceContract, domain.sph",
-    "CodeNamespace": "Bespoke.DevV1.IntegrationApis",
     "FullSearchEndpoint": {
       "$type": "Bespoke.Sph.Domain.FullSearchEndpoint, domain.sph",
       "IsAllowed": false,
@@ -930,6 +946,6 @@
   "Id": "customer",
   "CreatedDate": "2014-01-14T13:08:19.2527686+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-27T07:53:47.8048637+08:00",
+  "ChangedDate": "2017-12-10T10:49:24.2056547+08:00",
   "WebId": "76c34aaf-6823-447c-8cc2-dc99ad1b6736"
 }

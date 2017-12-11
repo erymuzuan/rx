@@ -1,7 +1,232 @@
 {
   "$type": "System.Collections.Generic.List`1[[Bespoke.Sph.Domain.AttachedProperty, domain.sph]], mscorlib",
-  "$tool-version": "2.1.2167.6273-850d00a36",
+  "$tool-version": "2.1.2170.6524-41d96f897",
   "$values": [
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "363f0a6f-24c3-49d1-8e71-3287877be282",
+      "Name": "SqlIndex",
+      "TypeName": "System.Boolean, mscorlib",
+      "Required": false,
+      "Help": "Create SQL Index",
+      "Description": "Create SQL Index",
+      "ValueAsString": "False",
+      "Value": false,
+      "AllowedValue": null,
+      "WebId": "030f4b65-4723-487f-9e09-e90c89f22a9f"
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "363f0a6f-24c3-49d1-8e71-3287877be282",
+      "Name": "IndexedFields",
+      "TypeName": "System.String, mscorlib",
+      "Required": false,
+      "Help": "Attach other fields to the index",
+      "Description": "Attach other fields to the index",
+      "ValueAsString": "",
+      "Value": "",
+      "AllowedValue": {
+        "$type": "System.Object[], mscorlib",
+        "$values": []
+      },
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "363f0a6f-24c3-49d1-8e71-3287877be282",
+      "Name": "Length",
+      "TypeName": "System.Int32, mscorlib",
+      "Required": false,
+      "Help": "NVARCHAR/VARCHAR Length",
+      "Description": "NVARCHAR/VARCHAR Length",
+      "ValueAsString": "255",
+      "Value": 255,
+      "AllowedValue": null,
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "363f0a6f-24c3-49d1-8e71-3287877be282",
+      "Name": "AllowUnicode",
+      "TypeName": "System.Boolean, mscorlib",
+      "Required": false,
+      "Help": "NVARCHAR/VARCHAR Length",
+      "Description": "NVARCHAR/VARCHAR Length",
+      "ValueAsString": "True",
+      "Value": true,
+      "AllowedValue": null,
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "266bb168-de09-4b60-bd7e-f3efc4b019a1",
+      "Name": "SqlIndex",
+      "TypeName": "System.Boolean, mscorlib",
+      "Required": false,
+      "Help": "Create SQL Index",
+      "Description": "Create SQL Index",
+      "ValueAsString": "False",
+      "Value": false,
+      "AllowedValue": null,
+      "WebId": "54518802-9d6e-4686-881e-048c03627bea"
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "266bb168-de09-4b60-bd7e-f3efc4b019a1",
+      "Name": "IndexedFields",
+      "TypeName": "System.String, mscorlib",
+      "Required": false,
+      "Help": "Attach other fields to the index",
+      "Description": "Attach other fields to the index",
+      "ValueAsString": "",
+      "Value": "",
+      "AllowedValue": {
+        "$type": "System.Object[], mscorlib",
+        "$values": []
+      },
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "266bb168-de09-4b60-bd7e-f3efc4b019a1",
+      "Name": "Length",
+      "TypeName": "System.Int32, mscorlib",
+      "Required": false,
+      "Help": "NVARCHAR/VARCHAR Length",
+      "Description": "NVARCHAR/VARCHAR Length",
+      "ValueAsString": "255",
+      "Value": 255,
+      "AllowedValue": null,
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "266bb168-de09-4b60-bd7e-f3efc4b019a1",
+      "Name": "AllowUnicode",
+      "TypeName": "System.Boolean, mscorlib",
+      "Required": false,
+      "Help": "NVARCHAR/VARCHAR Length",
+      "Description": "NVARCHAR/VARCHAR Length",
+      "ValueAsString": "True",
+      "Value": true,
+      "AllowedValue": null,
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "317b01d8-744f-4241-90db-a9f836979be5",
+      "Name": "SqlIndex",
+      "TypeName": "System.Boolean, mscorlib",
+      "Required": false,
+      "Help": "Create SQL Index",
+      "Description": "Create SQL Index",
+      "ValueAsString": "False",
+      "Value": false,
+      "AllowedValue": null,
+      "WebId": "dec2a64c-e626-4a19-901e-3a7499189ed3"
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "317b01d8-744f-4241-90db-a9f836979be5",
+      "Name": "IndexedFields",
+      "TypeName": "System.String, mscorlib",
+      "Required": false,
+      "Help": "Attach other fields to the index",
+      "Description": "Attach other fields to the index",
+      "ValueAsString": "",
+      "Value": "",
+      "AllowedValue": {
+        "$type": "System.Object[], mscorlib",
+        "$values": []
+      },
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "317b01d8-744f-4241-90db-a9f836979be5",
+      "Name": "Length",
+      "TypeName": "System.Int32, mscorlib",
+      "Required": false,
+      "Help": "NVARCHAR/VARCHAR Length",
+      "Description": "NVARCHAR/VARCHAR Length",
+      "ValueAsString": "255",
+      "Value": 255,
+      "AllowedValue": null,
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "317b01d8-744f-4241-90db-a9f836979be5",
+      "Name": "AllowUnicode",
+      "TypeName": "System.Boolean, mscorlib",
+      "Required": false,
+      "Help": "NVARCHAR/VARCHAR Length",
+      "Description": "NVARCHAR/VARCHAR Length",
+      "ValueAsString": "True",
+      "Value": true,
+      "AllowedValue": null,
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "0eee8d95-b563-4ab7-b5b7-a898dbc61ba9",
+      "Name": "SqlIndex",
+      "TypeName": "System.Boolean, mscorlib",
+      "Required": false,
+      "Help": "Create SQL Index",
+      "Description": "Create SQL Index",
+      "ValueAsString": "False",
+      "Value": false,
+      "AllowedValue": null,
+      "WebId": "efa85ba7-c46c-4885-a5d1-2987f3de515d"
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "0eee8d95-b563-4ab7-b5b7-a898dbc61ba9",
+      "Name": "IndexedFields",
+      "TypeName": "System.String, mscorlib",
+      "Required": false,
+      "Help": "Attach other fields to the index",
+      "Description": "Attach other fields to the index",
+      "ValueAsString": "",
+      "Value": "",
+      "AllowedValue": {
+        "$type": "System.Object[], mscorlib",
+        "$values": []
+      },
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "0eee8d95-b563-4ab7-b5b7-a898dbc61ba9",
+      "Name": "DataType",
+      "TypeName": "System.String, mscorlib",
+      "Required": false,
+      "Help": "BIGINT, SMALLINT, TINYINT, INT",
+      "Description": "BIGINT, SMALLINT, TINYINT, INT",
+      "ValueAsString": "",
+      "Value": "",
+      "AllowedValue": {
+        "$type": "System.Object[], mscorlib",
+        "$values": []
+      },
+      "WebId": null
+    },
     {
       "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
       "ProviderName": "SqlServer2016",
@@ -27,10 +252,7 @@
       "Description": "Attach other fields to the index",
       "ValueAsString": "",
       "Value": "",
-      "AllowedValue": {
-        "$type": "System.Object[], mscorlib",
-        "$values": []
-      },
+      "AllowedValue": null,
       "WebId": null
     },
     {
@@ -86,10 +308,7 @@
       "Description": "Attach other fields to the index",
       "ValueAsString": "",
       "Value": "",
-      "AllowedValue": {
-        "$type": "System.Object[], mscorlib",
-        "$values": []
-      },
+      "AllowedValue": null,
       "WebId": null
     },
     {
@@ -145,10 +364,7 @@
       "Description": "Attach other fields to the index",
       "ValueAsString": "",
       "Value": "",
-      "AllowedValue": {
-        "$type": "System.Object[], mscorlib",
-        "$values": []
-      },
+      "AllowedValue": null,
       "WebId": null
     },
     {
@@ -204,10 +420,7 @@
       "Description": "Attach other fields to the index",
       "ValueAsString": "",
       "Value": "",
-      "AllowedValue": {
-        "$type": "System.Object[], mscorlib",
-        "$values": []
-      },
+      "AllowedValue": null,
       "WebId": null
     },
     {
@@ -236,6 +449,290 @@
       "ValueAsString": "True",
       "Value": true,
       "AllowedValue": null,
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "d7b037e4-a131-436a-ab7f-25dcdf8224e2",
+      "Name": "SqlIndex",
+      "TypeName": "System.Boolean, mscorlib",
+      "Required": false,
+      "Help": "Create SQL Index",
+      "Description": "Create SQL Index",
+      "ValueAsString": "True",
+      "Value": true,
+      "AllowedValue": null,
+      "WebId": "92ed1e4e-f93d-4980-8aeb-424284718f73"
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "d7b037e4-a131-436a-ab7f-25dcdf8224e2",
+      "Name": "IndexedFields",
+      "TypeName": "System.String, mscorlib",
+      "Required": false,
+      "Help": "Attach other fields to the index",
+      "Description": "Attach other fields to the index",
+      "ValueAsString": "",
+      "Value": "",
+      "AllowedValue": {
+        "$type": "System.Object[], mscorlib",
+        "$values": []
+      },
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "d7b037e4-a131-436a-ab7f-25dcdf8224e2",
+      "Name": "Length",
+      "TypeName": "System.Int32, mscorlib",
+      "Required": false,
+      "Help": "NVARCHAR/VARCHAR Length",
+      "Description": "NVARCHAR/VARCHAR Length",
+      "ValueAsString": "255",
+      "Value": 255,
+      "AllowedValue": null,
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "d7b037e4-a131-436a-ab7f-25dcdf8224e2",
+      "Name": "AllowUnicode",
+      "TypeName": "System.Boolean, mscorlib",
+      "Required": false,
+      "Help": "NVARCHAR/VARCHAR Length",
+      "Description": "NVARCHAR/VARCHAR Length",
+      "ValueAsString": "True",
+      "Value": true,
+      "AllowedValue": null,
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "5083b32a-54bf-4450-9c6c-86dad9c4f98d",
+      "Name": "SqlIndex",
+      "TypeName": "System.Boolean, mscorlib",
+      "Required": false,
+      "Help": "Create SQL Index",
+      "Description": "Create SQL Index",
+      "ValueAsString": "False",
+      "Value": false,
+      "AllowedValue": null,
+      "WebId": "fdd67c02-9b8c-461b-b2c3-56d4af091cfa"
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "5083b32a-54bf-4450-9c6c-86dad9c4f98d",
+      "Name": "IndexedFields",
+      "TypeName": "System.String, mscorlib",
+      "Required": false,
+      "Help": "Attach other fields to the index",
+      "Description": "Attach other fields to the index",
+      "ValueAsString": "",
+      "Value": "",
+      "AllowedValue": {
+        "$type": "System.Object[], mscorlib",
+        "$values": []
+      },
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "5083b32a-54bf-4450-9c6c-86dad9c4f98d",
+      "Name": "Length",
+      "TypeName": "System.Int32, mscorlib",
+      "Required": false,
+      "Help": "NVARCHAR/VARCHAR Length",
+      "Description": "NVARCHAR/VARCHAR Length",
+      "ValueAsString": "255",
+      "Value": 255,
+      "AllowedValue": null,
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "5083b32a-54bf-4450-9c6c-86dad9c4f98d",
+      "Name": "AllowUnicode",
+      "TypeName": "System.Boolean, mscorlib",
+      "Required": false,
+      "Help": "NVARCHAR/VARCHAR Length",
+      "Description": "NVARCHAR/VARCHAR Length",
+      "ValueAsString": "True",
+      "Value": true,
+      "AllowedValue": null,
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "6fc0cde4-911e-45f4-b81a-9919013f9648",
+      "Name": "SqlIndex",
+      "TypeName": "System.Boolean, mscorlib",
+      "Required": false,
+      "Help": "Create SQL Index",
+      "Description": "Create SQL Index",
+      "ValueAsString": "False",
+      "Value": false,
+      "AllowedValue": null,
+      "WebId": "d01ff68a-5001-4440-b626-006f59e6e7bf"
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "6fc0cde4-911e-45f4-b81a-9919013f9648",
+      "Name": "IndexedFields",
+      "TypeName": "System.String, mscorlib",
+      "Required": false,
+      "Help": "Attach other fields to the index",
+      "Description": "Attach other fields to the index",
+      "ValueAsString": "",
+      "Value": "",
+      "AllowedValue": {
+        "$type": "System.Object[], mscorlib",
+        "$values": []
+      },
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "6fc0cde4-911e-45f4-b81a-9919013f9648",
+      "Name": "Length",
+      "TypeName": "System.Int32, mscorlib",
+      "Required": false,
+      "Help": "NVARCHAR/VARCHAR Length",
+      "Description": "NVARCHAR/VARCHAR Length",
+      "ValueAsString": "255",
+      "Value": 255,
+      "AllowedValue": null,
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "6fc0cde4-911e-45f4-b81a-9919013f9648",
+      "Name": "AllowUnicode",
+      "TypeName": "System.Boolean, mscorlib",
+      "Required": false,
+      "Help": "NVARCHAR/VARCHAR Length",
+      "Description": "NVARCHAR/VARCHAR Length",
+      "ValueAsString": "True",
+      "Value": true,
+      "AllowedValue": null,
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "248d0c8f-b1a1-419a-b5c1-0564b6346915",
+      "Name": "SqlIndex",
+      "TypeName": "System.Boolean, mscorlib",
+      "Required": false,
+      "Help": "Create SQL Index",
+      "Description": "Create SQL Index",
+      "ValueAsString": "False",
+      "Value": false,
+      "AllowedValue": null,
+      "WebId": "e8cf8728-fd0b-475f-9b4d-25be0d4d6484"
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "248d0c8f-b1a1-419a-b5c1-0564b6346915",
+      "Name": "IndexedFields",
+      "TypeName": "System.String, mscorlib",
+      "Required": false,
+      "Help": "Attach other fields to the index",
+      "Description": "Attach other fields to the index",
+      "ValueAsString": "",
+      "Value": "",
+      "AllowedValue": {
+        "$type": "System.Object[], mscorlib",
+        "$values": []
+      },
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "248d0c8f-b1a1-419a-b5c1-0564b6346915",
+      "Name": "Length",
+      "TypeName": "System.Int32, mscorlib",
+      "Required": false,
+      "Help": "NVARCHAR/VARCHAR Length",
+      "Description": "NVARCHAR/VARCHAR Length",
+      "ValueAsString": "255",
+      "Value": 255,
+      "AllowedValue": null,
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "248d0c8f-b1a1-419a-b5c1-0564b6346915",
+      "Name": "AllowUnicode",
+      "TypeName": "System.Boolean, mscorlib",
+      "Required": false,
+      "Help": "NVARCHAR/VARCHAR Length",
+      "Description": "NVARCHAR/VARCHAR Length",
+      "ValueAsString": "True",
+      "Value": true,
+      "AllowedValue": null,
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "0eab2664-c03b-47d1-fbdd-4bee66dd6175",
+      "Name": "SqlIndex",
+      "TypeName": "System.Boolean, mscorlib",
+      "Required": false,
+      "Help": "Create SQL Index",
+      "Description": "Create SQL Index",
+      "ValueAsString": "False",
+      "Value": false,
+      "AllowedValue": null,
+      "WebId": "b09e7646-1749-40f8-a0b2-7e7f4c8c20c8"
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "0eab2664-c03b-47d1-fbdd-4bee66dd6175",
+      "Name": "IndexedFields",
+      "TypeName": "System.String, mscorlib",
+      "Required": false,
+      "Help": "Attach other fields to the index",
+      "Description": "Attach other fields to the index",
+      "ValueAsString": "",
+      "Value": "",
+      "AllowedValue": {
+        "$type": "System.Object[], mscorlib",
+        "$values": []
+      },
+      "WebId": null
+    },
+    {
+      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
+      "ProviderName": "SqlServer2016",
+      "AttachedTo": "0eab2664-c03b-47d1-fbdd-4bee66dd6175",
+      "Name": "DataType",
+      "TypeName": "System.String, mscorlib",
+      "Required": false,
+      "Help": "BIGINT, SMALLINT, TINYINT, INT",
+      "Description": "BIGINT, SMALLINT, TINYINT, INT",
+      "ValueAsString": "",
+      "Value": "",
+      "AllowedValue": {
+        "$type": "System.Object[], mscorlib",
+        "$values": []
+      },
       "WebId": null
     },
     {
@@ -464,20 +961,6 @@
     },
     {
       "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "5083b32a-54bf-4450-9c6c-86dad9c4f98d",
-      "Name": "SqlIndex",
-      "TypeName": "System.Boolean, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "False",
-      "Value": false,
-      "AllowedValue": null,
-      "WebId": "fdd67c02-9b8c-461b-b2c3-56d4af091cfa"
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
       "ProviderName": "Elasticsearch.1.7.5",
       "AttachedTo": "5083b32a-54bf-4450-9c6c-86dad9c4f98d",
       "Name": "Boost",
@@ -531,34 +1014,6 @@
       "Value": false,
       "AllowedValue": null,
       "WebId": "8d7498cb-8d96-421c-a6ea-c1277ec0e766"
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "5083b32a-54bf-4450-9c6c-86dad9c4f98d",
-      "Name": "Length",
-      "TypeName": "System.Int32, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "255",
-      "Value": 255,
-      "AllowedValue": null,
-      "WebId": null
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "5083b32a-54bf-4450-9c6c-86dad9c4f98d",
-      "Name": "AllowUnicode",
-      "TypeName": "System.Boolean, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "True",
-      "Value": true,
-      "AllowedValue": null,
-      "WebId": null
     },
     {
       "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
@@ -1122,20 +1577,6 @@
     },
     {
       "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "d7b037e4-a131-436a-ab7f-25dcdf8224e2",
-      "Name": "SqlIndex",
-      "TypeName": "System.Boolean, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "True",
-      "Value": true,
-      "AllowedValue": null,
-      "WebId": "92ed1e4e-f93d-4980-8aeb-424284718f73"
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
       "ProviderName": "Elasticsearch.1.7.5",
       "AttachedTo": "d7b037e4-a131-436a-ab7f-25dcdf8224e2",
       "Name": "Boost",
@@ -1189,34 +1630,6 @@
       "Value": false,
       "AllowedValue": null,
       "WebId": "bd86b22f-6695-4a71-a46c-95a30fba5bb3"
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "d7b037e4-a131-436a-ab7f-25dcdf8224e2",
-      "Name": "Length",
-      "TypeName": "System.Int32, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "255",
-      "Value": 255,
-      "AllowedValue": null,
-      "WebId": null
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "d7b037e4-a131-436a-ab7f-25dcdf8224e2",
-      "Name": "AllowUnicode",
-      "TypeName": "System.Boolean, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "True",
-      "Value": true,
-      "AllowedValue": null,
-      "WebId": null
     },
     {
       "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
@@ -1486,20 +1899,6 @@
     },
     {
       "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "6fc0cde4-911e-45f4-b81a-9919013f9648",
-      "Name": "SqlIndex",
-      "TypeName": "System.Boolean, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "False",
-      "Value": false,
-      "AllowedValue": null,
-      "WebId": "d01ff68a-5001-4440-b626-006f59e6e7bf"
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
       "ProviderName": "Elasticsearch.1.7.5",
       "AttachedTo": "6fc0cde4-911e-45f4-b81a-9919013f9648",
       "Name": "Boost",
@@ -1553,34 +1952,6 @@
       "Value": false,
       "AllowedValue": null,
       "WebId": "ac153acd-2d6d-4909-aab9-a855cac84354"
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "6fc0cde4-911e-45f4-b81a-9919013f9648",
-      "Name": "Length",
-      "TypeName": "System.Int32, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "255",
-      "Value": 255,
-      "AllowedValue": null,
-      "WebId": null
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "6fc0cde4-911e-45f4-b81a-9919013f9648",
-      "Name": "AllowUnicode",
-      "TypeName": "System.Boolean, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "True",
-      "Value": true,
-      "AllowedValue": null,
-      "WebId": null
     },
     {
       "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
@@ -1682,20 +2053,6 @@
     },
     {
       "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "363f0a6f-24c3-49d1-8e71-3287877be282",
-      "Name": "SqlIndex",
-      "TypeName": "System.Boolean, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "False",
-      "Value": false,
-      "AllowedValue": null,
-      "WebId": "030f4b65-4723-487f-9e09-e90c89f22a9f"
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
       "ProviderName": "Elasticsearch.1.7.5",
       "AttachedTo": "363f0a6f-24c3-49d1-8e71-3287877be282",
       "Name": "Boost",
@@ -1749,48 +2106,6 @@
       "Value": false,
       "AllowedValue": null,
       "WebId": "87545258-d663-4db0-9de6-78e512e4e12c"
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "363f0a6f-24c3-49d1-8e71-3287877be282",
-      "Name": "Length",
-      "TypeName": "System.Int32, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "255",
-      "Value": 255,
-      "AllowedValue": null,
-      "WebId": null
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "363f0a6f-24c3-49d1-8e71-3287877be282",
-      "Name": "AllowUnicode",
-      "TypeName": "System.Boolean, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "True",
-      "Value": true,
-      "AllowedValue": null,
-      "WebId": null
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "266bb168-de09-4b60-bd7e-f3efc4b019a1",
-      "Name": "SqlIndex",
-      "TypeName": "System.Boolean, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "False",
-      "Value": false,
-      "AllowedValue": null,
-      "WebId": "54518802-9d6e-4686-881e-048c03627bea"
     },
     {
       "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
@@ -1850,48 +2165,6 @@
     },
     {
       "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "266bb168-de09-4b60-bd7e-f3efc4b019a1",
-      "Name": "Length",
-      "TypeName": "System.Int32, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "255",
-      "Value": 255,
-      "AllowedValue": null,
-      "WebId": null
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "266bb168-de09-4b60-bd7e-f3efc4b019a1",
-      "Name": "AllowUnicode",
-      "TypeName": "System.Boolean, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "True",
-      "Value": true,
-      "AllowedValue": null,
-      "WebId": null
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "317b01d8-744f-4241-90db-a9f836979be5",
-      "Name": "SqlIndex",
-      "TypeName": "System.Boolean, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "False",
-      "Value": false,
-      "AllowedValue": null,
-      "WebId": "dec2a64c-e626-4a19-901e-3a7499189ed3"
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
       "ProviderName": "Elasticsearch.1.7.5",
       "AttachedTo": "317b01d8-744f-4241-90db-a9f836979be5",
       "Name": "Boost",
@@ -1945,34 +2218,6 @@
       "Value": false,
       "AllowedValue": null,
       "WebId": "0c859ebc-27a7-4ba7-8fdc-9dd6c56c63fa"
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "317b01d8-744f-4241-90db-a9f836979be5",
-      "Name": "Length",
-      "TypeName": "System.Int32, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "255",
-      "Value": 255,
-      "AllowedValue": null,
-      "WebId": null
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "317b01d8-744f-4241-90db-a9f836979be5",
-      "Name": "AllowUnicode",
-      "TypeName": "System.Boolean, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "True",
-      "Value": true,
-      "AllowedValue": null,
-      "WebId": null
     },
     {
       "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
@@ -2043,20 +2288,6 @@
       "Value": false,
       "AllowedValue": null,
       "WebId": "1b1dd4e9-a563-42eb-a723-1fb9668f042c"
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "0eee8d95-b563-4ab7-b5b7-a898dbc61ba9",
-      "Name": "SqlIndex",
-      "TypeName": "System.Boolean, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "False",
-      "Value": false,
-      "AllowedValue": null,
-      "WebId": "efa85ba7-c46c-4885-a5d1-2987f3de515d"
     },
     {
       "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
@@ -2186,20 +2417,6 @@
     },
     {
       "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "248d0c8f-b1a1-419a-b5c1-0564b6346915",
-      "Name": "SqlIndex",
-      "TypeName": "System.Boolean, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "False",
-      "Value": false,
-      "AllowedValue": null,
-      "WebId": "e8cf8728-fd0b-475f-9b4d-25be0d4d6484"
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
       "ProviderName": "Elasticsearch.1.7.5",
       "AttachedTo": "248d0c8f-b1a1-419a-b5c1-0564b6346915",
       "Name": "Boost",
@@ -2253,34 +2470,6 @@
       "Value": false,
       "AllowedValue": null,
       "WebId": "3665f1c3-df79-49f1-82b9-2c523122f0c1"
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "248d0c8f-b1a1-419a-b5c1-0564b6346915",
-      "Name": "Length",
-      "TypeName": "System.Int32, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "255",
-      "Value": 255,
-      "AllowedValue": null,
-      "WebId": null
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "248d0c8f-b1a1-419a-b5c1-0564b6346915",
-      "Name": "AllowUnicode",
-      "TypeName": "System.Boolean, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "True",
-      "Value": true,
-      "AllowedValue": null,
-      "WebId": null
     },
     {
       "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
@@ -2351,20 +2540,6 @@
       "Value": false,
       "AllowedValue": null,
       "WebId": "426a1819-1a52-48e0-9840-658b218e7ec4"
-    },
-    {
-      "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
-      "ProviderName": "SqlServer2016",
-      "AttachedTo": "0eab2664-c03b-47d1-fbdd-4bee66dd6175",
-      "Name": "SqlIndex",
-      "TypeName": "System.Boolean, mscorlib",
-      "Required": false,
-      "Help": null,
-      "Description": null,
-      "ValueAsString": "False",
-      "Value": false,
-      "AllowedValue": null,
-      "WebId": "b09e7646-1749-40f8-a0b2-7e7f4c8c20c8"
     },
     {
       "$type": "Bespoke.Sph.Domain.AttachedProperty, domain.sph",
