@@ -1,6 +1,6 @@
 {
   "$type": "Bespoke.Sph.Domain.EntityDefinition, domain.sph",
-  "$tool-version": "2.1.2170.6524-41d96f89",
+  "$tool-version": "2.1.2171.6561-74ccec98a",
   "MemberCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Member, domain.sph]], domain.sph",
     "$values": [
