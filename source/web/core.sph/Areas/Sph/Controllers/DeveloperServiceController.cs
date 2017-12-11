@@ -129,7 +129,12 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         }
         [HttpGet]
         [Route("compilers-attached-properties-members/{id}/{webId}")]
-        public async Task<IHttpActionResult> GetMemberCompilerAttachProperties(string id, string webId)
+        public async Task<IHttpActionResult> GetMemberCompilerAttachProperties(string id, string webId,
+            [FromUri(Name = "type")]string type,
+            [FromUri(Name = "name")]string name,
+            [FromUri(Name = "dataType")]string dataType,
+            [FromUri(Name = "nullable")]bool nullable = false,
+            [FromUri(Name = "allowMultiple")]bool allowMultiple = false)
         {
             var repos = ObjectBuilder.GetObject<ISourceRepository>();
             var compilers = this.DeveloperService.ProjectBuilders;
@@ -152,8 +157,24 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
 
             var member = GetMember(ed.MemberCollection);
+            if (null == member && type == typeof(SimpleMember).GetShortAssemblyQualifiedName())
+                member = new SimpleMember { WebId = webId, Name = name };
+            if (null == member && type == typeof(ComplexMember).GetShortAssemblyQualifiedName())
+                member = new ComplexMember();
             if (null == member)
-                return NotFound($"Cannot find any Member : {webId} in {ed.Name}");
+                return NotFound($"Cannot find member with WebId {webId} and not able to create {type}");
+
+
+            if (member is SimpleMember sm)
+            {
+                if (string.IsNullOrWhiteSpace(dataType))
+                    return Json("{}");
+
+                sm.Name = name;
+                sm.IsNullable = nullable;
+                sm.TypeName = dataType;
+                sm.AllowMultiple = allowMultiple;
+            }
 
 
             var bags = new Dictionary<IProjectBuilder, List<AttachedProperty>>();
