@@ -8,7 +8,7 @@ CREATE TABLE [DevV1].[Customer]
     ,[Age] AS CAST(JSON_VALUE([Json], '$.Age') AS INT)
     ,[Gender] AS CAST(JSON_VALUE([Json], '$.Gender') AS VARCHAR(255))
     ,[IsPriority] AS CAST(JSON_VALUE([Json], '$.IsPriority') AS BIT)
-    ,[RegisteredDate] AS CAST(JSON_VALUE([Json], '$.RegisteredDate') AS DATETIME2)
+    ,[RegisteredDate] DATETIME2 NOT NULL
     ,[Rating] AS CAST(JSON_VALUE([Json], '$.Rating') AS INT)
     ,[PrimaryContact] AS CAST(JSON_VALUE([Json], '$.PrimaryContact') AS VARCHAR(255))
     ,[Department] AS CAST(JSON_VALUE([Json], '$.Department') AS VARCHAR(255))
