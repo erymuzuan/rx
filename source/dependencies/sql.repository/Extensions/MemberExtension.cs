@@ -58,6 +58,13 @@ namespace Bespoke.Sph.SqlRepository.Extensions
             {
                 return $"[{member.FullName}] {member.GetSqlType()} {(member.IsNullable ? "" : "NOT")} NULL";
             }
+            // NOTE : we can't create index on DateTime column from JSON_VALUE, so in this case create a persisted column
+            // i.e. Column 'RegisteredDate' in table 'DevV1.Customer' cannot be used in an index or statistics or as a partition key because it is non-deterministic.
+            if (member.Type == typeof(DateTime))
+            {
+                var dateTimeType = properties.GetPropertyValue("DataType", "DATETIME2");
+                return $"[{member.FullName}] {dateTimeType} {(member.IsNullable ? "" : "NOT")} NULL";
+            }
 
             var length = properties.GetPropertyValue<int?>("Length", default);
             return $"[{member.FullName}] AS CAST(JSON_VALUE([Json], '$.{member.FullName}') AS {member.GetSqlType(length)})";
