@@ -37,5 +37,16 @@ namespace Bespoke.Sph.SqlRepository.Extensions
             list.Add(prop);
             return prop;
         }
+
+        public static AttachedProperty WithValidOptions(this AttachedProperty prop, params object[] options)
+        {
+            prop.ValidOptions = options;
+            return prop;
+        }
+        public static AttachedProperty WithEnableExpression(this AttachedProperty prop, string expression)
+        {
+            prop.EnabledExpression = expression;
+            return prop;
+        }
     }
 }

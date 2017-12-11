@@ -51,6 +51,7 @@ namespace Bespoke.Sph.Domain
         public string Help { get; set; }
         public string Description { get; set; }
         public object[] ValidOptions { get; set; }
+        public string EnabledExpression { get; set; } = "true";
 
         public string ValueAsString { get; set; }
         private object m_value;
@@ -143,7 +144,8 @@ namespace Bespoke.Sph.Domain
                 ProviderName = ProviderName,
                 Required = Required,
                 ValueAsString = value.ValueAsString,
-                WebId = value.WebId
+                WebId = value.WebId,
+                EnabledExpression = this.EnabledExpression
             };
         }
     }

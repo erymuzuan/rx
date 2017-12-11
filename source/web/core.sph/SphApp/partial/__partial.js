@@ -1578,12 +1578,12 @@ bespoke.sph.domain.MemberPartial = function (model) {
 
 
                 app2.showDialog(dialog)
-                .done(function (result) {
-                    if (!result) return;
-                    if (result === "OK") {
-                        accessor(field);
-                    }
-                });
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            accessor(field);
+                        }
+                    });
 
             });
         },
@@ -1629,7 +1629,7 @@ bespoke.sph.domain.MemberPartial = function (model) {
         addField: addField,
         removeField: removeField,
         editField: editField,
-        attachedProperties : ko.observableArray()
+        attachedProperties: ko.observableArray()
     };
 };
 /// <reference path="../objectbuilders.js" />

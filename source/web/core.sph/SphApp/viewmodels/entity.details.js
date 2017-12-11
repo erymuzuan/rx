@@ -322,6 +322,16 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     });
 
                 return tcs.promise();
+            },
+            attachedPropertyEnable = function (expression, compiler) {
+                const func = ko.unwrap(expression);
+                console.debug(func, ko.unwrap(compiler));
+                const depend = compiler.properties.find(x => ko.unwrap(x.Name) === func);
+                if (depend)
+                    return depend.Value;
+
+                // TODO : what if the expression is more complex than just a simple Value, e.g Prop1 && Prop2 > 0
+                return func;
             };
 
 
@@ -347,6 +357,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             attached: attached,
             entity: entity,
             member: member,
+            attachedPropertyEnable: attachedPropertyEnable,
             addQueryEndpoint: addQueryEndpoint,
             addOperationEndpoint: addOperationEndpoint,
             toolbar: {

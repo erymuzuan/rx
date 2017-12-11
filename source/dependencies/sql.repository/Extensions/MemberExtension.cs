@@ -22,24 +22,31 @@ namespace Bespoke.Sph.SqlRepository.Extensions
         {
             var properties = new List<AttachedProperty>();
 
-            properties.Add<bool>(sm, "SqlIndex", "Create SQL Index","Without this option you will not be able to filter the data using standard SQL WHERE predicates, use JSON_VALUE([Json], '$.Path') instead");
-            properties.Add<string>(sm, "IndexedFields", "Attach other fields to the index", "Use commad to seperate the fields, if the index is used and other fields needed to fetch together, attaching them will avoid JSON operation");
+            const string SQL_INDEX = "SqlIndex";
+            properties.Add<bool>(sm, SQL_INDEX, "Create SQL Index", "Without this option you will not be able to filter the data using standard SQL WHERE predicates, use JSON_VALUE([Json], '$.Path') instead");
+            properties.Add<string>(sm, "IndexedFields", "Attach other fields to the index", "Use commad to seperate the fields, if the index is used and other fields needed to fetch together, attaching them will avoid JSON operation")
+                .WithEnableExpression(SQL_INDEX);
 
             if (sm.Type == typeof(string))
             {
-                properties.Add<int>(sm, "Length", "NVARCHAR/VARCHAR Length");
-                properties.Add<bool>(sm, "AllowUnicode", "NVARCHAR/VARCHAR Length", "Choosing Unicode, will create a column and index of type NVARCHAR");
+                properties.Add<int>(sm, "Length", "NVARCHAR/VARCHAR Length")
+                    .WithEnableExpression(SQL_INDEX);
+                properties.Add<bool>(sm, "AllowUnicode", "NVARCHAR/VARCHAR Length", "Choosing Unicode, will create a column and index of type NVARCHAR")
+                    .WithEnableExpression(SQL_INDEX);
+
             }
 
             if (sm.Type == typeof(int))
             {
-                var number = properties.Add<string>(sm, "DataType", "BIGINT, SMALLINT, TINYINT, INT");
-                number.ValidOptions = new object[] { "INT", "SMALLINT", "TINYINT", "BIGINT" };
+                properties.Add<string>(sm, "DataType", "BIGINT, SMALLINT, TINYINT, INT")
+                    .WithValidOptions("INT", "SMALLINT", "TINYINT", "BIGINT")
+                    .WithEnableExpression(SQL_INDEX);
             }
             if (sm.Type == typeof(DateTime))
             {
-                var number = properties.Add<string>(sm, "DataType", "SQL DateTime data type", "If your data type required specific range and needs");
-                number.ValidOptions = new object[] { "DATETIME2", "SMALLDATETIME", "TIME", "DATE", "DATETIME", "DATETIMEOFFSET" };
+                properties.Add<string>(sm, "DataType", "SQL DateTime data type", "If your data type required specific range and needs")
+                     .WithEnableExpression(SQL_INDEX)
+                     .WithValidOptions("DATETIME2", "SMALLDATETIME", "TIME", "DATE", "DATETIME", "DATETIMEOFFSET");
             }
 
             return properties.ToArray();
