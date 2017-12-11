@@ -8,11 +8,11 @@ namespace Bespoke.Sph.Domain
     public partial class ListView : FormElement
     {
 
-        public override BuildError[] ValidateBuild(EntityDefinition ed)
+        public override BuildDiagnostic[] ValidateBuild(EntityDefinition ed)
         {
-            var errors = new List<BuildError>();
+            var errors = new List<BuildDiagnostic>();
             if (string.IsNullOrWhiteSpace(this.ChildItemType))
-                errors.Add(new BuildError(null, ($"[ListView] -> Child item type cannot be empty for {Path}")));
+                errors.Add(new BuildDiagnostic(null, ($"[ListView] -> Child item type cannot be empty for {Path}")));
 
             return errors.ToArray();
         }

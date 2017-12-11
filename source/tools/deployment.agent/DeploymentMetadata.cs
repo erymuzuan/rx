@@ -1,16 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.SqlRepository;
-using Bespoke.Sph.ElasticsearchRepository;
+using Bespoke.Sph.Extensions;
+using Bespoke.Sph.Mangements.Extensions;
 using Newtonsoft.Json.Linq;
-using Console = Colorful.Console;
 
 namespace Bespoke.Sph.Mangements
 {
@@ -20,6 +18,9 @@ namespace Bespoke.Sph.Mangements
         public DateTime DateTime { get; set; }
         public string Tag { get; set; }
         public string Revision { get; set; }
+
+        [Import(typeof(IDeveloperService))]
+        public IDeveloperService DeveloperService { get; set; }
 
         public DeploymentMetadata(EntityDefinition entityDefinition)
         {
@@ -149,11 +150,12 @@ namespace Bespoke.Sph.Mangements
             return list;
         }
 
-        public async Task BuildAsync(bool truncate, bool nes, int sqlBatchSize, string migrationPlan)
+        public async Task StartDeployAsync(bool truncate, int sqlBatchSize, string migrationPlan)
         {
             if (string.IsNullOrWhiteSpace(migrationPlan)) throw new ArgumentNullException(nameof(migrationPlan));
             var ed = m_entityDefinition;
 
+            var logger = ObjectBuilder.GetObject<ILogger>();
             var lastDeployedDate = await this.GetLastDeployedDateTimeAsyc();
             var hasChanges = lastDeployedDate < m_entityDefinition.ChangedDate;
             var plan = MigrationPlan.ParseFile(migrationPlan);
@@ -167,36 +169,35 @@ namespace Bespoke.Sph.Mangements
                 }
             }
 
-            var tableBuilder = new TableSchemaBuilder(WriteMessage);
+            var list = new List<RxCompilerResult>();
             if (hasChanges)
-                await tableBuilder.BuildAsync(ed, sqlBatchSize: sqlBatchSize, migration: Migration, deploy: true);
-
-
-            if (ed.TreatDataAsSource)
             {
-                var sourceMigrator = new SourceTableBuilder(WriteMessage, WriteWarning, WriteError);
-                if (truncate)
-                    await sourceMigrator.CleanAndBuildAsync(ed);
-                else
-                    await sourceMigrator.BuildAsync(ed);
-            }
-
-            if (!nes)
-            {
-                using (var mappingBuilder = new MappingBuilder(WriteMessage, WriteWarning, WriteError))
+                foreach (var x in this.DeveloperService.ProjectDeployers.OrderBy(x => x.Order))
                 {
-                    await mappingBuilder.DeleteMappingAsync(ed);
-                    await mappingBuilder.BuildAllAsync(ed);
+                    if (!await x.CheckForAsync(ed)) continue;
+
+                    logger.WriteInfo($"Starting deployment with {x.GetType().Name}....");
+                    var result = await x.DeployAsync(ed, Migration);
+                    list.Add(result);
+                    logger.WriteInfo($"Succesfully deployed with {x.GetType().Name}");
+
                 }
+                Console.WriteLine();
+                Console.WriteLine();
             }
 
+            logger.WriteInfo($"===      {list.Count(x => !x.Errors.Any())} successfully deployed and {list.Count(x => x.Errors.Any())} failed     ====");
+            logger.WriteInfo(list.SelectMany(x => x.Errors).Where(x => x.Severity <= Severity.Info).ToString("\r\n"));
+            logger.WriteWarning(list.SelectMany(x => x.Errors).Where(x => x.Severity == Severity.Warning).ToString("\r\n"));
+            logger.WriteError(list.SelectMany(x => x.Errors).Where(x => x.Severity >= Severity.Error).ToString("\r\n"));
+            
             await InsertDeploymentMetadataAsync();
 
             if (!hasChanges)
-                Console.WriteLine(
-                    $"\"{m_entityDefinition.Name}\" was last deployed on {lastDeployedDate} and the source has not changed since");
+                logger.WriteInfo(
+                    $@"""{m_entityDefinition.Name}"" was last deployed on {lastDeployedDate} and the source has not changed since");
 
-            Console.WriteLine($@"{ed.Name} was succesfully deployed ");
+            logger.WriteInfo($@"{ed.Name} was succesfully deployed ");
         }
 
         public async Task<DateTime?> GetLastDeployedDateTimeAsyc()
@@ -209,7 +210,7 @@ namespace Bespoke.Sph.Mangements
             {
                 await conn.OpenAsync();
                 var val = await cmd.ExecuteScalarAsync();
-                if (val == DBNull.Value) return default(DateTime);
+                if (val == DBNull.Value) return default;
                 return (DateTime)val;
             }
         }
@@ -231,7 +232,7 @@ VALUES ( @Name, @EdId, @Tag, @Revision, @Source)
                 cmd.Parameters.Add("@Revision", SqlDbType.VarChar, 255).Value = await cvs.GetCommitIdAsync(sourceJson) ?? "NA";
                 cmd.Parameters.Add("@Source", SqlDbType.VarChar, -1).Value = m_entityDefinition.ToJsonString();
                 await conn.OpenAsync();
-                
+
                 await cmd.ExecuteNonQueryAsync();
             }
         }
@@ -239,17 +240,17 @@ VALUES ( @Name, @EdId, @Tag, @Revision, @Source)
 
         private static void WriteMessage(string m)
         {
-            Console.WriteLine($@"{DateTime.Now:T} : {m}", Color.Cyan);
+            Console.WriteLine($@"{DateTime.Now:T} : {m}");
         }
 
         private static void WriteWarning(string m)
         {
-            Console.WriteLine($@"{DateTime.Now:T} : {m}", Color.Yellow);
+            Console.WriteLine($@"{DateTime.Now:T} : {m}");
         }
 
         private static void WriteError(Exception m)
         {
-            Console.WriteLine($@"{DateTime.Now:T} : {m}", Color.OrangeRed);
+            Console.WriteLine($@"{DateTime.Now:T} : {m}");
         }
 
 
@@ -285,23 +286,6 @@ CREATE TABLE [Sph].[DeploymentMetadata](
             }
         }
 
-        public async Task TestMigrationAsync(string migrationPlan, string outputFolder)
-        {
-            var builder = new TableSchemaBuilder(WriteMessage, WriteWarning, WriteError);
-            var plan = MigrationPlan.ParseFile(migrationPlan);
 
-
-            void Migration(JObject json, dynamic item)
-            {
-                foreach (var change in plan.ChangeCollection)
-                {
-                    change.Migrate(item, json);
-                }
-
-                File.WriteAllText($"{outputFolder}\\{item.Id}.json", JsonSerializerService.ToJson(item));
-            }
-
-            await builder.MigrateDataAsync(m_entityDefinition, 20, m_entityDefinition.Name, Migration);
-        }
     }
 }

@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 namespace Bespoke.Sph.Domain
 {
 
-    public interface IElementRenderer<T>
+    public interface IElementRenderer<in T>
     {
-        
+        Task<BuildValidationResult> RenderAsync(T form);
     }
     public interface IFormRenderer
     {

@@ -5,10 +5,10 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Management;
 using Bespoke.Sph.Mangements.Models;
 using Dapper;
 using GalaSoft.MvvmLight;
@@ -26,13 +26,19 @@ namespace Bespoke.Sph.Mangements.ViewModels
         [Import]
         public MigrationScriptViewModel MigrationScriptViewModel { get; set; }
 
+        [Import(typeof(IReadOnlyRepositoryManagement))]
+        private IReadOnlyRepositoryManagement ReadOnlyRepositoryManagement { get; set; }
+        [Import(typeof(IRepositoryManagement))]
+        private IRepositoryManagement RepositoryManagement { get; set; }
 
         public MainViewModel()
         {
             this.LoadCommand = new RelayCommand(Load, () => true);
-            this.DeploySelectedCommand = new RelayCommand<IList<EntityDeployment>>(DeploySelectedItems, list => SelectedCollection.Count > 0 && IsElasticsearchAccesible && IsSqlServerAccessible);
+            this.DeploySelectedCommand = new RelayCommand<IList<EntityDeployment>>(DeploySelectedItems, list => SelectedCollection.Count > 0 && IsReadOnlyRepositoryRunning && IsRepositoryRunning);
             this.CompileCommand = new RelayCommand<EntityDeployment>(Compile, ed => ed.CanCompile);
             this.DiffCommand = new RelayCommand<EntityDeployment>(Diff, ed => ed.CanDiff);
+            
+
         }
 
         private void Diff(EntityDeployment deployment)
@@ -90,43 +96,12 @@ namespace Bespoke.Sph.Mangements.ViewModels
             this.IsBusy = true;
             this.BusyMessage = "Loading your assets....";
             this.QueueUserWorkItem(LoadHelperAsync);
-
-
+            
 
         }
 
 
-        public async Task InitializeAsync()
-        {
-            const string SQL = @"
-CREATE TABLE [Sph].[DeploymentMetadata](
-     [Id] INT PRIMARY KEY NOT NULL IDENTITY(1,1)
-    ,[Name] VARCHAR(255)  NULL
-    ,[EdId] VARCHAR(255) NOT NULL
-    ,[Tag] VARCHAR(255) NOT NULL
-    ,[Revision] VARCHAR(255)  NULL
-    ,[DateTime] SMALLDATETIME NOT NULL DEFAULT GETDATE()
-    ,[Source] VARCHAR(MAX)
-)
-
-                ";
-            using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
-            using (var checkTableCommand = new SqlCommand(@"SELECT COUNT(*)
-                 FROM INFORMATION_SCHEMA.TABLES 
-                 WHERE TABLE_SCHEMA = 'Sph' 
-                 AND  TABLE_NAME = 'DeploymentMetadata'", conn))
-            {
-                await conn.OpenAsync();
-                var exist = (int)await checkTableCommand.ExecuteScalarAsync() == 1;
-                if (!exist)
-                {
-                    using (var createTableCommand = new SqlCommand(SQL, conn))
-                    {
-                        await createTableCommand.ExecuteNonQueryAsync();
-                    }
-                }
-            }
-        }
+      
 
         private async void LoadHelperAsync()
         {
@@ -134,8 +109,8 @@ CREATE TABLE [Sph].[DeploymentMetadata](
             var list = context.LoadFromSources<EntityDefinition>()
                 .Select(x => new EntityDeployment { EntityDefinition = x })
                 .ToList();
-
-            await this.InitializeAsync();
+            var metadataRepository = ObjectBuilder.GetObject<IDeploymentMetadataRepository>();
+            await metadataRepository.InitializeAsync();
             using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
             {
                 await conn.OpenAsync();
@@ -159,39 +134,9 @@ CREATE TABLE [Sph].[DeploymentMetadata](
             // now check sql server and elasticsearch
             while (true)
             {
-                using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
-                using (var cmd = new SqlCommand("SELECT COUNT(*) FROM [Sph].[Message]", conn))
-                {
-                    try
-                    {
-                        await conn.OpenAsync();
-                        var rows = await cmd.ExecuteScalarAsync();
-                        this.IsSqlServerAccessible = (int)rows >= 0;
-                    }
-                    catch (SqlException)
-                    {
-                        this.IsSqlServerAccessible = false;
-                    }
-                }
-
-                var esHost =
-                    Environment.GetEnvironmentVariable(
-                        $"RX_{ConfigurationManager.ApplicationNameToUpper}_ElasticSearchHost")
-                    ?? "http://localhost:9200";
-
-                using (var client = new HttpClient { BaseAddress = new Uri(esHost) })
-                {
-                    try
-                    {
-                        var cat = await client.GetStringAsync("_cat/indices");
-                        this.IsElasticsearchAccesible = cat.Contains(ConfigurationManager.ApplicationName.ToLowerInvariant());
-                    }
-                    catch
-                    {
-                        //ignore
-                        this.IsElasticsearchAccesible = false;
-                    }
-                }
+                this.IsRepositoryRunning = await this.RepositoryManagement.GetAccesibleStatusAsync();
+                this.IsReadOnlyRepositoryRunning = await this.ReadOnlyRepositoryManagement.GetAccesibleStatusAsync();
+              
                 await Task.Delay(5000);
 
             }

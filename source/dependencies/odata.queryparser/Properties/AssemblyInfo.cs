@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 
 [assembly: AssemblyTitle("odata.queryparser")]
 [assembly: AssemblyDescription("Provides Odata uri QueryParser implementation")]
@@ -7,3 +7,6 @@
 #else
 [assembly: AssemblyConfiguration("Release")]
 #endif
+//
+//
+//

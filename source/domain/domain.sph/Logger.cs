@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,7 +19,7 @@ namespace Bespoke.Sph.Domain
 
             var tasks = from logger in this.Loggers
                         select logger.LogAsync(entry);
-            Console.WriteLine($"executing {tasks.Count()} loggers");
+            Debug.WriteLine($"executing {tasks.Count()} loggers");
             return Task.FromResult(0);
 
         }

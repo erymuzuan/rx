@@ -28,7 +28,7 @@ define(["services/datacontext", "services/logger", "plugins/dialog"],
                 $("div.fa-hover>span").css("cursor","pointer");
                 $(view).on("click", "div.fa-hover>span", function (e) {
                     e.preventDefault();
-                    var span = $(this),
+                    let span = $(this),
                         css = "";
                     if(span.hasClass("glyphicon")){
                         css = span.attr("class").replace("glyphicon ");
@@ -49,7 +49,7 @@ define(["services/datacontext", "services/logger", "plugins/dialog"],
                 dialog.close(this, "Cancel");
             };
 
-        const vm = {
+        return {
             attached: attached,
             activate: activate,
             icon: icon,
@@ -57,8 +57,5 @@ define(["services/datacontext", "services/logger", "plugins/dialog"],
             okClick: okClick,
             cancelClick: cancelClick
         };
-
-
-        return vm;
 
     });

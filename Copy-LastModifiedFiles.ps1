@@ -6,7 +6,7 @@
        [string[]] $Destinations,
        [string[]]$Excludes = @("*.config")
      )
-$files = ls $Path -Exclude $Excludes | sort -Descending LastWriteTime | select -First $First
+$files = ls $Path -Exclude $Excludes | ? {$_.PSIsContainer -eq $false } | sort -Descending LastWriteTime | select -First $First
 
 if($WhatIf.IsPresent -eq $true){
 

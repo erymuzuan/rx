@@ -15,7 +15,32 @@ namespace Bespoke.Sph.Domain
             return $"[ComplexMember]{this.Name}; AllowMultiple = {AllowMultiple}, Members = {MemberCollection.Count}";
         }
 
+        public Member AddMember<T>(string name, bool nullable = false, bool allowMultiple = false, Field defaultValue = null)
+        {
+            if (typeof(T).IsSubclassOf(typeof(Member)))
+            {
+                var ctor = typeof(T).GetConstructor(Array.Empty<Type>());
+                if (null == ctor) throw new ArgumentException("No default ctor");
+                if (ctor.Invoke(new object[] { }) is Member mbr)
+                {
+                    mbr.Name = name;
+                    mbr.WebId = Strings.GenerateId();
+                    this.MemberCollection.Add(mbr);
+                    return mbr;
+                }
+            }
+            var sm = new SimpleMember
+            {
+                Name = name,
+                Type = typeof(T),
+                IsNullable = nullable,
+                DefaultValue = defaultValue,
+                AllowMultiple = allowMultiple
 
+            };
+            this.MemberCollection.Add(sm);
+            return sm;
+        }
 
 
         public override string GetDefaultValueCode(int count, string itemIdentifier = "this")
@@ -137,18 +162,18 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        public override BuildError[] Validate()
+        public override BuildDiagnostic[] Validate()
         {
-            var errors = new List<BuildError>(base.Validate());
+            var errors = new List<BuildDiagnostic>(base.Validate());
 
             const string PATTERN = "^[A-Za-z][A-Za-z0-9_]*$";
             var validName = new Regex(PATTERN);
 
             var typeNameInvalid = $"[Member] \"{Name}\" TypeName is not valid identifier";
             if (string.IsNullOrWhiteSpace(TypeName))
-                errors.Add(new BuildError(WebId) { Message = $"[Member] \"{Name}\" TypeName cannot be empty" });
+                errors.Add(new BuildDiagnostic(WebId) { Message = $"[Member] \"{Name}\" TypeName cannot be empty" });
             if (!validName.Match(TypeName).Success)
-                errors.Add(new BuildError(WebId) { Message = typeNameInvalid });
+                errors.Add(new BuildDiagnostic(WebId) { Message = typeNameInvalid });
 
             return errors.ToArray();
         }

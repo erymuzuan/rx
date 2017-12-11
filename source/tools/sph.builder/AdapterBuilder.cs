@@ -1,12 +1,9 @@
-using System;
-using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Newtonsoft.Json;
-using Console = Colorful.Console;
 
 namespace Bespoke.Sph.SourceBuilders
 {

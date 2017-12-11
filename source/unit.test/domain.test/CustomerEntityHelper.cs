@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Amido.NAuto;
 using Amido.NAuto.Randomizers;
 using Bespoke.Sph.Domain;
+using domain.test.Extensions;
 
 namespace domain.test
 {
@@ -35,21 +36,8 @@ namespace domain.test
 
         public static async Task<Type> CompileEntityDefinitionAsync(EntityDefinition ed)
         {
-            var options = new CompilerOptions
-            {
-                IsVerbose = false,
-                IsDebug = true
-            };
+            var result = await ed.CompileWithCsharpAsync();
 
-
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath($@"{ConfigurationManager.WebPath}\bin\Newtonsoft.Json.dll"));
-
-
-            var codes = await ed.GenerateCodeAsync();
-            var sources = ed.SaveSources(codes);
-            var result = ed.Compile(options, sources);
             result.Errors.ForEach(Console.WriteLine);
             DeployCustomEntity(ed);
 

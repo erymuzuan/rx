@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Bespoke.Sph.Domain.Extensions;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
@@ -33,13 +34,13 @@ namespace Bespoke.Sph.Domain
             if (this.Name.Contains(" "))
             {
                 result.Result = false;
-                result.Errors.Add(new BuildError(this.WebId)
+                result.Errors.Add(new BuildDiagnostic(this.WebId)
                 {
                     Message = $"[Variable] \"{this.Name}\" cannot contains space "
                 });
             }
             if (null == this.Type)
-                result.Errors.Add(new BuildError(this.WebId)
+                result.Errors.Add(new BuildDiagnostic(this.WebId)
                 {
                     Message = $"[Variable]  cannot find the type \"{this.TypeName}\""
                 });

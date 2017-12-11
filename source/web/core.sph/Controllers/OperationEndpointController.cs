@@ -4,6 +4,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
+using Bespoke.Sph.Domain.Extensions;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.WebApi;
 
@@ -18,8 +20,9 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<IHttpActionResult> Save([JsonBody]OperationEndpoint endpoint)
         {
             var context = new SphDataContext();
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
 
-            var ed = context.LoadOneFromSources<EntityDefinition>(x => x.Name == endpoint.Entity);
+            var ed = await repos.LoadOneAsync<EntityDefinition>(x => x.Name == endpoint.Entity);
             if (null == ed)
                 return NotFound($"Cannot find Entity {endpoint.Entity}");
 
@@ -74,16 +77,18 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<IHttpActionResult> Publish(string id, [JsonBody]OperationEndpoint endpoint)
         {
             var context = new SphDataContext();
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
+
             endpoint.IsPublished = true;
             endpoint.BuildDiagnostics = this.DeveloperService.BuildDiagnostics;
 
-            var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == endpoint.Entity || e.Name == endpoint.Entity);
+            var ed = await repos.LoadOneAsync<EntityDefinition>(e => e.Id == endpoint.Entity || e.Name == endpoint.Entity);
 
             var buildValidation = await endpoint.ValidateBuildAsync(ed);
             if (!buildValidation.Result)
                 return ResponseMessage(new HttpResponseMessage() {StatusCode = (HttpStatusCode)422,});
 
-            var result = await endpoint.CompileAsync(ed);
+            var result = await endpoint.CompileAsync();
             if (!result.Result)
                 return Invalid(result);
             
@@ -115,7 +120,8 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<HttpResponseMessage> Remove(string id)
         {
             var context = new SphDataContext();
-            var form = context.LoadOneFromSources<OperationEndpoint>(e => e.Id == id);
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
+            var form = await repos.LoadOneAsync<OperationEndpoint>(e => e.Id == id);
             if (null == form)
                 return new HttpResponseMessage(HttpStatusCode.NotFound) { Content = new JsonContent("Cannot find endpoint to delete , Id : " + id) };
 
@@ -130,10 +136,10 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public IHttpActionResult Get(string id)
+        public async Task<IHttpActionResult> Get(string id)
         {
-            var context = new SphDataContext();
-            var endpoint = context.LoadOneFromSources<OperationEndpoint>(e => e.Id == id);
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
+            var endpoint = await repos.LoadOneAsync<OperationEndpoint>(e => e.Id == id);
             if (null == endpoint)
                 return NotFound();
 

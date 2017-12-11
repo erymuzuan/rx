@@ -4,6 +4,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
+using Bespoke.Sph.Domain.Extensions;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.WebApi;
 
@@ -73,10 +75,8 @@ namespace Bespoke.Sph.Web.Controllers
             var buildValidation = await endpoint.ValidateBuildAsync(ed);
             if (!buildValidation.Result)
                 return new HttpResponseMessage((HttpStatusCode)422) { Content = new JsonContent(buildValidation.ToJson()) };
-
-            var options = new CompilerOptions();
-            var sources = endpoint.GenerateCode(ed);
-            var result = endpoint.Compile(options, sources);
+            
+            var result = await endpoint.CompileAsync();
             if (!result.Result)
             {
                 return new JsonResponseMessage(HttpStatusCode.Conflict, result);
@@ -108,7 +108,7 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<HttpResponseMessage> Remove(string id)
         {
             var context = new SphDataContext();
-            var form = context.LoadOneFromSources<QueryEndpoint>(e => e.Id == id);
+            var form = await ObjectBuilder.GetObject<ISourceRepository>().LoadOneAsync<QueryEndpoint>(e => e.Id == id);
             if (null == form)
                 return new HttpResponseMessage(HttpStatusCode.NotFound) { Content = new JsonContent("Cannot find form to delete , Id : " + id) };
 

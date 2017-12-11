@@ -31,42 +31,33 @@ namespace subscriber.test
             ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Name",
-                TypeName = "System.String, mscorlib",
-                IsFilterable = true,
-                IsAnalyzed = true,
-                Boost = 5
+                TypeName = "System.String, mscorlib"
             });
             ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Title",
-                TypeName = "System.String, mscorlib",
-                IsFilterable = true,
-                IsAnalyzed = false
+                TypeName = "System.String, mscorlib"
             });
             ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "RegisteredDate",
-                TypeName = "System.DateTime, mscorlib",
-                IsFilterable = true
+                TypeName = "System.DateTime, mscorlib"
             });
             ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Age",
-                TypeName = "System.Int32, mscorlib",
-                IsFilterable = true
+                TypeName = "System.Int32, mscorlib"
             });
             ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Salary",
-                TypeName = "System.Decimal, mscorlib",
-                IsFilterable = true,
-                IsExcludeInAll = true
+                TypeName = "System.Decimal, mscorlib"
             });
             var address = new SimpleMember { Name = "Address", TypeName = "System.Object, mscorlib" };
-            address.MemberCollection.Add(new SimpleMember { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib", IsAnalyzed = true });
-            address.MemberCollection.Add(new SimpleMember { Name = "Street2", IsNotIndexed = true, TypeName = "System.String, mscorlib" });
-            address.MemberCollection.Add(new SimpleMember { Name = "Postcode", IsFilterable = true, TypeName = "System.String, mscorlib" });
-            address.MemberCollection.Add(new SimpleMember { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "Street1",  TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "Street2",  TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "Postcode", TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new SimpleMember { Name = "State",  TypeName = "System.String, mscorlib" });
             ent.MemberCollection.Add(address);
 
 
@@ -197,14 +188,12 @@ namespace subscriber.test
             ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Name2",
-                TypeName = "System.String, mscorlib",
-                IsFilterable = true
+                TypeName = "System.String, mscorlib"
             });
             ent.MemberCollection.Add(new SimpleMember
             {
                 Name = "Titles",
                 TypeName = "System.String, mscorlib",
-                IsFilterable = false,
                 AllowMultiple = true
             });
 
@@ -225,7 +214,7 @@ namespace subscriber.test
             var map = ent.GetElasticsearchMapping();
             var json = JObject.Parse(map);
             var ageType = json.SelectToken("$.customer.properties.Wife.properties.Age.type");
-            Assert.Equal(ageType.Value<string>(), "integer");
+            Assert.Equal("integer", ageType.Value<string>());
 
 
         }

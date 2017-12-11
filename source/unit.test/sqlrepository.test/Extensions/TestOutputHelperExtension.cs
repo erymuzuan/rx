@@ -20,6 +20,10 @@ namespace Bespoke.Sph.Tests.SqlServer.Extensions
         {
             console.WriteLine($"{value}");
         }
+        public static void WriteError(this ITestOutputHelper console, Exception e)
+        {
+            console.WriteLine($"{new LogEntry(e)}");
+        }
         public static JObject WriteJson(this ITestOutputHelper console, object value)
         {
             if (value is string text)

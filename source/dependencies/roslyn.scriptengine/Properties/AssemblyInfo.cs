@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 
 [assembly: AssemblyTitle("roslyn.scriptengine")]
 [assembly: AssemblyDescription("Roslyn implementation for IScriptEngine")]
@@ -7,3 +7,6 @@
 #else
 [assembly: AssemblyConfiguration("Release")]
 #endif
+//
+//
+//

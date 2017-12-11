@@ -10,12 +10,12 @@ namespace es.diagnostics
     public sealed class TestDiagnostics : BuilDiagnostic
     {
 
-        public override Task<BuildError[]> ValidateWarningsAsync(EntityDefinition ed)
+        public override Task<BuildDiagnostic[]> ValidateWarningsAsync(EntityDefinition ed)
         {
             throw new InvalidOperationException("You should not get this one");
         }
 
-        public override Task<BuildError[]> ValidateErrorsAsync(EntityDefinition ed)
+        public override Task<BuildDiagnostic[]> ValidateErrorsAsync(EntityDefinition ed)
         {
             throw new InvalidOperationException("You should not get this one ->ValidateErrorsAsync");
 

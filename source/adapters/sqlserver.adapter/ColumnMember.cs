@@ -16,7 +16,6 @@ namespace Bespoke.Sph.Integrations.Adapters
             m_column = column;
             Name = column.Name;
             IsNullable = column.IsNullable;
-            IsFilterable = true;
         }
 
         public override string GeneratedCode(string padding = "      ")

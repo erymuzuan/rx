@@ -29,7 +29,8 @@ namespace Bespoke.Sph.SqlRepository
                 case "float": 
                 case "money": return 0;
                 case "bit":return false;
-                case "smalldatetime":return DateTime.Now;
+                case "smalldatetime":
+                case "datetime2":return DateTime.Now;
                 case "nvarchar(255)":
                 case "nvarchar":
                 case "varchar":

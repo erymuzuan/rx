@@ -22,7 +22,7 @@ namespace Bespoke.Sph.Domain
             return new BuildValidationResult { Result = true };
         }
 
-        public Member AddMember<T>(string name, bool allowMultiple = false, bool nullalbe = true, bool filterable = false, int boost = 1)
+        public Member AddMember<T>(string name, bool allowMultiple = false, bool nullalbe = true)
         {
             var guid = Guid.NewGuid().ToString();
             var member = new SimpleMember
@@ -31,8 +31,6 @@ namespace Bespoke.Sph.Domain
                 Name = name,
                 Type = typeof(T),
                 IsNullable = nullalbe,
-                IsFilterable = filterable,
-                Boost = boost,
                 AllowMultiple = allowMultiple
             };
             this.MemberCollection.Add(member);

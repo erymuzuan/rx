@@ -15,25 +15,17 @@
             "instancesCount": 1,
             "prefetchCount": 1,
             "priority": 0,
-            "queueName": "Bespoke.Sph.ElasticSearch.CustomEntityIndexerSubscriber",
-            "fullName": "Bespoke.Sph.ElasticSearch.CustomEntityIndexerSubscriber",
-            "assembly": "subscriber.elasticsearch.indexer"
+            "queueName": "readonly.sync",
+            "fullName": "Bespoke.Sph.ReadOnlyRepositoriesWorkers.ReadOnlySyncSubscriber",
+            "assembly": "subscriber.readonly.repositories.workers"
         },
         {
             "instancesCount": 1,
             "prefetchCount": 1,
             "priority": 0,
-            "queueName": "es.data-import",
-            "fullName": "Bespoke.Sph.ElasticSearch.DataImportSubscriber",
-            "assembly": "subscriber.elasticsearch.indexer"
-        },
-        {
-            "instancesCount": 1,
-            "prefetchCount": 1,
-            "priority": 0,
-            "queueName": "system_asset_es_indexer",
-            "fullName": "Bespoke.Sph.ElasticSearch.SystemAssetIndexerSubscriber",
-            "assembly": "subscriber.elasticsearch.indexer"
+            "queueName": "readonly.data-import",
+            "fullName": "Bespoke.Sph.ReadOnlyRepositoriesWorkers.DataImportSubscriber",
+            "assembly": "subscriber.readonly.repositories.workers"
         },
         {
             "instancesCount": 1,
@@ -202,3 +194,4 @@
     "changedDate": "2016-10-07T00:00:00+08:00",
     "webId": "dev"
 }
+ReadOnlyRepositoriesWorkers

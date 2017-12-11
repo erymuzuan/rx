@@ -24,9 +24,9 @@ namespace Bespoke.Sph.Domain
         {
             return $"// NOT IMPLEMENTED => {this.GetType().Name}";
         }
-        public virtual Task<IEnumerable<BuildError>> ValidateErrorsAsync(Filter filter)
+        public virtual Task<IEnumerable<BuildDiagnostic>> ValidateErrorsAsync(Filter filter)
         {
-            return Task.FromResult(Array.Empty<BuildError>().AsEnumerable());
+            return Task.FromResult(Array.Empty<BuildDiagnostic>().AsEnumerable());
         }
     }
 }

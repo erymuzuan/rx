@@ -1,2 +1,2 @@
 & .\env.devv1.ps1
-& 'D:\Program Files\JetBrains\Rider 2017.2\bin\rider64.exe' .\sph.all.sln
+& "$env:JETBRAINS_RIDER_PATH\bin\rider64.exe" .\sph.all.sln

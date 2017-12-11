@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.ElasticsearchRepository.Extensions;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.ElasticsearchRepository
@@ -304,5 +306,63 @@ namespace Bespoke.Sph.ElasticsearchRepository
             return workflows;
 
         }
+
+        public async Task DeletePendingTasksAsync(string workflowId)
+        {
+
+            //delete previous pending tasks
+            var url1 = $"{EsConfigurationManager.Index}/pendingtask/{"_query?q=WorkflowId:" + workflowId}";
+            var response1 = await m_client.DeleteAsync(url1);
+            Debug.Assert(null != response1);
+        }
+
+        public async Task AddPendingTaskAsync(string id, PendingTask task)
+        {
+            var setting = new JsonSerializerSettings();
+            var json = JsonConvert.SerializeObject(task, setting);
+            var content = new StringContent(json);
+
+            var url = $"{EsConfigurationManager.Host}/{EsConfigurationManager.Index}/pendingtask/{id}";
+            var response = await m_client.PutAsync(url, content);
+
+            if (null != response)
+            {
+                Debug.Write(".");
+            }
+        }
+
+        public async Task AddExecutedActivityAsync(string id, ExecutedActivity ea, string crud, string workflowId)
+        {
+            ea.InstanceId = workflowId;
+            var setting = new JsonSerializerSettings();
+
+            var json = JsonConvert.SerializeObject(ea, setting);
+            var content = new StringContent(json);
+
+            var url = $"{EsConfigurationManager.Index}/activity/{id}";
+
+
+            HttpResponseMessage response = null;
+            switch (crud)
+            {
+                case "Added":
+                    response = await m_client.PutAsync(url, content);
+                    break;
+                case "Changed":
+                    response = await m_client.PostAsync(url, content);
+                    break;
+                case "Deleted":
+                    response = await m_client.DeleteAsync(url);
+                    break;
+
+            }
+
+            if (null != response)
+            {
+                Debug.Write(".");
+            }
+
+        }
+
     }
 }

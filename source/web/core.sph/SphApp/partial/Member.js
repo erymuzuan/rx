@@ -9,7 +9,7 @@
 
 
 bespoke.sph.domain.MemberPartial = function (model) {
-    var system = require("durandal/system"),
+    const system = require("durandal/system"),
         addMember = function () {
             this.MemberCollection.push(new bespoke.sph.domain.Member(system.guid()));
         },
@@ -69,17 +69,17 @@ bespoke.sph.domain.MemberPartial = function (model) {
             };
         },
         showFieldDialog = function (accessor, field, path) {
-            require(["viewmodels/" + path, "durandal/app"], function (dialog, app2) {
+            require([`viewmodels/${path}`, "durandal/app"], function (dialog, app2) {
                 dialog.field(field);
 
 
                 app2.showDialog(dialog)
-                .done(function (result) {
-                    if (!result) return;
-                    if (result === "OK") {
-                        accessor(field);
-                    }
-                });
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            accessor(field);
+                        }
+                    });
 
             });
         },
@@ -100,7 +100,7 @@ bespoke.sph.domain.MemberPartial = function (model) {
             };
         },
         removeField = function () {
-            var self = this,
+            const self = this,
                 accessor = self.Field || self.DefaultValue;
             return function () {
                 accessor({ Name: ko.observable("[Select a value]") });
@@ -124,6 +124,7 @@ bespoke.sph.domain.MemberPartial = function (model) {
         removeMember: removeMember,
         addField: addField,
         removeField: removeField,
-        editField: editField
+        editField: editField,
+        attachedProperties: ko.observableArray()
     };
 };

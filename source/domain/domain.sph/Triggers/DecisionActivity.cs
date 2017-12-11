@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Bespoke.Sph.Domain.Codes;
 
 namespace Bespoke.Sph.Domain
 {
@@ -16,7 +15,7 @@ namespace Bespoke.Sph.Domain
         {
             var result = base.ValidateBuild(wd);
             if (this.DecisionBranchCollection.Count(b => b.IsDefault) != 1)
-                result.Errors.Add(new BuildError(this.WebId, "You should have one default branch in \"" + this.Name + "\""));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, "You should have one default branch in \"" + this.Name + "\""));
             return result;
         }
 

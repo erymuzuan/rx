@@ -1,22 +1,10 @@
 ﻿using System;
-using System.CodeDom.Compiler;
-using System.ComponentModel;
-using System.ComponentModel.Composition;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Net.Http;
-using System.Net.Mail;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using Bespoke.Sph.Domain.Properties;
-using Newtonsoft.Json;
-using Polly;
+using Bespoke.Sph.Domain.Compilers;
 
+// ReSharper disable once CheckNamespace
 namespace Bespoke.Sph.Domain
 {
     [DebuggerDisplay("Name = {Name}")]
@@ -81,125 +69,24 @@ namespace Bespoke.Sph.Domain
             var result = new BuildValidationResult();
             var validName = new Regex(@"^[A-Za-z][A-Za-z0-9]*$");
             if (!validName.Match(this.Name).Success)
-                result.Errors.Add(new BuildError(this.WebId)
+                result.Errors.Add(new BuildDiagnostic(this.WebId)
                 {
                     Message = "Name must start with letter.You cannot use symbol or number as first character"
                 });
             if (string.IsNullOrWhiteSpace(this.Name))
-                result.Errors.Add(new BuildError(this.WebId, "Name is missing"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, "Name is missing"));
             if (m_reservedNames.Select(a => a.Trim().ToLowerInvariant()).Contains(this.Name.Trim().ToLowerInvariant()))
-                result.Errors.Add(new BuildError(this.WebId, $"The name [{this.Name}] is reserved for the system"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, $"The name [{this.Name}] is reserved for the system"));
 
 
             result.Result = !result.Errors.Any();
             return result;
         }
 
-        [ImportMany(typeof(IBuildDiagnostics))]
-        [JsonIgnore]
-        [XmlIgnore]
-        public IBuildDiagnostics[] BuildDiagnostics { get; set; }
-
-        public async Task<BuildValidationResult> ValidateBuildAsync()
-        {
-            if (null == this.BuildDiagnostics)
-                ObjectBuilder.ComposeMefCatalog(this);
-            if (null == this.BuildDiagnostics)
-                throw new InvalidOperationException(
-                    $"Fail to initialize MEF for {nameof(EntityDefinition)}.{nameof(BuildDiagnostics)}");
-
-            var result = this.CanSave();
-            var policy = Policy.Handle<Exception>()
-                .WaitAndRetry(3, c => TimeSpan.FromMilliseconds(500),
-                    (ex, ts) =>
-                    {
-                        ObjectBuilder.GetObject<ILogger>()
-                            .Log(new LogEntry(ex));
-                    });
-
-            var errorTasks = this.BuildDiagnostics
-                .Select(d => policy.ExecuteAndCapture(() => d.ValidateErrorsAsync(this)))
-                .Where(x => null != x)
-                .Where(x => x.FinalException == null)
-                .Select(x => x.Result)
-                .ToArray();
-            var errors = (await Task.WhenAll(errorTasks)).Where(x => null != x).SelectMany(x => x);
-
-            var warningTasks = this.BuildDiagnostics
-                .Select(d => policy.ExecuteAndCapture(() => d.ValidateWarningsAsync(this)))
-                .Where(x => null != x)
-                .Where(x => x.FinalException == null)
-                .Select(x => x.Result)
-                .ToArray();
-            var warnings = (await Task.WhenAll(warningTasks)).SelectMany(x => x);
-
-            result.Errors.AddRange(errors);
-            result.Warnings.AddRange(warnings);
-
-
-            result.Result = result.Errors.Count == 0;
-
-            return result;
-        }
-
-        public RxCompilerResult Compile(CompilerOptions options, params string[] files)
-        {
-            if (files.Length == 0)
-                throw new ArgumentException(Resources.Adapter_Compile_No_source_files_supplied_for_compilation,
-                    nameof(files));
-
-
-            using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
-            {
-                var outputPath = ConfigurationManager.CompilerOutputPath;
-                var parameters = new CompilerParameters
-                {
-                    OutputAssembly =
-                        Path.Combine(outputPath, $"{ConfigurationManager.ApplicationName}.{this.Name}.dll"),
-                    GenerateExecutable = false,
-                    IncludeDebugInformation = true
-                };
-
-                parameters.AddReference(typeof(Entity),
-                    typeof(int),
-                    typeof(INotifyPropertyChanged),
-                    typeof(Expression<>),
-                    typeof(XmlAttributeAttribute),
-                    typeof(SmtpClient),
-                    typeof(HttpClient),
-                    typeof(XElement),
-                    typeof(HttpResponseBase),
-                    typeof(ConfigurationManager));
-
-                foreach (var es in options.EmbeddedResourceCollection)
-                {
-                    parameters.EmbeddedResources.Add(es);
-                }
-                foreach (var ass in options.ReferencedAssembliesLocation)
-                {
-                    parameters.ReferencedAssemblies.Add(ass);
-                }
-                var result = provider.CompileAssemblyFromFile(parameters, files);
-                var cr = new RxCompilerResult
-                {
-                    Result = true,
-                    Output = Path.GetFullPath(parameters.OutputAssembly)
-                };
-                cr.Result = result.Errors.Count == 0;
-                var errors = from CompilerError x in result.Errors
-                    select new BuildError(this.WebId, x.ErrorText)
-                    {
-                        Line = x.Line,
-                        FileName = x.FileName
-                    };
-                cr.Errors.AddRange(errors);
-                return cr;
-            }
-        }
 
         public static EntityDefinition operator +(EntityDefinition x, (string Name, Type Type) mb)
         {
-            var simpleMember = new SimpleMember {Name = mb.Name, Type = mb.Type, WebId = Strings.GenerateId()};
+            var simpleMember = new SimpleMember { Name = mb.Name, Type = mb.Type, WebId = Strings.GenerateId() };
             x.MemberCollection.Add(simpleMember);
             return x;
         }
@@ -221,13 +108,13 @@ namespace Bespoke.Sph.Domain
 
         public Member GetMember(string path)
         {
-            if (path == nameof(Id)) return new SimpleMember {Name = nameof(Id), Type = typeof(string)};
+            if (path == nameof(Id)) return new SimpleMember { Name = nameof(Id), Type = typeof(string) };
             if (path == nameof(CreatedDate))
-                return new SimpleMember {Name = nameof(CreatedDate), Type = typeof(DateTime)};
+                return new SimpleMember { Name = nameof(CreatedDate), Type = typeof(DateTime) };
             if (path == nameof(ChangedDate))
-                return new SimpleMember {Name = nameof(ChangedDate), Type = typeof(DateTime)};
-            if (path == nameof(CreatedBy)) return new SimpleMember {Name = nameof(CreatedBy), Type = typeof(string)};
-            if (path == nameof(ChangedBy)) return new SimpleMember {Name = nameof(ChangedBy), Type = typeof(string)};
+                return new SimpleMember { Name = nameof(ChangedDate), Type = typeof(DateTime) };
+            if (path == nameof(CreatedBy)) return new SimpleMember { Name = nameof(CreatedBy), Type = typeof(string) };
+            if (path == nameof(ChangedBy)) return new SimpleMember { Name = nameof(ChangedBy), Type = typeof(string) };
 
             if (!path.Contains("."))
             {
@@ -236,7 +123,7 @@ namespace Bespoke.Sph.Domain
                 throw new InvalidOperationException($"Cannot find a member in \"{Name}\" with path :\"{path}\"");
             }
 
-            var paths = path.Split(new[] {"."}, StringSplitOptions.RemoveEmptyEntries).ToList();
+            var paths = path.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries).ToList();
             var child = this.GetMember(paths.First());
             paths.RemoveAt(0);
             var nextPath = string.Join(".", paths);
@@ -261,14 +148,60 @@ namespace Bespoke.Sph.Domain
                 return rm;
             }
 
-            var paths = path.Split(new[] {"."}, StringSplitOptions.RemoveEmptyEntries).ToList();
+            var paths = path.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries).ToList();
             var child = this.GetMember(paths.First(), member2);
             paths.RemoveAt(0);
             var nextPath = string.Join(".", paths);
             return this.GetMember(nextPath, child);
         }
 
-        public Member AddMember<T>(string name)
+        public SimpleMember AddSimpleMember(string name, bool nullable = false, bool allowMultiple = false, Field defaultValue = null)
+        {
+            var sm = new SimpleMember
+            {
+                Name = name,
+                Type = typeof(string),
+                IsNullable = nullable,
+                DefaultValue = defaultValue,
+                AllowMultiple = allowMultiple
+
+            };
+            this.MemberCollection.Add(sm);
+            return sm;
+        }
+
+
+        public SimpleMember AddSimpleMember<T>(string name, Field defaultValue = null)
+        {
+            var type = typeof(T);
+            var allowMultiple = type.IsArray;
+            var nullable = false;
+
+            if (allowMultiple)
+            {
+                type = type.GetElementType() ?? type;
+            }
+            if (type.IsGenericType)
+            {
+                nullable = type.GetGenericTypeDefinition() == typeof(System.Nullable<>);
+            }
+
+
+
+            var sm = new SimpleMember
+            {
+                Name = name,
+                Type = type,
+                IsNullable = nullable,
+                DefaultValue = defaultValue,
+                AllowMultiple = allowMultiple
+
+            };
+            this.MemberCollection.Add(sm);
+            return sm;
+        }
+
+        public T AddMember<T>(string name, bool allowMultiple = false, Field defaultValue = null) where T : Member
         {
             if (typeof(T).IsSubclassOf(typeof(Member)))
             {
@@ -279,12 +212,10 @@ namespace Bespoke.Sph.Domain
                     mbr.Name = name;
                     mbr.WebId = Strings.GenerateId();
                     this.MemberCollection.Add(mbr);
-                    return mbr;
+                    return (T)mbr;
                 }
             }
-            var sm = new SimpleMember {Name = "Created", Type = typeof(T)};
-            this.MemberCollection.Add(sm);
-            return sm;
+            throw new ArgumentException($"Cannot create the type of {typeof(T).Name}");
         }
 
     }

@@ -21,29 +21,33 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.Column="1" Content="RabbitMQ" FontWeight="Bold"/>
+        <Label Grid.Row="0" Grid.Column="1" Content="Message Broker" FontWeight="Bold"/>
         <Button Grid.Row="0" Grid.Column="2" Content="Start" Command="{Binding StartRabbitMqCommand}"/>
         <Button Grid.Row="0" Grid.Column="3" Content="Stop" Command="{Binding StopRabbitMqCommand}"/>
         <Image Grid.Row="0" Grid.Column="0" Stretch="None" Source="images/run_exc.gif" Visibility="{Binding RabbitMqServiceStarted, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         <TextBlock x:Name="rabbitLink" Style="{DynamicResource LinkStyle}" Grid.Row="0" Grid.Column="4">
-                    <Hyperlink IsEnabled="{Binding RabbitMqServiceStarted}" NavigateUri="http://localhost:15672/" RequestNavigate="Navigate"><Run Text="View RabbitMQ Management"/></Hyperlink>
+                    <Hyperlink IsEnabled="{Binding RabbitMqServiceStarted}" NavigateUri="http://localhost:15672/" RequestNavigate="Navigate"><Run Text="Broker Management"/></Hyperlink>
         </TextBlock>
 
-        <Label Grid.Row="1" Grid.Column="1" Content="SQL LocalDB" FontWeight="Bold"/>
+        <Label Grid.Row="1" Grid.Column="1" Content="Repository Store" FontWeight="Bold"/>
         <Button Grid.Row="1" Grid.Column="2" Content="Start" Command="{Binding StartSqlServiceCommand}"/>
         <Button Grid.Row="1" Grid.Column="3" Content="Stop" Command="{Binding StopSqlServiceCommand}"/>
         <Image Grid.Row="1" Grid.Column="0" Stretch="None" Source="images/run_exc.gif" Visibility="{Binding SqlServiceStarted, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <TextBlock x:Name="repositoryManagementLink" Style="{DynamicResource LinkStyle}" Grid.Row="1" Grid.Column="4">
+            <Hyperlink Click="OpenRepositoryManagement" RequestNavigate="Navigate"><Run Text="Repository Management"/></Hyperlink>
+        </TextBlock>
 
-        <Label Grid.Row="2" Grid.Column="1" Content="Elasticsearch" FontWeight="Bold"/>
+
+        <Label Grid.Row="2" Grid.Column="1" Content="ReadOnly Repository" FontWeight="Bold"/>
         <Button Grid.Row="2" Grid.Column="2" Content="Start" Command="{Binding StartElasticSearchCommand}"/>
         <Button Grid.Row="2" Grid.Column="3" Content="Stop" Command="{Binding StopElasticSearchCommand}"/>
         <Image Grid.Row="2" Grid.Column="0" Stretch="None" Source="images/run_exc.gif" Visibility="{Binding ElasticSearchServiceStarted, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         <TextBlock x:Name="esMarvelLink" Style="{DynamicResource LinkStyle}" Grid.Row="2" Grid.Column="4">
-                    <Hyperlink IsEnabled="{Binding ElasticSearchServiceStarted}" NavigateUri="http://localhost:9200/_plugin/marvel" RequestNavigate="Navigate"><Run Text="View Elasticsearch Marvel"/></Hyperlink>
+                    <Hyperlink IsEnabled="{Binding ElasticSearchServiceStarted}" NavigateUri="http://localhost:9200/_plugin/marvel" RequestNavigate="Navigate"><Run Text="ReadOnly Repository Management"/></Hyperlink>
         </TextBlock>
 
 
-        <Label Grid.Row="3" Grid.Column="1" Content="SPH Workers" FontWeight="Bold"/>
+        <Label Grid.Row="3" Grid.Column="1" Content="Workers" FontWeight="Bold"/>
         <Button Grid.Row="3" Grid.Column="2" Content="Start" Command="{Binding StartSphWorkerCommand}"/>
         <Button Grid.Row="3" Grid.Column="3" Content="Stop" Command="{Binding StopSphWorkerCommand}"/>
         <Image Grid.Row="3" Grid.Column="0" Stretch="None" Source="images/run_exc.gif" Visibility="{Binding SphWorkerServiceStarted, Converter={StaticResource BooleanToVisibilityConverter}}"/>

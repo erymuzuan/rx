@@ -10,16 +10,16 @@ namespace Bespoke.Sph.Domain.diagnostics
     [Export(typeof(IBuildDiagnostics))]
     sealed class EntityMembersDiagnostics : BuilDiagnostic
     {
-        public override Task<BuildError[]> ValidateErrorsAsync(EntityDefinition entity)
+        public override Task<BuildDiagnostic[]> ValidateErrorsAsync(EntityDefinition entity)
         {
-            var errors = new List<BuildError>();
+            var errors = new List<BuildDiagnostic>();
             foreach (var member in entity.MemberCollection)
             {
                 this.ValidateMember(member, errors, entity);
             }
             return Task.FromResult(errors.ToArray());
         }
-        private void ValidateMember(Member member, IList<BuildError> errors, EntityDefinition ed)
+        private void ValidateMember(Member member, IList<BuildDiagnostic> errors, EntityDefinition ed)
         {
             var forbiddenNames =
                 typeof(Entity).GetProperties(BindingFlags.Instance | BindingFlags.Public)
@@ -31,9 +31,9 @@ namespace Bespoke.Sph.Domain.diagnostics
             var message = $"[Member] \"{member.Name}\" is not valid identifier";
             var validName = new Regex(PATTERN);
             if (!validName.Match(member.Name).Success)
-                errors.Add(new BuildError(member.WebId) { Message = message });
+                errors.Add(new BuildDiagnostic(member.WebId) { Message = message });
             if (forbiddenNames.Contains(member.Name))
-                errors.Add(new BuildError(member.WebId) { Message = $"[Member] {member.Name} is a reserved name" });
+                errors.Add(new BuildDiagnostic(member.WebId) { Message = $"[Member] {member.Name} is a reserved name" });
 
             var list = member.Validate();
             list.ToList().ForEach(errors.Add);

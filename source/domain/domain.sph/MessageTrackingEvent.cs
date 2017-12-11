@@ -4,6 +4,8 @@ namespace Bespoke.Sph.Domain
 {
     public class MessageTrackingEvent
     {
+        private static readonly string m_currentProcessName = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
+        private static readonly string m_machineName = Environment.GetEnvironmentVariable("COMPUTERNAME");
         public MessageTrackingEvent() { }
 
         public MessageTrackingEvent(MessageSlaEvent sla) : this(sla.Entity, sla.ItemId, sla.MessageId, sla.RoutingKey)
@@ -39,8 +41,8 @@ namespace Bespoke.Sph.Domain
         public string ItemId { get; set; }
         public string Entity { get; set; }
         public DateTime DateTime { get; set; } = DateTime.Now;
-        public string MachineName { get; set; } = Environment.GetEnvironmentVariable("COMPUTERNAME");
-        public string ProcessName { get; set; } = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
+        public string MachineName { get; set; } = m_machineName;
+        public string ProcessName { get; set; } = m_currentProcessName;
         public string Event { get; set; }
         public TimeSpan ProcessingTimeSpan { get; set; }
         public string Worker { get; set; }

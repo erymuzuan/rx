@@ -38,9 +38,9 @@ namespace Bespoke.Sph.Domain
             var message = $"[Variable] \"{this.Name}\" is not valid identifier";
             var validName = new Regex(PATTERN);
             if (!validName.Match(this.Name).Success)
-                result.Errors.Add(new BuildError(this.WebId) { Message = message });
+                result.Errors.Add(new BuildDiagnostic(this.WebId) { Message = message });
             if (forbiddenNames.Contains(this.Name))
-                result.Errors.Add(new BuildError(this.WebId) { Message = "[Variable] " + this.Name + " is a reserved variable name" });
+                result.Errors.Add(new BuildDiagnostic(this.WebId) { Message = "[Variable] " + this.Name + " is a reserved variable name" });
 
 
             return result;

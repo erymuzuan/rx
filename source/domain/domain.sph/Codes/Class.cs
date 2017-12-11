@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using Bespoke.Sph.Domain.Compilers;
 
 namespace Bespoke.Sph.Domain.Codes
 {
-    [DebuggerDisplay("{Name}, Properties:{PropertyCollection.Count}, Methods : {MethodCollection.Count}")]
+    [DebuggerDisplay("{Name}, Properties:{PropertyCollection.Count}, Methods : {MethodCollection.Count}, FileName :{FileName}")]
     public class Class
     {
         public Class()
@@ -22,6 +23,8 @@ namespace Bespoke.Sph.Domain.Codes
         public string Namespace { get; set; }
         public string BaseClass { get; set; }
         public bool IsStatic { get; set; }
+        public bool TrackedInSourceControl { get; set; }
+        public string Language { get; set; }
 
         private string m_fileName;
         private readonly string m_code;

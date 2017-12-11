@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 
 [assembly: AssemblyTitle("email.service")]
 [assembly: AssemblyDescription("Provides an email service for INotificationService")]
@@ -7,3 +7,7 @@
 #else
 [assembly: AssemblyConfiguration("Release")]
 #endif
+//
+//
+//
+//

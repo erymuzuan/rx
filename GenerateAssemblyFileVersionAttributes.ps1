@@ -2,7 +2,7 @@
 Param(
        [string]$Version = '2.1',
        [string]$AssemblyVersion="1.0.2.1007",
-       [string[]] $Destinations = @(".\source")
+       [string[]] $Targets = @(".\source")
      )
 
 if((Test-Path(".\source\assembly.versions")) -eq $false)
@@ -12,7 +12,18 @@ if((Test-Path(".\source\assembly.versions")) -eq $false)
 
 $y2012 = [System.DateTime]::Parse("2012-01-01")
 
-foreach($folder in $Destinations){
+$total = 0;
+$done = 0;
+
+foreach($folder in $Targets){
+    ls $folder -Filter *.csproj -Recurse | % {            
+            $total = $total +1;
+        }
+}
+
+
+
+foreach($folder in $Targets){
     ls $folder -Filter *.csproj -Recurse | % { 
 
             $project = $_.DirectoryName
@@ -37,6 +48,10 @@ foreach($folder in $Destinations){
         "`r`n[assembly: AssemblyInformationalVersion(`"$Version.$days.$rev-$commitId`")]" + `
         "`r`n[assembly: AssemblyFileVersion(`"$Version.$days.$rev`")]"
             $content | Out-File -FilePath .\source\assembly.versions\$cs
+
+            
+            Write-Progress -Activity "Version info " -Status "$project ($done/$total)" -PercentComplete ($done*100/$total)
+            $done = $done +1;
 
         }
 }

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Bespoke.Sph.Domain.Compilers;
 using Bespoke.Sph.Domain.QueryProviders;
 
 namespace Bespoke.Sph.Domain
@@ -42,6 +43,7 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        [Obsolete("Use ISourceRepository")]
         public IEnumerable<T> LoadFromSources<T>() where T : Entity
         {
             string path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
@@ -52,6 +54,7 @@ namespace Bespoke.Sph.Domain
                 .Select(f => f.DeserializeFromJsonFile<T>());
         }
 
+        [Obsolete("Use ISourceRepository")]
         public IEnumerable<T> LoadFromSources<T>(Expression<Func<T, bool>> predicate) where T : Entity
         {
             string path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
@@ -62,6 +65,8 @@ namespace Bespoke.Sph.Domain
                 .Select(f => f.DeserializeFromJsonFile<T>())
                 .Where(predicate.Compile());
         }
+
+        [Obsolete("Use ISourceRepository")]
         public T LoadOneFromSources<T>(Expression<Func<T, bool>> predicate) where T : Entity
         {
             string path = $"{ConfigurationManager.SphSourceDirectory}\\{typeof(T).Name}\\";
@@ -99,9 +104,10 @@ namespace Bespoke.Sph.Domain
 
         public async Task<T> LoadOneAsync<T>(Expression<Func<T, bool>> predicate) where T : Entity
         {
+            var sourceRepository = ObjectBuilder.GetObject<ISourceRepository>();
             var option = PersistenceOptionAttribute.GetAttribute<T>();
             if (null != option && option.IsSource)
-                return this.LoadOneFromSources(predicate);
+                return await sourceRepository.LoadOneAsync(predicate);
 
 
             var provider = ObjectBuilder.GetObject<QueryProvider>();
@@ -111,9 +117,10 @@ namespace Bespoke.Sph.Domain
         }
         public T LoadOne<T>(Expression<Func<T, bool>> predicate) where T : Entity
         {
+            var sourceRepository = ObjectBuilder.GetObject<ISourceRepository>();
             var option = PersistenceOptionAttribute.GetAttribute<T>();
             if (null != option && option.IsSource)
-                return this.LoadOneFromSources(predicate);
+                return sourceRepository.LoadOneAsync(predicate).Result;
 
             var provider = ObjectBuilder.GetObject<QueryProvider>();
             var query = new Query<T>(provider).Where(predicate);
@@ -135,11 +142,12 @@ namespace Bespoke.Sph.Domain
 
         public async Task<int> GetCountAsync<T>(Expression<Func<T, bool>> predicate) where T : Entity, new()
         {
+            var sourceRepository = ObjectBuilder.GetObject<ISourceRepository>();
             var option = PersistenceOptionAttribute.GetAttribute<T>();
             if (null == option) return 0;
             if (option.IsSource)
             {
-                var list = LoadFromSources(predicate);
+                var list = await sourceRepository.LoadAsync(predicate);
                 return list.Count();
             }
             if (option.IsSqlDatabase)
@@ -233,13 +241,14 @@ namespace Bespoke.Sph.Domain
             where T : Entity, new()
             where TResult : struct
         {
+            var sourceRepository = ObjectBuilder.GetObject<ISourceRepository>();
             var options = PersistenceOptionAttribute.GetAttribute<T>();
             if (null == options)
                 throw new Exception($"The type {typeof(T).FullName} didn't have storage option specified");
             if (options.IsSource)
             {
-                var list = this.LoadFromSources(predicate).ToArray();
-                return !list.Any() ? default(TResult) : list.Max(selector.Compile());
+                var list = (await sourceRepository.LoadAsync(predicate)).ToArray();
+                return !list.Any() ? default : list.Max(selector.Compile());
             }
             if (options.IsSqlDatabase)
             {
@@ -286,13 +295,14 @@ namespace Bespoke.Sph.Domain
         public async Task<IEnumerable<TResult>> GetListAsync<T, TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)
             where T : Entity, new()
         {
+            var sourceRepository = ObjectBuilder.GetObject<ISourceRepository>();
             var options = PersistenceOptionAttribute.GetAttribute<T>();
             if (null == options)
                 throw new Exception($"The type {typeof(T).FullName} didn't have storage option specified");
 
             if (options.IsSource)
             {
-                var list = LoadFromSources(predicate)
+                var list = (await sourceRepository.LoadAsync(predicate))
                     .Select(selector.Compile());
                 return list;
             }

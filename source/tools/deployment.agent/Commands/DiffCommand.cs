@@ -1,10 +1,8 @@
 using System.ComponentModel.Composition;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Colorful;
 
 namespace Bespoke.Sph.Mangements.Commands
 {
@@ -30,11 +28,11 @@ namespace Bespoke.Sph.Mangements.Commands
             var plan = await deployment.GetChangesAsync();
             foreach (var change in plan.ChangeCollection.OrderBy(x => x.OldPath).Where(x => !x.IsEmpty))
             {
-                Console.WriteLine("______________________________________________________");
-                Console.WriteLine(change);
+                WriteInfo("______________________________________________________");
+                WriteInfo(change.ToString());
             }
             var migrationPlanFile = $"{ed.Name}-{plan.PreviousCommitId}-{plan.CurrentCommitId}";
-            Console.WriteLine($"MigrationPlan is saved to {migrationPlanFile}", Color.Yellow);
+            WriteInfo($"MigrationPlan is saved to {migrationPlanFile}");
             File.WriteAllText($@"{ConfigurationManager.SphSourceDirectory}\MigrationPlan\{migrationPlanFile}.json", plan.ToJson());
         }
     }

@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.Composition;
 using System.Diagnostics;
-using Colorful;
 
 namespace Bespoke.Sph.Mangements.Commands
 {
@@ -19,7 +18,7 @@ namespace Bespoke.Sph.Mangements.Commands
 
         public override void Execute()
         {
-            Console.WriteLine($"Attach your debugger and to {Process.GetCurrentProcess().ProcessName}({Process.GetCurrentProcess().Id}) and press [ENTER] to continue");
+            WriteInfo($"Attach your debugger and to {Process.GetCurrentProcess().ProcessName}({Process.GetCurrentProcess().Id}) and press [ENTER] to continue");
             System.Console.ReadLine();
 
         }

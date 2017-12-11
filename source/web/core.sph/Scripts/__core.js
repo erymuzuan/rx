@@ -527,7 +527,12 @@ ko.bindingHandlers.comboBoxLookupOptions = {
 
 ko.bindingHandlers.tree = {
     init: function (element, valueAccessor) {
-        var system = require(objectbuilders.system),
+        // let member = null;
+        let memberNameSubscription = null,
+            memberAllowMultipleSubscription = null,
+            memberIsNullableSubscription = null,
+            memberTypeNameSubscription = null;
+        const system = require(objectbuilders.system),
             value = valueAccessor(),
             entity = ko.unwrap(value.entity),
             searchbox = ko.unwrap(value.searchbox),
@@ -546,8 +551,6 @@ ko.bindingHandlers.tree = {
                 }
                 return type;
             },
-            memberNameSubscription = null,
-            memberTypeNameSubscription = null,
             recurseChildMember = function (node) {
                 node.children = _(node.data.MemberCollection()).map(function (v) {
 
@@ -566,9 +569,26 @@ ko.bindingHandlers.tree = {
                     tag.childOfValueMember = ko.observable(true);
                 }
                 var ref = $(element).jstree(true),
-                       parents = _(node.parents).map(function (n) { return ref.get_node(n); }),
-                       valueMember = _(parents).find(function (n) { return n.type === "Bespoke.Sph.Domain.ValueObjectMember, domain.sph"; });
+                    parents = _(node.parents).map(function (n) { return ref.get_node(n); }),
+                    valueMember = _(parents).find(function (n) { return n.type === "Bespoke.Sph.Domain.ValueObjectMember, domain.sph"; });
                 tag.childOfValueMember(valueMember || false);
+            },
+            setAllowMultipleAndNullableIcons = function (id) {
+                const schemaTree1 = $(element).jstree(true);
+                const node = schemaTree1.get_node(id),
+                    mbr = node.data;
+                if (!mbr) return;
+                $(`#${id} a.jstree-anchor>i.fa-question`).remove();
+                $(`#${id} a.jstree-anchor>i.fa-certificate`).remove();
+
+                if (ko.isObservable(mbr.IsNullable) && ko.unwrap(mbr.IsNullable)) {
+                    $(`#${id} a.jstree-anchor>i.jstree-icon`)
+                        .after('<i class="fa fa-question" title="Nullable" style="margin-right:5px;color:orange"></i>');
+                }
+                if (ko.unwrap(mbr.AllowMultiple)) {
+                    $(`#${id} a.jstree-anchor>i.jstree-icon`)
+                        .after('<i class="fa fa-certificate" title="Allow multiple" style="margin-right:5px;color:green"></i>');
+                }
             },
             loadJsTree = function () {
                 jsTreeData.children = _(entity.MemberCollection()).map(function (v) {
@@ -586,6 +606,15 @@ ko.bindingHandlers.tree = {
                         if (typeof member !== "function") {
                             return;
                         }
+                        if (memberIsNullableSubscription) {
+                            memberIsNullableSubscription.dispose();
+                            memberIsNullableSubscription = null;
+                        }
+                        if (memberAllowMultipleSubscription) {
+                            memberAllowMultipleSubscription.dispose();
+                            memberAllowMultipleSubscription = null;
+                        }
+
                         if (memberNameSubscription) {
                             memberNameSubscription.dispose();
                             memberNameSubscription = null;
@@ -596,7 +625,7 @@ ko.bindingHandlers.tree = {
                             memberTypeNameSubscription = null;
                         }
 
-                        var tag = selected.node.data;
+                        const tag = selected.node.data;
                         if (tag) {
                             if (selected.node.type === "default") {
                                 return;
@@ -610,14 +639,14 @@ ko.bindingHandlers.tree = {
                             }
 
                             var ref = $(element).jstree(true),
-                                   parents = _(selected.node.parents).map(function (n) { return ref.get_node(n); }),
-                                   valueMember = _(parents).find(function (n) { return n.type === "Bespoke.Sph.Domain.ValueObjectMember, domain.sph"; });
+                                parents = _(selected.node.parents).map(function (n) { return ref.get_node(n); }),
+                                valueMember = _(parents).find(function (n) { return n.type === "Bespoke.Sph.Domain.ValueObjectMember, domain.sph"; });
                             tag.childOfValueMember(valueMember || false);
                             // we also need to disable for collection member
                             if (!valueMember) {
 
-                                var cm = _(parents).find(function (n) {
-                                    var mb1 = n.data;
+                                const cm = _(parents).find(function (n) {
+                                    const mb1 = n.data;
                                     return n.type === "Bespoke.Sph.Domain.ComplexMember, domain.sph" && ko.unwrap(mb1.AllowMultiple);
                                 });
                                 if (cm) {
@@ -630,12 +659,17 @@ ko.bindingHandlers.tree = {
                                 ref.edit(selected.node);
                             }
                             member(tag);
+
                             // subscribe to Name change
                             memberNameSubscription = member().Name.subscribe(function (name) {
                                 $(element).jstree(true)
                                     .rename_node(selected.node, name);
-                                console.log("rename " + name);
+                                console.log(`rename ${name}`);
                             });
+                            memberAllowMultipleSubscription = member().AllowMultiple.subscribe( _=> setAllowMultipleAndNullableIcons(selected.node.id));
+                            if (ko.isObservable(member().IsNullable)) {
+                                memberAllowMultipleSubscription = member().IsNullable.subscribe(_ =>setAllowMultipleAndNullableIcons(selected.node.id));
+                            }
                             // type
                             if (typeof member().TypeName === "function") {
                                 memberTypeNameSubscription = member().TypeName.subscribe(function (name) {
@@ -646,12 +680,9 @@ ko.bindingHandlers.tree = {
                             }
                         }
                     })
-                    .on("create_node.jstree", function (event, node) {
-                        console.log(node, "node");
-                    })
                     .on("move_node.jstree", function (e, data) {
                         var ref = $(element).jstree(true),
-                        	mbr = data.node.data,
+                            mbr = data.node.data,
                             oldParent = ref.get_node(data.old_parent),
                             oldCollections = oldParent.data.MemberCollection || entity.MemberCollection,
                             parent = ref.get_node(data.parent),
@@ -660,17 +691,24 @@ ko.bindingHandlers.tree = {
                             return ko.unwrap(mbr.WebId) === ko.unwrap(v.WebId);
                         });
                         collection.splice(data.position, 0, mbr);
+
+                        parent.children.forEach(setAllowMultipleAndNullableIcons);
+                        oldParent.children.forEach(setAllowMultipleAndNullableIcons);
                     })
                     .on("rename_node.jstree", function (ev, node) {
-                        var mb = node.node.data;
+                        const mb = node.node.data;
                         mb.Name(node.text);
+                    })
+                    .on("open_node.jstree", function (ev, item) {
+                        setAllowMultipleAndNullableIcons(item.node.id);
+                        item.node.children.forEach(setAllowMultipleAndNullableIcons);
                     })
                     .jstree({
                         "core": {
                             "animation": 0,
                             "check_callback": function (operation, node, nodeParent, nodePosition, more) {
                                 if (operation === "move_node") {
-                                    var mbr = node.data,
+                                    const mbr = node.data,
                                         ref = $(element).jstree(true),
                                         target = ref.get_node(nodeParent);
                                     if (!mbr) {
@@ -711,7 +749,7 @@ ko.bindingHandlers.tree = {
                                 var ref = $(element).jstree(true),
                                     parents = _($node.parents).map(function (n) { return ref.get_node(n); }),
                                     valueMember = _(parents).find(function (n) { return n.type === "Bespoke.Sph.Domain.ValueObjectMember, domain.sph"; }),
-                                        sel = ref.get_selected();
+                                    sel = ref.get_selected();
                                 if (valueMember) {
                                     return [];
                                 }
@@ -852,7 +890,7 @@ ko.bindingHandlers.tree = {
                                 "icon": "fa fa-clipboard"
                             },
                             "System.String, mscorlib": {
-                                "icon": "glyphicon glyphicon-bold",
+                                "icon": "fa fa-text-width",
                                 "valid_children": []
                             },
                             "System.DateTime, mscorlib": {
@@ -883,14 +921,19 @@ ko.bindingHandlers.tree = {
             };
         loadJsTree();
 
+        const schemaTree = $(element).jstree(true);
+        $.each($(element).find("li"), function (index, li) {
+            setAllowMultipleAndNullableIcons(li.id);
+        });
+
         var to = false;
         $(searchbox).keyup(function () {
             if (to) {
                 clearTimeout(to);
             }
             to = setTimeout(function () {
-                var v = $(searchbox).val();
-                $(element).jstree(true).search(v);
+                const v = $(searchbox).val();
+                schemaTree.search(v);
             }, 250);
         });
 
@@ -969,12 +1012,12 @@ ko.bindingHandlers.entityTypeaheadPath = {
             allBindings = allBindingsAccessor(),
             idOrName = ko.unwrap(valueAccessor()) || window.typeaheadEntity,
             setup = function (options) {
-               const toCamelCase = function (text) {
+                const toCamelCase = function (text) {
                     return text.replace(/^([A-Z])|\s(\w)/g, function (match, p1, p2, offset) {
                         if (p2) return p2.toUpperCase();
                         return p1.toLowerCase();
                     });
-               };
+                };
 
                 const name = options.name || options,
                     eid = options.id || options,
@@ -982,9 +1025,9 @@ ko.bindingHandlers.entityTypeaheadPath = {
 
                 var ed = ko.toJS(bespoke[config.applicationName + "_" + camel].domain[name]());
                 const input = $(element),
-                         div = $("<div></div>").css({
-                             'height': "28px"
-                         });
+                    div = $("<div></div>").css({
+                        'height': "28px"
+                    });
                 input.hide().before(div);
 
                 var c = completely(div[0], {
@@ -1279,10 +1322,10 @@ bespoke.lookupText = function (element, valueAccessor) {
         };
 
     context.getScalarAsync(entity, valuePath + " eq '" + val + "'", displayPath)
-    .done(function (text) {
-        setTextContent(element, text);
-        console.log(text);
-    });
+        .done(function (text) {
+            setTextContent(element, text);
+            console.log(text);
+        });
 };
 ko.bindingHandlers.lookupText = {
     init: bespoke.lookupText,
@@ -1304,7 +1347,7 @@ ko.bindingHandlers.readonly = {
     },
     update: function (element, valueAccessor) {
         var input = $(element),
-             ro = ko.unwrap(valueAccessor());
+            ro = ko.unwrap(valueAccessor());
 
         if (ro) {
             input.prop("readonly", true);
@@ -2705,7 +2748,7 @@ var _uiready = function () {
     bespoke.utils.form.checkValidity = function (button) {
         if (button.form)
             return button.form.checkValidity();
-        var form = $(button).attr('form');
+        var form = $(button).attr("form");
         if (form) {
            return document.getElementById(form).checkValidity();
         }

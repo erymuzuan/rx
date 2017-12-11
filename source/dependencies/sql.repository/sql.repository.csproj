@@ -31,7 +31,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.1</LangVersion>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -57,6 +57,7 @@
       <HintPath>..\..\..\lib\SQLSpatialTools.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -86,11 +87,16 @@
     <Compile Include="Builder.cs" />
     <Compile Include="CancelledMessageRepository.cs" />
     <Compile Include="Column.cs" />
+    <Compile Include="Compilers\SqlTableBuilder.cs" />
+    <Compile Include="Deployments\SourceTableBuilder.cs" />
+    <Compile Include="Deployments\SqlTableWithSourceDeployer.cs" />
     <Compile Include="Extensions\AggregateExtension.cs" />
+    <Compile Include="Extensions\AttachedPropertyExtension.cs" />
     <Compile Include="Extensions\DateTimeExtension.cs" />
     <Compile Include="Extensions\MemberInfoExtension.cs" />
     <Compile Include="Extensions\OperatorExtension.cs" />
     <Compile Include="Extensions\SqlDataReaderExtension.cs" />
+    <Compile Include="Extensions\SqlExceptionExtension.cs" />
     <Compile Include="Extensions\SqlPredicate.cs" />
     <Compile Include="Extensions\EntityDefinitionExtension.cs" />
     <Compile Include="Extensions\FilterExtension.cs" />
@@ -99,9 +105,14 @@
     <Compile Include="Extensions\SortExtension.cs" />
     <Compile Include="ISqlServerMetadata.cs" />
     <Compile Include="LoggerRepository.cs" />
+    <Compile Include="Management\DeploymentMetadataRepository.cs" />
+    <Compile Include="Management\ReadOnlyRepositoryManagement.cs" />
+    <Compile Include="Management\RepositoryManagement.cs" />
+    <Compile Include="Management\SqlServerManagement.cs" />
     <Compile Include="MessageTracker.cs" />
     <Compile Include="PredicateExpressionVisitor.cs" />
     <Compile Include="ReadOnlyRepository.T.cs" />
+    <Compile Include="ReadOnlyRepositoryRepositorySyncManager.cs" />
     <Compile Include="SqlBinaryStore.cs" />
     <Compile Include="FileStreamBinaryStore.cs" />
     <Compile Include="SqlPersistence.bulk.cs" />
@@ -122,8 +133,9 @@
     <Compile Include="SqlRepository.cs" />
     <Compile Include="SqlServer2012Metadata.cs" />
     <Compile Include="SqlSpatial.cs" />
+    <Compile Include="Deployments\SqlTableDeployer.cs" />
+    <Compile Include="SqlTableTool.cs" />
     <Compile Include="Table.cs" />
-    <Compile Include="TableSchemaBuilder.cs" />
     <Compile Include="TokenRepository.cs" />
     <Compile Include="TsqlQueryFormatter.cs" />
   </ItemGroup>

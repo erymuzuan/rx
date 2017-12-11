@@ -27,9 +27,9 @@ namespace Bespoke.Sph.Domain
             var errors = (await Task.WhenAll(errorTasks)).SelectMany(x => x.ToArray()).ToList();
 
             if(string.IsNullOrWhiteSpace(this.Operation))
-                errors.Add(new BuildError(this.WebId, "Please set the ReceiveActivity endpoint to invoke"));
+                errors.Add(new BuildDiagnostic(this.WebId, "Please set the ReceiveActivity endpoint to invoke"));
             if(string.IsNullOrWhiteSpace(this.OperationMethod))
-                errors.Add(new BuildError(this.WebId, "Please set the ReceiveActivity endpoint HTTP method, normally is a POST"));
+                errors.Add(new BuildDiagnostic(this.WebId, "Please set the ReceiveActivity endpoint HTTP method, normally is a POST"));
 
             var warningTasks = this.BuildDiagnostics.Select(d => d.ValidateWarningsAsync(this, ed));
             var warnings = (await Task.WhenAll(warningTasks)).SelectMany(x => x);
@@ -58,7 +58,7 @@ namespace Bespoke.Sph.Domain
             var provider = this.FormRendererProviders.SingleOrDefault(x => x.Metadata.Name == name);
             if (null == provider)
             {
-                build.Errors.Add(new BuildError(this.WebId, "Cannot find renderer for " + name));
+                build.Errors.Add(new BuildDiagnostic(this.WebId, "Cannot find renderer for " + name));
                 return build;
             }
 

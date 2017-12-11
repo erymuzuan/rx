@@ -1,5 +1,4 @@
 ﻿using Bespoke.Sph.Domain;
-using Bespoke.Sph.ElasticsearchRepository;
 using Bespoke.Sph.Mangements.Models;
 
 namespace Bespoke.Sph.Mangements.ViewModels
@@ -15,25 +14,25 @@ namespace Bespoke.Sph.Mangements.ViewModels
         public string RxHomePath => ConfigurationManager.Home;
         public string RxSourcePath => ConfigurationManager.SphSourceDirectory;
         public string RxOutputPath => ConfigurationManager.CompilerOutputPath;
-        private bool m_isSqlServerAccessible;
-        private bool m_isElasticsearchAccesible;
+        private bool m_isRepositoryRunning;
+        private bool m_isReadOnlyRepositoryRunning;
 
-        public bool IsElasticsearchAccesible
+        public bool IsReadOnlyRepositoryRunning
         {
-            get => m_isElasticsearchAccesible;
+            get => m_isReadOnlyRepositoryRunning;
             set
             {
-                m_isElasticsearchAccesible = value;
-                RaisePropertyChanged("IsElasticsearchAccesible");
+                m_isReadOnlyRepositoryRunning = value;
+                RaisePropertyChanged(nameof(IsReadOnlyRepositoryRunning));
             }
         }
 
-        public bool IsSqlServerAccessible
+        public bool IsRepositoryRunning
         {
-            get => m_isSqlServerAccessible;
+            get => m_isRepositoryRunning;
             set
             {
-                m_isSqlServerAccessible = value;
+                m_isRepositoryRunning = value;
                 RaisePropertyChanged("IsSqlServerAccessible");
             }
         }
@@ -60,8 +59,6 @@ namespace Bespoke.Sph.Mangements.ViewModels
                 RaisePropertyChanged("IsBusy");
             }
         }
-        public string ElasticsearchServer =>
-            $"{EsConfigurationManager.Host}/{EsConfigurationManager.Index}";
         public EntityDeployment Selected
         {
             get => m_selected;

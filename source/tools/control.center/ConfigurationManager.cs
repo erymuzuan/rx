@@ -81,14 +81,12 @@ namespace Bespoke.Sph.ControlCenter
         private static int GetEnvironmentVariableInt32(string setting, int defaultValue = 0)
         {
             var val = GetEnvironmentVariable(setting);
-            int intValue;
-            return int.TryParse(val, out intValue) ? intValue : defaultValue;
+            return int.TryParse(val, out var intValue) ? intValue : defaultValue;
         }
         private static bool GetEnvironmentVariableBoolean(string setting, bool defaultValue = false)
         {
             var val = GetEnvironmentVariable(setting);
-            bool intValue;
-            return bool.TryParse(val, out intValue) ? intValue : defaultValue;
+            return bool.TryParse(val, out var intValue) ? intValue : defaultValue;
         }
 
         private static string GetEnvironmentVariable(string setting)

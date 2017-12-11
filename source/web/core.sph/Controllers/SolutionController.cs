@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -24,13 +25,22 @@ namespace Bespoke.Sph.Web.Controllers
             var entities = context.LoadFromSources<EntityDefinition>().ToList();
             var entitiesDiagnostics = new ConcurrentDictionary<string, BuildValidationResult>();
 
-            Func<EntityDefinition, Task> er = async f =>
+            async Task DiagnosBuildError(EntityDefinition f)
             {
-                var br = await f.ValidateBuildAsync();
+                var diagnostics = ObjectBuilder.GetObject<IDeveloperService>().BuildDiagnostics;
+                var errors = new List<BuildDiagnostic>();
+                foreach (var dg in diagnostics)
+                {
+                    var ves = await dg.ValidateErrorsAsync(f);
+                    errors.AddRange(ves);
+                }
+                var br = new BuildValidationResult();
+                br.Errors.AddRange(errors);
                 br.Uri = $"entity.details/{f.Id}";
                 entitiesDiagnostics.TryAdd(f.Name, br);
-            };
-            var tasks0 = entities.Select(x => er(x));
+            }
+
+            var tasks0 = entities.Select(DiagnosBuildError);
             await Task.WhenAll(tasks0);
 
 

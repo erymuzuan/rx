@@ -5,18 +5,15 @@ namespace Bespoke.Sph.Tests.SqlServer.Extensions
 {
     public static class ComplexMemberExtension
     {
-        public static SimpleMember AddMember(this ComplexMember mbr, string name, Type type, bool filterable, bool allowMultiples = false, bool nullable = false, bool excludeInAll = false, bool analyzed = false)
+        public static SimpleMember AddMember(this ComplexMember mbr, string name, Type type, bool allowMultiples = false, bool nullable = false)
         {
             var sm = new SimpleMember
             {
                 Name = name,
                 Type = type,
-                IsFilterable = filterable
-                ,
-                IsAnalyzed = analyzed,
-                IsExcludeInAll = excludeInAll,
                 IsNullable = nullable,
-                AllowMultiple = allowMultiples
+                AllowMultiple = allowMultiples,
+                WebId = Guid.NewGuid().ToString()
             };
             mbr.MemberCollection.Add(sm);
             return sm;

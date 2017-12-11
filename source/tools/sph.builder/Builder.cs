@@ -1,19 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
+using Bespoke.Sph.Domain.Extensions;
 using Bespoke.Sph.Extensions;
+
 // ReSharper disable ExplicitCallerInfoArgument
 
 namespace Bespoke.Sph.SourceBuilders
 {
     public abstract class Builder<T> where T : Entity
     {
+        public string[] Compilers { get; }
+
+        protected Builder(string[] compilers)
+        {
+            Compilers = compilers ?? Array.Empty<string>();
+        }
         private readonly ILogger m_logger;
         protected abstract Task<RxCompilerResult> CompileAssetAsync(T item);
+
+        protected virtual Task<RxCompilerResult> CompileAsync(IProjectDefinition project)
+        {
+            return project.CompileAsync();
+        }
+
+        protected virtual async Task<IEnumerable<string>> GenerateSourceCodeAsync(IProjectDefinition project)
+        {
+            var files = new List<string>();
+            WriteDebug($"Found {this.DeveloperService.ProjectBuilders.Length} IProjectBuilders");
+            var compilers = this.DeveloperService.ProjectBuilders;//.AsQueryable().WhereIf(x => this.Compilers.Contains(x.Name), Compilers.Length > 0).ToArray();
+            WriteDebug($"Found {compilers.Length} compilers matching the name");
+            foreach (var compiler in compilers)
+            {
+                WriteMessage($"Writing source code with {compiler.Name}...");
+                var sources = await compiler.GenerateCodeAsync(project);
+                files.AddRange(sources.Select(x => x.WriteSource(project)));
+
+            }
+            return files;
+
+        }
+
+
+        [Import(typeof(IDeveloperService))]
+        public IDeveloperService DeveloperService { get; set; }
 
         protected Builder()
         {
@@ -48,13 +84,13 @@ namespace Bespoke.Sph.SourceBuilders
 
         public IEnumerable<T> GetItems()
         {
-            var context = new SphDataContext();
+            var cvs = ObjectBuilder.GetObject<ISourceRepository>();
             var folder = Path.Combine(ConfigurationManager.SphSourceDirectory, typeof(T).Name);
 
             if (!Directory.Exists(folder))
                 return new List<T>();
 
-            var list = context.LoadFromSources<T>().ToList();
+            var list = cvs.LoadAsync<T>().Result.ToList();
             list.ForEach(x => ObjectBuilder.ComposeMefCatalog(x));
             return list;
         }
@@ -63,12 +99,13 @@ namespace Bespoke.Sph.SourceBuilders
 
         public void Initialize()
         {
+            ObjectBuilder.ComposeMefCatalog(this);
         }
 
         public void Clean()
         {
             var name = typeof(T).Name;
-            var ed = new EntityDefinition {Name = name, Id = name.ToIdFormat()};
+            var ed = new EntityDefinition { Name = name, Id = name.ToIdFormat() };
             ObjectBuilder.GetObject<IReadOnlyRepository>()
                 .CleanAsync(ed.Name)
                 .Wait(500);

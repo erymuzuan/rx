@@ -1,5 +1,6 @@
 ﻿using System;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Domain.Compilers;
 
 namespace Bespoke.Sph.Domain
 {
@@ -13,5 +14,7 @@ namespace Bespoke.Sph.Domain
         Lazy<Adapter, IDesignerMetadata>[] Adapters { get; set; }
         Lazy<ReceiveLocation, IDesignerMetadata>[] ReceiveLocationOptions { get; set; }
         ControllerAction[] ActionCodeGenerators { get; set; }
+        IProjectBuilder[] ProjectBuilders { get; set; }
+        IProjectDeployer[] ProjectDeployers { get; set; }
     }
 }

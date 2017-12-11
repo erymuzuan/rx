@@ -7,11 +7,11 @@ namespace Bespoke.Sph.Domain.diagnostics
     [Export(typeof(IBuildDiagnostics))]
     public sealed class TriggerActionDiagnostics : BuilDiagnostic
     {
-        public override Task<BuildError[]> ValidateErrorsAsync(Trigger trigger)
+        public override Task<BuildDiagnostic[]> ValidateErrorsAsync(Trigger trigger)
         {
-            var errors = new List<BuildError>();
+            var errors = new List<BuildDiagnostic>();
             if(trigger.ActionCollection.Count == 0)
-                errors.Add(new BuildError(trigger.WebId, "This trigger does not contains any action"));
+                errors.Add(new BuildDiagnostic(trigger.WebId, "This trigger does not contains any action"));
             return Task.FromResult(errors.ToArray());
         }
     }

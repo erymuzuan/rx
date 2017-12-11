@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 using Bespoke.Sph.Domain;
 
-namespace Bespoke.Sph.ElasticsearchRepository.Extensions
+namespace Bespoke.Sph.SqlRepository.Extensions
 {
     public static class SqlDataReaderExtension
     {

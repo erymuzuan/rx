@@ -13,14 +13,22 @@ namespace Bespoke.Station.Windows.RabbitMqDeadLetter
 
         void ConnectionDialogLoaded(object sender, RoutedEventArgs e)
         {
-            var context = this.DataContext as ConnectionViewModel;
-            if (null != context)
+            if (this.DataContext is ConnectionViewModel context)
             {
-                passwordBox.Password = context.SelectedConnection.Password;
-                if (context.SelectedConnection.Port == 0)
-                    context.SelectedConnection.Port = 5672;
-                if (context.SelectedConnection.ApiPort == 0)
-                    context.SelectedConnection.ApiPort = 15672;
+                var conn = context.SelectedConnection;
+                passwordBox.Password = conn.Password;
+                if (conn.Port == 0)
+                    conn.Port = 5672;
+                if (conn.ApiPort == 0)
+                    conn.ApiPort = 15672;
+                if (string.IsNullOrWhiteSpace(conn.HostName))
+                    conn.HostName = ConfigurationManager.RabbitMqHost;
+                if (string.IsNullOrWhiteSpace(conn.UserName))
+                    conn.UserName = ConfigurationManager.RabbitMqUserName;
+                if (string.IsNullOrWhiteSpace(conn.Password))
+                    conn.Password = ConfigurationManager.RabbitMqPassword;
+                if (string.IsNullOrWhiteSpace(conn.VirtualHost))
+                    conn.VirtualHost = ConfigurationManager.RabbitMqVirtualHost;
             }
             this.hostTextBox.Focus();
 

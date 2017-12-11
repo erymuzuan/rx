@@ -12,10 +12,10 @@ namespace Bespoke.Sph.Domain
         {
             var result = base.ValidateBuild(wd);
             if (this.ParallelBranchCollection.Count < 2)
-                result.Errors.Add(new BuildError(this.WebId, string.Format("[ParalllelActivity] -> {0} must contains at least 2 branches", this.Name)));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, string.Format("[ParalllelActivity] -> {0} must contains at least 2 branches", this.Name)));
             var errors = from a in this.ParallelBranchCollection
                          where string.IsNullOrWhiteSpace(a.NextActivityWebId)
-                         select new BuildError(this.WebId)
+                         select new BuildDiagnostic(this.WebId)
                          {
                              Message = string.Format("[ParallelActivity] -> Branch \"{0}\" is missing next activity", a.Name)
                          };

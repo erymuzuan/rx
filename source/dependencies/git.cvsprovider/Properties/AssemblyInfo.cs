@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 
 [assembly: AssemblyTitle("git.cvsprovider")]
 [assembly: AssemblyDescription("rovides git implementation for ICvsProvider")]
@@ -7,3 +7,8 @@
 #else
 [assembly: AssemblyConfiguration("Release")]
 #endif
+
+//
+//
+//
+//

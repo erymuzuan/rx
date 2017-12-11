@@ -7,6 +7,7 @@ namespace Bespoke.Sph.Domain
     {
         public int Compare(ExecutedActivity x, ExecutedActivity y)
         {
+            if (null == x || null == y) return 0;
             var xTime = (x.Initiated ?? x.Run) ?? DateTime.MinValue;
             var yTime = (y.Initiated ?? y.Run) ?? DateTime.MinValue;
             var r = xTime.CompareTo(yTime);

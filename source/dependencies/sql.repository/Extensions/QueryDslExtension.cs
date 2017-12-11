@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Bespoke.Sph.Domain;
-using Newtonsoft.Json.Linq;
 
-namespace Bespoke.Sph.ElasticsearchRepository.Extensions
+namespace Bespoke.Sph.SqlRepository.Extensions
 {
     public static class QueryDslExtension
     {

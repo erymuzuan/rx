@@ -27,8 +27,7 @@ namespace Bespoke.Sph.Domain
                 Name = this.Name,
                 TypeName = this.TypeName,
                 AllowMultiple = false,
-                IsNullable = this.IsNullable,
-                IsNotIndexed = true
+                IsNullable = this.IsNullable
 
             };
             if (!this.IsComplex) return simple;

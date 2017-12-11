@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using Console = Colorful.Console;
 
 namespace Bespoke.Sph.Mangements.Commands
 {
@@ -83,21 +82,21 @@ namespace Bespoke.Sph.Mangements.Commands
                 if (!string.IsNullOrWhiteSpace($"{val}"))
                     return val;
 
-                Console.WriteLine("-------------------------------------------------", Color.CadetBlue);
-                Console.WriteLine($@"    Please select your ""{this.Name}"" from these options ", Color.CadetBlue);
-                Console.WriteLine("-------------------------------------------------", Color.CadetBlue);
+                Console.WriteLine(@"-------------------------------------------------");
+                Console.WriteLine($@"    Please select your ""{this.Name}"" from these options ");
+                Console.WriteLine(@"-------------------------------------------------");
                 var options = this.PromptOptions();
                 for (var i = 0; i < options.Length; i++)
                 {
-                    Console.WriteLine($"{i + 1}. {options[i]}");
+                    Console.WriteLine($@"{i + 1}. {options[i]}");
                 }
                 Console.WriteLine();
-                Console.Write(" Key in your options and press [Enter] : ", Color.CadetBlue);
+                Console.Write(@" Key in your options and press [Enter] : ");
                 if (int.TryParse(System.Console.ReadLine(), out var choice))
                 {
                     if (choice >= options.Length)
                     {
-                        Console.WriteLine($"Please key in number between 1 and {options.Length}");
+                        Console.WriteLine($@"Please key in number between 1 and {options.Length}");
                     }
                     var text = options[choice - 1];
                     return Parse(text);

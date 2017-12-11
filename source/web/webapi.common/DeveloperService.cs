@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.Composition;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Domain.Compilers;
 
 namespace Bespoke.Sph.WebApi
 {
@@ -21,6 +22,12 @@ namespace Bespoke.Sph.WebApi
 
         [ImportMany(typeof(IBuildDiagnostics))]
         public IBuildDiagnostics[] BuildDiagnostics { get; set; }
+
+        [ImportMany(typeof(IProjectBuilder))]
+        public IProjectBuilder[] ProjectBuilders{ get; set; }
+
+        [ImportMany(typeof(IProjectDeployer))]
+        public IProjectDeployer[] ProjectDeployers{ get; set; }
 
 
         [ImportMany("ActivityDesigner", typeof(Activity), AllowRecomposition = true)]

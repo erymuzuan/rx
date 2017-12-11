@@ -5,7 +5,7 @@ using Bespoke.Sph.Tests.SqlServer.Extensions;
 
 namespace Bespoke.Sph.Tests.SqlServer
 {
-    class XunitConsoleLogger : ILogger
+    internal class XunitConsoleLogger : ILogger
     {
         public ITestOutputHelper Console { get; }
 

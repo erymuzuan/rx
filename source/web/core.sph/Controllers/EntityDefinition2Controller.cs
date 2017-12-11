@@ -1,52 +1,52 @@
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Http;
 using System.Web.ModelBinding;
-using System.Web.Mvc;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
+using Bespoke.Sph.Domain.Extensions;
+using Bespoke.Sph.Domain.Management;
+using Bespoke.Sph.Extensions;
 using Bespoke.Sph.Web.Filters;
-using Bespoke.Sph.Web.Helpers;
+using Bespoke.Sph.WebApi;
 using Humanizer;
-using WebGrease.Css.Extensions;
 
 namespace Bespoke.Sph.Web.Controllers
 {
     [RoutePrefix("entity-definition")]
-    public class EntityDefinition2Controller : BaseController
+    public class EntityDefinition2Controller : BaseApiController
     {
-
         [HttpGet]
         [Route("variable-path/{id}")]
         [RxSourceOutputCache(SourceType = typeof(EntityDefinition))]
-        public async Task<ActionResult> GetVariablePath(string id)
+        public async Task<IHttpActionResult> GetVariablePath(string id)
         {
-            var context = new SphDataContext();
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
 
-            var ed = await context.LoadOneAsync<EntityDefinition>(w => w.Id == id) ??
-                     context.LoadOneFromSources<EntityDefinition>(w => w.Name == id);
-            if (null == ed) return new HttpNotFoundResult("Cannot find EntityDefinition with Id = " + id);
+            var ed = await repos.LoadOneAsync<EntityDefinition>(w => w.Id == id) ??
+                     (await repos.LoadOneAsync<EntityDefinition>(w => w.Name == id));
+            if (null == ed) return NotFound("Cannot find EntityDefinition with Id = " + id);
             var list = ed.GetMembersPath();
-            return Json(list, JsonRequestBehavior.AllowGet);
+            return Json(list);
 
         }
 
         [HttpGet]
         [Route("{id}/members/{path}")]
         [RxSourceOutputCache(SourceType = typeof(EntityDefinition))]
-        public async Task<ActionResult> GetMembersPath(string id, string path)
+        public async Task<IHttpActionResult> GetMembersPath(string id, string path)
         {
             var context = new SphDataContext();
 
             var ed = await context.LoadOneAsync<EntityDefinition>(w => w.Id == id);
-            if (null == ed) return new HttpNotFoundResult("Cannot find EntityDefinition with Id = " + id);
+            if (null == ed) return NotFound("Cannot find EntityDefinition with Id = " + id);
             var list = ed.GetMember(path);
-            return Content(list.ToJsonString(true), "application/json");
+            return Json(list.ToJsonString(true));
 
         }
 
@@ -54,11 +54,9 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("publish-dashboard")]
-        public async Task<ActionResult> PublishDashboardAsync()
+        public async Task<IHttpActionResult> PublishDashboardAsync([JsonBody]EntityDefinition ed)
         {
             var context = new SphDataContext();
-            var ed = this.GetRequestJson<EntityDefinition>();
-
             using (var session = context.OpenSession())
             {
                 session.Attach(ed);
@@ -72,105 +70,88 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("")]
-        public async Task<ActionResult> Save()
+        public async Task<IHttpActionResult> Save([FromJsonProperty]EntityDefinition item,
+            [FromJsonProperty("$.attachedProperties")]AttachedProperty[] properties)
         {
-            var ed = this.GetRequestJson<EntityDefinition>();
-            var context = new SphDataContext();
+            (var _, object result) = await this.SaveAsync(item, properties);
+            return Json(result);
+
+        }
+
+        [HttpPost]
+        [Route("publish")]
+        public async Task<IHttpActionResult> Publish([FromJsonProperty]EntityDefinition item,
+            [FromJsonProperty]AttachedProperty[] attachedProperties)
+        {
+            await this.SaveAsync(item, attachedProperties);
+            var result = await item.CompileAsync();
+            if (!result.Result)
+                return Json(result.ToString());
+
+            return Json(new { success = true, status = "OK", message = "Your entity has been successfully published" });
+
+        }
+
+        private async Task<(bool, object)> SaveAsync(EntityDefinition ed, AttachedProperty[] properties)
+        {
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
             var canSave = ed.CanSave();
             if (!canSave.Result)
             {
-                return Json(new { success = false, status = "ERROR", message = "Your entity cannot be save", errors = canSave.Errors.ToArray() });
+                return (false, new { success = false, status = "ERROR", message = "Your entity cannot be save", errors = canSave.Errors.ToArray() });
             }
 
             var brandNewItem = ed.IsNewItem;
             if (brandNewItem)
-            {
                 ed.Id = ed.Name.ToIdFormat();
-                this.Response.StatusCode = (int)HttpStatusCode.Created;
-            }
-            else
-            {
-                using (var session = context.OpenSession())
-                {
-                    session.Attach(ed);
-                    await session.SubmitChanges("Save");
-                }
+            await repos.SavedAsync(ed, properties);
 
-                this.Response.StatusCode = (int)HttpStatusCode.OK;
-                return Json(new { success = true, status = "OK", message = "Your entity has been successfully saved ", id = ed.Id });
+            var result = await ed.CompileDesignModeAsync();
+            ObjectBuilder.GetObject<ILogger>().WriteInfo(result.ToString());
 
-            }
-
-
-            var formId = ed.Name.ToIdFormat() + "-details";
-            var form = new EntityForm
-            {
-                Id = formId,
-                Name = ed.Name + " details",
-                Entity = ed.Name,
-                Route = formId,
-                EntityDefinitionId = ed.Id,
-                IsDefault = true
-            };
-            var viewId = ed.Name.ToIdFormat() + "-all";
-            var view = new EntityView
-            {
-                Id = viewId,
-                Entity = ed.Name,
-                Name = "All " + ed.Plural,
-                Route = viewId,
-                EntityDefinitionId = ed.Id,
-            };
-
-            using (var session = context.OpenSession())
-            {
-                session.Attach(ed, form, view);
-                await session.SubmitChanges("Save");
-            }
-            return Json(new { success = true, status = "OK", message = "Your entity has been successfully saved ", id = ed.Id });
-
+            return (brandNewItem, new { success = true, status = "OK", message = "Your entity has been successfully saved ", id = ed.Id });
 
         }
 
         [HttpGet]
         [Route("plural/{id}")]
-        public ActionResult GetPlural(string id)
+        public IHttpActionResult GetPlural(string id)
         {
-            return Content(id.Pluralize());
+            return Ok(id.Pluralize());
         }
 
         [HttpGet]
         [Route("singular/{id}")]
-        public ActionResult GetSingular(string id)
+        public IHttpActionResult GetSingular(string id)
         {
-            return Content(id.Singularize(false));
+            return Ok(id.Singularize(false));
         }
 
 
         [HttpGet]
         [Route("schema")]
         [RxSourceOutputCache(SourceType = typeof(EntityDefinition))]
-        public async Task<ActionResult> Schemas()
+        public async Task<IHttpActionResult> Schemas()
         {
-            var context = new SphDataContext();
-            var list = context.LoadFromSources<EntityDefinition>(x => x.IsPublished);
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
+            var list = await repos.LoadAsync<EntityDefinition>(x => x.IsPublished);
 
             var script = new StringBuilder();
             var provider = CodeGeneratorFactory.Instance.LanguageProviders.Single(x => x.Language == "javascript");
             foreach (var ef in list)
             {
                 var sources = await provider.GenerateCodeAsync(ef);
-                sources.ForEach(src => script.AppendLine(src.Value));
+                sources.ToList().ForEach(src => script.AppendLine(src.Value));
             }
-            return JavaScript(script.ToString());
+            return Javascript(script.ToString());
         }
 
         [HttpGet]
         [Route("export/{id}")]
-        public async Task<ActionResult> Export(string id, [QueryString] bool includeData = false)
+        public async Task<IHttpActionResult> Export(string id, [QueryString] bool includeData = false)
         {
-            var context = new SphDataContext();
-            var entity = context.LoadOneFromSources<EntityDefinition>(e => e.Id == id);
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
+            var entity = await repos.LoadOneAsync<EntityDefinition>(e => e.Id == id);
             var package = new EntityDefinitionPackage();
             var zip = await package.PackAsync(entity, includeData);
             var file = $"{Path.GetFileNameWithoutExtension(zip)}_{Environment.MachineName}_{DateTime.Now:s}{(includeData ? "_data" : "")}.zip";
@@ -178,7 +159,7 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
         [Route("upload")]
-        public async Task<ActionResult> Upload(IEnumerable<HttpPostedFileBase> files)
+        public async Task<IHttpActionResult> Upload(IEnumerable<HttpPostedFileBase> files)
         {
             try
             {
@@ -195,9 +176,8 @@ namespace Bespoke.Sph.Web.Controllers
                     var packager = new EntityDefinitionPackage();
                     var ed = await packager.UnpackAsync(zip, folder);
 
-                    this.Response.ContentType = "application/javascript";
                     var result = new { success = true, zip, ed, folder };
-                    return Content(result.ToJsonString());
+                    return Json(result.ToJsonString());
 
                 }
             }
@@ -212,16 +192,15 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("import")]
-        public async Task<ActionResult> Import(string folder)
+        public async Task<IHttpActionResult> Import(string folder)
         {
             try
             {
                 var packager = new EntityDefinitionPackage();
                 var ed = await packager.ImportAsync(folder);
 
-                this.Response.ContentType = "application/javascript";
                 var result = new { success = true, ed };
-                return Content(result.ToJsonString());
+                return Javascript(result.ToJsonString());
             }
             catch (Exception e)
             {
@@ -231,16 +210,15 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("import-data")]
-        public async Task<ActionResult> ImportData(string folder)
+        public async Task<IHttpActionResult> ImportData(string folder)
         {
             try
             {
                 var packager = new EntityDefinitionPackage();
                 await packager.ImportDataAsync(folder);
 
-                this.Response.ContentType = "application/javascript";
                 var result = new { success = true };
-                return Content(result.ToJson());
+                return Json(result.ToJson());
             }
             catch (Exception e)
             {
@@ -250,10 +228,10 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpDelete]
         [Route("{name}/contents")]
-        public async Task<ActionResult> TruncateData(string name)
+        public async Task<IHttpActionResult> TruncateData(string name)
         {
-            var context = new SphDataContext();
-            var ed = context.LoadOneFromSources<EntityDefinition>(x => x.Name == name);
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
+            var ed = await repos.LoadOneAsync<EntityDefinition>(x => x.Name == name);
 
             if (ed.StoreInElasticsearch ?? false)
             {
@@ -264,15 +242,9 @@ namespace Bespoke.Sph.Web.Controllers
             if (!ed.Transient)
             {
                 // truncate SQL Table
-                using (var conn = new SqlConnection(ConfigurationManager.SqlConnectionString))
-                using (var truncateCommand = new SqlCommand($"TRUNCATE TABLE [{ConfigurationManager.ApplicationName}].[{name}]", conn))
-                using (var dbccCommand = new SqlCommand($"DBCC SHRINKDATABASE ({ConfigurationManager.ApplicationName})", conn))
-                {
-                    await conn.OpenAsync();
+                var management = ObjectBuilder.GetObject<IRepositoryManagement>();
+                await management.TruncateDataAsync(ed);
 
-                    await truncateCommand.ExecuteNonQueryAsync();
-                    await dbccCommand.ExecuteNonQueryAsync();
-                }
             }
             return Json(new { success = true, message = "Data has been truncated", status = "OK" });
 
@@ -281,10 +253,9 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("depublish")]
-        public async Task<ActionResult> Depublish()
+        public async Task<IHttpActionResult> Depublish([JsonBody]EntityDefinition ed)
         {
             var context = new SphDataContext();
-            var ed = this.GetRequestJson<EntityDefinition>();
 
             ed.IsPublished = false;
             using (var session = context.OpenSession())
@@ -299,15 +270,16 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<ActionResult> Delete(string id)
+        public async Task<IHttpActionResult> Delete(string id)
         {
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(e => e.Id == id);
-            if (null == ed) return new HttpNotFoundResult("Cannot find entity definition to delete, id : " + id);
+            if (null == ed) return NotFound("Cannot find entity definition to delete, id : " + id);
 
-            var forms = context.LoadFromSources<EntityForm>(f => f.EntityDefinitionId == id);
-            var views = context.LoadFromSources<EntityView>(f => f.EntityDefinitionId == id);
-            var triggers = context.LoadFromSources<Trigger>(f => f.Entity == id);
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
+            var forms = await repos.LoadAsync<EntityForm>(f => f.EntityDefinitionId == id);
+            var views = await repos.LoadAsync<EntityView>(f => f.EntityDefinitionId == id);
+            var triggers = await repos.LoadAsync<Trigger>(f => f.Entity == id);
 
             using (var session = context.OpenSession())
             {
@@ -315,7 +287,7 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Delete(forms.Cast<Entity>().ToArray());
                 session.Delete(views.Cast<Entity>().ToArray());
                 session.Delete(triggers.Cast<Entity>().ToArray());
-                // TODO : drop the tables and elastic search mappings
+                // TODO : drop the repository and readonly repository data store and schema
                 await session.SubmitChanges("delete");
             }
             return Json(new { success = true, status = "OK", message = "Your entity definition has been successfully deleted", id = ed.Id });
@@ -323,62 +295,20 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
 
-        [HttpPost]
-        [Route("publish")]
-        public async Task<ActionResult> Publish()
-        {
-            var context = new SphDataContext();
-            var ed = this.GetRequestJson<EntityDefinition>();
-            ed.BuildDiagnostics = ObjectBuilder.GetObject<IDeveloperService>().BuildDiagnostics;
-
-            var buildValidation = await ed.ValidateBuildAsync();
-
-
-            if (!buildValidation.Result)
-                return Json(buildValidation);
-
-            var options = new CompilerOptions
-            {
-                SourceCodeDirectory = ConfigurationManager.GeneratedSourceDirectory
-            };
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\core.sph.dll"));
-            options.ReferencedAssembliesLocation.Add(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll"));
-
-            var codes = await ed.GenerateCodeAsync();
-            var sources = ed.SaveSources(codes);
-            var result = ed.Compile(options, sources);
-
-            result.Errors.ForEach(Console.WriteLine);
-            if (!result.Result)
-                return Json(result);
-
-
-
-            ed.IsPublished = true;
-            using (var session = context.OpenSession())
-            {
-                session.Attach(ed);
-                await session.SubmitChanges("Publish");
-            }
-            return Json(new { success = true, status = "OK", message = "Your entity has been successfully published", id = ed.Id });
-
-
-        }
 
 
 
         [HttpPost]
         [Route("publish/service-contract")]
-        public async Task<ActionResult> PublishServiceContract()
+        public async Task<IHttpActionResult> PublishServiceContract([JsonBody]EntityDefinition ed)
         {
             var context = new SphDataContext();
-            var ed = this.GetRequestJson<EntityDefinition>();
-            ed.BuildDiagnostics = ObjectBuilder.GetObject<IDeveloperService>().BuildDiagnostics;
+            /* TODO : find the service contract diagnostics
+             ed.BuildDiagnostics = ObjectBuilder.GetObject<IDeveloperService>().BuildDiagnostics;
 
-            var buildValidation = await ed.ValidateBuildAsync();
-            if (!buildValidation.Result)
-                return Json(buildValidation);
+             var buildValidation = await ed.ValidateBuildAsync();
+             if (!buildValidation.Result)
+                 return Json(buildValidation);*/
             var result = await ed.ServiceContract.CompileAsync(ed);
 
             result.Errors.ForEach(Console.WriteLine);

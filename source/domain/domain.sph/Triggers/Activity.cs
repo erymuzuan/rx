@@ -22,15 +22,15 @@ namespace Bespoke.Sph.Domain
             var message = string.Format("[{1}] \"{0}\" is not valid identifier", this.Name, this.GetType().Name);
             var validName = new Regex(PATTERN);
             if (!validName.Match(this.Name).Success)
-                result.Errors.Add(new BuildError(this.WebId) { Message = message });
+                result.Errors.Add(new BuildDiagnostic(this.WebId) { Message = message });
 
             if (string.IsNullOrWhiteSpace(this.WebId))
-                result.Errors.Add(new BuildError(this.WebId)
+                result.Errors.Add(new BuildDiagnostic(this.WebId)
                 {
                     Message = $"[{this.GetType().Name}] \"{this.Name}\" Missing webid "
                 });
             if (wd.ActivityCollection.Count(a => a.WebId == this.WebId) > 1)
-                result.Errors.Add(new BuildError(this.WebId)
+                result.Errors.Add(new BuildDiagnostic(this.WebId)
                 {
                     Message = $"[{this.GetType().Name}] \"{this.Name}\" Duplicate webid "
                 });

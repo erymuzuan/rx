@@ -13,10 +13,12 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain.Codes;
+using Bespoke.Sph.Domain.Compilers;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class ServiceContract : DomainObject
+    public partial class ServiceContract : DomainObject, IProjectDefinition
     {
         public Task<ServiceContractSetting> LoadSettingAsync(string entity)
         {
@@ -101,7 +103,7 @@ namespace Bespoke.Sph.Domain
                 };
                 cr.Result = result.Errors.Count == 0;
                 var errors = from CompilerError x in result.Errors
-                             select new BuildError(this.WebId, x.ErrorText)
+                             select new BuildDiagnostic(this.WebId, x.ErrorText)
                              {
                                  Line = x.Line,
                                  FileName = x.FileName
@@ -111,8 +113,17 @@ namespace Bespoke.Sph.Domain
             }
         }
         private EntityDefinition m_entityDefinition;
-
+        [JsonIgnore]
+        public string AssemblyName => $"{ConfigurationManager.ApplicationName}.{nameof(ServiceContract)}.{m_entityDefinition.Name}";
+        [JsonIgnore]
         public string CodeNamespace { get; } = $"{ConfigurationManager.CompanyName}.{ConfigurationManager.ApplicationName}.IntegrationApis";
+        [JsonIgnore]
+        public string Name => $"{m_entityDefinition.Name}ServiceContract";
+        [JsonIgnore]
+        public string Id
+        {
+            get => m_entityDefinition.Id; set { }
+        }
 
         private Class GenerateController()
         {

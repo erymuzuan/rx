@@ -79,9 +79,9 @@ namespace Bespoke.Sph.Domain
 
         }
         
-        public virtual BuildError[] ValidateBuild(EntityDefinition ed)
+        public virtual BuildDiagnostic[] ValidateBuild(EntityDefinition ed)
         {
-            return new BuildError[]{};
+            return new BuildDiagnostic[]{};
         }
 
         public virtual Bitmap GetPngIcon()

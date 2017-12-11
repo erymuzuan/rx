@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Console = Colorful.Console;
+using Bespoke.Sph.Domain.Compilers;
 
 namespace Bespoke.Sph.Mangements.Commands
 {
@@ -28,41 +28,20 @@ namespace Bespoke.Sph.Mangements.Commands
             var ed = this.GetEntityDefinition();
             if (null == ed)
             {
-                Console.WriteLine("Cannot find EntityDefinition");
+                WriteWarnig("Cannot find EntityDefinition");
                 return;
             }
-            CopyFiles(ed);
-
             var migrationPlan = this.GetCommandValue<string>("plan");
-            var nes = this.GetCommandValue<bool>("nes");
             var truncate = this.GetCommandValue<bool>("truncate");
 
             await DeploymentMetadata.InitializeAsync();
             var deployment = new DeploymentMetadata(ed);
+            ObjectBuilder.ComposeMefCatalog(deployment);
 
             var batchSize = this.GetCommandValue<int?>("batch-size") ?? 1000;
-            await deployment.BuildAsync(truncate, nes, batchSize, migrationPlan);
+            await deployment.StartDeployAsync(truncate, batchSize, migrationPlan);
 
         }
 
-        private void CopyFiles(EntityDefinition ed)
-        {
-            var output = $"{ConfigurationManager.ApplicationName}.{ed.Name}";
-            var web = $@"{ConfigurationManager.WebPath}\bin";
-            var subscribers = ConfigurationManager.SubscriberPath;
-            try
-            {
-                File.Copy($@"{ConfigurationManager.CompilerOutputPath}\{output}.dll", $@"{web}\{output}.dll", true);
-                File.Copy($@"{ConfigurationManager.CompilerOutputPath}\{output}.pdb", $@"{web}\{output}.pdb", true);
-
-                File.Copy($@"{ConfigurationManager.CompilerOutputPath}\{output}.dll", $@"{subscribers}\{output}.dll", true);
-                File.Copy($@"{ConfigurationManager.CompilerOutputPath}\{output}.pdb", $@"{subscribers}\{output}.pdb", true);
-            }
-            catch (IOException ioe)
-            {
-                WriteError("Fail to copy dll and pdb to web/bin and subscribers");
-                WriteError(ioe.Message);
-            }
-        }
     }
 }

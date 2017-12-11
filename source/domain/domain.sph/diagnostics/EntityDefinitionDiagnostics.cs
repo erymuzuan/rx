@@ -8,16 +8,16 @@ namespace Bespoke.Sph.Domain.diagnostics
     [Export(typeof(IBuildDiagnostics))]
     sealed class EntityDefinitionDiagnostics : BuilDiagnostic
     {
-        public override Task<BuildError[]> ValidateErrorsAsync(EntityDefinition entity)
+        public override Task<BuildDiagnostic[]> ValidateErrorsAsync(EntityDefinition entity)
         {
-            var errors = new List<BuildError>();
+            var errors = new List<BuildDiagnostic>();
             if (string.IsNullOrWhiteSpace(entity.RecordName))
-                errors.Add(new BuildError(entity.WebId, "Record name is missing"));
+                errors.Add(new BuildDiagnostic(entity.WebId, "Record name is missing"));
             if (string.IsNullOrWhiteSpace(entity.Plural))
-                errors.Add(new BuildError(entity.WebId, "Plural is missing"));
+                errors.Add(new BuildDiagnostic(entity.WebId, "Plural is missing"));
 
             if (entity.MemberCollection.All(m => m.Name != entity.RecordName))
-                errors.Add(new BuildError(entity.WebId, "Record name is not registered in your schema as a first level member"));
+                errors.Add(new BuildDiagnostic(entity.WebId, "Record name is not registered in your schema as a first level member"));
 
             return Task.FromResult(errors.ToArray());
         }

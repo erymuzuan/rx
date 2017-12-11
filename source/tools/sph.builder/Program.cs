@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -10,7 +9,6 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Bespoke.Sph.Extensions;
 using Newtonsoft.Json.Linq;
-using Console = Colorful.Console;
 
 namespace Bespoke.Sph.SourceBuilders
 {
@@ -22,18 +20,13 @@ namespace Bespoke.Sph.SourceBuilders
             if (!Directory.Exists(sourcePath))
                 Directory.CreateDirectory(sourcePath);
             var current = complete + Directory.GetFiles(sourcePath, "*.json", SearchOption.AllDirectories).Length;
-            Console.WriteLine($"Progress ... {progressCharacter}{barSize}{maxVal}{current}", Color.DarkGray);
+            Console.WriteLine($"Progress ... {progressCharacter}{barSize}{maxVal}{current}");
         }
 
         public static async Task Main(string[] args)
         {
-            Console.WriteAscii("Reactive Developer 2.1", Color.Aqua);
-            '-'.WriteFrame();
-            " ".WriteMessage(Color.Bisque);
-            "Reactive Developer".WriteMessage(Color.Cyan);
-            " ".WriteMessage(Color.Cyan);
-            "Welcome to Rx Developer platform command line build tools".WriteMessage(Color.Yellow);
-
+            "Reactive Developer".WriteMessage();
+            "Welcome to Rx Developer platform command line build tools".WriteMessage();
             '-'.WriteFrame();
             Console.ResetColor();
 
@@ -54,6 +47,7 @@ namespace Bespoke.Sph.SourceBuilders
             {
                 var ts = (Severity)Enum.Parse(typeof(Severity), tsw, true);
                 logger.Loggers.OfType<ConsoleLogger>().Single().TraceSwitch = ts;
+                logger.TraceSwitch = ts;
                 if (TryParseArg("out", out var outputFile))
                 {
                     logger.Loggers.Add(new FileLogger(outputFile, FileLogger.Interval.Hour) { TraceSwitch = ts });
@@ -61,6 +55,8 @@ namespace Bespoke.Sph.SourceBuilders
             }
             ObjectBuilder.AddCacheList<ILogger>(logger);
 
+            var compilers = ParseArg("compiler", "builder", "target", "c"); // comma seperated, IProjectBuilder Name
+            // TODO : when compilers switch is available just use those specified
             if (args.Length > 0)
             {
                 await BuildWithArgsAsync(args).ConfigureAwait(false);
@@ -212,19 +208,19 @@ namespace Bespoke.Sph.SourceBuilders
         }
 
 
-        public static void WriteMessage(this string message, Color color)
+        public static void WriteMessage(this string message)
         {
             var width = Console.BufferWidth - 1;
             var margin = (width - 2 - message.Length) / 2;
 
             if (message.Length >= width)
             {
-                message.Substring(0, width - 10).WriteMessage(color);
-                message.Substring(width - 10).WriteMessage(color);
+                message.Substring(0, width - 10).WriteMessage();
+                message.Substring(width - 10).WriteMessage();
                 return;
             }
 
-            Console.WriteLine(message.Length % 2 == 0 ? "|{0}{1} {0}|" : "|{0}{1}{0}|", new string(' ', margin), message, color);
+            Console.WriteLine(message.Length % 2 == 0 ? "|{0}{1} {0}|" : "|{0}{1}{0}|", new string(' ', margin), message);
         }
         public static void WriteFrame(this char frame)
         {

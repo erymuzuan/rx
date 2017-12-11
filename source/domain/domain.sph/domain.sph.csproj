@@ -27,7 +27,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,7 +36,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -307,12 +307,19 @@
     </Compile>
     <Compile Include="Api\TableRelation.cs" />
     <Compile Include="Api\UpdateActionCode.cs" />
+    <Compile Include="AttachedProperty.cs" />
     <Compile Include="Business\Address.cs" />
     <Compile Include="Business\Designation.cs" />
     <Compile Include="Business\EmailTemplate.cs" />
     <Compile Include="Business\Photo.cs" />
     <Compile Include="CodeGeneratorFactory.cs" />
     <Compile Include="Codes\AssemblyInfoClass.cs" />
+    <Compile Include="Compilers\IProjectBuilder.cs" />
+    <Compile Include="Compilers\IProjectDefinition.cs" />
+    <Compile Include="Compilers\IProjectDefinitionWithMembers.cs" />
+    <Compile Include="Compilers\IProjectDeployer.cs" />
+    <Compile Include="Compilers\ISourceRepository.cs" />
+    <Compile Include="Compilers\LocalDiskSourceRepository.cs" />
     <Compile Include="ConsoleLogger.cs" />
     <Compile Include="Core\DictionaryExtensions.cs" />
     <Compile Include="Core\GenericCustomEntityDependenciesResolver.cs" />
@@ -323,6 +330,7 @@
     <Compile Include="diagnostics\FormDeleteOperationDiagnostics.cs" />
     <Compile Include="diagnostics\FormOperationDiagnostics.cs" />
     <Compile Include="diagnostics\LocationEndpointDiagnostics.cs" />
+    <Compile Include="Extensions\IProjectDefinitionExtension.cs" />
     <Compile Include="Extensions\ProjectDefinitionWithMembersExtension.cs" />
     <Compile Include="FileLogger.cs" />
     <Compile Include="FormTemplates\BinaryAndFilter.cs" />
@@ -337,6 +345,9 @@
     <Compile Include="IReadonlyRepository.T.cs" />
     <Compile Include="Management\ConfigData.cs" />
     <Compile Include="Management\HttpRequestLog.cs" />
+    <Compile Include="Management\IDeploymentMetadataRepository.cs" />
+    <Compile Include="Management\IReadOnlyRepositoryManagement.cs" />
+    <Compile Include="Management\IRepositoryManagement.cs" />
     <Compile Include="Management\SubscriberConfig.cs" />
     <Compile Include="Management\WorkersConfig.cs" />
     <Compile Include="Management\WorkerServerConfig.cs" />
@@ -411,7 +422,6 @@
     <Compile Include="FormTemplates\EntityLookupElement.cs" />
     <Compile Include="FormTemplates\EntityResourceEndpoint.cs" />
     <Compile Include="FormTemplates\FullSearchEndpoint.cs" />
-    <Compile Include="FormTemplates\ICompilationUnit.cs" />
     <Compile Include="FormTemplates\OdataEndpoint.cs" />
     <Compile Include="FormTemplates\OperationEndpoint.code.cs" />
     <Compile Include="FormTemplates\OperationEndpoint.cs" />
@@ -566,7 +576,7 @@
     <Compile Include="Triggers\AssemblyAction.cs" />
     <Compile Include="Triggers\AssemblyField.cs" />
     <Compile Include="Triggers\Breakpoint.cs" />
-    <Compile Include="Triggers\BuildError.cs" />
+    <Compile Include="Triggers\BuildDiagnostic.cs" />
     <Compile Include="Triggers\BuildValidationResult.cs" />
     <Compile Include="Triggers\CatchScope.cs" />
     <Compile Include="Triggers\ChildWorkflowActivity.cs" />

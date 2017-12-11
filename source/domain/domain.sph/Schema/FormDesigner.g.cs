@@ -2401,7 +2401,7 @@ namespace Bespoke.Sph.Domain
         /// 
         ///</summary>
         [DebuggerHidden]
-
+        [Obsolete("If you don't want it, the use SqlServerReadOnlyRepository<T>")]
         public bool? StoreInElasticsearch
         {
             set
@@ -2511,82 +2511,7 @@ namespace Bespoke.Sph.Domain
                 RaisePropertyChanged();
             }
         }
-
-
-        private bool m_IsNotIndexed;
-        public bool IsNotIndexed
-        {
-            get
-            {
-                return m_IsNotIndexed;
-            }
-            set
-            {
-                m_IsNotIndexed = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
-        private bool m_IsAnalyzed;
-        public bool IsAnalyzed
-        {
-            get
-            {
-                return m_IsAnalyzed;
-            }
-            set
-            {
-                m_IsAnalyzed = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
-        private bool m_IsFilterable;
-        public bool IsFilterable
-        {
-            get
-            {
-                return m_IsFilterable;
-            }
-            set
-            {
-                m_IsFilterable = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
-        private bool m_IsExcludeInAll;
-        public bool IsExcludeInAll
-        {
-            get
-            {
-                return m_IsExcludeInAll;
-            }
-            set
-            {
-                m_IsExcludeInAll = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
-        private int m_Boost;
-        public int Boost
-        {
-            get
-            {
-                return m_Boost;
-            }
-            set
-            {
-                m_Boost = value;
-                RaisePropertyChanged();
-            }
-        }
-
+        
 
 
     }

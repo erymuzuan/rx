@@ -28,14 +28,14 @@ namespace Bespoke.Sph.Domain
             var complexTypesElement = m_xsd.Elements(x + "complexType").ToList();
             var complexTypeClasses = complexTypesElement
                 .Where(e => null != e.Attribute("name"))
-                .Select(e => e.Attribute("name").Value)
+                .Select(e => e.Attribute("name")?.Value)
                 .Select(this.GetClassDefinition)
                 .ToList();
             @classes.AddRange(complexTypeClasses);
 
             var elements = m_xsd.Elements(x + "element").ToList();
             var elementClasses = elements.Where(e => null != e.Attribute("name"))
-                .Select(e => e.Attribute("name").Value)
+                .Select(e => e.Attribute("name")?.Value)
                 .Select(this.GetClassDefinition)
                 .ToList();
             @classes.AddRange(elementClasses);
@@ -48,7 +48,7 @@ namespace Bespoke.Sph.Domain
 
             var element = m_xsd.Elements(x + "element")
                 .Where(e => null != e.Attribute("name"))
-                .SingleOrDefault(e => e.Attribute("name").Value == elementOrComplexType);
+                .SingleOrDefault(e => e.Attribute("name")?.Value == elementOrComplexType);
             var ct = m_xsd.Element(x + "complexType");
             if (null != element)
             {
@@ -73,7 +73,7 @@ namespace Bespoke.Sph.Domain
             var extension = ct.Descendants(x + "extension").FirstOrDefault();
             if (null != extension)
             {
-                @class.BaseClass = extension.Attribute("base").Value;
+                @class.BaseClass = extension.Attribute("base")?.Value;
                 members.AddRange(this.GetMembers(extension));
             }
             var ns = m_xsd.Attribute("targetNamespace");
@@ -94,7 +94,7 @@ namespace Bespoke.Sph.Domain
             if (null == ct) return properties;
 
             var attributes = from at in ct.Elements(x + "attribute")
-                             let n = at.Attribute("name").Value
+                             let n = at.Attribute("name")?.Value
                              select new Property
                              {
                                  Name = n,
@@ -113,8 +113,8 @@ namespace Bespoke.Sph.Domain
                                         && at.Attribute("type") != null
                                   select new Property
                                   {
-                                      Name = at.Attribute("name").Value,
-                                      Code = string.Format("      public {1} {0} {{get;set;}}", at.Attribute("name").Value, ComplexVariable.GetClrDataType(at))
+                                      Name = at.Attribute("name")?.Value,
+                                      Code = string.Format("      public {1} {0} {{get;set;}}", at.Attribute("name")?.Value, ComplexVariable.GetClrDataType(at))
                                   };
                 properties.AddRange(allElements);
 
@@ -124,13 +124,14 @@ namespace Bespoke.Sph.Domain
                                          let refElement = at.Descendants(x + "element").First()
                                          let type =
                                              refElement.Attribute("ref") == null
-                                                 ? refElement.Attribute("type").Value
-                                                 : refElement.Attribute("ref").Value
+                                                 ? refElement.Attribute("type")?.Value
+                                                 : refElement.Attribute("ref")?.Value
                                          select new Property
                                          {
-                                             Code = string.Format("      private readonly ObjectCollection<{1}> m_{0} = new ObjectCollection<{1}>();\r\n" +
-                                                                                   "      public ObjectCollection<{1}> {0} {{get {{ return m_{0};}} }}", at.Attribute("name").Value, type),
-                                             Name = at.Attribute("name").Value
+                                             Code =
+                                                 $"      private readonly ObjectCollection<{type}> m_{at.Attribute("name")?.Value} = new ObjectCollection<{type}>();\r\n" +
+                                                 $"      public ObjectCollection<{type}> {at.Attribute("name")?.Value} {{get {{ return m_{at.Attribute("name")?.Value};}} }}",
+                                             Name = at.Attribute("name")?.Value
                                          };
                 properties.AddRange(collectionElements);
 
@@ -139,9 +140,8 @@ namespace Bespoke.Sph.Domain
                                   let refa = at.Attribute("ref")
                                   select new Property
                                   {
-                                      Code = string.Format("      private  {0} m_{0} = new {0}();\r\n" +
-                                                           "      public {0} {0}{{get{{ return m_{0};}} set{{ m_{0} = value;}} }}",
-                                          refa.Value)
+                                      Code = $"      private  {refa.Value} m_{refa.Value} = new {refa.Value}();\r\n" +
+                                             $"      public {refa.Value} {refa.Value}{{get{{ return m_{refa.Value};}} set{{ m_{refa.Value} = value;}} }}"
                                   };
                 properties.AddRange(refElements);
 

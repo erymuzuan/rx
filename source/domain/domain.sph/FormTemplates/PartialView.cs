@@ -53,7 +53,7 @@ namespace Bespoke.Sph.Domain
             var provider = this.FormRendererProviders.SingleOrDefault(x => x.Metadata.Name == name);
             if (null == provider)
             {
-                build.Errors.Add(new BuildError(this.WebId, "Cannot find renderer for " + name));
+                build.Errors.Add(new BuildDiagnostic(this.WebId, "Cannot find renderer for " + name));
                 return build;
             }
 

@@ -43,8 +43,9 @@ namespace Bespoke.Sph.Domain
             }
             var ignores = new[]
                 {
+                    "Esent", "GalaSoft","ICSharpCode", "JWT","Mono","FileHelpers","Colorful",
                     "Microsoft","Spring","WebGrease","WebActivator","WebMatrix",
-                    "workflows","Antlr3.Runtime",
+                    "workflows","Antlr3.Runtime", "LinqToQuerystring",
                     "DiffPlex","Common.Logging","EntityFramework",
                     "Humanizer","ImageResizer",
                     "Invoke","Monads",
@@ -79,7 +80,7 @@ namespace Bespoke.Sph.Domain
                 if (ignores.Any(name.StartsWith)) continue;
 
                 LoadAssemblyCatalog(file);
-                logger.Log(new LogEntry { Message = $"Loaded {name}", Severity = Severity.Debug });
+                logger.WriteDebug($"Loaded {name}");
             }
 
             var bin = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin");
@@ -200,6 +201,7 @@ namespace Bespoke.Sph.Domain
             public Severity TraceSwitch { get; set; } = Severity.Info;
             public Task LogAsync(LogEntry entry)
             {
+                if (entry.Severity < this.TraceSwitch) return Task.FromResult(0);
                 try
                 {
                     Console.ForegroundColor = ConsoleColor.Red;

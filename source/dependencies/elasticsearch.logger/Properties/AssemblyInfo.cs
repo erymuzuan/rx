@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 
 [assembly: AssemblyTitle("elasticsearch.logger")]
 [assembly: AssemblyDescription("Provides an Elasticsearch 1.7.5 logging repository")]
@@ -7,3 +7,7 @@
 #else
 [assembly: AssemblyConfiguration("Release")]
 #endif
+//
+//
+//
+//

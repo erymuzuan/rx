@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -16,11 +15,11 @@ namespace Bespoke.Sph.Domain
             var result = new BuildValidationResult();
             var validName = new Regex(@"^[A-Za-z][A-Za-z0-9_ ]*$");
             if (!validName.Match(this.Title).Success)
-                result.Errors.Add(new BuildError(this.WebId) { Message = "Title must start a with letter.You cannot use symbol or number as first character" });
+                result.Errors.Add(new BuildDiagnostic(this.WebId) { Message = "Title must start a with letter.You cannot use symbol or number as first character" });
 
            
             if (string.IsNullOrWhiteSpace(this.DataSource.EntityName))
-                result.Errors.Add(new BuildError(this.WebId) { Message = "You have not select an entity for your report" });
+                result.Errors.Add(new BuildDiagnostic(this.WebId) { Message = "You have not select an entity for your report" });
 
            
 

@@ -14,10 +14,13 @@
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, objectbuilders.app, "services/app", "services/new-item"],
     function (context, logger, router, system, app, servicesApp, nis) {
 
-        var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
-            originalEntity = "",
+        let originalEntity = "",
+            memberAttachedPropertiesSubscription = null;
+        const entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
+            attachedProperties = ko.observableArray(),
             isBusy = ko.observable(false),
             errors = ko.observableArray(),
+            warnings = ko.observableArray(),
             triggers = ko.observableArray(),
             forms = ko.observableArray(),
             dialogs = ko.observableArray(),
@@ -28,24 +31,61 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             valueObjectOptions = ko.observableArray(),
             views = ko.observableArray(),
             member = ko.observable(new bespoke.sph.domain.Member(system.guid())),
+            memberLoadAttachedProperties = async function (mr) {
+                const memberWebId = mr.WebId();
+                if (memberWebId === "-") {
+                    return;
+                }
+                const result = await context.get(
+                    `/developer-service/compilers-attached-properties-members/${entity().Id()}/${memberWebId}`);
+                const serverProperties = Object.keys(result).filter(v => result[v].length).map(v => {
+                    return { "compiler": v, properties: result[v].map(x => ko.mapping.fromJS(x)) };
+                });
+
+                const memberProperties = [];
+                serverProperties.forEach(builder => {
+
+                    const list2 = [];
+                    memberProperties.push({ "compiler": builder.compiler, properties: list2 });
+                    // loop every properties in builder, find prop which is currently in memory(attachedProperties) and push it to list2 to bind
+                    builder.properties.forEach(prop => {
+                        var ep = attachedProperties().find(x => ko.unwrap(x.AttachedTo) === ko.unwrap(mr.WebId) && ko.unwrap(x.Name) === ko.unwrap(prop.Name));
+                        if (ep) {
+                            // found , then bind
+                            list2.push(ep);
+                        } else {
+                            // set the prop to the current member and save in memory
+                            prop.AttachedTo(ko.unwrap(mr.WebId));
+                            attachedProperties.push(prop);
+
+                            list2.push(prop);
+                        }
+                    });
+                });
+
+                //bind
+                mr.attachedProperties(memberProperties);
+            },
             activate = function (id) {
 
                 context.getListAsync("ViewTemplate", "Id ne '0'", "Name")
-                .done(templateOptions);
+                    .done(templateOptions);
                 context.getListAsync("ValueObjectDefinition", "Id ne '0'", "Name")
-                .done(valueObjectOptions);
+                    .done(valueObjectOptions);
 
                 member(new bespoke.sph.domain.Member("-"));
+                warnings([]);
+                errors([]);
 
-                var query = String.format("Id eq '{0}'", id);
+                const query = String.format("Id eq '{0}'", id);
                 return context.loadOneAsync("EntityDefinition", query)
                     .then(function (b) {
                         if (!b) {
                             originalEntity = null;
-                            return app.showMessage("Cannot find any EntityDefinition with id = " + id, "Not Found", ["OK"])
-                            .done(function () {
-                                return router.navigate("#dev.home");
-                            });
+                            return app.showMessage(`Cannot find any EntityDefinition with id = ${id}`, "Not Found", ["OK"])
+                                .done(function () {
+                                    return router.navigate("#dev.home");
+                                });
                         }
                         entity(b);
                         window.typeaheadEntity = b.Name();
@@ -56,12 +96,12 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             attached = function () {
 
                 originalEntity = ko.toJSON(entity);
-                var setDesignerHeight = function () {
+                const setDesignerHeight = function () {
                     if ($("#schema-tree-panel").length === 0) {
                         return;
                     }
 
-                    var dev = $("#developers-log-panel").height(),
+                    const dev = $("#developers-log-panel").height(),
                         top = $("#schema-tree-panel").offset().top,
                         height = dev + top;
                     $("#schema-tree-panel").css("max-height", $(window).height() - height);
@@ -69,9 +109,14 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 };
                 $("#developers-log-panel-collapse,#developers-log-panel-expand").on("click", setDesignerHeight);
                 setDesignerHeight();
+
+                if (memberAttachedPropertiesSubscription) {
+                    return;
+                }
+                memberAttachedPropertiesSubscription = member.subscribe(memberLoadAttachedProperties);
             },
             publishDashboard = function () {
-                var data = ko.mapping.toJSON(entity);
+                const data = ko.mapping.toJSON(entity);
                 return context.post(data, "/entity-definition/publish-dashboard");
             },
             save = function () {
@@ -79,7 +124,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     logger.error("Please correct all the validations errors");
                     return Task.fromResult(0);
                 }
-                var data = ko.mapping.toJSON(entity);
+                const data = ko.mapping.toJSON({ item: entity, attachedProperties: attachedProperties });
                 isBusy(true);
 
                 return context.post(data, "/entity-definition")
@@ -90,11 +135,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             logger.info(result.message);
                             if (!entity().Id()) {
                                 //reload forms and views 
-                                context.loadAsync("EntityForm", "EntityDefinitionId eq '" + result.id + "'")
+                                context.loadAsync("EntityForm", `EntityDefinitionId eq '${result.id}'`)
                                     .done(function (lo) {
                                         forms(lo.itemCollection);
                                     });
-                                context.loadAsync("EntityView", "EntityDefinitionId eq '" + result.id + "'")
+                                context.loadAsync("EntityView", `EntityDefinitionId eq '${result.id}'`)
                                     .done(function (lo) {
                                         views(lo.itemCollection);
                                     });
@@ -113,7 +158,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 if (!originalEntity) {
                     return true;
                 }
-               
+
 
 
                 if (originalEntity !== ko.toJSON(entity)) {
@@ -139,7 +184,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             publishAsync = function () {
 
-                var data = ko.mapping.toJSON(entity);
+                const data = ko.mapping.toJSON({ item: entity, attachedProperties: attachedProperties });
                 isBusy(true);
 
                 return context.post(data, "/entity-definition/publish")
@@ -152,8 +197,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                             entity().Id(result.id);
                             errors.removeAll();
                         } else {
-
-                            errors(result.Errors);
+                            warnings(result.Errors.filter(x => x.IsWarning));
+                            errors(result.Errors.filter(x => !x.IsWarning));
                             logger.error("There are errors in your schema, !!!");
                         }
                         entity().IsPublished(true);
@@ -161,7 +206,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             },
             depublishAsync = function () {
 
-                var data = ko.mapping.toJSON(entity);
+                const data = ko.mapping.toJSON(entity);
                 isBusy(true);
 
                 return context.post(data, "/entity-definition/depublish")
@@ -187,7 +232,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
 
-                            context.send(data, "/entity-definition/" + entity().Id(), "DELETE")
+                            context.send(data, `/entity-definition/${entity().Id()}`, "DELETE")
                                 .then(function (result) {
                                     isBusy(false);
                                     if (result.success) {
@@ -237,11 +282,11 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return servicesApp.showDialog("new.trigger.dialog", function (dialog) {
                     dialog.entity(entity().Name());
                 })
-                      .done(function (dialog, result) {
-                          if (result === "OK") {
-                              router.navigate("#trigger.setup/" + ko.unwrap(dialog.id));
-                          }
-                      });
+                    .done(function (dialog, result) {
+                        if (result === "OK") {
+                            router.navigate(`#trigger.setup/${ko.unwrap(dialog.id)}`);
+                        }
+                    });
             },
             addQueryEndpoint = function () {
                 return nis.addQueryEndpoint(ko.unwrap(entity().Name));
@@ -253,22 +298,22 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 var file = e.FileName || e,
                     line = e.Line || 1;
                 var params = [
-                        "height=" + screen.height,
-                        "width=" + screen.width,
-                        "toolbar=0",
-                        "location=0",
-                        "fullscreen=yes"
-                ].join(","),
-                    editor = window.open("/sph/editor/file?id=" + file.replace(/\\/g, "/") + "&line=" + line, "_blank", params);
+                    `height=${screen.height}`,
+                    `width=${screen.width}`,
+                    "toolbar=0",
+                    "location=0",
+                    "fullscreen=yes"
+                ].join(",");
+                const editor = window.open(`/sph/editor/file?id=${file.replace(/\\/g, "/")}&line=${line}`, "_blank", params);
                 editor.moveTo(0, 0);
             },
             truncateData = function () {
                 var tcs = new $.Deferred();
 
-                app.showMessage("TRUNCATE all data, you'll lose all the data is SQL and Elasticsearch", "RX Developer", ["Yes", "No"])
+                app.showMessage("TRUNCATE all data, you'll lose all the data in your Repository and ReadOnly Repository", "RX Developer", ["Yes", "No"])
                     .done(function (dialogResult) {
                         if (dialogResult === "Yes") {
-                            context.sendDelete("/entity-definition/" + entity().Name() + "/contents")
+                            context.sendDelete(`/entity-definition/${entity().Name()}/contents`)
                                 .fail(tcs.reject)
                                 .done(tcs.resolve);
                         } else {
@@ -277,29 +322,42 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                     });
 
                 return tcs.promise();
+            },
+            attachedPropertyEnable = function (expression, compiler) {
+                const func = ko.unwrap(expression);
+                console.debug(func, ko.unwrap(compiler));
+                const depend = compiler.properties.find(x => ko.unwrap(x.Name) === func);
+                if (depend)
+                    return depend.Value;
+
+                // TODO : what if the expression is more complex than just a simple Value, e.g Prop1 && Prop2 > 0
+                return func;
             };
 
 
-        var vm = {
+        const vm = {
             triggers: triggers,
             templateOptions: templateOptions,
             valueObjectOptions: valueObjectOptions,
             publishDashboard: publishDashboard,
             addTriggerAsync: addTriggerAsync,
             dialogs: dialogs,
+            attachedProperties: attachedProperties,
             queries: queries,
             operations: operations,
             partialViews: partialViews,
-            viewFile : viewFile,
+            viewFile: viewFile,
             forms: forms,
             views: views,
             errors: errors,
+            warnings: warnings,
             isBusy: isBusy,
             activate: activate,
             canDeactivate: canDeactivate,
             attached: attached,
             entity: entity,
             member: member,
+            attachedPropertyEnable: attachedPropertyEnable,
             addQueryEndpoint: addQueryEndpoint,
             addOperationEndpoint: addOperationEndpoint,
             toolbar: {
@@ -322,31 +380,31 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         return Task.fromResult(0);
                     }
                 },
-                    {
-                        command: publishAsync,
-                        caption: "Build",
-                        icon: "fa fa-sign-in",
-                        enable: ko.computed(function () {
-                            var ent = ko.unwrap(entity);
-                            if (!ent) return false;
-                            return ko.unwrap(ent.Id);
-                        })
-                    },
-                    {
-                        command: depublishAsync,
-                        caption: "Depublish",
-                        icon: "fa fa-sign-out",
-                        enable: ko.computed(function () {
-                            var ent = ko.unwrap(entity);
-                            if (!ent) return false;
-                            return ko.unwrap(ent.Id) && ko.unwrap(ent.IsPublished);
-                        })
-                    },
-                    {
-                        caption: "Truncate all data",
-                        icon: "fa fa-trash-o",
-                        command: truncateData
-                    }])
+                {
+                    command: publishAsync,
+                    caption: "Build",
+                    icon: "fa fa-sign-in",
+                    enable: ko.computed(function () {
+                        var ent = ko.unwrap(entity);
+                        if (!ent) return false;
+                        return ko.unwrap(ent.Id);
+                    })
+                },
+                {
+                    command: depublishAsync,
+                    caption: "Depublish",
+                    icon: "fa fa-sign-out",
+                    enable: ko.computed(function () {
+                        var ent = ko.unwrap(entity);
+                        if (!ent) return false;
+                        return ko.unwrap(ent.Id) && ko.unwrap(ent.IsPublished);
+                    })
+                },
+                {
+                    caption: "Truncate all data",
+                    icon: "fa fa-trash-o",
+                    command: truncateData
+                }])
             }
         };
 

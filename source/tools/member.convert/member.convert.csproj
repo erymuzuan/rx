@@ -7,7 +7,7 @@
     <ProjectGuid>{30D10FBA-D93E-4C5A-B7C3-1392F89838D5}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>member.convert</RootNamespace>
+    <RootNamespace>Bespoke.Sph.Tools.Upgrades</RootNamespace>
     <AssemblyName>member.convert</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -50,6 +50,7 @@
     <Compile Include="..\..\assembly.versions\tools-member.convert.cs">
       <Link>Properties\tools-member.convert.cs</Link>
     </Compile>
+    <Compile Include="NamespaceEntension.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

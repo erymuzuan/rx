@@ -2,15 +2,15 @@ using System;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Bespoke.Sph.Domain.Compilers;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
     [PersistenceOption(HasDerivedTypes = true, IsSource = true)]
-    public partial class QueryEndpoint : Entity
+    public partial class QueryEndpoint : Entity, IProjectDefinition
     {
 
         [ImportMany(typeof(IBuildDiagnostics))]
@@ -28,7 +28,7 @@ namespace Bespoke.Sph.Domain
             var result = new BuildValidationResult();
 
             if (null == ed)
-                result.Errors.Add(new BuildError(this.WebId, $"Cannot find EntityDefinition:{Entity}"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, $"Cannot find EntityDefinition:{Entity}"));
 
             var errorTasks = this.BuildDiagnostics.Select(d => d.ValidateErrorsAsync(this, ed));
             var errors = (await Task.WhenAll(errorTasks)).SelectMany(x => x.ToArray());
@@ -55,12 +55,39 @@ namespace Bespoke.Sph.Domain
                 var filter = this.FilterCollection.Select(x => x.Field).OfType<RouteParameterField>()
                     .SingleOrDefault(x => x.Name == pr);
                 if (null == filter)
-                    result.Warnings.Add(new BuildError(this.WebId, $@"You should define a filter with RouteParameterField for ""{pr}"" route parameter "));
+                    result.Warnings.Add(new BuildDiagnostic(this.WebId, $@"You should define a filter with RouteParameterField for ""{pr}"" route parameter "));
             }
 
             result.Result = result.Errors.Count == 0;
 
             return result;
+        }
+
+
+        public string GetRoute()
+        {
+
+            if (string.IsNullOrWhiteSpace(this.Resource))
+            {
+                var repos = ObjectBuilder.GetObject<ISourceRepository>();
+                var ed = repos.LoadOneAsync<EntityDefinition>(x => x.Name == this.Entity).Result;
+                this.Resource = ed.Plural.ToIdFormat();
+            }
+            var parameters = Strings.RegexValues(this.Route, "\\{(?<p>.*?)}", "p");
+            var route = this.Route;
+            foreach (var rp in parameters)
+            {
+                var field = this.FilterCollection.Select(x => x.Field).OfType<RouteParameterField>()
+                    .Single(x => x.Name == rp);
+                route = route.Replace($"{{{rp}}}", $"{{{rp}{field.GetRouteConstraint()}}}");
+            }
+            return this.Route.StartsWith("~") ? route : $"~/api/{this.Resource}/{route}";
+        }
+        public string GetLocation()
+        {
+            var route = this.GetRoute();
+            if (route.StartsWith("~/")) route = route.Replace("~/", "/");
+            return route;
         }
 
         [Obsolete("Move to elasticsearch implementation")]
@@ -116,40 +143,5 @@ namespace Bespoke.Sph.Domain
             return Task.FromResult(0);
         }
 
-        private string GenerateComplexMemberFields(string[] members)
-        {
-            var code = new StringBuilder();
-            var parent = "";
-            var complexFields = members.Where(x => x.Contains(".")).OrderBy(x => x).ToList();
-            foreach (var g in complexFields)
-            {
-                if (!(m_ed.GetMember(g) is SimpleMember mb)) throw new InvalidOperationException("You can only select SimpleMember field, and " + g + " is not");
-                var paths = g.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                //if (paths.Count > 2)
-                //{
-                //    paths.RemoveAt(paths.Count - 1);
-                //    var similiar = members.Where(x => x.StartsWith(string.Join(".", paths))).ToArray();
-                //    code.Append(this.GenerateComplexMemberFields(similiar));
-                //    continue;
-                //}
-
-                var cp = paths.First();
-                var m = paths.Last();
-                if (!string.IsNullOrWhiteSpace(parent) && parent != cp) code.AppendLine("     },");
-                if (parent != cp)
-                {
-                    code.AppendLine($"          {cp} = new {{");
-                }
-                code.AppendLine(
-                    mb.Type == typeof(string)
-                        ? $@"      {m} = (string)reader[""{g}""] ,"
-                        : $@"      {m} = reader[""{g}""] != null ? ({mb.Type.ToCSharp()})reader[""{g}""] : new Nullable<{mb.Type.ToCSharp()}>(),");
-
-                parent = cp;
-            }
-            if (complexFields.Count > 0) code.AppendLine("     },");
-
-            return code.ToString();
-        }
     }
 }

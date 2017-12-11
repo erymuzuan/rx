@@ -96,16 +96,16 @@ namespace adapter.restapi.test
             Assert.Equal(typeof(int), row.Type);
 
             var results = (ComplexMember)body.MemberCollection.Single(x => x.Name == "Results");
-            Assert.Equal(true, results.AllowMultiple);
+            Assert.True(results.AllowMultiple);
             Assert.Equal("ResultsItem", results.TypeName);
             Assert.Equal(10, results.MemberCollection.Count);
 
             var userName = (SimpleMember)results.MemberCollection.Single(x => x.Name == "UserName");
-            Assert.Equal(false, userName.AllowMultiple);
+            Assert.False(userName.AllowMultiple);
             Assert.Equal(typeof(string), userName.Type);
 
             var changedDate = (SimpleMember)results.MemberCollection.Single(x => x.Name == "ChangedDate");
-            Assert.Equal(false, changedDate.AllowMultiple);
+            Assert.False(changedDate.AllowMultiple);
             Assert.Equal(typeof(DateTime), changedDate.Type);
 
 
@@ -113,7 +113,7 @@ namespace adapter.restapi.test
             Assert.False(rx.AllowMultiple);
 
             var version = (SimpleMember)rx.MemberCollection.Single(x => x.Name == "Version");
-            Assert.Equal(false, version.AllowMultiple);
+            Assert.False(version.AllowMultiple);
             Assert.Equal(typeof(string), version.Type);
         }
     }

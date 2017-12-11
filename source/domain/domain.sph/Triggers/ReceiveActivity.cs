@@ -21,20 +21,20 @@ namespace Bespoke.Sph.Domain
             var result = base.ValidateBuild(wd);
 
             if (this.FollowingCorrelationSetCollection.Count > 0 && this.IsInitiator)
-                result.Errors.Add(new BuildError(this.WebId, $"[ReceiveActivity] : {this.Name} => Receive must follow a correlation or set to be a start activity but not both"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, $"[ReceiveActivity] : {this.Name} => Receive must follow a correlation or set to be a start activity but not both"));
 
             if (this.FollowingCorrelationSetCollection.Count == 0 && !this.IsInitiator)
-                result.Errors.Add(new BuildError(this.WebId, $"[ReceiveActivity] : {this.Name} => Receive must follow a correlation or set to be a start activity"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, $"[ReceiveActivity] : {this.Name} => Receive must follow a correlation or set to be a start activity"));
 
             if (string.IsNullOrWhiteSpace(this.Operation))
-                result.Errors.Add(new BuildError(this.WebId, $"[ReceiveActivity] : {this.Name} => does not have Operation"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, $"[ReceiveActivity] : {this.Name} => does not have Operation"));
             if (string.IsNullOrWhiteSpace(this.MessagePath))
-                result.Errors.Add(new BuildError(this.WebId, $"[ReceiveActivity] : {this.Name} => does not have the MessagePath"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, $"[ReceiveActivity] : {this.Name} => does not have the MessagePath"));
 
             var variable = wd.VariableDefinitionCollection.SingleOrDefault(x => x.Name == this.MessagePath);
             if (null == variable)
             {
-                result.Errors.Add(new BuildError(this.WebId, $"[ReceiveActivity] : {this.Name} => Cannot find variable {this.MessagePath} in the VariableCollection"));
+                result.Errors.Add(new BuildDiagnostic(this.WebId, $"[ReceiveActivity] : {this.Name} => Cannot find variable {this.MessagePath} in the VariableCollection"));
             }
 
             return result;

@@ -1,20 +1,35 @@
 {
   "$type": "Bespoke.Sph.Domain.QueryEndpoint, domain.sph",
+  "$tool-version": "2.1.2170.6524-41d96f897",
   "ControllerName": "CustomerAllCustomersQueryEndpoint",
+  "QueryDsl": {
+    "$type": "Bespoke.Sph.Domain.QueryDsl, domain.sph",
+    "Skip": 0,
+    "Size": 20,
+    "Aggregates": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Aggregate, domain.sph]], domain.sph",
+      "$values": []
+    },
+    "Filters": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
+      "$values": []
+    },
+    "Sorts": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
+      "$values": []
+    },
+    "Fields": {
+      "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
+      "$values": []
+    }
+  },
   "FilterCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Filter, domain.sph]], domain.sph",
     "$values": []
   },
   "SortCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Sort, domain.sph]], domain.sph",
-    "$values": [
-      {
-        "$type": "Bespoke.Sph.Domain.Sort, domain.sph",
-        "Path": "CreatedDate",
-        "Direction": "Desc",
-        "WebId": "472b7010-7e7c-48f3-a398-6ad36fdb26da"
-      }
-    ]
+    "$values": []
   },
   "MemberCollection": {
     "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[System.String, mscorlib]], domain.sph",
@@ -33,6 +48,6 @@
   "Id": "all-customers",
   "CreatedDate": "2016-09-25T08:38:53.8716491+08:00",
   "ChangedBy": "admin",
-  "ChangedDate": "2016-09-25T11:08:56.9686292+08:00",
+  "ChangedDate": "2017-12-10T08:49:30.4516418+08:00",
   "WebId": "53a8aaf9-8a43-4e68-cd8e-601881f877ba"
 }

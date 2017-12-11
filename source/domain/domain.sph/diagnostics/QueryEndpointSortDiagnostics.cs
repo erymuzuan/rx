@@ -7,11 +7,11 @@ namespace Bespoke.Sph.Domain.diagnostics
     [Export(typeof(IBuildDiagnostics))]
     public sealed class QueryEndpointSortDiagnostics : BuilDiagnostic
     {
-        public override Task<BuildError[]> ValidateErrorsAsync(QueryEndpoint endpoint, EntityDefinition entity)
+        public override Task<BuildDiagnostic[]> ValidateErrorsAsync(QueryEndpoint endpoint, EntityDefinition entity)
         {
             var errors = from f in endpoint.SortCollection
                 where string.IsNullOrWhiteSpace(f.Path)
-                select new BuildError
+                select new BuildDiagnostic
                     (
                     endpoint.WebId,
                     $"[Sort] : {f.Path} does not have path"

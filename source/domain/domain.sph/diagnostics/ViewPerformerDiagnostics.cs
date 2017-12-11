@@ -8,26 +8,26 @@ namespace Bespoke.Sph.Domain.diagnostics
     [Export(typeof(IBuildDiagnostics))]
     public sealed class ViewPerformerDiagnostics : BuilDiagnostic
     {
-        public override async Task<BuildError[]> ValidateErrorsAsync(EntityView view, EntityDefinition entity)
+        public override async Task<BuildDiagnostic[]> ValidateErrorsAsync(EntityView view, EntityDefinition entity)
         {
             var performer = view.Performer;
             return await ValidateAsync(view, performer);
         }
      
-        private static async Task<BuildError[]> ValidateAsync(Entity item, Performer performer)
+        private static async Task<BuildDiagnostic[]> ValidateAsync(Entity item, Performer performer)
         {
             var context = new SphDataContext();
             if (!performer.Validate())
-                return new[] { new BuildError(item.WebId, "You have not set the permission correctly") };
+                return new[] { new BuildDiagnostic(item.WebId, "You have not set the permission correctly") };
 
             if (performer.IsPublic)
-                return new BuildError[] { };
+                return new BuildDiagnostic[] { };
 
             var userProperty = performer.UserProperty;
             var value = performer.Value;
             if (userProperty == "Roles" && !Roles.RoleExists(value))
             {
-                return (new[] { new BuildError(item.WebId, $"Role '{value}' does not exists") });
+                return (new[] { new BuildDiagnostic(item.WebId, $"Role '{value}' does not exists") });
             }
             if (userProperty == "Designation")
             {
@@ -36,13 +36,13 @@ namespace Bespoke.Sph.Domain.diagnostics
                     return
                         (new[]
                         {
-                            new BuildError(item.WebId,
+                            new BuildDiagnostic(item.WebId,
                                 $"There are {"desgination".ToQuantity(designation)} found with the name '{value}'")
                         });
             }
             //TODO : department
 
-            return new BuildError[] { };
+            return new BuildDiagnostic[] { };
         }
 
     }
