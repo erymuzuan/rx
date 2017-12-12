@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.SubscribersInfrastructure;
 
 namespace subscriber.version.control
@@ -16,7 +17,7 @@ namespace subscriber.version.control
             "persistence.#"
         };
 
-        protected override async Task ProcessMessage(Entity item, MessageHeaders header)
+        protected override async Task ProcessMessage(Entity item, BrokeredMessage message)
         {
             if (null == item) return;
             var option = item.GetPersistenceOption();
@@ -27,7 +28,7 @@ namespace subscriber.version.control
             if (type == typeof(ReportDefinition))
             {
                 var rd = new ReportDefinitionSourceProvider();
-                if (header.Crud == CrudOperation.Deleted)
+                if (message.Crud == CrudOperation.Deleted)
                     await rd.RemoveItem(item as ReportDefinition);
                 else
                     await rd.ProcessItem(item as ReportDefinition);
@@ -37,7 +38,7 @@ namespace subscriber.version.control
             if (type == typeof(DocumentTemplate))
             {
                 var dt = new DocumentTemplateSourceProvider();
-                if (header.Crud == CrudOperation.Deleted)
+                if (message.Crud == CrudOperation.Deleted)
                     await dt.RemoveItem(item as DocumentTemplate);
                 else
                     await dt.ProcessItem(item as DocumentTemplate);
@@ -47,7 +48,7 @@ namespace subscriber.version.control
             if (type == typeof(WorkflowDefinition))
             {
                 var wd = new WorkflowSourceProvider();
-                if (header.Crud == CrudOperation.Deleted)
+                if (message.Crud == CrudOperation.Deleted)
                     await wd.RemoveItem(item as WorkflowDefinition);
                 else
                     await wd.ProcessItem(item as WorkflowDefinition);
@@ -58,7 +59,7 @@ namespace subscriber.version.control
             if (type == typeof(EntityView))
             {
                 var ev = new EntityViewSourceProvider();
-                if (header.Crud == CrudOperation.Deleted)
+                if (message.Crud == CrudOperation.Deleted)
                     await ev.RemoveItem(item as EntityView);
                 else
                     await ev.ProcessItem(item as EntityView);
@@ -68,7 +69,7 @@ namespace subscriber.version.control
             if (type == typeof(EntityForm))
             {
                 var ef = new EntityFormSourceProvider();
-                if (header.Crud == CrudOperation.Deleted)
+                if (message.Crud == CrudOperation.Deleted)
                     await ef.RemoveItem(item as EntityForm);
                 else
                     await ef.ProcessItem(item as EntityForm);
@@ -77,8 +78,8 @@ namespace subscriber.version.control
 
 
             var provider = new EntitySourceProvider();
-            if (header.GetRawHeaders().ContainsKey("crud") && 
-                header.Crud == CrudOperation.Deleted)
+            if (message.Headers.ContainsKey("crud") && 
+                message.Crud == CrudOperation.Deleted)
                 await provider.RemoveItem(item);
             else
                 await provider.ProcessItem(item);

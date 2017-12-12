@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 
 namespace Bespoke.Sph.CustomTriggers
 {
@@ -13,7 +14,7 @@ namespace Bespoke.Sph.CustomTriggers
         public override string QueueName => "trigger_subs";
         public override string[] RoutingKeys => new[] { "Trigger.#.Publish", "Trigger.#.Depublish" };
 
-        protected override async Task ProcessMessage(Trigger item, MessageHeaders header)
+        protected override async Task ProcessMessage(Trigger item, BrokeredMessage header)
         {
             this.WriteMessage("Compiling new trigger");
             if (header.Crud == CrudOperation.Deleted)

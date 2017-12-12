@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.SubscribersInfrastructure;
 
 namespace subscriber.entities
@@ -15,7 +16,7 @@ namespace subscriber.entities
 
         public override string[] RoutingKeys => new[] { "EntityDefinition.deleted.#" };
 
-        protected override async Task ProcessMessage(EntityDefinition item, MessageHeaders header)
+        protected override async Task ProcessMessage(EntityDefinition item, BrokeredMessage header)
         {
             await RemoveSqlTablesAsync(item);
             await RemoveElasticSearchMappingsAsync(item);

@@ -5,10 +5,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Extensions;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Newtonsoft.Json.Linq;
-using RabbitMQ.Client;
 
 namespace Bespoke.Sph.ReadOnlyRepositoriesWorkers
 {
@@ -18,7 +17,7 @@ namespace Bespoke.Sph.ReadOnlyRepositoriesWorkers
         public override string[] RoutingKeys => new[] { "persistence" };
         private TaskCompletionSource<bool> m_stoppingTcs;
         
-        public override void Run(IConnection connection)
+        public override void Run(IMessageBroker connection)
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -26,7 +25,7 @@ namespace Bespoke.Sph.ReadOnlyRepositoriesWorkers
             {
                 RegisterServices();
                 m_stoppingTcs = new TaskCompletionSource<bool>();
-                this.StartConsume(connection);
+                this.StartConsume();
                 PrintSubscriberInformation(sw.Elapsed);
                 sw.Stop();
 
@@ -64,7 +63,7 @@ namespace Bespoke.Sph.ReadOnlyRepositoriesWorkers
         private TaskBasicConsumer m_consumer;
         private int m_processing;
 
-        public void StartConsume(IConnection connection)
+        public void StartConsume()
         {
             const bool NO_ACK = false;
             const string EXCHANGE_NAME = "sph.topic";

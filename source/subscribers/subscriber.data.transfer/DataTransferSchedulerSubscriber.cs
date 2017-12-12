@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Bespoke.Sph.WorkflowTriggerSubscriptions;
 using Microsoft.Win32.TaskScheduler;
@@ -17,7 +18,7 @@ namespace subscriber.data.transfer
         }
         public override string QueueName => "DataTransferSchedulerSubscriber";
         public override string[] RoutingKeys => new[] { "DataTransferDefinition.#.#" };
-        protected override Task ProcessMessage(DataTransferDefinition item, MessageHeaders header)
+        protected override Task ProcessMessage(DataTransferDefinition item, BrokeredMessage header)
         {
             var scheduledTask = item.IntervalScheduleCollection;
             for (var i = 0; i < 10; i++)
