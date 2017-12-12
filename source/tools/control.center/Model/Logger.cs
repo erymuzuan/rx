@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Polly;
 using Polly.CircuitBreaker;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Exceptions;
 
 namespace Bespoke.Sph.ControlCenter.Model
 {
@@ -15,52 +12,26 @@ namespace Bespoke.Sph.ControlCenter.Model
     public class Logger
     {
         private readonly CircuitBreakerPolicy m_circuit;
-        public const int NON_PERSISTENT_DELIVERY_MODE = 2;
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public string Host { get; set; }
-        public int Port { get; set; }
-        public string VirtualHost { get; set; }
-
         public Severity TraceSwitch { get; set; }
 
         public Logger()
         {
 
-            m_circuit = Policy.Handle<BrokerUnreachableException>()
+            m_circuit = Policy.Handle<Exception>()
                  .CircuitBreaker(3, TimeSpan.FromSeconds(5));
         }
 
         private void SendMessage(string json, Severity severity)
         {
-            var factory = new ConnectionFactory
-            {
-                UserName = this.UserName ?? "guest",
-                Password = this.Password ?? "guest",
-                HostName = this.Host ?? "localhost",
-                Port = this.Port == 0 ? 5672 : this.Port,
-                VirtualHost = this.VirtualHost ?? ConfigurationManager.ApplicationName
-            };
+         
             Action send = () =>
             {
-                using (var connection = factory.CreateConnection())
-                using (var channel = connection.CreateModel())
-                {
-                    var routingKey = "logger." + severity;
-                    var body = Encoding.Default.GetBytes(json);
-
-                    var props = channel.CreateBasicProperties();
-                    props.DeliveryMode = NON_PERSISTENT_DELIVERY_MODE;
-                    props.ContentType = "application/json";
-
-                    channel.BasicPublish("sph.topic", routingKey, props, body);
-
-                }
+                //TODO : send the message to web console. shared memory/name pipes
             };
 
             try
             {
-                Policy.Handle<BrokerUnreachableException>()
+                Policy.Handle<Exception>()
                     .WaitAndRetry(3, c => TimeSpan.FromMilliseconds(c * 500))
                     .Execute(send);
             }

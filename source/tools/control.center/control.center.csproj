@@ -72,10 +72,6 @@
       <HintPath>..\..\..\packages\Polly.4.2.4\lib\net45\Polly.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="RabbitMQ.Client, Version=3.6.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\RabbitMQ.Client.3.6.0\lib\net45\RabbitMQ.Client.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Raygun.Diagnostics, Version=0.7.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Raygun.Diagnostics.0.7.3\lib\net45\Raygun.Diagnostics.dll</HintPath>
       <Private>True</Private>
@@ -136,7 +132,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-
     <Compile Include="..\..\assembly.versions\tools-control.center.cs">
       <Link>Properties\tools-control.center.cs</Link>
     </Compile>

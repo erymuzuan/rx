@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.SubscribersInfrastructure;
+using Bespoke.Sph.Domain.Messaging;
 using Polly;
 
 namespace Bespoke.Sph.Persistence
@@ -64,7 +64,7 @@ namespace Bespoke.Sph.Persistence
                     select r).ToArray();
         }
 
-        public static AuditTrail[] ComputeChanges(IEnumerable<Entity> current, IEnumerable<Entity> previous, string operation, MessageHeaders headers)
+        public static AuditTrail[] ComputeChanges(IEnumerable<Entity> current, IEnumerable<Entity> previous, string operation, BrokeredMessage message)
         {
             var logs = (from r in current
                         let e1 = previous.SingleOrDefault(t => t.Id == r.Id)
@@ -75,7 +75,7 @@ namespace Bespoke.Sph.Persistence
                         {
                             Operation = operation,
                             DateTime = DateTime.Now,
-                            User = headers.Username,
+                            User = message.Username,
                             Type = r.GetType().Name,
                             EntityId = r.Id,
                             Id = logId,

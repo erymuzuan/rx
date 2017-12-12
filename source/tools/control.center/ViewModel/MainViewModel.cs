@@ -61,14 +61,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             this.IsSetup = await this.FindOutSetupAsync();
 
 
-            this.Logger = new Logger
-            {
-                UserName = this.Settings.RabbitMqUserName,
-                Password = this.Settings.RabbitMqPassword,
-                Port = this.Settings.RabbitMqPort ?? 5672,
-                VirtualHost = this.Settings.ApplicationName,
-                Host = this.Settings.RabbitMqHost ?? "localhost"
-            };
+            this.Logger = new Logger();
 
             if (string.IsNullOrEmpty(this.Settings.JavaHome))
             {
@@ -94,6 +87,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             this.IsBusy = false;
         }
 
+        [Obsolete("Use IReadOnlyRepositoryManager or so")]
         private async Task<bool> FindOutSetupAsync()
         {
             if (string.IsNullOrWhiteSpace(this.Settings.ApplicationName)) return false;
@@ -106,8 +100,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     var response = await client.GetAsync(url);
                     if (response.StatusCode == HttpStatusCode.NotFound)
                         return false;
-                    var content = response.Content as StreamContent;
-                    if (null == content) return false;
+                    if (!(response.Content is StreamContent content)) return false;
                     var json = await content.ReadAsStringAsync();
                     Console.WriteLine(json);
                 }
@@ -129,8 +122,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     var response = await client.GetAsync(url);
                     if (response.StatusCode == HttpStatusCode.NotFound)
                         return false;
-                    var content = response.Content as StreamContent;
-                    if (null == content) return false;
+                    if (!(response.Content is StreamContent content)) return false;
                     var json = await content.ReadAsStringAsync();
                     Console.WriteLine(json);
                 }
@@ -209,8 +201,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             this.Post(m =>
             {
                 var log = $"@[{DateTime.Now:HH:mm:ss}] {m}";
-                if (null != this.LogCallback)
-                    LogCallback(log);
+                LogCallback?.Invoke(log);
                 Console.WriteLine(log);
             }, message);
             var json = JsonConvert.SerializeObject(new { time = DateTime.Now, message, severity });

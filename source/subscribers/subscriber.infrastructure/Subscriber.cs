@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
 using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.Extensions;
 using EventLog = Bespoke.Sph.Domain.EventLog;
@@ -117,11 +118,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         }
 
 
-        public Task RegisterCustomEntityDependencies()
+        public async Task RegisterCustomEntityDependencies()
         {
 
-            var context = new SphDataContext();
-            var entityDefinitions = context.LoadFromSources<EntityDefinition>(x => x.IsPublished);
+            var context = ObjectBuilder.GetObject<ISourceRepository>();
+            var entityDefinitions = await context.LoadAsync<EntityDefinition>(x => x.IsPublished);
 
 
             var bags = new ConcurrentDictionary<Type, object>();
@@ -152,7 +153,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 ObjectBuilder.AddCacheList(type, bags[type]);
             }
 
-            return Task.FromResult(0);
         }
 
 

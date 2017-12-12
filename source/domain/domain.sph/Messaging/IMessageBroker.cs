@@ -23,11 +23,12 @@ namespace Bespoke.Sph.Domain.Messaging
     {
         public string RoutingKey { get; set; }
         public string Id { get; set; }
-        public Dictionary<string, object> Headers { get; set; }
+        public Dictionary<string, object> Headers { get; } = new Dictionary<string, object>();
         public byte[] Body { get; set; }
         public string Operation { get; set; }
         public CrudOperation Crud { get; set; }
         public int? TryCount { get; set; }
+        public string Username { get; set; }
     }
     
     public enum CrudOperation

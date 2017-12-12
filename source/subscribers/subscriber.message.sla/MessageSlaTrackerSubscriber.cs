@@ -7,7 +7,6 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Extensions;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Polly;
-using RabbitMQ.Client;
 
 namespace Bespoke.Sph.MessageTrackerSla
 {
