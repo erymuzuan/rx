@@ -15,6 +15,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Persistence
 {
+    // ReSharper disable once UnusedMember.Global
     public class PersistenceContextSubscriber : Subscriber
     {
         public override string QueueName => "persistence";
