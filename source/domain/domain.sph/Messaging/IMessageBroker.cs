@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain.Messaging
@@ -10,34 +9,26 @@ namespace Bespoke.Sph.Domain.Messaging
         event EventHandler<EventArgs> ConnectionShutdown;
         Task ConnectAsync();
         void OnMessageDelivered(Func<BrokeredMessage, Task<MessageReceiveStatus>> processItem, double timeOut = double.MaxValue);
+        Task<QueueStatistics> GetStatisticsAsync(string queue);
+        Task CreateSubscriptionAsync(QueueSubscriptionOption option);
+        Task SendToDeathLetter(BrokeredMessage message);
+        Task<BrokeredMessage> ReadFromDeadLetterAsync();
+        Task<BrokeredMessage> GetMessageAsync(string queue);
     }
 
-    public enum MessageReceiveStatus
+    public class QueueSubscriptionOption
     {
-        Accepted,
-        Rejected,
-        Requeue
-    }
+        public string Name { get; }
 
-    public class BrokeredMessage
-    {
-        public string RoutingKey { get; set; }
-        public string Id { get; set; }
-        public Dictionary<string, object> Headers { get; } = new Dictionary<string, object>();
-        public byte[] Body { get; set; }
-        public string Operation { get; set; }
-        public CrudOperation Crud { get; set; }
-        public int? TryCount { get; set; }
-        public string Username { get; set; }
+        public QueueSubscriptionOption(string name, params string[] routingKeys)
+        {
+            Name = name;
+            RoutingKeys = routingKeys;
+        }
+
+        public string[] RoutingKeys { get; set; }
+        public string DeadLetterQueue { get; set; }
+        public string DelayedQueue { get; set; }
+        public TimeSpan Ttl { get; set; }
     }
-    
-    public enum CrudOperation
-    {
-        None,
-        Added,
-        Changed,
-        Deleted
-    }
-    
-    
 }

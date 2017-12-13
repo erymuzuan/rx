@@ -58,6 +58,7 @@
     <Compile Include="..\..\extensions\LoggerExtensions.cs">
       <Link>LoggerExtensions.cs</Link>
     </Compile>
+    <Compile Include="MessageBrokerExtension.cs" />
     <Compile Include="MessageSlaTrackerSubscriber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-
-namespace Bespoke.Sph.Domain
+namespace Bespoke.Sph.Domain.Messaging
 {
     public interface IEntityChangePublisher
     {

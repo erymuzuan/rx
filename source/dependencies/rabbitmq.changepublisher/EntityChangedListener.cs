@@ -6,6 +6,7 @@ using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 using RabbitMQ.Client;
 
 namespace Bespoke.Sph.RabbitMqPublisher

@@ -11,6 +11,7 @@ using RabbitMQ.Client;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using Bespoke.Sph.Domain.Messaging;
 using Humanizer;
 using Newtonsoft.Json.Linq;
 using Polly;

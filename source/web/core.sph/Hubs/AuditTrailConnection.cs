@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 using Microsoft.AspNet.SignalR;
 
 namespace Bespoke.Sph.Web.Hubs

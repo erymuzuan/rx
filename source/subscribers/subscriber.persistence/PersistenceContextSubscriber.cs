@@ -6,22 +6,23 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.Extensions;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Humanizer;
 using Newtonsoft.Json.Linq;
-using RabbitMQ.Client;
 
 namespace Bespoke.Sph.Persistence
 {
     public class PersistenceContextSubscriber : Subscriber
     {
         public override string QueueName => "persistence";
-        public override string[] RoutingKeys => new[] { "persistence" };
+        public override string[] RoutingKeys => new[] {"persistence"};
         private TaskCompletionSource<bool> m_stoppingTcs;
         private readonly List<EntityPersistence> m_receivers = new List<EntityPersistence>();
 
-        public override void Run(IConnection connection)
+        public override void Run(IMessageBroker broker)
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -29,7 +30,7 @@ namespace Bespoke.Sph.Persistence
             {
                 RegisterServices();
                 m_stoppingTcs = new TaskCompletionSource<bool>();
-                this.StartConsume(connection);
+                this.StartConsume(broker).Wait();
                 PrintSubscriberInformation(sw.Elapsed);
                 sw.Stop();
             }
@@ -42,109 +43,75 @@ namespace Bespoke.Sph.Persistence
         protected override void OnStop()
         {
             this.WriteMessage($"!!Stoping : {this.QueueName}");
-
-            m_consumer.Received -= Received;
             m_stoppingTcs?.SetResult(true);
 
-            //unsubscribe from the EntityPersisce.ReceivedSingle event
-            foreach (var receiver in m_receivers)
-            {
-                m_consumer.Received -= receiver.ReceivedSingle;
-            }
 
             while (m_processing > 0)
             {
             }
 
 
-            if (null != m_channel)
-            {
-                m_channel.Close();
-                m_channel.Dispose();
-                m_channel = null;
-            }
-
             this.WriteMessage("!!Stopped : " + this.QueueName);
         }
 
-        private IModel m_channel;
-        private TaskBasicConsumer m_consumer;
         private int m_processing;
 
-        public void StartConsume(IConnection connection)
+        private async Task StartConsume(IMessageBroker broker)
         {
-            const bool NO_ACK = false;
             this.OnStart();
-            m_channel = connection.CreateModel();
-            DeclareQueue();
-
-            m_consumer = new TaskBasicConsumer(m_channel);
-            m_consumer.Received += Received;
-            m_channel.BasicConsume(this.QueueName, NO_ACK, m_consumer);
-
+            await DeclareQueue(broker);
+            broker.OnMessageDelivered(Received);
             m_receivers.Clear();
 
-            var rxEntities = (new[] {nameof(UserProfile),
-                nameof(WorkflowDefinition),
-                nameof(TransformDefinition),
-                nameof(EntityDefinition),
-                nameof(EntityView),nameof(EntityForm)
-                , nameof(Workflow), nameof(Tracker), nameof(Setting), nameof(Watcher)})
-                .Select(x => new EntityDefinition { Name = x, IsPublished = true });
-            var receivers = new SphDataContext().LoadFromSources<EntityDefinition>()
+            var rxEntities = (new[]
+                {
+                    nameof(UserProfile),
+                    nameof(WorkflowDefinition),
+                    nameof(TransformDefinition),
+                    nameof(EntityDefinition),
+                    nameof(EntityView), nameof(EntityForm), nameof(Workflow), nameof(Tracker), nameof(Setting),
+                    nameof(Watcher)
+                })
+                .Select(x => new EntityDefinition {Name = x, IsPublished = true});
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
+            var receivers = (await repos.LoadAsync<EntityDefinition>())
                 .Concat(rxEntities)
                 .Where(x => x.IsPublished)
-                .Select(StartConsume);
+                .Select(x => StartConsume(x, broker));
 
             m_receivers.AddRange(receivers);
         }
 
-        private void DeclareQueue()
+        private async Task DeclareQueue(IMessageBroker broker)
         {
-            const string EXCHANGE_NAME = "sph.topic";
-            const string DEAD_LETTER_EXCHANGE = "sph.ms-dead-letter";
             const string DEAD_LETTER_QUEUE = "ms_dead_letter_queue";
-            m_channel.ExchangeDeclare(EXCHANGE_NAME, ExchangeType.Topic, true);
-
-            m_channel.ExchangeDeclare(DEAD_LETTER_EXCHANGE, ExchangeType.Topic, true);
-            var args = new Dictionary<string, object> { { "x-dead-letter-exchange", DEAD_LETTER_EXCHANGE } };
-            m_channel.QueueDeclare(this.QueueName, true, false, false, args);
-
-            m_channel.QueueDeclare(DEAD_LETTER_QUEUE, true, false, false, args);
-            m_channel.QueueBind(DEAD_LETTER_QUEUE, DEAD_LETTER_EXCHANGE, "#", null);
-
-
-            foreach (var s in this.RoutingKeys)
+            await broker.CreateSubscriptionAsync(new QueueSubscriptionOption(this.QueueName, this.RoutingKeys)
             {
-                m_channel.QueueBind(this.QueueName, EXCHANGE_NAME, s, null);
-            }
-            m_channel.BasicQos(0, this.PrefetchCount, false);
+                DeadLetterQueue = DEAD_LETTER_QUEUE
+            });
         }
 
-        private EntityPersistence StartConsume(EntityDefinition ed)
+        private EntityPersistence StartConsume(EntityDefinition ed, IMessageBroker broker)
         {
             var receiver =
-                new EntityPersistence(ed, m_channel, m => this.WriteMessage(m), e => this.WriteError(e))
+                new EntityPersistence(ed, broker, m => this.WriteMessage(m), e => this.WriteError(e))
                 {
                     PrefetchCount = this.PrefetchCount
                 };
-            receiver.DeclareQueue();
-            const bool NO_ACK = false;
+            receiver.DeclareQueue(broker).Wait();
 
-            m_consumer = new TaskBasicConsumer(m_channel);
-            m_consumer.Received += receiver.ReceivedSingle;
-            m_channel.BasicConsume(receiver.QueueName, NO_ACK, m_consumer);
+            broker.OnMessageDelivered(Received);
             return receiver;
         }
 
 
-        private async void Received(object sender, ReceivedMessageArgs e)
+        private async Task<MessageReceiveStatus> Received(BrokeredMessage message)
         {
             Interlocked.Increment(ref m_processing);
 
-            var json = await e.Body.DecompressAsync();
-            var headers = new MessageHeaders(e);
-            var operation = headers.Operation;
+            var json = await message.Body.DecompressAsync();
+            var headers = message.Headers;
+            var operation = message.Operation;
             var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
 
             var jo = JObject.Parse(json);
@@ -154,90 +121,85 @@ namespace Bespoke.Sph.Persistence
                 .ToList();
 
             var persistence = ObjectBuilder.GetObject<IPersistence>();
-            if (headers.GetValue<bool>("data-import"))
+            if (message.IsDataImport)
             {
-                var retry = headers.GetNullableValue<int>("sql.retry") ?? 5;
-                var wait = headers.GetNullableValue<int>("sql.wait") ?? 2500;
+                var retry = message.GetNullableValue<int>("sql.retry") ?? 5;
+                var wait = message.GetNullableValue<int>("sql.wait") ?? 2500;
                 var bulk = await DataImportUtility.InsertImportDataAsync(entities.ToArray(), retry, wait,
                     m => this.WriteMessage(m));
-                if (bulk)
-                    m_channel.BasicAck(e.DeliveryTag, false);
-                else
-                    m_channel.BasicReject(e.DeliveryTag, false);
-                return;
+                return bulk ? MessageReceiveStatus.Accepted : MessageReceiveStatus.Rejected;
             }
 
-            this.WriteMessage($"{headers.Operation} for {"item".ToQuantity(entities.Count)}");
+            this.WriteMessage($"{message.Operation} for {"item".ToQuantity(entities.Count)}");
             foreach (var item in entities)
             {
-                this.WriteMessage($"{headers.Operation} for {item.GetType().Name}{{ Id : \"{item.Id}\"}}");
+                this.WriteMessage($"{message.Operation} for {item.GetType().Name}{{ Id : \"{item.Id}\"}}");
             }
             foreach (var item in deletedItems)
             {
-                this.WriteMessage($"Deleting({headers.Operation}) {item.GetEntityType().Name}{{ Id : \"{item.Id}\"}}");
+                this.WriteMessage($"Deleting({message.Operation}) {item.GetEntityType().Name}{{ Id : \"{item.Id}\"}}");
             }
 
             try
             {
                 // get changes to items
                 var previous = await ChangeUtility.GetPersistedItems(entities);
-                var logs = ChangeUtility.ComputeChanges(entities, previous, operation, headers);
+                var logs = ChangeUtility.ComputeChanges(entities, previous, operation, message);
                 var addedItems = ChangeUtility.GetAddedItems(entities, previous);
                 var changedItems = ChangeUtility.GetChangedItems(entities, previous);
                 entities.AddRange(logs);
 
                 var persistedEntities = from r in entities
-                                        let opt = r.GetPersistenceOption()
-                                        where opt.IsSqlDatabase
-                                        select r;
+                    let opt = r.GetPersistenceOption()
+                    where opt.IsSqlDatabase
+                    select r;
                 var deletedEntities = from r in deletedItems
-                                      let opt = r.GetPersistenceOption()
-                                      where opt.IsSqlDatabase
-                                      select r;
+                    let opt = r.GetPersistenceOption()
+                    where opt.IsSqlDatabase
+                    select r;
 
                 var so = await persistence
-                    .SubmitChanges(persistedEntities.ToArray(), deletedEntities.ToArray(), null, headers.Username)
+                    .SubmitChanges(persistedEntities.ToArray(), deletedEntities.ToArray(), null, message.Username)
                     .ConfigureAwait(false);
                 Trace.WriteIf(null != so.Exeption, so.Exeption);
 
-                var logsAddedTask = publisher.PublishAdded(operation, logs, headers.GetRawHeaders());
-                var addedTask = publisher.PublishAdded(operation, addedItems, headers.GetRawHeaders());
-                var changedTask = publisher.PublishChanges(operation, changedItems, logs, headers.GetRawHeaders());
-                var deletedTask = publisher.PublishDeleted(operation, deletedItems, headers.GetRawHeaders());
+                var logsAddedTask = publisher.PublishAdded(operation, logs, headers);
+                var addedTask = publisher.PublishAdded(operation, addedItems, headers);
+                var changedTask = publisher.PublishChanges(operation, changedItems, logs, headers);
+                var deletedTask = publisher.PublishDeleted(operation, deletedItems, headers);
                 await Task.WhenAll(addedTask, changedTask, deletedTask, logsAddedTask).ConfigureAwait(false);
 
 
-                m_channel.BasicAck(e.DeliveryTag, false);
+                return MessageReceiveStatus.Accepted;
             }
             catch (SqlException exc)
             {
                 // republish the message to a delayed queue
                 var delay = ConfigurationManager.SqlPersistenceDelay;
                 var maxTry = ConfigurationManager.SqlPersistenceMaxTry;
-                if ((headers.TryCount ?? 0) < maxTry)
+                if ((message.TryCount ?? 0) < maxTry)
                 {
-                    var count = (headers.TryCount ?? 0) + 1;
+                    var count = (message.TryCount ?? 0) + 1;
                     this.WriteMessage($"{count.Ordinalize()} retry on SqlException : {exc.Message}");
 
-                    var ph = headers.GetRawHeaders();
-                    ph.AddOrReplace(MessageHeaders.SPH_DELAY, delay);
-                    ph.AddOrReplace(MessageHeaders.SPH_TRYCOUNT, count);
+                    message.TryCount = count;
+                    message.RetryDelay = TimeSpan.FromMilliseconds(delay);
 
-                    m_channel.BasicAck(e.DeliveryTag, false);
-                    await publisher.SubmitChangesAsync(operation, entities, deletedItems, ph);
+                    await publisher.SubmitChangesAsync(operation, entities, deletedItems, headers);
+                    return MessageReceiveStatus.Delayed;
                 }
                 else
                 {
                     this.WriteMessage($"Error in {this.GetType().Name}");
                     this.WriteError(exc);
-                    m_channel.BasicReject(e.DeliveryTag, false);
+                    return MessageReceiveStatus.Rejected;
                 }
             }
             catch (Exception exc)
             {
                 this.WriteMessage($"Error in {this.GetType().Name}");
                 this.WriteError(exc);
-                m_channel.BasicReject(e.DeliveryTag, false);
+                return MessageReceiveStatus.Rejected;
             }
             finally
             {

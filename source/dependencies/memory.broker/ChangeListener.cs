@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 
 namespace Bespoke.Sph.Messaging
 {

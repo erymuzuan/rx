@@ -5,6 +5,7 @@ using System.Net.Http.Formatting;
 using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.Domain.QueryProviders;
 using domain.test.reports;
 using domain.test.triggers;

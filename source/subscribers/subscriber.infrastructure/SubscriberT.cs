@@ -7,7 +7,6 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Compilers;
 using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.Extensions;
-using Newtonsoft.Json.Linq;
 using EventLog = Bespoke.Sph.Domain.EventLog;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
@@ -19,8 +18,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         private EntityDefinition m_entityDefinition;
         private static IMessageBroker Broker => ObjectBuilder.GetObject<IMessageBroker>();
         protected abstract Task ProcessMessage(T item, BrokeredMessage message);
-
-        public override void Run(IMessageBroker connection)
+        public override void Run(IMessageBroker broker)
         {
             var repos = ObjectBuilder.GetObject<ISourceRepository>();
             this.m_entityDefinition = repos.LoadOneAsync<EntityDefinition>(x => x.Name == typeof(T).Name).Result;
@@ -53,7 +51,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             {
             }
 
-
             Broker.Dispose();
             this.WriteMessage($"Stopped : {this.QueueName}");
         }
@@ -75,9 +72,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             Interlocked.Increment(ref m_processing);
 
-            //TODO : get the id for the item
             var json = await message.Body.DecompressAsync();
-            var id = "";
             var item = json.DeserializeFromJson<T>();
             try
             {
@@ -90,11 +85,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
                 var entry = new LogEntry(exc) {Source = this.QueueName, Log = EventLog.Subscribers};
                 entry.OtherInfo.Add("Type", typeof(T).Name.ToLowerInvariant());
-                entry.OtherInfo.Add("Id", id);
+                entry.OtherInfo.Add("Id", item.Id);
                 entry.OtherInfo.Add("Requeued", false);
                 entry.OtherInfo.Add("RequeuedBy", "");
                 entry.OtherInfo.Add("RequeuedOn", "");
-                entry.OtherInfo.Add("Id2", id.Replace("-", ""));
+                entry.OtherInfo.Add("Id2", item.Id.Replace("-", ""));
 
                 var logger = ObjectBuilder.GetObject<ILogger>();
                 logger.Log(entry);

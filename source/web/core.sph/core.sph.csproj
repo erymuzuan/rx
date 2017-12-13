@@ -161,10 +161,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationFramework" />
-    <Reference Include="RabbitMQ.Client, Version=3.6.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\RabbitMQ.Client.3.6.0\lib\net45\RabbitMQ.Client.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="RazorGenerator.Mvc">
       <HintPath>..\..\..\packages\RazorGenerator.Mvc.2.2.3\lib\net40\RazorGenerator.Mvc.dll</HintPath>
       <Private>True</Private>
@@ -2272,6 +2268,7 @@
     </Content>
     <EmbeddedResource Include="Content\bowtie.ttf" />
     <EmbeddedResource Include="Content\bowtie.woff" />
+    <None Include="packages.config" />
     <None Include="Scripts\jquery-2.2.0.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.0.js" />
     <Content Include="Scripts\jquery-2.2.0.min.js" />

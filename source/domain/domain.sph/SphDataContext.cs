@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Compilers;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.Domain.QueryProviders;
 
 namespace Bespoke.Sph.Domain

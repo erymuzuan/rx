@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.Web.Models;
 using Bespoke.Sph.WebApi;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using RabbitMQ.Client;
 using Spring.Objects.Factory;
 
 namespace Bespoke.Sph.Web.Controllers
@@ -53,28 +52,19 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpPost]
         [Route("basic-get/{queue}")]
-        public IHttpActionResult LoadMessageFromQueue(string queue)
+        public async Task<IHttpActionResult> LoadMessageFromQueue(string queue)
         {
-            var factory = new ConnectionFactory
-            {
-                VirtualHost = ConfigurationManager.RabbitMqVirtualHost,
-                HostName = ConfigurationManager.RabbitMqHost,
-                UserName = ConfigurationManager.RabbitMqUserName,
-                Password = ConfigurationManager.RabbitMqPassword,
-                Port = ConfigurationManager.RabbitMqPort,
-            };
-            var conn = factory.CreateConnection();
-            var model = conn.CreateModel();
+            var broker = ObjectBuilder.GetObject<IMessageBroker>();
 
-            var result = model.BasicGet(queue, false);
+            var result = await broker.GetMessageAsync(queue);
             if (null == result)
                 return NotFound("No more message in " + queue);
 
-            if (string.IsNullOrWhiteSpace(result.BasicProperties.ReplyTo))
-                result.BasicProperties.ReplyTo = "empty";
+            if (string.IsNullOrWhiteSpace(result.ReplyTo))
+                result.ReplyTo = "empty";
 
 
-            var deathHeader = new XDeathHeader(result.BasicProperties.Headers);
+            var deathHeader = new XDeathHeader(result.Headers);
             var routingKey = deathHeader.RoutingValuesKeys;
             var message = System.Text.Encoding.UTF8.GetString(result.Body);
 

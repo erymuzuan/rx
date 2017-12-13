@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
 using domain.test.Extensions;
