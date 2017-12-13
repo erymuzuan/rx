@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using Bespoke.Sph.Domain.Messaging;
+using Bespoke.Sph.Messaging.RabbitMqMessagings;
 using Humanizer;
 using Newtonsoft.Json.Linq;
 using Polly;
@@ -179,7 +180,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
             m_channel.BasicPublish(RETRY_EXCHANGE, string.Empty, props, body);
         }
 
-        private readonly IList<string> m_nodes = new List<string> { ConfigurationManager.RabbitMqHost };
+        private readonly IList<string> m_nodes = new List<string> { RabbitMqConfigurationManager.Host };
         private async Task<string> GetRunningNodeAsync()
         {
             var hosts = new Queue<string>(m_nodes);
@@ -187,8 +188,8 @@ namespace Bespoke.Sph.RabbitMqPublisher
             while (hosts.Count > 0)
             {
                 var host = hosts.Dequeue();
-                using (var handler = new HttpClientHandler { Credentials = new NetworkCredential(ConfigurationManager.RabbitMqUserName, ConfigurationManager.RabbitMqPassword) })
-                using (var client = new HttpClient(handler) { BaseAddress = new Uri($"{ConfigurationManager.RabbitMqManagementScheme}://{host}:{ConfigurationManager.RabbitMqManagementPort}") })
+                using (var handler = new HttpClientHandler { Credentials = new NetworkCredential(RabbitMqConfigurationManager.UserName, RabbitMqConfigurationManager.Password) })
+                using (var client = new HttpClient(handler) { BaseAddress = new Uri($"{RabbitMqConfigurationManager.ManagementScheme}://{host}:{RabbitMqConfigurationManager.ManagementPort}") })
                 {
                     try
                     {
@@ -231,11 +232,11 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
             var factory = new ConnectionFactory
             {
-                UserName = ConfigurationManager.RabbitMqUserName,
-                Password = ConfigurationManager.RabbitMqPassword,
+                UserName = RabbitMqConfigurationManager.UserName,
+                Password = RabbitMqConfigurationManager.Password,
                 HostName = runningNode,
-                Port = ConfigurationManager.RabbitMqPort,
-                VirtualHost = ConfigurationManager.RabbitMqVirtualHost
+                Port = RabbitMqConfigurationManager.Port,
+                VirtualHost = RabbitMqConfigurationManager.VirtualHost
             };
             m_connection = factory.CreateConnection();
             m_channel = m_connection.CreateModel();

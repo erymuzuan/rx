@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
 
 namespace Bespoke.Sph.RabbitMqPublisher
 {
@@ -21,9 +22,10 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
         public override async Task<bool> ExecuteAsync(MessageTrackingStatus status, MessageSlaEvent @event)
         {
+            var git = ObjectBuilder.GetObject<ISourceRepository>();
             var context = new SphDataContext();
             Entity item = null;
-            var ed = context.LoadOneFromSources<EntityDefinition>(x => x.Name == @event.Entity);
+            var ed = await git.LoadOneAsync<EntityDefinition>(x => x.Name == @event.Entity);
             var repos = this.GetRepository(@event.Entity);
             if (ed.GetPersistenceOption().IsSqlDatabase)
                 item = repos.LoadOneAsync(@event.ItemId);

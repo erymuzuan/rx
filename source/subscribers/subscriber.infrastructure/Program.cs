@@ -2,15 +2,12 @@
 using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.Extensions;
-using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {
@@ -26,11 +23,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         }
         private ILogger m_notificationService;
         private static ILogger m_notificationService2;
-        public string Password { get; set; }
-        public string UserName { get; set; }
-        public string HostName { get; set; }
-        public int Port { get; set; }
-        public string VirtualHost { get; set; }
+       
 
         public ConcurrentBag<Subscriber> SubscriberCollection { get; } = new ConcurrentBag<Subscriber>();
 
@@ -46,10 +39,10 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         }
 
 
-        public async Task Start(SubscriberMetadata[] subscribersMetadata)
+        public async Task StartAsync(SubscriberMetadata[] subscribersMetadata)
         {
             this.SubscriberCollection.Clear();
-            this.NotificationService.WriteInfo($"config {this.HostName}:{this.UserName}:{this.Password}");
+            this.NotificationService.WriteInfo($"config {2 /* TODO : some info about the broker status */}");
             this.NotificationService.WriteInfo("Starts...");
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             AppDomain.CurrentDomain.UnhandledException += AppdomainUnhandledException;
@@ -100,36 +93,31 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             m_stopping = false;
 
             //
-            await StartWorkersManager(subscribersMetadata);
+            await StartWorkersManagerAsync(subscribersMetadata);
         }
 
-        private async Task StartWorkersManager(SubscriberMetadata[] mts)
+        private async Task StartWorkersManagerAsync(SubscriberMetadata[] mts)
         {
-            var handler = new HttpClientHandler { Credentials = new NetworkCredential(ConfigurationManager.RabbitMqUserName, ConfigurationManager.RabbitMqPassword) };
-            var client = new HttpClient(handler) { BaseAddress = new Uri($"{ConfigurationManager.RabbitMqManagementScheme}://{ConfigurationManager.RabbitMqHost}:{ConfigurationManager.RabbitMqManagementPort}") };
-
             var tasks = from mt in mts
-                        select ManageQueueWorkloadAsync(client, mt);
+                        select ManageQueueWorkloadAsync(mt);
             await Task.WhenAll(tasks);
 
             await Task.Delay(ConfigurationManager.ManageSubscribersWorkloadInterval);
             if (!m_stopping)
-                await StartWorkersManager(mts);
+                await StartWorkersManagerAsync(mts);
 
         }
 
-        private async Task ManageQueueWorkloadAsync(HttpClient client, SubscriberMetadata mt)
+        private async Task ManageQueueWorkloadAsync(SubscriberMetadata mt)
         {
-            var response = await client.GetStringAsync($"api/queues/{ConfigurationManager.ApplicationName}/{mt.QueueName}");
-
-            var json = JObject.Parse(response);
-            var published = json.SelectToken("$.message_stats.publish_details.rate").Value<double>();
-            var delivered = json.SelectToken("$.message_stats.deliver_details.rate").Value<double>();
-            var length = json.SelectToken("$.messages").Value<double>();
+            var statistics = await this.MessageBroker.GetStatisticsAsync(mt.QueueName);
+            var published = statistics.PublishedRate;
+            var delivered = statistics.DeliveryRate;
+            var length = statistics.Count;
 
             var subscribers = this.SubscriberCollection;
             var processing = subscribers.Sum(x => x.PrefetchCount);
-            var overloaded = (published > delivered + processing) || (length > processing);
+            var overloaded = published > delivered + processing || length > processing;
 
             this.NotificationService.WriteInfo(
                 $"Published:{published}, Delivered : {delivered}, length : {length} , Processing {processing}");
@@ -148,6 +136,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 }
             }
             this.NotificationService.WriteInfo("Current subscribers " + subscribers.Count);
+
         }
 
 

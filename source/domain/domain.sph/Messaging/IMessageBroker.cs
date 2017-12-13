@@ -14,21 +14,6 @@ namespace Bespoke.Sph.Domain.Messaging
         Task SendToDeathLetter(BrokeredMessage message);
         Task<BrokeredMessage> ReadFromDeadLetterAsync();
         Task<BrokeredMessage> GetMessageAsync(string queue);
-    }
-
-    public class QueueSubscriptionOption
-    {
-        public string Name { get; }
-
-        public QueueSubscriptionOption(string name, params string[] routingKeys)
-        {
-            Name = name;
-            RoutingKeys = routingKeys;
-        }
-
-        public string[] RoutingKeys { get; set; }
-        public string DeadLetterQueue { get; set; }
-        public string DelayedQueue { get; set; }
-        public TimeSpan Ttl { get; set; }
+        Task RemoveSubscriptionAsync(string queue);
     }
 }

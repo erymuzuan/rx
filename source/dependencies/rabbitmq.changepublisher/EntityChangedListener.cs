@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Messaging;
+using Bespoke.Sph.Messaging.RabbitMqMessagings;
 using RabbitMQ.Client;
 
 namespace Bespoke.Sph.RabbitMqPublisher
@@ -40,11 +41,11 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
             var factory = new ConnectionFactory
             {
-                UserName = ConfigurationManager.RabbitMqUserName,
-                VirtualHost = ConfigurationManager.RabbitMqVirtualHost,
-                Password = ConfigurationManager.RabbitMqPassword,
-                HostName = ConfigurationManager.RabbitMqHost,
-                Port = ConfigurationManager.RabbitMqPort
+                UserName = RabbitMqConfigurationManager.UserName,
+                VirtualHost = RabbitMqConfigurationManager.VirtualHost,
+                Password = RabbitMqConfigurationManager.Password,
+                HostName = RabbitMqConfigurationManager.Host,
+                Port = RabbitMqConfigurationManager.Port
             };
             m_connection = factory.CreateConnection();
             m_channel = m_connection.CreateModel();

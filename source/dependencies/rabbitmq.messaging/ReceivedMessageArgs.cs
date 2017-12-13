@@ -1,7 +1,7 @@
 ﻿using System;
 using RabbitMQ.Client;
 
-namespace Bespoke.Sph.SubscribersInfrastructure
+namespace Bespoke.Sph.Messaging.RabbitMqMessagings
 {
     public class ReceivedMessageArgs : EventArgs
     {

@@ -67,5 +67,10 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
         {
             throw new NotImplementedException();
         }
+
+        public Task RemoveSubscriptionAsync(string queue)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

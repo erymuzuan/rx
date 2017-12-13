@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
 using Bespoke.Sph.Domain.Messaging;
 
 namespace Bespoke.Sph.WathersSubscribers
@@ -53,7 +54,8 @@ namespace Bespoke.Sph.WathersSubscribers
                 m_watchers.AddRange(lo.ItemCollection);
             }
 
-            var definitions = context.LoadFromSources<EntityDefinition>(x => x.IsPublished);
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
+            var definitions = await repos.LoadAsync<EntityDefinition>(x => x.IsPublished);
 
             this.ListenerCollection.Clear();
 

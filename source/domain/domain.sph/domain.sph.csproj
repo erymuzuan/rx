@@ -364,6 +364,7 @@
     <Compile Include="Messaging\IMessageBroker.cs" />
     <Compile Include="Messaging\MessageReceiveStatus.cs" />
     <Compile Include="Messaging\QueueStatistics.cs" />
+    <Compile Include="Messaging\QueueSubscriptionOption.cs" />
     <Compile Include="Ports\DelimitedTextComplexMember.cs" />
     <Compile Include="Ports\DelimitedTextFieldMapping.cs" />
     <Compile Include="Ports\DelimitedTextFormatter.cs" />
@@ -859,9 +860,6 @@
     <None Include="Scripts\jquery-2.2.0.min.map" />
     <None Include="Scripts\underscore.min.map" />
     <None Include="test.pfx" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

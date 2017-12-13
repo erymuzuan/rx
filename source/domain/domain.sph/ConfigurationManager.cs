@@ -36,13 +36,6 @@ namespace Bespoke.Sph.Domain
         public static string GeneratedSourceDirectory => GetPath("GeneratedSourceDirectory", @"sources\_generated\");
         public static string SqlConnectionString => GetEnvironmentVariable("SqlConnectionString") ?? $"Data Source=(localdb)\\Projects;Initial Catalog={ApplicationName};Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False";
 
-        public static string RabbitMqUserName => GetEnvironmentVariable("RabbitMqUserName") ?? "guest";
-        public static string RabbitMqPassword => GetEnvironmentVariable("RabbitMqPassword") ?? "guest";
-        public static string RabbitMqHost => GetEnvironmentVariable("RabbitMqHost") ?? "localhost";
-        public static string RabbitMqManagementScheme => GetEnvironmentVariable("RabbitMqManagementScheme") ?? "http";
-        public static int RabbitMqPort => GetEnvironmentVariableInt32("RabbitMqPort", 5672);
-        public static int RabbitMqManagementPort => GetEnvironmentVariableInt32("RabbitMqManagementPort", 15672);
-        public static string RabbitMqVirtualHost => GetEnvironmentVariable("RabbitMqVirtualHost") ?? ApplicationName;
         public static int ManageSubscribersWorkloadInterval => GetEnvironmentVariableInt32("ManageSubscribersWorkloadInterval", 5000);
 
 

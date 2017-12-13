@@ -63,7 +63,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-
     <Compile Include="..\..\assembly.versions\dependencies-rabbitmq.changepublisher.cs">
       <Link>Properties\dependencies-rabbitmq.changepublisher.cs</Link>
     </Compile>
@@ -91,6 +90,10 @@
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\rabbitmq.messaging\rabbitmq.messaging.csproj">
+      <Project>{6c4815ee-86cb-4cd0-a149-6203eba5eb1f}</Project>
+      <Name>rabbitmq.messaging</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

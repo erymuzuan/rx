@@ -2,6 +2,7 @@
 using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Domain.Compilers;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Messaging
@@ -49,8 +50,8 @@ namespace Bespoke.Sph.Messaging
                 var type = Strings.GetType(this.Adapter);
                 if (null == type)
                 {
-                    var context = new SphDataContext();
-                    var adapter = context.LoadOneFromSources<Adapter>(x => x.Name == this.Adapter || x.Id == this.Adapter);
+                    var repos = ObjectBuilder.GetObject<ISourceRepository>();
+                    var adapter = repos.LoadOneAsync<Adapter>(x => x.Name == this.Adapter || x.Id == this.Adapter).Result;
                     type = Strings.GetType($"{adapter.CodeNamespace}.{adapter.Name}, {adapter.AssemblyName}");
                 }
                 return type;

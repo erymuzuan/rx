@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 
-namespace Bespoke.Sph.SubscribersInfrastructure
+namespace Bespoke.Sph.Messaging.RabbitMqMessagings
 {
     public class MessageHeaders : DynamicObject
     {

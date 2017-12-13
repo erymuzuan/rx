@@ -1,17 +1,14 @@
-using System;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
+using Bespoke.Sph.Domain.Compilers;
 using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.Web.Models;
 using Bespoke.Sph.WebApi;
 using Newtonsoft.Json;
-using Spring.Objects.Factory;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -27,27 +24,14 @@ namespace Bespoke.Sph.Web.Controllers
             return Json(results);
         }
 
-        [Route("rabbitmq")]
+        [Route("message-broker")]
         [HttpGet]
         public async Task<IHttpActionResult> InvokeRabbitMqManagementApi([FromUri(Name = "resource")]string resource)
         {
-            var url = "api/" + resource;
-            try
-            {
-                using (var handler = new HttpClientHandler { Credentials = new NetworkCredential(ConfigurationManager.RabbitMqUserName, ConfigurationManager.RabbitMqPassword) })
-                using (var client = new HttpClient(handler))
-                {
-                    var uri = $"{ConfigurationManager.RabbitMqManagementScheme}://{ConfigurationManager.RabbitMqHost}:{ConfigurationManager.RabbitMqManagementPort}/";
-                    client.BaseAddress = new Uri(uri);
+            var broker = ObjectBuilder.GetObject<IMessageBroker>();
+            var stat = await broker.GetStatisticsAsync(resource);
+            return Json(stat);
 
-                    var response = await client.GetStringAsync(url);
-                    return Json(response);
-                }
-            }
-            catch (NoSuchObjectDefinitionException ex)
-            {
-                return Json(new { success = false, message = ex.Message, status = "No Broker" });
-            }
         }
 
         [HttpPost]
@@ -100,10 +84,10 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpGet]
         [Route("workflow-endpoints")]
-        public IHttpActionResult GetWorkflowEndpoints()
+        public async Task<IHttpActionResult> GetWorkflowEndpoints()
         {
-            var context = new SphDataContext();
-            var wds = context.LoadFromSources<WorkflowDefinition>();
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
+            var wds = await repos.LoadAsync<WorkflowDefinition>();
             var list = from w in wds
                        let receives = w.ActivityCollection.OfType<ReceiveActivity>().ToArray()
                        where receives.Length > 0
@@ -122,10 +106,10 @@ namespace Bespoke.Sph.Web.Controllers
 
         [HttpGet]
         [Route("adapter-endpoints")]
-        public IHttpActionResult GetAdapterEndpoints()
+        public async Task<IHttpActionResult> GetAdapterEndpoints()
         {
-            var context = new SphDataContext();
-            var adapters = context.LoadFromSources<Adapter>();
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
+            var adapters = await repos.LoadAsync<Adapter>();
             var list = from w in adapters
                        let tables = w.TableDefinitionCollection.Select(x => new
                        {

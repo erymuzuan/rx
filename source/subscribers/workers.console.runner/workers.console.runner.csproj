@@ -7,7 +7,7 @@
     <ProjectGuid>{F67CF883-208D-4721-B1B0-0625D7FA07D1}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>workers.console.runner</RootNamespace>
+    <RootNamespace>Bespoke.Sph.MessagingClients</RootNamespace>
     <AssemblyName>workers.console.runner</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>workers.console.runner.ConsoleProgram</StartupObject>
+    <StartupObject>Bespoke.Sph.MessagingClients.ConsoleProgram</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Propeller.ico</ApplicationIcon>
@@ -83,10 +84,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\dependencies\rabbitmq.changepublisher\rabbitmq.changepublisher.csproj">
-      <Project>{CD3B01AB-CCC4-4324-AC06-9E0EC3DF4C2F}</Project>
-      <Name>rabbitmq.changepublisher</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>
@@ -104,9 +101,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Propeller.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

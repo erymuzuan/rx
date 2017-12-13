@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Extensions;
+using Bespoke.Sph.Messaging.RabbitMqMessagings;
 using RabbitMQ.Client;
 
 namespace Bespoke.Sph.RabbitMqPublisher
@@ -34,11 +35,11 @@ namespace Bespoke.Sph.RabbitMqPublisher
             var logger = new ConsoleLogger { TraceSwitch = this.TraceSwitch };
             var factory = new ConnectionFactory
             {
-                UserName = ConfigurationManager.RabbitMqUserName,
-                Password = ConfigurationManager.RabbitMqPassword,
-                HostName = ConfigurationManager.RabbitMqHost,
-                Port = ConfigurationManager.RabbitMqPort,
-                VirtualHost = ConfigurationManager.RabbitMqVirtualHost
+                UserName = RabbitMqConfigurationManager.UserName,
+                Password = RabbitMqConfigurationManager.Password,
+                HostName = RabbitMqConfigurationManager.Host,
+                Port = RabbitMqConfigurationManager.Port,
+                VirtualHost = RabbitMqConfigurationManager.VirtualHost
             };
             logger.WriteInfo($"Connecting to RabbitMq with {factory.HostName}:{factory.Port}/{factory.UserName}@{factory.Password}");
             m_connection = factory.CreateConnection();

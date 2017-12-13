@@ -1,4 +1,0 @@
-﻿namespace Bespoke.Sph.SubscribersInfrastructure
-{
-   
-}

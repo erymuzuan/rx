@@ -71,7 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\dependencies\Jsbeautifier\Jsbeautifier.csproj">
-      <Project>{0ff8fea3-04fb-475c-9f56-d9337652c05a}</Project>
+      <Project>{0FF8FEA3-04FB-475C-9F56-D9337652C05A}</Project>
       <Name>Jsbeautifier</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
