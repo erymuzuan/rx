@@ -19,7 +19,7 @@ namespace Bespoke.Sph.Persistence
     public class PersistenceContextSubscriber : Subscriber
     {
         public override string QueueName => "persistence";
-        public override string[] RoutingKeys => new[] {"persistence"};
+        public override string[] RoutingKeys => new[] { "persistence" };
         private TaskCompletionSource<bool> m_stoppingTcs;
         private readonly List<EntityPersistence> m_receivers = new List<EntityPersistence>();
 
@@ -61,7 +61,7 @@ namespace Bespoke.Sph.Persistence
         {
             this.OnStart();
             await DeclareQueue(broker);
-            broker.OnMessageDelivered(Received);
+            broker.OnMessageDelivered(Received, new SubscriberOption(this.QueueName) { PrefetchCount = this.PrefetchCount });
             m_receivers.Clear();
 
             var rxEntities = (new[]
@@ -73,7 +73,7 @@ namespace Bespoke.Sph.Persistence
                     nameof(EntityView), nameof(EntityForm), nameof(Workflow), nameof(Tracker), nameof(Setting),
                     nameof(Watcher)
                 })
-                .Select(x => new EntityDefinition {Name = x, IsPublished = true});
+                .Select(x => new EntityDefinition { Name = x, IsPublished = true });
             var repos = ObjectBuilder.GetObject<ISourceRepository>();
             var receivers = (await repos.LoadAsync<EntityDefinition>())
                 .Concat(rxEntities)
@@ -101,7 +101,7 @@ namespace Bespoke.Sph.Persistence
                 };
             receiver.DeclareQueue(broker).Wait();
 
-            broker.OnMessageDelivered(Received);
+            broker.OnMessageDelivered(Received, new SubscriberOption(this.QueueName) { PrefetchCount = this.PrefetchCount });
             return receiver;
         }
 
@@ -151,13 +151,13 @@ namespace Bespoke.Sph.Persistence
                 entities.AddRange(logs);
 
                 var persistedEntities = from r in entities
-                    let opt = r.GetPersistenceOption()
-                    where opt.IsSqlDatabase
-                    select r;
+                                        let opt = r.GetPersistenceOption()
+                                        where opt.IsSqlDatabase
+                                        select r;
                 var deletedEntities = from r in deletedItems
-                    let opt = r.GetPersistenceOption()
-                    where opt.IsSqlDatabase
-                    select r;
+                                      let opt = r.GetPersistenceOption()
+                                      where opt.IsSqlDatabase
+                                      select r;
 
                 var so = await persistence
                     .SubmitChanges(persistedEntities.ToArray(), deletedEntities.ToArray(), null, message.Username)

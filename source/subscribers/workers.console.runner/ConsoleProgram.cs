@@ -86,6 +86,14 @@ namespace Bespoke.Sph.MessagingClients
             {
                 metadata = discoverer.Value.Find();
             }
+            foreach (var mt in metadata)
+            {
+                mt.QueueName = options.SubscriberConfigs.SingleOrDefault(
+                    x => x.FullName == mt.FullName
+                    && x.Assembly == Path.GetFileNameWithoutExtension(mt.Assembly)
+                    )?.QueueName ?? "XXXX";
+                Console.WriteLine(mt.FullName);
+            }
             metadata.Select(d => d.FullName).ToList().ForEach(Console.WriteLine);
 
             var stopFlag = new AutoResetEvent(false);

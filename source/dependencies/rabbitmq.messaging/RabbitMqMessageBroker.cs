@@ -133,9 +133,15 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
             var response = await client.GetStringAsync($"api/queues/{ConfigurationManager.ApplicationName}/{queue}");
 
             var json = JObject.Parse(response);
-            var published = json.SelectToken("$.message_stats.publish_details.rate").Value<double>();
-            var delivered = json.SelectToken("$.message_stats.deliver_details.rate").Value<double>();
+            var statsToken = json.SelectToken("$.message_stats");
             var length = json.SelectToken("$.messages").Value<int>();
+            double published = default;
+            double delivered = default;
+            if (null != statsToken)
+            {
+                published = statsToken.SelectToken("$.publish_details.rate").Value<double>();
+                delivered = statsToken.SelectToken("$.deliver_details.rate").Value<double>();
+            }
 
             return new QueueStatistics
             {

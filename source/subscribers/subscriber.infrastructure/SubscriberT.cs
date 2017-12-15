@@ -61,10 +61,14 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         private void StartConsume()
         {
             this.OnStart();
+            var option = new SubscriberOption(this.QueueName)
+            {
+                PrefetchCount = this.PrefetchCount
+            };
             if (m_entityDefinition?.EnableTracking ?? false)
-                Broker.OnMessageDelivered(ReceivedWithTracker);
+                Broker.OnMessageDelivered(ReceivedWithTracker, option);
             else
-                Broker.OnMessageDelivered(Received);
+                Broker.OnMessageDelivered(Received, option);
         }
 
 

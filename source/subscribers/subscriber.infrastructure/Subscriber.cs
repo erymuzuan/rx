@@ -22,13 +22,13 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         public abstract string[] RoutingKeys { get; }
         public ILogger NotificicationService { protected get; set; }
 
-        private ushort m_prefetchCount = 1;
+        private int m_prefetchCount = 1;
 
         /// <summary>
         /// The number of messages prefetch by the broker in a batch.
         /// </summary>
         /// <returns></returns>
-        public virtual ushort PrefetchCount
+        public virtual int PrefetchCount
         {
             get => m_prefetchCount;
             set => m_prefetchCount = value;
@@ -68,7 +68,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             this.NotificicationService.WriteWarning($"{this.GetType().Name} : {message}",
                 filePath, memberName, lineNumber);
         }
-        
+
         protected void WriteMessage(string message,
             [CallerFilePath] string filePath = "", [CallerMemberName] string memberName = "",
             [CallerLineNumber] int lineNumber = 0)

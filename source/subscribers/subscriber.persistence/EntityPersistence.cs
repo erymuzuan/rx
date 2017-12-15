@@ -20,7 +20,7 @@ namespace Bespoke.Sph.Persistence
         public Action<Exception> WriteError { get; }
         private int m_processing;
         private readonly IMessageBroker m_broker;
-        public ushort PrefetchCount { get; set; } = 1;
+        public int PrefetchCount { get; set; } = 1;
         public string QueueName => $"persistence.{Ed.Name}";
 
         public EntityPersistence(EntityDefinition ed, IMessageBroker broker, Action<string> writeMessage,

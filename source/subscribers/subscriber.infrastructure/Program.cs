@@ -23,7 +23,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         }
         private ILogger m_notificationService;
         private static ILogger m_notificationService2;
-       
+
 
         public ConcurrentBag<Subscriber> SubscriberCollection { get; } = new ConcurrentBag<Subscriber>();
 
@@ -47,13 +47,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             AppDomain.CurrentDomain.UnhandledException += AppdomainUnhandledException;
 
-            await this.MessageBroker.ConnectAsync();
-            this.MessageBroker.ConnectionShutdown += (o, e) =>
+            await this.MessageBroker.ConnectAsync((errorMsg, error) =>
             {
                 this.Stop();
                 //TODO : Get next available node if clustered??
-
-            };
+            });
 
             Parallel.ForEach(subscribersMetadata, (mt, c) =>
             {
@@ -149,11 +147,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             var assembly = args.Name.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
                     .First().Trim();
-            
+
             var host = $"{AppDomain.CurrentDomain.BaseDirectory}\\{assembly}.dll";
             if (File.Exists(host))
                 return Assembly.LoadFile(host);
-            
+
             var subs = $"{ConfigurationManager.SubscriberPath}\\{assembly}.dll";
             if (File.Exists(subs))
                 return Assembly.LoadFile(subs);
