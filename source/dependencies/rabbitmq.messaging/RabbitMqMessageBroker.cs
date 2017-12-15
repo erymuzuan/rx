@@ -35,7 +35,11 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            m_channel?.Close();
+            m_channel?.Dispose();
+            m_connection?.Close();
+            m_connection?.Dispose();
+
         }
 
         public void StartsConsume()
@@ -73,7 +77,14 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
                  var message = new BrokeredMessage
                  {
                      Body = e.Body,
-                     Crud = header.Crud
+                     Crud = header.Crud,
+                     Id = header.MessageId,
+                     RoutingKey = e.RoutingKey,
+                     Username = header.Username,
+                     Operation = header.Operation,
+                     TryCount = header.TryCount,
+                     ReplyTo = header.ReplyTo,
+                     RetryDelay = TimeSpan.FromMilliseconds(5000)//TODO : get the delay from ...???,
 
                  };
                  var rawHeaders = header.GetRawHeaders();
@@ -177,6 +188,18 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
             throw new NotImplementedException();
         }
 
+        public Task SendAsync(BrokeredMessage message)
+        {
+            var props = m_channel.CreateBasicProperties();
+            props.DeliveryMode = 2;
+            props.Persistent = true;
+            props.ContentType = "application/json";
+            props.Headers = new MessageHeaders(message).ToDictionary();
+            m_channel.BasicPublish("sph.topic", message.RoutingKey, props, message.Body);
+            return Task.FromResult(0);
+        }
+
+
         public Task<BrokeredMessage> ReadFromDeadLetterAsync()
         {
             throw new NotImplementedException();
@@ -201,6 +224,11 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
                 logger.WriteInfo($"Deleting the queue for trigger : {queue}");
                 var response = await client.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/{queue}");
                 if (response.StatusCode != HttpStatusCode.NoContent)
+                {
+                    logger.WriteError(($"Cannot delete queue {queue}  return code is {response.StatusCode}"));
+                }
+                var ttlResponse = await client.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/sph.delay.queue.{ queue}");
+                if (ttlResponse.StatusCode != HttpStatusCode.NoContent)
                 {
                     logger.WriteError(($"Cannot delete queue {queue}  return code is {response.StatusCode}"));
                 }

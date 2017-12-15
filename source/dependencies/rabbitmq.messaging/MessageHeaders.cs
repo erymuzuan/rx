@@ -9,7 +9,11 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
 {
     public class MessageHeaders : DynamicObject
     {
+        private readonly string m_operation;
         private readonly ReceivedMessageArgs m_args;
+        private readonly string m_username;
+        private readonly string m_id;
+        private readonly CrudOperation m_crud;
         public const string SPH_TRYCOUNT = "sph.trycount";
         public const string SPH_DELAY = "sph.delay";
 
@@ -17,6 +21,36 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
         {
             m_args = args;
         }
+
+        public MessageHeaders(BrokeredMessage msg)
+        {
+            m_username = msg.Username;
+            m_id = msg.Id;
+            m_crud = msg.Crud;
+            m_operation = msg.Operation;
+
+        }
+
+        public MessageHeaders(string username, string id, CrudOperation crud, string operation)
+        {
+            m_username = username;
+            m_id = id;
+            m_crud = crud;
+            m_operation = operation;
+        }
+
+        public Dictionary<string, object> ToDictionary()
+        {
+            return new Dictionary<string, object>
+            {
+                {"username", m_username},
+                {"message-id", m_id},
+                {"operation", m_operation},
+                {"crud", m_crud.ToString()},
+                {"log", ""}
+            };
+        }
+
 
         private string ByteToString(byte[] content)
         {
@@ -74,7 +108,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
             if (null != blob)
             {
                 if (blob.GetType() == typeof(T))
-                    return (T) blob;
+                    return (T)blob;
             }
 
             if (!(blob is byte[] operationBytes)) return default;
@@ -84,7 +118,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
                 if (bool.TryParse(sct, out var boolValue))
                 {
                     object f = boolValue;
-                    return (T) f;
+                    return (T)f;
                 }
             }
 
@@ -93,7 +127,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
                 if (int.TryParse(sct, out var val))
                 {
                     object f = val;
-                    return (T) f;
+                    return (T)f;
                 }
             }
             if (typeof(T) == typeof(double))
@@ -101,7 +135,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
                 if (double.TryParse(sct, out var val))
                 {
                     object f = val;
-                    return (T) f;
+                    return (T)f;
                 }
             }
             if (typeof(T) == typeof(decimal))
@@ -109,7 +143,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
                 if (decimal.TryParse(sct, out var val))
                 {
                     object f = val;
-                    return (T) f;
+                    return (T)f;
                 }
             }
             if (typeof(T) == typeof(float))
@@ -117,7 +151,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
                 if (float.TryParse(sct, out var val))
                 {
                     object f = val;
-                    return (T) f;
+                    return (T)f;
                 }
             }
             if (typeof(T) == typeof(DateTime))
@@ -125,7 +159,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
                 if (DateTime.TryParse(sct, out var val))
                 {
                     object f = val;
-                    return (T) f;
+                    return (T)f;
                 }
             }
 
@@ -133,7 +167,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
 
         }
 
-        public T? GetNullableValue<T>(string key) where T: struct 
+        public T? GetNullableValue<T>(string key) where T : struct
         {
             if (!m_args.Properties.Headers.ContainsKey(key))
                 return new T?();
@@ -141,7 +175,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
             if (null != blob)
             {
                 if (blob.GetType() == typeof(T))
-                    return (T) blob;
+                    return (T)blob;
             }
 
             if (!(blob is byte[] bytes)) return default(T);
@@ -151,7 +185,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
                 if (bool.TryParse(sct, out var boolValue))
                 {
                     object f = boolValue;
-                    return (T) f;
+                    return (T)f;
                 }
             }
 
@@ -160,7 +194,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
                 if (int.TryParse(sct, out var val))
                 {
                     object f = val;
-                    return (T) f;
+                    return (T)f;
                 }
             }
             if (typeof(T) == typeof(double))
@@ -168,7 +202,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
                 if (double.TryParse(sct, out var val))
                 {
                     object f = val;
-                    return (T) f;
+                    return (T)f;
                 }
             }
             if (typeof(T) == typeof(decimal))
@@ -176,7 +210,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
                 if (decimal.TryParse(sct, out var val))
                 {
                     object f = val;
-                    return (T) f;
+                    return (T)f;
                 }
             }
             if (typeof(T) == typeof(float))
@@ -184,7 +218,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
                 if (float.TryParse(sct, out var val))
                 {
                     object f = val;
-                    return (T) f;
+                    return (T)f;
                 }
             }
             if (typeof(T) == typeof(DateTime))
@@ -192,11 +226,11 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
                 if (DateTime.TryParse(sct, out var val))
                 {
                     object f = val;
-                    return (T) f;
+                    return (T)f;
                 }
             }
 
-            return new T?(); 
+            return new T?();
 
         }
         public bool? LogAuditTrail
@@ -267,11 +301,13 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
         {
             get
             {
-                var user = m_args.Properties.Headers["username"] as string;
+                if (!m_args.Properties.Headers.ContainsKey("username")) return null;
+                var prop = m_args.Properties.Headers["username"];
+                var user = prop as string;
                 if (!string.IsNullOrWhiteSpace(user))
                     return user;
 
-                if (m_args.Properties.Headers["username"] is byte[] operationBytes)
+                if (prop is byte[] operationBytes)
                     return ByteToString(operationBytes);
 
                 return null;
@@ -298,6 +334,23 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
 
                 return crud;
 
+            }
+        }
+
+        public string ReplyTo
+        {
+            get
+            {
+                if (!m_args.Properties.Headers.ContainsKey("reply-to"))
+                    return null;
+                var prop = m_args.Properties.Headers["reply-to"];
+                if (prop is string replyTo && !string.IsNullOrWhiteSpace(replyTo))
+                    return replyTo;
+
+                if (prop is byte[] operationBytes)
+                    return ByteToString(operationBytes);
+
+                return null;
             }
         }
 

@@ -12,6 +12,7 @@ namespace Bespoke.Sph.Domain.Messaging
         Task<QueueStatistics> GetStatisticsAsync(string queue);
         Task CreateSubscriptionAsync(QueueSubscriptionOption option);
         Task SendToDeadLetterQueue(BrokeredMessage message);
+        Task SendAsync(BrokeredMessage message);
         Task<BrokeredMessage> ReadFromDeadLetterAsync();
         Task<BrokeredMessage> GetMessageAsync(string queue);
         Task RemoveSubscriptionAsync(string queue);
