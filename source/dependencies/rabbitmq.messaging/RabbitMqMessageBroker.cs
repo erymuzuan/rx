@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -62,9 +63,50 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
             return Task.FromResult(0);
         }
 
-        public void OnMessageDelivered(Func<BrokeredMessage, Task<MessageReceiveStatus>> processItem, double timeOut = double.MaxValue)
+        public void OnMessageDelivered(Func<BrokeredMessage, Task<MessageReceiveStatus>> processItem, string subscription, double timeOut = double.MaxValue)
         {
-            throw new NotImplementedException();
+            const bool NO_ACK = false;
+            m_consumer = new TaskBasicConsumer(m_channel);
+            m_consumer.Received += async (o, e) =>
+             {
+                 var header = new MessageHeaders(e);
+                 var message = new BrokeredMessage
+                 {
+                     Body = e.Body,
+                     Crud = header.Crud
+
+                 };
+                 var rawHeaders = header.GetRawHeaders();
+                 foreach (var key in rawHeaders.Keys)
+                 {
+                     message.Headers.AddOrReplace(key, rawHeaders[key]);
+                 }
+
+                 var status = await processItem(message);
+                 switch (status)
+                 {
+                     case MessageReceiveStatus.Accepted:
+                         m_channel.BasicAck(e.DeliveryTag, false);
+                         break;
+                     case MessageReceiveStatus.Rejected:
+                         m_channel.BasicReject(e.DeliveryTag, false);
+                         break;
+                     case MessageReceiveStatus.Dropped:
+                         m_channel.BasicAck(e.DeliveryTag, false);
+                         break;
+                     case MessageReceiveStatus.Delayed:
+                         // TODO : send to delay queue with TTL and DLQ
+                         break;
+                     case MessageReceiveStatus.Requeued:
+                         //TODO : silently requeued or call send
+                         break;
+                     default:
+                         throw new ArgumentOutOfRangeException();
+                 }
+
+             };
+
+            m_channel.BasicConsume(subscription, NO_ACK, m_consumer);
         }
 
         public async Task<QueueStatistics> GetStatisticsAsync(string queue)
@@ -86,13 +128,51 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
                 Count = length
             };
         }
+        private IModel m_channel;
+        private TaskBasicConsumer m_consumer;
 
         public Task CreateSubscriptionAsync(QueueSubscriptionOption option)
         {
-            throw new NotImplementedException();
+            const string EXCHANGE_NAME = "sph.topic";
+            const string DEAD_LETTER_EXCHANGE = "sph.ms-dead-letter";
+            const string DEAD_LETTER_QUEUE = "ms_dead_letter_queue";
+
+
+            m_channel = m_connection.CreateModel();
+
+            m_channel.ExchangeDeclare(EXCHANGE_NAME, ExchangeType.Topic, true);
+            m_channel.ExchangeDeclare(DEAD_LETTER_EXCHANGE, ExchangeType.Topic, true);
+            var args = new Dictionary<string, object> { { "x-dead-letter-exchange", DEAD_LETTER_EXCHANGE } };
+            m_channel.QueueDeclare(option.Name, true, false, false, args);
+
+            m_channel.QueueDeclare(DEAD_LETTER_QUEUE, true, false, false, args);
+            m_channel.QueueBind(DEAD_LETTER_QUEUE, DEAD_LETTER_EXCHANGE, "#", null);
+            m_channel.QueueBind(DEAD_LETTER_QUEUE, DEAD_LETTER_EXCHANGE, "*.added", null);
+            m_channel.QueueBind(DEAD_LETTER_QUEUE, DEAD_LETTER_EXCHANGE, "*.changed", null);
+
+            foreach (var s in option.RoutingKeys)
+            {
+                m_channel.QueueBind(option.Name, EXCHANGE_NAME, s, null);
+            }
+            // delay exchange and queue
+            var delayExchange = "sph.delay.exchange." + option.Name;
+            var delayQueue = "sph.delay.queue." + option.Name;
+            var delayQueueArgs = new Dictionary<string, object>
+            {
+                {"x-dead-letter-exchange", delayExchange},
+                {"x-dead-letter-routing-key", option.Name}
+            };
+
+            m_channel.ExchangeDeclare(delayExchange, "direct");
+            m_channel.QueueDeclare(delayQueue, true, false, false, delayQueueArgs);
+            m_channel.QueueBind(delayQueue, delayExchange, string.Empty, null);
+
+            m_channel.BasicQos(0, (ushort)option.PrefetchCount, false);
+
+            return Task.FromResult(0);
         }
 
-        public Task SendToDeathLetter(BrokeredMessage message)
+        public Task SendToDeadLetterQueue(BrokeredMessage message)
         {
             throw new NotImplementedException();
         }
@@ -110,7 +190,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
         public async Task RemoveSubscriptionAsync(string queue)
         {
             var logger = ObjectBuilder.GetObject<ILogger>();
-            logger.WriteInfo($"Deleting trigger_subs_{queue} queue");
+            logger.WriteInfo($"Deleting {queue} queue");
             var url = $"http://{RabbitMqConfigurationManager.Host}:{RabbitMqConfigurationManager.ManagementPort}";
             var handler = new HttpClientHandler
             {

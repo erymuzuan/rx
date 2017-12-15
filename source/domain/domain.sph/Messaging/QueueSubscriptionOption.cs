@@ -16,5 +16,6 @@ namespace Bespoke.Sph.Domain.Messaging
         public string DeadLetterQueue { get; set; }
         public string DelayedQueue { get; set; }
         public TimeSpan Ttl { get; set; }
+        public int PrefetchCount { get; set; }
     }
 }

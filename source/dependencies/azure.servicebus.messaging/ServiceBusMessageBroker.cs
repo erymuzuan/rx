@@ -53,7 +53,7 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
         }
        
 
-        public Task SendToDeathLetter(BrokeredMessage message)
+        public Task SendToDeadLetterQueue(BrokeredMessage message)
         {
             throw new NotImplementedException();
         }

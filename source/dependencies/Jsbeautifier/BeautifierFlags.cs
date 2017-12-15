@@ -1,7 +1,5 @@
 ﻿namespace Jsbeautifier
 {
-    using System;
-
     public class BeautifierFlags
     {
         public BeautifierFlags(string mode)

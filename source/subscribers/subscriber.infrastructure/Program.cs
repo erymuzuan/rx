@@ -149,6 +149,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             var assembly = args.Name.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
                     .First().Trim();
+            
+            var host = $"{AppDomain.CurrentDomain.BaseDirectory}\\{assembly}.dll";
+            if (File.Exists(host))
+                return Assembly.LoadFile(host);
+            
             var subs = $"{ConfigurationManager.SubscriberPath}\\{assembly}.dll";
             if (File.Exists(subs))
                 return Assembly.LoadFile(subs);

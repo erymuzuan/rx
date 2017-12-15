@@ -1,5 +1,4 @@
 using System;
-using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {
@@ -10,7 +9,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         public Isolated()
         {
             var setup = AppDomain.CurrentDomain.SetupInformation;
-            setup.ApplicationBase = ConfigurationManager.SubscriberPath;
+            // setup.ApplicationBase = Bespoke.Sph.Domain.ConfigurationManager.SubscriberPath;
 
             m_domain = AppDomain.CreateDomain("Isolated:" + Guid.NewGuid(),null, setup);
 

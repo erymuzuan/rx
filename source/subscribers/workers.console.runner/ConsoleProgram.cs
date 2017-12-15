@@ -60,7 +60,7 @@ namespace Bespoke.Sph.MessagingClients
             {
                 log.Loggers.Add(new FileLogger(fileOut, FileLogger.Interval.Day, fileOutSize, BUFFER_SIZE)
                 {
-                    TraceSwitch = (Severity)(Enum.Parse(typeof(Severity), fileTraceSwitch, true))
+                    TraceSwitch = (Severity)Enum.Parse(typeof(Severity), fileTraceSwitch, true)
                 });
             }
 
