@@ -200,7 +200,7 @@ namespace Bespoke.Sph.MessagingTests
             var operation = "GuaranteedFail";
             var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#." + operation);
             await Broker.CreateSubscriptionAsync(option);
-            
+
             var message = new BrokeredMessage
             {
                 Body = await CompressAsync("Some details here " + option.Name),
@@ -224,30 +224,32 @@ namespace Bespoke.Sph.MessagingTests
                 return Task.FromResult(MessageReceiveStatus.Rejected);
             }, new SubscriberOption(option.Name));
 
+            var before = await GetMessagesCount("ms_dead_letter_queue");
             await Broker.SendAsync(message);
             flag.WaitOne(2500);
             Assert.Equal(message.Id + "", id);
             await Task.Delay(2500);
+
+            await this.Broker.RemoveSubscriptionAsync(option.Name);
+
+            Assert.Equal(before + 1, await GetMessagesCount("ms_dead_letter_queue"));
+        }
+
+        private async Task<int> GetMessagesCount(string queue)
+        {
             var cred = new NetworkCredential(RabbitMqConfigurationManager.UserName, RabbitMqConfigurationManager.Password);
             using (var client = new HttpClient(new HttpClientHandler { Credentials = cred }) { BaseAddress = new Uri("http://localhost:15672") })
             {
-                var text = await client.GetStringAsync("/api/queues/DevV1/ms_dead_letter_queue");
-                await this.Broker.RemoveSubscriptionAsync(option.Name);
+
+                var text = await client.GetStringAsync("/api/queues/DevV1/" + queue);
                 var json = JObject.Parse(text);
                 var messagesCountToken = json.SelectToken("$.messages");
-                Assert.NotNull(messagesCountToken);
-                Assert.Equal(10000, messagesCountToken.Value<int>());
+                return messagesCountToken.Value<int>();
             }
 
-            Assert.True(false);
-        }
-        [Fact]
-        public async Task Receive()
-        {
-            await Task.Delay(500);
-            Assert.True(false);
         }
 
+    
         [Fact]
         public async Task Stat()
         {
