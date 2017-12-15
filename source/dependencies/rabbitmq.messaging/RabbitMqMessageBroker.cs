@@ -47,9 +47,8 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
             throw new NotImplementedException();
         }
 
-        public event EventHandler<EventArgs> ConnectionShutdown;
         private IConnection m_connection;
-        public Task ConnectAsync()
+        public Task ConnectAsync(Action<string, object> disconnected)
         {
             var factory = new ConnectionFactory
             {
@@ -62,12 +61,12 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
             m_connection = factory.CreateConnection();
             m_connection.ConnectionShutdown += (o, e) =>
             {
-                ConnectionShutdown?.Invoke(o, e);
+                disconnected(e.ReplyText, e);
             };
             return Task.FromResult(0);
         }
 
-        public void OnMessageDelivered(Func<BrokeredMessage, Task<MessageReceiveStatus>> processItem, string subscription, double timeOut = double.MaxValue)
+        public void OnMessageDelivered(Func<BrokeredMessage, Task<MessageReceiveStatus>> processItem, SubscriberOption subscription, double timeOut = double.MaxValue)
         {
             const bool NO_ACK = false;
             m_consumer = new TaskBasicConsumer(m_channel);
@@ -116,8 +115,9 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
                  }
 
              };
-
-            m_channel.BasicConsume(subscription, NO_ACK, m_consumer);
+            var prefetchCount = subscription.PrefetchCount <= 1 ? 1 : subscription.PrefetchCount;
+            m_channel.BasicQos(0, (ushort)prefetchCount, false);
+            m_channel.BasicConsume(subscription.Name, NO_ACK, m_consumer);
         }
 
         public async Task<QueueStatistics> GetStatisticsAsync(string queue)

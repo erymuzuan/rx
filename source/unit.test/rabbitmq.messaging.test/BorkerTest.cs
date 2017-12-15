@@ -28,7 +28,7 @@ namespace Bespoke.Sph.MessagingTests
         [Fact]
         public async Task Connect()
         {
-            await Broker.ConnectAsync();
+            await Broker.ConnectAsync((text, arg) => { });
         }
 
 
@@ -57,7 +57,7 @@ namespace Bespoke.Sph.MessagingTests
         [Fact]
         public async Task CreateSubscription()
         {
-            await Broker.ConnectAsync();
+            await Broker.ConnectAsync((text, arg) => { });
             var option = new QueueSubscriptionOption("test-one", "Test.*.*");
             await Broker.CreateSubscriptionAsync(option);
 
@@ -73,9 +73,6 @@ namespace Bespoke.Sph.MessagingTests
 
                 await client.DeleteAsync(requestUri);
             }
-
-
-
         }
 
 
@@ -85,7 +82,7 @@ namespace Bespoke.Sph.MessagingTests
         [InlineData("test3")]
         public async Task SendMessageSubscription(string operation)
         {
-            await Broker.ConnectAsync();
+            await Broker.ConnectAsync((text, arg) => { });
 
             var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#." + operation);
             await Broker.CreateSubscriptionAsync(option);
@@ -128,7 +125,7 @@ namespace Bespoke.Sph.MessagingTests
         [InlineData("test3")]
         public async Task ReceiveMessageSubscription(string operation)
         {
-            await Broker.ConnectAsync();
+            await Broker.ConnectAsync((text, arg) => { });
 
             var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#." + operation);
             await Broker.CreateSubscriptionAsync(option);
@@ -155,7 +152,7 @@ namespace Bespoke.Sph.MessagingTests
                 flag.Set();
                 id = msg.Id;
                 return Task.FromResult(MessageReceiveStatus.Accepted);
-            }, option.Name);
+            }, new SubscriberOption(option.Name));
 
             await Broker.SendAsync(message);
             flag.WaitOne(2500);
@@ -197,9 +194,51 @@ namespace Bespoke.Sph.MessagingTests
         }
 
         [Fact]
-        public async Task SendDeadLetter()
+        public async Task SendToDeadLetter()
         {
-            await Task.Delay(500);
+            await Broker.ConnectAsync((text, arg) => { });
+            var operation = "GuaranteedFail";
+            var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#." + operation);
+            await Broker.CreateSubscriptionAsync(option);
+            
+            var message = new BrokeredMessage
+            {
+                Body = await CompressAsync("Some details here " + option.Name),
+                Crud = CrudOperation.Added,
+                Username = "erymuzuan",
+                Id = Guid.NewGuid().ToString(),
+                TryCount = 0,
+                RetryDelay = TimeSpan.FromMilliseconds(500),
+                Headers =
+                {
+                    { "Username", "erymuzuan"}
+                },
+                RoutingKey = "Test.added." + operation
+            };
+            var flag = new AutoResetEvent(false);
+            var id = "";
+            this.Broker.OnMessageDelivered(msg =>
+            {
+                flag.Set();
+                id = msg.Id;
+                return Task.FromResult(MessageReceiveStatus.Rejected);
+            }, new SubscriberOption(option.Name));
+
+            await Broker.SendAsync(message);
+            flag.WaitOne(2500);
+            Assert.Equal(message.Id + "", id);
+            await Task.Delay(2500);
+            var cred = new NetworkCredential(RabbitMqConfigurationManager.UserName, RabbitMqConfigurationManager.Password);
+            using (var client = new HttpClient(new HttpClientHandler { Credentials = cred }) { BaseAddress = new Uri("http://localhost:15672") })
+            {
+                var text = await client.GetStringAsync("/api/queues/DevV1/ms_dead_letter_queue");
+                await this.Broker.RemoveSubscriptionAsync(option.Name);
+                var json = JObject.Parse(text);
+                var messagesCountToken = json.SelectToken("$.messages");
+                Assert.NotNull(messagesCountToken);
+                Assert.Equal(10000, messagesCountToken.Value<int>());
+            }
+
             Assert.True(false);
         }
         [Fact]
