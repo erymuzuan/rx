@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
@@ -32,22 +33,35 @@ namespace Bespoke.Sph.MessagingTests
         }
 
 
-        private async Task DeleteAllQueus()
+        [Fact]
+        public async Task DeleteAllQueus()
         {
             var cred = new NetworkCredential(RabbitMqConfigurationManager.UserName, RabbitMqConfigurationManager.Password);
             using (var client = new HttpClient(new HttpClientHandler { Credentials = cred }) { BaseAddress = new Uri("http://localhost:15672") })
             {
-                const string REQUEST_URI = "/api/queues/DevV1/";
-                var text = await client.GetStringAsync(REQUEST_URI);
-                var json = JArray.Parse(text);
+                const string API_QUEUES_DEVV1 = "/api/queues/DevV1/";
+                var queuesText = await client.GetStringAsync(API_QUEUES_DEVV1);
+                var queuesJsonArray = JArray.Parse(queuesText);
 
-                foreach (var jt in json)
+                foreach (var jt in queuesJsonArray)
                 {
                     var queue = jt.SelectToken("$.name").ToString();
                     if (!queue.ToLowerInvariant().Contains("test-")) continue;
 
                     Console.WriteLine("Deleting... " + queue);
-                    await client.DeleteAsync(REQUEST_URI + queue);
+                    await client.DeleteAsync(API_QUEUES_DEVV1 + queue);
+                }
+                const string API_EXCHANGES_DEVV1 = "/api/exchanges/DevV1/";
+                var exchangesText = await client.GetStringAsync(API_EXCHANGES_DEVV1);
+                var exchangesJsonArray = JArray.Parse(exchangesText);
+
+                foreach (var jt in exchangesJsonArray)
+                {
+                    var exchange = jt.SelectToken("$.name").ToString();
+                    if (!exchange.ToLowerInvariant().Contains("test-")) continue;
+
+                    Console.WriteLine("Deleting... " + exchange);
+                    await client.DeleteAsync(API_EXCHANGES_DEVV1 + exchange);
                 }
             }
         }
@@ -183,14 +197,78 @@ namespace Bespoke.Sph.MessagingTests
         public void Dispose()
         {
             Broker?.Dispose();
-            DeleteAllQueus().Wait(5000);
+            // DeleteAllQueus().Wait(5000);
         }
 
         [Fact]
         public async Task SendToDelay()
         {
-            await Task.Delay(500);
-            Assert.True(false);
+            await DeleteAllQueus();
+            await Broker.ConnectAsync((text, arg) => { });
+            var operation = "TransientError";
+            var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#." + operation);
+            await Broker.CreateSubscriptionAsync(option);
+
+            var queueName = option.Name;
+            var message = new BrokeredMessage
+            {
+                Body = await CompressAsync("Some details here " + queueName),
+                Crud = CrudOperation.Added,
+                Username = "erymuzuan",
+                Id = Guid.NewGuid().ToString(),
+                TryCount = 0,
+                RetryDelay = TimeSpan.FromMilliseconds(1500),
+                Headers =
+                {
+                    { "Username", "erymuzuan"}
+                },
+                RoutingKey = "Test.added." + operation
+            };
+            var flag1 = new AutoResetEvent(false);
+            var flag2 = new AutoResetEvent(false);
+            var id = "";
+            var stopWatch = new Stopwatch();
+            var expiration = TimeSpan.FromMilliseconds(5_000);
+
+            this.Broker.OnMessageDelivered(msg =>
+            {
+                var attempt = (msg.TryCount ?? 0) + 1;
+                Console.WriteLine("============ Receiving attempt " + attempt + " after " + stopWatch.Elapsed + " =============");
+                id = msg.Id;
+                if (attempt == 1)
+                {
+                    flag1.Set();
+                    msg.RetryDelay = expiration;
+                    return Task.FromResult(MessageReceiveStatus.Delayed);
+                }
+                flag2.Set();
+                return Task.FromResult(MessageReceiveStatus.Accepted);
+            }, new SubscriberOption(queueName));
+
+            var delayedQueueName = "rx.delay.queue." + queueName;
+            var before = await GetMessagesCount(delayedQueueName);
+            Assert.Equal(0, before);
+
+            // send and wait for OnMessage
+            await Broker.SendAsync(message);
+            stopWatch.Start();
+            //await Broker.SendAsync(message);
+            flag1.WaitOne(2_500);
+            Assert.Equal(message.Id, id);
+
+
+            // wait for it to be published into delayed queue
+            await Task.Delay(2_000);
+            Assert.Equal(1, await GetMessagesCount(delayedQueueName));
+            Assert.Equal(0, await GetMessagesCount(queueName));
+
+            // wait for it to expires
+            flag2.WaitOne(expiration);
+            await Task.Delay(3_000);
+            Console.WriteLine("Reading queues on " + stopWatch.Elapsed);
+            Assert.Equal(0, await GetMessagesCount(delayedQueueName));
+            Assert.Equal(0, await GetMessagesCount(queueName)); // the message is received , once flag2 is set
+            stopWatch.Stop();
         }
 
         [Fact]
@@ -240,7 +318,6 @@ namespace Bespoke.Sph.MessagingTests
             var cred = new NetworkCredential(RabbitMqConfigurationManager.UserName, RabbitMqConfigurationManager.Password);
             using (var client = new HttpClient(new HttpClientHandler { Credentials = cred }) { BaseAddress = new Uri("http://localhost:15672") })
             {
-
                 var text = await client.GetStringAsync("/api/queues/DevV1/" + queue);
                 var json = JObject.Parse(text);
                 var messagesCountToken = json.SelectToken("$.messages");
@@ -249,7 +326,7 @@ namespace Bespoke.Sph.MessagingTests
 
         }
 
-    
+
         [Fact]
         public async Task Stat()
         {

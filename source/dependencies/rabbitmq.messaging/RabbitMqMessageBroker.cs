@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -105,7 +106,11 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
                          m_channel.BasicAck(e.DeliveryTag, false);
                          break;
                      case MessageReceiveStatus.Delayed:
-                         // TODO : send to delay queue with TTL and DLQ
+                         if (message.RetryDelay == default)
+                             throw new Exception("You have to set the RetryDelay for the message TTL");
+
+                         m_channel.BasicAck(e.DeliveryTag, false);
+                         PublishToDelayQueue(message, subscription.Name);
                          break;
                      case MessageReceiveStatus.Requeued:
                          //TODO : silently requeued or call send
@@ -161,16 +166,17 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
             m_channel.QueueBind(DEAD_LETTER_QUEUE, DEAD_LETTER_EXCHANGE, "*.added", null);
             m_channel.QueueBind(DEAD_LETTER_QUEUE, DEAD_LETTER_EXCHANGE, "*.changed", null);
 
+            m_channel.QueueBind(option.Name, EXCHANGE_NAME, option.Name, null);
             foreach (var s in option.RoutingKeys)
             {
                 m_channel.QueueBind(option.Name, EXCHANGE_NAME, s, null);
             }
             // delay exchange and queue
-            var delayExchange = "sph.delay.exchange." + option.Name;
-            var delayQueue = "sph.delay.queue." + option.Name;
+            var delayExchange = "rx.delay.exchange." + option.Name;
+            var delayQueue = "rx.delay.queue." + option.Name;
             var delayQueueArgs = new Dictionary<string, object>
             {
-                {"x-dead-letter-exchange", delayExchange},
+                {"x-dead-letter-exchange", EXCHANGE_NAME},
                 {"x-dead-letter-routing-key", option.Name}
             };
 
@@ -182,6 +188,30 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
 
             return Task.FromResult(0);
         }
+
+
+        protected void PublishToDelayQueue(BrokeredMessage message, string queue)
+        {
+            var logger = ObjectBuilder.GetObject<ILogger>();
+            var delayExchange = "rx.delay.exchange." + queue;
+
+            message.TryCount = (message.TryCount ?? 0) + 1;
+
+            var props = m_channel.CreateBasicProperties();
+            props.DeliveryMode = 2;
+            props.Persistent = true;
+            props.ContentType = "application/json";
+            var headers = new MessageHeaders(message);
+            props.Headers = headers.ToDictionary();
+            props.Headers.AddOrReplace(MessageHeaders.SPH_TRYCOUNT, message.TryCount);
+
+            var delay = message.RetryDelay.TotalMilliseconds;
+            props.Expiration = delay.ToString(CultureInfo.InvariantCulture);
+
+            logger.WriteInfo($@"Doing the delay for {message.RetryDelay} for the {message.TryCount} time");
+            m_channel.BasicPublish(delayExchange, string.Empty, props, message.Body);
+        }
+
 
         public Task SendToDeadLetterQueue(BrokeredMessage message)
         {
