@@ -328,10 +328,62 @@ namespace Bespoke.Sph.MessagingTests
 
 
         [Fact]
-        public async Task Stat()
+        public async Task QueueStatistics()
         {
+            var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#.Stat");
+            await Broker.ConnectAsync((m, e) => { });
+            await Broker.CreateSubscriptionAsync(option);
             await Task.Delay(500);
-            Assert.True(false);
+            var stat = await this.Broker.GetStatisticsAsync(option.Name);
+            Assert.Equal(0, stat.Count);
+            Assert.Equal(0, stat.DeliveryRate);
+            Assert.Equal(0, stat.PublishedRate);
+        }
+
+        [Fact]
+        public async Task GetMessage()
+        {
+            await DeleteAllQueus();
+            var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#.Get");
+            await Broker.ConnectAsync((m, e) => { });
+            await Broker.CreateSubscriptionAsync(option);
+            await Task.Delay(500);
+
+            var stat = await this.Broker.GetStatisticsAsync(option.Name);
+            Assert.Equal(0, stat.Count);
+            Assert.Equal(0, stat.DeliveryRate);
+            Assert.Equal(0, stat.PublishedRate);
+
+
+            var message = new BrokeredMessage
+            {
+                Body = await CompressAsync("Some details here " + option.Name),
+                Crud = CrudOperation.Added,
+                Username = "erymuzuan",
+                Id = Guid.NewGuid().ToString(),
+                TryCount = 0,
+                RetryDelay = TimeSpan.FromMilliseconds(500),
+                Headers =
+                {
+                    { "Username", "erymuzuan"}
+                },
+                RoutingKey = "Test.added.Get" 
+            };
+            await this.Broker.SendAsync(message);
+            await Task.Delay(2500);
+            stat = await this.Broker.GetStatisticsAsync(option.Name);
+            Assert.Equal(1, stat.Count);
+            Assert.Equal(0, stat.DeliveryRate);
+            Assert.Equal(0, stat.PublishedRate);
+
+            var msg = await Broker.GetMessageAsync(option.Name);
+            Assert.NotNull(msg);
+            Assert.Equal(message.Id, msg.Id);
+
+            msg.Accept();
+            await Task.Delay(2500);
+            stat = await this.Broker.GetStatisticsAsync(option.Name);
+            Assert.Equal(0, stat.Count);
         }
     }
 }

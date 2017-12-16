@@ -175,5 +175,29 @@ namespace Bespoke.Sph.Domain.Messaging
             return new T?(); 
 
         }
+
+        public event EventHandler<MessageReceiveStatus> MessageAcknowledged; 
+        public void Delay(TimeSpan ttl)
+        {
+            this.RetryDelay = ttl;
+            this.TryCount = (this.TryCount ?? 0) + 1;
+            MessageAcknowledged?.Invoke(this,MessageReceiveStatus.Delayed);
+        }
+        public void Requeue()
+        {
+            MessageAcknowledged?.Invoke(this,MessageReceiveStatus.Requeued);
+        }
+        public void Accept()
+        {
+            MessageAcknowledged?.Invoke(this,MessageReceiveStatus.Accepted);
+        }
+        public void Drop()
+        {
+            MessageAcknowledged?.Invoke(this,MessageReceiveStatus.Dropped);
+        }
+        public void Reject()
+        {
+            MessageAcknowledged?.Invoke(this,MessageReceiveStatus.Rejected);
+        }
     }
 }

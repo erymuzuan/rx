@@ -139,8 +139,12 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
             double delivered = default;
             if (null != statsToken)
             {
-                published = statsToken.SelectToken("$.publish_details.rate").Value<double>();
-                delivered = statsToken.SelectToken("$.deliver_details.rate").Value<double>();
+                var publishToken = statsToken.SelectToken("$.publish_details");
+                if (null != publishToken)
+                    published = publishToken.SelectToken("$.rate").Value<double>();
+                var deliverToken = statsToken.SelectToken("$.deliver_details");
+                if (null != deliverToken)
+                    delivered = deliverToken.SelectToken("$.rate").Value<double>();
             }
 
             return new QueueStatistics
@@ -243,8 +247,59 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
 
         public Task<BrokeredMessage> GetMessageAsync(string queue)
         {
-            throw new NotImplementedException();
+            var result = this.m_channel.BasicGet(queue, false);
+            var header = new MessageHeaders(new ReceivedMessageArgs
+            {
+                Body = result.Body,
+                Properties = result.BasicProperties,
+                DeliveryTag = result.DeliveryTag,
+                Exchange = result.Exchange,
+                RoutingKey = result.RoutingKey,
+                Redelivered = result.Redelivered
+            });
+            var message = new BrokeredMessage
+            {
+                Body = result.Body,
+                Crud = header.Crud,
+                Id = header.MessageId,
+                RoutingKey = result.RoutingKey,
+                Username = header.Username,
+                Operation = header.Operation,
+                TryCount = header.TryCount,
+                ReplyTo = header.ReplyTo,
+                RetryDelay = TimeSpan.FromMilliseconds(5000)//TODO : get the delay from ...???,
+
+            };
+            var rawHeaders = header.GetRawHeaders();
+            foreach (var key in rawHeaders.Keys)
+            {
+                message.Headers.AddOrReplace(key, rawHeaders[key]);
+            }
+            void MessageAcknowledged(object sender, MessageReceiveStatus status)
+            {
+                switch (status)
+                {
+                    case MessageReceiveStatus.Accepted:
+                        m_channel.BasicAck(result.DeliveryTag, false);
+                        break;
+                    case MessageReceiveStatus.Rejected:
+                        break;
+                    case MessageReceiveStatus.Dropped:
+                        break;
+                    case MessageReceiveStatus.Delayed:
+                        break;
+                    case MessageReceiveStatus.Requeued:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(status), status, null);
+                }
+                message.MessageAcknowledged -= MessageAcknowledged;
+            }
+            message.MessageAcknowledged += MessageAcknowledged;
+
+            return Task.FromResult(message);
         }
+
 
         public async Task RemoveSubscriptionAsync(string queue)
         {
