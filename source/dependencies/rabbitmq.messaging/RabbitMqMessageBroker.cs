@@ -257,8 +257,31 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
                 RoutingKey = result.RoutingKey,
                 Redelivered = result.Redelivered
             });
-            var message = new BrokeredMessage
+            void MessageAcknowledged(BrokeredMessage msg, MessageReceiveStatus status)
             {
+                switch (status)
+                {
+                    case MessageReceiveStatus.Accepted:
+                        m_channel.BasicAck(result.DeliveryTag, false);
+                        break;
+                    case MessageReceiveStatus.Rejected:
+                        m_channel.BasicReject(result.DeliveryTag, false);
+                        break;
+                    case MessageReceiveStatus.Dropped:
+                        m_channel.BasicAck(result.DeliveryTag, false);
+                        break;
+                    case MessageReceiveStatus.Delayed:
+                        PublishToDelayQueue(msg,queue);
+                        break;
+                    case MessageReceiveStatus.Requeued:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(status), status, null);
+                }
+            }
+            var message = new BrokeredMessage(MessageAcknowledged)
+            {
+               
                 Body = result.Body,
                 Crud = header.Crud,
                 Id = header.MessageId,
@@ -275,27 +298,6 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
             {
                 message.Headers.AddOrReplace(key, rawHeaders[key]);
             }
-            void MessageAcknowledged(object sender, MessageReceiveStatus status)
-            {
-                switch (status)
-                {
-                    case MessageReceiveStatus.Accepted:
-                        m_channel.BasicAck(result.DeliveryTag, false);
-                        break;
-                    case MessageReceiveStatus.Rejected:
-                        break;
-                    case MessageReceiveStatus.Dropped:
-                        break;
-                    case MessageReceiveStatus.Delayed:
-                        break;
-                    case MessageReceiveStatus.Requeued:
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(status), status, null);
-                }
-                message.MessageAcknowledged -= MessageAcknowledged;
-            }
-            message.MessageAcknowledged += MessageAcknowledged;
 
             return Task.FromResult(message);
         }

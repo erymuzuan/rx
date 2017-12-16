@@ -4,8 +4,19 @@ using Bespoke.Sph.Extensions;
 
 namespace Bespoke.Sph.Domain.Messaging
 {
-    public class BrokeredMessage 
+    public class BrokeredMessage
     {
+        private readonly Action<BrokeredMessage, MessageReceiveStatus> m_messageAcknowledge;
+
+        public BrokeredMessage(Action<BrokeredMessage, MessageReceiveStatus> messageAcknowledge)
+        {
+            m_messageAcknowledge = messageAcknowledge;
+        }
+
+        public BrokeredMessage()
+        {
+            m_messageAcknowledge = (msg, st) => { };
+        }
         public string RoutingKey { get; set; }
         public string Id { get; set; }
         public Dictionary<string, object> Headers { get; } = new Dictionary<string, object>();
@@ -40,8 +51,8 @@ namespace Bespoke.Sph.Domain.Messaging
             }
             return false;
         }
-        
-        
+
+
         public T GetValue<T>(string key)
         {
             if (!this.Headers.ContainsKey(key))
@@ -50,7 +61,7 @@ namespace Bespoke.Sph.Domain.Messaging
             if (null != blob)
             {
                 if (blob.GetType() == typeof(T))
-                    return (T) blob;
+                    return (T)blob;
             }
 
             if (!(blob is byte[] operationBytes)) return default;
@@ -60,7 +71,7 @@ namespace Bespoke.Sph.Domain.Messaging
                 if (bool.TryParse(sct, out var boolValue))
                 {
                     object f = boolValue;
-                    return (T) f;
+                    return (T)f;
                 }
             }
 
@@ -69,7 +80,7 @@ namespace Bespoke.Sph.Domain.Messaging
                 if (int.TryParse(sct, out var val))
                 {
                     object f = val;
-                    return (T) f;
+                    return (T)f;
                 }
             }
             if (typeof(T) == typeof(double))
@@ -77,7 +88,7 @@ namespace Bespoke.Sph.Domain.Messaging
                 if (double.TryParse(sct, out var val))
                 {
                     object f = val;
-                    return (T) f;
+                    return (T)f;
                 }
             }
             if (typeof(T) == typeof(decimal))
@@ -85,7 +96,7 @@ namespace Bespoke.Sph.Domain.Messaging
                 if (decimal.TryParse(sct, out var val))
                 {
                     object f = val;
-                    return (T) f;
+                    return (T)f;
                 }
             }
             if (typeof(T) == typeof(float))
@@ -93,7 +104,7 @@ namespace Bespoke.Sph.Domain.Messaging
                 if (float.TryParse(sct, out var val))
                 {
                     object f = val;
-                    return (T) f;
+                    return (T)f;
                 }
             }
             if (typeof(T) == typeof(DateTime))
@@ -101,7 +112,7 @@ namespace Bespoke.Sph.Domain.Messaging
                 if (DateTime.TryParse(sct, out var val))
                 {
                     object f = val;
-                    return (T) f;
+                    return (T)f;
                 }
             }
 
@@ -109,7 +120,7 @@ namespace Bespoke.Sph.Domain.Messaging
 
         }
 
-        public T? GetNullableValue<T>(string key) where T: struct 
+        public T? GetNullableValue<T>(string key) where T : struct
         {
             if (!this.Headers.ContainsKey(key))
                 return new T?();
@@ -117,7 +128,7 @@ namespace Bespoke.Sph.Domain.Messaging
             if (null != blob)
             {
                 if (blob.GetType() == typeof(T))
-                    return (T) blob;
+                    return (T)blob;
             }
 
             if (!(blob is byte[] bytes)) return default(T);
@@ -127,7 +138,7 @@ namespace Bespoke.Sph.Domain.Messaging
                 if (bool.TryParse(sct, out var boolValue))
                 {
                     object f = boolValue;
-                    return (T) f;
+                    return (T)f;
                 }
             }
 
@@ -136,7 +147,7 @@ namespace Bespoke.Sph.Domain.Messaging
                 if (int.TryParse(sct, out var val))
                 {
                     object f = val;
-                    return (T) f;
+                    return (T)f;
                 }
             }
             if (typeof(T) == typeof(double))
@@ -144,7 +155,7 @@ namespace Bespoke.Sph.Domain.Messaging
                 if (double.TryParse(sct, out var val))
                 {
                     object f = val;
-                    return (T) f;
+                    return (T)f;
                 }
             }
             if (typeof(T) == typeof(decimal))
@@ -152,7 +163,7 @@ namespace Bespoke.Sph.Domain.Messaging
                 if (decimal.TryParse(sct, out var val))
                 {
                     object f = val;
-                    return (T) f;
+                    return (T)f;
                 }
             }
             if (typeof(T) == typeof(float))
@@ -160,7 +171,7 @@ namespace Bespoke.Sph.Domain.Messaging
                 if (float.TryParse(sct, out var val))
                 {
                     object f = val;
-                    return (T) f;
+                    return (T)f;
                 }
             }
             if (typeof(T) == typeof(DateTime))
@@ -168,36 +179,35 @@ namespace Bespoke.Sph.Domain.Messaging
                 if (DateTime.TryParse(sct, out var val))
                 {
                     object f = val;
-                    return (T) f;
+                    return (T)f;
                 }
             }
 
-            return new T?(); 
+            return new T?();
 
         }
 
-        public event EventHandler<MessageReceiveStatus> MessageAcknowledged; 
         public void Delay(TimeSpan ttl)
         {
             this.RetryDelay = ttl;
             this.TryCount = (this.TryCount ?? 0) + 1;
-            MessageAcknowledged?.Invoke(this,MessageReceiveStatus.Delayed);
+            m_messageAcknowledge(this, MessageReceiveStatus.Delayed);
         }
         public void Requeue()
         {
-            MessageAcknowledged?.Invoke(this,MessageReceiveStatus.Requeued);
+            m_messageAcknowledge(this, MessageReceiveStatus.Requeued);
         }
         public void Accept()
         {
-            MessageAcknowledged?.Invoke(this,MessageReceiveStatus.Accepted);
+            m_messageAcknowledge(this, MessageReceiveStatus.Accepted);
         }
         public void Drop()
         {
-            MessageAcknowledged?.Invoke(this,MessageReceiveStatus.Dropped);
+            m_messageAcknowledge(this, MessageReceiveStatus.Dropped);
         }
         public void Reject()
         {
-            MessageAcknowledged?.Invoke(this,MessageReceiveStatus.Rejected);
+            m_messageAcknowledge(this, MessageReceiveStatus.Rejected);
         }
     }
 }

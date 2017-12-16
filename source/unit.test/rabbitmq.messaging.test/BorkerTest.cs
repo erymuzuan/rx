@@ -75,18 +75,8 @@ namespace Bespoke.Sph.MessagingTests
             var option = new QueueSubscriptionOption("test-one", "Test.*.*");
             await Broker.CreateSubscriptionAsync(option);
 
-            var cred = new NetworkCredential(RabbitMqConfigurationManager.UserName, RabbitMqConfigurationManager.Password);
-            using (var client = new HttpClient(new HttpClientHandler { Credentials = cred }) { BaseAddress = new Uri("http://localhost:15672") })
-            {
-                var requestUri = "/api/queues/DevV1/" + option.Name;
-                var text = await client.GetStringAsync(requestUri);
-                var json = JObject.Parse(text);
-                var messagesCountToken = json.SelectToken("$.messages");
-                Assert.NotNull(messagesCountToken);
-                Assert.Equal(0, messagesCountToken.Value<int>());
-
-                await client.DeleteAsync(requestUri);
-            }
+            Assert.Equal(0, await GetMessagesCount(option.Name, 0));
+            await this.Broker.RemoveSubscriptionAsync(option.Name);
         }
 
 
@@ -112,24 +102,13 @@ namespace Bespoke.Sph.MessagingTests
                 RetryDelay = TimeSpan.FromMilliseconds(500),
                 Headers =
                 {
-                    { "Username", "erymuzuan"}
+                    {"Username", "erymuzuan"}
                 },
                 RoutingKey = "Test.added." + operation
             };
 
             await Broker.SendAsync(message);
-            await Task.Delay(2000);
-            var cred = new NetworkCredential(RabbitMqConfigurationManager.UserName, RabbitMqConfigurationManager.Password);
-            using (var client = new HttpClient(new HttpClientHandler { Credentials = cred }) { BaseAddress = new Uri("http://localhost:15672") })
-            {
-                var text = await client.GetStringAsync("/api/queues/DevV1/" + option.Name);
-                await this.Broker.RemoveSubscriptionAsync(option.Name);
-                var json = JObject.Parse(text);
-                var messagesCountToken = json.SelectToken("$.messages");
-                Assert.NotNull(messagesCountToken);
-                Assert.Equal(1, messagesCountToken.Value<int>());
-            }
-
+            Assert.Equal(1, await GetMessagesCount(option.Name, 1));
         }
 
 
@@ -274,6 +253,7 @@ namespace Bespoke.Sph.MessagingTests
         [Fact]
         public async Task SendToDeadLetter()
         {
+            await DeleteAllQueus();
             await Broker.ConnectAsync((text, arg) => { });
             var operation = "GuaranteedFail";
             var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#." + operation);
@@ -304,20 +284,35 @@ namespace Bespoke.Sph.MessagingTests
 
             var before = await GetMessagesCount("ms_dead_letter_queue");
             await Broker.SendAsync(message);
-            flag.WaitOne(2500);
+            flag.WaitOne(5_000);
             Assert.Equal(message.Id + "", id);
-            await Task.Delay(2500);
 
-            await this.Broker.RemoveSubscriptionAsync(option.Name);
-
-            Assert.Equal(before + 1, await GetMessagesCount("ms_dead_letter_queue"));
+            Assert.Equal(before + 1, await GetMessagesCount("ms_dead_letter_queue", before + 1, 10_000));
         }
 
-        private async Task<int> GetMessagesCount(string queue)
+        private async Task<int> GetMessagesCount(string queue, int? expected = default, int timeout = 5000)
         {
             var cred = new NetworkCredential(RabbitMqConfigurationManager.UserName, RabbitMqConfigurationManager.Password);
             using (var client = new HttpClient(new HttpClientHandler { Credentials = cred }) { BaseAddress = new Uri("http://localhost:15672") })
             {
+                if (expected.HasValue)
+                {
+                    var stopWatch = new Stopwatch();
+                    stopWatch.Start();
+                    while (stopWatch.Elapsed < TimeSpan.FromMilliseconds(timeout))
+                    {
+                        var text1 = await client.GetStringAsync("/api/queues/DevV1/" + queue);
+                        var json1 = JObject.Parse(text1);
+                        var messagesCountToken1 = json1.SelectToken("$.messages");
+                        if (null != messagesCountToken1)
+                        {
+                            var count = messagesCountToken1.Value<int>();
+                            if (count == expected) return count;
+                        }
+                        await Task.Delay(500);
+
+                    }
+                }
                 var text = await client.GetStringAsync("/api/queues/DevV1/" + queue);
                 var json = JObject.Parse(text);
                 var messagesCountToken = json.SelectToken("$.messages");
@@ -367,7 +362,7 @@ namespace Bespoke.Sph.MessagingTests
                 {
                     { "Username", "erymuzuan"}
                 },
-                RoutingKey = "Test.added.Get" 
+                RoutingKey = "Test.added.Get"
             };
             await this.Broker.SendAsync(message);
             await Task.Delay(2500);
