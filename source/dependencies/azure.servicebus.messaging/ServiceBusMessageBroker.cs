@@ -1,23 +1,40 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Messaging;
+using Microsoft.ServiceBus;
+using Microsoft.ServiceBus.Messaging;
+using BrokeredMessage = Bespoke.Sph.Domain.Messaging.BrokeredMessage;
+using AzureBrokeredMessage = Microsoft.ServiceBus.Messaging.BrokeredMessage;
 
 namespace Bespoke.Sph.Messaging.AzureMessaging
 {
     public class ServiceBusMessageBroker : IMessageBroker
     {
+        NamespaceManager m_namespaceMgr;
+        MessagingFactory m_factory;
+        TopicClient m_topicclient;
+
         public void Dispose()
         {
-            throw new NotImplementedException();
         }
+
+
 
         public void StartsConsume()
         {
             throw new NotImplementedException();
         }
 
-        public event EventHandler<EventArgs> ConnectionShutdown;
-        public Task ConnectAsync()
+        public Task ConnectAsync(Action<string, object> disconnected)
+        {
+            var connectionString = AzureServiceBusConfigurationManager.PrimaryConnectionString;
+            m_namespaceMgr = NamespaceManager.CreateFromConnectionString(connectionString);
+            m_factory = MessagingFactory.CreateFromConnectionString(connectionString);
+            m_topicclient = m_factory.CreateTopicClient(AzureServiceBusConfigurationManager.DefaultTopicPath);
+            return Task.FromResult(0);
+        }
+
+        public void OnMessageDelivered(Func<BrokeredMessage, Task<MessageReceiveStatus>> processItem, SubscriberOption subscription, double timeOut = Double.MaxValue)
         {
             throw new NotImplementedException();
         }
@@ -47,15 +64,44 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
             throw new NotImplementedException();
         }
 
-        public Task CreateSubscriptionAsync(QueueSubscriptionOption option)
+        public async Task CreateSubscriptionAsync(QueueSubscriptionOption option)
         {
-            throw new NotImplementedException();
+            var topicPath = AzureServiceBusConfigurationManager.DefaultTopicPath;
+            if (!m_namespaceMgr.TopicExists(topicPath))
+            {
+                await m_namespaceMgr.CreateTopicAsync(topicPath);
+            }
+
+            await m_namespaceMgr.CreateSubscriptionAsync(topicPath, option.Name, new SqlFilter($"Entity = 'test'"));
+
         }
-       
+
 
         public Task SendToDeadLetterQueue(BrokeredMessage message)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task SendAsync(BrokeredMessage message)
+        {
+            var msg = new AzureBrokeredMessage(message.Body);
+
+            // Promote properties.
+            msg.Properties.Add("try-count", message.TryCount);
+            msg.Properties.Add("message-id", message.Id);
+            msg.Properties.Add("data-import", message.IsDataImport);
+            msg.Properties.Add("reply-to", message.ReplyTo);
+            msg.Properties.Add("operation", message.Operation);
+            msg.Properties.Add("routing-key", message.RoutingKey);
+            msg.Properties.Add("retry-delay", message.RetryDelay);
+            msg.Properties.Add("username", message.Username);
+
+            // Set the CorrelationId to the region.
+            //  orderMsg.CorrelationId = order.Region;
+
+            // Send the message.
+            await m_topicclient.SendAsync(msg);
+
         }
 
         public Task<BrokeredMessage> ReadFromDeadLetterAsync()
@@ -68,9 +114,15 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
             throw new NotImplementedException();
         }
 
-        public Task RemoveSubscriptionAsync(string queue)
+        public async Task RemoveSubscriptionAsync(string queue)
         {
-            throw new NotImplementedException();
+            var topicPath = AzureServiceBusConfigurationManager.DefaultTopicPath;
+            if (!m_namespaceMgr.TopicExists(topicPath))
+            {
+                m_namespaceMgr.CreateTopic(topicPath);
+            }
+            if (m_namespaceMgr.SubscriptionExists(topicPath, queue))
+                await m_namespaceMgr.DeleteSubscriptionAsync(topicPath, queue);
         }
     }
 }
