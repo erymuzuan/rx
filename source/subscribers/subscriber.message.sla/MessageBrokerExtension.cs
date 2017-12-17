@@ -14,7 +14,7 @@ namespace Bespoke.Sph.MessageTrackerSla
         
         public static Task CreateSlaMonitorQueueAsync(this IMessageBroker broker)
         {
-            return broker.CreateSubscriptionAsync(new QueueSubscriptionOption(NOTIFICATION_QUEUE, NOTIFICATION_QUEUE)
+            return broker.CreateSubscriptionAsync(new QueueDeclareOption(NOTIFICATION_QUEUE, NOTIFICATION_QUEUE)
             {
                 DeadLetterQueue = NOTIFICATION_EXCHANGE,
                 DelayedQueue = DELAY_QUEUE,

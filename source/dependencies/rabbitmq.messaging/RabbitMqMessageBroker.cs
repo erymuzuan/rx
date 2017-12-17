@@ -152,7 +152,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
         private IModel m_channel;
         private TaskBasicConsumer m_consumer;
 
-        public Task CreateSubscriptionAsync(QueueSubscriptionOption option)
+        public Task CreateSubscriptionAsync(QueueDeclareOption option)
         {
             var exchangeName = RabbitMqConfigurationManager.DefaultExchange;
             var deadLetterExchange = option.DeadLetterTopic ?? RabbitMqConfigurationManager.DefaultDeadLetterExchange;
@@ -163,25 +163,25 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
             m_channel.ExchangeDeclare(exchangeName, ExchangeType.Topic, true);
             m_channel.ExchangeDeclare(deadLetterExchange, ExchangeType.Topic, true);
             var args = new Dictionary<string, object> { { "x-dead-letter-exchange", deadLetterExchange } };
-            m_channel.QueueDeclare(option.Name, true, false, false, args);
+            m_channel.QueueDeclare(option.QueueName, true, false, false, args);
 
             m_channel.QueueDeclare(deadLetterQueue, true, false, false, args);
             m_channel.QueueBind(deadLetterQueue, deadLetterExchange, "#", null);
             m_channel.QueueBind(deadLetterQueue, deadLetterExchange, "*.added", null);
             m_channel.QueueBind(deadLetterQueue, deadLetterExchange, "*.changed", null);
 
-            m_channel.QueueBind(option.Name, exchangeName, option.Name, null);
+            m_channel.QueueBind(option.QueueName, exchangeName, option.QueueName, null);
             foreach (var s in option.RoutingKeys)
             {
-                m_channel.QueueBind(option.Name, exchangeName, s, null);
+                m_channel.QueueBind(option.QueueName, exchangeName, s, null);
             }
             // delay exchange and queue
-            var delayExchange = "rx.delay.exchange." + option.Name;
-            var delayQueue = "rx.delay.queue." + option.Name;
+            var delayExchange = "rx.delay.exchange." + option.QueueName;
+            var delayQueue = "rx.delay.queue." + option.QueueName;
             var delayQueueArgs = new Dictionary<string, object>
             {
                 {"x-dead-letter-exchange", exchangeName},
-                {"x-dead-letter-routing-key", option.Name}
+                {"x-dead-letter-routing-key", option.QueueName}
             };
 
             m_channel.ExchangeDeclare(delayExchange, "direct");

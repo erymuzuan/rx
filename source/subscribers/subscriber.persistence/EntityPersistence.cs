@@ -37,7 +37,7 @@ namespace Bespoke.Sph.Persistence
             var binding = $"persistence.{Ed.Name}";
             const string DEAD_LETTER_QUEUE = "ms_dead_letter_queue";
 
-            await broker.CreateSubscriptionAsync(new QueueSubscriptionOption(this.QueueName, binding)
+            await broker.CreateSubscriptionAsync(new QueueDeclareOption(this.QueueName, binding)
             {
                 DeadLetterQueue = DEAD_LETTER_QUEUE
             });

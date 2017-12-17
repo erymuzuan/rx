@@ -8,7 +8,7 @@ namespace Bespoke.Sph.Domain.Messaging
         Task ConnectAsync(Action<string, object> disconnected);
         void OnMessageDelivered(Func<BrokeredMessage, Task<MessageReceiveStatus>> processItem, SubscriberOption subscription, double timeOut = double.MaxValue);
         
-        Task CreateSubscriptionAsync(QueueSubscriptionOption option);
+        Task CreateSubscriptionAsync(QueueDeclareOption option);
         Task SendAsync(BrokeredMessage message);
         Task<BrokeredMessage> GetMessageAsync(string queue);
 

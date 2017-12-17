@@ -58,10 +58,10 @@ namespace Bespoke.Sph.MessagingTests
         {
             await Broker.ConnectAsync((text, arg) => { });
             await this.Broker.RemoveSubscriptionAsync("test-one");
-            var option = new QueueSubscriptionOption("test-one", "Test.*.*");
+            var option = new QueueDeclareOption("test-one", "Test.*.*");
             await Broker.CreateSubscriptionAsync(option);
 
-            Assert.Equal(0, await GetMessagesCount(option.Name, 0));
+            Assert.Equal(0, await GetMessagesCount(option.QueueName, 0));
         }
 
 
@@ -73,13 +73,13 @@ namespace Bespoke.Sph.MessagingTests
         {
             await Broker.ConnectAsync((text, arg) => { });
 
-            var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#." + operation);
+            var option = new QueueDeclareOption("Test-" + Guid.NewGuid(), "Test.#." + operation);
             await Broker.CreateSubscriptionAsync(option);
 
 
             var message = new BrokeredMessage
             {
-                Body = await CompressAsync("Some details here " + option.Name),
+                Body = await CompressAsync("Some details here " + option.QueueName),
                 Crud = CrudOperation.Added,
                 Username = "erymuzuan",
                 Id = Guid.NewGuid().ToString(),
@@ -93,7 +93,7 @@ namespace Bespoke.Sph.MessagingTests
             };
 
             await Broker.SendAsync(message);
-            Assert.Equal(1, await GetMessagesCount(option.Name, 1));
+            Assert.Equal(1, await GetMessagesCount(option.QueueName, 1));
         }
 
 
@@ -105,12 +105,12 @@ namespace Bespoke.Sph.MessagingTests
         {
             await Broker.ConnectAsync((text, arg) => { });
 
-            var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#." + operation);
-            await Broker.CreateSubscriptionAsync(option);
-            
+            var queue = new QueueDeclareOption("Test-" + Guid.NewGuid(), "Test.#." + operation);
+            await Broker.CreateSubscriptionAsync(queue);
+
             var message = new BrokeredMessage
             {
-                Body = await CompressAsync("Some details here " + option.Name),
+                Body = await CompressAsync("Some details here " + queue.QueueName),
                 Crud = CrudOperation.Added,
                 Username = "erymuzuan",
                 Id = Guid.NewGuid().ToString(),
@@ -126,7 +126,7 @@ namespace Bespoke.Sph.MessagingTests
                 flag.Set();
                 id = msg.Id;
                 return Task.FromResult(MessageReceiveStatus.Accepted);
-            }, new SubscriberOption(option.Name));
+            }, new SubscriberOption(queue.QueueName, operation));
 
             await Broker.SendAsync(message);
             flag.WaitOne(2500);
@@ -166,10 +166,10 @@ namespace Bespoke.Sph.MessagingTests
             await DeleteAllTopicsAndSubscriptions();
             await Broker.ConnectAsync((text, arg) => { });
             const string OPERATION = "TransientError";
-            var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#." + OPERATION);
+            var option = new QueueDeclareOption("Test-" + Guid.NewGuid(), "Test.#." + OPERATION);
             await Broker.CreateSubscriptionAsync(option);
 
-            var queueName = option.Name;
+            var queueName = option.QueueName;
             var message = new BrokeredMessage
             {
                 Body = await CompressAsync("Some details here " + queueName),
@@ -240,13 +240,13 @@ namespace Bespoke.Sph.MessagingTests
             await DeleteAllTopicsAndSubscriptions();
             await Broker.ConnectAsync((text, arg) => { });
             var operation = "GuaranteedFail";
-            var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#." + operation)
+            var option = new QueueDeclareOption("Test-" + Guid.NewGuid(), "Test.#." + operation)
             { DeadLetterQueue = dlq };
             await Broker.CreateSubscriptionAsync(option);
 
             var message = new BrokeredMessage
             {
-                Body = await CompressAsync("Some details here " + option.Name),
+                Body = await CompressAsync("Some details here " + option.QueueName),
                 Crud = CrudOperation.Added,
                 Username = "erymuzuan",
                 Id = Guid.NewGuid().ToString(),
@@ -266,7 +266,7 @@ namespace Bespoke.Sph.MessagingTests
                 flag.Set();
                 id = msg.Id;
                 return Task.FromResult(MessageReceiveStatus.Rejected);
-            }, new SubscriberOption(option.Name));
+            }, new SubscriberOption(option.QueueName));
 
             var before = await GetMessagesCount(dlq ?? "ms_dead_letter_queue");
             await Broker.SendAsync(message);
@@ -304,11 +304,11 @@ namespace Bespoke.Sph.MessagingTests
         [Fact]
         public async Task QueueStatistics()
         {
-            var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#.Stat");
+            var option = new QueueDeclareOption("Test-" + Guid.NewGuid(), "Test.#.Stat");
             await Broker.ConnectAsync((m, e) => { });
             await Broker.CreateSubscriptionAsync(option);
             await Task.Delay(500);
-            var stat = await this.Broker.GetStatisticsAsync(option.Name);
+            var stat = await this.Broker.GetStatisticsAsync(option.QueueName);
             Assert.Equal(0, stat.Count);
             Assert.Equal(0, stat.DeliveryRate);
             Assert.Equal(0, stat.PublishedRate);
@@ -318,16 +318,16 @@ namespace Bespoke.Sph.MessagingTests
         public async Task GetMessage()
         {
             await DeleteAllTopicsAndSubscriptions();
-            var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#.Get");
+            var option = new QueueDeclareOption("Test-" + Guid.NewGuid(), "Test.#.Get");
             await Broker.ConnectAsync((m, e) => { });
             await Broker.CreateSubscriptionAsync(option);
 
-            var zero = await this.GetMessagesCount(option.Name, 0);
+            var zero = await this.GetMessagesCount(option.QueueName, 0);
             Assert.Equal(0, zero);
 
             var message = new BrokeredMessage
             {
-                Body = await CompressAsync("Some details here " + option.Name),
+                Body = await CompressAsync("Some details here " + option.QueueName),
                 Crud = CrudOperation.Added,
                 Username = "erymuzuan",
                 Id = Guid.NewGuid().ToString(),
@@ -340,15 +340,15 @@ namespace Bespoke.Sph.MessagingTests
                 RoutingKey = "Test.added.Get"
             };
             await this.Broker.SendAsync(message);
-            var count = await this.GetMessagesCount(option.Name, 1);
+            var count = await this.GetMessagesCount(option.QueueName, 1);
             Assert.Equal(1, count);
 
-            var msg = await Broker.GetMessageAsync(option.Name);
+            var msg = await Broker.GetMessageAsync(option.QueueName);
             Assert.NotNull(msg);
             Assert.Equal(message.Id, msg.Id);
 
             msg.Accept();
-            count = await this.GetMessagesCount(option.Name, 0);
+            count = await this.GetMessagesCount(option.QueueName, 0);
             Assert.Equal(0, count);
         }
     }

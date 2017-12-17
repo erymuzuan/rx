@@ -86,7 +86,7 @@ namespace Bespoke.Sph.Persistence
         private async Task DeclareQueue(IMessageBroker broker)
         {
             const string DEAD_LETTER_QUEUE = "ms_dead_letter_queue";
-            await broker.CreateSubscriptionAsync(new QueueSubscriptionOption(this.QueueName, this.RoutingKeys)
+            await broker.CreateSubscriptionAsync(new QueueDeclareOption(this.QueueName, this.RoutingKeys)
             {
                 DeadLetterQueue = DEAD_LETTER_QUEUE
             });

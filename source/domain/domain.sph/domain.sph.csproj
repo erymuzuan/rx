@@ -364,7 +364,7 @@
     <Compile Include="Messaging\IMessageBroker.cs" />
     <Compile Include="Messaging\MessageReceiveStatus.cs" />
     <Compile Include="Messaging\QueueStatistics.cs" />
-    <Compile Include="Messaging\QueueSubscriptionOption.cs" />
+    <Compile Include="Messaging\QueueDeclareOption.cs" />
     <Compile Include="Messaging\SubscriberOption.cs" />
     <Compile Include="Ports\DelimitedTextComplexMember.cs" />
     <Compile Include="Ports\DelimitedTextFieldMapping.cs" />

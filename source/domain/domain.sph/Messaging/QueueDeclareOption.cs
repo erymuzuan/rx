@@ -2,13 +2,13 @@
 
 namespace Bespoke.Sph.Domain.Messaging
 {
-    public class QueueSubscriptionOption
+    public class QueueDeclareOption
     {
-        public string Name { get; }
+        public string QueueName { get; }
 
-        public QueueSubscriptionOption(string name, params string[] routingKeys)
+        public QueueDeclareOption(string queueName, params string[] routingKeys)
         {
-            Name = name;
+            QueueName = queueName;
             RoutingKeys = routingKeys;
         }
 

@@ -55,7 +55,7 @@ namespace Bespoke.Sph.ReadOnlyRepositoriesWorkers
 
             this.OnStart();
 
-            await broker.CreateSubscriptionAsync(new QueueSubscriptionOption(this.QueueName, this.RoutingKeys)
+            await broker.CreateSubscriptionAsync(new QueueDeclareOption(this.QueueName, this.RoutingKeys)
             {
                 DeadLetterQueue = DEAD_LETTER_QUEUE
             });

@@ -44,8 +44,8 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
         public void OnMessageDelivered(Func<BrokeredMessage, Task<MessageReceiveStatus>> processItem, SubscriberOption subscription, double timeOut = Double.MaxValue)
         {
             var subClient = SubscriptionClient.CreateFromConnectionString(
-                m_connectionString, 
-                m_topicPath, 
+                m_connectionString,
+                m_topicPath,
                 subscription.QueueName);
 
             // Set the options for using OnMessage
@@ -97,7 +97,7 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
 
            }, options);
 
-            m_subscribers.AddOrUpdate(subscription.QueueName, subClient, (q, c1) => subClient);
+            m_subscribers.AddOrUpdate(subscription.QueueName + "::" + subscription.Name, subClient, (q, c1) => subClient);
 
         }
 
@@ -115,7 +115,7 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
             });
         }
 
-        public async Task CreateSubscriptionAsync(QueueSubscriptionOption option)
+        public async Task CreateSubscriptionAsync(QueueDeclareOption option)
         {
             var topicPath = m_topicPath;
             if (!m_namespaceMgr.TopicExists(topicPath))
@@ -123,8 +123,8 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
                 await m_namespaceMgr.CreateTopicAsync(topicPath);
             }
             //TODO : all the routing keys into filter
-            if (!m_namespaceMgr.SubscriptionExists(m_topicPath, option.Name))
-                await m_namespaceMgr.CreateSubscriptionAsync(topicPath, option.Name, new SqlFilter($"entity = 'Test'"));
+            if (!m_namespaceMgr.SubscriptionExists(m_topicPath, option.QueueName))
+                await m_namespaceMgr.CreateSubscriptionAsync(topicPath, option.QueueName, new SqlFilter($"entity = 'Test'"));
 
         }
 
