@@ -159,34 +159,33 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
 
         public Task CreateSubscriptionAsync(QueueSubscriptionOption option)
         {
-            const string EXCHANGE_NAME = "sph.topic";
-            const string DEAD_LETTER_EXCHANGE = "sph.ms-dead-letter";
-            const string DEAD_LETTER_QUEUE = "ms_dead_letter_queue";
-
+            var exchangeName = RabbitMqConfigurationManager.DefaultExchange;
+            var deadLetterExchange = option.DeadLetterTopic ?? RabbitMqConfigurationManager.DefaultDeadLetterExchange;
+            var deadLetterQueue = option.DeadLetterQueue ?? RabbitMqConfigurationManager.DefaultDeadLetterQueue;
 
             m_channel = m_connection.CreateModel();
 
-            m_channel.ExchangeDeclare(EXCHANGE_NAME, ExchangeType.Topic, true);
-            m_channel.ExchangeDeclare(DEAD_LETTER_EXCHANGE, ExchangeType.Topic, true);
-            var args = new Dictionary<string, object> { { "x-dead-letter-exchange", DEAD_LETTER_EXCHANGE } };
+            m_channel.ExchangeDeclare(exchangeName, ExchangeType.Topic, true);
+            m_channel.ExchangeDeclare(deadLetterExchange, ExchangeType.Topic, true);
+            var args = new Dictionary<string, object> { { "x-dead-letter-exchange", deadLetterExchange } };
             m_channel.QueueDeclare(option.Name, true, false, false, args);
 
-            m_channel.QueueDeclare(DEAD_LETTER_QUEUE, true, false, false, args);
-            m_channel.QueueBind(DEAD_LETTER_QUEUE, DEAD_LETTER_EXCHANGE, "#", null);
-            m_channel.QueueBind(DEAD_LETTER_QUEUE, DEAD_LETTER_EXCHANGE, "*.added", null);
-            m_channel.QueueBind(DEAD_LETTER_QUEUE, DEAD_LETTER_EXCHANGE, "*.changed", null);
+            m_channel.QueueDeclare(deadLetterQueue, true, false, false, args);
+            m_channel.QueueBind(deadLetterQueue, deadLetterExchange, "#", null);
+            m_channel.QueueBind(deadLetterQueue, deadLetterExchange, "*.added", null);
+            m_channel.QueueBind(deadLetterQueue, deadLetterExchange, "*.changed", null);
 
-            m_channel.QueueBind(option.Name, EXCHANGE_NAME, option.Name, null);
+            m_channel.QueueBind(option.Name, exchangeName, option.Name, null);
             foreach (var s in option.RoutingKeys)
             {
-                m_channel.QueueBind(option.Name, EXCHANGE_NAME, s, null);
+                m_channel.QueueBind(option.Name, exchangeName, s, null);
             }
             // delay exchange and queue
             var delayExchange = "rx.delay.exchange." + option.Name;
             var delayQueue = "rx.delay.queue." + option.Name;
             var delayQueueArgs = new Dictionary<string, object>
             {
-                {"x-dead-letter-exchange", EXCHANGE_NAME},
+                {"x-dead-letter-exchange", exchangeName},
                 {"x-dead-letter-routing-key", option.Name}
             };
 
@@ -235,7 +234,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
             props.Persistent = true;
             props.ContentType = "application/json";
             props.Headers = new MessageHeaders(message).ToDictionary();
-            m_channel.BasicPublish("sph.topic", message.RoutingKey, props, message.Body);
+            m_channel.BasicPublish(RabbitMqConfigurationManager.DefaultExchange, message.RoutingKey, props, message.Body);
             return Task.FromResult(0);
         }
 
@@ -271,7 +270,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
                         m_channel.BasicAck(result.DeliveryTag, false);
                         break;
                     case MessageReceiveStatus.Delayed:
-                        PublishToDelayQueue(msg,queue);
+                        PublishToDelayQueue(msg, queue);
                         break;
                     case MessageReceiveStatus.Requeued:
                         break;
@@ -281,7 +280,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
             }
             var message = new BrokeredMessage(MessageAcknowledged)
             {
-               
+
                 Body = result.Body,
                 Crud = header.Crud,
                 Id = header.MessageId,

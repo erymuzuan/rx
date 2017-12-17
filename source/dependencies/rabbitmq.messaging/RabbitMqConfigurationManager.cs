@@ -13,6 +13,9 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
         public static int Port => GetEnvironmentVariableInt32("RabbitMqPort", 5672);
         public static int ManagementPort => GetEnvironmentVariableInt32("RabbitMqManagementPort", 15672);
         public static string VirtualHost => GetEnvironmentVariable("RabbitMqVirtualHost") ?? ConfigurationManager.ApplicationName;
+        public static string DefaultExchange => GetEnvironmentVariable("RabbitMqDefaultExchange") ?? "rx.topics";
+        public static string DefaultDeadLetterQueue => GetEnvironmentVariable("RabbitMqDefaultDeadLetterQueue") ?? "ms_dead_letter_queue";
+        public static string DefaultDeadLetterExchange => GetEnvironmentVariable("RabbitMqDefaultDeadLetterExchange") ?? "rx.ms-dead-letter";
 
         public static int GetEnvironmentVariableInt32(string setting, int defaultValue = 0)
         {

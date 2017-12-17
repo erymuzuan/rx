@@ -34,7 +34,7 @@ namespace Bespoke.Sph.MessagingTests
 
 
         [Fact]
-        public async Task DeleteAllQueus()
+        public async Task DeleteAllQueuesAndExchanges()
         {
             var cred = new NetworkCredential(RabbitMqConfigurationManager.UserName, RabbitMqConfigurationManager.Password);
             using (var client = new HttpClient(new HttpClientHandler { Credentials = cred }) { BaseAddress = new Uri("http://localhost:15672") })
@@ -58,7 +58,7 @@ namespace Bespoke.Sph.MessagingTests
                 foreach (var jt in exchangesJsonArray)
                 {
                     var exchange = jt.SelectToken("$.name").ToString();
-                    if (!exchange.ToLowerInvariant().Contains("test-")) continue;
+                    if (exchange.ToLowerInvariant().Contains("amq")) continue;
 
                     Console.WriteLine("Deleting... " + exchange);
                     await client.DeleteAsync(API_EXCHANGES_DEVV1 + exchange);
@@ -176,13 +176,13 @@ namespace Bespoke.Sph.MessagingTests
         public void Dispose()
         {
             Broker?.Dispose();
-            // DeleteAllQueus().Wait(5000);
+            // DeleteAllQueuesAndExchanges().Wait(5000);
         }
 
         [Fact]
         public async Task SendToDelay()
         {
-            await DeleteAllQueus();
+            await DeleteAllQueuesAndExchanges();
             await Broker.ConnectAsync((text, arg) => { });
             var operation = "TransientError";
             var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#." + operation);
@@ -250,13 +250,17 @@ namespace Bespoke.Sph.MessagingTests
             stopWatch.Stop();
         }
 
-        [Fact]
-        public async Task SendToDeadLetter()
+        [Theory]
+        [InlineData(null)]
+        [InlineData("test-custom-dlq")]
+        [InlineData("test-custom-dlq-2")]
+        public async Task SendToCustomDeadLetter(string dlq)
         {
-            await DeleteAllQueus();
+            await DeleteAllQueuesAndExchanges();
             await Broker.ConnectAsync((text, arg) => { });
             var operation = "GuaranteedFail";
-            var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#." + operation);
+            var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#." + operation)
+            { DeadLetterQueue = dlq };
             await Broker.CreateSubscriptionAsync(option);
 
             var message = new BrokeredMessage
@@ -277,18 +281,20 @@ namespace Bespoke.Sph.MessagingTests
             var id = "";
             this.Broker.OnMessageDelivered(msg =>
             {
+                Console.WriteLine($" ======================  Receiving {msg.Id}/{msg.TryCount} =========================");
                 flag.Set();
                 id = msg.Id;
                 return Task.FromResult(MessageReceiveStatus.Rejected);
             }, new SubscriberOption(option.Name));
 
-            var before = await GetMessagesCount("ms_dead_letter_queue");
+            var before = await GetMessagesCount(dlq ?? "ms_dead_letter_queue");
             await Broker.SendAsync(message);
             flag.WaitOne(5_000);
-            Assert.Equal(message.Id + "", id);
+            Assert.Equal(message.Id, id);
 
-            Assert.Equal(before + 1, await GetMessagesCount("ms_dead_letter_queue", before + 1, 10_000));
+            Assert.Equal(before + 1, await GetMessagesCount(dlq ?? "ms_dead_letter_queue", before + 1, 10_000));
         }
+
 
         private async Task<int> GetMessagesCount(string queue, int? expected = default, int timeout = 5000)
         {
@@ -338,7 +344,7 @@ namespace Bespoke.Sph.MessagingTests
         [Fact]
         public async Task GetMessage()
         {
-            await DeleteAllQueus();
+            await DeleteAllQueuesAndExchanges();
             var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#.Get");
             await Broker.ConnectAsync((m, e) => { });
             await Broker.CreateSubscriptionAsync(option);
