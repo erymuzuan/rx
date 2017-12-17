@@ -105,7 +105,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
                              throw new Exception("You have to set the RetryDelay for the message TTL");
 
                          m_channel.BasicAck(e.DeliveryTag, false);
-                         PublishToDelayQueue(message, subscription.Name);
+                         PublishToDelayQueue(message, subscription.QueueName);
                          break;
                      case MessageReceiveStatus.Requeued:
                          //TODO : silently requeued or call send
@@ -117,7 +117,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
              };
             var prefetchCount = subscription.PrefetchCount <= 1 ? 1 : subscription.PrefetchCount;
             m_channel.BasicQos(0, (ushort)prefetchCount, false);
-            m_channel.BasicConsume(subscription.Name, NO_ACK, m_consumer);
+            m_channel.BasicConsume(subscription.QueueName, NO_ACK, m_consumer);
         }
 
         public async Task<QueueStatistics> GetStatisticsAsync(string queue)

@@ -19,15 +19,4 @@ namespace Bespoke.Sph.Domain.Messaging
 
         Task RemoveSubscriptionAsync(string queue);
     }
-
-    public class SubscriberOption
-    {
-        public string Name { get; }
-        public int PrefetchCount { get; set; } = 1;
-
-        public SubscriberOption(string name)
-        {
-            Name = name;
-        }
-    }
 }

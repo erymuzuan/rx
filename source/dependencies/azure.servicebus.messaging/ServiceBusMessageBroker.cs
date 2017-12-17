@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.Messaging.AzureMessaging.Extensions;
@@ -14,25 +15,38 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
         private NamespaceManager m_namespaceMgr;
         private MessagingFactory m_factory;
         private TopicClient m_topicClient;
-        private SubscriptionClient m_subClient;
+        private readonly ConcurrentDictionary<string, SubscriptionClient> m_subscribers = new ConcurrentDictionary<string, SubscriptionClient>();
+        private readonly string m_connectionString = AzureServiceBusConfigurationManager.PrimaryConnectionString;
+        private readonly string m_topicPath = AzureServiceBusConfigurationManager.DefaultTopicPath;
 
         public void Dispose()
         {
+            foreach (var sub in m_subscribers.Keys)
+            {
+                if (m_subscribers.TryGetValue(sub, out var client))
+                    client.Close();
+            }
+
+            m_topicClient?.Close();
+            m_factory?.Close();
         }
 
 
         public Task ConnectAsync(Action<string, object> disconnected)
         {
-            var connectionString = AzureServiceBusConfigurationManager.PrimaryConnectionString;
+            var connectionString = m_connectionString;
             m_namespaceMgr = NamespaceManager.CreateFromConnectionString(connectionString);
             m_factory = MessagingFactory.CreateFromConnectionString(connectionString);
-            m_topicClient = m_factory.CreateTopicClient(AzureServiceBusConfigurationManager.DefaultTopicPath);
+            m_topicClient = m_factory.CreateTopicClient(m_topicPath);
             return Task.FromResult(0);
         }
 
         public void OnMessageDelivered(Func<BrokeredMessage, Task<MessageReceiveStatus>> processItem, SubscriberOption subscription, double timeOut = Double.MaxValue)
         {
-            m_subClient = SubscriptionClient.CreateFromConnectionString(AzureServiceBusConfigurationManager.PrimaryConnectionString, AzureServiceBusConfigurationManager.DefaultTopicPath, subscription.Name);
+            var subClient = SubscriptionClient.CreateFromConnectionString(
+                m_connectionString, 
+                m_topicPath, 
+                subscription.QueueName);
 
             // Set the options for using OnMessage
             var options = new OnMessageOptions()
@@ -43,7 +57,7 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
             };
 
             // Create a message pump using OnMessage
-            m_subClient.OnMessage(async msg =>
+            subClient.OnMessage(async msg =>
            {
                var message = new BrokeredMessage
                {
@@ -83,7 +97,7 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
 
            }, options);
 
-
+            m_subscribers.AddOrUpdate(subscription.QueueName, subClient, (q, c1) => subClient);
 
         }
 
@@ -91,7 +105,7 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
         public Task<QueueStatistics> GetStatisticsAsync(string queue)
         {
             var subscription =
-                m_namespaceMgr.GetSubscription(AzureServiceBusConfigurationManager.DefaultTopicPath, queue);
+                m_namespaceMgr.GetSubscription(m_topicPath, queue);
             return Task.FromResult(new QueueStatistics
             {
                 Count = (int)subscription.MessageCount,
@@ -103,13 +117,13 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
 
         public async Task CreateSubscriptionAsync(QueueSubscriptionOption option)
         {
-            var topicPath = AzureServiceBusConfigurationManager.DefaultTopicPath;
+            var topicPath = m_topicPath;
             if (!m_namespaceMgr.TopicExists(topicPath))
             {
                 await m_namespaceMgr.CreateTopicAsync(topicPath);
             }
             //TODO : all the routing keys into filter
-            if (!m_namespaceMgr.SubscriptionExists(AzureServiceBusConfigurationManager.DefaultTopicPath, option.Name))
+            if (!m_namespaceMgr.SubscriptionExists(m_topicPath, option.Name))
                 await m_namespaceMgr.CreateSubscriptionAsync(topicPath, option.Name, new SqlFilter($"entity = 'Test'"));
 
         }
@@ -159,7 +173,7 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
 
         public async Task<BrokeredMessage> GetMessageAsync(string queue)
         {
-            var sub = m_factory.CreateSubscriptionClient(AzureServiceBusConfigurationManager.DefaultTopicPath, queue);
+            var sub = m_factory.CreateSubscriptionClient(m_topicPath, queue);
             var msg = await sub.ReceiveAsync(AzureServiceBusConfigurationManager.ReceiveMessageTimeOut);
             var bm = new BrokeredMessage(async (b, status) =>
            {
@@ -205,7 +219,7 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
 
         public async Task RemoveSubscriptionAsync(string queue)
         {
-            var topicPath = AzureServiceBusConfigurationManager.DefaultTopicPath;
+            var topicPath = m_topicPath;
             if (!m_namespaceMgr.TopicExists(topicPath))
             {
                 m_namespaceMgr.CreateTopic(topicPath);
