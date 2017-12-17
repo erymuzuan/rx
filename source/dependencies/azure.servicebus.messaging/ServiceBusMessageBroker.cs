@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Messaging;
+using Bespoke.Sph.Extensions;
 using Bespoke.Sph.Messaging.AzureMessaging.Extensions;
 using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
@@ -66,11 +70,14 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
                    RetryDelay = msg.Properties.GetValue<string, TimeSpan>("retry-delay") ?? TimeSpan.Zero,
                    RoutingKey = msg.Properties.GetStringValue("routing-key"),
                    Id = msg.MessageId,
-                   Crud = msg.Properties.GetValue<string, CrudOperation>("crud") ?? CrudOperation.None,
                    ReplyTo = msg.ReplyTo,
+                   Entity = msg.Properties.GetStringValue("entity"),
                    Operation = msg.Properties.GetStringValue("operation"),
                    Username = msg.Properties.GetStringValue("username")
                };
+               if (Enum.TryParse(msg.Properties.GetStringValue("crud"), true, out CrudOperation crud))
+                   message.Crud = crud;
+
                var status = await processItem(message);
                switch (status)
                {
@@ -115,6 +122,7 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
             });
         }
 
+
         public async Task CreateSubscriptionAsync(QueueDeclareOption option)
         {
             var topicPath = m_topicPath;
@@ -124,8 +132,50 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
             }
             //TODO : all the routing keys into filter
             if (!m_namespaceMgr.SubscriptionExists(m_topicPath, option.QueueName))
-                await m_namespaceMgr.CreateSubscriptionAsync(topicPath, option.QueueName, new SqlFilter($"entity = 'Test'"));
+            {
+                var sql = GetSqlFilterExpressions(option);
+                await m_namespaceMgr.CreateSubscriptionAsync(topicPath, option.QueueName, new SqlFilter(sql));
 
+                var exist = m_namespaceMgr.SubscriptionExists(topicPath, option.QueueName);
+                while (!exist)
+                {
+                    await Task.Delay(200);
+                    exist = m_namespaceMgr.SubscriptionExists(topicPath, option.QueueName);
+                }
+            }
+
+        }
+
+        public  string GetSqlFilterExpressions(QueueDeclareOption option)
+        {
+            var routes = new List<string>();
+            var wildcards = new[] {"*", "#"};
+            foreach (var route in option.RoutingKeys)
+            {
+                var predicates = new List<string>();
+                var keys = route.Split(new[] {"."}, StringSplitOptions.RemoveEmptyEntries);
+                if (keys.Length == 3)
+                {
+                    var entity = keys.First();
+                    if (!wildcards.Contains(entity))
+                        predicates.Add($"entity = '{entity}'");
+                    var crud = keys[1];
+                    if (!wildcards.Contains(crud))
+                    {
+                        if (Enum.TryParse(crud, true, out CrudOperation _))
+                            predicates.Add($"crud = '{crud}'");
+                    }
+                    var operation = keys[2];
+                    if (!wildcards.Contains(operation))
+                        predicates.Add($"operation = '{operation}'");
+                    routes.Add(predicates.ToString(" AND "));
+                }
+            }
+            var sql = routes.ToString(" OR ");
+            if (routes.Count > 1)
+                sql = routes.Select(x => $"({x})").ToString(" OR ");
+            ObjectBuilder.GetObject<ILogger>().WriteInfo($"Creating subscription with SqlFilter :{sql}");
+            return sql;
         }
 
 
@@ -136,31 +186,9 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
 
         public async Task SendAsync(BrokeredMessage message)
         {
-            var msg = new AzureBrokeredMessage(message.Body)
-            {
-                Label = message.RoutingKey,
-                MessageId = message.Id
-            };
-
-            var topics = message.RoutingKey.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries);
-            if (topics.Length == 3)
-            {
-                msg.Properties.Add("entity", topics[0]);
-            }
-            msg.Properties.Add("crud", (int)message.Crud);
-            msg.Properties.Add("operation", message.Operation);
-
-            msg.Properties.Add("try-count", message.TryCount);
-            msg.Properties.Add("message-id", message.Id);
-            msg.Properties.Add("data-import", message.IsDataImport);
-            msg.Properties.Add("reply-to", message.ReplyTo);
-            msg.Properties.Add("routing-key", message.RoutingKey);
-            msg.Properties.Add("retry-delay", message.RetryDelay);
-            msg.Properties.Add("username", message.Username);
-
-            // Set the CorrelationId to the region.
-            //  orderMsg.CorrelationId = order.Region;
-
+            var msg = message.ToAzureMessage();
+            ObjectBuilder.GetObject<ILogger>().WriteVerbose($"Sending message to Azure Service Bus : {msg.Properties["entity"]}.{msg.Properties["crud"]}.{msg.Properties["operation"]}({msg.MessageId})");
+            
             // Send the message.
             await m_topicClient.SendAsync(msg);
 

@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.Messaging.AzureMessaging;
+using Bespoke.Sph.Messaging.AzureMessaging.Extensions;
 using Microsoft.ServiceBus;
+using Microsoft.ServiceBus.Messaging;
 using Xunit;
 using Xunit.Abstractions;
 using BrokeredMessage = Bespoke.Sph.Domain.Messaging.BrokeredMessage;
@@ -42,12 +44,19 @@ namespace Bespoke.Sph.MessagingTests
             var topics = await namespaceMgr.GetTopicsAsync();
             foreach (var t in topics)
             {
-                await namespaceMgr.DeleteTopicAsync(t.Path);
                 var subscriptions = await namespaceMgr.GetSubscriptionsAsync(t.Path);
                 foreach (var sub in subscriptions)
                 {
+                    var rules = namespaceMgr.GetRules(AzureServiceBusConfigurationManager.DefaultTopicPath, sub.Name);
+                    foreach (var ruleDescription in rules)
+                    {
+                        if (ruleDescription.Filter is SqlFilter sql)
+                            Console.WriteLine("SQL Filter: " + sql.SqlExpression);
+                    }
+                    Console.WriteLine($"Deleting {sub.Name} .....");
                     await namespaceMgr.DeleteSubscriptionAsync(t.Path, sub.Name);
                 }
+                await namespaceMgr.DeleteTopicAsync(t.Path);
             }
         }
 
@@ -98,26 +107,40 @@ namespace Bespoke.Sph.MessagingTests
 
 
         [Theory]
-        [InlineData("test1")]
-        [InlineData("test2")]
-        [InlineData("test3")]
-        public async Task ReceiveMessageSubscription(string operation)
+        [InlineData("Patient", CrudOperation.Added, "Register", new[] { "Patient.Added.Register" }, true)]
+        [InlineData("Patient", CrudOperation.Changed, "Admit", new[] { "Patient.Added.Register" }, false)]
+        [InlineData("Customer", CrudOperation.Added, "Register", new[] { "Patient.Added.Register" }, false)]
+        [InlineData("Customer", CrudOperation.Deleted, "Remove", new[] { "#.Deleted.Remove" }, true)]
+        [InlineData("Product", CrudOperation.Added, "Save", new[] { "#.Added.#" }, true)]
+        [InlineData("Product", CrudOperation.Added, "Save", new[] { "#.#.Save" }, true)]
+        [InlineData("Product", CrudOperation.Added, "Save", new[] { "#.#.Default", "#.#.Save" }, true)]
+        [InlineData("Product", CrudOperation.Added, "Save", new[] { "#.#.Default", "Product.#.Register" }, false)]
+        [InlineData("Product", CrudOperation.Added, "Save", new[] { "Customer.#.#" }, false)]
+        [InlineData("Product", CrudOperation.Added, "Save", new[] { "Product.#.#" }, true)]
+        public async Task ReceiveMessageSubscription(string entity, CrudOperation crud, string operation, string[] routingKeys, bool hasMessage)
         {
             await Broker.ConnectAsync((text, arg) => { });
 
-            var queue = new QueueDeclareOption("Test-" + Guid.NewGuid(), "Test.#." + operation);
+            if (hasMessage)
+            {
+                Console.WriteLine($"Routing :{entity}.{crud}.{operation}");
+                Console.WriteLine($"RoutingKeys :{routingKeys.ToString(", ")}");
+            }
+            var queue = new QueueDeclareOption("Test-" + Guid.NewGuid(), routingKeys);
             await Broker.CreateSubscriptionAsync(queue);
 
             var message = new BrokeredMessage
             {
-                Body = await CompressAsync("Some details here " + queue.QueueName),
-                Crud = CrudOperation.Added,
+                Body = await CompressAsync($"{entity} details when {crud} via {operation}"),
+                Crud = crud,
                 Username = "erymuzuan",
                 Id = Guid.NewGuid().ToString(),
                 TryCount = 0,
                 RetryDelay = TimeSpan.FromMilliseconds(500),
-                Headers = { { "Username", "erymuzuan" } },
-                RoutingKey = "Test.added." + operation
+                Headers = { { "Username", "erymuzuan" }, { "entity", entity } },
+                RoutingKey = $"{entity}.{crud}.{operation}",
+                Entity = entity,
+                Operation = operation
             };
             var flag = new AutoResetEvent(false);
             var id = "";
@@ -126,12 +149,50 @@ namespace Bespoke.Sph.MessagingTests
                 flag.Set();
                 id = msg.Id;
                 return Task.FromResult(MessageReceiveStatus.Accepted);
-            }, new SubscriberOption(queue.QueueName, operation));
+            }, new SubscriberOption(queue.QueueName, Strings.GenerateId()));
 
             await Broker.SendAsync(message);
             flag.WaitOne(2500);
-            Assert.Equal(message.Id + "", id);
+            if (hasMessage)
+                Assert.Equal(message.Id, id);
+            else
+                Assert.Empty(id);
 
+
+
+        }
+        [Theory]
+        [InlineData("Patient", CrudOperation.Added, "Register", new[] { "Patient.Added.Register" }, true)]
+        [InlineData("Patient", CrudOperation.Changed, "Admit", new[] { "Patient.Added.Register" }, false)]
+        [InlineData("Customer", CrudOperation.Added, "Register", new[] { "Patient.Added.Register" }, false)]
+        [InlineData("Customer", CrudOperation.Deleted, "Remove", new[] { "#.Deleted.Remove" }, true)]
+        [InlineData("Product", CrudOperation.Added, "Save", new[] { "#.Added.#" }, true)]
+        [InlineData("Product", CrudOperation.Added, "Save", new[] { "#.#.Save" }, true)]
+        [InlineData("Product", CrudOperation.Added, "Save", new[] { "#.#.Default", "#.#.Save" }, true)]
+        [InlineData("Product", CrudOperation.Added, "Save", new[] { "#.#.Default", "Product.#.Register" }, false)]
+        [InlineData("Product", CrudOperation.Added, "Save", new[] { "Customer.#.#" }, false)]
+        [InlineData("Product", CrudOperation.Added, "Save", new[] { "Product.#.#" }, true)]
+        [InlineData("Product", CrudOperation.Added, "Save", new[] { "Product.#.Register" }, false)]
+        public void FilterMatch(string entity, CrudOperation crud, string operation, string[] routingKeys, bool hasMessage)
+        {
+            var filter = new SqlFilter(this.Broker.GetSqlFilterExpressions(new QueueDeclareOption("test-queue", routingKeys)));
+            filter.Validate();
+
+            var msg = new BrokeredMessage
+            {
+                Crud = crud,
+                Entity = entity,
+                Operation = operation,
+                RoutingKey = $"{entity}.{crud}.{operation}",
+                Id = Guid.NewGuid().ToString(),
+                Body = System.Text.Encoding.UTF8.GetBytes("Test")
+            };
+
+            var match = filter.Preprocess().Match(msg.ToAzureMessage());
+            if (hasMessage)
+                Assert.True(match);
+            else
+                Assert.False(match);
         }
 
         private static async Task<byte[]> CompressAsync(string value)
@@ -182,7 +243,8 @@ namespace Bespoke.Sph.MessagingTests
                 {
                     { "Username", "erymuzuan"}
                 },
-                RoutingKey = "Test.added." + OPERATION
+                RoutingKey = "Test.added." + OPERATION,
+                Operation = OPERATION
             };
             var flag1 = new AutoResetEvent(false);
             var flag2 = new AutoResetEvent(false);

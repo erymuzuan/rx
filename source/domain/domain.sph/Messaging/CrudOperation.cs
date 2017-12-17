@@ -2,9 +2,9 @@
 {
     public enum CrudOperation
     {
-        None,
-        Added,
-        Changed,
-        Deleted
+        None = 0,
+        Added = 1,
+        Changed = 2,
+        Deleted = 3
     }
 }

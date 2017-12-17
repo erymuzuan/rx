@@ -80,8 +80,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\extensions\LoggerExtensions.cs">
+      <Link>Extensions\LoggerExtensions.cs</Link>
+    </Compile>
     <Compile Include="AzureServiceBusConfigurationManager.cs" />
     <Compile Include="Extensions\DictionaryExtension.cs" />
+    <Compile Include="Extensions\MessageBrokerExtension.cs" />
     <Compile Include="ServiceBusMessageBroker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
