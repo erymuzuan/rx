@@ -117,10 +117,7 @@ namespace Bespoke.Sph.MessagingTests
                 Id = Guid.NewGuid().ToString(),
                 TryCount = 0,
                 RetryDelay = TimeSpan.FromMilliseconds(500),
-                Headers =
-                {
-                    { "Username", "erymuzuan"}
-                },
+                Headers = { { "Username", "erymuzuan" } },
                 RoutingKey = "Test.added." + operation
             };
             var flag = new AutoResetEvent(false);
@@ -285,7 +282,7 @@ namespace Bespoke.Sph.MessagingTests
         {
             var namespaceManager = NamespaceManager.CreateFromConnectionString(AzureServiceBusConfigurationManager.PrimaryConnectionString);
             var subscriptionDesc = namespaceManager.GetSubscription(AzureServiceBusConfigurationManager.DefaultTopicPath, queue);
-            
+
             long messageCount = subscriptionDesc.MessageCount;
             if (expected.HasValue)
             {
