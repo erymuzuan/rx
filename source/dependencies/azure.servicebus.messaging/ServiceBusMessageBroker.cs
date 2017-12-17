@@ -14,6 +14,7 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
         NamespaceManager m_namespaceMgr;
         MessagingFactory m_factory;
         TopicClient m_topicClient;
+        private SubscriptionClient m_subClient;
 
         public void Dispose()
         {
@@ -37,7 +38,59 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
 
         public void OnMessageDelivered(Func<BrokeredMessage, Task<MessageReceiveStatus>> processItem, SubscriberOption subscription, double timeOut = Double.MaxValue)
         {
-            throw new NotImplementedException();
+            m_subClient = SubscriptionClient.CreateFromConnectionString(AzureServiceBusConfigurationManager.PrimaryConnectionString, AzureServiceBusConfigurationManager.DefaultTopicPath, subscription.Name);
+
+            // Set the options for using OnMessage
+            var options = new OnMessageOptions()
+            {
+                AutoComplete = false,
+                MaxConcurrentCalls = subscription.PrefetchCount,
+                AutoRenewTimeout = TimeSpan.FromSeconds(30)
+            };
+
+            // Create a message pump using OnMessage
+            m_subClient.OnMessage(async msg =>
+           {
+               var message = new BrokeredMessage
+               {
+                   Body = msg.GetBody<byte[]>(),
+                   TryCount = msg.Properties.GetValue<string, int>("try-count"),
+                   RetryDelay = msg.Properties.GetValue<string, TimeSpan>("retry-delay") ?? TimeSpan.Zero,
+                   RoutingKey = msg.Properties.GetStringValue("routing-key"),
+                   Id = msg.MessageId,
+                   Crud = msg.Properties.GetValue<string, CrudOperation>("crud") ?? CrudOperation.None,
+                   ReplyTo = msg.ReplyTo,
+                   Operation = msg.Properties.GetStringValue("operation"),
+                   Username = msg.Properties.GetStringValue("username")
+               };
+               var status = await processItem(message);
+               switch (status)
+               {
+                   case MessageReceiveStatus.Accepted:
+                       await msg.CompleteAsync();
+                       break;
+                   case MessageReceiveStatus.Rejected:
+                       //TODO : for reject, we should get the error message
+                       await msg.DeadLetterAsync("Rejected", "rejected description");
+                       break;
+                   case MessageReceiveStatus.Dropped:
+
+                       await msg.CompleteAsync();
+                       break;
+                   case MessageReceiveStatus.Delayed:
+                       //TODO : publish to delay queue
+                       break;
+                   case MessageReceiveStatus.Requeued:
+                       await msg.DeferAsync();
+                       break;
+                   default:
+                       throw new ArgumentOutOfRangeException(nameof(status), status, null);
+               }
+
+           }, options);
+
+
+
         }
 
 
@@ -62,7 +115,8 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
                 await m_namespaceMgr.CreateTopicAsync(topicPath);
             }
             //TODO : all the routing keys into filter
-            await m_namespaceMgr.CreateSubscriptionAsync(topicPath, option.Name, new SqlFilter($"entity = 'Test'"));
+            if (!m_namespaceMgr.SubscriptionExists(AzureServiceBusConfigurationManager.DefaultTopicPath, option.Name))
+                await m_namespaceMgr.CreateSubscriptionAsync(topicPath, option.Name, new SqlFilter($"entity = 'Test'"));
 
         }
 
@@ -121,7 +175,7 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
                        await msg.CompleteAsync();
                        break;
                    case MessageReceiveStatus.Rejected:
-                        //TODO : for reject, we should get the error message
+                       //TODO : for reject, we should get the error message
                        await msg.DeadLetterAsync("Rejected", "rejected description");
                        break;
                    case MessageReceiveStatus.Dropped:
@@ -129,8 +183,8 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
                        await msg.CompleteAsync();
                        break;
                    case MessageReceiveStatus.Delayed:
-                        //TODO : publish to delay queue
-                        break;
+                       //TODO : publish to delay queue
+                       break;
                    case MessageReceiveStatus.Requeued:
                        await msg.DeferAsync();
                        break;

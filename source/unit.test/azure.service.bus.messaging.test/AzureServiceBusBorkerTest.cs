@@ -107,8 +107,7 @@ namespace Bespoke.Sph.MessagingTests
 
             var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#." + operation);
             await Broker.CreateSubscriptionAsync(option);
-
-
+            
             var message = new BrokeredMessage
             {
                 Body = await CompressAsync("Some details here " + option.Name),
