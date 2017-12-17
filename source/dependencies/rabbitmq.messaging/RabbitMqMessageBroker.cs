@@ -43,11 +43,6 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
 
         }
 
-        public void StartsConsume()
-        {
-            throw new NotImplementedException();
-        }
-
         private IConnection m_connection;
         public Task ConnectAsync(Action<string, object> disconnected)
         {

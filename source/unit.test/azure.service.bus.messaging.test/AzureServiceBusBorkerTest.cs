@@ -165,8 +165,8 @@ namespace Bespoke.Sph.MessagingTests
         {
             await DeleteAllTopicsAndSubscriptions();
             await Broker.ConnectAsync((text, arg) => { });
-            var operation = "TransientError";
-            var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#." + operation);
+            const string OPERATION = "TransientError";
+            var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#." + OPERATION);
             await Broker.CreateSubscriptionAsync(option);
 
             var queueName = option.Name;
@@ -182,7 +182,7 @@ namespace Bespoke.Sph.MessagingTests
                 {
                     { "Username", "erymuzuan"}
                 },
-                RoutingKey = "Test.added." + operation
+                RoutingKey = "Test.added." + OPERATION
             };
             var flag1 = new AutoResetEvent(false);
             var flag2 = new AutoResetEvent(false);

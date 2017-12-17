@@ -11,21 +11,15 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
 {
     public class ServiceBusMessageBroker : IMessageBroker
     {
-        NamespaceManager m_namespaceMgr;
-        MessagingFactory m_factory;
-        TopicClient m_topicClient;
+        private NamespaceManager m_namespaceMgr;
+        private MessagingFactory m_factory;
+        private TopicClient m_topicClient;
         private SubscriptionClient m_subClient;
 
         public void Dispose()
         {
         }
 
-
-
-        public void StartsConsume()
-        {
-            throw new NotImplementedException();
-        }
 
         public Task ConnectAsync(Action<string, object> disconnected)
         {
