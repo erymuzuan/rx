@@ -293,8 +293,8 @@ namespace Bespoke.Sph.MessagingTests
                     subscriptionDesc = namespaceManager.GetSubscription(AzureServiceBusConfigurationManager.DefaultTopicPath, queue);
                     var count = (int)subscriptionDesc.MessageCount;
                     if (count == expected) return count;
-
-                    await Task.Delay(500);
+                    Console.WriteLine(".");
+                    await Task.Delay(100);
 
                 }
             }
@@ -322,13 +322,9 @@ namespace Bespoke.Sph.MessagingTests
             var option = new QueueSubscriptionOption("Test-" + Guid.NewGuid(), "Test.#.Get");
             await Broker.ConnectAsync((m, e) => { });
             await Broker.CreateSubscriptionAsync(option);
-            await Task.Delay(500);
 
-            var stat = await this.Broker.GetStatisticsAsync(option.Name);
-            Assert.Equal(0, stat.Count);
-            Assert.Equal(0, stat.DeliveryRate);
-            Assert.Equal(0, stat.PublishedRate);
-
+            var zero = await this.GetMessagesCount(option.Name, 0);
+            Assert.Equal(0, zero);
 
             var message = new BrokeredMessage
             {
@@ -345,20 +341,16 @@ namespace Bespoke.Sph.MessagingTests
                 RoutingKey = "Test.added.Get"
             };
             await this.Broker.SendAsync(message);
-            await Task.Delay(2500);
-            stat = await this.Broker.GetStatisticsAsync(option.Name);
-            Assert.Equal(1, stat.Count);
-            Assert.Equal(0, stat.DeliveryRate);
-            Assert.Equal(0, stat.PublishedRate);
+            var count = await this.GetMessagesCount(option.Name, 1);
+            Assert.Equal(1, count);
 
             var msg = await Broker.GetMessageAsync(option.Name);
             Assert.NotNull(msg);
             Assert.Equal(message.Id, msg.Id);
 
             msg.Accept();
-            await Task.Delay(2500);
-            stat = await this.Broker.GetStatisticsAsync(option.Name);
-            Assert.Equal(0, stat.Count);
+            count = await this.GetMessagesCount(option.Name, 0);
+            Assert.Equal(0, count);
         }
     }
 }

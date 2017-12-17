@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.Messaging;
+using Bespoke.Sph.Messaging.AzureMessaging.Extensions;
 using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
 using BrokeredMessage = Bespoke.Sph.Domain.Messaging.BrokeredMessage;
@@ -13,7 +13,7 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
     {
         NamespaceManager m_namespaceMgr;
         MessagingFactory m_factory;
-        TopicClient m_topicclient;
+        TopicClient m_topicClient;
 
         public void Dispose()
         {
@@ -31,7 +31,7 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
             var connectionString = AzureServiceBusConfigurationManager.PrimaryConnectionString;
             m_namespaceMgr = NamespaceManager.CreateFromConnectionString(connectionString);
             m_factory = MessagingFactory.CreateFromConnectionString(connectionString);
-            m_topicclient = m_factory.CreateTopicClient(AzureServiceBusConfigurationManager.DefaultTopicPath);
+            m_topicClient = m_factory.CreateTopicClient(AzureServiceBusConfigurationManager.DefaultTopicPath);
             return Task.FromResult(0);
         }
 
@@ -40,29 +40,18 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
             throw new NotImplementedException();
         }
 
-        public async void OnMessageDelivered(Func<BrokeredMessage, Task<MessageReceiveStatus>> processItem, double timeOut = double.MaxValue)
-        {
-            var message = new BrokeredMessage();// TODO : read from queue
-            var status = await processItem(message);
-            switch (status)
-            {
-                case MessageReceiveStatus.Accepted:
-                    break;
-                case MessageReceiveStatus.Rejected:
-                    break;
-                case MessageReceiveStatus.Requeued:
-                    break;
-                case MessageReceiveStatus.Dropped:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-        }
 
         public Task<QueueStatistics> GetStatisticsAsync(string queue)
         {
-            throw new NotImplementedException();
+            var subscription =
+                m_namespaceMgr.GetSubscription(AzureServiceBusConfigurationManager.DefaultTopicPath, queue);
+            return Task.FromResult(new QueueStatistics
+            {
+                Count = (int)subscription.MessageCount,
+                PublishedRate = default,
+                DeliveryRate = default
+
+            });
         }
 
         public async Task CreateSubscriptionAsync(QueueSubscriptionOption option)
@@ -85,19 +74,19 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
 
         public async Task SendAsync(BrokeredMessage message)
         {
-            var msg = new AzureBrokeredMessage(message.Body) { Label = message.RoutingKey };
+            var msg = new AzureBrokeredMessage(message.Body)
+            {
+                Label = message.RoutingKey,
+                MessageId = message.Id
+            };
 
             var topics = message.RoutingKey.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries);
             if (topics.Length == 3)
             {
                 msg.Properties.Add("entity", topics[0]);
-                msg.Properties.Add("crud", topics[1]);
-                msg.Properties.Add("operation", topics[1]);
             }
-            else
-            {
-                msg.Properties.Add("operation", message.Operation);
-            }
+            msg.Properties.Add("crud", (int)message.Crud);
+            msg.Properties.Add("operation", message.Operation);
 
             msg.Properties.Add("try-count", message.TryCount);
             msg.Properties.Add("message-id", message.Id);
@@ -111,7 +100,7 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
             //  orderMsg.CorrelationId = order.Region;
 
             // Send the message.
-            await m_topicclient.SendAsync(msg);
+            await m_topicClient.SendAsync(msg);
 
         }
 
@@ -120,9 +109,50 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
             throw new NotImplementedException();
         }
 
-        public Task<BrokeredMessage> GetMessageAsync(string queue)
+        public async Task<BrokeredMessage> GetMessageAsync(string queue)
         {
-            throw new NotImplementedException();
+            var sub = m_factory.CreateSubscriptionClient(AzureServiceBusConfigurationManager.DefaultTopicPath, queue);
+            var msg = await sub.ReceiveAsync(AzureServiceBusConfigurationManager.ReceiveMessageTimeOut);
+            var bm = new BrokeredMessage(async (b, status) =>
+           {
+               switch (status)
+               {
+                   case MessageReceiveStatus.Accepted:
+                       await msg.CompleteAsync();
+                       break;
+                   case MessageReceiveStatus.Rejected:
+                        //TODO : for reject, we should get the error message
+                       await msg.DeadLetterAsync("Rejected", "rejected description");
+                       break;
+                   case MessageReceiveStatus.Dropped:
+
+                       await msg.CompleteAsync();
+                       break;
+                   case MessageReceiveStatus.Delayed:
+                        //TODO : publish to delay queue
+                        break;
+                   case MessageReceiveStatus.Requeued:
+                       await msg.DeferAsync();
+                       break;
+                   default:
+                       throw new ArgumentOutOfRangeException(nameof(status), status, null);
+               }
+
+           })
+            {
+                Body = msg.GetBody<byte[]>(),
+                TryCount = msg.Properties.GetValue<string, int>("try-count"),
+                RetryDelay = msg.Properties.GetValue<string, TimeSpan>("retry-delay") ?? TimeSpan.Zero,
+                RoutingKey = msg.Properties.GetStringValue("routing-key"),
+                Id = msg.MessageId,
+                Crud = msg.Properties.GetValue<string, CrudOperation>("crud") ?? CrudOperation.None,
+                ReplyTo = msg.ReplyTo,
+                Operation = msg.Properties.GetStringValue("operation"),
+                Username = msg.Properties.GetStringValue("username")
+            };
+
+            return bm;
+
         }
 
         public async Task RemoveSubscriptionAsync(string queue)

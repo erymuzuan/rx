@@ -11,7 +11,13 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
         public static string PrimaryConnectionString => GetEnvironmentVariable("AzureServiceBusPrimaryConnectionString");
         public static string SecondaryConnectionString => GetEnvironmentVariable("AzureServiceBusSecondaryConnectionString");
         public static string DefaultTopicPath => GetEnvironmentVariable("AzureServiceBusDefaultTopicPath") ?? "rx.topics";
+        public static TimeSpan ReceiveMessageTimeOut => GetEnvironmentVariableTimeSpan("AzureServiceBusReceiveMessageTimeOut", TimeSpan.FromSeconds(5));
 
+        public static TimeSpan GetEnvironmentVariableTimeSpan(string setting, TimeSpan defaultValue)
+        {
+            var val = GetEnvironmentVariable(setting);
+            return TimeSpan.TryParse(val, out var intValue) ? intValue : defaultValue;
+        }
         public static int GetEnvironmentVariableInt32(string setting, int defaultValue = 0)
         {
             var val = GetEnvironmentVariable(setting);

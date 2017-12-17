@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -80,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AzureServiceBusConfigurationManager.cs" />
+    <Compile Include="Extensions\DictionaryExtension.cs" />
     <Compile Include="ServiceBusMessageBroker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
