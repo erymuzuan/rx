@@ -399,7 +399,10 @@ namespace Bespoke.Sph.MessagingTests
                 {
                     { "Username", "erymuzuan"}
                 },
-                RoutingKey = "Test.added.Get"
+                RoutingKey = "Test.added.Get",
+                Entity = "Test",
+                Operation = "Get",
+                ReplyTo = "me"
             };
             await this.Broker.SendAsync(message);
             var count = await this.GetMessagesCount(option.QueueName, 1);

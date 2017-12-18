@@ -235,11 +235,14 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
                 RetryDelay = msg.Properties.GetValue<string, TimeSpan>("retry-delay") ?? TimeSpan.Zero,
                 RoutingKey = msg.Properties.GetStringValue("routing-key"),
                 Id = msg.MessageId,
-                Crud = msg.Properties.GetValue<string, CrudOperation>("crud") ?? CrudOperation.None,
                 ReplyTo = msg.ReplyTo,
                 Operation = msg.Properties.GetStringValue("operation"),
+                Entity = msg.Properties.GetStringValue("entity"),
                 Username = msg.Properties.GetStringValue("username")
             };
+
+            if (Enum.TryParse(msg.Properties.GetStringValue("crud"), true, out CrudOperation crud))
+                bm.Crud = crud;
 
             return bm;
 
