@@ -11,6 +11,7 @@ using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
 using BrokeredMessage = Bespoke.Sph.Domain.Messaging.BrokeredMessage;
 using AzureBrokeredMessage = Microsoft.ServiceBus.Messaging.BrokeredMessage;
+using Filter = Microsoft.ServiceBus.Messaging.Filter;
 
 namespace Bespoke.Sph.Messaging.AzureMessaging
 {
@@ -53,15 +54,15 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
                 subscription.QueueName);
 
             // Set the options for using OnMessage
-            var options = new OnMessageOptions()
+            var options = new OnMessageOptions
             {
                 AutoComplete = false,
                 MaxConcurrentCalls = subscription.PrefetchCount,
-                AutoRenewTimeout = TimeSpan.FromSeconds(30)
+                AutoRenewTimeout = TimeSpan.FromMinutes(5)
             };
 
             // Create a message pump using OnMessage
-            subClient.OnMessage(async msg =>
+            subClient.OnMessageAsync(async msg =>
            {
                var message = new BrokeredMessage
                {
@@ -89,11 +90,19 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
                        await msg.DeadLetterAsync("Rejected", "rejected description");
                        break;
                    case MessageReceiveStatus.Dropped:
-
                        await msg.CompleteAsync();
                        break;
                    case MessageReceiveStatus.Delayed:
-                       //TODO : publish to delay queue
+                       await PublishToDelayQueueAsync(message, subscription.QueueName);
+                       try
+                       {
+                           await msg.CompleteAsync();
+                       }
+                       catch (Exception e)
+                       {
+                           ObjectBuilder.GetObject<ILogger>().WriteInfo(e.Message);
+                           throw;
+                       }
                        break;
                    case MessageReceiveStatus.Requeued:
                        await msg.DeferAsync();
@@ -107,7 +116,28 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
             m_subscribers.AddOrUpdate(subscription.QueueName + "::" + subscription.Name, subClient, (q, c1) => subClient);
 
         }
+        private async Task PublishToDelayQueueAsync(BrokeredMessage message, string queue)
+        {
+            var logger = ObjectBuilder.GetObject<ILogger>();
+            var count = (message.TryCount ?? 0) + 1;
 
+            logger.WriteInfo($@"Doing the delay for {message.RetryDelay} for the {count} time");
+
+            var msg = message.ToAzureMessage();
+            // remove the filter
+            msg.Properties.AddOrReplace("entity", "-");
+            msg.Properties.AddOrReplace("crud", "-");
+            msg.Properties.AddOrReplace("operation", "-");
+
+            msg.Properties.AddOrReplace("queue", queue);
+            msg.Properties.AddOrReplace("delayed", 1);
+            msg.Properties.AddOrReplace("try-count", count);
+            msg.TimeToLive = message.RetryDelay;
+
+            logger.WriteVerbose($"Sending message to Azure Service Bus : {msg.Properties["entity"]}.{msg.Properties["crud"]}.{msg.Properties["operation"]}({msg.MessageId})");
+
+            await m_topicClient.SendAsync(msg);
+        }
 
         public Task<QueueStatistics> GetStatisticsAsync(string queue)
         {
@@ -130,30 +160,46 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
             {
                 await m_namespaceMgr.CreateTopicAsync(topicPath);
             }
-            //TODO : all the routing keys into filter
-            if (!m_namespaceMgr.SubscriptionExists(m_topicPath, option.QueueName))
-            {
-                var sql = GetSqlFilterExpressions(option);
-                await m_namespaceMgr.CreateSubscriptionAsync(topicPath, option.QueueName, new SqlFilter(sql));
 
-                var exist = m_namespaceMgr.SubscriptionExists(topicPath, option.QueueName);
-                while (!exist)
+
+            async Task CreateSubscriptionAsync(SubscriptionDescription sd, Filter filter = null)
+            {
+                if (!m_namespaceMgr.SubscriptionExists(m_topicPath, sd.Name))
                 {
-                    await Task.Delay(200);
-                    exist = m_namespaceMgr.SubscriptionExists(topicPath, option.QueueName);
+                    if (null != filter)
+                        await m_namespaceMgr.CreateSubscriptionAsync(sd, filter);
+                    else
+                        await m_namespaceMgr.CreateSubscriptionAsync(sd);
+
+                    var exist = m_namespaceMgr.SubscriptionExists(topicPath, option.QueueName);
+                    while (!exist)
+                    {
+                        await Task.Delay(200);
+                        exist = m_namespaceMgr.SubscriptionExists(topicPath, option.QueueName);
+                    }
                 }
+
             }
+
+            var sql = new SqlFilter(GetSqlFilterExpressions(option));
+            await CreateSubscriptionAsync(new SubscriptionDescription(topicPath, option.QueueName), sql);
+            await CreateSubscriptionAsync(new SubscriptionDescription(topicPath, option.DelayedQueue ?? "rx-delayed-" + option.QueueName)
+            {
+                EnableDeadLetteringOnMessageExpiration = true,
+                ForwardDeadLetteredMessagesTo = option.QueueName
+            }, new SqlFilter($"queue = '{option.QueueName}' AND delayed = 1"));
+            // TODO : creates a new subscriber that subscribe to delayed queue
 
         }
 
-        public  string GetSqlFilterExpressions(QueueDeclareOption option)
+        public string GetSqlFilterExpressions(QueueDeclareOption option)
         {
             var routes = new List<string>();
-            var wildcards = new[] {"*", "#"};
+            var wildcards = new[] { "*", "#" };
             foreach (var route in option.RoutingKeys)
             {
                 var predicates = new List<string>();
-                var keys = route.Split(new[] {"."}, StringSplitOptions.RemoveEmptyEntries);
+                var keys = route.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries);
                 if (keys.Length == 3)
                 {
                     var entity = keys.First();
@@ -188,7 +234,7 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
         {
             var msg = message.ToAzureMessage();
             ObjectBuilder.GetObject<ILogger>().WriteVerbose($"Sending message to Azure Service Bus : {msg.Properties["entity"]}.{msg.Properties["crud"]}.{msg.Properties["operation"]}({msg.MessageId})");
-            
+
             // Send the message.
             await m_topicClient.SendAsync(msg);
 
@@ -220,6 +266,8 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
                        break;
                    case MessageReceiveStatus.Delayed:
                        //TODO : publish to delay queue
+                       await PublishToDelayQueueAsync(b, queue);
+                       await msg.CompleteAsync();
                        break;
                    case MessageReceiveStatus.Requeued:
                        await msg.DeferAsync();

@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Extensions;
 using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.Messaging.AzureMessaging;
 using Bespoke.Sph.Messaging.AzureMessaging.Extensions;
@@ -82,7 +83,7 @@ namespace Bespoke.Sph.MessagingTests
         {
             await Broker.ConnectAsync((text, arg) => { });
 
-            var option = new QueueDeclareOption("Test-" + Guid.NewGuid(), "Test.#." + operation);
+            var option = new QueueDeclareOption("Test-" + Guid.NewGuid().ToString("N").Substring(0,6), "Test.#." + operation);
             await Broker.CreateSubscriptionAsync(option);
 
 
@@ -126,7 +127,7 @@ namespace Bespoke.Sph.MessagingTests
                 Console.WriteLine($"Routing :{entity}.{crud}.{operation}");
                 Console.WriteLine($"RoutingKeys :{routingKeys.ToString(", ")}");
             }
-            var queue = new QueueDeclareOption("Test-" + Guid.NewGuid(), routingKeys);
+            var queue = new QueueDeclareOption("Test-" + Guid.NewGuid().ToString("N").ToUpperInvariant().Substring(0,6), routingKeys);
             await Broker.CreateSubscriptionAsync(queue);
 
             var message = new BrokeredMessage
@@ -227,7 +228,11 @@ namespace Bespoke.Sph.MessagingTests
             await DeleteAllTopicsAndSubscriptions();
             await Broker.ConnectAsync((text, arg) => { });
             const string OPERATION = "TransientError";
-            var option = new QueueDeclareOption("Test-" + Guid.NewGuid(), "Test.#." + OPERATION);
+            var queue = "Test-" + Guid.NewGuid().ToString("N").Substring(0, 6);
+            var option = new QueueDeclareOption(queue, "Test.#." + OPERATION)
+            {
+                DelayedQueue = "test-rx-delayed"
+            };
             await Broker.CreateSubscriptionAsync(option);
 
             var queueName = option.QueueName;
@@ -244,7 +249,9 @@ namespace Bespoke.Sph.MessagingTests
                     { "Username", "erymuzuan"}
                 },
                 RoutingKey = "Test.added." + OPERATION,
-                Operation = OPERATION
+                Operation = OPERATION,
+                Entity = "Test",
+                ReplyTo = "me"
             };
             var flag1 = new AutoResetEvent(false);
             var flag2 = new AutoResetEvent(false);
@@ -267,8 +274,7 @@ namespace Bespoke.Sph.MessagingTests
                 return Task.FromResult(MessageReceiveStatus.Accepted);
             }, new SubscriberOption(queueName));
 
-            var delayedQueueName = "rx.delay.queue." + queueName;
-            var before = await GetMessagesCount(delayedQueueName);
+            var before = await GetMessagesCount(option.DelayedQueue);
             Assert.Equal(0, before);
 
             // send and wait for OnMessage
@@ -281,14 +287,14 @@ namespace Bespoke.Sph.MessagingTests
 
             // wait for it to be published into delayed queue
             await Task.Delay(2_000);
-            Assert.Equal(1, await GetMessagesCount(delayedQueueName));
+            Assert.Equal(1, await GetMessagesCount(option.DelayedQueue));
             Assert.Equal(0, await GetMessagesCount(queueName));
 
             // wait for it to expires
             flag2.WaitOne(expiration);
             await Task.Delay(3_000);
             Console.WriteLine("Reading queues on " + stopWatch.Elapsed);
-            Assert.Equal(0, await GetMessagesCount(delayedQueueName));
+            Assert.Equal(0, await GetMessagesCount(option.DelayedQueue));
             Assert.Equal(0, await GetMessagesCount(queueName)); // the message is received , once flag2 is set
             stopWatch.Stop();
         }
@@ -411,10 +417,13 @@ namespace Bespoke.Sph.MessagingTests
             var msg = await Broker.GetMessageAsync(option.QueueName);
             Assert.NotNull(msg);
             Assert.Equal(message.Id, msg.Id);
+            Assert.Equal("Some details here " + option.QueueName, await msg.Body.DecompressAsync());
 
             msg.Accept();
             count = await this.GetMessagesCount(option.QueueName, 0);
             Assert.Equal(0, count);
+
+
         }
     }
 }
