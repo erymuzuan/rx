@@ -134,7 +134,7 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
             msg.Properties.AddOrReplace("try-count", count);
             msg.TimeToLive = message.RetryDelay;
 
-            logger.WriteVerbose($"Sending message to Azure Service Bus : {msg.Properties["entity"]}.{msg.Properties["crud"]}.{msg.Properties["operation"]}({msg.MessageId})");
+            logger.WriteVerbose($"Sending message to  with TTL : {msg.TimeToLive}({msg.MessageId})");
 
             await m_topicClient.SendAsync(msg);
         }
@@ -186,7 +186,7 @@ namespace Bespoke.Sph.Messaging.AzureMessaging
             await CreateSubscriptionAsync(new SubscriptionDescription(topicPath, option.DelayedQueue ?? "rx-delayed-" + option.QueueName)
             {
                 EnableDeadLetteringOnMessageExpiration = true,
-                ForwardDeadLetteredMessagesTo = option.QueueName
+                //ForwardDeadLetteredMessagesTo = option.QueueName
             }, new SqlFilter($"queue = '{option.QueueName}' AND delayed = 1"));
             // TODO : creates a new subscriber that subscribe to delayed queue
 

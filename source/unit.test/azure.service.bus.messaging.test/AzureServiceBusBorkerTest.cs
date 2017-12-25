@@ -83,7 +83,7 @@ namespace Bespoke.Sph.MessagingTests
         {
             await Broker.ConnectAsync((text, arg) => { });
 
-            var option = new QueueDeclareOption("Test-" + Guid.NewGuid().ToString("N").Substring(0,6), "Test.#." + operation);
+            var option = new QueueDeclareOption("Test-" + Strings.GenerateId(8), "Test.#." + operation);
             await Broker.CreateSubscriptionAsync(option);
 
 
@@ -99,7 +99,10 @@ namespace Bespoke.Sph.MessagingTests
                 {
                     {"Username", "erymuzuan"}
                 },
-                RoutingKey = "Test.added." + operation
+                RoutingKey = "Test.added." + operation,
+                Entity = "Test",
+                Operation = operation,
+                ReplyTo = "me"
             };
 
             await Broker.SendAsync(message);
@@ -127,7 +130,7 @@ namespace Bespoke.Sph.MessagingTests
                 Console.WriteLine($"Routing :{entity}.{crud}.{operation}");
                 Console.WriteLine($"RoutingKeys :{routingKeys.ToString(", ")}");
             }
-            var queue = new QueueDeclareOption("Test-" + Guid.NewGuid().ToString("N").ToUpperInvariant().Substring(0,6), routingKeys);
+            var queue = new QueueDeclareOption("Test-" + Guid.NewGuid().ToString("N").ToUpperInvariant().Substring(0, 6), routingKeys);
             await Broker.CreateSubscriptionAsync(queue);
 
             var message = new BrokeredMessage
@@ -225,13 +228,16 @@ namespace Bespoke.Sph.MessagingTests
         [Fact]
         public async Task SendToDelay()
         {
+            // TODO : the expired message is not moved to DLQ automatically, it only do so when we received it
+            // https://www.codit.eu/blog/2015/01/automatically-expire-messages-in-azure-service-bus-how-it-works/
             await DeleteAllTopicsAndSubscriptions();
             await Broker.ConnectAsync((text, arg) => { });
             const string OPERATION = "TransientError";
-            var queue = "Test-" + Guid.NewGuid().ToString("N").Substring(0, 6);
+            var rand = Strings.GenerateId(8);
+            var queue = "test-" + rand;
             var option = new QueueDeclareOption(queue, "Test.#." + OPERATION)
             {
-                DelayedQueue = "test-rx-delayed"
+                DelayedQueue = "test-rxd" + rand
             };
             await Broker.CreateSubscriptionAsync(option);
 
@@ -293,6 +299,12 @@ namespace Bespoke.Sph.MessagingTests
             // wait for it to expires
             flag2.WaitOne(expiration);
             await Task.Delay(3_000);
+            this.Broker.OnMessageDelivered(msg =>
+            {
+                Console.WriteLine("============ Receiving messages from delayed queue after " + stopWatch.Elapsed + " =============");
+                return Task.FromResult(MessageReceiveStatus.Accepted);
+            }, new SubscriberOption(option.DelayedQueue));
+            await Task.Delay(2_000);
             Console.WriteLine("Reading queues on " + stopWatch.Elapsed);
             Assert.Equal(0, await GetMessagesCount(option.DelayedQueue));
             Assert.Equal(0, await GetMessagesCount(queueName)); // the message is received , once flag2 is set
@@ -386,7 +398,7 @@ namespace Bespoke.Sph.MessagingTests
         public async Task GetMessage()
         {
             await DeleteAllTopicsAndSubscriptions();
-            var option = new QueueDeclareOption("Test-" + Guid.NewGuid(), "Test.#.Get");
+            var option = new QueueDeclareOption("Test-" + Strings.GenerateId(8), "Test.#.Get");
             await Broker.ConnectAsync((m, e) => { });
             await Broker.CreateSubscriptionAsync(option);
 
