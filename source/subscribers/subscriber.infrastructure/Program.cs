@@ -117,7 +117,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             var processing = subscribers.Sum(x => x.PrefetchCount);
             var overloaded = published > delivered + processing || length > processing;
 
-            this.NotificationService.WriteInfo(
+            this.NotificationService.WriteDebug(
                 $"Published:{published}, Delivered : {delivered}, length : {length} , Processing {processing}");
             if (overloaded && mt.MaxInstances.HasValue && subscribers.Count < mt.MaxInstances.Value)
             {
@@ -133,7 +133,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     sub2.Stop();
                 }
             }
-            this.NotificationService.WriteInfo("Current subscribers " + subscribers.Count);
+            this.NotificationService.WriteDebug("Current subscribers " + subscribers.Count);
 
         }
 

@@ -44,12 +44,25 @@ namespace Bespoke.Sph.Persistence
         protected override void OnStop()
         {
             this.WriteMessage($"!!Stoping : {this.QueueName}");
+
             m_stoppingTcs?.SetResult(true);
+
+            while (true)
+            {
+                if (m_receivers.All(x => x.PrefetchCount == 0))
+                {
+                    break;
+                }
+                System.Threading.Thread.Sleep(100);
+                this.NotificicationService.WriteDebug("Waiting for processing to finish...");
+            }
 
 
             while (m_processing > 0)
             {
+                System.Threading.Thread.Sleep(100);
             }
+
 
 
             this.WriteMessage("!!Stopped : " + this.QueueName);
@@ -59,6 +72,7 @@ namespace Bespoke.Sph.Persistence
 
         private async Task StartConsume(IMessageBroker broker)
         {
+            this.NotificicationService.WriteInfo("Subscribing to persistence..");
             this.OnStart();
             await DeclareQueue(broker);
             broker.OnMessageDelivered(Received, new SubscriberOption(this.QueueName) { PrefetchCount = this.PrefetchCount });
@@ -81,6 +95,16 @@ namespace Bespoke.Sph.Persistence
                 .Select(x => StartConsume(x, broker));
 
             m_receivers.AddRange(receivers);
+
+            foreach (var rcv in m_receivers)
+            {
+                //TODO : get the workers count for each entity fromt the config file
+                for (int i = 0; i < 3; i++)
+                {
+                    broker.OnMessageDelivered(rcv.ReceivedSingle, new SubscriberOption(rcv.QueueName, $"{rcv.QueueName}{i}"));
+                    this.NotificicationService.WriteInfo($"Subscribing to {rcv.QueueName}{i}");
+                }
+            }
         }
 
         private async Task DeclareQueue(IMessageBroker broker)

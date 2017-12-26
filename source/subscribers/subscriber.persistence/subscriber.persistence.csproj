@@ -60,6 +60,9 @@
     <Compile Include="..\..\extensions\BinaryExtensions.cs">
       <Link>BinaryExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\extensions\LoggerExtensions.cs">
+      <Link>Extensions\LoggerExtensions.cs</Link>
+    </Compile>
     <Compile Include="ChangeUtility.cs" />
     <Compile Include="DataImportUtility.cs" />
     <Compile Include="EntityPersistence.cs" />

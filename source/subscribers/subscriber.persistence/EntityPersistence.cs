@@ -22,6 +22,7 @@ namespace Bespoke.Sph.Persistence
         private readonly IMessageBroker m_broker;
         public int PrefetchCount { get; set; } = 1;
         public string QueueName => $"persistence.{Ed.Name}";
+        public int ProcessingCount => m_processing;
 
         public EntityPersistence(EntityDefinition ed, IMessageBroker broker, Action<string> writeMessage,
             Action<Exception> writeError)
@@ -108,7 +109,6 @@ namespace Bespoke.Sph.Persistence
                 {
                     var count = (msg.TryCount ?? 0) + 1;
                     this.WriteMessage($"{count.Ordinalize()} retry on SqlException : {exc.Message}");
-
 
                     msg.TryCount = count;
                     msg.RetryDelay = TimeSpan.FromMilliseconds(delay);
