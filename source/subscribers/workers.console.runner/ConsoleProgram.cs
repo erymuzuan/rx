@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Extensions;
 using Bespoke.Sph.SubscribersInfrastructure;
@@ -12,7 +11,7 @@ namespace Bespoke.Sph.MessagingClients
 {
     public static class ConsoleProgram
     {
-        public static async Task<int> Main()
+        public static int Main()
         {
             if (ParseArgExist("?"))
             {
@@ -71,7 +70,7 @@ namespace Bespoke.Sph.MessagingClients
             var configFile = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(WorkersConfig)}\\{envName}.{configName}.json";
             if (!File.Exists(configFile))
             {
-                Console.WriteLine($"Cannot find subscribers config in '{configFile}'");
+                Console.Error.WriteLine($"Cannot find subscribers config in '{configFile}'");
                 return -1;
             }
             var options = configFile.DeserializeFromJsonFile<WorkersConfig>();
@@ -105,7 +104,7 @@ namespace Bespoke.Sph.MessagingClients
             };
 
             var discoverElapsed = sw.Elapsed;
-            await program.StartAsync(metadata);
+            program.StartAsync(metadata).Wait();
 
             var span = sw.Elapsed;
             sw.Stop();

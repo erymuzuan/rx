@@ -1,9 +1,10 @@
 ﻿Param(
-
+       [Parameter(Mandatory=$True,Position=0)]
        [string]$Path,
+       [Parameter(Mandatory=$True,Position=1)]
+       [string[]] $Destinations,
        [int]$First = 2,
        [Switch]$WhatIf,
-       [string[]] $Destinations,
        [string[]]$Excludes = @("*.config")
      )
 $files = ls $Path -Exclude $Excludes | ? {$_.PSIsContainer -eq $false } | sort -Descending LastWriteTime | select -First $First

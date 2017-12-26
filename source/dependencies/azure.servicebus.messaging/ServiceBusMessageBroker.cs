@@ -10,7 +10,6 @@ using Bespoke.Sph.Messaging.AzureMessaging.Extensions;
 using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
 using BrokeredMessage = Bespoke.Sph.Domain.Messaging.BrokeredMessage;
-using AzureBrokeredMessage = Microsoft.ServiceBus.Messaging.BrokeredMessage;
 using Filter = Microsoft.ServiceBus.Messaging.Filter;
 
 namespace Bespoke.Sph.Messaging.AzureMessaging

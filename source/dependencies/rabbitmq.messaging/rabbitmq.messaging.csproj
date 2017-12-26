@@ -53,6 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\extensions\HttpClientExtensions.cs">
+      <Link>Extensions\HttpClientExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\extensions\LoggerExtensions.cs">
       <Link>Extensions\LoggerExtensions.cs</Link>
     </Compile>

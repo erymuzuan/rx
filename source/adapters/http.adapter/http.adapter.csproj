@@ -224,8 +224,8 @@
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetDir)$(TargetName).dll %25RX_DEVV1_HOME%25\subscribers
-copy $(TargetDir)$(TargetName).pdb %25RX_DEVV1_HOME%25\subscribers
+    <PostBuildEvent>copy $(TargetDir)$(TargetName).dll %25RX_DEVV1_HOME%25\subscribers.host
+copy $(TargetDir)$(TargetName).pdb %25RX_DEVV1_HOME%25\subscribers.host
 
 copy $(TargetDir)$(TargetName).dll %25RX_DEVV1_WebPath%25\bin\
 copy $(TargetDir)$(TargetName).pdb %25RX_DEVV1_WebPath%25\bin\

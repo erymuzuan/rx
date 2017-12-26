@@ -125,9 +125,11 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
             var handler = new HttpClientHandler { Credentials = new NetworkCredential(RabbitMqConfigurationManager.UserName, RabbitMqConfigurationManager.Password) };
             var client = new HttpClient(handler) { BaseAddress = new Uri($"{RabbitMqConfigurationManager.ManagementScheme}://{RabbitMqConfigurationManager.Host}:{RabbitMqConfigurationManager.ManagementPort}") };
 
-            var response = await client.GetStringAsync($"api/queues/{ConfigurationManager.ApplicationName}/{queue}");
+            var response = await client.GetAsync($"api/queues/{ConfigurationManager.ApplicationName}/{queue}");
+            if (!response.IsSuccessStatusCode)
+                return new QueueStatistics();
 
-            var json = JObject.Parse(response);
+            var json = await response.ReadContentAsJsonAsync();
             var statsToken = json.SelectToken("$.message_stats");
             var length = json.SelectToken("$.messages").Value<int>();
             double published = default;
