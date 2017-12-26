@@ -50,7 +50,9 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
                     });
 
                 entity().MemberCollection([record]);
-                return context.post(ko.mapping.toJSON(entity), "/entity-definition")
+                
+                const ent = ko.mapping.toJSON({ item: entity, attachedProperties: [] });
+                return context.post(ent, "/entity-definition")
                     .done(function (result) {
                         if (result.success) {
                             id(result.id);
