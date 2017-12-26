@@ -163,15 +163,13 @@ ko.bindingHandlers.tree = {
                         }
                     })
                     .on("move_node.jstree", function (e, data) {
-                        var ref = $(element).jstree(true),
+                        const ref = $(element).jstree(true),
                             mbr = data.node.data,
                             oldParent = ref.get_node(data.old_parent),
                             oldCollections = oldParent.data.MemberCollection || entity.MemberCollection,
                             parent = ref.get_node(data.parent),
                             collection = parent.data.MemberCollection || entity.MemberCollection;
-                        oldCollections.remove(function (v) {
-                            return ko.unwrap(mbr.WebId) === ko.unwrap(v.WebId);
-                        });
+                        oldCollections.remove(v =>  ko.unwrap(mbr.WebId) === ko.unwrap(v.WebId));
                         collection.splice(data.position, 0, mbr);
 
                         parent.children.forEach(setAllowMultipleAndNullableIcons);
@@ -256,6 +254,7 @@ ko.bindingHandlers.tree = {
                                             } else {
                                                 entity.MemberCollection.push(child);
                                             }
+                                            parent[0].children.forEach(setAllowMultipleAndNullableIcons);
                                             return true;
                                         }
                                         return false;
@@ -266,7 +265,7 @@ ko.bindingHandlers.tree = {
                                     valueObjectMenu = {
                                         label: "Add Value Object Child",
                                         action: function () {
-                                            var typeName = "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
+                                            const typeName = "Bespoke.Sph.Domain.ValueObjectDefinition, domain.sph",
                                                 child = new bespoke.sph.domain.ValueObjectMember({ WebId: system.guid(), TypeName: typeName, Name: "Member_Name" }),
                                                 parent = $(element).jstree("get_selected", true),
                                                 mb = parent[0].data,

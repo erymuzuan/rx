@@ -15,7 +15,10 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
     function (context, logger, router, system, app, servicesApp, nis) {
 
         let originalEntity = "",
-            memberAttachedPropertiesSubscription = null;
+            memberAttachedPropertiesSubscription = null,
+            simpleMemberAllowMultipleSubscription = null,
+            simpleMemberIsNullableSubscription = null,
+            simpleMemberTypeNameSubscription = null;
         const entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             attachedProperties = ko.observableArray(),
             isBusy = ko.observable(false),
@@ -32,15 +35,28 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
             views = ko.observableArray(),
             member = ko.observable(new bespoke.sph.domain.Member(system.guid())),
             memberLoadAttachedProperties = async function (mr) {
+
+                if (simpleMemberAllowMultipleSubscription)
+                    simpleMemberAllowMultipleSubscription.dispose();
+                if (simpleMemberIsNullableSubscription)
+                    simpleMemberIsNullableSubscription.dispose();
+                if (simpleMemberTypeNameSubscription)
+                    simpleMemberTypeNameSubscription.dispose();
+
                 const memberWebId = mr.WebId();
                 if (memberWebId === "-") {
                     return;
                 }
+
+                //TODO : show loading mr.attachedProperties([]);
+                mr.isBusyLoadingAttachedProperties(true);
                 const result = await context.get(
-                    `/developer-service/compilers-attached-properties-members/${entity().Id()}/${memberWebId}`);
+                    `/developer-service/compilers-attached-properties-members/${entity().Id()}/${memberWebId}?type=${ko.unwrap(mr.$type)}&name=${ko.unwrap(mr.Name)}&dataType=${ko.unwrap(mr.TypeName)}&nullable=${ko.unwrap(mr.IsNullable)}&allowMultiple=${ko.unwrap(mr.AllowMultiple)}`);
                 const serverProperties = Object.keys(result).filter(v => result[v].length).map(v => {
                     return { "compiler": v, properties: result[v].map(x => ko.mapping.fromJS(x)) };
                 });
+                mr.isBusyLoadingAttachedProperties(false);
+
 
                 const memberProperties = [];
                 serverProperties.forEach(builder => {
@@ -52,19 +68,26 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                         var ep = attachedProperties().find(x => ko.unwrap(x.AttachedTo) === ko.unwrap(mr.WebId) && ko.unwrap(x.Name) === ko.unwrap(prop.Name));
                         if (ep) {
                             // found , then bind
-                            list2.push(ep);
-                        } else {
-                            // set the prop to the current member and save in memory
-                            prop.AttachedTo(ko.unwrap(mr.WebId));
-                            attachedProperties.push(prop);
-
-                            list2.push(prop);
+                            prop.Value(ko.unwrap(ep.Value));
+                            prop.WebId(ko.unwrap(ep.WebId));
                         }
+                        // set the prop to the current member and save in memory
+                        prop.AttachedTo(ko.unwrap(mr.WebId));
+                        attachedProperties.push(prop);
+
+                        list2.push(prop);
+
                     });
                 });
 
                 //bind
                 mr.attachedProperties(memberProperties);
+                if (ko.isObservable(mr.TypeName))
+                    simpleMemberTypeNameSubscription = mr.TypeName.subscribe(() => memberLoadAttachedProperties(mr));
+                if (ko.isObservable(mr.IsNullable))
+                    simpleMemberIsNullableSubscription = mr.IsNullable.subscribe(() => memberLoadAttachedProperties(mr));
+                if (ko.isObservable(mr.AllowMultiple))
+                    simpleMemberAllowMultipleSubscription = mr.AllowMultiple.subscribe(() => memberLoadAttachedProperties(mr));
             },
             activate = function (id) {
 
@@ -295,9 +318,9 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 return nis.addOperationEndpoint(ko.unwrap(entity().Name));
             },
             viewFile = function (e) {
-                var file = e.FileName || e,
-                    line = e.Line || 1;
-                var params = [
+                const file = e.FileName || e;
+                const line = e.Line || 1;
+                const params = [
                     `height=${screen.height}`,
                     `width=${screen.width}`,
                     "toolbar=0",
