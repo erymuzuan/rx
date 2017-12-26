@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Bespoke.Sph.Domain.Codes;
+using Bespoke.Sph.Domain.Compilers;
 
 namespace Bespoke.Sph.Domain
 {
@@ -99,8 +100,8 @@ namespace Bespoke.Sph.Domain
                 if (string.IsNullOrWhiteSpace(this.ValueObjectName))
                     return new ObjectCollection<Member>();
 
-                var context = new SphDataContext();
-                var vod = context.LoadOne<ValueObjectDefinition>(d => d.Name == this.ValueObjectName);
+                var repos = ObjectBuilder.GetObject<ISourceRepository>();
+                var vod = repos.LoadOneAsync<ValueObjectDefinition>(d => d.Name == this.ValueObjectName).Result;
                 return null == vod ? new ObjectCollection<Member>() : vod.MemberCollection;
             }
         }
