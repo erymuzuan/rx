@@ -1,12 +1,12 @@
 ﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/form.designer.g.js" />
-/// <reference path="~/Scripts/_task.js" />
+/// <reference path="../../Scripts/_task.js" />
 
 define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
     function (dialog, context, system) {
@@ -14,10 +14,10 @@ define(["plugins/dialog", objectbuilders.datacontext, objectbuilders.system],
         const entity = ko.observable(),
             id = ko.observable("0"),
             activate = function() {
-                var ed = new bespoke.sph.domain.EntityDefinition();
+                const ed = new bespoke.sph.domain.EntityDefinition();
                 ed.Name.subscribe(function (name) {
                     if (!entity().Plural()) {
-                        $.get("/entity-definition/plural/" + name, function (v) {
+                        $.get(`/entity-definition/plural/${name}`, function (v) {
                             entity().Plural(v);
                         });
                     }
