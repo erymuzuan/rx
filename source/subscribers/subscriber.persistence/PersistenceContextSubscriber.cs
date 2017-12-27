@@ -50,7 +50,7 @@ namespace Bespoke.Sph.Persistence
 
             while (true)
             {
-                if (m_receivers.All(x => x.PrefetchCount == 0))
+                if (m_receivers.All(x => x.ProcessingCount == 0))
                 {
                     break;
                 }
