@@ -32,7 +32,10 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
             HostName = host;
             Port = port;
             VirtualHost = vhost;
+            this.ProcessId = System.Diagnostics.Process.GetCurrentProcess().Id;
         }
+
+        public int ProcessId { get; }
 
         public void Dispose()
         {
@@ -117,7 +120,8 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
              };
             var prefetchCount = subscription.PrefetchCount <= 1 ? 1 : subscription.PrefetchCount;
             m_channel.BasicQos(0, (ushort)prefetchCount, false);
-            m_channel.BasicConsume(subscription.QueueName, NO_ACK, m_consumer);
+            var tag = m_channel.BasicConsume(subscription.QueueName, NO_ACK, $"{ProcessId}_{subscription.Name}", m_consumer);
+            ObjectBuilder.GetObject<ILogger>().WriteInfo($"Subscribing to {subscription.QueueName}({tag})");
         }
 
         public async Task<QueueStatistics> GetStatisticsAsync(string queue)

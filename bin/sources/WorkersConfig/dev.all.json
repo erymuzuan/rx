@@ -87,14 +87,6 @@
             "instancesCount": 1,
             "prefetchCount": 1,
             "priority": 0,
-            "queueName": "ed_sql_table",
-            "fullName": "subscriber.entities.SqlTableSubscriber",
-            "assembly": "subscriber.entities"
-        },
-        {
-            "instancesCount": 1,
-            "prefetchCount": 1,
-            "priority": 0,
             "queueName": "WorkflowFormSubscriber",
             "fullName": "subscriber.entities.WorkflowFormSubscriber",
             "assembly": "subscriber.entities"
@@ -105,15 +97,19 @@
             "priority": 0,
             "queueName": "persistence",
             "fullName": "Bespoke.Sph.Persistence.PersistenceContextSubscriber",
-            "assembly": "subscriber.persistence"
-        },
-        {
-            "instancesCount": 1,
-            "prefetchCount": 1,
-            "priority": 0,
-            "queueName": "report_delivery_scheduler",
-            "fullName": "Bespoke.Sph.ReportDeliverySubscriptions.ReportDeliverySubscriber",
-            "assembly": "subscriber.report.delivery"
+            "assembly": "subscriber.persistence",
+            "entities": {
+                "Patient": {
+                    "instancesCount": 8,
+                    "maxInstances": 20,
+                    "minInstances": 2
+                },
+                "Customer": {
+                    "instancesCount": 3,
+                    "maxInstances": 20,
+                    "minInstances": 2
+                }
+            }
         },
         {
             "instancesCount": 1,
@@ -122,22 +118,6 @@
             "queueName": "trigger_subs",
             "fullName": "Bespoke.Sph.CustomTriggers.TriggerSubscriber",
             "assembly": "subscriber.trigger"
-        },
-        {
-            "instancesCount": 1,
-            "prefetchCount": 1,
-            "priority": 0,
-            "queueName": "trigger_subs_sales-order-post-snb",
-            "fullName": "Bespoke.DevV1.TriggerSubscribers.SalesOrderPostSnbTriggerSubscriber",
-            "assembly": "subscriber.trigger.sales-order-post-snb"
-        },
-        {
-            "instancesCount": 1,
-            "prefetchCount": 1,
-            "priority": 0,
-            "queueName": "trigger_subs_sap-fi-account-create-account-with-snbweb-api",
-            "fullName": "Bespoke.DevV1.TriggerSubscribers.SapFiAccountCreateAccountWithSnbwebApiTriggerSubscriber",
-            "assembly": "subscriber.trigger.sap-fi-account-create-account-with-snbweb-api"
         },
         {
             "instancesCount": 1,
@@ -194,4 +174,3 @@
     "changedDate": "2016-10-07T00:00:00+08:00",
     "webId": "dev"
 }
-ReadOnlyRepositoriesWorkers
