@@ -1,4 +1,7 @@
-﻿<div class="container-fluid" data-bind="foreach :attachedProperties">
+﻿<div class="container-fluid" data-bind="visible: isBusyLoadingAttachedProperties()">
+    <i class="fa fa-spin fa-spinner"></i>
+</div>
+<div class="container-fluid" data-bind="foreach :attachedProperties, visible: !isBusyLoadingAttachedProperties()">
     <h3 data-bind="text:compiler"></h3>
     
     <!-- ko foreach : properties-->

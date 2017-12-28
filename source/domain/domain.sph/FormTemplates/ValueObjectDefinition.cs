@@ -4,12 +4,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Bespoke.Sph.Domain.Compilers;
 
 namespace Bespoke.Sph.Domain
 {
     [DebuggerDisplay("Name = {Name}")]
     [PersistenceOption(HasDerivedTypes = true, IsSource = true)]
-    public partial class ValueObjectDefinition : Entity
+    public partial class ValueObjectDefinition : Entity, IProjectDefinition
     {
         public void Save()
         {
@@ -78,5 +79,8 @@ namespace Bespoke.Sph.Domain
             return warnings.ToArray();
 
         }
+
+        public string AssemblyName => "";
+        public string CodeNamespace => "";
     }
 }

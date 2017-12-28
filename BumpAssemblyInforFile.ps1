@@ -9,8 +9,8 @@ ls -Recurse -Filter AssemblyInfo.cs -Path .\source |
     $cs = [System.IO.File]::ReadAllText($_.FullName) 
     [System.IO.File]::WriteAllText($_.FullName, $cs + "`r`n//")
 
-    git add $_.FullName
-    git commit -m "Bumping version"
+    $Add = git add $_.FullName
+    $Commit = git commit -m "Bumping version"
     $done = $done + 1;
 }
 

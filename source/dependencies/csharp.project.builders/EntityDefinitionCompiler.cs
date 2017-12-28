@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Csharp.CompilersServices.Extensions;
 using Bespoke.Sph.Domain;
@@ -35,7 +36,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices
             if (!(project is EntityDefinition ed)) return sources;
             var classes = await ed.GenerateCodeAsync();
 
-            sources.AddRange(classes);
+            sources.AddRange(classes.Distinct(new ClassComparer()));
 
             return sources;
         }

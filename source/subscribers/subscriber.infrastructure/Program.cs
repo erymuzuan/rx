@@ -114,11 +114,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             var length = statistics.Count;
 
             var subscribers = this.SubscriberCollection;
-            var processing = subscribers.Sum(x => x.PrefetchCount);
+            var processing = statistics.Processing;
             var overloaded = published > delivered + processing || length > processing;
 
-            this.NotificationService.WriteInfo(
-                $"Published:{published}, Delivered : {delivered}, length : {length} , Processing {processing}");
+            this.NotificationService.WriteDebug(
+                $"Statistics [{mt.QueueName}] In {published} › {delivered}  ∑ {length}  Ω {processing}");
             if (overloaded && mt.MaxInstances.HasValue && subscribers.Count < mt.MaxInstances.Value)
             {
                 var sub1 = StartSubscriber(mt);
@@ -133,7 +133,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     sub2.Stop();
                 }
             }
-            this.NotificationService.WriteInfo("Current subscribers " + subscribers.Count);
 
         }
 

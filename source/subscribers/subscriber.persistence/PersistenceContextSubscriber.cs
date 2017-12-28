@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -44,12 +45,25 @@ namespace Bespoke.Sph.Persistence
         protected override void OnStop()
         {
             this.WriteMessage($"!!Stoping : {this.QueueName}");
+
             m_stoppingTcs?.SetResult(true);
+
+            while (true)
+            {
+                if (m_receivers.All(x => x.ProcessingCount == 0))
+                {
+                    break;
+                }
+                Thread.Sleep(100);
+                this.NotificicationService.WriteDebug("Waiting for processing to finish...");
+            }
 
 
             while (m_processing > 0)
             {
+                Thread.Sleep(100);
             }
+
 
 
             this.WriteMessage("!!Stopped : " + this.QueueName);
@@ -59,11 +73,42 @@ namespace Bespoke.Sph.Persistence
 
         private async Task StartConsume(IMessageBroker broker)
         {
+            this.NotificicationService.WriteInfo("Subscribing to persistence..");
             this.OnStart();
             await DeclareQueue(broker);
             broker.OnMessageDelivered(Received, new SubscriberOption(this.QueueName) { PrefetchCount = this.PrefetchCount });
             m_receivers.Clear();
 
+            var entities = await GetEntityDefinitionsAsync();
+            var settings = GetWorkersEntitySettings();
+            foreach (var per in settings)
+            {
+                var entitiesToken = per.SelectToken("$.entities");
+                if (null == entitiesToken) return;
+                foreach (var ed in entities)
+                {
+                    var count = GetWorkersCount(per, ed);
+                    for (var i = 0; i < count; i++)
+                    {
+                        var rcv = this.StartConsume(ed, broker, i);
+                        m_receivers.Add(rcv);
+                    }
+                }
+            }
+
+        }
+        private EntityPersistence StartConsume(EntityDefinition ed, IMessageBroker broker, int i)
+        {
+            var rcv = new EntityPersistence(ed, broker, m => this.WriteMessage(m), e => this.WriteError(e)) { PrefetchCount = this.PrefetchCount };
+            rcv.DeclareQueue(broker).Wait();
+            var subscriber = $"{rcv.QueueName}{(i + 1):_000}";
+            broker.OnMessageDelivered(rcv.ReceivedSingle, new SubscriberOption(rcv.QueueName, subscriber) { PrefetchCount = this.PrefetchCount });
+            this.NotificicationService.WriteVerbose($"Subscribing to {subscriber}");
+            return rcv;
+        }
+
+        private static async Task<EntityDefinition[]> GetEntityDefinitionsAsync()
+        {
             var rxEntities = (new[]
                 {
                     nameof(UserProfile),
@@ -75,12 +120,42 @@ namespace Bespoke.Sph.Persistence
                 })
                 .Select(x => new EntityDefinition { Name = x, IsPublished = true });
             var repos = ObjectBuilder.GetObject<ISourceRepository>();
-            var receivers = (await repos.LoadAsync<EntityDefinition>())
-                .Concat(rxEntities)
-                .Where(x => x.IsPublished)
-                .Select(x => StartConsume(x, broker));
+            var entities = (await repos.LoadAsync<EntityDefinition>()).Concat(rxEntities).Where(x => x.IsPublished).ToArray();
+            return entities;
+        }
 
-            m_receivers.AddRange(receivers);
+        private static int GetWorkersCount(JToken per, EntityDefinition ed)
+        {
+            var entitiesToken = per.SelectToken("$.entities");
+            var persistenceCount = per.SelectToken("$.instancesCount").Value<int>();
+
+            var edToken = entitiesToken.SelectToken("$." + ed);
+            var count = persistenceCount;
+            var countToken = edToken?.SelectToken("$.instancesCount");
+            if (null != countToken)
+            {
+                count = countToken.Value<int>();
+            }
+
+            return count;
+        }
+
+        private static IEnumerable<JToken> GetWorkersEntitySettings()
+        {
+            var env = ParseArg("env") ?? ConfigurationManager.GetEnvironmentVariable("Environment") ?? "dev";
+            var configName = ParseArg("config") ?? ConfigurationManager.AppSettings["sph:WorkersConfig"] ?? "all";
+            var json = JObject.Parse(
+                File.ReadAllText($@"{ConfigurationManager.SphSourceDirectory}\WorkersConfig\{env}.{configName}.json"));
+            var settings = json.SelectToken("$.subscriberConfigs")
+                .Where(x => x.SelectToken("$.queueName").Value<string>() == "persistence");
+            return settings;
+        }
+
+        private static string ParseArg(string name)
+        {
+            var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var val = args.SingleOrDefault(a => a.StartsWith("/" + name + ":"));
+            return val?.Replace("/" + name + ":", string.Empty);
         }
 
         private async Task DeclareQueue(IMessageBroker broker)
@@ -92,18 +167,6 @@ namespace Bespoke.Sph.Persistence
             });
         }
 
-        private EntityPersistence StartConsume(EntityDefinition ed, IMessageBroker broker)
-        {
-            var receiver =
-                new EntityPersistence(ed, broker, m => this.WriteMessage(m), e => this.WriteError(e))
-                {
-                    PrefetchCount = this.PrefetchCount
-                };
-            receiver.DeclareQueue(broker).Wait();
-
-            broker.OnMessageDelivered(Received, new SubscriberOption(this.QueueName) { PrefetchCount = this.PrefetchCount });
-            return receiver;
-        }
 
 
         private async Task<MessageReceiveStatus> Received(BrokeredMessage message)

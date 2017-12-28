@@ -125,6 +125,7 @@ bespoke.sph.domain.MemberPartial = function (model) {
         addField: addField,
         removeField: removeField,
         editField: editField,
-        attachedProperties: ko.observableArray()
+        attachedProperties: ko.observableArray(),
+        isBusyLoadingAttachedProperties : ko.observable(true)
     };
 };

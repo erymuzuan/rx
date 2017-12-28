@@ -163,6 +163,7 @@
     <Compile Include="..\..\extensions\LoggerExtensions.cs">
       <Link>Extensions\LoggerExtensions.cs</Link>
     </Compile>
+    <Compile Include="ClassComparer.cs" />
     <Compile Include="CsharpProjectDefinition.cs" />
     <Compile Include="DebuggerHelper.cs" />
     <Compile Include="Extensions\AssemblyInfroClassExtension.cs" />
@@ -194,7 +195,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent></PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -203,7 +205,6 @@
     <Error Condition="!Exists('..\..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
-
   <ItemGroup>
     <OutputFile Include="$(OutputPath)*.*">
       <Visible>false</Visible>

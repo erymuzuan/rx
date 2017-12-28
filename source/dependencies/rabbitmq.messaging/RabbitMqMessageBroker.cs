@@ -32,7 +32,10 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
             HostName = host;
             Port = port;
             VirtualHost = vhost;
+            this.ProcessId = System.Diagnostics.Process.GetCurrentProcess().Id;
         }
+
+        public int ProcessId { get; }
 
         public void Dispose()
         {
@@ -117,7 +120,8 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
              };
             var prefetchCount = subscription.PrefetchCount <= 1 ? 1 : subscription.PrefetchCount;
             m_channel.BasicQos(0, (ushort)prefetchCount, false);
-            m_channel.BasicConsume(subscription.QueueName, NO_ACK, m_consumer);
+            var tag = m_channel.BasicConsume(subscription.QueueName, NO_ACK, $"{ProcessId}_{subscription.Name}", m_consumer);
+            ObjectBuilder.GetObject<ILogger>().WriteVerbose($"Subscribing to {subscription.QueueName}({tag})");
         }
 
         public async Task<QueueStatistics> GetStatisticsAsync(string queue)
@@ -134,6 +138,8 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
             var length = json.SelectToken("$.messages").Value<int>();
             double published = default;
             double delivered = default;
+            var unackaed = json.SelectToken("$.messages_unacknowledged")?.Value<int>() ?? 0;
+
             if (null != statsToken)
             {
                 var publishToken = statsToken.SelectToken("$.publish_details");
@@ -148,7 +154,8 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
             {
                 PublishedRate = published,
                 DeliveryRate = delivered,
-                Count = length
+                Count = length,
+                Processing = unackaed
             };
         }
         private IModel m_channel;

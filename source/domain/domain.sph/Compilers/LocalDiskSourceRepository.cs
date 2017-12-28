@@ -69,7 +69,7 @@ namespace Bespoke.Sph.Domain.Compilers
                 Directory.CreateDirectory(path);
 
             var json = project.ToJsonString(Formatting.Indented, VersionInfo.Version);
-            File.WriteAllText($"{path}{project.Name}.json", json);
+            File.WriteAllText($"{path}{project.Id}.json", json);
 
             // now the properties, override those in files if exists
             var newItems = properties.ToArray();
