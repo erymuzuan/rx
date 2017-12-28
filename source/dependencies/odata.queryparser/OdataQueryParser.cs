@@ -1,16 +1,26 @@
-﻿using System;
+﻿using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
+using Microsoft.OData.UriParser;
+using System;
 using System.ComponentModel.Composition;
 using System.Linq;
-using Bespoke.Sph.Domain;
 
 namespace odata.queryparser
 {
     [Export("QueryParser", typeof(IQueryParser))]
     public class OdataQueryParser : IQueryParser
     {
-        public QueryDsl Parse(string text)
+        public QueryDsl Parse(string text, string entity)
         {
             var qs = text.Split(new[] { "&" }, StringSplitOptions.RemoveEmptyEntries);
+
+            var repos = ObjectBuilder.GetObject<ISourceRepository>();
+            var ed = repos.LoadOneAsync<EntityDefinition>(x => x.Name == entity).Result;
+
+            var model = ed.GenerateEdmModel();
+            var requestUri = new Uri($"/{ed.Plural}?{text}", UriKind.Relative);
+
+            var parser = new ODataUriParser(model, requestUri);
 
             string GetQueryStringValue(string key)
             {
@@ -23,19 +33,14 @@ namespace odata.queryparser
                 return pair.LastOrDefault().ToEmptyString();
             }
 
-
-            var filters = ParseFilters(GetQueryStringValue("$filter"));
+            var filters = ParseFilters(parser);
             var sorts = ParseSorts(GetQueryStringValue("$orderby"));
-            var query = new QueryDsl(filters, sorts);
+            var parsedSkip = parser.ParseSkip() ?? 0;
+            var skip = Convert.ToInt32(parsedSkip);
+            var parsedTop = parser.ParseTop();
+            var size = Convert.ToInt32(parsedTop);
 
-            var skipText = GetQueryStringValue("$skip") ?? "0";
-            if (int.TryParse(skipText, out var skip))
-                query.Skip = skip;
-
-            var topText = GetQueryStringValue("$top") ?? "0";
-            if (int.TryParse(topText, out var top))
-                query.Size = top;
-
+            var query = new QueryDsl(filters, sorts, skip, size);
 
             return query;
         }
@@ -43,64 +48,18 @@ namespace odata.queryparser
         public string Provider => "Odata";
         public string ContentType => "application/odata";
 
-        private Filter[] ParseFilters(string query)
+        private static Filter[] ParseFilters(ODataUriParser parser)
         {
-            /* TODO : OdataUri parser
-             https://blogs.msdn.microsoft.com/odatateam/2014/07/04/tutorial-sample-using-odatauriparser-for-odata-v4/
-             https://github.com/OData/odata.net/tree/ODataV4-6.x for a Odata Uri parser
-             */
-            var queries = query.Split(new[] { " and ", " or " }, StringSplitOptions.RemoveEmptyEntries);
-            var filters = from q in queries
-                          let words = q.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries)
-                          let term = words[0]
-                          let op = (Operator)Enum.Parse(typeof(Operator), words[1], true)
-                          let value = ParseValue(words)
-                          select new Filter(term, op, value);
+            var parsedFilter = parser.ParseFilter();
+            var visitor = new ODataQueryNodeVisitor();
+            parsedFilter.Expression.Accept(visitor);
 
-            return filters.ToArray();
+            return visitor.GetFilters().ToArray();
         }
 
         //TODO : when the Field is a function call .e.g "$filter=year(Dob) eq 1950"
-        private static object ParseValue(string[] words, int index = 2)
-        {
-            if (words.Length <= index)
-                return null;
-            var text = words[index];
 
-            var trim = text.Trim();
-            if (trim.StartsWith("'") && trim.EndsWith("'"))
-                return trim.Substring(1, trim.Length - 2);
-
-            if (trim == "true") return true;
-            if (trim == "false") return false;
-
-            /* e.g /Date(694224000000)*/
-            if (trim.StartsWith("/Date"))
-            {
-                var ticksString = Strings.RegexSingleValue(trim, @"/Date\((?<val>[0-9]{10-15})\)", "val");
-                if (long.TryParse(ticksString, out var ticks))
-                    return new DateTime(1970, 1, 1).AddTicks(ticks);
-            }
-            if (trim.StartsWith("DateTime"))
-            {
-                var dateString = Strings.RegexSingleValue(trim, @"DateTime'(?<val>.*?)\'", "val");
-                if (DateTime.TryParse(dateString, out var date))
-                    return date;
-            }
-
-            if (trim.Contains("."))
-            {
-                if (decimal.TryParse(trim, out var dv))
-                    return dv;
-
-            }
-            if (int.TryParse(trim, out var iv))
-                return iv;
-
-            return trim;
-        }
-
-        private Sort[] ParseSorts(string odata)
+        private static Sort[] ParseSorts(string odata)
         {
             var queries = odata.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
             var sorts = from q in queries
