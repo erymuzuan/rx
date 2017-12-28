@@ -165,6 +165,8 @@ namespace Bespoke.Sph.MessagingTests
 
 
         }
+
+
         [Theory]
         [InlineData("Patient", CrudOperation.Added, "Register", new[] { "Patient.Added.Register" }, true)]
         [InlineData("Patient", CrudOperation.Changed, "Admit", new[] { "Patient.Added.Register" }, false)]
@@ -320,7 +322,7 @@ namespace Bespoke.Sph.MessagingTests
             await DeleteAllTopicsAndSubscriptions();
             await Broker.ConnectAsync((text, arg) => { });
             var operation = "GuaranteedFail";
-            var option = new QueueDeclareOption("Test-" + Guid.NewGuid(), "Test.#." + operation)
+            var option = new QueueDeclareOption("Test-" + Strings.GenerateId(8), "Test.#." + operation)
             { DeadLetterQueue = dlq };
             await Broker.CreateSubscriptionAsync(option);
 
@@ -332,11 +334,11 @@ namespace Bespoke.Sph.MessagingTests
                 Id = Guid.NewGuid().ToString(),
                 TryCount = 0,
                 RetryDelay = TimeSpan.FromMilliseconds(500),
-                Headers =
-                {
-                    { "Username", "erymuzuan"}
-                },
-                RoutingKey = "Test.added." + operation
+                Headers = { { "Username", "erymuzuan" } },
+                RoutingKey = "Test.added." + operation,
+                Entity = "Test",
+                Operation = operation,
+                ReplyTo = "me"
             };
             var flag = new AutoResetEvent(false);
             var id = "";
@@ -348,34 +350,36 @@ namespace Bespoke.Sph.MessagingTests
                 return Task.FromResult(MessageReceiveStatus.Rejected);
             }, new SubscriberOption(option.QueueName));
 
-            var before = await GetMessagesCount(dlq ?? "ms_dead_letter_queue");
+            var before = await GetMessagesCount(dlq ?? $"{option.QueueName}/$DeadLetterQueue");
             await Broker.SendAsync(message);
             flag.WaitOne(5_000);
             Assert.Equal(message.Id, id);
 
-            Assert.Equal(before + 1, await GetMessagesCount(dlq ?? "ms_dead_letter_queue", before + 1, 10_000));
+            Assert.Equal(before + 1, await GetMessagesCount(dlq ?? $"{option.QueueName}/$DeadLetterQueue", before + 1, 10_000));
         }
 
 
         private async Task<int> GetMessagesCount(string queue, int? expected = default, int timeout = 5000)
         {
             var namespaceManager = NamespaceManager.CreateFromConnectionString(AzureServiceBusConfigurationManager.PrimaryConnectionString);
+            var exist = namespaceManager.SubscriptionExists(AzureServiceBusConfigurationManager.DefaultTopicPath, queue);
+            if (!exist) return int.MinValue;
+
             var subscriptionDesc = namespaceManager.GetSubscription(AzureServiceBusConfigurationManager.DefaultTopicPath, queue);
 
-            long messageCount = subscriptionDesc.MessageCount;
-            if (expected.HasValue)
-            {
-                var stopWatch = new Stopwatch();
-                stopWatch.Start();
-                while (stopWatch.Elapsed < TimeSpan.FromMilliseconds(timeout))
-                {
-                    subscriptionDesc = namespaceManager.GetSubscription(AzureServiceBusConfigurationManager.DefaultTopicPath, queue);
-                    var count = (int)subscriptionDesc.MessageCount;
-                    if (count == expected) return count;
-                    Console.WriteLine(".");
-                    await Task.Delay(100);
+            var messageCount = subscriptionDesc.MessageCount;
+            if (!expected.HasValue) return (int) messageCount;
 
-                }
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+            while (stopWatch.Elapsed < TimeSpan.FromMilliseconds(timeout))
+            {
+                subscriptionDesc = namespaceManager.GetSubscription(AzureServiceBusConfigurationManager.DefaultTopicPath, queue);
+                var count = (int)subscriptionDesc.MessageCount;
+                if (count == expected) return count;
+                Console.WriteLine(".");
+                await Task.Delay(100);
+
             }
             return (int)messageCount;
         }

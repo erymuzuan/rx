@@ -8,7 +8,7 @@
     <ProjectGuid>{81E26BEA-19F9-48FE-B42D-580F4CBFD4A3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>azure.service.bus.messaging.test</RootNamespace>
+    <RootNamespace>Bespoke.Sph.MessagingTests</RootNamespace>
     <AssemblyName>azure.service.bus.messaging.test</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
