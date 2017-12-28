@@ -72,11 +72,21 @@
     <PostBuildEvent>copy $(TargetPath) $(SolutionDir)bin\subscribers
 copy $(ProjectDir)$(OutDir)$(TargetName).pdb $(SolutionDir)bin\subscribers</PostBuildEvent>
   </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+  <ItemGroup>
+    <OutputFile Include="$(OutputPath)$(AssemblyName).dll">
+      <Visible>false</Visible>
+    </OutputFile>
+    <OutputFile Include="$(OutputPath)$(AssemblyName).pdb">
+      <Visible>false</Visible>
+    </OutputFile>
+  </ItemGroup>
+   <Target Name="CopyOutputDirClientAndWeb">
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\subscribers" />
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <PropertyGroup>
+    <BuildDependsOn>
+      $(BuildDependsOn);CopyOutputDirClientAndWeb
+    </BuildDependsOn>
+  </PropertyGroup>
+  
 </Project>

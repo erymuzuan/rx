@@ -87,19 +87,23 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <ItemGroup>
-    <OutputFile Include="$(OutputPath)*.*">
+    <OutputFile Include="$(OutputPath)$(AssemblyName).dll">
+      <Visible>false</Visible>
+    </OutputFile>
+    <OutputFile Include="$(OutputPath)$(AssemblyName).pdb">
       <Visible>false</Visible>
     </OutputFile>
   </ItemGroup>
-  <Target Name="CopyOutputDirClientAndWeb">
+   <Target Name="CopyOutputDirClientAndWeb">
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\subscribers" />
   </Target>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <PropertyGroup>
     <BuildDependsOn>
       $(BuildDependsOn);CopyOutputDirClientAndWeb
     </BuildDependsOn>
-  </PropertyGroup>
+  </PropertyGroup>  
 </Project>

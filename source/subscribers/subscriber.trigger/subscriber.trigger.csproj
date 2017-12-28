@@ -47,7 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-
     <Compile Include="..\..\assembly.versions\subscribers-subscriber.trigger.cs">
       <Link>Properties\subscribers-subscriber.trigger.cs</Link>
     </Compile>
@@ -65,16 +64,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <OutputFile Include="$(OutputPath)*.*">
-      <Visible>false</Visible>
-    </OutputFile>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="CopyOutputDirClientAndWeb">
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <ItemGroup>
+    <OutputFile Include="$(OutputPath)$(AssemblyName).dll">
+      <Visible>false</Visible>
+    </OutputFile>
+    <OutputFile Include="$(OutputPath)$(AssemblyName).pdb">
+      <Visible>false</Visible>
+    </OutputFile>
+  </ItemGroup>
+   <Target Name="CopyOutputDirClientAndWeb">
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\subscribers" />
   </Target>
   <PropertyGroup>
@@ -82,5 +85,4 @@
       $(BuildDependsOn);CopyOutputDirClientAndWeb
     </BuildDependsOn>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>
