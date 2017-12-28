@@ -35,11 +35,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AggregateGroupByTest.cs" />
+    <Compile Include="FilterWithComparisonOperatorsTest.cs" />
+    <Compile Include="FilterWithLogicalOperatorsTest.cs" />
     <Compile Include="FilterWithOdataTest.cs" />
+    <Compile Include="Mocks\MockReadOnlyRepository.cs" />
+    <Compile Include="Mocks\MockRepository.cs" />
+    <Compile Include="Mocks\MockSourceRepository.cs" />
+    <Compile Include="Mocks\XunitConsoleLogger.cs" />
     <Compile Include="SortTest.cs" />
     <Compile Include="StandardAggregateTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Moq, Version=4.2.1408.717, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Moq.4.2.1408.0717\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -65,8 +74,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\dependencies\odata.queryparser\odata.queryparser.csproj">
@@ -76,6 +89,10 @@
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\sqlrepository.test\sqlrepository.test.csproj">
+      <Project>{45BE956C-0E3C-4472-9331-1704ED096898}</Project>
+      <Name>sqlrepository.test</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
