@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Csharp.CompilersServices;
 using Bespoke.Sph.Domain;
@@ -23,8 +25,9 @@ namespace Bespoke.Sph.Tests
             addressDefinition.MemberCollection.Add(new SimpleMember { Name = "Postcode", Type = typeof(string) });
 
             disk.AddOrReplace(addressDefinition);
-            
+
             ObjectBuilder.AddCacheList<ISourceRepository>(disk);
+            ObjectBuilder.AddCacheList<ILogger>(new XunitConsoleLogger(console));
         }
 
         [Fact]
@@ -57,14 +60,20 @@ namespace Bespoke.Sph.Tests
                 ValueObjectName = "Address"
             });
 
-            var compiler = new EntityDefinitionCompiler();
-            var sources =(await compiler.GenerateCodeAsync(patient)).ToList();
+            var compiler = new EntityDefinitionCompiler { BuildDiagnostics = Array.Empty<IBuildDiagnostics>() };
+            var sources = (await compiler.GenerateCodeAsync(patient)).ToList();
             foreach (var @class in sources)
             {
                 Console.WriteLine($"{@class.Name}.cs");
             }
 
             Assert.Equal(2, sources.Count);
+
+
+            var sr = await compiler.BuildAsync(patient, p => new CompilerOptions2("test-patient.dll", "test-patient.pdb"));
+            Assert.True(sr.Result);
+
+            Assert.True(File.Exists(sr.Output));
         }
     }
 }

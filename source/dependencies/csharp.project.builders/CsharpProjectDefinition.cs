@@ -96,7 +96,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices
         {
             var logger = ObjectBuilder.GetObject<ILogger>();
             var parseOptions = new CSharpParseOptions(LanguageVersion.CSharp7_1);
-            var classes = (await project.GenerateProjectCodesAsync()).ToList();
+            var classes = (await project.GenerateProjectCodesAsync()).Distinct(new ClassComparer()).ToList();
 
             List<SyntaxTree> trees;
 
