@@ -28,7 +28,7 @@ namespace Bespoke.Sph.MessageTrackerSla
 
                 broker.CreateSlaMonitorQueueAsync().Wait();
                 this.OnStart();
-                broker.OnMessageDelivered(Received);
+                broker.OnMessageDelivered(Received, new SubscriberOption(this.QueueName));
 
                 PrintSubscriberInformation(sw.Elapsed);
                 sw.Stop();
@@ -53,7 +53,7 @@ namespace Bespoke.Sph.MessageTrackerSla
             this.WriteMessage($"!!Stopped : {QueueName}");
         }
 
-   
+
         private int m_processing;
 
 

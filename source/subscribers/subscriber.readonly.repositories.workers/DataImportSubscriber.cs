@@ -15,7 +15,7 @@ namespace Bespoke.Sph.ReadOnlyRepositoriesWorkers
     public class DataImportSubscriber : Subscriber
     {
         public override string QueueName => "readonly.data-import";
-        public override string[] RoutingKeys => new[] {"persistence"};
+        public override string[] RoutingKeys => new[] { "persistence" };
         private TaskCompletionSource<bool> m_stoppingTcs;
 
         public override void Run(IMessageBroker broker)
@@ -60,7 +60,7 @@ namespace Bespoke.Sph.ReadOnlyRepositoriesWorkers
                 DeadLetterQueue = DEAD_LETTER_QUEUE
             });
 
-            broker.OnMessageDelivered(Received);
+            broker.OnMessageDelivered(Received, new SubscriberOption(this.QueueName));
         }
 
         private async Task<MessageReceiveStatus> Received(BrokeredMessage message)
