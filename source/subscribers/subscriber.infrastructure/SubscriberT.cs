@@ -65,6 +65,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             {
                 PrefetchCount = this.PrefetchCount
             };
+            Broker.CreateSubscriptionAsync(new QueueDeclareOption(this.QueueName, this.RoutingKeys)).Wait();
             if (m_entityDefinition?.EnableTracking ?? false)
                 Broker.OnMessageDelivered(ReceivedWithTracker, option);
             else
@@ -80,14 +81,14 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             var item = json.DeserializeFromJson<T>();
             try
             {
-                await ProcessMessage(item,message);
+                await ProcessMessage(item, message);
                 return MessageReceiveStatus.Accepted;
             }
             catch (Exception exc)
             {
                 this.NotificicationService.WriteError(exc, $"Exception is thrown in {QueueName}");
 
-                var entry = new LogEntry(exc) {Source = this.QueueName, Log = EventLog.Subscribers};
+                var entry = new LogEntry(exc) { Source = this.QueueName, Log = EventLog.Subscribers };
                 entry.OtherInfo.Add("Type", typeof(T).Name.ToLowerInvariant());
                 entry.OtherInfo.Add("Id", item.Id);
                 entry.OtherInfo.Add("Requeued", false);
@@ -154,7 +155,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
                 this.NotificicationService.WriteError(exc, $"Exception is thrown in {QueueName}");
 
-                var entry = new LogEntry(exc) {Source = this.QueueName, Log = EventLog.Subscribers};
+                var entry = new LogEntry(exc) { Source = this.QueueName, Log = EventLog.Subscribers };
                 entry.OtherInfo.Add("Type", typeof(T).Name.ToLowerInvariant());
                 entry.OtherInfo.Add("Id", id);
                 entry.OtherInfo.Add("Requeued", false);
