@@ -100,7 +100,7 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<IHttpActionResult> SearchRequestLogs(string from, string to, [RawBody]string text, [ContentType]MediaTypeHeaderValue contentType)
         {
             var parser = QueryParserFactory.Instance.Get(null, contentType?.MediaType ?? "appplication/json+elasticsearch");
-            var query = parser.Parse(text);
+            var query = parser.Parse(text, String.Empty);
 
             var repos = ObjectBuilder.GetObject<IMeteringRepository>();
             var lo = await repos.SearchAsync(query);

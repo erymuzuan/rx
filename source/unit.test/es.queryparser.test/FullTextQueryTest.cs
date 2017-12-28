@@ -4,7 +4,7 @@ using Bespoke.Sph.ElasticsearchQueryParsers;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Bespoke.Sph.QueryParserTests
+namespace Bespoke.Sph.EsQueryParserTests
 {
     public class FullTextQueryTest
     {
@@ -28,7 +28,8 @@ namespace Bespoke.Sph.QueryParserTests
         }}
     }}
 }}";
-            var query = new QueryParser().Parse(text);
+            var entity = "Employee";
+            var query = new QueryParser().Parse(text, entity);
 
             Assert.Single(query.Filters);
             var qs = query.Filters.Single();

@@ -5,7 +5,7 @@ using Bespoke.Sph.ElasticsearchQueryParsers;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Bespoke.Sph.QueryParserTests
+namespace Bespoke.Sph.EsQueryParserTests
 {
     public class AggregatesTest
     {
@@ -80,6 +80,7 @@ namespace Bespoke.Sph.QueryParserTests
         ""types_count"" : { ""value_count"" : { ""field"" : ""type"" } }
     }
 }";
+        private const string Entity = "Employee";
 
         public AggregatesTest(ITestOutputHelper console)
         {
@@ -93,7 +94,7 @@ namespace Bespoke.Sph.QueryParserTests
         ""max_price"" : { ""max"" : { ""field"" : ""price"" } }
     }
     }";
-            var query = new QueryParser().Parse(text);
+            var query = new QueryParser().Parse(text, Entity);
             Console.WriteLine(query);
             Assert.Single(query.Aggregates.OfType<MaxAggregate>());
             var max = query.Aggregates.OfType<MaxAggregate>().Single();
@@ -109,7 +110,7 @@ namespace Bespoke.Sph.QueryParserTests
         [InlineData(DateHistogram, typeof(DateHistogramAggregate), "requests_over_time", "time")]
         public void Test(string text, Type expectedType, string expectedName, string expectedField)
         {
-            var query = new QueryParser().Parse(text);
+            var query = new QueryParser().Parse(text, Entity);
             Console.WriteLine(query);
 
             Assert.Single(query.Aggregates);
