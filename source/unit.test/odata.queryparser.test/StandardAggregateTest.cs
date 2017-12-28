@@ -3,42 +3,45 @@ using Bespoke.Sph.Domain;
 using odata.queryparser;
 using Xunit;
 
-namespace Bespoke.Sph.QueryParserTests
+namespace Bespoke.Sph.ODataQueryParserTests
 {
     public class StandardAggregateTest
     {
         [Fact]
         public void ParseAggregateCountDistinct()
         {
-            var url = "$apply=aggregate(WorkItemId with countdistinct as CountOfWorkItems)";
+            const string TEXT = "$apply=aggregate(WorkItemId with countdistinct as CountOfWorkItems)";
+            const string ENTITY = "Product";
             var parser = new OdataQueryParser();
-            var query = parser.Parse(url);
+            var query = parser.Parse(TEXT, ENTITY);
 
             var countOfWorkItems = query.Aggregates.SingleOrDefault(x => x.Name == "CountofWorkItems");
             Assert.NotNull(countOfWorkItems);
         }
-        
-        
+
+
         [Fact]
         public void ParseAggregateMax()
         {
-            var url = "$apply=aggregate(WorkItemId with max as LatestItemId)";
+            const string TEXT = "$apply=aggregate(WorkItemId with max as LatestItemId)";
+            const string ENTITY = "Product";
             var parser = new OdataQueryParser();
-            var query = parser.Parse(url);
+            var query = parser.Parse(TEXT, ENTITY);
 
             var latestId = query.Aggregates.SingleOrDefault(x => x.Name == "LatestItemId");
             Assert.NotNull(latestId);
             Assert.IsType<MaxAggregate>(latestId);
         }
-        
-        
-        
+
+
+
         [Fact]
         public void ParseAggregateMin()
         {
-            var url = "$apply=aggregate(Age with avg as AverageAge)";
+            const string TEXT = "$apply=aggregate(Age with avg as AverageAge)";
+            const string ENTITY = "Product";
             var parser = new OdataQueryParser();
-            var query = parser.Parse(url);
+            var query = parser.Parse(TEXT, ENTITY);
 
             var latestId = query.Aggregates.SingleOrDefault(x => x.Name == "AverageAge");
             Assert.NotNull(latestId);
@@ -47,14 +50,15 @@ namespace Bespoke.Sph.QueryParserTests
         [Fact]
         public void ParseAggregateSum()
         {
-            var url = "$apply=aggregate(Age with sumb as TotalAge)";
+            const string TEXT = "$apply=aggregate(Age with sumb as TotalAge)";
+            const string ENTITY = "Product";
             var parser = new OdataQueryParser();
-            var query = parser.Parse(url);
+            var query = parser.Parse(TEXT, ENTITY);
 
             var latestId = query.Aggregates.SingleOrDefault(x => x.Name == "TotalAge");
             Assert.NotNull(latestId);
             Assert.IsType<SumAggregate>(latestId);
         }
-        
+
     }
 }

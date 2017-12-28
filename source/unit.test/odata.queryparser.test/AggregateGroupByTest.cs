@@ -3,16 +3,17 @@ using Bespoke.Sph.Domain;
 using odata.queryparser;
 using Xunit;
 
-namespace Bespoke.Sph.QueryParserTests
+namespace Bespoke.Sph.ODataQueryParserTests
 {
     public class AggregateGroupByTest
     {
         [Fact]
         public void GroupByStateCount()
         {
-            var url = "$apply=groupby((HomeAddress/State))";
+            const string TEXT = "$apply=groupby((HomeAddress/State))";
+            const string ENTITY = "Consignment";
             var parser = new OdataQueryParser();
-            var query = parser.Parse(url);
+            var query = parser.Parse(TEXT, ENTITY);
 
             var patientByState = query.Aggregates.SingleOrDefault(x => x.Name == "TotalAge");
             Assert.NotNull(patientByState);
@@ -21,9 +22,10 @@ namespace Bespoke.Sph.QueryParserTests
         [Fact]
         public void GroupByStateAndAgeCount()
         {
-            var url = "$apply=groupby((Name),aggregate(Sales/Amount with sum as Total))";
+            const string TEXT = "$apply=groupby((Name),aggregate(Sales/Amount with sum as Total))";
+            const string ENTITY = "Consignment";
             var parser = new OdataQueryParser();
-            var query = parser.Parse(url);
+            var query = parser.Parse(TEXT, ENTITY);
 
             var patientByState = query.Aggregates.SingleOrDefault(x => x.Name == "TotalAge");
             Assert.NotNull(patientByState);

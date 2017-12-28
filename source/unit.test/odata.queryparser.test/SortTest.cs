@@ -4,7 +4,7 @@ using odata.queryparser;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Bespoke.Sph.QueryParserTests
+namespace Bespoke.Sph.ODataQueryParserTests
 {
     public class SortTest
     {
@@ -17,18 +17,19 @@ namespace Bespoke.Sph.QueryParserTests
 
 
         [Theory]
-        [InlineData("$orderby=FullName desc", SortDirection.Desc, "FullName")]
-        [InlineData("$orderby=HomeAddress/State", SortDirection.Asc, "HomeAddress.State")]
-        [InlineData("$orderby=HomeAddress/State,Mrn", SortDirection.Asc, "HomeAddress.State", "Mrn")]
-        [InlineData("$orderby=HomeAddress/State,Mrn asc", SortDirection.Asc, "HomeAddress.State", "Mrn")]
-        [InlineData("$orderby=HomeAddress/State,Mrn desc", SortDirection.Desc, "HomeAddress.State", "Mrn")]
-        [InlineData("$orderby=Dob desc", SortDirection.Desc, "Dob")]
+        [InlineData("$orderby=FullName desc", "Student", SortDirection.Desc, "FullName")]
+        [InlineData("$orderby=HomeAddress/State", "Student", SortDirection.Asc, "HomeAddress.State")]
+        [InlineData("$orderby=HomeAddress/State,Mrn", "Student", SortDirection.Asc, "HomeAddress.State", "Mrn")]
+        [InlineData("$orderby=HomeAddress/State,Mrn asc", "Student", SortDirection.Asc, "HomeAddress.State", "Mrn")]
+        [InlineData("$orderby=HomeAddress/State,Mrn desc", "Student", SortDirection.Desc, "HomeAddress.State", "Mrn")]
+        [InlineData("$orderby=Dob desc", "Student", SortDirection.Desc, "Dob")]
         public void ParseOrderBy(string odata
+            , string entity
             , SortDirection expecteSortDirection /*TODO : each field gets its own sort*/
             , params string[] fields)
         {
             var parser = new OdataQueryParser();
-            var query = parser.Parse(odata);
+            var query = parser.Parse(odata, entity);
 
             foreach (var field in fields)
             {
