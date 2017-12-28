@@ -1,7 +1,11 @@
 ﻿Param(
        [switch]$InMemory = $false,
        [switch]$Debug = $false,
-       [string]$config = "all"
+       [string]$config = "all",
+       [ValidateSet("Debug","Verbose","Info")] 
+       [string]$ConsoleLoggerSwitch="Info",
+       [ValidateSet("Debug","Verbose","Info")] 
+       [string]$FileLoggerSwitch="Info"
        
      )
 
@@ -39,9 +43,9 @@ ls -Filter *.xml -Path .\bin\subscribers | Remove-Item
 
 if($Debug -ne $false){
    Start-Process -FilePath .\bin\subscribers.host\workers.console.runner.exe -WorkingDirectory $PWD `
-   -ArgumentList "/log:console /config:$config /debug  /out:C:\temp\logs\workers.console.log /outSize:100KB /outSwitch:Info"
+   -ArgumentList "/config:$config /debug  /out:C:\temp\logs\workers.console.log /outSize:100KB /outSwitch:$FileLoggerSwitch /switch:$ConsoleLoggerSwitch"
 }else{
     Start-Process -FilePath .\bin\subscribers.host\workers.console.runner.exe -WorkingDirectory $PWD `
-    -ArgumentList " /log:console /config:$config /out:C:\temp\logs\workers.console.log /outSize:100KB /outSwitch:Info"
+    -ArgumentList "/config:$config /out:C:\temp\logs\workers.console.log /outSize:100KB /outSwitch:$FileLoggerSwitch /switch:$ConsoleLoggerSwitch"
 }
     

@@ -7,7 +7,7 @@ namespace Bespoke.Sph.Domain
 {
     public class Logger : ILogger
     {
-        public Severity TraceSwitch { get; set; } = Severity.Info;
+        public Severity TraceSwitch { get; set; } = Severity.Debug;
         public ObjectCollection<ILogger> Loggers { get; } = new ObjectCollection<ILogger>();
 
         public Task LogAsync(LogEntry entry)

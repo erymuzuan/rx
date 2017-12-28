@@ -103,7 +103,7 @@ namespace Bespoke.Sph.Persistence
             rcv.DeclareQueue(broker).Wait();
             var subscriber = $"{rcv.QueueName}{(i + 1):_000}";
             broker.OnMessageDelivered(rcv.ReceivedSingle, new SubscriberOption(rcv.QueueName, subscriber) { PrefetchCount = this.PrefetchCount });
-            this.NotificicationService.WriteInfo($"Subscribing to {subscriber}");
+            this.NotificicationService.WriteVerbose($"Subscribing to {subscriber}");
             return rcv;
         }
 

@@ -19,7 +19,7 @@ namespace Bespoke.Sph.MessagingClients
                 return 0;
             }
             Console.WriteLine("Use /? for help");
-            Console.WriteLine("(c) 2014 Bespoke Technology Sdn. Bhd.");
+            Console.WriteLine("ﷲ (c) 2014 Bespoke Technology Sdn. Bhd.");
             Console.WriteLine();
             var debug = ParseArgExist("debug");
             var workerProcess = Process.GetCurrentProcess();
@@ -42,15 +42,10 @@ namespace Bespoke.Sph.MessagingClients
             sw.Start();
             Console.WriteLine("Stopwatch started");
 
-            var log = new Logger();
-            if (ParseArg("log") == "console")
-            {
-                log.Loggers.Add(new ConsoleLogger { TraceSwitch = Severity.Debug });
-            }
-            else
-            {
-                log.Loggers.Add(new EventLogNotification { TraceSwitch = Severity.Info });
-            }
+            var log = new Logger { TraceSwitch = Severity.Debug };
+            var consoleSwitch = (Severity)Enum.Parse(typeof(Severity), (ParseArg("switch") ?? "Info"), true);
+            log.Loggers.Add(new ConsoleLogger { TraceSwitch = consoleSwitch });
+
             var fileOut = ParseArg("out");
             var fileOutSize = ParseArg("outSize") ?? "100KB";
             var fileTraceSwitch = ParseArg("outSwitch") ?? "Debug";
