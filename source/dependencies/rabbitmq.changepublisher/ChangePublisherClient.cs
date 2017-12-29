@@ -31,7 +31,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
         public ChangePublisherClient()
         {
-            this.Exchange = "sph.topic";
+            this.Exchange = "rx.topics";
         }
 
 

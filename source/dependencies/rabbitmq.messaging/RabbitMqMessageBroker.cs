@@ -12,13 +12,15 @@ using RabbitMQ.Client;
 
 namespace Bespoke.Sph.Messaging.RabbitMqMessagings
 {
+    // ReSharper disable once UnusedMember.Global
     public class RabbitMqMessageBroker : IMessageBroker
     {
-        public string Password { get; }
-        public string UserName { get; }
-        public string HostName { get; }
-        public int Port { get; }
-        public string VirtualHost { get; }
+        private string Password { get; }
+        private string UserName { get; }
+        private string HostName { get; }
+        private int Port { get; }
+        private string VirtualHost { get; }
+        private int ProcessId { get; }
 
         public RabbitMqMessageBroker() : this(RabbitMqConfigurationManager.UserName, RabbitMqConfigurationManager.Password,
             RabbitMqConfigurationManager.Host, RabbitMqConfigurationManager.Port,
@@ -35,7 +37,6 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
             this.ProcessId = System.Diagnostics.Process.GetCurrentProcess().Id;
         }
 
-        public int ProcessId { get; }
 
         public void Dispose()
         {
@@ -119,9 +120,12 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
 
              };
             var prefetchCount = subscription.PrefetchCount <= 1 ? 1 : subscription.PrefetchCount;
-            m_channel.BasicQos(0, (ushort)prefetchCount, false);
-            var tag = m_channel.BasicConsume(subscription.QueueName, NO_ACK, $"{ProcessId}_{subscription.Name}", m_consumer);
-            ObjectBuilder.GetObject<ILogger>().WriteVerbose($"Subscribing to {subscription.QueueName}({tag})");
+            lock (m_lock)
+            {
+                m_channel.BasicQos(0, (ushort)prefetchCount, false);
+                var tag = m_channel.BasicConsume(subscription.QueueName, NO_ACK, $"{ProcessId}_{subscription.Name}", m_consumer);
+                ObjectBuilder.GetObject<ILogger>().WriteVerbose($"Subscribing to {subscription.QueueName}({tag})");
+            }
         }
 
         public async Task<QueueStatistics> GetStatisticsAsync(string queue)
@@ -161,49 +165,54 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
         private IModel m_channel;
         private TaskBasicConsumer m_consumer;
 
+        private readonly object m_lock = new object();
         public Task CreateSubscriptionAsync(QueueDeclareOption option)
         {
-            var exchangeName = RabbitMqConfigurationManager.DefaultExchange;
-            var deadLetterExchange = option.DeadLetterTopic ?? RabbitMqConfigurationManager.DefaultDeadLetterExchange;
-            var deadLetterQueue = option.DeadLetterQueue ?? RabbitMqConfigurationManager.DefaultDeadLetterQueue;
-
-            m_channel = m_connection.CreateModel();
-
-            m_channel.ExchangeDeclare(exchangeName, ExchangeType.Topic, true);
-            m_channel.ExchangeDeclare(deadLetterExchange, ExchangeType.Topic, true);
-            var args = new Dictionary<string, object> { { "x-dead-letter-exchange", deadLetterExchange } };
-            m_channel.QueueDeclare(option.QueueName, true, false, false, args);
-
-            m_channel.QueueDeclare(deadLetterQueue, true, false, false, args);
-            m_channel.QueueBind(deadLetterQueue, deadLetterExchange, "#", null);
-            m_channel.QueueBind(deadLetterQueue, deadLetterExchange, "*.added", null);
-            m_channel.QueueBind(deadLetterQueue, deadLetterExchange, "*.changed", null);
-
-            m_channel.QueueBind(option.QueueName, exchangeName, option.QueueName, null);
-            foreach (var s in option.RoutingKeys)
+            lock (m_lock)
             {
-                m_channel.QueueBind(option.QueueName, exchangeName, s, null);
+                var exchangeName = RabbitMqConfigurationManager.DefaultExchange;
+                var deadLetterExchange = option.DeadLetterTopic ?? RabbitMqConfigurationManager.DefaultDeadLetterExchange;
+                var deadLetterQueue = option.DeadLetterQueue ?? RabbitMqConfigurationManager.DefaultDeadLetterQueue;
+
+                m_channel = m_connection.CreateModel();
+
+                m_channel.ExchangeDeclare(exchangeName, ExchangeType.Topic, true);
+                m_channel.ExchangeDeclare(deadLetterExchange, ExchangeType.Topic, true);
+                var args = new Dictionary<string, object> { { "x-dead-letter-exchange", deadLetterExchange } };
+                m_channel.QueueDeclare(option.QueueName, true, false, false, args);
+
+                m_channel.QueueDeclare(deadLetterQueue, true, false, false, args);
+                m_channel.QueueBind(deadLetterQueue, deadLetterExchange, "#", null);
+                m_channel.QueueBind(deadLetterQueue, deadLetterExchange, "*.added", null);
+                m_channel.QueueBind(deadLetterQueue, deadLetterExchange, "*.changed", null);
+
+                m_channel.QueueBind(option.QueueName, exchangeName, option.QueueName, null);
+                foreach (var s in option.RoutingKeys)
+                {
+                    m_channel.QueueBind(option.QueueName, exchangeName, s, null);
+                }
+                // delay exchange and queue
+                var delayExchange = option.DelayedExchange ?? ("rx.delay.exchange." + option.QueueName);
+                var delayQueue = "rx.delay.queue." + option.QueueName;
+                var delayQueueArgs = new Dictionary<string, object>
+                {
+                    {"x-dead-letter-exchange", exchangeName},
+                    {"x-dead-letter-routing-key", option.QueueName}
+                };
+
+                m_channel.ExchangeDeclare(delayExchange, "direct");
+                m_channel.QueueDeclare(delayQueue, true, false, false, delayQueueArgs);
+                m_channel.QueueBind(delayQueue, delayExchange, string.Empty, null);
+
+                m_channel.BasicQos(0, (ushort)option.PrefetchCount, false);
+
+                return Task.FromResult(0);
+
             }
-            // delay exchange and queue
-            var delayExchange = "rx.delay.exchange." + option.QueueName;
-            var delayQueue = "rx.delay.queue." + option.QueueName;
-            var delayQueueArgs = new Dictionary<string, object>
-            {
-                {"x-dead-letter-exchange", exchangeName},
-                {"x-dead-letter-routing-key", option.QueueName}
-            };
-
-            m_channel.ExchangeDeclare(delayExchange, "direct");
-            m_channel.QueueDeclare(delayQueue, true, false, false, delayQueueArgs);
-            m_channel.QueueBind(delayQueue, delayExchange, string.Empty, null);
-
-            m_channel.BasicQos(0, (ushort)option.PrefetchCount, false);
-
-            return Task.FromResult(0);
         }
 
 
-        protected void PublishToDelayQueue(BrokeredMessage message, string queue)
+        private void PublishToDelayQueue(BrokeredMessage message, string queue)
         {
             var logger = ObjectBuilder.GetObject<ILogger>();
             var delayExchange = "rx.delay.exchange." + queue;

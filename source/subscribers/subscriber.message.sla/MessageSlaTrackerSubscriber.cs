@@ -14,7 +14,6 @@ namespace Bespoke.Sph.MessageTrackerSla
     public class MessageSlaTrackerSubscriber : Subscriber
     {
         public override string QueueName => MessageBrokerExtension.NOTIFICATION_QUEUE;
-
         public override string[] RoutingKeys => new[] { MessageBrokerExtension.NOTIFICATION_QUEUE };
         private TaskCompletionSource<bool> m_stoppingTcs;
 
@@ -65,7 +64,6 @@ namespace Bespoke.Sph.MessageTrackerSla
             try
             {
                 var json = await message.Body.DecompressAsync();
-
                 var @event = json.DeserializeFromJson<MessageSlaEvent>();
 
                 var tracker = ObjectBuilder.GetObject<IMessageTracker>();

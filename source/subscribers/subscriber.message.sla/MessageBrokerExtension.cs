@@ -18,13 +18,10 @@ namespace Bespoke.Sph.MessageTrackerSla
             {
                 DeadLetterQueue = NOTIFICATION_EXCHANGE,
                 DelayedQueue = DELAY_QUEUE,
-                Ttl = TimeSpan.FromMinutes(5)
+                Ttl = TimeSpan.FromMinutes(5),
+                DelayedExchange = DELAY_EXCHANGE
             });
 
         }
-        
-     
-        
-
     }
 }
