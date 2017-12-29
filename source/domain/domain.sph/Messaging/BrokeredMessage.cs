@@ -38,17 +38,8 @@ namespace Bespoke.Sph.Domain.Messaging
             {
                 if (headers["data-import"] is bool dv)
                 {
-                    if (!dv)
-                        return true;
+                    return dv;
                 }
-                else
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                return true;
             }
             return false;
         }

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain.Messaging
 {
+    [Obsolete("Moving to IMessageBroker")]
     public interface IEntityChangePublisher
     {
         Task PublishAdded(string operation, IEnumerable<Entity> attachedCollection, IDictionary<string, object> headers);

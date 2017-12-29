@@ -83,7 +83,9 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
         {
             get
             {
-                if (m_args.Properties.Headers["operation"] is byte[] operationBytes)
+                var headers = m_args.Properties.Headers;
+                if (!headers.ContainsKey("operation")) return null;
+                if (headers["operation"] is byte[] operationBytes)
                     return ByteToString(operationBytes);
 
                 return null;
