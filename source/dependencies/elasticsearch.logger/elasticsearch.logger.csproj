@@ -78,12 +78,6 @@
       <Visible>false</Visible>
     </OutputFile>
   </ItemGroup>
-  <Target Name="CopyOutputDirClientAndWeb">
-    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\web\web.sph\bin" />
-    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\subscribers\" />
-    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\web\bin\" />
-    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\schedulers\" />
-  </Target>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <BuildDependsOn>
@@ -99,7 +93,7 @@
   </Target>
   <Target Name="CopyOutputDirClientAndWeb">
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\web\web.sph\bin" />
-    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\subscribers\" />
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\subscribers.host\" />
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\schedulers\" />
   </Target>
   <PropertyGroup>
