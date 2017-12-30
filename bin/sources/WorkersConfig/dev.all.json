@@ -93,16 +93,16 @@
         },
         {
             "instancesCount": 1,
-            "prefetchCount": 1,
+            "prefetchCount": 2,
             "priority": 0,
             "queueName": "persistence",
             "fullName": "Bespoke.Sph.Persistence.PersistenceContextSubscriber",
             "assembly": "subscriber.persistence",
             "entities": {
                 "Patient": {
-                    "instancesCount": 8,
+                    "instancesCount": 1,
                     "maxInstances": 20,
-                    "minInstances": 2
+                    "minInstances": 1
                 },
                 "Customer": {
                     "instancesCount": 3,
