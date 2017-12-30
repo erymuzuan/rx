@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -150,6 +152,79 @@ namespace Bespoke.Sph.MessagingTests
             await Broker.SendAsync(message);
             flag.WaitOne(2500);
             Assert.Equal(message.Id + "", id);
+
+        }
+
+        [Fact]
+        public async Task ReceiveMessages()
+        {
+            await DeleteAllQueuesAndExchanges();
+            Console.WriteLine($"Connecting on thread {Thread.CurrentThread.ManagedThreadId} ...");
+            await Broker.ConnectAsync((text, arg) => { });
+
+            var qid = Strings.GenerateId(8);
+            var option = new QueueDeclareOption("Test-" + qid, "Test.#.Operation")
+            {
+                DeadLetterQueue = $"Test-{qid}-DLQ"
+            };
+
+            const int MESSAGES_COUNT = 10_000;
+            var messages = from i in Enumerable.Range(1, MESSAGES_COUNT)
+                           let body = CompressAsync($"Some details here {option.QueueName} {i}").Result
+                           select new BrokeredMessage
+                           {
+                               Body = body,
+                               Crud = CrudOperation.Added,
+                               Username = "erymuzuan",
+                               Id = i.ToString(),
+                               TryCount = 0,
+                               RetryDelay = TimeSpan.FromMilliseconds(500),
+                               Headers = { { "Username", "erymuzuan" } },
+                               RoutingKey = "Test.added.Operation",
+                               Entity = "Test",
+                               Operation = "Operation",
+                               ReplyTo = "me"
+                           };
+            var flag = new AutoResetEvent(false);
+            var bags = new HashSet<int>(Enumerable.Range(1, MESSAGES_COUNT));
+            var dlq = bags.Count(x => x % 100 == 0);
+
+            Parallel.For(1, 25, i =>
+            {
+                Broker.CreateSubscriptionAsync(option).Wait();
+                this.Broker.OnMessageDelivered(async msg =>
+                {
+                    var id = int.Parse(msg.Id);
+                    lock (bags)
+                    {
+                        Assert.Contains(id, bags);
+                        var removed = bags.Remove(id);
+                        Assert.True(removed, "Cannot remove " + id);
+                    }
+                    if (bags.Count == 0)
+                        flag.Set();
+                    await Task.Delay(25);
+                    if (id % 100 == 0)
+                        return MessageReceiveStatus.Rejected;
+                    return MessageReceiveStatus.Accepted;
+                }, new SubscriberOption(option.QueueName, "Test-" + i) { PrefetchCount = 5 });
+
+            });
+
+            var plr = Parallel.ForEach(messages, new ParallelOptions { MaxDegreeOfParallelism = 8 }, m =>
+               {
+                   this.Broker.SendAsync(m).ContinueWith(_ =>
+                   {
+                       if (null != _.Exception)
+                           ObjectBuilder.GetObject<ILogger>().Log(new LogEntry(_.Exception));
+                   });
+               });
+            Assert.True(plr.IsCompleted);
+            flag.WaitOne(2_500);
+            Assert.Empty(bags);
+
+            Assert.Equal(0, await GetMessagesCount(option.QueueName, 0, 8000));
+            Assert.Equal(dlq, await GetMessagesCount(option.DeadLetterQueue, dlq));
 
         }
 

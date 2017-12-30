@@ -36,7 +36,7 @@ namespace Bespoke.Sph.Messaging
             {
                 WriteInfo($"Starting {sub.QueueName} on {sub.GetType().Name}");
                 WriteVerbose(string.Join(",", sub.RoutingKeys));
-                sub.NotificicationService = WebSocketNotificationService.Instance;
+                sub.NotificationService = WebSocketNotificationService.Instance;
                 onStart.Invoke(sub, new object[] { });
             }
         }

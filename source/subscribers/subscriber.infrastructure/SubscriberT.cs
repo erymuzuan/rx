@@ -86,7 +86,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
             catch (Exception exc)
             {
-                this.NotificicationService.WriteError(exc, $"Exception is thrown in {QueueName}");
+                this.NotificationService.WriteError(exc, $"Exception is thrown in {QueueName}");
 
                 var entry = new LogEntry(exc) { Source = this.QueueName, Log = EventLog.Subscribers };
                 entry.OtherInfo.Add("Type", typeof(T).Name.ToLowerInvariant());
@@ -153,7 +153,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 trackingTasks.Add(tracker.RegisterDlqedAsync(new MessageTrackingEvent(json.DeserializeFromJson<T>(),
                     message.Id, message.Operation, this.QueueName)));
 
-                this.NotificicationService.WriteError(exc, $"Exception is thrown in {QueueName}");
+                this.NotificationService.WriteError(exc, $"Exception is thrown in {QueueName}");
 
                 var entry = new LogEntry(exc) { Source = this.QueueName, Log = EventLog.Subscribers };
                 entry.OtherInfo.Add("Type", typeof(T).Name.ToLowerInvariant());

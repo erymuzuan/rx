@@ -55,17 +55,13 @@ namespace Bespoke.Sph.Persistence
                     break;
                 }
                 Thread.Sleep(100);
-                this.NotificicationService.WriteDebug("Waiting for processing to finish...");
+                this.NotificationService.WriteDebug("Waiting for processing to finish...");
             }
-
 
             while (m_processing > 0)
             {
                 Thread.Sleep(100);
             }
-
-
-
             this.WriteMessage("!!Stopped : " + this.QueueName);
         }
 
@@ -73,7 +69,7 @@ namespace Bespoke.Sph.Persistence
 
         private async Task StartConsume(IMessageBroker broker)
         {
-            this.NotificicationService.WriteInfo("Subscribing to persistence..");
+            this.NotificationService.WriteInfo($"Subscribing to persistence..: thread id {Thread.CurrentThread.ManagedThreadId}");
             this.OnStart();
             await DeclareQueue(broker);
             broker.OnMessageDelivered(Received, new SubscriberOption(this.QueueName) { PrefetchCount = this.PrefetchCount });
@@ -90,21 +86,22 @@ namespace Bespoke.Sph.Persistence
                     var count = GetWorkersCount(per, ed);
                     for (var i = 0; i < count; i++)
                     {
-                        var rcv = this.StartConsume(ed, broker, i);
+                        var rcv = this.CreateEntityConsumer(ed, broker, i + 1);
                         m_receivers.Add(rcv);
                     }
+
                 }
             }
 
         }
-        private EntityPersistence StartConsume(EntityDefinition ed, IMessageBroker broker, int i)
+        private EntityPersistence CreateEntityConsumer(EntityDefinition ed, IMessageBroker broker, int number)
         {
-            var rcv = new EntityPersistence(ed, broker, m => this.WriteMessage(m), e => this.WriteError(e)) { PrefetchCount = this.PrefetchCount };
-            rcv.DeclareQueue(broker).Wait();
-            var subscriber = $"{rcv.QueueName}{(i + 1):_000}";
-            broker.OnMessageDelivered(rcv.ReceivedSingle, new SubscriberOption(rcv.QueueName, subscriber) { PrefetchCount = this.PrefetchCount });
-            this.NotificicationService.WriteVerbose($"Subscribing to {subscriber}");
-            return rcv;
+            var receiver = new EntityPersistence(ed, broker, m => this.WriteMessage(m), e => this.WriteError(e)) { PrefetchCount = this.PrefetchCount };
+            receiver.DeclareQueue(broker).Wait();
+            var subscriber = $"{receiver.QueueName}{number:_000}";
+            broker.OnMessageDelivered(receiver.ReceivedSingle, new SubscriberOption(receiver.QueueName, subscriber) { PrefetchCount = this.PrefetchCount });
+            this.NotificationService.WriteVerbose($"Subscribing to {subscriber} : thread id {Thread.CurrentThread.ManagedThreadId}");
+            return receiver;
         }
 
         private static async Task<EntityDefinition[]> GetEntityDefinitionsAsync()
@@ -166,8 +163,6 @@ namespace Bespoke.Sph.Persistence
                 DeadLetterQueue = DEAD_LETTER_QUEUE
             });
         }
-
-
 
         private async Task<MessageReceiveStatus> Received(BrokeredMessage message)
         {

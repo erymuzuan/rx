@@ -63,6 +63,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
             {
                 disconnected(e.ReplyText, e);
             };
+            m_channel = m_connection.CreateModel();
             return Task.FromResult(0);
         }
 
@@ -124,7 +125,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
             {
                 m_channel.BasicQos(0, (ushort)prefetchCount, false);
                 var tag = m_channel.BasicConsume(subscription.QueueName, NO_ACK, $"{ProcessId}_{subscription.Name}", m_consumer);
-                ObjectBuilder.GetObject<ILogger>().WriteVerbose($"Subscribing to {subscription.QueueName}({tag})");
+                ObjectBuilder.GetObject<ILogger>().WriteVerbose($"Subscribing to {subscription.QueueName}({tag}) on thread {System.Threading.Thread.CurrentThread.ManagedThreadId}");
             }
         }
 
@@ -166,15 +167,17 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
         private TaskBasicConsumer m_consumer;
 
         private readonly object m_lock = new object();
+
         public Task CreateSubscriptionAsync(QueueDeclareOption option)
         {
+          
+            ObjectBuilder.GetObject<ILogger>().WriteVerbose($"Creating subscription on thread {System.Threading.Thread.CurrentThread.ManagedThreadId}");
             lock (m_lock)
             {
                 var exchangeName = RabbitMqConfigurationManager.DefaultExchange;
                 var deadLetterExchange = option.DeadLetterTopic ?? RabbitMqConfigurationManager.DefaultDeadLetterExchange;
                 var deadLetterQueue = option.DeadLetterQueue ?? RabbitMqConfigurationManager.DefaultDeadLetterQueue;
 
-                m_channel = m_connection.CreateModel();
 
                 m_channel.ExchangeDeclare(exchangeName, ExchangeType.Topic, true);
                 m_channel.ExchangeDeclare(deadLetterExchange, ExchangeType.Topic, true);

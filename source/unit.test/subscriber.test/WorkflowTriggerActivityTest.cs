@@ -15,7 +15,7 @@ namespace subscriber.test
         {
             var sub = new WorkflowSchedulerTriggerSubscriber(@"d:\project\tools\n.exe")
             {
-                NotificicationService = new ConsoleLogger{TraceSwitch = Severity.Debug}
+                NotificationService = new ConsoleLogger{TraceSwitch = Severity.Debug}
             };
             var wd = new WorkflowDefinition
             {
@@ -49,7 +49,7 @@ namespace subscriber.test
         {
             var sub = new WorkflowSchedulerTriggerSubscriber(@"d:\project\tools\n.exe")
             {
-                NotificicationService = new ConsoleLogger{TraceSwitch = Severity.Debug}
+                NotificationService = new ConsoleLogger{TraceSwitch = Severity.Debug}
             };
 
             var wd = new WorkflowDefinition
@@ -86,7 +86,7 @@ namespace subscriber.test
         {
             var sub = new WorkflowSchedulerTriggerSubscriber(@"d:\project\tools\n.exe")
             {
-                NotificicationService = new ConsoleLogger{TraceSwitch = Severity.Debug}
+                NotificationService = new ConsoleLogger{TraceSwitch = Severity.Debug}
             };
             var wd = new WorkflowDefinition
             {

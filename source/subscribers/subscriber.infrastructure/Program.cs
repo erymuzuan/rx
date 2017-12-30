@@ -43,15 +43,17 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             this.SubscriberCollection.Clear();
             this.NotificationService.WriteInfo($"config {2 /* TODO : some info about the broker status */}");
-            this.NotificationService.WriteInfo("Starts...");
+            this.NotificationService.WriteInfo($"Connecting on thread {System.Threading.Thread.CurrentThread.ManagedThreadId} ...");
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             AppDomain.CurrentDomain.UnhandledException += AppdomainUnhandledException;
+
 
             await this.MessageBroker.ConnectAsync((errorMsg, error) =>
             {
                 this.Stop();
                 //TODO : Get next available node if clustered??
             });
+            // TODO : creates the subscription on the correct thread
 
             Parallel.ForEach(subscribersMetadata, (mt, c) =>
             {
@@ -165,7 +167,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             var dll = Path.GetFileNameWithoutExtension(metadata.Assembly);
             if (string.IsNullOrWhiteSpace(dll)) return null;
             if (!(Activator.CreateInstance(dll, metadata.FullName).Unwrap() is Subscriber subs)) return null;
-            subs.NotificicationService = this.NotificationService;
+            subs.NotificationService = this.NotificationService;
             subs.PrefetchCount = metadata.PrefetchCount;
             subs.Run(this.MessageBroker);
 

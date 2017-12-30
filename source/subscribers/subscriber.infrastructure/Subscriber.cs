@@ -20,7 +20,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
     {
         public abstract string QueueName { get; }
         public abstract string[] RoutingKeys { get; }
-        public ILogger NotificicationService { protected get; set; }
+        public ILogger NotificationService { protected get; set; }
 
         private int m_prefetchCount = 1;
 
@@ -42,7 +42,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             try
             {
-                this.NotificicationService.WriteError(exception, $"Exception is thrown in {this.QueueName}",
+                this.NotificationService.WriteError(exception, $"Exception is thrown in {this.QueueName}",
                     filePath, memberName, lineNumber);
                 var logger = ObjectBuilder.GetObject<ILogger>();
                 logger.Log(new LogEntry(exception)
@@ -56,7 +56,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
             catch (Exception e)
             {
-                this.NotificicationService.WriteError(e, "Fail to log exception ", filePath, memberName, lineNumber);
+                this.NotificationService.WriteError(e, "Fail to log exception ", filePath, memberName, lineNumber);
             }
         }
 
@@ -65,7 +65,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             [CallerFilePath] string filePath = "", [CallerMemberName] string memberName = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            this.NotificicationService.WriteWarning($"{this.GetType().Name} : {message}",
+            this.NotificationService.WriteWarning($"{this.GetType().Name} : {message}",
                 filePath, memberName, lineNumber);
         }
 
@@ -73,7 +73,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             [CallerFilePath] string filePath = "", [CallerMemberName] string memberName = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            this.NotificicationService.WriteInfo($"{this.GetType().Name} : {message}",
+            this.NotificationService.WriteInfo($"{this.GetType().Name} : {message}",
                 filePath, memberName, lineNumber);
         }
 
@@ -93,7 +93,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
             catch (Exception)
             {
-                this.NotificicationService.WriteInfo(
+                this.NotificationService.WriteInfo(
                     this.GetType().Namespace + " throws AlreadyClosedException on Stop");
             }
         }
