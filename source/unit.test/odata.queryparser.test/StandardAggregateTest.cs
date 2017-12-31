@@ -1,17 +1,33 @@
 ﻿using System.Linq;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
 using odata.queryparser;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Bespoke.Sph.ODataQueryParserTests
 {
     public class StandardAggregateTest
     {
+        public const string ENTITY = "Product";
+        public ITestOutputHelper Console { get; }
+
+        public StandardAggregateTest(ITestOutputHelper console)
+        {
+            Console = console;
+            ObjectBuilder.AddCacheList<ILogger>(new XunitConsoleLogger(console));
+
+            var product = new EntityDefinition { Name = "Product", Id = "product", Plural = "Products", WebId = Strings.GenerateId() };
+            product.AddSimpleMember<string>("WorkItemId");
+            product.AddSimpleMember<int>("Age");
+            var git = new MockSourceRepository();
+            git.AddOrReplace(product);
+            ObjectBuilder.AddCacheList<ISourceRepository>(git);
+        }
         [Fact]
         public void ParseAggregateCountDistinct()
         {
             const string TEXT = "$apply=aggregate(WorkItemId with countdistinct as CountOfWorkItems)";
-            const string ENTITY = "Product";
             var parser = new OdataQueryParser();
             var query = parser.Parse(TEXT, ENTITY);
 
@@ -24,7 +40,6 @@ namespace Bespoke.Sph.ODataQueryParserTests
         public void ParseAggregateMax()
         {
             const string TEXT = "$apply=aggregate(WorkItemId with max as LatestItemId)";
-            const string ENTITY = "Product";
             var parser = new OdataQueryParser();
             var query = parser.Parse(TEXT, ENTITY);
 
@@ -39,7 +54,6 @@ namespace Bespoke.Sph.ODataQueryParserTests
         public void ParseAggregateMin()
         {
             const string TEXT = "$apply=aggregate(Age with avg as AverageAge)";
-            const string ENTITY = "Product";
             var parser = new OdataQueryParser();
             var query = parser.Parse(TEXT, ENTITY);
 
@@ -51,7 +65,6 @@ namespace Bespoke.Sph.ODataQueryParserTests
         public void ParseAggregateSum()
         {
             const string TEXT = "$apply=aggregate(Age with sumb as TotalAge)";
-            const string ENTITY = "Product";
             var parser = new OdataQueryParser();
             var query = parser.Parse(TEXT, ENTITY);
 
