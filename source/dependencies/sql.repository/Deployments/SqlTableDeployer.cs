@@ -103,31 +103,43 @@ namespace Bespoke.Sph.SqlRepository.Deployments
 
         private async Task<string> RenameExistingTable(SqlConnection conn, EntityDefinition ed)
         {
-            var oldTable = $"{ed.Name}_{DateTime.Now:yyyyMMdd_HHmmss}";
+
             var tableExistSql =
                 $"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{ConfigurationManager.ApplicationName}'  AND  TABLE_NAME = '{ed.Name}'";
             var existingTableCount = conn.GetDatabaseScalarValue<int>(tableExistSql);
-
             if (existingTableCount <= 0) return null;
-
-            // TODO : even if the SQL table has not changed, the data schema might have changed
-            // Verify that the table has changed
-            var changed = HasSchemaChanged(ed);
-            if (!changed) return oldTable;
-
-
-            // rename table for migration
-            using (var renameTableCommand =
-                new SqlCommand("sp_rename", conn) { CommandType = CommandType.StoredProcedure })
+            async Task<string> RenameTableAsync()
             {
-                renameTableCommand.Parameters.AddWithValue("@objname", $"[{ConfigurationManager.ApplicationName}].[{ed.Name}]");
-                renameTableCommand.Parameters.AddWithValue("@newname", oldTable);
-                //renameTableCommand.Parameters.AddWithValue("@objtype", "OBJECT");
+                var oldTable = $"{ed.Name}_{DateTime.Now:yyyyMMdd_HHmmss}";
 
-                await renameTableCommand.ExecuteNonQueryAsync();
+                // TODO : even if the SQL table has not changed, the data schema might have changed
+                // Verify that the table has changed
+                var changed = HasSchemaChanged(ed);
+                if (!changed) return oldTable;
+
+                // rename table for migration
+                using (var renameTableCommand = new SqlCommand("sp_rename", conn) { CommandType = CommandType.StoredProcedure })
+                {
+                    renameTableCommand.Parameters.AddWithValue("@objname", $"[{ConfigurationManager.ApplicationName}].[{ed.Name}]");
+                    renameTableCommand.Parameters.AddWithValue("@newname", oldTable);
+                    //renameTableCommand.Parameters.AddWithValue("@objtype", "OBJECT");
+
+                    await renameTableCommand.ExecuteNonQueryAsync();
+                }
+
+                return oldTable;
+
             }
 
-            return oldTable;
+            // try for 10 times to rename 
+            for (var i = 0; i < 10; i++)
+            {
+                existingTableCount = conn.GetDatabaseScalarValue<int>(tableExistSql);
+                var archivedTable = await RenameTableAsync();
+                if (existingTableCount == 0) return archivedTable;
+                await Task.Delay(500);
+            }
+            throw new InvalidOperationException("Fail to rename " + ed.Name);
         }
 
         public async Task MigrateDataAsync(EntityDefinition ed, int sqlBatchSize, string oldTable,
