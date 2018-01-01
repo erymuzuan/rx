@@ -37,7 +37,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
 
             const bool NO_ACK = true;
-            const string EXCHANGE_NAME = "sph.topic";
+            const string EXCHANGE_NAME = "rx.topics";
 
             var factory = new ConnectionFactory
             {
