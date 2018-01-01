@@ -27,6 +27,7 @@ namespace Bespoke.Sph.Domain.Messaging
         public string Username { get; set; }
         public string ReplyTo { get; set; }
         public string Entity { get; set; }
+        public AuditTrail Log { get; set; }
 
         public bool IsDataImport => HasDataImport(this);
         public TimeSpan RetryDelay { get; set; }

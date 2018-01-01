@@ -20,6 +20,8 @@ $env:Path=$env:Path + "$PWD\bin\tools"
 ls -Filter *.config -Path .\bin\subscribers | Remove-Item
 ls -Filter *.xml -Path .\bin\subscribers | Remove-Item
 
+ls -Path .\bin\subscribers -Exclude subscriber.*.dll, subscriber.*.pdb | Remove-Item
+
 if($Debug -ne $false){
    Start-Process -FilePath .\bin\subscribers.host\workers.console.runner.exe -WorkingDirectory $PWD `
    -ArgumentList "/config:$config /debug  /out:C:\temp\logs\workers.console.log /outSize:100KB /outSwitch:$FileLoggerSwitch /switch:$ConsoleLoggerSwitch"
