@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Extensions;
 using Bespoke.Sph.Web.Solutions;
 using Microsoft.AspNet.SignalR;
 
@@ -87,27 +88,28 @@ namespace Bespoke.Sph.Web.Hubs
 
         public async Task WaitReadyAsync(string fileName)
         {
+            var logger = ObjectBuilder.GetObject<ILogger>();
             while (true)
             {
                 try
                 {
                     using (Stream stream = File.Open(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
                     {
-                        Console.WriteLine($"Output file {fileName} ready. " + stream);
+                        logger.WriteVerbose($"Output file {fileName} ready. " + stream);
                         break;
                     }
                 }
                 catch (FileNotFoundException ex)
                 {
-                    Console.WriteLine($"Output file {fileName} not yet ready ({ex.Message})");
+                    logger.WriteVerbose($"Output file {fileName} not yet ready ({ex.Message})");
                 }
                 catch (IOException ex)
                 {
-                    Console.WriteLine($"Output file {fileName} not yet ready ({ex.Message})");
+                    logger.WriteVerbose($"Output file {fileName} not yet ready ({ex.Message})");
                 }
                 catch (UnauthorizedAccessException ex)
                 {
-                    Console.WriteLine($"Output file {fileName} not yet ready ({ex.Message})");
+                    logger.WriteVerbose($"Output file {fileName} not yet ready ({ex.Message})");
                 }
                 await Task.Delay(500);
             }
