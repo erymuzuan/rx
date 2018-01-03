@@ -17,11 +17,11 @@ using BrokeredMessage = Bespoke.Sph.Domain.Messaging.BrokeredMessage;
 
 namespace Bespoke.Sph.MessagingTests
 {
-    public class AzureServiceBusBorkerTest : IDisposable
+    public class AzureServiceBusBrokerTest : IDisposable
     {
         public ITestOutputHelper Console { get; }
         private ServiceBusMessageBroker Broker { get; }
-        public AzureServiceBusBorkerTest(ITestOutputHelper console)
+        public AzureServiceBusBrokerTest(ITestOutputHelper console)
         {
             ObjectBuilder.AddCacheList<ILogger>(new XunitConsoleLogger(console));
             Console = console;
