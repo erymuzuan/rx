@@ -174,7 +174,7 @@
     <Compile Include="Extensions\IListExtension.cs" />
     <Compile Include="Extensions\MetadataExtension.cs" />
     <Compile Include="Extensions\OperationEndpointExtension.cs" />
-    <Compile Include="Extensions\QueryEndpointCsharp.cs" />
+    <Compile Include="Extensions\QueryEndpointCsharpWrapper.cs" />
     <Compile Include="QueryEndpointCompiler.cs" />
     <Compile Include="OperationEndpointCompiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

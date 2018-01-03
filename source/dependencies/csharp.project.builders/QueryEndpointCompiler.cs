@@ -32,7 +32,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices
             if (!(project is QueryEndpoint endpoint)) return sources;
             var ed = await repos.LoadOneAsync<EntityDefinition>(x => x.Name == endpoint.Entity);
 
-            var wrapper = new QueryEndpointCsharp(endpoint, ed);
+            var wrapper = new QueryEndpointCsharpWrapper(endpoint, ed);
 
             var controller = wrapper.GenerateCode();
             var info = await wrapper.GetAssemblyInfoCodeAsync();
