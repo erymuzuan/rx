@@ -388,7 +388,7 @@ namespace Bespoke.Sph.MessagingTests
         [Fact]
         public async Task QueueStatistics()
         {
-            var option = new QueueDeclareOption("Test-" + Guid.NewGuid(), "Test.#.Stat");
+            var option = new QueueDeclareOption("Test-" + Strings.GenerateId(8), "Test.#.Stat");
             await Broker.ConnectAsync((m, e) => { });
             await Broker.CreateSubscriptionAsync(option);
             await Task.Delay(500);
