@@ -5,6 +5,7 @@ using System.Linq;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Compilers;
 using Microsoft.OData.UriParser;
+using Microsoft.OData.UriParser.Aggregation;
 
 namespace odata.queryparser
 {
@@ -25,8 +26,10 @@ namespace odata.queryparser
             var skip = Convert.ToInt32(parsedSkip);
             var parsedTop = parser.ParseTop() ?? 0;
             var size = Convert.ToInt32(parsedTop);
+            var aggregates = ParseAggregates(parser);
 
             var query = new QueryDsl(filters, sorts, skip, size);
+            query.Aggregates.AddRange(aggregates);
 
             return query;
         }
@@ -51,6 +54,16 @@ namespace odata.queryparser
             var sorts = OdataQuerySortsBuilder.TryParseClause(orderByClause);
 
             return sorts.ToArray();
+        }
+
+        private static IEnumerable<Aggregate> ParseAggregates(ODataUriParser parser)
+        {
+            var applyClause = parser.ParseApply();
+            var transformationNodes = applyClause.Transformations
+                .Where(x => x.Kind == TransformationNodeKind.Aggregate);
+            var aggregates = OdataQueryAggregatesBuilder.TryParseNodes(transformationNodes);
+
+            return aggregates;
         }
     }
 }
