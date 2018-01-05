@@ -22,7 +22,7 @@ namespace odata.queryparser
             var sorts = TryParseSorts(parser);
             var parsedSkip = parser.ParseSkip() ?? 0;
             var skip = Convert.ToInt32(parsedSkip);
-            var parsedTop = parser.ParseTop();
+            var parsedTop = parser.ParseTop() ?? 0;
             var size = Convert.ToInt32(parsedTop);
 
             var query = new QueryDsl(filters, sorts, skip, size);

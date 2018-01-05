@@ -85,6 +85,9 @@ bool IsOf(expression p0, type p1) 	http://services.odata.org/Northwind/Northwind
             ObjectBuilder.AddCacheList<ISourceRepository>(SourceRepository);
             ObjectBuilder.AddCacheList(cache.Object);
             ObjectBuilder.AddCacheList<ILogger>(new XunitConsoleLogger(console));
+
+            var ed = CreateEmployeeEntityDefinition();
+            SourceRepository.AddOrReplace(ed);
         }
 
         private ITestOutputHelper Console { get; }
@@ -124,8 +127,6 @@ bool IsOf(expression p0, type p1) 	http://services.odata.org/Northwind/Northwind
             const string TEXT = "$filter=No gt 50 or (FirstName eq 'Scott' and Age lt 40)";
             const string ENTITY = "Employee";
 
-            var ed = CreateEmployeeEntityDefinition();
-            SourceRepository.AddOrReplace(ed);
             var parser = new OdataQueryParser();
             var query = parser.Parse(TEXT, ENTITY);
 
@@ -153,9 +154,6 @@ bool IsOf(expression p0, type p1) 	http://services.odata.org/Northwind/Northwind
         public void ParseFilter(string name, string filter, string entity, Operator expectedOperator,
             object expectedContantValue)
         {
-            var ed = CreateEmployeeEntityDefinition(entity);
-            SourceRepository.AddOrReplace(ed);
-
             var parser = new OdataQueryParser();
             var query = parser.Parse(filter, entity);
 
@@ -172,9 +170,6 @@ bool IsOf(expression p0, type p1) 	http://services.odata.org/Northwind/Northwind
         [InlineData("$filter=Age gt 50 or (FirstName eq 'Scott' and Age lt 40)", "Employee", 2)]
         public void ParseCompoundOrFilter(string filter, string entity, int childFilters)
         {
-            var ed = CreateEmployeeEntityDefinition(entity);
-            SourceRepository.AddOrReplace(ed);
-
             var parser = new OdataQueryParser();
             var query = parser.Parse(filter, entity);
 
@@ -193,8 +188,6 @@ bool IsOf(expression p0, type p1) 	http://services.odata.org/Northwind/Northwind
             var text = "$filter=DateOfBirth lt " + utcNow.ToString("o");
             const string ENTITY = "Employee";
 
-            var ed = CreateEmployeeEntityDefinition();
-            SourceRepository.AddOrReplace(ed);
             var parser = new OdataQueryParser();
             var query = parser.Parse(text, ENTITY);
 
@@ -211,8 +204,6 @@ bool IsOf(expression p0, type p1) 	http://services.odata.org/Northwind/Northwind
             const string TEXT = "$filter=HomeAddress/City eq 'Kuala Lumpur'";
             const string ENTITY = "Employee";
 
-            var ed = CreateEmployeeEntityDefinition();
-            SourceRepository.AddOrReplace(ed);
             var parser = new OdataQueryParser();
             var query = parser.Parse(TEXT, ENTITY);
 

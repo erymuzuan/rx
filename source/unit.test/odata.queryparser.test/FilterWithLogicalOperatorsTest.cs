@@ -19,9 +19,12 @@ namespace Bespoke.Sph.ODataQueryParserTests
             ObjectBuilder.AddCacheList<ISourceRepository>(SourceRepository);
             ObjectBuilder.AddCacheList(cache.Object);
             ObjectBuilder.AddCacheList<ILogger>(new XunitConsoleLogger(console));
+
+            var ed = CreateProductEntityDefinition();
+            SourceRepository.AddOrReplace(ed);
         }
 
-        public ITestOutputHelper Console { get; }
+        private ITestOutputHelper Console { get; }
         private MockSourceRepository SourceRepository { get; } = new MockSourceRepository();
 
         private static EntityDefinition CreateProductEntityDefinition(string name = "Product")
@@ -44,8 +47,6 @@ namespace Bespoke.Sph.ODataQueryParserTests
             const string TEXT = "$filter=Name eq 'Milk' and UnitPrice lt 2.55";
             const string ENTITY = "Product";
 
-            var ed = CreateProductEntityDefinition();
-            SourceRepository.AddOrReplace(ed);
             var parser = new OdataQueryParser();
             var query = parser.Parse(TEXT, ENTITY);
 
@@ -69,8 +70,6 @@ namespace Bespoke.Sph.ODataQueryParserTests
             const string TEXT = "$filter=not (Name eq 'Milk')";
             const string ENTITY = "Product";
 
-            var ed = CreateProductEntityDefinition();
-            SourceRepository.AddOrReplace(ed);
             var parser = new OdataQueryParser();
             var query = parser.Parse(TEXT, ENTITY);
 
@@ -88,8 +87,6 @@ namespace Bespoke.Sph.ODataQueryParserTests
             const string TEXT = "$filter=Name eq 'Milk' or UnitPrice lt 2.55";
             const string ENTITY = "Product";
 
-            var ed = CreateProductEntityDefinition();
-            SourceRepository.AddOrReplace(ed);
             var parser = new OdataQueryParser();
             var query = parser.Parse(TEXT, ENTITY);
 
