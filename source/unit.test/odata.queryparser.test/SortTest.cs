@@ -63,7 +63,7 @@ namespace Bespoke.Sph.ODataQueryParserTests
         [InlineData("$orderby=HomeAddress/State", "Employee", SortDirection.Asc, "State")]
         [InlineData("$orderby=HomeAddress/State,No", "Employee", SortDirection.Asc, "State", "No")]
         [InlineData("$orderby=HomeAddress/State,No asc", "Employee", SortDirection.Asc, "State", "No")]
-        [InlineData("$orderby=HomeAddress/State,No desc", "Employee", SortDirection.Desc, "State", "No")]
+        [InlineData("$orderby=HomeAddress/State desc,No desc", "Employee", SortDirection.Desc, "State", "No")]
         [InlineData("$orderby=DateOfBirth desc", "Employee", SortDirection.Desc, "DateOfBirth")]
         public void ParseOrderBy(string odata
             , string entity
