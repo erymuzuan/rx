@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Compilers;
+using Moq;
 using odata.queryparser;
 using Xunit;
 using Xunit.Abstractions;
@@ -9,69 +11,94 @@ namespace Bespoke.Sph.ODataQueryParserTests
 {
     public class StandardAggregateTest
     {
-        public const string ENTITY = "Product";
-        public ITestOutputHelper Console { get; }
-
         public StandardAggregateTest(ITestOutputHelper console)
         {
             Console = console;
+
+            var cache = new Mock<ICacheManager>(MockBehavior.Strict);
+            ObjectBuilder.AddCacheList<ISourceRepository>(SourceRepository);
+            ObjectBuilder.AddCacheList(cache.Object);
             ObjectBuilder.AddCacheList<ILogger>(new XunitConsoleLogger(console));
 
-            var product = new EntityDefinition { Name = "Product", Id = "product", Plural = "Products", WebId = Strings.GenerateId() };
-            product.AddSimpleMember<string>("WorkItemId");
-            product.AddSimpleMember<int>("Age");
-            var git = new MockSourceRepository();
-            git.AddOrReplace(product);
-            ObjectBuilder.AddCacheList<ISourceRepository>(git);
+            var ed = CreateProductEntityDefinition();
+            SourceRepository.AddOrReplace(ed);
         }
+
+        private ITestOutputHelper Console { get; }
+        private MockSourceRepository SourceRepository { get; } = new MockSourceRepository();
+
+        private static EntityDefinition CreateProductEntityDefinition(string name = "Product")
+        {
+            var ed = new EntityDefinition {Name = name, Plural = "Products", RecordName = "Code", Id = "product"};
+            ed.AddSimpleMember<string>("Name");
+            ed.AddSimpleMember<string>("Code");
+            ed.AddSimpleMember<DateTime>("ValidUntil");
+            ed.AddSimpleMember<decimal>("UnitPrice");
+            ed.AddSimpleMember<int>("UnitsInStock");
+            ed.AddSimpleMember<int>("UnitsOnOrder");
+            ed.AddSimpleMember<bool>("Discontinued");
+
+            return ed;
+        }
+
         [Fact]
         public void ParseAggregateCountDistinct()
         {
-            const string TEXT = "$apply=aggregate(WorkItemId with countdistinct as CountOfWorkItems)";
+            const string TEXT = "$apply=aggregate(Name with countdistinct as DistinctNames)";
+            const string ENTITY = "Product";
+
             var parser = new OdataQueryParser();
             var query = parser.Parse(TEXT, ENTITY);
 
-            var countOfWorkItems = query.Aggregates.SingleOrDefault(x => x.Name == "CountofWorkItems");
-            Assert.NotNull(countOfWorkItems);
+            Assert.Single(query.Aggregates.OfType<CountDistinctAggregate>());
+            var distinctNames = query.Aggregates.Single();
+            Assert.Equal("Name", distinctNames.Path);
+            Assert.Equal("DistinctNames", distinctNames.Name);
         }
-
 
         [Fact]
         public void ParseAggregateMax()
         {
-            const string TEXT = "$apply=aggregate(WorkItemId with max as LatestItemId)";
+            const string TEXT = "$apply=aggregate(UnitsInStock with max as TotalUnitsInStock)";
+            const string ENTITY = "Product";
+
             var parser = new OdataQueryParser();
             var query = parser.Parse(TEXT, ENTITY);
 
-            var latestId = query.Aggregates.SingleOrDefault(x => x.Name == "LatestItemId");
-            Assert.NotNull(latestId);
-            Assert.IsType<MaxAggregate>(latestId);
+            Assert.Single(query.Aggregates.OfType<MaxAggregate>());
+            var totalUnitsInStock = query.Aggregates.Single();
+            Assert.Equal("UnitsInStock", totalUnitsInStock.Path);
+            Assert.Equal("TotalUnitsInStock", totalUnitsInStock.Name);
         }
-
-
 
         [Fact]
         public void ParseAggregateMin()
         {
-            const string TEXT = "$apply=aggregate(Age with avg as AverageAge)";
+            const string TEXT = "$apply=aggregate(UnitPrice with avg as AverageUnitPrice)";
+            const string ENTITY = "Product";
+
             var parser = new OdataQueryParser();
             var query = parser.Parse(TEXT, ENTITY);
 
-            var latestId = query.Aggregates.SingleOrDefault(x => x.Name == "AverageAge");
-            Assert.NotNull(latestId);
-            Assert.IsType<AverageAggregate>(latestId);
+            Assert.Single(query.Aggregates.OfType<AverageAggregate>());
+            var averageUnitPrice = query.Aggregates.Single();
+            Assert.Equal("UnitPrice", averageUnitPrice.Path);
+            Assert.Equal("AverageUnitPrice", averageUnitPrice.Name);
         }
+
         [Fact]
         public void ParseAggregateSum()
         {
-            const string TEXT = "$apply=aggregate(Age with sumb as TotalAge)";
+            const string TEXT = "$apply=aggregate(UnitPrice with sum as TotalUnitPrice)";
+            const string ENTITY = "Product";
+
             var parser = new OdataQueryParser();
             var query = parser.Parse(TEXT, ENTITY);
 
-            var latestId = query.Aggregates.SingleOrDefault(x => x.Name == "TotalAge");
-            Assert.NotNull(latestId);
-            Assert.IsType<SumAggregate>(latestId);
+            Assert.Single(query.Aggregates.OfType<SumAggregate>());
+            var totalUnitPrice = query.Aggregates.Single();
+            Assert.Equal("UnitPrice", totalUnitPrice.Path);
+            Assert.Equal("TotalUnitPrice", totalUnitPrice.Name);
         }
-
     }
 }
