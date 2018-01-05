@@ -170,7 +170,7 @@ bool IsOf(expression p0, type p1) 	http://services.odata.org/Northwind/Northwind
 
         [Theory]
         [InlineData("$filter=Age gt 50 or (FirstName eq 'Scott' and Age lt 40)", "Employee", 2)]
-        public void ParseCpmpoundOrFilter(string filter, string entity, int childFilters)
+        public void ParseCompoundOrFilter(string filter, string entity, int childFilters)
         {
             var ed = CreateEmployeeEntityDefinition(entity);
             SourceRepository.AddOrReplace(ed);
@@ -202,7 +202,7 @@ bool IsOf(expression p0, type p1) 	http://services.odata.org/Northwind/Northwind
             Assert.NotNull(dateOfBirthLtNow);
             Assert.Equal(Operator.Lt, dateOfBirthLtNow.Operator);
             Assert.IsType<ConstantField>(dateOfBirthLtNow.Field);
-            Assert.Equal(utcNow.ToString("MM/dd/yyyy h:mm:ss tt +00:00"), dateOfBirthLtNow.Field.GetValue(default));
+            Assert.Equal(utcNow.ToString("M/d/yyyy h:mm:ss tt +00:00"), dateOfBirthLtNow.Field.GetValue(default));
         }
 
         [Fact]
