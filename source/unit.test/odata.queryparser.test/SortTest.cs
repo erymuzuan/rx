@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Compilers;
 using Bespoke.Sph.Tests.SqlServer.Extensions;
+using Moq;
 using odata.queryparser;
 using Xunit;
 using Xunit.Abstractions;
@@ -11,34 +13,58 @@ namespace Bespoke.Sph.ODataQueryParserTests
 {
     public class SortTest
     {
-        private ITestOutputHelper Console { get; }
-
         public SortTest(ITestOutputHelper console)
         {
             Console = console;
+
+            var cache = new Mock<ICacheManager>(MockBehavior.Strict);
+            ObjectBuilder.AddCacheList<ISourceRepository>(SourceRepository);
+            ObjectBuilder.AddCacheList(cache.Object);
             ObjectBuilder.AddCacheList<ILogger>(new XunitConsoleLogger(console));
 
-            var product = new EntityDefinition { Name = "Student", Id = "student", Plural = "Students", WebId = Strings.GenerateId() };
-            product.AddSimpleMember<string>("Mrn");
-            product.AddSimpleMember<string>("FullName");
-            product.AddSimpleMember<DateTime>("Dob");
-            var address = product.AddMember<ComplexMember>("HomeAddress");
-            address.AddMember("State", typeof(string));
+            var ed = CreateEmployeeEntityDefinition();
+            SourceRepository.AddOrReplace(ed);
+        }
 
+        private ITestOutputHelper Console { get; }
+        private MockSourceRepository SourceRepository { get; } = new MockSourceRepository();
 
-            var git = new MockSourceRepository();
-            git.AddOrReplace(product);
-            ObjectBuilder.AddCacheList<ISourceRepository>(git);
+        private static EntityDefinition CreateEmployeeEntityDefinition(string name = "Employee")
+        {
+            var ed = new EntityDefinition { Name = name, Plural = "Employees", RecordName = "No", Id = "Employee" };
+            ed.AddSimpleMember<int>("No");
+            ed.AddSimpleMember<string>("FirstName");
+            ed.AddSimpleMember<string>("LastName");
+            ed.AddSimpleMember<string>("Description");
+            ed.AddSimpleMember<string>("Gender");
+            ed.AddSimpleMember<int>("Age");
+            ed.AddSimpleMember<DateTime>("DateOfBirth");
+            ed.AddSimpleMember<DateTime>("HireDate");
+
+            var address = new ComplexMember { Name = "HomeAddress", TypeName = "Address" };
+            address.AddMember<string>("Street1");
+            address.AddMember<string>("Street2");
+            address.AddMember<string>("City");
+            address.AddMember<string>("State");
+            address.AddMember<string>("Country");
+            address.AddMember<int>("Postcode");
+            ed.MemberCollection.Add(address);
+
+            var contacts = new ComplexMember { Name = "Contacts", TypeName = "Contact", AllowMultiple = true };
+            contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
+            ed.MemberCollection.Add(contacts);
+
+            return ed;
         }
 
 
         [Theory]
-        [InlineData("$orderby=FullName desc", "Student", SortDirection.Desc, "FullName")]
-        [InlineData("$orderby=HomeAddress/State", "Student", SortDirection.Asc, "HomeAddress.State")]
-        [InlineData("$orderby=HomeAddress/State,Mrn", "Student", SortDirection.Asc, "HomeAddress.State", "Mrn")]
-        [InlineData("$orderby=HomeAddress/State,Mrn asc", "Student", SortDirection.Asc, "HomeAddress.State", "Mrn")]
-        [InlineData("$orderby=HomeAddress/State,Mrn desc", "Student", SortDirection.Desc, "HomeAddress.State", "Mrn")]
-        [InlineData("$orderby=Dob desc", "Student", SortDirection.Desc, "Dob")]
+        [InlineData("$orderby=FirstName desc", "Employee", SortDirection.Desc, "FirstName")]
+        [InlineData("$orderby=HomeAddress/State", "Employee", SortDirection.Asc, "State")]
+        [InlineData("$orderby=HomeAddress/State,No", "Employee", SortDirection.Asc, "State", "No")]
+        [InlineData("$orderby=HomeAddress/State,No asc", "Employee", SortDirection.Asc, "State", "No")]
+        [InlineData("$orderby=HomeAddress/State,No desc", "Employee", SortDirection.Desc, "State", "No")]
+        [InlineData("$orderby=DateOfBirth desc", "Employee", SortDirection.Desc, "DateOfBirth")]
         public void ParseOrderBy(string odata
             , string entity
             , SortDirection expecteSortDirection /*TODO : each field gets its own sort*/
