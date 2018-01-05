@@ -11,12 +11,12 @@ using SuperSocket.WebSocket;
 
 namespace Bespoke.Sph.Messaging
 {
-    class WebSocketNotificationService : ILogger
+    internal class WebSocketNotificationService : ILogger
     {
         private static WebSocketNotificationService m_instance;
         private static readonly object m_lock = new object();
 
-        WebSocketNotificationService()
+        private WebSocketNotificationService()
         {
         }
 
