@@ -59,22 +59,37 @@ namespace Bespoke.Sph.ODataQueryParserTests
         [Fact]
         public void ParseAggregateMax()
         {
-            const string TEXT = "$apply=aggregate(UnitsInStock with max as TotalUnitsInStock)";
+            const string TEXT = "$apply=aggregate(UnitsOnOrder with max as MaxUnitsOnOrder)";
             const string ENTITY = "Product";
 
             var parser = new OdataQueryParser();
             var query = parser.Parse(TEXT, ENTITY);
 
             Assert.Single(query.Aggregates.OfType<MaxAggregate>());
-            var totalUnitsInStock = query.Aggregates.Single();
-            Assert.Equal("UnitsInStock", totalUnitsInStock.Path);
-            Assert.Equal("TotalUnitsInStock", totalUnitsInStock.Name);
+            var maxUnitsOnOrder = query.Aggregates.Single();
+            Assert.Equal("UnitsOnOrder", maxUnitsOnOrder.Path);
+            Assert.Equal("MaxUnitsOnOrder", maxUnitsOnOrder.Name);
         }
 
         [Fact]
         public void ParseAggregateMin()
         {
-            const string TEXT = "$apply=aggregate(UnitPrice with avg as AverageUnitPrice)";
+            const string TEXT = "$apply=aggregate(UnitsOnOrder with min as MinUnitsOnOrder)";
+            const string ENTITY = "Product";
+
+            var parser = new OdataQueryParser();
+            var query = parser.Parse(TEXT, ENTITY);
+
+            Assert.Single(query.Aggregates.OfType<MinAggregate>());
+            var minUnitsOnOrder = query.Aggregates.Single();
+            Assert.Equal("UnitsOnOrder", minUnitsOnOrder.Path);
+            Assert.Equal("MinUnitsOnOrder", minUnitsOnOrder.Name);
+        }
+
+        [Fact]
+        public void ParseAggregateAverage()
+        {
+            const string TEXT = "$apply=aggregate(UnitPrice with average as AverageUnitPrice)";
             const string ENTITY = "Product";
 
             var parser = new OdataQueryParser();
