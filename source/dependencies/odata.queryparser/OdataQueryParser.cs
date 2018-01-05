@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Compilers;
 using Microsoft.OData.UriParser;
@@ -18,8 +19,8 @@ namespace odata.queryparser
             var requestUri = new Uri($"/{ed.Plural}?{text}", UriKind.Relative);
             var parser = new ODataUriParser(model, requestUri);
 
-            var filters = TryParseFilters(parser);
-            var sorts = TryParseSorts(parser);
+            var filters = ParseFilters(parser);
+            var sorts = ParseSorts(parser);
             var parsedSkip = parser.ParseSkip() ?? 0;
             var skip = Convert.ToInt32(parsedSkip);
             var parsedTop = parser.ParseTop() ?? 0;
@@ -33,7 +34,7 @@ namespace odata.queryparser
         public string Provider => "Odata";
         public string ContentType => "application/odata";
 
-        private static Filter[] TryParseFilters(ODataUriParser parser)
+        private static Filter[] ParseFilters(ODataUriParser parser)
         {
             var filterClause = parser.ParseFilter();
             if (null == filterClause) return null;
@@ -43,12 +44,11 @@ namespace odata.queryparser
             return visitor.GetFilters().ToArray();
         }
 
-        private static Sort[] TryParseSorts(ODataUriParser parser)
+        private static Sort[] ParseSorts(ODataUriParser parser)
         {
             var orderByClause = parser.ParseOrderBy();
             if (null == orderByClause) return null;
-            var sorts = new List<Sort>();
-            OdataQuerySortsBuilder.TryNodeValue(orderByClause, sorts);
+            var sorts = OdataQuerySortsBuilder.TryParseClause(orderByClause);
 
             return sorts.ToArray();
         }

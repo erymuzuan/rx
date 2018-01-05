@@ -6,8 +6,10 @@ namespace odata.queryparser
 {
     public static class OdataQuerySortsBuilder
     {
-        public static void TryNodeValue(OrderByClause node, ICollection<Sort> sorts)
+        public static IEnumerable<Sort> TryParseClause(OrderByClause node)
         {
+            var sorts = new List<Sort>();
+
             while (true)
             {
                 var expression = (SingleValuePropertyAccessNode) node.Expression;
@@ -23,6 +25,8 @@ namespace odata.queryparser
                 }
                 break;
             }
+
+            return sorts;
         }
     }
 }
