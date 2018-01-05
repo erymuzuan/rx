@@ -5,7 +5,7 @@ using Microsoft.OData.UriParser;
 
 namespace odata.queryparser
 {
-    public class ODataQueryNodeVisitor : QueryNodeVisitor<string>
+    public class OdataQueryNodeVisitor : QueryNodeVisitor<string>
     {
         private readonly List<Filter> m_filters = new List<Filter>();
         private Filter m_filter = new Filter();

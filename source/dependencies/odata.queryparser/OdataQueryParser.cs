@@ -26,7 +26,7 @@ namespace odata.queryparser
             var skip = Convert.ToInt32(parsedSkip);
             var parsedTop = parser.ParseTop() ?? 0;
             var size = Convert.ToInt32(parsedTop);
-            var aggregates = ParseAggregates(parser);
+            var aggregates = ParseAggregates(parser) ?? new List<Aggregate>();
 
             var query = new QueryDsl(filters, sorts, skip, size);
             query.Aggregates.AddRange(aggregates);
@@ -41,7 +41,7 @@ namespace odata.queryparser
         {
             var filterClause = parser.ParseFilter();
             if (null == filterClause) return null;
-            var visitor = new ODataQueryNodeVisitor();
+            var visitor = new OdataQueryNodeVisitor();
             filterClause.Expression.Accept(visitor);
 
             return visitor.GetFilters().ToArray();
@@ -59,11 +59,12 @@ namespace odata.queryparser
         private static IEnumerable<Aggregate> ParseAggregates(ODataUriParser parser)
         {
             var applyClause = parser.ParseApply();
+            if (null == applyClause) return null;
             var transformationNodes = applyClause.Transformations
                 .Where(x => x.Kind == TransformationNodeKind.Aggregate);
             var aggregates = OdataQueryAggregatesBuilder.TryParseNodes(transformationNodes);
 
-            return aggregates;
+            return aggregates.ToList();
         }
     }
 }
