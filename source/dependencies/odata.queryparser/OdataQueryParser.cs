@@ -1,9 +1,9 @@
-﻿using Bespoke.Sph.Domain;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Compilers;
 using Microsoft.OData.UriParser;
-using System;
-using System.ComponentModel.Composition;
-using System.Linq;
 
 namespace odata.queryparser
 {
@@ -12,29 +12,14 @@ namespace odata.queryparser
     {
         public QueryDsl Parse(string text, string entity)
         {
-            var qs = text.Split(new[] { "&" }, StringSplitOptions.RemoveEmptyEntries);
-
             var repos = ObjectBuilder.GetObject<ISourceRepository>();
             var ed = repos.LoadOneAsync<EntityDefinition>(x => x.Name == entity).Result;
-
             var model = ed.GenerateEdmModel();
             var requestUri = new Uri($"/{ed.Plural}?{text}", UriKind.Relative);
-
             var parser = new ODataUriParser(model, requestUri);
 
-            string GetQueryStringValue(string key)
-            {
-                var pair = qs.SingleOrDefault(x => x.StartsWith(key))
-                    .ToEmptyString().Split(new[] { "=" }, StringSplitOptions.RemoveEmptyEntries);
-
-                if (pair.Length <= 1)
-                    return string.Empty;
-
-                return pair.LastOrDefault().ToEmptyString();
-            }
-
-            var filters = ParseFilters(parser);
-            var sorts = ParseSorts(GetQueryStringValue("$orderby"));
+            var filters = TryParseFilters(parser);
+            var sorts = TryParseSorts(parser);
             var parsedSkip = parser.ParseSkip() ?? 0;
             var skip = Convert.ToInt32(parsedSkip);
             var parsedTop = parser.ParseTop();
@@ -48,25 +33,22 @@ namespace odata.queryparser
         public string Provider => "Odata";
         public string ContentType => "application/odata";
 
-        private static Filter[] ParseFilters(ODataUriParser parser)
+        private static Filter[] TryParseFilters(ODataUriParser parser)
         {
-            var parsedFilter = parser.ParseFilter();
+            var filterClause = parser.ParseFilter();
+            if (null == filterClause) return null;
             var visitor = new ODataQueryNodeVisitor();
-            parsedFilter.Expression.Accept(visitor);
+            filterClause.Expression.Accept(visitor);
 
             return visitor.GetFilters().ToArray();
         }
 
-        //TODO : when the Field is a function call .e.g "$filter=year(Dob) eq 1950"
-
-        private static Sort[] ParseSorts(string odata)
+        private static Sort[] TryParseSorts(ODataUriParser parser)
         {
-            var queries = odata.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-            var sorts = from q in queries
-                        let words = q.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries)
-                        let path = words[0].Replace("/", ".")
-                        let direction = (words.Length == 2 && words[1] == "desc") ? SortDirection.Desc : SortDirection.Asc
-                        select new Sort { Path = path, Direction = direction };
+            var orderByClause = parser.ParseOrderBy();
+            if (null == orderByClause) return null;
+            var sorts = new List<Sort>();
+            OdataQuerySortsBuilder.TryNodeValue(orderByClause, sorts);
 
             return sorts.ToArray();
         }

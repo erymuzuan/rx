@@ -58,6 +58,7 @@
     <Compile Include="MemberExtension.cs" />
     <Compile Include="OdataQueryParser.cs" />
     <Compile Include="ODataQueryNodeVisitor.cs" />
+    <Compile Include="OdataQuerySortsBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
