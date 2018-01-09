@@ -77,14 +77,17 @@
       <Name>subscriber.infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <OutputFile Include="$(OutputPath)*.*">
+    <OutputFile Include="$(OutputPath)$(AssemblyName).dll">
+      <Visible>false</Visible>
+    </OutputFile>
+    <OutputFile Include="$(OutputPath)$(AssemblyName).pdb">
       <Visible>false</Visible>
     </OutputFile>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="CopyOutputDirClientAndWeb">
-    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\subscribers\" />
+   <Target Name="CopyOutputDirClientAndWeb">
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\subscribers" />
   </Target>
   <PropertyGroup>
     <BuildDependsOn>

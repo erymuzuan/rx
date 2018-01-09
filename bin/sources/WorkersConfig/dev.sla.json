@@ -4,13 +4,43 @@
     "isEnabled": true,
     "environment": "dev",
     "subscriberConfigs": [{
-        "instancesCount": 1,
-        "prefetchCount": 1,
-        "priority": 0,
-        "queueName": "message.sla",
-        "fullName": "Bespoke.Sph.MessageTrackerSla.MessageSlaTrackerSubscriber",
-        "assembly": "subscriber.message.sla"
-    }],
+            "instancesCount": 1,
+            "prefetchCount": 2,
+            "priority": 0,
+            "queueName": "persistence",
+            "fullName": "Bespoke.Sph.Persistence.PersistenceContextSubscriber",
+            "assembly": "subscriber.persistence",
+            "entities": {
+                "Patient": {
+                    "instancesCount": 1,
+                    "maxInstances": 20,
+                    "minInstances": 1
+                },
+                "Customer": {
+                    "instancesCount": 3,
+                    "maxInstances": 20,
+                    "minInstances": 2
+                }
+            }
+        },
+        {
+            "instancesCount": 1,
+            "prefetchCount": 1,
+            "priority": 0,
+            "queueName": "rx.notification.queue.messages.sla",
+            "fullName": "Bespoke.Sph.MessageTrackerSla.MessageSlaTrackerSubscriber",
+            "assembly": "subscriber.message.sla"
+        },
+        {
+            "entity": "Patient",
+            "instancesCount": 10,
+            "prefetchCount": 1,
+            "priority": 0,
+            "queueName": "trigger_subs_patient-patient-trigger-no-1",
+            "fullName": "Bespoke.DevV1.TriggerSubscribers.PatientPatientTriggerNo1TriggerSubscriber",
+            "assembly": "subscriber.trigger.patient-patient-trigger-no-1"
+        }
+    ],
     "createdBy": "erymuzuan",
     "id": "dev",
     "createdDate": "2016-10-07T00:00:00+08:00",

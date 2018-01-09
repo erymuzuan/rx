@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.SubscribersInfrastructure;
 
 namespace Bespoke.Sph.WorkflowsExecution
@@ -11,7 +12,7 @@ namespace Bespoke.Sph.WorkflowsExecution
 
         public override string[] RoutingKeys => new[] { "Workflow.changed.Terminate" };
 
-        protected override async Task ProcessMessage(Workflow item, MessageHeaders header)
+        protected override async Task ProcessMessage(Workflow item, BrokeredMessage message)
         {
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();

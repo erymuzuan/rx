@@ -6,5 +6,6 @@ namespace Bespoke.Sph.Web.ViewModels
     {
         public Designation Designation { get; set; }
         public UserProfile Profile { get; set; }
+        public string LoginUrl { get; set; }
     }
 }

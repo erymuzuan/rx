@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Win32.TaskScheduler;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 
 namespace Bespoke.Sph.WindowsTaskScheduler
 {

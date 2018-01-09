@@ -2,6 +2,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Jsbeautifier;
 
@@ -13,7 +14,7 @@ namespace subscriber.entities
 
         public override string[] RoutingKeys => new[] { $"{nameof(FormDialog)}.changed.Publish" };
 
-        protected override async Task ProcessMessage(FormDialog item, MessageHeaders header)
+        protected override async Task ProcessMessage(FormDialog item, BrokeredMessage header)
         {
             await Task.Delay(2000);//temporay workround for source being written
             var route = item.Route.ToLower();

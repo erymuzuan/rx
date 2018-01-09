@@ -251,6 +251,9 @@
     <Compile Include="..\..\assembly.versions\SolutionVersion.cs">
       <Link>SolutionVersion.cs</Link>
     </Compile>
+    <Compile Include="..\..\extensions\BinaryExtensions.cs">
+      <Link>Extensions\BinaryExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\extensions\LoggerExtensions.cs">
       <Link>LoggerExtensions.cs</Link>
     </Compile>
@@ -352,6 +355,17 @@
     <Compile Include="Management\WorkersConfig.cs" />
     <Compile Include="Management\WorkerServerConfig.cs" />
     <Compile Include="MessageTrackingEvent.cs" />
+    <Compile Include="Messaging\BrokeredMessage.cs" />
+    <Compile Include="Messaging\CrudOperation.cs" />
+    <Compile Include="Messaging\EntityChangedEventArgs.cs" />
+    <Compile Include="Messaging\EntityChangedEventHandler.cs" />
+    <Compile Include="Messaging\IEntityChangedListener.cs" />
+    <Compile Include="Messaging\IEntityChangePublisher.cs" />
+    <Compile Include="Messaging\IMessageBroker.cs" />
+    <Compile Include="Messaging\MessageReceiveStatus.cs" />
+    <Compile Include="Messaging\QueueStatistics.cs" />
+    <Compile Include="Messaging\QueueDeclareOption.cs" />
+    <Compile Include="Messaging\SubscriberOption.cs" />
     <Compile Include="Ports\DelimitedTextComplexMember.cs" />
     <Compile Include="Ports\DelimitedTextFieldMapping.cs" />
     <Compile Include="Ports\DelimitedTextFormatter.cs" />
@@ -607,8 +621,6 @@
     <Compile Include="IDirectoryService.cs" />
     <Compile Include="IDocumentExport.cs" />
     <Compile Include="IDocumentGenerator.cs" />
-    <Compile Include="IEntityChangedListener.cs" />
-    <Compile Include="IEntityChangePublisher.cs" />
     <Compile Include="INotificationChannel.cs" />
     <Compile Include="INotificationService.cs" />
     <Compile Include="IPersistence.cs" />
@@ -849,9 +861,6 @@
     <None Include="Scripts\jquery-2.2.0.min.map" />
     <None Include="Scripts\underscore.min.map" />
     <None Include="test.pfx" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

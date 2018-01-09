@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
 using Bespoke.Sph.RoslynScriptEngines;
 using Xunit;
 using Xunit.Abstractions;
@@ -14,19 +14,24 @@ namespace domain.test.businessrules
     [Trait("Category", "BusinessRule")]
     public class BusinessRuleTest
     {
-        private readonly ITestOutputHelper m_outputHelper;
+        public ITestOutputHelper Console { get; }
 
-        public BusinessRuleTest(ITestOutputHelper outputHelper)
+        public BusinessRuleTest(ITestOutputHelper console)
         {
-            m_outputHelper = outputHelper;
+            Console = console;
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
+            ObjectBuilder.AddCacheList<ILogger>(new XunitConsoleLogger(console));
+
+            var git = new MockSourceRepository();
+            ObjectBuilder.AddCacheList<ISourceRepository>(git);
+            ObjectBuilder.AddCacheList<ICvsProvider>(new MockGit());
         }
 
         [Fact]
-        public void SimpleRule()
+        public async Task SimpleRule()
         {
             var ed = this.CreatePatientDefinition();
-            dynamic patient = this.CreateInstanceAsync(ed);
+            dynamic patient = await this.CreateInstanceAsync(ed);
             patient.FullName = "Erymuzuan";
 
             var br = new BusinessRule { ErrorMessage = "Nama tidak mengandungi huruf A" };
@@ -42,9 +47,9 @@ namespace domain.test.businessrules
             var result = patient.ValidateBusinessRule(ed.BusinessRuleCollection);
             foreach (var error in result.ValidationErrors)
             {
-                m_outputHelper.WriteLine(error.ToString());
+                Console.WriteLine(error.ToString());
             }
-            Console.WriteLine(result.ValidationErrors);
+            Console.WriteLine(result.ValidationErrors.ToString("\r\n"));
             Assert.True(result.Success);
 
             Assert.Equal(0, result.ValidationErrors.Count);
@@ -52,10 +57,10 @@ namespace domain.test.businessrules
 
         }
         [Fact]
-        public void SimpleRuleWithFilter()
+        public async Task SimpleRuleWithFilter()
         {
             var ed = this.CreatePatientDefinition();
-            dynamic patient = this.CreateInstanceAsync(ed);
+            dynamic patient = await this.CreateInstanceAsync(ed);
             patient.FullName = "Erymuzuan";
             patient.Gender = "Male";
 
@@ -79,9 +84,9 @@ namespace domain.test.businessrules
             ValidationResult result = patient.ValidateBusinessRule(ed.BusinessRuleCollection);
             foreach (var error in result.ValidationErrors)
             {
-                Console.WriteLine(error);
+                Console.WriteLine(error.ToString());
             }
-            Console.WriteLine(result.ValidationErrors);
+            Console.WriteLine(result.ValidationErrors.ToString(", "));
             Assert.True(result.Success);
 
             Assert.Empty(result.ValidationErrors);
@@ -90,10 +95,10 @@ namespace domain.test.businessrules
         }
 
         [Fact]
-        public void SimpleRuleWithFilterNotEvaluated()
+        public async Task SimpleRuleWithFilterNotEvaluated()
         {
             var ed = this.CreatePatientDefinition();
-            dynamic patient = this.CreateInstanceAsync(ed);
+            dynamic patient = await this.CreateInstanceAsync(ed);
             patient.FullName = "Siti";
             patient.Gender = "Female";
 
@@ -117,9 +122,9 @@ namespace domain.test.businessrules
             ValidationResult result = patient.ValidateBusinessRule(ed.BusinessRuleCollection);
             foreach (var error in result.ValidationErrors)
             {
-                Console.WriteLine(error);
+                Console.WriteLine(error.ToString());
             }
-            Console.WriteLine(result.ValidationErrors);
+            Console.WriteLine(result.ValidationErrors.ToString(", "));
             Assert.True(result.Success);
 
             Assert.Empty(result.ValidationErrors);
@@ -127,10 +132,10 @@ namespace domain.test.businessrules
 
         }
         [Fact]
-        public void SimpleRuleWithoutFilter()
+        public async Task SimpleRuleWithoutFilter()
         {
             var ed = this.CreatePatientDefinition();
-            dynamic patient = this.CreateInstanceAsync(ed);
+            dynamic patient = await this.CreateInstanceAsync(ed);
             patient.FullName = "Siti";
             patient.Gender = "Female";
 
@@ -154,11 +159,11 @@ namespace domain.test.businessrules
 
 
         [Fact]
-        public void TwoRulesOneFail()
+        public async Task TwoRulesOneFail()
         {
 
             var ed = this.CreatePatientDefinition();
-            dynamic patient = this.CreateInstanceAsync(ed);
+            dynamic patient = await this.CreateInstanceAsync(ed);
 
             var br = new BusinessRule { ErrorMessage = "Nama tidak mengandungi huruf A" };
             var nameMustContainsA = new Rule
@@ -194,11 +199,11 @@ namespace domain.test.businessrules
 
         }
         [Fact]
-        public void TwoRulesAllFail()
+        public async Task TwoRulesAllFail()
         {
 
             var ed = this.CreatePatientDefinition();
-            dynamic patient = this.CreateInstanceAsync(ed);
+            dynamic patient = await this.CreateInstanceAsync(ed);
 
             var br = new BusinessRule { ErrorMessage = "Nama tidak mengandungi huruf A" };
             var nameMustContainsA = new Rule
@@ -235,14 +240,21 @@ namespace domain.test.businessrules
 
         private async Task<dynamic> CreateInstanceAsync(EntityDefinition ed)
         {
-            var compiler = new Bespoke.Sph.Csharp.CompilersServices.EntityDefinitionCompiler();
+            var compiler = new Bespoke.Sph.Csharp.CompilersServices.EntityDefinitionCompiler
+            {
+                BuildDiagnostics = Array.Empty<IBuildDiagnostics>()
+            };
             var tempFileName = Path.GetTempFileName();
             var peStream = tempFileName + ".dll";
             var pdbStream = tempFileName + ".pdb";
             var result = await compiler.BuildAsync(ed, x => new CompilerOptions2(peStream, pdbStream));
-
+            foreach (var error in result.Errors)
+            {
+                Console.WriteLine(error.ToString());
+            }
+            Assert.True(result.Result);
             // try to instantiate the EntityDefinition
-            var assembly = Assembly.LoadFrom(result.Output);
+            var assembly = Assembly.LoadFrom(peStream);
             var edTypeName = $"{ed.CodeNamespace}.{ed.Name}";
 
             var edType = assembly.GetType(edTypeName);
@@ -260,13 +272,14 @@ namespace domain.test.businessrules
             ent.AddSimpleMember("Gender", true);
 
             var address = ent.AddMember<ComplexMember>("Address");
+            address.TypeName = "Address";
             address.AddMember<string>("Street1");
             address.AddMember<string>("State", true);
 
 
-            var contacts = ent.AddMember<ComplexMember>("ContactCollection", true);
+            var contacts = ent.AddMember<ComplexMember>("Contacts", true);
+            contacts.TypeName = "Contact";
             contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
-            ent.MemberCollection.Add(contacts);
 
             return ent;
 

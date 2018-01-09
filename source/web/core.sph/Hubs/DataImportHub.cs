@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Api;
 using Humanizer;
-using Microsoft.AspNet.SignalR;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;*/
+using Microsoft.AspNet.SignalR;
 
 namespace Bespoke.Sph.Web.Hubs
 {
@@ -19,7 +19,7 @@ namespace Bespoke.Sph.Web.Hubs
     [Authorize(Roles = "developers,administrators")]
     public class DataImportHub : Hub
     {
-
+        /*
         private static bool m_isCancelRequested;
         private readonly HttpClient m_rabbitManagementHttpClient = new HttpClient { BaseAddress = new Uri($"{ConfigurationManager.RabbitMqManagementScheme}://{ConfigurationManager.RabbitMqHost}:{ConfigurationManager.RabbitMqManagementPort}") };
 
@@ -557,5 +557,7 @@ namespace Bespoke.Sph.Web.Hubs
             var type = dll.GetType(mapping.FullTypeName);
             return Activator.CreateInstance(type);
         }
+
+        */
     }
 }

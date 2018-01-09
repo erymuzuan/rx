@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Humanizer;
 
@@ -45,12 +46,11 @@ namespace Bespoke.Sph.Messaging
 
             var instances = (from s in all
                              select Activator.CreateInstance(s)).ToList();
-            foreach (var sb in instances)
+            foreach (dynamic sb in instances)
             {
-                dynamic sb1 = sb;
                 var type = sb.GetType().GetShortAssemblyQualifiedName();
                 if (!m_subscriptions.ContainsKey(type))
-                    m_subscriptions.Add(type, sb1.RoutingKeys);
+                    m_subscriptions.Add(type, sb.RoutingKeys);
                 if (!m_subscribers.ContainsKey(type))
                     m_subscribers.Add(type, sb);
 

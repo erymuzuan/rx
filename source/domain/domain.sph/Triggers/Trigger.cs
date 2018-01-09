@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Humanizer;
 using Newtonsoft.Json;
 using System.ComponentModel.Composition;
+using Bespoke.Sph.Domain.Messaging;
 
 namespace Bespoke.Sph.Domain
 {
@@ -88,7 +89,7 @@ namespace Bespoke.Sph.Domain
                 var edDll = $"{ConfigurationManager.ApplicationName}.{this.Entity}.dll";
                 options.ReferencedAssembliesLocation.Add(Path.Combine(ConfigurationManager.CompilerOutputPath, edDll));
 
-                var subscriberInfraDll = Path.Combine(ConfigurationManager.SubscriberPath, "subscriber.infrastructure.dll");
+                var subscriberInfraDll = Path.Combine(ConfigurationManager.WebPath + "\\bin", "subscriber.infrastructure.dll");
                 options.ReferencedAssembliesLocation.Add(subscriberInfraDll);
 
                 parameters.ReferencedAssemblies.Add(typeof(Entity).Assembly.Location);
@@ -152,6 +153,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("using " + typeof(Task<>).Namespace + ";");
             code.AppendLine("using " + typeof(Enumerable).Namespace + ";");
             code.AppendLine("using " + typeof(Polly.Policy).Namespace + ";");
+            code.AppendLine("using " + typeof(BrokeredMessage).Namespace + ";");
             code.AppendLine("using Bespoke.Sph.SubscribersInfrastructure;");
             code.AppendLine();
 
@@ -181,7 +183,7 @@ namespace Bespoke.Sph.Domain
         }}
 
 
-        protected override async Task ProcessMessage({edTypeFullName} item, MessageHeaders header)
+        protected override async Task ProcessMessage({edTypeFullName} item, BrokeredMessage message)
         {{
             if(null == m_trigger){{
                 this.WriteWarning(""{Id} trigger cannot be loaded"");
@@ -193,7 +195,7 @@ namespace Bespoke.Sph.Domain
             {{
                 try
                 {{
-                    var result = rule.Execute(new RuleContext(item) {{ Log = header.Log }});
+                    var result = rule.Execute(new RuleContext(item) {{ Log = message.Log }});
                     if (!result)
                     {{
                         this.WriteMessage($""Rule {{rule}} evaluated to FALSE"");

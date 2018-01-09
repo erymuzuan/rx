@@ -158,7 +158,7 @@
   </Target>
   <PropertyGroup>
     <PostBuildEvent>copy $(TargetDir)$(TargetName).* $(SolutionDir)\source\web\web.sph\bin
-copy $(TargetDir)$(TargetName).* $(SolutionDir)\bin\subscribers</PostBuildEvent>
+copy $(TargetDir)$(TargetName).* $(SolutionDir)\bin\subscribers.host</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

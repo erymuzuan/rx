@@ -30,5 +30,17 @@ namespace Bespoke.Sph.Extensions
                 }
             }
         }
+        
+        public static string ReadString(this byte[] content)
+        {
+            using (var orginalStream = new MemoryStream(content))
+            {
+                using (var sr = new StreamReader(orginalStream))
+                {
+                    var text = sr.ReadToEnd();
+                    return text;
+                }
+            }
+        }
     }
 }

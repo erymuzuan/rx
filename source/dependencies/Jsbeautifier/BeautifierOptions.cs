@@ -1,7 +1,5 @@
 ﻿namespace Jsbeautifier
 {
-    using System;
-
     public class BeautifierOptions
     {
         public BeautifierOptions()
@@ -12,7 +10,7 @@
             this.PreserveNewlines = true;
             this.MaxPreserveNewlines = 10.0f;
             this.JslintHappy = false;
-            this.BraceStyle = Jsbeautifier.BraceStyle.Collapse;
+            this.BraceStyle = BraceStyle.Collapse;
             this.KeepArrayIndentation = false;
             this.KeepFunctionIndentation = false;
             this.EvalCode = false;

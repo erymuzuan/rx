@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Bespoke.Sph.ControlCenter.ViewModel;
-using Bespoke.Sph.SubscribersInfrastructure;
 using Newtonsoft.Json;
-using Polly;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Exceptions;
 using SuperSocket.WebSocket;
 
 namespace Bespoke.Sph.ControlCenter
@@ -54,57 +48,15 @@ namespace Bespoke.Sph.ControlCenter
         }
 
 
-        private IModel m_channel;
-        private IConnection m_connection;
-        private TaskBasicConsumer m_consumer;
+        
         private MainViewModel m_mainViewModel;
 
         public void StartConsume(MainViewModel mainViewModel)
         {
             m_mainViewModel = mainViewModel;
             var settings = mainViewModel.Settings;
-            const bool NO_ACK = true;
-            const string EXCHANGE_NAME = "sph.topic";
-            var factory = new ConnectionFactory
-            {
-                UserName = settings.RabbitMqUserName ?? "guest",
-                Password = settings.RabbitMqPassword ?? "guest",
-                VirtualHost = settings.ApplicationName,
-                Port = settings.RabbitMqPort ?? 5672,
-                HostName = settings.RabbitMqHost ?? "localhost"
-
-            };
-            var policy = Policy.Handle<BrokerUnreachableException>()
-                .WaitAndRetry(3, c => TimeSpan.FromMilliseconds(500 * c));
-
-            var pr = policy.ExecuteAndCapture(() => factory.CreateConnection());
-            if (null != pr.FinalException)
-                return;
-
-            m_connection = pr.Result;
-
-
-            m_channel = m_connection.CreateModel();
-
-            m_channel.ExchangeDeclare(EXCHANGE_NAME, ExchangeType.Topic, true);
-            try
-            {
-                var qd = m_channel.QueueDeclare(WebConsoleLogger, false, true, true, null);
-                Console.WriteLine(qd);
-            }
-            catch
-            {
-                Debug.Assert(false, @"You have to restart your RabbitMQ broker.
-To stop the broker :
-Make sure your RABBITMQ_BASE variable is correctly set 
-Use rabbitmq_server\sbin\rabbitmqctl.bat stop_app");
-            }
-            m_channel.QueueBind(WebConsoleLogger, EXCHANGE_NAME, "logger.#", null);
-            m_channel.BasicQos(0, 10, false);
-
-            m_consumer = new TaskBasicConsumer(m_channel);
-            m_consumer.Received += Received;
-            m_channel.BasicConsume(WebConsoleLogger, NO_ACK, m_consumer);
+          
+            // TODO : connect to shared memory /name pipes what ever
 
         }
         public void StopConsume()
@@ -113,24 +65,9 @@ Use rabbitmq_server\sbin\rabbitmqctl.bat stop_app");
             Console.WriteLine("!!Stoping : {0}", WebConsoleLogger);
 
             this.Stop();
-            if (null != m_consumer)
-                m_consumer.Received -= Received;
-
-            m_channel?.QueueDelete(WebConsoleLogger);
-            m_channel?.Close();
-            m_channel?.Dispose();
-            m_channel = null;
-
-            m_connection?.Dispose();
-            m_connection = null;
 
         }
 
-        private void Received(object sender, ReceivedMessageArgs e)
-        {
-            var json = Encoding.UTF8.GetString(e.Body);
-            SendMessage(json);
-        }
 
 
         public bool Stop()

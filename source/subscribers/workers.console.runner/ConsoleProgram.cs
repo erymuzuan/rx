@@ -7,11 +7,11 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.Extensions;
 using Bespoke.Sph.SubscribersInfrastructure;
 
-namespace workers.console.runner
+namespace Bespoke.Sph.MessagingClients
 {
-    public class ConsoleProgram
+    public static class ConsoleProgram
     {
-        public static int Main(string[] args)
+        public static int Main()
         {
             if (ParseArgExist("?"))
             {
@@ -19,12 +19,8 @@ namespace workers.console.runner
                 return 0;
             }
             Console.WriteLine("Use /? for help");
-            Console.WriteLine("(c) 2014 Bespoke Technology Sdn. Bhd.");
+            Console.WriteLine("ﷲ (c) 2014 Bespoke Technology Sdn. Bhd.");
             Console.WriteLine();
-            var host = ParseArg("h") ?? "localhost";
-            var vhost = ParseArg("v") ?? "DevV1";
-            var userName = ParseArg("u") ?? "guest";
-            var password = ParseArg("p") ?? "guest";
             var debug = ParseArgExist("debug");
             var workerProcess = Process.GetCurrentProcess();
             var envName = ParseArg("env") ?? "dev";
@@ -40,22 +36,16 @@ namespace workers.console.runner
             RemoveFilesMarkForDeletion();
 
 
-            var port = ParseArg("port") == null ? 5672 : int.Parse(ParseArg("port"));
             ConfigurationManager.AddConnectionString();
 
             var sw = new Stopwatch();
             sw.Start();
             Console.WriteLine("Stopwatch started");
 
-            var log = new Logger();
-            if (ParseArg("log") == "console")
-            {
-                log.Loggers.Add(new ConsoleLogger { TraceSwitch = Severity.Debug });
-            }
-            else
-            {
-                log.Loggers.Add(new EventLogNotification { TraceSwitch = Severity.Info });
-            }
+            var log = new Logger { TraceSwitch = Severity.Debug };
+            var consoleSwitch = (Severity)Enum.Parse(typeof(Severity), (ParseArg("switch") ?? "Info"), true);
+            log.Loggers.Add(new ConsoleLogger { TraceSwitch = consoleSwitch });
+
             var fileOut = ParseArg("out");
             var fileOutSize = ParseArg("outSize") ?? "100KB";
             var fileTraceSwitch = ParseArg("outSwitch") ?? "Debug";
@@ -64,36 +54,39 @@ namespace workers.console.runner
             {
                 log.Loggers.Add(new FileLogger(fileOut, FileLogger.Interval.Day, fileOutSize, BUFFER_SIZE)
                 {
-                    TraceSwitch = (Severity)(Enum.Parse(typeof(Severity), fileTraceSwitch, true))
+                    TraceSwitch = (Severity)Enum.Parse(typeof(Severity), fileTraceSwitch, true)
                 });
             }
 
 
-            var title = $"[{envName}.{configName}][{workerProcess.Id}] Broker:{userName}:{password}@{host}:{port}";
+            var title = $"[{envName}.{configName}][{workerProcess.Id}] Broker:";
             log.WriteInfo(Console.Title = title);
 
             var configFile = $"{ConfigurationManager.SphSourceDirectory}\\{nameof(WorkersConfig)}\\{envName}.{configName}.json";
             if (!File.Exists(configFile))
             {
-                Console.WriteLine($"Cannot find subscribers config in '{configFile}'");
+                Console.Error.WriteLine($"Cannot find subscribers config in '{configFile}'");
                 return -1;
             }
             var options = configFile.DeserializeFromJsonFile<WorkersConfig>();
 
             var program = new Program(options.SubscriberConfigs.ToArray())
             {
-                HostName = host,
-                UserName = userName,
-                Password = password,
-                Port = port,
-                NotificationService = log,
-                VirtualHost = vhost
+                NotificationService = log
             };
 
             SubscriberMetadata[] metadata;
             using (var discoverer = new Isolated<Discoverer>())
             {
                 metadata = discoverer.Value.Find();
+            }
+            foreach (var mt in metadata)
+            {
+                mt.QueueName = options.SubscriberConfigs.SingleOrDefault(
+                    x => x.FullName == mt.FullName
+                    && x.Assembly == Path.GetFileNameWithoutExtension(mt.Assembly)
+                    )?.QueueName ?? "XXXX";
+                Console.WriteLine(mt.FullName);
             }
             metadata.Select(d => d.FullName).ToList().ForEach(Console.WriteLine);
 
@@ -106,7 +99,7 @@ namespace workers.console.runner
             };
 
             var discoverElapsed = sw.Elapsed;
-            program.Start(metadata);
+            program.StartAsync(metadata).Wait();
 
             var span = sw.Elapsed;
             sw.Stop();
@@ -133,7 +126,7 @@ namespace workers.console.runner
             }
         }
 
-        public static string ParseArg(string name)
+        private static string ParseArg(string name)
         {
             var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             var val = args.SingleOrDefault(a => a.StartsWith("/" + name + ":"));

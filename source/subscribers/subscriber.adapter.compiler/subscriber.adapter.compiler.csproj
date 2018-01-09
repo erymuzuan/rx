@@ -52,7 +52,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <OutputFile Include="$(OutputPath)*.*">
+    <OutputFile Include="$(OutputPath)$(AssemblyName).*">
       <Visible>false</Visible>
     </OutputFile>
   </ItemGroup>

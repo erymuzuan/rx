@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 using Humanizer;
 
 namespace Bespoke.Sph.ReadOnlyRepositoriesWorkers
@@ -12,21 +13,21 @@ namespace Bespoke.Sph.ReadOnlyRepositoriesWorkers
         public override string[] RoutingKeys => new[] {"#.added.#", "#.changed.#", "#.deleted.#"};
         
 
-        protected override async Task ProcessMessage(Entity item, MessageHeaders headers)
+        protected override async Task ProcessMessage(Entity item, BrokeredMessage message)
         {
 
             var syncManager = ObjectBuilder.GetObject<IReadOnlyRepositorySyncManager>();
             try
             {
-                if (headers.Crud == CrudOperation.Added)
+                if (message.Crud == CrudOperation.Added)
                 {
                     await syncManager.AddAsync(item);
                 }
-                if (headers.Crud == CrudOperation.Changed)
+                if (message.Crud == CrudOperation.Changed)
                 {
                     await syncManager.UpdateAsync(item);
                 }
-                if (headers.Crud == CrudOperation.Deleted)
+                if (message.Crud == CrudOperation.Deleted)
                 {
                     await syncManager.DeleteAsync(item);
                 }
@@ -37,9 +38,9 @@ namespace Bespoke.Sph.ReadOnlyRepositoriesWorkers
                 // republish the message to a delayed queue
                 var delay = ConfigurationManager.GetEnvironmentVariableInt32("ReadOnlyRepositorySyncRetryDelay", 500);
                 var maxTry = ConfigurationManager.GetEnvironmentVariableInt32("ReadOnlyRepositorySyncMaxTry", 5);
-                if ((headers.TryCount ?? 0) < maxTry)
+                if ((message.TryCount ?? 0) < maxTry)
                 {
-                    await RequeueMessageAsync(item, headers, e, delay);
+                    await RequeueMessageAsync(item, message, e, delay);
                 }
                 else
                 {
@@ -52,17 +53,17 @@ namespace Bespoke.Sph.ReadOnlyRepositoriesWorkers
         
         }
 
-        private async Task RequeueMessageAsync(Entity item, MessageHeaders headers, Exception e, long delay)
+        private async Task RequeueMessageAsync(Entity item, BrokeredMessage message, Exception e, long delay)
         {
-            var count = (headers.TryCount ?? 0) + 1;
+            var count = (message.TryCount ?? 0) + 1;
             this.WriteMessage($"{count.Ordinalize()} retry on HttpRequestException : {e.Message}");
 
-            var ph = headers.GetRawHeaders();
-            ph.AddOrReplace(MessageHeaders.SPH_DELAY, delay);
-            ph.AddOrReplace(MessageHeaders.SPH_TRYCOUNT, count);
+            var ph = message.Headers;
+            ph.AddOrReplace("RetryDelay", delay);
+            ph.AddOrReplace("RetriedAttempt", count);
 
             var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
-            await publisher.PublishChanges(headers.Operation, new[] {item}, new AuditTrail[] { }, ph);
+            await publisher.PublishChanges(message.Operation, new[] {item}, new AuditTrail[] { }, ph);
         }
     }
 }

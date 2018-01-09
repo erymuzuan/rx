@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.SubscribersInfrastructure;
 
 namespace Bespoke.Sph.WorkflowsExecution
@@ -10,7 +11,7 @@ namespace Bespoke.Sph.WorkflowsExecution
     {
         public override string QueueName => "child_workflow_monitor";
         public override string[] RoutingKeys => new[] { "Workflow.Changed.#" };
-        protected override async Task ProcessMessage(Workflow item, MessageHeaders header)
+        protected override async Task ProcessMessage(Workflow item, BrokeredMessage message)
         {
             if (item.State != "Completed") return;
             var parent = await item.GetParentWorkflowAsync();

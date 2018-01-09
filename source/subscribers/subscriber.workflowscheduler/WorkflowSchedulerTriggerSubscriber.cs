@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Microsoft.Win32.TaskScheduler;
 using Task = System.Threading.Tasks.Task;
@@ -24,12 +25,11 @@ namespace Bespoke.Sph.WorkflowTriggerSubscriptions
 
         public override string[] RoutingKeys => new[] { "WorkflowDefinition.#.Publish" };
 
-        protected override Task ProcessMessage(WorkflowDefinition item, MessageHeaders header)
+        protected override Task ProcessMessage(WorkflowDefinition item, BrokeredMessage header)
         {
             var emptyTask = Task.FromResult(0);
 
-            var start = item.ActivityCollection.Single(a => a.IsInitiator) as ScheduledTriggerActivity;
-            if (null == start) return emptyTask;
+            if (!(item.ActivityCollection.Single(a => a.IsInitiator) is ScheduledTriggerActivity start)) return emptyTask;
 
             var scheduledTask = start.IntervalScheduleCollection.Where(s => s.IsEnabled).ToArray();
             var path = this.GetPath(item);
@@ -89,7 +89,7 @@ namespace Bespoke.Sph.WorkflowTriggerSubscriptions
 
         }
 
-        public async Task Test(WorkflowDefinition wd, MessageHeaders headers)
+        public async Task Test(WorkflowDefinition wd, BrokeredMessage headers)
         {
             await this.ProcessMessage(wd, headers).ConfigureAwait(false);
         }

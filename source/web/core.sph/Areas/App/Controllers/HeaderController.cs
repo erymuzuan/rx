@@ -26,7 +26,8 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
             var vm = new SphIndexViewModel
             {
                 Profile = profile,
-                Designation = designation
+                Designation = designation,
+                LoginUrl = System.Web.Security.FormsAuthentication.LoginUrl
             };
             return View(vm);
         }

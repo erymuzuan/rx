@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.0
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dependencies", "dependencies", "{799A5437-62C7-4385-95CC-ADEB4177B3FA}"
 EndProject
@@ -70,8 +70,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "subscriber.workflowscheduler", "source\subscribers\subscriber.workflowscheduler\subscriber.workflowscheduler.csproj", "{60EB3DC3-0AB1-4B19-B2B5-2A5FD7BF2C5A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scheduler.workflow.trigger", "source\scheduler\scheduler.workflow.trigger\scheduler.workflow.trigger.csproj", "{A6439B8B-A87A-46EB-A810-F0A4003D0CF4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "subscriber.report.delivery", "source\subscribers\subscriber.report.delivery\subscriber.report.delivery.csproj", "{7AE89A7A-ECDE-4F05-AC81-436943B2E158}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scheduler.report.delivery", "source\scheduler\scheduler.report.delivery\scheduler.report.delivery.csproj", "{E9D069CF-DFB8-4BCB-ADFC-58D0121FDF00}"
 EndProject
@@ -250,6 +248,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "local.files.deploy.agent", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "subscriber.readonly.repositories.workers", "source\subscribers\subscriber.readonly.repositories.workers\subscriber.readonly.repositories.workers.csproj", "{F63B8AF9-E4AE-45D4-BADF-47C217FEFABA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rabbitmq.messaging", "source\dependencies\rabbitmq.messaging\rabbitmq.messaging.csproj", "{6C4815EE-86CB-4CD0-A149-6203EBA5EB1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "azure.servicebus.messaging", "source\dependencies\azure.servicebus.messaging\azure.servicebus.messaging.csproj", "{BE75FB1C-3E32-41FD-AC76-750AEF93FAB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rabbitmq.messaging.test", "source\unit.test\rabbitmq.messaging.test\rabbitmq.messaging.test.csproj", "{00E57D41-EA75-418D-89B6-9C103639B6BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "azure.service.bus.messaging.test", "source\unit.test\azure.service.bus.messaging.test\azure.service.bus.messaging.test.csproj", "{81E26BEA-19F9-48FE-B42D-580F4CBFD4A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -348,10 +354,6 @@ Global
 		{A6439B8B-A87A-46EB-A810-F0A4003D0CF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6439B8B-A87A-46EB-A810-F0A4003D0CF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6439B8B-A87A-46EB-A810-F0A4003D0CF4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7AE89A7A-ECDE-4F05-AC81-436943B2E158}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7AE89A7A-ECDE-4F05-AC81-436943B2E158}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7AE89A7A-ECDE-4F05-AC81-436943B2E158}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7AE89A7A-ECDE-4F05-AC81-436943B2E158}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E9D069CF-DFB8-4BCB-ADFC-58D0121FDF00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E9D069CF-DFB8-4BCB-ADFC-58D0121FDF00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9D069CF-DFB8-4BCB-ADFC-58D0121FDF00}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -596,6 +598,22 @@ Global
 		{F63B8AF9-E4AE-45D4-BADF-47C217FEFABA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F63B8AF9-E4AE-45D4-BADF-47C217FEFABA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F63B8AF9-E4AE-45D4-BADF-47C217FEFABA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C4815EE-86CB-4CD0-A149-6203EBA5EB1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C4815EE-86CB-4CD0-A149-6203EBA5EB1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C4815EE-86CB-4CD0-A149-6203EBA5EB1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C4815EE-86CB-4CD0-A149-6203EBA5EB1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE75FB1C-3E32-41FD-AC76-750AEF93FAB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE75FB1C-3E32-41FD-AC76-750AEF93FAB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE75FB1C-3E32-41FD-AC76-750AEF93FAB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE75FB1C-3E32-41FD-AC76-750AEF93FAB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00E57D41-EA75-418D-89B6-9C103639B6BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00E57D41-EA75-418D-89B6-9C103639B6BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00E57D41-EA75-418D-89B6-9C103639B6BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00E57D41-EA75-418D-89B6-9C103639B6BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81E26BEA-19F9-48FE-B42D-580F4CBFD4A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81E26BEA-19F9-48FE-B42D-580F4CBFD4A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81E26BEA-19F9-48FE-B42D-580F4CBFD4A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81E26BEA-19F9-48FE-B42D-580F4CBFD4A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -624,7 +642,6 @@ Global
 		{38481343-B6BC-4343-9224-94869AE622C3} = {3AE34720-8DD6-4332-9DF7-9E16A79B94A1}
 		{60EB3DC3-0AB1-4B19-B2B5-2A5FD7BF2C5A} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 		{A6439B8B-A87A-46EB-A810-F0A4003D0CF4} = {3AE34720-8DD6-4332-9DF7-9E16A79B94A1}
-		{7AE89A7A-ECDE-4F05-AC81-436943B2E158} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 		{E9D069CF-DFB8-4BCB-ADFC-58D0121FDF00} = {3AE34720-8DD6-4332-9DF7-9E16A79B94A1}
 		{1E8336CB-CD29-4686-97FB-23E919D5B75F} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 		{A1374622-3E8E-4575-8FFA-26D29BF8DD99} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
@@ -688,6 +705,10 @@ Global
 		{51D460EA-8FFC-4382-BB71-D3C516007F69} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 		{30C15378-C790-4A1A-BFFD-0200708BFB96} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 		{F63B8AF9-E4AE-45D4-BADF-47C217FEFABA} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
+		{6C4815EE-86CB-4CD0-A149-6203EBA5EB1F} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
+		{BE75FB1C-3E32-41FD-AC76-750AEF93FAB5} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
+		{00E57D41-EA75-418D-89B6-9C103639B6BA} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
+		{81E26BEA-19F9-48FE-B42D-580F4CBFD4A3} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7CCD16A-B3B1-4858-AA55-F327F46824D9}

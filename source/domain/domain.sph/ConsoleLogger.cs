@@ -35,6 +35,9 @@ namespace Bespoke.Sph.Domain
                     case Severity.Debug:
                         Console.ForegroundColor = ConsoleColor.Gray;
                         break;
+                    case Severity.Verbose:
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        break;
                 }
                 //path.Substring(path.IndexOf("source\\") + "source\\".Length).Dump();
                 Console.WriteLine(entry);

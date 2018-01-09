@@ -76,14 +76,7 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             this.IsSetup = await this.FindOutSetupAsync();
 
 
-            this.Logger = new Logger
-            {
-                UserName = this.Settings.RabbitMqUserName,
-                Password = this.Settings.RabbitMqPassword,
-                Port = this.Settings.RabbitMqPort ?? 5672,
-                VirtualHost = this.Settings.ApplicationName,
-                Host = this.Settings.RabbitMqHost ?? "localhost"
-            };
+            this.Logger = new Logger();
 
             if (string.IsNullOrEmpty(this.Settings.JavaHome))
             {

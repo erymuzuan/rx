@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Newtonsoft.Json;
 using SuperSocket.SocketBase;
@@ -18,7 +19,7 @@ namespace Bespoke.Sph.WorkflowsExecution
         public override string[] RoutingKeys => new[] { "Workflow.*.Execute" };
 
 
-        protected override async Task ProcessMessage(Workflow item, MessageHeaders header)
+        protected override async Task ProcessMessage(Workflow item, BrokeredMessage header)
         {
 
             if (item.State == "Completed") return;

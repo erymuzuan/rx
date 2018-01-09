@@ -1,10 +1,9 @@
 ﻿using System;
 using System.IO;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 
 namespace Bespoke.Sph.CustomTriggers
 {
@@ -13,7 +12,7 @@ namespace Bespoke.Sph.CustomTriggers
         public override string QueueName => "trigger_subs";
         public override string[] RoutingKeys => new[] { "Trigger.#.Publish", "Trigger.#.Depublish" };
 
-        protected override async Task ProcessMessage(Trigger item, MessageHeaders header)
+        protected override async Task ProcessMessage(Trigger item, BrokeredMessage header)
         {
             this.WriteMessage("Compiling new trigger");
             if (header.Crud == CrudOperation.Deleted)
@@ -39,21 +38,10 @@ namespace Bespoke.Sph.CustomTriggers
 
         private async void DeleteTrigger(Trigger trigger)
         {
-            this.WriteMessage($"Deleting trigger_subs_{trigger.Id} queue");
-            var url = $"http://{ConfigurationManager.RabbitMqHost}:{ConfigurationManager.RabbitMqManagementPort}";
-            var handler = new HttpClientHandler
-            {
-                Credentials = new NetworkCredential(ConfigurationManager.RabbitMqUserName, ConfigurationManager.RabbitMqPassword)
-            };
-            using (var client = new HttpClient(handler) { BaseAddress = new Uri(url) })
-            {
-                this.WriteMessage($"Deleting the queue for trigger : {trigger.Name}");
-                var response = await client.DeleteAsync($"/api/queues/{ConfigurationManager.ApplicationName}/trigger_subs_{trigger.Id}");
-                if (response.StatusCode != HttpStatusCode.NoContent)
-                {
-                    this.WriteError(new Exception($"Cannot delete queue trigger_subs_{trigger.Id} for trigger {trigger.Id}- return code is {response.StatusCode}"));
-                }
-            }
+
+            await Task.Delay(500);
+            // Broker.RemoveSubscriptionAsync();
+
             this.WriteMessage("mark the trigger dll for deletion");
             var mark = $"{ConfigurationManager.SubscriberPath}\\mark.for.delete.txt";
             File.AppendAllLines(mark, new[]
@@ -61,7 +49,6 @@ namespace Bespoke.Sph.CustomTriggers
                 $"subscriber.trigger.{trigger.Id}.dll",
                 $"subscriber.trigger.{trigger.Id}.pdb"
             });
-
         }
 
 

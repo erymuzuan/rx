@@ -7,7 +7,7 @@ namespace Bespoke.Sph.Domain
     [AttributeUsage(AttributeTargets.Class)]
     public class PersistenceOptionAttribute : Attribute
     {
-        [Obsolete("If elasticsearch isn't required, use SqlServeReadOnly, this property will be rename to reflect if readonly repository is used or else")]
+        [Obsolete("If elasticsearch isn't required, use SqlServerReadOnly, this property will be rename to reflect if readonly repository is used or else")]
         public bool IsElasticsearch { get; set; }
         public bool IsSqlDatabase { get; set; }
         public virtual bool IsSource { get; set; }

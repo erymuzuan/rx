@@ -10,17 +10,17 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
 {
-    public class QueryEndpointCsharp
+    public class QueryEndpointCsharpWrapper
     {
         public QueryEndpoint Endpoint { get; }
         public EntityDefinition EntityDefinition { get; }
 
-        public QueryEndpointCsharp(QueryEndpoint endpoint, EntityDefinition entityDefinition)
+        public QueryEndpointCsharpWrapper(QueryEndpoint endpoint, EntityDefinition entityDefinition)
         {
             Endpoint = endpoint;
             EntityDefinition = entityDefinition;
         }
-        public QueryEndpointCsharp(QueryEndpoint endpoint)
+        public QueryEndpointCsharpWrapper(QueryEndpoint endpoint)
         {
             Endpoint = endpoint;
             EntityDefinition = ObjectBuilder.GetObject<ISourceRepository>().LoadOneAsync<EntityDefinition>(x => x.Name == endpoint.Entity).Result;

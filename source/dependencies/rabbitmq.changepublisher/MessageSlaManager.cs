@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Extensions;
+using Bespoke.Sph.Messaging.RabbitMqMessagings;
 using RabbitMQ.Client;
 
 namespace Bespoke.Sph.RabbitMqPublisher
@@ -34,17 +35,33 @@ namespace Bespoke.Sph.RabbitMqPublisher
             var logger = new ConsoleLogger { TraceSwitch = this.TraceSwitch };
             var factory = new ConnectionFactory
             {
-                UserName = ConfigurationManager.RabbitMqUserName,
-                Password = ConfigurationManager.RabbitMqPassword,
-                HostName = ConfigurationManager.RabbitMqHost,
-                Port = ConfigurationManager.RabbitMqPort,
-                VirtualHost = ConfigurationManager.RabbitMqVirtualHost
+                UserName = RabbitMqConfigurationManager.UserName,
+                Password = RabbitMqConfigurationManager.Password,
+                HostName = RabbitMqConfigurationManager.Host,
+                Port = RabbitMqConfigurationManager.Port,
+                VirtualHost = RabbitMqConfigurationManager.VirtualHost
             };
             logger.WriteInfo($"Connecting to RabbitMq with {factory.HostName}:{factory.Port}/{factory.UserName}@{factory.Password}");
             m_connection = factory.CreateConnection();
             m_channel = m_connection.CreateModel();
             m_connection.ConnectionShutdown += ConnectionShutdown;
+            this.CreateSlaMonitorQueue();
 
+        }
+
+        private void CreateSlaMonitorQueue()
+        {
+            var delayQueueArgs = new Dictionary<string, object>
+            {
+                {"x-dead-letter-exchange", NOTIFICATION_EXCHANGE}
+            };
+            m_channel.ExchangeDeclare(DELAY_EXCHANGE, "direct");
+            m_channel.ExchangeDeclare(NOTIFICATION_EXCHANGE, "direct");
+            m_channel.QueueDeclare(DELAY_QUEUE, true, false, false, delayQueueArgs);
+            m_channel.QueueBind(DELAY_QUEUE, DELAY_EXCHANGE, string.Empty, null);
+
+            m_channel.QueueDeclare(NOTIFICATION_QUEUE, true, false, false, new Dictionary<string, object>());
+            m_channel.QueueBind(NOTIFICATION_QUEUE, NOTIFICATION_EXCHANGE, string.Empty, null);
         }
 
         public async Task PublishSlaOnAcceptanceAsync(MessageSlaEvent @event)
@@ -65,7 +82,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
         public async Task ExecuteOnNotificationAsync(MessageTrackingStatus status, MessageSlaEvent @event)
         {
-            async Task<bool> ExcuteAsync(IList<MessageSlaNotificationAction> actions)
+            async Task<bool> ExecuteAsync(IList<MessageSlaNotificationAction> actions)
             {
                 var tasks = actions.Where(x => x.UseAsync).Select(x => x.ExecuteAsync(status,  @event));
                 var results = (await Task.WhenAll(tasks)).ToList();
@@ -76,21 +93,21 @@ namespace Bespoke.Sph.RabbitMqPublisher
             var ok = true;
             if ((status & MessageTrackingStatus.Completed) == MessageTrackingStatus.Completed)
             {
-                ok = await ExcuteAsync(this.CompletedActionCollection);
+                ok = await ExecuteAsync(this.CompletedActionCollection);
             }
 
             if ((status & MessageTrackingStatus.NotStarted) == MessageTrackingStatus.NotStarted)
             {
-                ok = await ExcuteAsync(this.NotStartedActionCollection);
+                ok = await ExecuteAsync(this.NotStartedActionCollection);
             }
             if ((status & MessageTrackingStatus.Error) == MessageTrackingStatus.Error)
             {
-                ok = await ExcuteAsync(this.ErrorActionCollection);
+                ok = await ExecuteAsync(this.ErrorActionCollection);
             }
 
             if ((status & MessageTrackingStatus.Terminated) == MessageTrackingStatus.Terminated)
             {
-                ok = await ExcuteAsync(this.TerminatedActionCollection);
+                ok = await ExecuteAsync(this.TerminatedActionCollection);
             }
 
             if (!ok)

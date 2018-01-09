@@ -2,6 +2,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.SubscribersInfrastructure;
 
 namespace subscriber.entities
@@ -12,7 +13,7 @@ namespace subscriber.entities
 
         public override string[] RoutingKeys => new[] { "PartialView.#.Publish" };
 
-        protected override async Task ProcessMessage(PartialView item, MessageHeaders header)
+        protected override async Task ProcessMessage(PartialView item, BrokeredMessage header)
         {
             await Task.Delay(2000);//temporary workround for source being written
             var html = Path.Combine(ConfigurationManager.WebPath, $"SphApp/views/{item.Route}.html");

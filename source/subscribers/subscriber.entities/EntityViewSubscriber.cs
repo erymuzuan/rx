@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Jsbeautifier;
 
@@ -15,7 +16,7 @@ namespace subscriber.entities
 
         public override string[] RoutingKeys => new[] { typeof(EntityView).Name + ".#.Publish" };
 
-        protected override async Task ProcessMessage(EntityView view, MessageHeaders header)
+        protected override async Task ProcessMessage(EntityView view, BrokeredMessage header)
         {
             await Task.Delay(2000);
             var context = new SphDataContext();

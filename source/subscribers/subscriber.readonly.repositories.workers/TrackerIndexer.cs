@@ -1,19 +1,20 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.SubscribersInfrastructure;
 
 namespace Bespoke.Sph.ReadOnlyRepositoriesWorkers
 {
     public class TrackerIndexer
     {
-        public async Task ProcessMessage(Tracker item, MessageHeaders headers)
+        public async Task ProcessMessage(Tracker item, BrokeredMessage message)
         {
             var ws = ObjectBuilder.GetObject<IWorkflowService>();
             var tasks = from ea in item.ExecutedActivityCollection
                         let id = $"{item.WorkflowDefinitionId}_{item.WorkflowId}_{ea.ActivityWebId}"
                         let wfid = item.WorkflowId
-                        select ws.AddExecutedActivityAsync(id, ea, headers.Crud.ToString(), wfid);
+                        select ws.AddExecutedActivityAsync(id, ea, message.Crud.ToString(), wfid);
             await Task.WhenAll(tasks);
             await AddPendingTaskAsync(item);
         }

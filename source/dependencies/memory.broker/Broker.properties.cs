@@ -6,9 +6,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.Extensions;
 using Bespoke.Sph.SubscribersInfrastructure;
-using RabbitMQ.Client.Framing;
 
 namespace Bespoke.Sph.Messaging
 {
@@ -36,7 +36,7 @@ namespace Bespoke.Sph.Messaging
             {
                 WriteInfo($"Starting {sub.QueueName} on {sub.GetType().Name}");
                 WriteVerbose(string.Join(",", sub.RoutingKeys));
-                sub.NotificicationService = WebSocketNotificationService.Instance;
+                sub.NotificationService = WebSocketNotificationService.Instance;
                 onStart.Invoke(sub, new object[] { });
             }
         }
@@ -153,21 +153,21 @@ namespace Bespoke.Sph.Messaging
             var ds = ObjectBuilder.GetObject<IDirectoryService>();
             var logger = ObjectBuilder.GetObject<ILogger>();
 
-            var args = new ReceivedMessageArgs { Properties = new BasicProperties { Headers = new Dictionary<string, object>() } };
-            args.Properties.Headers.Add("crud", Encoding.UTF8.GetBytes(crud));
-            args.Properties.Headers.Add("username", Encoding.UTF8.GetBytes(ds.CurrentUserName));
-            args.Properties.Headers.Add("operation", Encoding.UTF8.GetBytes(operation));
+            var args = new BrokeredMessage ();
+            args.Headers.Add("crud", Encoding.UTF8.GetBytes(crud));
+            args.Headers.Add("username", Encoding.UTF8.GetBytes(ds.CurrentUserName));
+            args.Headers.Add("operation", Encoding.UTF8.GetBytes(operation));
             if (null != log)
-                args.Properties.Headers.Add("log", log.ToJsonString(false));
+                args.Headers.Add("log", log.ToJsonString(false));
             if (null != headers)
             {
                 foreach (var h in headers)
                 {
-                    args.Properties.Headers.AddIfNotExist(h.Key, h.Value);
+                    args.Headers.AddIfNotExist(h.Key, h.Value);
                 }
             }
 
-            var headers2 = new MessageHeaders(args);
+            var headers2 = new BrokeredMessage(/*TODO: argrs */);
 
             var pm = sub.GetType().GetMethod("ProcessMessage", BindingFlags.NonPublic | BindingFlags.Instance);
             if (null != pm)

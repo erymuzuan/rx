@@ -1,8 +1,8 @@
 <Query Kind="Program">
   <Output>DataGrids</Output>
-  <Reference Relative="..\bin\output\DevV1.Patient.dll">F:\project\work\rx.pos-entt\bin\output\DevV1.Patient.dll</Reference>
-  <Reference Relative="..\source\web\web.sph\bin\domain.sph.dll">F:\project\work\rx.pos-entt\source\web\web.sph\bin\domain.sph.dll</Reference>
-  <Reference Relative="..\source\web\web.sph\bin\Newtonsoft.Json.dll">F:\project\work\rx.pos-entt\source\web\web.sph\bin\Newtonsoft.Json.dll</Reference>
+  <Reference Relative="..\bin\output\DevV1.Patient.dll">F:\project\work\rx.v1\bin\output\DevV1.Patient.dll</Reference>
+  <Reference Relative="..\source\web\web.sph\bin\domain.sph.dll">F:\project\work\rx.v1\source\web\web.sph\bin\domain.sph.dll</Reference>
+  <Reference Relative="..\source\web\web.sph\bin\Newtonsoft.Json.dll">F:\project\work\rx.v1\source\web\web.sph\bin\Newtonsoft.Json.dll</Reference>
   <Reference>&lt;RuntimeDirectory&gt;\System.Net.Http.dll</Reference>
   <Namespace>Bespoke.Sph.Domain</Namespace>
   <Namespace>System.Net</Namespace>
@@ -27,8 +27,8 @@ void Main()
 public class PatientReader
 {
 	const int BATCH_SIZE = 100;
-	const string BASE_URL = "http://localhost:4436";
-	const string TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYWRtaW4iLCJyb2xlcyI6WyJhZG1pbmlzdHJhdG9ycyIsImRldmVsb3BlcnMiXSwiZW1haWwiOiJhZG1pbkB5b3VyY29tcGFueS5jb20iLCJzdWIiOiI2MzYzODkwMzA0ODgzNjc0MjZlNjRjMTNlZiIsIm5iZiI6MTUxOTE3NTA0OSwiaWF0IjoxNTAzMjc3NDQ5LCJleHAiOjE1MDk0MDgwMDAsImF1ZCI6IkRldlYxIn0._gdyzqOqVHP7sxPZ7VAEmj-sZ-JhIe4fS1yRzftMdNQ";
+	const string BASE_URL = "https://localhost:8081";
+	const string TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYWRtaW4iLCJyb2xlcyI6WyJhZG1pbmlzdHJhdG9ycyIsImRldmVsb3BlcnMiXSwiZW1haWwiOiJhZG1pbkB5b3VyY29tcGFueS5jb20iLCJzdWIiOiI2MzY0NjY4MTcyNDg0ODU2MjZiYmVlNWYzYiIsIm5iZiI6MTUyNjY5NDUyNSwiaWF0IjoxNTExMDU2MTI1LCJleHAiOjE1MjAwMzUyMDAsImF1ZCI6IkRldlYxIn0.7SOKydhVQzJISsgGosMD9Xjv8X7IjDneoaWdLpDEgRU";
 	private HttpClient client = new HttpClient { BaseAddress = new Uri(BASE_URL) };
 	public PatientReader()
 	{
@@ -85,7 +85,7 @@ public class PatientReader
 		if (response.StatusCode == HttpStatusCode.OK)
 			Console.Write(".");
 		else
-			Console.Write("FAILED :" + r);
+			Console.Write("x");
 	}
 	
 	private Patient Parse(string l, int count)

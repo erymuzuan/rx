@@ -6,9 +6,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
+using Bespoke.Sph.Domain.Messaging;
 using Bespoke.Sph.Extensions;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Exceptions;
 using EventLog = Bespoke.Sph.Domain.EventLog;
 
 // ReSharper disable ExplicitCallerInfoArgument
@@ -18,29 +18,23 @@ namespace Bespoke.Sph.SubscribersInfrastructure
     [Serializable]
     public abstract class Subscriber : MarshalByRefObject
     {
-        public string InstanceName { get; set; }
-        public string HostName { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public int Port { get; set; }
-        public string VirtualHost { get; set; }
         public abstract string QueueName { get; }
         public abstract string[] RoutingKeys { get; }
-        public ILogger NotificicationService { get; set; }
+        public ILogger NotificationService { protected get; set; }
 
-        private ushort m_prefetchCount = 1;
+        private int m_prefetchCount = 1;
 
         /// <summary>
         /// The number of messages prefetch by the broker in a batch.
         /// </summary>
         /// <returns></returns>
-        public virtual ushort PrefetchCount
+        public virtual int PrefetchCount
         {
             get => m_prefetchCount;
             set => m_prefetchCount = value;
         }
 
-        public abstract void Run(IConnection connection);
+        public abstract void Run(IMessageBroker broker);
 
         protected void WriteError(Exception exception,
             [CallerFilePath] string filePath = "", [CallerMemberName] string memberName = "",
@@ -48,7 +42,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             try
             {
-                this.NotificicationService.WriteError(exception, $"Exception is thrown in {this.QueueName}",
+                this.NotificationService.WriteError(exception, $"Exception is thrown in {this.QueueName}",
                     filePath, memberName, lineNumber);
                 var logger = ObjectBuilder.GetObject<ILogger>();
                 logger.Log(new LogEntry(exception)
@@ -62,7 +56,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
             catch (Exception e)
             {
-                this.NotificicationService.WriteError(e, "Fail to log exception ", filePath, memberName, lineNumber);
+                this.NotificationService.WriteError(e, "Fail to log exception ", filePath, memberName, lineNumber);
             }
         }
 
@@ -71,15 +65,15 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             [CallerFilePath] string filePath = "", [CallerMemberName] string memberName = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            this.NotificicationService.WriteWarning($"{this.GetType().Name} : {message}",
+            this.NotificationService.WriteWarning($"{this.GetType().Name} : {message}",
                 filePath, memberName, lineNumber);
         }
-        
+
         protected void WriteMessage(string message,
             [CallerFilePath] string filePath = "", [CallerMemberName] string memberName = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            this.NotificicationService.WriteInfo($"{this.GetType().Name} : {message}",
+            this.NotificationService.WriteInfo($"{this.GetType().Name} : {message}",
                 filePath, memberName, lineNumber);
         }
 
@@ -97,9 +91,9 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             {
                 this.OnStop();
             }
-            catch (AlreadyClosedException)
+            catch (Exception)
             {
-                this.NotificicationService.WriteInfo(
+                this.NotificationService.WriteInfo(
                     this.GetType().Namespace + " throws AlreadyClosedException on Stop");
             }
         }
@@ -124,11 +118,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         }
 
 
-        public Task RegisterCustomEntityDependencies()
+        public async Task RegisterCustomEntityDependencies()
         {
 
-            var context = new SphDataContext();
-            var entityDefinitions = context.LoadFromSources<EntityDefinition>(x => x.IsPublished);
+            var context = ObjectBuilder.GetObject<ISourceRepository>();
+            var entityDefinitions = await context.LoadAsync<EntityDefinition>(x => x.IsPublished);
 
 
             var bags = new ConcurrentDictionary<Type, object>();
@@ -159,7 +153,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 ObjectBuilder.AddCacheList(type, bags[type]);
             }
 
-            return Task.FromResult(0);
         }
 
 

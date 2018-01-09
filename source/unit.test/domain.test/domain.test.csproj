@@ -261,6 +261,9 @@
     <Compile Include="FileLoggerTestFixture.cs" />
     <Compile Include="JsonSchemas\ObjectSchema.cs" />
     <Compile Include="mocks\MockCvsProvider.cs" />
+    <Compile Include="mocks\MockGit.cs" />
+    <Compile Include="mocks\MockSourceRepository.cs" />
+    <Compile Include="mocks\XunitConsoleLogger.cs" />
     <Compile Include="WebApiControllerHelper.cs" />
     <Compile Include="MvcControllerHelper.cs" />
     <Compile Include="razor\RazorEngineTestFixture.cs" />

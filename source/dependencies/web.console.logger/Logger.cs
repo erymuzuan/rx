@@ -1,14 +1,14 @@
-﻿using System.ComponentModel.Composition;
-using System.Text;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using RabbitMQ.Client;
 
 namespace web.console.logger
 {
+    [Obsolete("Figure out something without RabbitMq, like shared memory/memory map files/name pipes etc")]
     [Export(typeof(ILogger))]
     public class Logger : ILogger
     {
@@ -18,34 +18,7 @@ namespace web.console.logger
 
         private void SendMessage(string json, Severity severity)
         {
-
-
-
-            var factory = new ConnectionFactory
-            {
-                UserName = ConfigurationManager.RabbitMqUserName,
-                Password = ConfigurationManager.RabbitMqPassword,
-                HostName = ConfigurationManager.RabbitMqHost,
-                Port = ConfigurationManager.RabbitMqPort,
-                VirtualHost = ConfigurationManager.RabbitMqVirtualHost
-            };
-
-
-            using (var connection = factory.CreateConnection())
-            using (var channel = connection.CreateModel())
-            {
-                var routingKey = "logger." + severity;
-                var body = Encoding.Default.GetBytes(json);
-
-                var props = channel.CreateBasicProperties();
-                props.DeliveryMode = NON_PERSISTENT_DELIVERY_MODE;
-                props.ContentType = "application/json";
-
-                channel.BasicPublish("sph.topic", routingKey, props, body);
-
-            }
-
-
+            //TODO: Figure out something without RabbitMq, like shared memory/memory map files/name pipes etc"
         }
 
         public Task LogAsync(LogEntry entry)
@@ -55,10 +28,9 @@ namespace web.console.logger
         }
 
 
-
         public void Log(LogEntry entry)
         {
-            if ((int)entry.Severity < (int)this.TraceSwitch)
+            if ((int) entry.Severity < (int) this.TraceSwitch)
                 return;
 
             var json = GetJsonContent(entry);
@@ -67,7 +39,7 @@ namespace web.console.logger
 
         private static string GetJsonContent(LogEntry entry)
         {
-            var setting = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            var setting = new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore};
             setting.Converters.Add(new StringEnumConverter());
             setting.Formatting = Formatting.Indented;
             setting.ContractResolver = new CamelCasePropertyNamesContractResolver();

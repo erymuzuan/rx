@@ -4,8 +4,6 @@ using System.IO;
 using System.Threading.Tasks;
 using Bespoke.Sph.ControlCenter.Properties;
 using GalaSoft.MvvmLight.Command;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Exceptions;
 
 namespace Bespoke.Sph.ControlCenter.ViewModel
 {
@@ -17,48 +15,25 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
         public void SetupRabbitMqCommand()
         {
-
-            StartRabbitMqCommand = new RelayCommand(StartRabbitMqService, () => !RabbitMqServiceStarted && !RabbitMqServiceStarting);
+            StartRabbitMqCommand = new RelayCommand(StartRabbitMqService,
+                () => !RabbitMqServiceStarted && !RabbitMqServiceStarting);
             StopRabbitMqCommand = new RelayCommand(StopRabbitMqService, () => RabbitMqServiceStarted
-                && (!ElasticSearchServiceStarted
-                && !SphWorkerServiceStarted
-                && !IisServiceStarted));
-
+                                                                              && (!ElasticSearchServiceStarted
+                                                                                  && !SphWorkerServiceStarted
+                                                                                  && !IisServiceStarted));
         }
-
 
 
         public bool CheckRabbitMqHostConnection(string username, string password, string host)
         {
             var isOpen = false;
-            try
-            {
-
-                var factory = new ConnectionFactory
-                {
-                    UserName = username ?? "guest",
-                    Password = password ?? "guest",
-                    VirtualHost = host ?? "/"
-                };
-                using (var conn = factory.CreateConnection())
-                {
-                    isOpen = conn.IsOpen;
-                    conn.Close();
-                }
-                return isOpen;
-            }
-            catch (BrokerUnreachableException ex)
-            {
-                Log("Cannot connect to RabbitMQ host" + "\r\n\r\n" + ex.GetBaseException().Message);
-
-            }
+            // TODO : get the IMessageBroker manager
             return isOpen;
         }
 
 
         public async void StartRabbitMqService()
         {
-
             var rabbitMqBase = Environment.GetEnvironmentVariable("RABBITMQ_BASE", EnvironmentVariableTarget.Process);
             if (string.IsNullOrWhiteSpace(rabbitMqBase) || !Directory.Exists(rabbitMqBase))
             {
@@ -71,7 +46,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             Log("RabbitMQ...[STARTING]");
             try
             {
-                var rabbitMqServerBat = string.Join(@"\", this.Settings.RabbitMqDirectory, "sbin", "rabbitmq-server.bat").TranslatePath();
+                var rabbitMqServerBat = string
+                    .Join(@"\", this.Settings.RabbitMqDirectory, "sbin", "rabbitmq-server.bat").TranslatePath();
                 if (!File.Exists(rabbitMqServerBat))
                 {
                     Console.WriteLine(Resources.CannotFind + rabbitMqServerBat);
@@ -88,7 +64,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                     CreateNoWindow = true,
                     RedirectStandardError = true,
                     WindowStyle = ProcessWindowStyle.Normal,
-
                 };
 
                 m_rabbitMqServer = Process.Start(startInfo);
@@ -104,7 +79,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
 
                 this.QueueUserWorkItem(() =>
                 {
-
                     var tcs = new TaskCompletionSource<bool>();
                     DataReceivedEventHandler started = (o, e) =>
                     {
@@ -118,7 +92,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                         {
                             tcs.SetResult(false);
                         }
-
                     };
                     m_rabbitMqServer.OutputDataReceived += started;
                     m_rabbitMqServer.ErrorDataReceived += started;
@@ -140,7 +113,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
                                 Log("!Error starting RabbitMq, please check the log in the console", "Error");
                             }
                         });
-
                     });
                 });
             }
@@ -156,7 +128,8 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             WebConsoleServer.Default.StopConsume();
             Log("RabbitMQ...[STOPPING]");
 
-            var rabbitmqctl = string.Join(@"\", this.Settings.RabbitMqDirectory, "sbin", "rabbitmqctl.bat").TranslatePath();
+            var rabbitmqctl = string.Join(@"\", this.Settings.RabbitMqDirectory, "sbin", "rabbitmqctl.bat")
+                .TranslatePath();
             var startInfo = new ProcessStartInfo
             {
                 FileName = rabbitmqctl,
@@ -176,11 +149,6 @@ namespace Bespoke.Sph.ControlCenter.ViewModel
             RabbitMqServiceStarted = false;
             RabbitMqStatus = "Stopped";
             Log("RabbitMQ... [STOPPED]");
-
         }
-
-
-
-
     }
 }

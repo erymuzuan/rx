@@ -36,11 +36,6 @@ namespace workers.windowsservice.runner
 
             m_program = new Program(options.SubscriberConfigs.ToArray())
             {
-                HostName = ConfigurationManager.RabbitMqHost,
-                UserName = ConfigurationManager.RabbitMqUserName,
-                Password = ConfigurationManager.RabbitMqPassword,
-                Port = ConfigurationManager.RabbitMqPort,
-                VirtualHost = ConfigurationManager.RabbitMqVirtualHost,
                 NotificationService = logger
 
             };
@@ -52,7 +47,7 @@ namespace workers.windowsservice.runner
                 {
                     metadata = discoverer.Value.Find();
                 }
-                m_program.Start(metadata);
+                m_program.StartAsync(metadata).Wait();
             }
             catch (Exception e)
             {

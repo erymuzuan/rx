@@ -1,5 +1,5 @@
 ﻿/// <reference path="../../Scripts/jquery-2.2.0.intellisense.js" />
-/// <reference path="../../Scripts/knockout-3.1.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.4.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -108,14 +108,16 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
             },
             publishAsync = function () {
                 trigger().FiredOnOperations(operations().join());
-                var data = ko.mapping.toJSON(trigger);
+                const data = ko.mapping.toJSON(trigger);
                 isBusy(true);
                 errors([]);
                 warnings([]);
 
-                return context.put(data, "/api/triggers/" + ko.unwrap(trigger().Id) + "/publish")
+                return context.put(data, `/api/triggers/${ko.unwrap(trigger().Id)}/publish`)
+                    .fail(e => {
+                        logger.error(e);
+                    })
                     .then(function (result) {
-                        isBusy(false);
                         trigger().IsActive(true);
                         originalEntity = ko.toJSON(trigger);
                         if (!result.success) {
@@ -125,6 +127,9 @@ define(["services/datacontext", "services/jsonimportexport", "plugins/router", o
                         } else {
                             logger.info("Your trigger has been succesfully published, and will be added to the exchange shortly");
                         }
+                    })
+                    .done(() => {
+                        isBusy(false);
                     });
             },
             depublishAsync = function () {

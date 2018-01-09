@@ -65,13 +65,8 @@
     <Compile Include="WorkflowFormSubscriber.cs" />
   </ItemGroup>
   <ItemGroup>
-    <OutputFile Include="$(OutputPath)*.*">
-      <Visible>false</Visible>
-    </OutputFile>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\dependencies\Jsbeautifier\Jsbeautifier.csproj">
-      <Project>{0ff8fea3-04fb-475c-9f56-d9337652c05a}</Project>
+      <Project>{0FF8FEA3-04FB-475C-9F56-D9337652C05A}</Project>
       <Name>Jsbeautifier</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
@@ -108,7 +103,15 @@
     <Content Include="Scripts\r.js" />
     <Content Include="Scripts\require.js" />
   </ItemGroup>
-  <Target Name="CopyOutputDirClientAndWeb">
+  <ItemGroup>
+    <OutputFile Include="$(OutputPath)$(AssemblyName).dll">
+      <Visible>false</Visible>
+    </OutputFile>
+    <OutputFile Include="$(OutputPath)$(AssemblyName).pdb">
+      <Visible>false</Visible>
+    </OutputFile>
+  </ItemGroup>
+   <Target Name="CopyOutputDirClientAndWeb">
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\subscribers" />
   </Target>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -116,6 +119,6 @@
     <BuildDependsOn>
       $(BuildDependsOn);CopyOutputDirClientAndWeb
     </BuildDependsOn>
-  </PropertyGroup>
+  </PropertyGroup>  
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>

@@ -1,15 +1,8 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Net.Http;
-using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.Codes;
 
@@ -18,7 +11,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
    public static class OperationEndpointExtension
     {
 
-        private static readonly string[] ImportDirectives =
+        private static readonly string[] m_importDirectives =
        {
             typeof(Entity).Namespace,
             typeof(Int32).Namespace ,
@@ -43,59 +36,6 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
             sources.Add(assemblyInfo.ToClass());
             return sources;
         }
-
-        public static Task<RxCompilerResult> CompileAsync(this OperationEndpoint endpoint, 
-            EntityDefinition entityDefinition,
-            string controllerSource, 
-            string assemblyInfoSource)
-        {
-
-            using (var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider())
-            {
-                var output = $"{ConfigurationManager.CompilerOutputPath}\\{endpoint.AssemblyName}";
-                var parameters = new CompilerParameters
-                {
-                    OutputAssembly = output,
-                    GenerateExecutable = false,
-                    IncludeDebugInformation = true
-
-                };
-
-                parameters.AddReference(typeof(Entity),
-                    typeof(int),
-                    typeof(INotifyPropertyChanged),
-                    typeof(Expression<>),
-                    typeof(XmlAttributeAttribute),
-                    typeof(SmtpClient),
-                    typeof(HttpClient),
-                    typeof(XElement),
-                   // typeof(HttpResponseBase),
-                    typeof(ConfigurationManager));
-                parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\System.Web.Http.dll");
-                parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\webapi.common.dll");
-                parameters.ReferencedAssemblies.Add(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll");
-                parameters.ReferencedAssemblies.Add(ConfigurationManager.CompilerOutputPath + $@"\{ConfigurationManager.ApplicationName}.{endpoint.Entity}.dll");
-
-                endpoint.ReferencedAssemblyCollection.ForEach(x => parameters.ReferencedAssemblies.Add(x.Location));
-
-                var result = provider.CompileAssemblyFromFile(parameters, controllerSource, assemblyInfoSource);
-                var cr = new RxCompilerResult
-                {
-                    Result = true,
-                    Output = System.IO.Path.GetFullPath(parameters.OutputAssembly)
-                };
-                cr.Result = result.Errors.Count == 0;
-                var errors = from CompilerError x in result.Errors
-                             select new BuildDiagnostic(endpoint.WebId, x.ErrorText)
-                             {
-                                 Line = x.Line,
-                                 FileName = x.FileName
-                             };
-                cr.Errors.AddRange(errors);
-                return Task.FromResult(cr);
-            }
-        }
-
         private static Class GenerateController(this OperationEndpoint endpoint,EntityDefinition ed)
         {
             var controller = new Class
@@ -106,7 +46,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
                 BaseClass = "BaseApiController",
                 Namespace = endpoint.CodeNamespace
             };
-            controller.ImportCollection.ClearAndAddRange(ImportDirectives);
+            controller.ImportCollection.ClearAndAddRange(m_importDirectives);
             controller.ImportCollection.Add("System.Net");
             controller.ImportCollection.Add("System.Net.Http");
             controller.ImportCollection.Add("Newtonsoft.Json.Linq");
@@ -136,7 +76,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
         }
 
 
-        public static Method GeneratePostAction(this OperationEndpoint endpoint, EntityDefinition ed)
+        private static Method GeneratePostAction(this OperationEndpoint endpoint, EntityDefinition ed)
         {
             if (!endpoint.IsHttpPost) return null;
             var post = new Method { Name = $"Post{endpoint.Name}", ReturnTypeName = "Task<IHttpActionResult>", AccessModifier = Modifier.Public };
@@ -188,7 +128,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
             return post;
         }
 
-        public static Method GeneratePatchAction(this OperationEndpoint endpoint, EntityDefinition ed)
+        private static Method GeneratePatchAction(this OperationEndpoint endpoint, EntityDefinition ed)
         {
             if (!endpoint.IsHttpPatch) return null;
 
@@ -297,7 +237,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
             return code.ToString();
         }
 
-        public static Method GeneratePutAction(this OperationEndpoint endpoint, EntityDefinition ed)
+        private static Method GeneratePutAction(this OperationEndpoint endpoint, EntityDefinition ed)
         {
             if (!endpoint.IsHttpPut) return null;
             var route = endpoint.GetPutRoute();
@@ -378,8 +318,7 @@ namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
         }
 
 
-
-        public static Method GenerateDeleteAction(this OperationEndpoint endpoint, EntityDefinition ed)
+        private static Method GenerateDeleteAction(this OperationEndpoint endpoint, EntityDefinition ed)
         {
             if (!endpoint.IsHttpDelete) return null;
 
