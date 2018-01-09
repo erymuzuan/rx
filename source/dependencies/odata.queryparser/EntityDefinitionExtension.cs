@@ -15,22 +15,26 @@ namespace odata.queryparser
 
             var entityNamespace = $"{ed.Name}Service";
 
-            var simpleMemberProperties = from m in ed.MemberCollection.OfType<SimpleMember>()
-                select m.ToEdmxEntityTypeProperty();
-            var complexMemberProperties = from m in ed.MemberCollection.OfType<ComplexMember>()
-                select m.ToEdmxEntityTypeProperty(entityNamespace);
+            var simpleMemberProperties = ed.MemberCollection.OfType<SimpleMember>()
+                .Select(m => m.ToEdmxEntityTypeProperty());
+            var complexMemberProperties = ed.MemberCollection.OfType<ComplexMember>()
+                .Select(m => m.ToEdmxEntityTypeProperty(entityNamespace));
+
             var properties = simpleMemberProperties.Concat(complexMemberProperties);
             var key = new XElement(edm + "Key", new XElement(edm + "PropertyRef", new XAttribute("Name", "Id")));
             var id = new SimpleMember {Name = "Id", Type = typeof(string)}.ToEdmxEntityTypeProperty();
+
             var entityType = new XElement(edm + "EntityType", new XAttribute("Name", ed.Name), key, id, properties);
-            var complexType = from m in ed.MemberCollection.OfType<ComplexMember>()
-                select m.ToEdmxComplexTypeProperty();
+            var complexTypes = ed.MemberCollection.OfType<ComplexMember>()
+                .Select(m => m.ToEdmxComplexTypeProperty())
+                .ToArray();
+
             var entitySet = new XElement(edm + "EntitySet", new XAttribute("Name", ed.Plural),
                 new XAttribute("EntityType", entityNamespace + "." + ed.Name));
-            var entityContainer = new XElement(edm + "EntityContainer", new XAttribute("Name", ed.Name + "Entity"),
+            var entityContainer = new XElement(edm + "EntityContainer", new XAttribute("Name", $"{ed.Name}Entity"),
                 entitySet);
             var schema = new XElement(edm + "Schema", new XAttribute("Namespace", entityNamespace), entityType,
-                complexType, entityContainer);
+                complexTypes, entityContainer);
 
             var xml = new XDocument(new XElement(edmx + "Edmx", new XAttribute("Version", "4.0"),
                 new XElement(edmx + "DataServices", schema)

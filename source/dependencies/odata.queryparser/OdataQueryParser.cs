@@ -12,6 +12,9 @@ namespace odata.queryparser
     [Export("QueryParser", typeof(IQueryParser))]
     public class OdataQueryParser : IQueryParser
     {
+        public string Provider => "Odata";
+        public string ContentType => "application/odata";
+
         public QueryDsl Parse(string text, string entity)
         {
             var repos = ObjectBuilder.GetObject<ISourceRepository>();
@@ -34,8 +37,6 @@ namespace odata.queryparser
             return query;
         }
 
-        public string Provider => "Odata";
-        public string ContentType => "application/odata";
 
         private static Filter[] ParseFilters(ODataUriParser parser)
         {

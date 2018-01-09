@@ -12,18 +12,16 @@ namespace odata.queryparser
 
             while (true)
             {
-                var expression = (SingleValuePropertyAccessNode) node.Expression;
+                var expression = (SingleValuePropertyAccessNode)node.Expression;
                 sorts.Add(new Sort
                 {
                     Path = expression.Property.Name,
                     Direction = node.Direction == OrderByDirection.Ascending ? SortDirection.Asc : SortDirection.Desc
                 });
-                if (null != node.ThenBy)
-                {
-                    node = node.ThenBy;
-                    continue;
-                }
-                break;
+                if (null == node.ThenBy)
+                    break;
+
+                node = node.ThenBy;
             }
 
             return sorts;
