@@ -7,6 +7,7 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../../Scripts/jstree.min.js" />
 /// <reference path="../services/datacontext.js" />
+/// <reference path="~/Scripts/__vendor.js" />
 
 
 define(["services/datacontext", "services/logger", "plugins/router", objectbuilders.system, "services/new-item", "services/app"],
@@ -26,23 +27,23 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
         },
         click = function (e) {
             e.stopPropagation();
-            var hide = function () { solutionExplorerToggleButton.trigger("click"); };
+            const hide = function () { solutionExplorerToggleButton.trigger("click"); };
 
-            var data = selected().node.data;
+            const data = selected().node.data;
             if (data.url) {
                 router.navigate(data.url);
                 hide();
             }
 
             if (data.codeEditor) {
-                var params = [
-                        "height=" + screen.height,
-                        "width=" + screen.width,
-                        "toolbar=0",
-                        "location=0",
-                        "fullscreen=yes"
-                ].join(","),
-                editor = window.open("/sph/editor/file?id=" + data.codeEditor, "_blank", params);
+                const params = [
+                    `height=${screen.height}`,
+                    `width=${screen.width}`,
+                    "toolbar=0",
+                    "location=0",
+                    "fullscreen=yes"
+                ].join(",");
+                const editor = window.open(`/sph/editor/file?id=${data.codeEditor}`, "_blank", params);
                 editor.moveTo(0, 0);
             }
 
@@ -122,7 +123,7 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
 
             });
 
-            var element = document.getElementById("solution-explorer-panel");
+            const element = document.getElementById("solution-explorer-panel");
             $(element).jstree({
                 'core': {
                     'check_callback': true,
@@ -153,29 +154,22 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 searchInput.val("");
             });
 
-            var search = _.debounce(function () {
-                var text = $(this).val();
+            const search = _.debounce(function () {
+                const text = $(this).val();
 
                 if (!text) {
                     tree.jstree("clear_search");
                 } else {
-                    var f = "\"\"" + text + "\"\"";
+                    const f = `""${text}""`;
                     console.log(f);
                     tree.jstree("search", f);
                 }
             }, 400);
             searchInput.keyup(search);
-            var connection = $.connection("/signalr_solution");
+            const connection = $.connection("/signalr_solution");
 
-            connection.received(function (data) {
-                createTree(data);
-            });
-
-            connection.start().done(function (d) {
-                console.log(d);
-                createTree(d);
-                console.log("started...connection to message connection");
-            });
+            connection.received(createTree);
+            connection.start().done(createTree);
 
             $(document).on("keyup", function (e) {
                 if (e.ctrlKey && (e.keyCode === 188 || e.keyCode === 192)) {
@@ -186,8 +180,8 @@ define(["services/datacontext", "services/logger", "plugins/router", objectbuild
                 }
             });
 
-            setTimeout(function(){
-                var height = $("body").height() - 100;
+            setTimeout(function() {
+                const height = $("body").height() - 100;
                 tree.css({
                     "max-height": height,
                     "overflow-y": "auto"
