@@ -42,7 +42,7 @@ namespace odata.queryparser
         {
             XNamespace edm = "http://docs.oasis-open.org/odata/ns/edm";
 
-            var nodes = m.MemberCollection.Select(de => new List<XAttribute>
+            var nodes = m.MemberCollection.OfType<SimpleMember>().Select(de => new List<XAttribute>
                 {
                     new XAttribute("Name", ((dynamic) de).Name),
                     new XAttribute("Type", GetEdmType(((dynamic) de).Type.Name))
