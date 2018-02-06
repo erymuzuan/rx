@@ -139,8 +139,22 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
                 return new QueueStatistics();
 
             var json = await response.ReadContentAsJsonAsync();
+            var messagesToken = json.SelectToken("$.messages");
+            //NOTE : some newer RabbitMq management plugin didn't return the correct messages
+            while (null == messagesToken)
+            {
+                await Task.Delay(100);
+                response = await client.GetAsync($"api/queues/{ConfigurationManager.ApplicationName}/{queue}");
+                if (!response.IsSuccessStatusCode)
+                    return new QueueStatistics();
+
+                json = await response.ReadContentAsJsonAsync();
+                messagesToken = json.SelectToken("$.messages");
+            }
+
+
+            var length = messagesToken.Value<int>();
             var statsToken = json.SelectToken("$.message_stats");
-            var length = json.SelectToken("$.messages").Value<int>();
             double published = default;
             double delivered = default;
             var unackaed = json.SelectToken("$.messages_unacknowledged")?.Value<int>() ?? 0;
@@ -170,7 +184,7 @@ namespace Bespoke.Sph.Messaging.RabbitMqMessagings
 
         public Task CreateSubscriptionAsync(QueueDeclareOption option)
         {
-          
+
             ObjectBuilder.GetObject<ILogger>().WriteVerbose($"Creating subscription on thread {System.Threading.Thread.CurrentThread.ManagedThreadId}");
             lock (m_lock)
             {

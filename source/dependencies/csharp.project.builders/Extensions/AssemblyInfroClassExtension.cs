@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Bespoke.Sph.Domain.Codes;
+﻿using Bespoke.Sph.Domain.Codes;
 
 namespace Bespoke.Sph.Csharp.CompilersServices.Extensions
 {

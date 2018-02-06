@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Bespoke.Sph.QueryParserTests
+namespace Bespoke.Sph.EsQueryParserTests
 {
     public class TopSkipTest
     {
@@ -22,7 +22,8 @@ namespace Bespoke.Sph.QueryParserTests
         ""term"" : { ""user"" : ""kimchy"" }
     }
 }";
-            var query = new QueryParser().Parse(text);
+            var entity = "Employee";
+            var query = new QueryParser().Parse(text, entity);
             Assert.Equal(100, query.Skip);
             Assert.Equal(10, query.Size);
             Console.WriteLine(query);

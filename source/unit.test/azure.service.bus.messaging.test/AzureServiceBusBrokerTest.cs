@@ -17,11 +17,11 @@ using BrokeredMessage = Bespoke.Sph.Domain.Messaging.BrokeredMessage;
 
 namespace Bespoke.Sph.MessagingTests
 {
-    public class AzureServiceBusBorkerTest : IDisposable
+    public class AzureServiceBusBrokerTest : IDisposable
     {
         public ITestOutputHelper Console { get; }
         private ServiceBusMessageBroker Broker { get; }
-        public AzureServiceBusBorkerTest(ITestOutputHelper console)
+        public AzureServiceBusBrokerTest(ITestOutputHelper console)
         {
             ObjectBuilder.AddCacheList<ILogger>(new XunitConsoleLogger(console));
             Console = console;
@@ -388,7 +388,7 @@ namespace Bespoke.Sph.MessagingTests
         [Fact]
         public async Task QueueStatistics()
         {
-            var option = new QueueDeclareOption("Test-" + Guid.NewGuid(), "Test.#.Stat");
+            var option = new QueueDeclareOption("Test-" + Strings.GenerateId(8), "Test.#.Stat");
             await Broker.ConnectAsync((m, e) => { });
             await Broker.CreateSubscriptionAsync(option);
             await Task.Delay(500);

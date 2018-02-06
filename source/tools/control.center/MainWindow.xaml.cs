@@ -108,7 +108,7 @@ namespace Bespoke.Sph.ControlCenter
             Console.WriteLine(Properties.Resources.ControlPanelIsReady);
             outputTextBox.TextChanged += OutputTextBoxTextChanged;
 
-            this.Title += $" : {vm.Settings.ApplicationName}({vm.Settings.Home})";
+            this.Title += $" : {vm.Settings.ApplicationName}({vm.Settings.Home}) Version:{Domain.SolutionVersion.PRODUCT_VERSION}";
             this.KeyDown += MainWindow_KeyDown;
 
         }
@@ -233,7 +233,7 @@ namespace Bespoke.Sph.ControlCenter
 
         private void AboutClicked(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Reactive Developer Controler Center for V1", "Reactive Developer", MessageBoxButton.OK,
+            MessageBox.Show($"Rx Developer Controler Center for V1\r\nVersion :{Domain.SolutionVersion.PRODUCT_VERSION}", "Reactive Developer", MessageBoxButton.OK,
                 MessageBoxImage.Information);
         }
 

@@ -17,11 +17,11 @@ using Xunit.Abstractions;
 
 namespace Bespoke.Sph.MessagingTests
 {
-    public class BorkerTest : IDisposable
+    public class RabbitMqBrokerTest : IDisposable
     {
         public ITestOutputHelper Console { get; }
         private RabbitMqMessageBroker Broker { get; }
-        public BorkerTest(ITestOutputHelper console)
+        public RabbitMqBrokerTest(ITestOutputHelper console)
         {
             ObjectBuilder.AddCacheList<ILogger>(new XunitConsoleLogger(console));
             Console = console;
@@ -211,7 +211,7 @@ namespace Bespoke.Sph.MessagingTests
 
             });
 
-            var plr = Parallel.ForEach(messages, new ParallelOptions { MaxDegreeOfParallelism = 8 }, m =>
+            var pelir = Parallel.ForEach(messages, new ParallelOptions { MaxDegreeOfParallelism = 8 }, m =>
                {
                    this.Broker.SendAsync(m).ContinueWith(_ =>
                    {
@@ -219,12 +219,12 @@ namespace Bespoke.Sph.MessagingTests
                            ObjectBuilder.GetObject<ILogger>().Log(new LogEntry(_.Exception));
                    });
                });
-            Assert.True(plr.IsCompleted);
-            flag.WaitOne(2_500);
+            Assert.True(pelir.IsCompleted);
+            flag.WaitOne(5_500);
             Assert.Empty(bags);
 
             Assert.Equal(0, await GetMessagesCount(option.QueueName, 0, 8000));
-            Assert.Equal(dlq, await GetMessagesCount(option.DeadLetterQueue, dlq));
+            Assert.Equal(dlq, await GetMessagesCount(option.DeadLetterQueue, dlq,7_500));
 
         }
 
@@ -260,7 +260,7 @@ namespace Bespoke.Sph.MessagingTests
             await DeleteAllQueuesAndExchanges();
             await Broker.ConnectAsync((text, arg) => { });
             var operation = "TransientError";
-            var option = new QueueDeclareOption("Test-" + Guid.NewGuid(), "Test.#." + operation);
+            var option = new QueueDeclareOption("Test-" + Strings.GenerateId(8), "Test.#." + operation);
             await Broker.CreateSubscriptionAsync(option);
 
             var queueName = option.QueueName;
@@ -312,13 +312,13 @@ namespace Bespoke.Sph.MessagingTests
 
 
             // wait for it to be published into delayed queue
-            await Task.Delay(2_000);
+            await Task.Delay(5_000);
             Assert.Equal(1, await GetMessagesCount(delayedQueueName));
             Assert.Equal(0, await GetMessagesCount(queueName));
 
             // wait for it to expires
             flag2.WaitOne(expiration);
-            await Task.Delay(3_000);
+            await Task.Delay(6_000);
             Console.WriteLine("Reading queues on " + stopWatch.Elapsed);
             Assert.Equal(0, await GetMessagesCount(delayedQueueName));
             Assert.Equal(0, await GetMessagesCount(queueName)); // the message is received , once flag2 is set
@@ -397,6 +397,13 @@ namespace Bespoke.Sph.MessagingTests
                 var text = await client.GetStringAsync("/api/queues/DevV1/" + queue);
                 var json = JObject.Parse(text);
                 var messagesCountToken = json.SelectToken("$.messages");
+                while (null == messagesCountToken)
+                {
+                    await Task.Delay(250);
+                    text = await client.GetStringAsync("/api/queues/DevV1/" + queue);
+                    json = JObject.Parse(text);
+                    messagesCountToken = json.SelectToken("$.messages");
+                }
                 return messagesCountToken.Value<int>();
             }
 
@@ -409,7 +416,7 @@ namespace Bespoke.Sph.MessagingTests
             var option = new QueueDeclareOption("Test-" + Guid.NewGuid(), "Test.#.Stat");
             await Broker.ConnectAsync((m, e) => { });
             await Broker.CreateSubscriptionAsync(option);
-            await Task.Delay(500);
+            await Task.Delay(5500);
             var stat = await this.Broker.GetStatisticsAsync(option.QueueName);
             Assert.Equal(0, stat.Count);
             Assert.Equal(0, stat.DeliveryRate);
@@ -420,7 +427,7 @@ namespace Bespoke.Sph.MessagingTests
         public async Task GetMessage()
         {
             await DeleteAllQueuesAndExchanges();
-            var option = new QueueDeclareOption("Test-" + Guid.NewGuid(), "Test.#.Get");
+            var option = new QueueDeclareOption("Test-" + Strings.GenerateId(8), "Test.#.Get");
             await Broker.ConnectAsync((m, e) => { });
             await Broker.CreateSubscriptionAsync(option);
             await Task.Delay(500);
@@ -439,14 +446,11 @@ namespace Bespoke.Sph.MessagingTests
                 Id = Guid.NewGuid().ToString(),
                 TryCount = 0,
                 RetryDelay = TimeSpan.FromMilliseconds(500),
-                Headers =
-                {
-                    { "Username", "erymuzuan"}
-                },
+                Headers = { { "Username", "erymuzuan" } },
                 RoutingKey = "Test.added.Get"
             };
             await this.Broker.SendAsync(message);
-            await Task.Delay(2500);
+            await Task.Delay(5500);
             stat = await this.Broker.GetStatisticsAsync(option.QueueName);
             Assert.Equal(1, stat.Count);
             Assert.Equal(0, stat.DeliveryRate);
@@ -457,7 +461,7 @@ namespace Bespoke.Sph.MessagingTests
             Assert.Equal(message.Id, msg.Id);
 
             msg.Accept();
-            await Task.Delay(2500);
+            await Task.Delay(5500);
             stat = await this.Broker.GetStatisticsAsync(option.QueueName);
             Assert.Equal(0, stat.Count);
         }

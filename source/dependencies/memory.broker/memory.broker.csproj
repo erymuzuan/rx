@@ -65,8 +65,10 @@
     <Compile Include="..\..\extensions\LoggerExtensions.cs">
       <Link>LoggerExtensions.cs</Link>
     </Compile>
-    <Compile Include="Broker.properties.cs" />
     <Compile Include="Broker.cs" />
+    <Compile Include="Broker.properties.cs">
+      <DependentUpon>Broker.cs</DependentUpon>
+    </Compile>
     <Compile Include="ChangeListener.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,10 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.Compilers;
+using Moq;
 using odata.queryparser;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Bespoke.Sph.QueryParserTests
+namespace Bespoke.Sph.ODataQueryParserTests
 {
     /*
      *
@@ -20,7 +24,7 @@ The operators supported in the expression language are shown in the following ta
 Operator 	Description 	Example
 Logical Operators
 Eq 	Equal 	/Suppliers?$filter=Address/City eq 'Redmond'
-Ne 	Not equal 	/Suppliers?$filter=Address/City ne 'London'
+Neq 	Not equal 	/Suppliers?$filter=Address/City ne 'London'
 Gt 	Greater than 	/Products?$filter=Price gt 20
 Ge 	Greater than or equal 	/Products?$filter=Price ge 10
 Lt 	Less than 	/Products?$filter=Price lt 20
@@ -73,64 +77,141 @@ bool IsOf(expression p0, type p1) 	http://services.odata.org/Northwind/Northwind
      */
     public class FilterWithOdataTest
     {
-        private ITestOutputHelper Console { get; }
-
         public FilterWithOdataTest(ITestOutputHelper console)
         {
             Console = console;
+
+            var cache = new Mock<ICacheManager>(MockBehavior.Strict);
+            ObjectBuilder.AddCacheList<ISourceRepository>(SourceRepository);
+            ObjectBuilder.AddCacheList(cache.Object);
+            ObjectBuilder.AddCacheList<ILogger>(new XunitConsoleLogger(console));
+
+            var ed = CreateEmployeeEntityDefinition();
+            SourceRepository.AddOrReplace(ed);
         }
-        
+
+        private ITestOutputHelper Console { get; }
+        private MockSourceRepository SourceRepository { get; } = new MockSourceRepository();
+
+        private static EntityDefinition CreateEmployeeEntityDefinition(string name = "Employee")
+        {
+            var ed = new EntityDefinition { Name = name, Plural = "Employees", RecordName = "No", Id = "employee" };
+            ed.AddSimpleMember<int>("No");
+            ed.AddSimpleMember<string>("FirstName");
+            ed.AddSimpleMember<string>("LastName");
+            ed.AddSimpleMember<string>("Description");
+            ed.AddSimpleMember<string>("Gender");
+            ed.AddSimpleMember<int>("Age");
+            ed.AddSimpleMember<DateTime>("DateOfBirth");
+            ed.AddSimpleMember<DateTime>("HireDate");
+
+            var address = new ComplexMember { Name = "HomeAddress", TypeName = "Address" };
+            address.AddMember<string>("Street1");
+            address.AddMember<string>("Street2");
+            address.AddMember<string>("City");
+            address.AddMember<string>("State");
+            address.AddMember<string>("Country");
+            address.AddMember<int>("Postcode");
+            ed.MemberCollection.Add(address);
+
+            var contacts = new ComplexMember { Name = "Contacts", TypeName = "Contact", AllowMultiple = true };
+            contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
+            ed.MemberCollection.Add(contacts);
+
+            return ed;
+        }
+
         [Fact]
         public void ParseFilterCompound()
         {
-            const string FILTER = "$filter=WorkItemId gt 50 and FirstName eq 'Scott'";
-            var parser = new OdataQueryParser();
-            var query = parser.Parse(FILTER);
+            const string TEXT = "$filter=No gt 50 or (FirstName eq 'Scott' and Age lt 40)";
+            const string ENTITY = "Employee";
 
-            var workItemIdGt50 = query.Filters.SingleOrDefault(x => x.Term == "WorkItemId");
+            var parser = new OdataQueryParser();
+            var query = parser.Parse(TEXT, ENTITY);
+
+            var noGt50 = query.Filters.SingleOrDefault(x => x.Term == "No");
             var firstNameEqScott = query.Filters.SingleOrDefault(x => x.Term == "FirstName");
-            Assert.NotNull(workItemIdGt50);
+            var ageLt40 = query.Filters.SingleOrDefault(x => x.Term == "Age");
+            Assert.NotNull(noGt50);
             Assert.NotNull(firstNameEqScott);
+            Assert.NotNull(ageLt40);
 
             Assert.Equal(Operator.Eq, firstNameEqScott.Operator);
             Assert.IsType<ConstantField>(firstNameEqScott.Field);
-
+            Assert.Equal(Operator.Gt, noGt50.Operator);
+            Assert.IsType<ConstantField>(noGt50.Field);
+            Assert.Equal(Operator.Lt, ageLt40.Operator);
+            Assert.IsType<ConstantField>(ageLt40.Field);
         }
-        
+
         [Theory]
-        [InlineData("FirstName", "$filter=Age gt 50 and FirstName eq 'Scott'", Operator.Eq,  "Scott")]
-        [InlineData("Age", "$filter=Age gt 50 and FirstName eq 'Scott'", Operator.Gt,  50)]
-        [InlineData("Description", "$filter=Description eq 'this or that but not those'", Operator.Eq,  "this or that but not those")]
-        [InlineData("HomeAddress.State", "$filter=contains(HomeAddress/State, 'Wilayah Persekutuan')", Operator.Substringof, "Wilayah")]
-        [InlineData("FirstName", "$filter=Age gt 50 or (FirstName eq 'Scott' and Age lt 40)", Operator.Eq,  "Scott")]
-        public void ParseFilter(string name, string filter, Operator expectedOperator, object expectedContantValue)
+        [InlineData("FirstName", "$filter=Age gt 50 and FirstName eq 'Scott'", "Employee", Operator.Eq, "Scott")]
+        [InlineData("Age", "$filter=Age gt 50 and FirstName eq 'Scott'", "Employee", Operator.Gt, 50)]
+        [InlineData("Description", "$filter=Description eq 'this or that but not those'", "Employee", Operator.Eq, "this or that but not those")]
+        [InlineData("State", "$filter=contains(HomeAddress/State, 'Wilayah Persekutuan')", "Employee", Operator.Substringof, "Wilayah")]
+        [InlineData("FirstName", "$filter=Age gt 50 or (FirstName eq 'Scott' and Age lt 40)", "Employee", Operator.Eq, "Scott")]
+        public void ParseFilter(string name, string filter, string entity, Operator expectedOperator,
+            object expectedContantValue)
         {
             var parser = new OdataQueryParser();
-            var query = parser.Parse(filter);
+            var query = parser.Parse(filter, entity);
 
             var ft = query.Filters.SingleOrDefault(x => x.Term == name);
             Assert.NotNull(ft);
             Assert.Equal(expectedOperator, ft.Operator);
             Assert.Equal(expectedContantValue, ft.Field.GetValue(default));
-            
+
             Console.WriteLine($"filter : {ft.Term} {ft.Operator} {ft.Field.GetValue(default)}");
         }
-        
-        
+
+
         [Theory]
-        [InlineData("$filter=Age gt 50 or (FirstName eq 'Scott' and Age lt 40)", 2)]
-        public void ParseCpmpoundOrFilter(string filter, int childFilters)
+        [InlineData("$filter=Age gt 50 or (FirstName eq 'Scott' and Age lt 40)", "Employee", 2)]
+        public void ParseCompoundOrFilter(string filter, string entity, int childFilters)
         {
             var parser = new OdataQueryParser();
-            var query = parser.Parse(filter);
+            var query = parser.Parse(filter, entity);
 
             var ft = query.Filters.OfType<BinaryOrFilter>().FirstOrDefault();
             Assert.NotNull(ft);
             Assert.IsType<BinaryOrFilter>(ft);
             Assert.Equal(childFilters, ft.Filters.Count);
-            
+
             Console.WriteLine($"filter : {ft.Term} {ft.Operator} {ft.Field.GetValue(default)}");
         }
-     
+
+        [Fact]
+        public void ParseFilterDateTimeField()
+        {
+            var utcNow = DateTime.UtcNow;
+            var text = "$filter=DateOfBirth lt " + utcNow.ToString("o");
+            const string ENTITY = "Employee";
+
+            var parser = new OdataQueryParser();
+            var query = parser.Parse(text, ENTITY);
+
+            var dateOfBirthLtNow = query.Filters.SingleOrDefault(x => x.Term == "DateOfBirth");
+            Assert.NotNull(dateOfBirthLtNow);
+            Assert.Equal(Operator.Lt, dateOfBirthLtNow.Operator);
+            Assert.IsType<ConstantField>(dateOfBirthLtNow.Field);
+            Assert.Equal(utcNow.ToString("M/d/yyyy h:mm:ss tt +00:00"), dateOfBirthLtNow.Field.GetValue(default));
+        }
+
+        [Fact]
+        public void ParseFilterComplexTypeProperty()
+        {
+            const string TEXT = "$filter=HomeAddress/City eq 'Kuala Lumpur'";
+            const string ENTITY = "Employee";
+
+            var parser = new OdataQueryParser();
+            var query = parser.Parse(TEXT, ENTITY);
+
+            var cityEqKualaLumpur = query.Filters.SingleOrDefault(x => x.Term == "City");
+            Assert.NotNull(cityEqKualaLumpur);
+            Assert.Equal(Operator.Eq, cityEqKualaLumpur.Operator);
+            Assert.IsType<ConstantField>(cityEqKualaLumpur.Field);
+            Assert.Equal("Kuala Lumpur", cityEqKualaLumpur.Field.GetValue(default));
+        }
     }
 }

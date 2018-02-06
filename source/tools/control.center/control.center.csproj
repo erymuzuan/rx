@@ -132,6 +132,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\..\assembly.versions\SolutionVersion.cs">
+      <Link>Properties\SolutionVersion.cs</Link>
+    </Compile>
     <Compile Include="..\..\assembly.versions\tools-control.center.cs">
       <Link>Properties\tools-control.center.cs</Link>
     </Compile>

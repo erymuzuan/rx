@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Bespoke.Sph.QueryParserTests
+namespace Bespoke.Sph.EsQueryParserTests
 {
     public class SourceFieldsTest
     {
@@ -18,7 +18,8 @@ namespace Bespoke.Sph.QueryParserTests
         {
             var text = @"{
 }";
-            var query = new QueryParser().Parse(text);
+            var entity = "Employee";
+            var query = new QueryParser().Parse(text, entity);
             Console.WriteLine(query);
             Assert.Empty(query.Fields);
 
@@ -29,7 +30,8 @@ namespace Bespoke.Sph.QueryParserTests
             var text = @"{
     ""_source"" : [""FullName"", ""Mrn""]
 }";
-            var query = new QueryParser().Parse(text);
+            var entity = "Employee";
+            var query = new QueryParser().Parse(text, entity);
             Console.WriteLine(query);
             Assert.Equal(2, query.Fields.Count);
 
@@ -40,7 +42,8 @@ namespace Bespoke.Sph.QueryParserTests
             var text = @"{
     ""fields"" : [""FullName"", ""Mrn""]
 }";
-            var query = new QueryParser().Parse(text);
+            var entity = "Employee";
+            var query = new QueryParser().Parse(text, entity);
             Console.WriteLine(query);
             Assert.Equal(2, query.Fields.Count);
 

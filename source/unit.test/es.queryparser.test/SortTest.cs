@@ -4,7 +4,7 @@ using Bespoke.Sph.ElasticsearchQueryParsers;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Bespoke.Sph.QueryParserTests
+namespace Bespoke.Sph.EsQueryParserTests
 {
     public class SortTest
     {
@@ -35,8 +35,9 @@ namespace Bespoke.Sph.QueryParserTests
         ""term"" : { ""user"" : ""kimchy"" }
     }
 }";
+            var entity = "Employee";
             var parser = new QueryParser();
-            var query = parser.Parse(text);
+            var query = parser.Parse(text, entity);
 
             var sort = query.Sorts.SingleOrDefault();
             Assert.NotNull(sort);
@@ -66,8 +67,9 @@ namespace Bespoke.Sph.QueryParserTests
         ""term"" : { ""user"" : ""kimchy"" }
     }
 }";
+            var entity = "Employee";
             var parser = new QueryParser();
-            var query = parser.Parse(text);
+            var query = parser.Parse(text, entity);
 
             var sort = query.Sorts.SingleOrDefault();
             Assert.NotNull(sort);
@@ -89,8 +91,9 @@ namespace Bespoke.Sph.QueryParserTests
                  }
                 ]
             }";
+            var entity = "Employee";
             var parser = new QueryParser();
-            var query = parser.Parse(text);
+            var query = parser.Parse(text, entity);
 
             var sort = query.Sorts.SingleOrDefault();
             Assert.NotNull(sort);
@@ -118,8 +121,9 @@ namespace Bespoke.Sph.QueryParserTests
                     }
                 ]
             }";
+            var entity = "Employee";
             var parser = new QueryParser();
-            var query = parser.Parse(text);
+            var query = parser.Parse(text, entity);
 
             Assert.Equal(2, query.Sorts.Count);
             var mykad = query.Sorts.SingleOrDefault(x => x.Path == "mykad");
@@ -142,8 +146,9 @@ namespace Bespoke.Sph.QueryParserTests
                  }
                 ]
             }";
+            var entity = "Employee";
             var parser = new QueryParser();
-            var query = parser.Parse(text);
+            var query = parser.Parse(text, entity);
 
             var sort = query.Sorts.SingleOrDefault();
             Assert.NotNull(sort);

@@ -47,7 +47,7 @@ namespace Bespoke.Sph.Web.Controllers
             var provider = contentType?.MediaType ?? "odata";
             var parser = QueryParserFactory.Instance.Get(provider);
             var repos = ObjectBuilder.GetObject<IReadOnlyRepository>();
-            var result = await repos.SearchAsync(types.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries), parser.Parse(text));
+            var result = await repos.SearchAsync(types.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries), parser.Parse(text, String.Empty));
 
             var setting = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
             setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
@@ -60,7 +60,7 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<IHttpActionResult> SearchLogAsync( [RawBody]string queryText, [ContentType]MediaTypeHeaderValue contentType)
         {
             var parser = QueryParserFactory.Instance.Get(null, contentType?.MediaType ?? "appplication/json+elasticsearch");
-            var query = parser.Parse(queryText);
+            var query = parser.Parse(queryText, String.Empty);
 
             var repos = ObjectBuilder.GetObject<ILoggerRepository>();
             var result = await repos.SearchAsync(query);
@@ -75,7 +75,7 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<IHttpActionResult> SearchAsync(string type, [RawBody]string queryText, [ContentType]MediaTypeHeaderValue contentType)
         {
             var parser = QueryParserFactory.Instance.Get(null, contentType?.MediaType ?? "appplication/json+elasticsearch");
-            var query = parser.Parse(queryText);
+            var query = parser.Parse(queryText, String.Empty);
 
             var repos = ObjectBuilder.GetObject<IReadOnlyRepository>();
             var result = await repos.SearchAsync(new[] { type }, query);

@@ -4,7 +4,7 @@ using Bespoke.Sph.ElasticsearchQueryParsers;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Bespoke.Sph.QueryParserTests
+namespace Bespoke.Sph.EsQueryParserTests
 {
     public class QueryTest
     {
@@ -37,7 +37,8 @@ namespace Bespoke.Sph.QueryParserTests
                 ""from"": 0,
                 ""size"": 1
             }";
-            var query = new QueryParser().Parse(text);
+            var entity = "Employee";
+            var query = new QueryParser().Parse(text, entity);
 
             Assert.Equal(2, query.Filters.Count);
             var @from = query.Filters.Single(x => x.Operator == Operator.Ge);
@@ -58,7 +59,8 @@ namespace Bespoke.Sph.QueryParserTests
     ""term"" : { ""user"" : ""Kimchy"" } 
   }
 }";
-            var query = new QueryParser().Parse(text);
+            var entity = "Employee";
+            var query = new QueryParser().Parse(text, entity);
 
             Assert.Single(query.Filters);
             var term = query.Filters.Single();
@@ -95,7 +97,8 @@ namespace Bespoke.Sph.QueryParserTests
     }
   }
 }";
-            var query = new QueryParser().Parse(text);
+            var entity = "Employee";
+            var query = new QueryParser().Parse(text, entity);
             Console.WriteLine(query);
             Assert.Equal(5, query.Filters.Count);
 
@@ -144,7 +147,8 @@ namespace Bespoke.Sph.QueryParserTests
     }
   }
 }";
-            var query = new QueryParser().Parse(text);
+            var entity = "Employee";
+            var query = new QueryParser().Parse(text, entity);
 
             Assert.Equal(4, query.Filters.Count);
             var chinese = query.Filters.First();
@@ -177,7 +181,8 @@ namespace Bespoke.Sph.QueryParserTests
     }
   }
 }";
-            var query = new QueryParser().Parse(text);
+            var entity = "Employee";
+            var query = new QueryParser().Parse(text, entity);
             Console.WriteLine(query);
 
             Assert.Single(query.Filters.OfType<BinaryOrFilter>());

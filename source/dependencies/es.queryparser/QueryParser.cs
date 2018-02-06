@@ -8,7 +8,7 @@ namespace Bespoke.Sph.ElasticsearchQueryParsers
     [Export("QueryParser", typeof(IQueryParser))]
     public class QueryParser : IQueryParser
     {
-        public QueryDsl Parse(string text)
+        public QueryDsl Parse(string text, string entity)
         {
             var json = JObject.Parse(text);
             var query = new QueryDsl();

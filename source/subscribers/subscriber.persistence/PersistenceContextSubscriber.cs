@@ -168,12 +168,12 @@ namespace Bespoke.Sph.Persistence
         {
             Interlocked.Increment(ref m_processing);
 
-            var json = await message.Body.DecompressAsync();
+            var text = await message.Body.DecompressAsync();
             var headers = message.Headers;
             var operation = message.Operation;
             var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
 
-            var jo = JObject.Parse(json);
+            var jo = JObject.Parse(text);
             var entities = jo.SelectToken("$.attached").Select(t => t.ToString().DeserializeFromJson<Entity>())
                 .ToList();
             var deletedItems = jo.SelectToken("$.deleted").Select(t => t.ToString().DeserializeFromJson<Entity>())

@@ -1,7 +1,7 @@
 ﻿using Bespoke.Sph.Domain;
 using Xunit.Abstractions;
 
-namespace Bespoke.Sph.QueryParserTests
+namespace Bespoke.Sph.EsQueryParserTests
 {
     public static class TestOutputHelperExtensions
     {

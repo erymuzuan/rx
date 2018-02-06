@@ -53,6 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\assembly.versions\dependencies-rabbitmq.messaging.cs">
+      <Link>Properties\dependencies-rabbitmq.messaging.cs</Link>
+    </Compile>
     <Compile Include="..\..\extensions\HttpClientExtensions.cs">
       <Link>Extensions\HttpClientExtensions.cs</Link>
     </Compile>

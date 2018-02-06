@@ -4,7 +4,7 @@ using Xunit.Abstractions;
 using System.Linq;
 using Bespoke.Sph.Domain;
 
-namespace Bespoke.Sph.QueryParserTests
+namespace Bespoke.Sph.EsQueryParserTests
 {
     public class AggregateGroupByTest
     {
@@ -32,6 +32,8 @@ namespace Bespoke.Sph.QueryParserTests
   ""size"": 20
 }";
 
+        private const string Entity = "Employee";
+
         public AggregateGroupByTest(ITestOutputHelper console)
         {
             Console = console;
@@ -39,10 +41,10 @@ namespace Bespoke.Sph.QueryParserTests
         /**/
 
         [Theory]
-        [InlineData(Bucket)]
-        public void GroupTerms(string text)
+        [InlineData(Bucket, Entity)]
+        public void GroupTerms(string text, string entity)
         {
-            var query = new QueryParser().Parse(text);
+            var query = new QueryParser().Parse(text, entity);
             Console.WriteLine(query);
             Assert.Single(query.Aggregates.OfType<GroupByAggregate>());
             var category = query.Aggregates.OfType<GroupByAggregate>().Single();
